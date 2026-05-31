@@ -760,6 +760,12 @@ function renderErro(){
   document.getElementById('mapa-lista-lotes').innerHTML='<div style="text-align:center;padding:40px;color:var(--text3);font-size:13px">Não foi possível carregar os lotes.</div>';
 }
 
+function calcCircleSize(){
+  var el=document.getElementById('mapa-interativo');
+  var w=(el&&(el.getBoundingClientRect().width||el.offsetWidth))||320;
+  return Math.max(8,Math.round(w*0.038));
+}
+
 function renderMapaInterativo(){
   var el=document.getElementById('mapa-interativo');
   var leg=document.getElementById('mapa-legenda');
@@ -769,8 +775,10 @@ function renderMapaInterativo(){
   }
   var lookup={};
   _lotes.forEach(function(l){lookup[l.quadra+'-'+l.lote]=l;});
-  var html='<div style="position:relative;display:inline-block;width:100%;border-radius:10px;overflow:hidden">';
-  html+='<img src="'+_imgUrl+'" style="width:100%;display:block;border-radius:10px" alt="Planta Bairro Mararu" onload="this.parentNode.style.display=\'inline-block\'">';
+  var cSize=calcCircleSize();
+  var fSize=Math.max(5,Math.round(cSize*0.46));
+  var html='<div style="position:relative;display:block;width:100%;border-radius:10px;overflow:visible;transform-origin:0 0;will-change:transform">';
+  html+='<img src="'+_imgUrl+'" style="width:100%;display:block;border-radius:10px" alt="Planta Bairro Mararu">';
   html+='<div style="position:absolute;inset:0;pointer-events:none">';
   _pontos.forEach(function(p){
     var key=p.quadra+'-'+p.lote;
@@ -779,8 +787,8 @@ function renderMapaInterativo(){
     var cor=disp?'#22c55e':'#f87171';
     var cur=disp?'pointer':'not-allowed';
     var click=disp?'onclick="window._mapaAbrirLote(\''+key+'\')"':'';
-    html+='<div '+click+' title="Q'+p.quadra+' L'+p.lote+(disp?'':' — Indisponível')+'" style="position:absolute;left:'+p.xPercent+'%;top:'+p.yPercent+'%;transform:translate(-50%,-50%);width:clamp(14px,3.5%,28px);height:clamp(14px,3.5%,28px);cursor:'+cur+';z-index:10;pointer-events:auto;transition:transform .15s" id="mponto-'+key+'">';
-    html+='<div id="mpi-'+key+'" style="width:100%;height:100%;border-radius:50%;background:'+cor+';border:2px solid rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:clamp(6px,0.9%,10px);font-weight:800;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.45);transition:all .15s">'+p.lote+'</div>';
+    html+='<div '+click+' title="Q'+p.quadra+' L'+p.lote+(disp?'':' — Indisponível')+'" style="position:absolute;left:'+p.xPercent+'%;top:'+p.yPercent+'%;transform:translate(-50%,-50%);width:'+cSize+'px;height:'+cSize+'px;cursor:'+cur+';z-index:10;pointer-events:auto;transition:transform .15s" id="mponto-'+key+'">';
+    html+='<div id="mpi-'+key+'" style="width:100%;height:100%;border-radius:50%;background:'+cor+';border:2px solid rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:'+fSize+'px;font-weight:800;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.45);transition:all .15s">'+p.lote+'</div>';
     html+='</div>';
   });
   html+='</div></div>';
@@ -791,6 +799,16 @@ function renderMapaInterativo(){
   leg.style.display='flex';
   setTimeout(initMapaZoom, 60);
 }
+
+// Re-renderiza ao girar o celular (portrait↔landscape) se mapa estiver carregado
+window.addEventListener('resize',function(){
+  if(_pontos.length&&_imgUrl){
+    var zoom=document.getElementById('mapa-interativo');
+    var inner=zoom&&zoom.firstElementChild;
+    var isZoomed=inner&&inner.style.transform&&inner.style.transform!=='';
+    if(!isZoomed)renderMapaInterativo();
+  }
+});
 
 function initMapaZoom(){
   var container=document.getElementById('mapa-interativo');
