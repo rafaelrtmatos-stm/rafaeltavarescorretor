@@ -617,8 +617,255 @@ section#hero{z-index:0;overflow:hidden!important}
 
 
 
-<!-- SEÇÕES 02–12 (em construção) -->
+<!-- ════════════════════════════════════════
+     SEÇÃO 02 — MAPA DE LOTES INTERATIVO
+════════════════════════════════════════ -->
+<section id="mapa" style="background:var(--bg);padding:80px 24px 64px;border-bottom:1px solid var(--border);position:relative;overflow:hidden">
 
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(201,168,76,0.04) 0%,transparent 70%);pointer-events:none"></div>
+
+  <div style="max-width:720px;margin:0 auto;position:relative;z-index:2">
+
+    <!-- HEADER -->
+    <div style="text-align:center;margin-bottom:36px">
+      <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:600">Bairro Mararu</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,48px);font-weight:700;color:var(--text);line-height:.95;letter-spacing:-2px;margin-bottom:12px">Mapa de <em style="font-style:italic;color:var(--gold)">Lotes</em></h2>
+      <p style="font-size:13px;color:var(--text2);line-height:1.7;font-weight:300">Toque em um lote para ver detalhes e disponibilidade</p>
+    </div>
+
+    <!-- ABAS -->
+    <div style="display:flex;gap:6px;margin-bottom:20px">
+      <button id="mapa-tab-mapa" onclick="mapaTab('mapa')" style="flex:1;padding:10px;border-radius:8px;border:1px solid var(--border2);background:var(--gold3);color:var(--gold);font-size:12px;font-family:inherit;cursor:pointer;font-weight:600;transition:all .2s;letter-spacing:.3px">🗺️ Mapa</button>
+      <button id="mapa-tab-lista" onclick="mapaTab('lista')" style="flex:1;padding:10px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text3);font-size:12px;font-family:inherit;cursor:pointer;font-weight:500;transition:all .2s;letter-spacing:.3px">☰ Lista</button>
+    </div>
+
+    <!-- PAINEL MAPA -->
+    <div id="mapa-panel-mapa">
+      <div id="mapa-interativo" style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px;min-height:220px;display:flex;align-items:center;justify-content:center">
+        <div style="text-align:center;color:var(--text3);font-size:13px">
+          <div style="font-size:28px;margin-bottom:8px">⏳</div>
+          Carregando mapa...
+        </div>
+      </div>
+      <!-- LEGENDA -->
+      <div id="mapa-legenda" style="display:none;gap:16px;margin-top:12px;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px">
+        <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)"><div style="width:10px;height:10px;border-radius:50%;background:#22c55e;flex-shrink:0"></div>Disponível</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)"><div style="width:10px;height:10px;border-radius:50%;background:#f87171;flex-shrink:0"></div>Indisponível</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)"><div style="width:10px;height:10px;border-radius:50%;background:var(--gold);flex-shrink:0"></div>Selecionado</div>
+      </div>
+    </div>
+
+    <!-- PAINEL LISTA -->
+    <div id="mapa-panel-lista" style="display:none">
+      <div id="mapa-lista-lotes" style="display:flex;flex-direction:column;gap:10px">
+        <div style="text-align:center;padding:40px;color:var(--text3);font-size:13px">⏳ Carregando lotes...</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- POPUP LOTE -->
+<div id="mapa-popup" style="display:none;position:fixed;inset:0;z-index:200;align-items:flex-end;justify-content:center;background:rgba(0,0,0,0.65);backdrop-filter:blur(4px)" onclick="fecharPopupLote(event)">
+  <div style="width:100%;max-width:500px;background:var(--bg2);border:1px solid var(--border2);border-radius:20px 20px 0 0;padding:28px 24px 36px;position:relative" onclick="event.stopPropagation()">
+    <button onclick="fecharPopupLote()" style="position:absolute;top:14px;right:16px;background:var(--bg3);border:none;color:var(--text2);width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1">×</button>
+    <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;font-weight:600">Lote Selecionado</div>
+    <div id="popup-titulo" style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--text);margin-bottom:16px"></div>
+    <div style="display:flex;flex-direction:column;gap:0;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px"><span style="color:var(--text3)">Quadra</span><span id="popup-quadra" style="color:var(--text);font-weight:600"></span></div>
+      <div style="display:flex;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px"><span style="color:var(--text3)">Lote</span><span id="popup-lote" style="color:var(--text);font-weight:600"></span></div>
+      <div style="display:flex;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px"><span style="color:var(--text3)">Valor à Vista</span><span id="popup-avista" style="color:var(--gold);font-weight:700;font-family:'Cormorant Garamond',serif;font-size:16px"></span></div>
+      <div style="display:flex;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px"><span style="color:var(--text3)">Entrada</span><span id="popup-entrada" style="color:var(--gold);font-weight:700;font-family:'Cormorant Garamond',serif;font-size:16px"></span></div>
+      <div style="display:flex;justify-content:space-between;padding:10px 14px;font-size:12px"><span style="color:var(--text3)">Parcelas</span><span id="popup-parcelas" style="color:var(--text);font-weight:600"></span></div>
+    </div>
+    <div style="display:flex;gap:10px">
+      <a id="popup-btn-reservar" href="reserva/" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--gold);color:#000;padding:14px;border-radius:10px;font-size:13px;font-weight:700;text-decoration:none;transition:all .2s;letter-spacing:.3px">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
+        Pré-Reservar este Lote
+      </a>
+      <a id="popup-btn-wpp" href="#" target="_blank" style="display:flex;align-items:center;justify-content:center;background:rgba(37,211,102,0.12);border:1px solid rgba(37,211,102,0.3);color:#25d366;padding:14px 16px;border-radius:10px;font-size:13px;font-weight:700;text-decoration:none;transition:all .2s">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+var SUPA_URL='https://uftxcwcryqpkfdfxzlno.supabase.co';
+var SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI';
+var EMP_ID='1780067816277';
+var WPP='5593992332012';
+var _lotes=[];
+var _pontos=[];
+var _imgUrl='';
+var _selLote=null;
+
+function fmt(n){return n?'R$ '+Number(n).toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0}):'A consultar';}
+function fmtDec(n){return n?'R$ '+Number(n).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}):'A consultar';}
+
+window.mapaTab=function(tab){
+  var isMapa=tab==='mapa';
+  document.getElementById('mapa-panel-mapa').style.display=isMapa?'block':'none';
+  document.getElementById('mapa-panel-lista').style.display=isMapa?'none':'block';
+  document.getElementById('mapa-tab-mapa').style.background=isMapa?'var(--gold3)':'transparent';
+  document.getElementById('mapa-tab-mapa').style.color=isMapa?'var(--gold)':'var(--text3)';
+  document.getElementById('mapa-tab-mapa').style.borderColor=isMapa?'var(--border2)':'var(--border)';
+  document.getElementById('mapa-tab-lista').style.background=!isMapa?'var(--gold3)':'transparent';
+  document.getElementById('mapa-tab-lista').style.color=!isMapa?'var(--gold)':'var(--text3)';
+  document.getElementById('mapa-tab-lista').style.borderColor=!isMapa?'var(--border2)':'var(--border)';
+};
+
+function carregarMapa(){
+  fetch(SUPA_URL+'/rest/v1/empreendimentos?id=eq.'+EMP_ID,{
+    headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Accept':'application/json'}
+  })
+  .then(function(r){return r.json();})
+  .then(function(data){
+    if(!data||!data[0]){renderErro();return;}
+    var d=data[0].data;
+    var lotesInfo=d.lotesInfo||{};
+    _pontos=d.mapaPontos||[];
+    _imgUrl=d.mapaImagemUrl||'';
+    _lotes=Object.keys(lotesInfo).sort(function(a,b){
+      var pa=a.split('-'),pb=b.split('-');
+      var qc=pa[0].localeCompare(pb[0]);
+      return qc||parseInt(pa[1]||0)-parseInt(pb[1]||0);
+    }).map(function(key){
+      var info=lotesInfo[key];
+      var parts=key.split('-'),q=parts[0],l=parts.slice(1).join('-');
+      var preco=info.preco||null,entN=info.entrada||null,parc=info.parcelas||null;
+      var vparc=(preco&&entN&&parc)?(preco-entN)/parc:null;
+      return {id:key,quadra:q,lote:l,avista:fmt(preco),entrada:fmt(entN),parcelas:parc||0,vparcela:fmtDec(vparc),disponivel:info.status==='disponivel'};
+    });
+    renderMapaInterativo();
+    renderListaLotes();
+  })
+  .catch(function(){renderErro();});
+}
+
+function renderErro(){
+  document.getElementById('mapa-interativo').innerHTML='<div style="text-align:center;padding:40px;color:var(--text3);font-size:13px">Não foi possível carregar o mapa. Verifique sua conexão.</div>';
+  document.getElementById('mapa-lista-lotes').innerHTML='<div style="text-align:center;padding:40px;color:var(--text3);font-size:13px">Não foi possível carregar os lotes.</div>';
+}
+
+function renderMapaInterativo(){
+  var el=document.getElementById('mapa-interativo');
+  var leg=document.getElementById('mapa-legenda');
+  if(!_imgUrl||!_pontos.length){
+    renderGradeEsquematica();
+    return;
+  }
+  var lookup={};
+  _lotes.forEach(function(l){lookup[l.quadra+'-'+l.lote]=l;});
+  var html='<div style="position:relative;display:inline-block;width:100%;border-radius:10px;overflow:hidden">';
+  html+='<img src="'+_imgUrl+'" style="width:100%;display:block;border-radius:10px" alt="Planta Bairro Mararu" onload="this.parentNode.style.display=\'inline-block\'">';
+  html+='<div style="position:absolute;inset:0;pointer-events:none">';
+  _pontos.forEach(function(p){
+    var key=p.quadra+'-'+p.lote;
+    var lot=lookup[key];
+    var disp=lot?lot.disponivel:(p.status==='disponivel');
+    var cor=disp?'#22c55e':'#f87171';
+    var cur=disp?'pointer':'not-allowed';
+    var click=disp?'onclick="window._mapaAbrirLote(\''+key+'\')"':'';
+    html+='<div '+click+' title="Q'+p.quadra+' L'+p.lote+(disp?'':' — Indisponível')+'" style="position:absolute;left:'+p.xPercent+'%;top:'+p.yPercent+'%;transform:translate(-50%,-50%);width:clamp(22px,5%,34px);height:clamp(22px,5%,34px);cursor:'+cur+';z-index:10;pointer-events:auto;transition:transform .15s" id="mponto-'+key+'">';
+    html+='<div id="mpi-'+key+'" style="width:100%;height:100%;border-radius:50%;background:'+cor+';border:2.5px solid rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:clamp(7px,1.2%,11px);font-weight:800;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.45);transition:all .15s">'+p.lote+'</div>';
+    html+='</div>';
+  });
+  html+='</div></div>';
+  el.innerHTML=html;
+  el.style.padding='0';
+  el.style.display='block';
+  leg.style.display='flex';
+}
+
+function renderGradeEsquematica(){
+  var el=document.getElementById('mapa-interativo');
+  var grupos={};
+  _lotes.forEach(function(l){if(!grupos[l.quadra])grupos[l.quadra]=[];grupos[l.quadra].push(l);});
+  var html='<div>';
+  Object.keys(grupos).sort().forEach(function(q){
+    html+='<div style="margin-bottom:16px"><div style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--text3);margin-bottom:8px;font-weight:600;padding-left:2px">Quadra '+q+'</div>';
+    html+='<div style="display:flex;flex-wrap:wrap;gap:8px">';
+    grupos[q].forEach(function(l){
+      var cls=l.disponivel?'disp':'ocup';
+      var click=l.disponivel?'onclick="window._mapaAbrirLote(\''+l.id+'\')"':'';
+      html+='<div '+click+' id="mponto-'+l.id+'" style="width:54px;height:54px;border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px solid '+(l.disponivel?'rgba(34,197,94,0.35)':'rgba(248,113,113,0.2)')+';background:'+(l.disponivel?'rgba(34,197,94,0.1)':'rgba(248,113,113,0.06)')+';cursor:'+(l.disponivel?'pointer':'default')+';opacity:'+(l.disponivel?'1':'0.5')+';transition:all .18s">';
+      html+='<div style="font-size:14px;font-weight:800;color:var(--text);line-height:1">'+l.lote+'</div>';
+      html+='<div style="width:6px;height:6px;border-radius:50%;margin-top:5px;background:'+(l.disponivel?'#22c55e':'#f87171')+'"></div>';
+      html+='</div>';
+    });
+    html+='</div></div>';
+  });
+  html+='</div>';
+  el.innerHTML=html;
+}
+
+function renderListaLotes(){
+  var el=document.getElementById('mapa-lista-lotes');
+  el.innerHTML=_lotes.map(function(l){
+    var click=l.disponivel?'onclick="window._mapaAbrirLote(\''+l.id+'\')"':'';
+    return '<div '+click+' style="background:var(--bg2);border:2px solid '+(l.disponivel?'var(--border)':'rgba(248,113,113,0.2)')+';border-radius:12px;padding:14px;cursor:'+(l.disponivel?'pointer':'default')+';transition:all .2s;opacity:'+(l.disponivel?'1':'.55')+'" onmouseover="if('+(l.disponivel?'true':'false')+')this.style.borderColor=\'var(--border2)\'" onmouseout="this.style.borderColor=\''+(l.disponivel?'var(--border)':'rgba(248,113,113,0.2)')+'\'">'
+      +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">'
+      +'<span style="font-size:13px;font-weight:700;color:var(--text)">Quadra '+l.quadra+' — Lote '+l.lote+'</span>'
+      +'<span style="font-size:10px;font-weight:700;padding:3px 10px;border-radius:100px;background:'+(l.disponivel?'rgba(37,211,102,0.1)':'rgba(248,113,113,0.1)')+';color:'+(l.disponivel?'#25d366':'var(--red)')+';">'+(l.disponivel?'Disponível':'Indisponível')+'</span>'
+      +'</div>'
+      +'<div style="display:flex;gap:14px;font-size:12px;color:var(--text3);flex-wrap:wrap">'
+      +'<span>Entrada: <strong style="color:var(--gold)">'+l.entrada+'</strong></span>'
+      +(l.parcelas?'<span>'+l.parcelas+'x de '+l.vparcela+'</span>':'')
+      +'</div></div>';
+  }).join('');
+}
+
+window._mapaAbrirLote=function(key){
+  var lot=null;
+  _lotes.forEach(function(l){if(l.id===key)lot=l;});
+  if(!lot)return;
+  _selLote=key;
+  // destacar ponto selecionado
+  _pontos.forEach(function(p){
+    var k=p.quadra+'-'+p.lote;
+    var pi=document.getElementById('mpi-'+k);
+    if(pi){pi.style.background=k===key?'var(--gold)':(lot&&lot.disponivel?'#22c55e':'#f87171');}
+  });
+  var piSel=document.getElementById('mpi-'+key);
+  if(piSel)piSel.style.background='var(--gold)';
+  // preencher popup
+  document.getElementById('popup-titulo').textContent='Quadra '+lot.quadra+' · Lote '+lot.lote;
+  document.getElementById('popup-quadra').textContent=lot.quadra;
+  document.getElementById('popup-lote').textContent=lot.lote;
+  document.getElementById('popup-avista').textContent=lot.avista;
+  document.getElementById('popup-entrada').textContent=lot.entrada;
+  document.getElementById('popup-parcelas').textContent=lot.parcelas?lot.parcelas+'x de '+lot.vparcela:'A consultar';
+  document.getElementById('popup-btn-wpp').href='https://wa.me/'+WPP+'?text=Olá+Rafael!+Tenho+interesse+no+Lote+'+lot.lote+',+Quadra+'+lot.quadra+'+do+Bairro+Mararu.';
+  var popup=document.getElementById('mapa-popup');
+  popup.style.display='flex';
+  requestAnimationFrame(function(){popup.style.opacity='1';});
+};
+
+window.fecharPopupLote=function(e){
+  if(e&&e.target!==document.getElementById('mapa-popup'))return;
+  document.getElementById('mapa-popup').style.display='none';
+  // restaurar cores
+  _pontos.forEach(function(p){
+    var key=p.quadra+'-'+p.lote;
+    var lot=null;_lotes.forEach(function(l){if(l.id===key)lot=l;});
+    var pi=document.getElementById('mpi-'+key);
+    if(pi)pi.style.background=lot&&lot.disponivel?'#22c55e':'#f87171';
+  });
+  _selLote=null;
+};
+
+// Iniciar ao entrar na viewport
+var _carregado=false;
+var obs=new IntersectionObserver(function(entries){
+  if(entries[0].isIntersecting&&!_carregado){_carregado=true;carregarMapa();}
+},{threshold:0.1});
+var sec=document.getElementById('mapa');
+if(sec)obs.observe(sec);
+else carregarMapa();
+})();
+</script>
 
 <!-- ════════════════════════════════════════
      SEÇÃO 04 — ESCOLHA SUA REGIÃO
