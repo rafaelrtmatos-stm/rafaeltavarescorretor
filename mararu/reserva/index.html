@@ -161,6 +161,22 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .comp-row .l{color:var(--text3)}
 .comp-row .r{color:var(--text);font-weight:500}
 </style>
+<style>
+/* Esconder botão FAB Kommo durante reserva */
+#kommo-chat-widget,
+.kommo-chat-widget,
+[class*="kommo"],
+[id*="kommo"],
+[class*="crm_plugin"],
+[id*="crm_plugin"],
+iframe[src*="kommo"],
+iframe[src*="gso.kommo"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+</style>
 </head>
 <body>
 
@@ -1123,7 +1139,7 @@ function mostrarComprovante(status){
 function finalizarPago(){
   var d=getDados();
   salvarDados(d);
-  var msg='Olá! Vim pelo site para garantir minha pré-reserva.\n\nEmpreendimento: '+d.empreendimento+'\nQuadra: '+d.quadra+'\nLote: '+d.lote+'\n\nNome: '+d.nome+'\nCPF: '+d.cpf+'\n\nStatus: Pago.';
+  var msg='Olá Rafael! Vim pelo site para garantir minha pré-reserva com você.\n\nEmpreendimento: '+d.empreendimento+'\nQuadra: '+d.quadra+'\nLote: '+d.lote+'\n\nNome: '+d.nome+'\nCPF: '+d.cpf+'\n\nStatus: Pagamento realizado.\n\nAguardo confirmação da reserva com você, Rafael Tavares — CRECI 13919.';
   window.open('https://wa.me/'+WPP+'?text='+encodeURIComponent(msg),'_blank');
   mostrarComprovante('pago');
 }
@@ -1131,7 +1147,7 @@ function finalizarPago(){
 function finalizarDepois(){
   var d=getDados();
   salvarDados(d);
-  var msg='Olá! Vim pelo site para garantir minha pré-reserva.\n\nEmpreendimento: '+d.empreendimento+'\nQuadra: '+d.quadra+'\nLote: '+d.lote+'\n\nNome: '+d.nome+'\nCPF: '+d.cpf+'\n\nStatus: Não pago.';
+  var msg='Olá Rafael! Vim pelo site e gostaria de garantir minha pré-reserva com você.\n\nEmpreendimento: '+d.empreendimento+'\nQuadra: '+d.quadra+'\nLote: '+d.lote+'\n\nNome: '+d.nome+'\nCPF: '+d.cpf+'\n\nGostaria de combinar o pagamento diretamente com você, Rafael Tavares — CRECI 13919.';
   window.open('https://wa.me/'+WPP+'?text='+encodeURIComponent(msg),'_blank');
   mostrarComprovante('depois');
 }
@@ -1198,22 +1214,43 @@ function previewImg(input,prevId,areaId,tipo){
   reader.onload=function(e){
     var prev=document.getElementById(prevId);
     var img=prev.querySelector('img');
-    // PDF — mostrar ícone em vez de preview
     if(file.type==='application/pdf'){
-      img.src='';
-      img.style.display='none';
+      img.src='';img.style.display='none';
       var pdfLabel=prev.querySelector('.pdf-label');
-      if(!pdfLabel){pdfLabel=document.createElement('div');pdfLabel.className='pdf-label';pdfLabel.style.cssText='padding:20px;text-align:center;color:#C9A84C;font-size:13px;';prev.appendChild(pdfLabel);}
-      pdfLabel.textContent='📄 '+file.name;
+      if(!pdfLabel){pdfLabel=document.createElement('div');pdfLabel.className='pdf-label';pdfLabel.style.cssText='padding:20px;text-align:center;color:#C9A84C;font-size:13px;line-height:1.5;';}
+      pdfLabel.innerHTML='📄<br>'+file.name;
+      if(!prev.querySelector('.pdf-label'))prev.appendChild(pdfLabel);
     } else {
-      img.src=e.target.result;
-      img.style.display='block';
+      img.src=e.target.result;img.style.display='block';
       var pdfLabel=prev.querySelector('.pdf-label');
       if(pdfLabel)pdfLabel.remove();
     }
     prev.style.display='block';
     document.getElementById(areaId).style.display='none';
     _fotos[tipo]=e.target.result;
+    // Verificar se RG precisa de verso
+    if(tipo==='frente'){
+      var tipoDoc=document.getElementById('tipo-doc');
+      if(tipoDoc&&tipoDoc.value==='rg'){
+        var versoArea=document.getElementById('area-verso');
+        var versoPrev=document.getElementById('prev-verso');
+        var versoFilled=versoPrev&&versoPrev.style.display!=='none';
+        if(!versoFilled){
+          var aviso=document.getElementById('aviso-verso');
+          if(!aviso){
+            aviso=document.createElement('div');
+            aviso.id='aviso-verso';
+            aviso.style.cssText='font-size:11px;color:#C9A84C;padding:8px 12px;background:rgba(201,168,76,0.06);border-radius:6px;border:1px solid rgba(201,168,76,0.2);margin-top:8px';
+            aviso.textContent='⚠️ Você enviou a frente do RG. Não esqueça de enviar também o verso!';
+            document.getElementById(prevId).parentElement.appendChild(aviso);
+          }
+        }
+      }
+    }
+    if(tipo==='verso'){
+      var aviso=document.getElementById('aviso-verso');
+      if(aviso)aviso.remove();
+    }
   };
   reader.readAsDataURL(file);
 }
