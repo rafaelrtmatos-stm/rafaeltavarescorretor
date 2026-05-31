@@ -200,7 +200,7 @@ body{font-family:"DM Sans",sans-serif;background:var(--bg);color:var(--text);ove
   .nav-brand-creci{font-size:8px}
 
   /* HERO */
-  .hero{height:100svh;min-height:560px}
+  .hero{min-height:100svh;height:auto}
   .hero-body{padding:0 18px 90px}
   .hero-badge{font-size:9px;padding:6px 14px;margin-bottom:18px}
   .hero-title{font-size:clamp(36px,10vw,52px);letter-spacing:-1px;margin-bottom:10px}
@@ -210,6 +210,17 @@ body{font-family:"DM Sans",sans-serif;background:var(--bg);color:var(--text);ove
   .hero-stats{display:none}
   .hero-assinatura{display:none}
   .hero-scroll{bottom:20px}
+
+  /* CARD LANÇAMENTO MOBILE */
+  [style*="display:flex;flex-direction:column;padding:0 28px 100px"]{padding-left:18px!important;padding-right:18px!important;padding-bottom:56px!important}
+  #hero [style*="max-width:340px"]{max-width:100%!important}
+  #hero [style*="display:flex;gap:10px;flex-wrap:wrap"]{flex-direction:column!important;gap:8px!important}
+  #hero [style*="display:flex;gap:10px;flex-wrap:wrap"] a{width:100%!important;max-width:100%!important;justify-content:center!important}
+  /* card body: coluna única no mobile */
+  #hero [style*="border-right:1px solid rgba(201,168,76,0.15)"]{border-right:none!important;border-bottom:1px solid rgba(201,168,76,0.15)!important;padding:12px 14px!important}
+  #hero [style*="padding:14px 12px;display:flex;flex-direction:column;gap:11px"]{padding:10px 14px!important;flex-direction:row!important;flex-wrap:wrap!important;gap:8px!important;justify-content:flex-start!important}
+  #hero [style*="font-size:7.5px"]{font-size:7px!important}
+  #hero [style*="padding:14px 12px;display:flex"] > div{flex:0 0 calc(50% - 4px)!important}
 
   /* MAPA SEÇÃO 02 */
   #mapa > div:first-child{padding:48px 18px 28px}
@@ -536,10 +547,10 @@ section#hero{z-index:0;overflow:hidden!important}
         </div>
       </div>
 
-      <!-- BOTÃO VER DETALHES -->
-      <a href="#" style="display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(90deg,#C9A84C,#E8C96A);color:#000;padding:12px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
-        VER DETALHES DO LANÇAMENTO
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      <!-- BOTÃO PRÉ-RESERVA -->
+      <a href="reserva/" style="display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(90deg,#C9A84C,#E8C96A);color:#000;padding:12px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
+        GARANTIR MINHA PRÉ-RESERVA
       </a>
     </div>
 
