@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Rafael Tavares — Corretor de Imóveis | Santarém, PA</title>
 <link rel="icon" type="image/x-icon" href="../favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
@@ -787,7 +787,83 @@ function renderMapaInterativo(){
   el.innerHTML=html;
   el.style.padding='0';
   el.style.display='block';
+  el.style.overflow='hidden';
   leg.style.display='flex';
+  setTimeout(initMapaZoom, 60);
+}
+
+function initMapaZoom(){
+  var container=document.getElementById('mapa-interativo');
+  if(!container)return;
+  var inner=container.firstElementChild;
+  if(!inner)return;
+  var scale=1,tx=0,ty=0,maxScale=6;
+  container.style.overflow='hidden';
+  container.style.touchAction='none';
+  inner.style.transformOrigin='0 0';
+  inner.style.willChange='transform';
+  inner.style.display='block';
+  inner.style.width='100%';
+  function clamp(v,mn,mx){return v<mn?mn:v>mx?mx:v;}
+  function constrain(){
+    var w=container.offsetWidth,h=container.offsetHeight;
+    var iw=inner.offsetWidth*scale,ih=inner.offsetHeight*scale;
+    tx=clamp(tx,Math.min(0,w-iw),0);
+    ty=clamp(ty,Math.min(0,h-ih),0);
+  }
+  function apply(){inner.style.transform='translate3d('+tx+'px,'+ty+'px,0) scale('+scale+')';}
+  var pinching=false,panning=false;
+  var lastD=0,lastMx=0,lastMy=0;
+  var panSX=0,panSY=0,panSTx=0,panSTy=0;
+  function getDist(t){var dx=t[0].clientX-t[1].clientX,dy=t[0].clientY-t[1].clientY;return Math.sqrt(dx*dx+dy*dy);}
+  function getMid(t){return{x:(t[0].clientX+t[1].clientX)/2,y:(t[0].clientY+t[1].clientY)/2};}
+  container.addEventListener('touchstart',function(e){
+    if(e.touches.length===2){
+      pinching=true;panning=false;
+      lastD=getDist(e.touches);
+      var m=getMid(e.touches);lastMx=m.x;lastMy=m.y;
+      e.stopPropagation();e.preventDefault();
+    }else if(e.touches.length===1&&scale>1.05){
+      panning=true;
+      panSX=e.touches[0].clientX;panSY=e.touches[0].clientY;
+      panSTx=tx;panSTy=ty;
+      e.preventDefault();
+    }
+  },{passive:false});
+  container.addEventListener('touchmove',function(e){
+    if(pinching&&e.touches.length>=2){
+      var d=getDist(e.touches),m=getMid(e.touches);
+      var r=d/lastD;
+      var rect=container.getBoundingClientRect();
+      var px=m.x-rect.left,py=m.y-rect.top;
+      tx=px-(px-tx)*r+(m.x-lastMx);
+      ty=py-(py-ty)*r+(m.y-lastMy);
+      scale=clamp(scale*r,1,maxScale);
+      constrain();apply();
+      lastD=d;lastMx=m.x;lastMy=m.y;
+      e.stopPropagation();e.preventDefault();
+    }else if(panning&&e.touches.length===1&&scale>1.05){
+      tx=panSTx+(e.touches[0].clientX-panSX);
+      ty=panSTy+(e.touches[0].clientY-panSY);
+      constrain();apply();
+      e.preventDefault();
+    }
+  },{passive:false});
+  container.addEventListener('touchend',function(e){
+    if(e.touches.length<2)pinching=false;
+    if(e.touches.length===0){
+      panning=false;
+      if(scale<1.05){scale=1;tx=0;ty=0;apply();}
+    }
+  },{passive:true});
+  var lastTap=0;
+  container.addEventListener('touchend',function(e){
+    if(e.touches.length===0){
+      var now=Date.now();
+      if(now-lastTap<300){scale=1;tx=0;ty=0;apply();}
+      lastTap=now;
+    }
+  },{passive:true});
 }
 
 function renderGradeEsquematica(){
@@ -1834,6 +1910,17 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')fecharMenu()
 </script>
 <!-- ═══ FIM MENU ═══ -->
 
+<script>
+// Bloqueia zoom nativo no body — exceto dentro do mapa de lotes
+document.addEventListener('touchmove',function(e){
+  if(e.touches.length>1){
+    var el=e.target;
+    var inMap=false;
+    while(el){if(el.id==='mapa-interativo'){inMap=true;break;}el=el.parentElement;}
+    if(!inMap)e.preventDefault();
+  }
+},{passive:false});
+</script>
 <script>
 (function(){
   fetch('../site_data.json?v='+Date.now())
