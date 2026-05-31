@@ -448,7 +448,7 @@ section#hero{z-index:0;overflow:hidden!important}
 }
 
 /* FIX LEAFLET TILES */
-.leaflet-tile-container{opacity:1!important}
+.leaflet-tile-container{opacity:1!important;filter:sepia(55%) contrast(1.25) saturate(0.75) brightness(0.93)}
 .leaflet-layer{opacity:1!important}
 </style>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -456,7 +456,7 @@ section#hero{z-index:0;overflow:hidden!important}
 <style>
 /* LEAFLET CLEAN */
 .leaflet-control-attribution,.leaflet-control-zoom,.leaflet-bar{display:none!important}
-.leaflet-container{background:#0a0a0a}
+.leaflet-container{background:#e8d9a8}
 </style>
 </head>
 <body>
@@ -833,8 +833,8 @@ function startMap(){
     touchZoom:true
   });
 
-  // Tile escuro luxuoso via CartoDB Dark Matter
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
+  // Tile dourado — CartoDB Positron (fundo claro) + filtro CSS sepia/contraste
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
     maxZoom:19,
     subdomains:['a','b','c','d']
   }).addTo(map);
