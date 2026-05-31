@@ -846,9 +846,8 @@ function startMap(){
   });
 
   // Tile dourado — CartoDB Positron (fundo claro) + filtro CSS sepia/contraste
-  // Mapa limpo: ruas pretas, rios, sem satélite (CartoDB Positron)
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/positron/{z}/{x}/{y}{r}.png',{
-    subdomains:'abcd',
+  // OSM padrão — igual ao Google Maps sem trânsito
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
     maxZoom:19,
     subdomains:['a','b','c','d']
   }).addTo(map);
