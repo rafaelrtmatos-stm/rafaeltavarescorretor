@@ -184,6 +184,7 @@
   "geradoEm": "2026-05-29T21:05:49.125Z",
   "lancamento": {
     "ativo": true,
+    "prereserva": true,
     "empreendimento_id": "mararu",
     "titulo": "BAIRRO MARARU",
     "subtitulo": "Novo Lançamento",
