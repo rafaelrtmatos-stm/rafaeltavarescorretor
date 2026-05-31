@@ -430,172 +430,6 @@ function salvarTokenModal(){
         </div>
       </div>
 
-      <!-- HEADER -->
-      <div class="page" id="page-header">
-        <div class="page-header">
-          <div class="page-title">Header do Site</div>
-          <div class="page-sub">Personalize o cabeçalho exibido em todas as páginas</div>
-        </div>
-        <div class="card">
-          <div class="card-title"><span>👁️</span> Exibir elementos</div>
-          <div style="display:flex;flex-direction:column;gap:12px">
-            <label class="toggle-row" onclick="toggleCheck('h-logo')">
-              <div class="toggle-info"><div class="toggle-label">Exibir logo</div><div class="toggle-sub">Mostra a logo da empresa no header</div></div>
-              <div class="tog" id="tog-h-logo"><div class="tog-dot"></div></div>
-              <input type="checkbox" id="h-logo" style="display:none" checked />
-            </label>
-            <label class="toggle-row" onclick="toggleCheck('h-nome')">
-              <div class="toggle-info"><div class="toggle-label">Exibir nome do corretor</div><div class="toggle-sub">Mostra "Rafael Tavares" no header</div></div>
-              <div class="tog on" id="tog-h-nome"><div class="tog-dot"></div></div>
-              <input type="checkbox" id="h-nome" style="display:none" checked />
-            </label>
-            <label class="toggle-row" onclick="toggleCheck('h-creci')">
-              <div class="toggle-info"><div class="toggle-label">Exibir CRECI</div><div class="toggle-sub">Mostra "Corretor de Imóveis · CRECI 13919"</div></div>
-              <div class="tog on" id="tog-h-creci"><div class="tog-dot"></div></div>
-              <input type="checkbox" id="h-creci" style="display:none" checked />
-            </label>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-title"><span>🎨</span> Aparência</div>
-          <div class="g2">
-            <div class="f">
-              <label>Cor do cabeçalho</label>
-              <div style="display:flex;gap:8px;align-items:center">
-                <input type="color" id="h-bg-color" value="#0F1710" style="width:48px;height:42px;padding:2px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);cursor:pointer;flex-shrink:0" />
-                <input type="text" id="h-bg-hex" value="#0F1710" class="inp-inline" style="flex:1" />
-              </div>
-            </div>
-            <div class="f">
-              <label>Transparência — <span id="h-alpha-val">97</span>%</label>
-              <input type="range" id="h-alpha" min="0" max="100" value="97" oninput="document.getElementById('h-alpha-val').textContent=this.value" style="width:100%;accent-color:var(--gold);height:6px;cursor:pointer" />
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-title"><span>↕️</span> Ordem dos elementos</div>
-          <div id="order-list" style="display:flex;flex-direction:column;gap:8px">
-            <div class="order-item" draggable="true" data-id="logo" ondragstart="dragStart(event)" ondragover="dragOver(event)" ondrop="dropItem(event)">
-              <span class="drag-handle">⋮⋮</span><span class="order-icon">🖼️</span><span class="order-name">Logo</span><span class="order-badge">1</span>
-            </div>
-            <div class="order-item" draggable="true" data-id="nome" ondragstart="dragStart(event)" ondragover="dragOver(event)" ondrop="dropItem(event)">
-              <span class="drag-handle">⋮⋮</span><span class="order-icon">👤</span><span class="order-name">Nome do corretor</span><span class="order-badge">2</span>
-            </div>
-            <div class="order-item" draggable="true" data-id="creci" ondragstart="dragStart(event)" ondragover="dragOver(event)" ondrop="dropItem(event)">
-              <span class="drag-handle">⋮⋮</span><span class="order-icon">🪪</span><span class="order-name">CRECI</span><span class="order-badge">3</span>
-            </div>
-            <div class="order-item" draggable="true" data-id="whatsapp" ondragstart="dragStart(event)" ondragover="dragOver(event)" ondrop="dropItem(event)">
-              <span class="drag-handle">⋮⋮</span><span class="order-icon">💬</span><span class="order-name">WhatsApp</span><span class="order-badge">4</span>
-            </div>
-          </div>
-        </div>
-        <div class="btn-row">
-          <button class="btn-save" onclick="salvarHeader()">💾 Salvar header</button>
-        </div>
-      </div>
-
-      <!-- PINOS -->
-      <div class="page" id="page-pinos">
-        <div class="page-header">
-          <div class="page-title">Pinos do Mapa</div>
-          <div class="page-sub">Edite as regiões exibidas no mapa — nome, posição e valores</div>
-        </div>
-
-        <!-- DATA DO LANÇAMENTO -->
-        <div class="card">
-          <div class="card-title"><span>🗓️</span> Data do Lançamento — Countdown</div>
-          <div class="f">
-            <label>Data e hora do lançamento do Mararu</label>
-            <input type="datetime-local" id="mararu-data" />
-            <span class="f-hint">Aparece no cronômetro do card no início do site</span>
-          </div>
-          <div class="btn-row">
-            <button class="btn-save" onclick="salvarDataLancamento()">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg>
-              Salvar data
-            </button>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-title"><span>📍</span> Regiões no mapa</div>
-          <div id="pinos-admin-lista" style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px"></div>
-          <div class="btn-row">
-            <button class="btn-save" onclick="salvarPinos()">💾 Salvar pinos</button>
-            <button class="btn-restore" onclick="resetarPinos()">↺ Resetar padrão</button>
-          </div>
-        </div>
-        <div class="card" id="form-pino" style="display:none">
-          <div class="card-title" id="form-pino-title"><span>✏️</span> Editar pino</div>
-          <div class="g2">
-            <div class="f"><label>Nome exibido</label><input type="text" id="p-nome" /></div>
-            <div class="f"><label>Região (popup)</label><input type="text" id="p-regiao" /></div>
-            <div class="f"><label>Posição X (%)</label><input type="number" id="p-x" min="2" max="90" step="0.5"/></div>
-            <div class="f"><label>Posição Y (%)</label><input type="number" id="p-y" min="2" max="95" step="0.5"/></div>
-            <div class="f"><label>Latitude</label><input type="number" id="p-lat" step="0.0001"/></div>
-            <div class="f"><label>Longitude</label><input type="number" id="p-lng" step="0.0001"/></div>
-            <div class="f"><label>Valor mínimo</label><input type="text" id="p-min"/></div>
-            <div class="f"><label>Valor máximo</label><input type="text" id="p-max"/></div>
-            <div class="f"><label>Cor do pino</label>
-              <select id="p-cor">
-                <option value="gold">🟡 Dourado</option>
-                <option value="red">🔴 Vermelho</option>
-              </select>
-            </div>
-          </div>
-          <div class="f"><label>Descrição</label><textarea id="p-desc"></textarea></div>
-          <div class="f"><label>Mensagem WhatsApp</label><input type="text" id="p-msg"/></div>
-          <input type="hidden" id="p-idx" value="-1"/>
-          <div class="btn-row">
-            <button class="btn-save" onclick="salvarPino()">💾 Salvar pino</button>
-            <button class="btn-d" onclick="document.getElementById('form-pino').style.display='none'">Cancelar</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- EMPREENDIMENTOS -->
-      <div class="page" id="page-empreendimentos">
-        <div class="page-header">
-          <div class="page-title">Empreendimentos</div>
-          <div class="page-sub">Gerencie os empreendimentos exibidos no site</div>
-        </div>
-        <div class="card">
-          <div class="card-title"><span>🏘️</span> Lista</div>
-          <div id="elist" style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px"></div>
-          <button class="btn-save" onclick="novoEmpr()">➕ Adicionar empreendimento</button>
-        </div>
-        <div class="card" id="form-empr" style="display:none">
-          <div class="card-title" id="form-empr-title"><span>➕</span> Novo empreendimento</div>
-          <div class="g2">
-            <div class="f"><label>Nome</label><input type="text" id="e-nome" /></div>
-            <div class="f"><label>Bairro / Localidade</label><input type="text" id="e-local" /></div>
-            <div class="f"><label>Latitude</label><input type="number" id="e-lat" step="0.0001" placeholder="-2.4552"/></div>
-            <div class="f"><label>Longitude</label><input type="number" id="e-lng" step="0.0001" placeholder="-54.7456"/></div>
-            <div class="f"><label>Coordenada em uma linha</label>
-              <input type="text" id="e-coords" placeholder="2°29'32.5&quot;S 54°41'12.4&quot;W" oninput="converterCoordsEmpr(this.value)"/>
-              <span class="f-hint">Cole do Google Maps — preenche lat/lng automaticamente</span>
-            </div>
-            <div class="f"><label>Emoji</label><input type="text" id="e-emoji" maxlength="4" /></div>
-            <div class="f"><label>Status</label>
-              <select id="e-status">
-                <option value="lancamento">🔥 Lançamento</option>
-                <option value="disponivel" selected>✅ Disponível</option>
-                <option value="breve">🕐 Em breve</option>
-                <option value="vendido">✓ Encerrado</option>
-              </select>
-            </div>
-          </div>
-          <div class="f"><label>Descrição</label><textarea id="e-desc"></textarea></div>
-          <div class="f"><label>Tags (separadas por vírgula)</label><input type="text" id="e-tags" /></div>
-          <div class="f"><label>Mensagem WhatsApp</label><input type="text" id="e-wpp" /></div>
-          <div class="f"><label>Link direto</label><input type="text" id="e-link" /></div>
-          <input type="hidden" id="e-idx" value="-1" />
-          <div class="btn-row">
-            <button class="btn-save" onclick="salvarEmpr()">💾 Salvar</button>
-            <button class="btn-restore" onclick="cancelarEmpr()">Cancelar</button>
-          </div>
-        </div>
-      </div>
-
       <!-- REDES -->
       <div class="page" id="page-redes">
         <div class="page-header">
@@ -630,85 +464,6 @@ function salvarTokenModal(){
           <div class="f"><label>Assinatura personalizada</label><input type="text" id="t-assinatura" /></div>
           <div class="btn-row">
             <button class="btn-save" onclick="salvarTextos()">💾 Salvar textos</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- MARARU -->
-      <div class="page" id="page-mararu">
-        <div class="page-header">
-          <div class="page-title">Bairro Mararu</div>
-          <div class="page-sub">Configurações do lançamento</div>
-        </div>
-        <div class="card">
-          <div class="card-title"><span>🔗</span> Acesso rápido</div>
-          <div style="display:flex;flex-direction:column;gap:10px">
-            <a href="../mararu/" target="_blank" style="display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px 16px;text-decoration:none">
-              <div><div style="font-size:13px;font-weight:600;color:var(--text)">🌐 Ver página do Mararu</div><div style="font-size:11px;color:var(--text3);margin-top:3px">Abrir landing page pública</div></div>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- GITHUB CONFIG -->
-      <div class="page" id="page-github">
-        <div class="page-header">
-          <div class="page-title">Integração GitHub</div>
-          <div class="page-sub">Configure para publicar alterações direto no site</div>
-        </div>
-
-        <div class="gh-config-box">
-          <h4>🐙 Como funciona</h4>
-          <p>Após configurar, o botão <strong style="color:var(--gold)">🚀 Publicar no site</strong> vai commitar suas alterações diretamente no GitHub. A Vercel detecta automaticamente e publica o site em 1-2 minutos.</p>
-        </div>
-
-        <div class="card">
-          <div class="card-title"><span>🔑</span> Personal Access Token</div>
-
-          <div class="gh-config-box" style="margin-bottom:18px">
-            <h4>📋 Como criar o token</h4>
-            <div class="gh-steps">
-              <div class="gh-step"><div class="gh-step-n">1</div><div>Acesse <a href="https://github.com/settings/tokens" target="_blank">github.com/settings/tokens</a></div></div>
-              <div class="gh-step"><div class="gh-step-n">2</div><div>Clique em <code>Generate new token (classic)</code></div></div>
-              <div class="gh-step"><div class="gh-step-n">3</div><div>Dê um nome, ex: <code>admin-site-rafael</code></div></div>
-              <div class="gh-step"><div class="gh-step-n">4</div><div>Marque a caixa <code>repo</code> (primeira opção)</div></div>
-              <div class="gh-step"><div class="gh-step-n">5</div><div>Clique <code>Generate token</code> e copie o token gerado</div></div>
-              <div class="gh-step"><div class="gh-step-n">6</div><div>Cole abaixo e clique em Salvar</div></div>
-            </div>
-            <p style="margin-bottom:0">⚠️ O token fica salvo <strong>somente no seu navegador</strong> (localStorage). Nunca sai do seu computador.</p>
-          </div>
-
-          <div class="f">
-            <label>Token do GitHub (começa com ghp_...)</label>
-            <div style="position:relative">
-              <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:11px 44px 11px 12px;font-size:14px;color:var(--text);font-family:monospace;outline:none;width:100%;transition:border-color .2s" />
-              <button onclick="toggleToken()" type="button" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:transparent;border:none;cursor:pointer;color:rgba(201,168,76,0.6);padding:4px">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-              </button>
-            </div>
-          </div>
-
-          <div class="f">
-            <label>Usuário GitHub</label>
-            <input type="text" id="gh-user" placeholder="rafaelrtmatos-stm" />
-          </div>
-
-          <div class="f">
-            <label>Repositório</label>
-            <input type="text" id="gh-repo" placeholder="rafaeltavarescorretor" />
-          </div>
-
-          <div class="f">
-            <label>Branch</label>
-            <input type="text" id="gh-branch" placeholder="main" />
-          </div>
-
-          <div id="gh-test-status" class="token-status none" style="display:none"></div>
-
-          <div class="btn-row">
-            <button class="btn-save" onclick="salvarGHConfig()">💾 Salvar configuração</button>
-            <button class="btn-restore" onclick="testarToken()" style="border-color:var(--blue);color:var(--blue)">🔗 Testar conexão</button>
-            <button class="btn-d" onclick="limparToken()">🗑 Remover token</button>
           </div>
         </div>
       </div>
@@ -774,6 +529,242 @@ function salvarTokenModal(){
           <div class="f"><label>Confirmar nova senha</label><input type="password" id="s-conf" /></div>
           <div class="btn-row">
             <button class="btn-save" onclick="alterarSenha()">🔐 Alterar senha</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ PÁGINA: IMÓVEIS (Pinos + Empreendimentos) ══════ -->
+      <div class="page" id="page-imoveis">
+        <div class="page-header">
+          <div class="page-title">Pinos & Empreendimentos</div>
+          <div class="page-sub">Gerencie os pinos do mapa e os empreendimentos com fotos</div>
+        </div>
+
+        <!-- SEÇÃO 1: PINOS DO MAPA -->
+        <div class="card">
+          <div class="card-title"><span>📍</span> Pinos no Mapa</div>
+          <div style="font-size:12px;color:var(--text3);margin-bottom:14px;line-height:1.6">
+            Os pinos aparecem no mapa global do site. Clique no mapa para posicionar ou edite X/Y abaixo.
+          </div>
+
+          <!-- MINI MAPA PREVIEW -->
+          <div id="mapa-admin-wrap" style="position:relative;width:100%;padding-bottom:45%;background:#0A0A0A;border-radius:10px;overflow:hidden;border:1px solid var(--border);cursor:crosshair;margin-bottom:14px">
+            <svg viewBox="0 0 800 560" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;width:100%;height:100%">
+              <rect width="800" height="560" fill="#0D0D0D"/>
+              <line x1="0" y1="210" x2="470" y2="210" stroke="#C9A84C" stroke-width="2" opacity=".6"/>
+              <line x1="460" y1="0" x2="460" y2="560" stroke="#C9A84C" stroke-width="2" opacity=".6"/>
+              <line x1="0" y1="120" x2="350" y2="120" stroke="#C9A84C" stroke-width="1" opacity=".3"/>
+              <line x1="0" y1="300" x2="470" y2="300" stroke="#C9A84C" stroke-width="1" opacity=".3"/>
+              <line x1="350" y1="0" x2="350" y2="560" stroke="#C9A84C" stroke-width="1" opacity=".3"/>
+              <g stroke="#C9A84C" stroke-width="0.5" opacity=".15">
+                <line x1="60" y1="0" x2="60" y2="560"/><line x1="120" y1="0" x2="120" y2="560"/>
+                <line x1="170" y1="0" x2="170" y2="560"/><line x1="235" y1="0" x2="235" y2="560"/>
+                <line x1="290" y1="0" x2="290" y2="560"/><line x1="405" y1="0" x2="405" y2="560"/>
+              </g>
+              <path d="M660,0 Q670,150 685,280 Q700,420 720,560 L800,560 L800,0 Z" fill="#050508" opacity=".95"/>
+              <path d="M660,0 Q670,150 685,280 Q700,420 720,560" stroke="#C9A84C" stroke-width="0.8" fill="none" opacity=".2"/>
+              <text x="730" y="280" font-family="sans-serif" font-size="9" fill="#C9A84C" opacity=".25" transform="rotate(90,730,280)" text-anchor="middle">Rio</text>
+              <g id="admin-pinos-preview"></g>
+            </svg>
+            <div style="position:absolute;bottom:6px;left:50%;transform:translateX(-50%);font-size:9px;color:rgba(201,168,76,0.35);white-space:nowrap">Clique para posicionar o pino selecionado</div>
+          </div>
+
+          <div id="pinos-admin-lista" style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px"></div>
+
+          <div class="btn-row">
+            <button class="btn-save" onclick="salvarPinos()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg>
+              Salvar pinos
+            </button>
+            <button class="btn-restore" onclick="resetarPinos()">↺ Resetar padrão</button>
+          </div>
+        </div>
+
+        <!-- FORM EDITAR PINO -->
+        <div class="card" id="form-pino" style="display:none">
+          <div class="card-title"><span>✏️</span> Editar pino</div>
+          <div class="g2">
+            <div class="f"><label>Nome exibido</label><input type="text" id="p-nome"/></div>
+            <div class="f"><label>Região (popup)</label><input type="text" id="p-regiao"/></div>
+            <div class="f"><label>Lat (Google Maps)</label><input type="number" id="p-lat" step="0.0001" placeholder="-2.455"/></div>
+            <div class="f"><label>Lng (Google Maps)</label><input type="number" id="p-lng" step="0.0001" placeholder="-54.745"/></div>
+            <div class="f"><label>Valor mínimo</label><input type="text" id="p-min" placeholder="R$ 300"/></div>
+            <div class="f"><label>Valor máximo</label><input type="text" id="p-max" placeholder="R$ 800"/></div>
+            <div class="f"><label>Cor</label>
+              <select id="p-cor">
+                <option value="gold">🟡 Dourado</option>
+                <option value="red">🔴 Vermelho (lançamento)</option>
+              </select>
+            </div>
+            <div class="f"><label>Link do empreendimento</label><input type="text" id="p-link" placeholder="mararu/"/></div>
+          </div>
+          <div class="f"><label>Coordenada em uma linha</label>
+            <input type="text" id="p-coords" placeholder='2°29&apos;32.5"S 54°41&apos;12.4"W' oninput="converterCoords(this.value)"/>
+            <span class="f-hint">Cole do Google Maps — preenche lat/lng automaticamente</span>
+          </div>
+          <div class="f"><label>Descrição</label><textarea id="p-desc" placeholder="Descrição da região..."></textarea></div>
+          <div class="f"><label>Mensagem WhatsApp</label><input type="text" id="p-msg" placeholder="Olá Rafael! Tenho interesse em..."/></div>
+          <input type="hidden" id="p-idx" value="-1"/>
+          <div class="btn-row">
+            <button class="btn-save" onclick="salvarPino()">💾 Salvar pino</button>
+            <button class="btn-d" onclick="fecharFormPino()" style="padding:10px 16px">Cancelar</button>
+          </div>
+        </div>
+
+        <div style="height:1px;background:var(--border);margin:8px 0"></div>
+
+        <!-- SEÇÃO 2: EMPREENDIMENTOS -->
+        <div class="card">
+          <div class="card-title"><span>🏘️</span> Empreendimentos</div>
+          <div id="lista-emprs" style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px"></div>
+          <div class="btn-row">
+            <button class="btn-e" onclick="novoEmpr()">+ Novo empreendimento</button>
+          </div>
+        </div>
+
+        <!-- FORM EMPREENDIMENTO -->
+        <div class="card" id="form-empr" style="display:none">
+          <div class="card-title" id="form-empr-title"><span>✏️</span> Empreendimento</div>
+          <div class="g2">
+            <div class="f"><label>Nome</label><input type="text" id="e-nome"/></div>
+            <div class="f"><label>Bairro / Localidade</label><input type="text" id="e-local"/></div>
+            <div class="f"><label>Latitude</label><input type="number" id="e-lat" step="0.0001" placeholder="-2.455"/></div>
+            <div class="f"><label>Longitude</label><input type="number" id="e-lng" step="0.0001" placeholder="-54.745"/></div>
+            <div class="f"><label>Coordenada em uma linha</label>
+              <input type="text" id="e-coords" placeholder='2°29&apos;32.5"S 54°41&apos;12.4"W' oninput="converterCoordsEmpr(this.value)"/>
+              <span class="f-hint">Cole do Google Maps</span>
+            </div>
+            <div class="f"><label>Emoji / ícone</label><input type="text" id="e-emoji" maxlength="4"/></div>
+            <div class="f"><label>Status</label>
+              <select id="e-status">
+                <option value="lancamento">🔥 Lançamento</option>
+                <option value="disponivel">✅ Disponível</option>
+                <option value="breve">🔜 Em breve</option>
+                <option value="esgotado">⛔ Esgotado</option>
+              </select>
+            </div>
+            <div class="f"><label>Valor mínimo</label><input type="text" id="e-vmin" placeholder="R$ 300"/></div>
+            <div class="f"><label>Valor máximo</label><input type="text" id="e-vmax" placeholder="R$ 800"/></div>
+          </div>
+          <div class="f"><label>Descrição</label><textarea id="e-desc"></textarea></div>
+          <div class="f"><label>Tags (separadas por vírgula)</label><input type="text" id="e-tags" placeholder="Documentado, Zona Urbana"/></div>
+          <div class="f"><label>Link da página</label><input type="text" id="e-link" placeholder="mararu/"/></div>
+          <div class="f"><label>Mensagem WhatsApp</label><input type="text" id="e-wpp"/></div>
+
+          <!-- GALERIA DE FOTOS -->
+          <div class="card-title" style="margin-top:18px"><span>📸</span> Galeria de Fotos</div>
+          <div id="galeria-fotos-preview" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;min-height:80px;background:var(--bg3);border-radius:8px;padding:10px;border:1px dashed var(--border)">
+            <div style="font-size:12px;color:var(--text3);align-self:center">Nenhuma foto adicionada</div>
+          </div>
+          <label class="btn-upload" for="input-empr-fotos" style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;margin-bottom:6px">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Adicionar fotos
+          </label>
+          <input type="file" id="input-empr-fotos" accept="image/*" multiple style="display:none" onchange="adicionarFotosEmpr(this)"/>
+          <div style="font-size:10px;color:var(--text3)">JPG ou PNG · Múltiplas fotos permitidas · Clique na foto para remover</div>
+
+          <input type="hidden" id="e-idx" value="-1"/>
+          <input type="hidden" id="e-fotos" value="[]"/>
+          <div class="btn-row" style="margin-top:16px">
+            <button class="btn-save" onclick="salvarEmpr()">💾 Salvar empreendimento</button>
+            <button class="btn-d" onclick="fecharFormEmpr()" style="padding:10px 16px">Cancelar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ PÁGINA: BACKUP / DRIVE ══════ -->
+      <div class="page" id="page-backup">
+        <div class="page-header">
+          <div class="page-title">Backup & Exportação</div>
+          <div class="page-sub">Salve e restaure os dados do site</div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span>📥</span> Baixar site_data.json</div>
+          <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:20px">
+            Baixe o arquivo de dados do site a qualquer momento. Você pode salvar no <strong style="color:var(--gold)">Google Drive</strong>, pendrive ou enviar por WhatsApp como backup.
+          </p>
+          <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:16px 18px;margin-bottom:20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+            <div style="font-size:28px">📄</div>
+            <div style="flex:1;min-width:140px">
+              <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px">site_data.json</div>
+              <div style="font-size:11px;color:var(--text3)">Todos os dados: pinos, empreendimentos, configurações</div>
+            </div>
+            <button onclick="baixarJSON()" class="btn-save" style="white-space:nowrap">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Baixar agora
+            </button>
+          </div>
+          <div style="background:rgba(96,165,250,0.06);border:1px solid rgba(96,165,250,0.2);border-radius:10px;padding:14px 16px">
+            <div style="font-size:11px;font-weight:600;color:#60a5fa;margin-bottom:8px">📖 Como salvar no Google Drive</div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <div style="display:flex;gap:8px;font-size:12px;color:var(--text2)"><span style="background:#60a5fa;color:#000;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">1</span>Clique em "Baixar agora" — o arquivo vai para sua pasta de Downloads</div>
+              <div style="display:flex;gap:8px;font-size:12px;color:var(--text2)"><span style="background:#60a5fa;color:#000;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">2</span>Acesse <a href="https://drive.google.com/drive/folders/12diLis3VaBsXjiASa6H2N4gv9la70KFb" target="_blank" style="color:#60a5fa">sua pasta no Drive</a> e faça o upload do arquivo baixado</div>
+              <div style="display:flex;gap:8px;font-size:12px;color:var(--text2)"><span style="background:#60a5fa;color:#000;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">3</span>Pronto! O arquivo fica salvo no Drive como backup</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span>📤</span> Restaurar backup</div>
+          <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:16px">Importe um arquivo <code style="background:var(--bg3);border:1px solid var(--border);padding:1px 6px;border-radius:4px;font-size:12px">site_data.json</code> salvo anteriormente para restaurar os dados.</p>
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+            <label class="btn-upload" for="input-restore-json" style="cursor:pointer">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Selecionar arquivo
+            </label>
+            <input type="file" id="input-restore-json" accept=".json" style="display:none" onchange="restaurarJSON(this)"/>
+            <div id="restore-status" style="font-size:12px;color:var(--text3)">Nenhum arquivo selecionado</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span>📍</span> Tamanho dos pinos no mapa</div>
+          <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:16px">
+            Define o tamanho base dos pinos em porcentagem. <strong style="color:var(--gold)">100% = tamanho padrão.</strong>
+          </p>
+          <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:16px">
+            <div style="flex:1;min-width:200px">
+              <label style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);font-weight:500;display:block;margin-bottom:6px">Tamanho — <span id="pin-size-val">100</span>%</label>
+              <input type="range" id="pin-size-range" min="50" max="200" value="100" oninput="document.getElementById('pin-size-val').textContent=this.value;document.getElementById('pin-size-num').value=this.value" style="width:100%;accent-color:var(--gold);height:6px;cursor:pointer"/>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <input type="number" id="pin-size-num" value="100" min="50" max="200" style="width:70px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:9px 10px;font-size:14px;color:var(--text);font-family:inherit;outline:none;-webkit-appearance:none;text-align:center" oninput="var v=Math.min(200,Math.max(50,parseInt(this.value)||100));document.getElementById('pin-size-range').value=v;document.getElementById('pin-size-val').textContent=v"/>
+              <span style="font-size:13px;color:var(--text3)">%</span>
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="btn-save" onclick="salvarPinSize()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg>
+              Salvar tamanho
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ PÁGINA: GRUPO VIP ══════ -->
+      <div class="page" id="page-vip">
+        <div class="page-header">
+          <div class="page-title">Grupo VIP</div>
+          <div class="page-sub">Configure o grupo de WhatsApp VIP exibido no site</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>💬</span> Link do Grupo VIP</div>
+          <div class="f">
+            <label>Link do grupo WhatsApp</label>
+            <input type="text" id="vip-link" placeholder="https://chat.whatsapp.com/..."/>
+            <span class="f-hint">O link aparece no botão "Entrar no Grupo VIP" do site</span>
+          </div>
+          <div class="f">
+            <label>Nome do grupo</label>
+            <input type="text" id="vip-nome" placeholder="Grupo VIP Oficial"/>
+          </div>
+          <div class="f">
+            <label>Descrição curta</label>
+            <textarea id="vip-desc" placeholder="Primeiro acesso aos preços, condições exclusivas e reserva antecipada."></textarea>
+          </div>
+          <div class="btn-row">
+            <button class="btn-save" onclick="salvarVIP()">💾 Salvar grupo VIP</button>
           </div>
         </div>
       </div>
@@ -911,6 +902,8 @@ function carregar(){
   renderPinosAdmin();
   carregarHeader();
   carregarGHConfig();
+  carregarLancamento();
+  carregarVIP();
 }
 
 // ── SALVAR GERAL ──
@@ -1393,8 +1386,14 @@ function fecharFormPino(){
 }
 
 // ── GRUPO VIP ──
-function carregarVIP(){
-  // valores já estão no HTML como defaults
+async function carregarVIP(){
+  var d = await loadSiteData();
+  if(!d || !d.vip) return;
+  var v = d.vip;
+  var el;
+  el = document.getElementById('vip-link'); if(el && v.link) el.value = v.link;
+  el = document.getElementById('vip-nome'); if(el && v.nome) el.value = v.nome;
+  el = document.getElementById('vip-desc'); if(el && v.desc !== undefined) el.value = v.desc;
 }
 
 async function salvarVIP(){
@@ -1650,244 +1649,3 @@ function goPageM(id){
 
 </body>
 </html>
-      <!-- ══════ PÁGINA: IMÓVEIS (Pinos + Empreendimentos) ══════ -->
-      <div class="page" id="page-imoveis">
-        <div class="page-header">
-          <div class="page-title">Pinos & Empreendimentos</div>
-          <div class="page-sub">Gerencie os pinos do mapa e os empreendimentos com fotos</div>
-        </div>
-
-        <!-- SEÇÃO 1: PINOS DO MAPA -->
-        <div class="card">
-          <div class="card-title"><span>📍</span> Pinos no Mapa</div>
-          <div style="font-size:12px;color:var(--text3);margin-bottom:14px;line-height:1.6">
-            Os pinos aparecem no mapa global do site. Clique no mapa para posicionar ou edite X/Y abaixo.
-          </div>
-
-          <!-- MINI MAPA PREVIEW -->
-          <div id="mapa-admin-wrap" style="position:relative;width:100%;padding-bottom:45%;background:#0A0A0A;border-radius:10px;overflow:hidden;border:1px solid var(--border);cursor:crosshair;margin-bottom:14px">
-            <svg viewBox="0 0 800 560" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;width:100%;height:100%">
-              <rect width="800" height="560" fill="#0D0D0D"/>
-              <line x1="0" y1="210" x2="470" y2="210" stroke="#C9A84C" stroke-width="2" opacity=".6"/>
-              <line x1="460" y1="0" x2="460" y2="560" stroke="#C9A84C" stroke-width="2" opacity=".6"/>
-              <line x1="0" y1="120" x2="350" y2="120" stroke="#C9A84C" stroke-width="1" opacity=".3"/>
-              <line x1="0" y1="300" x2="470" y2="300" stroke="#C9A84C" stroke-width="1" opacity=".3"/>
-              <line x1="350" y1="0" x2="350" y2="560" stroke="#C9A84C" stroke-width="1" opacity=".3"/>
-              <g stroke="#C9A84C" stroke-width="0.5" opacity=".15">
-                <line x1="60" y1="0" x2="60" y2="560"/><line x1="120" y1="0" x2="120" y2="560"/>
-                <line x1="170" y1="0" x2="170" y2="560"/><line x1="235" y1="0" x2="235" y2="560"/>
-                <line x1="290" y1="0" x2="290" y2="560"/><line x1="405" y1="0" x2="405" y2="560"/>
-              </g>
-              <path d="M660,0 Q670,150 685,280 Q700,420 720,560 L800,560 L800,0 Z" fill="#050508" opacity=".95"/>
-              <path d="M660,0 Q670,150 685,280 Q700,420 720,560" stroke="#C9A84C" stroke-width="0.8" fill="none" opacity=".2"/>
-              <text x="730" y="280" font-family="sans-serif" font-size="9" fill="#C9A84C" opacity=".25" transform="rotate(90,730,280)" text-anchor="middle">Rio</text>
-              <g id="admin-pinos-preview"></g>
-            </svg>
-            <div style="position:absolute;bottom:6px;left:50%;transform:translateX(-50%);font-size:9px;color:rgba(201,168,76,0.35);white-space:nowrap">Clique para posicionar o pino selecionado</div>
-          </div>
-
-          <div id="pinos-admin-lista" style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px"></div>
-
-          <div class="btn-row">
-            <button class="btn-save" onclick="salvarPinos()">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg>
-              Salvar pinos
-            </button>
-            <button class="btn-restore" onclick="resetarPinos()">↺ Resetar padrão</button>
-          </div>
-        </div>
-
-        <!-- FORM EDITAR PINO -->
-        <div class="card" id="form-pino" style="display:none">
-          <div class="card-title"><span>✏️</span> Editar pino</div>
-          <div class="g2">
-            <div class="f"><label>Nome exibido</label><input type="text" id="p-nome"/></div>
-            <div class="f"><label>Região (popup)</label><input type="text" id="p-regiao"/></div>
-            <div class="f"><label>Lat (Google Maps)</label><input type="number" id="p-lat" step="0.0001" placeholder="-2.455"/></div>
-            <div class="f"><label>Lng (Google Maps)</label><input type="number" id="p-lng" step="0.0001" placeholder="-54.745"/></div>
-            <div class="f"><label>Valor mínimo</label><input type="text" id="p-min" placeholder="R$ 300"/></div>
-            <div class="f"><label>Valor máximo</label><input type="text" id="p-max" placeholder="R$ 800"/></div>
-            <div class="f"><label>Cor</label>
-              <select id="p-cor">
-                <option value="gold">🟡 Dourado</option>
-                <option value="red">🔴 Vermelho (lançamento)</option>
-              </select>
-            </div>
-            <div class="f"><label>Link do empreendimento</label><input type="text" id="p-link" placeholder="mararu/"/></div>
-          </div>
-          <div class="f"><label>Coordenada em uma linha</label>
-            <input type="text" id="p-coords" placeholder='2°29&apos;32.5"S 54°41&apos;12.4"W' oninput="converterCoords(this.value)"/>
-            <span class="f-hint">Cole do Google Maps — preenche lat/lng automaticamente</span>
-          </div>
-          <div class="f"><label>Descrição</label><textarea id="p-desc" placeholder="Descrição da região..."></textarea></div>
-          <div class="f"><label>Mensagem WhatsApp</label><input type="text" id="p-msg" placeholder="Olá Rafael! Tenho interesse em..."/></div>
-          <input type="hidden" id="p-idx" value="-1"/>
-          <div class="btn-row">
-            <button class="btn-save" onclick="salvarPino()">💾 Salvar pino</button>
-            <button class="btn-d" onclick="fecharFormPino()" style="padding:10px 16px">Cancelar</button>
-          </div>
-        </div>
-
-        <!-- ─────────────────────────────── -->
-        <div style="height:1px;background:var(--border);margin:8px 0"></div>
-
-        <!-- SEÇÃO 2: EMPREENDIMENTOS -->
-        <div class="card">
-          <div class="card-title"><span>🏘️</span> Empreendimentos</div>
-          <div id="lista-emprs" style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px"></div>
-          <div class="btn-row">
-            <button class="btn-e" onclick="novoEmpr()">+ Novo empreendimento</button>
-          </div>
-        </div>
-
-        <!-- FORM EMPREENDIMENTO -->
-        <div class="card" id="form-empr" style="display:none">
-          <div class="card-title" id="form-empr-title"><span>✏️</span> Empreendimento</div>
-          <div class="g2">
-            <div class="f"><label>Nome</label><input type="text" id="e-nome"/></div>
-            <div class="f"><label>Bairro / Localidade</label><input type="text" id="e-local"/></div>
-            <div class="f"><label>Latitude</label><input type="number" id="e-lat" step="0.0001" placeholder="-2.455"/></div>
-            <div class="f"><label>Longitude</label><input type="number" id="e-lng" step="0.0001" placeholder="-54.745"/></div>
-            <div class="f"><label>Coordenada em uma linha</label>
-              <input type="text" id="e-coords" placeholder='2°29&apos;32.5"S 54°41&apos;12.4"W' oninput="converterCoordsEmpr(this.value)"/>
-              <span class="f-hint">Cole do Google Maps</span>
-            </div>
-            <div class="f"><label>Emoji / ícone</label><input type="text" id="e-emoji" maxlength="4"/></div>
-            <div class="f"><label>Status</label>
-              <select id="e-status">
-                <option value="lancamento">🔥 Lançamento</option>
-                <option value="disponivel">✅ Disponível</option>
-                <option value="breve">🔜 Em breve</option>
-                <option value="esgotado">⛔ Esgotado</option>
-              </select>
-            </div>
-            <div class="f"><label>Valor mínimo</label><input type="text" id="e-vmin" placeholder="R$ 300"/></div>
-            <div class="f"><label>Valor máximo</label><input type="text" id="e-vmax" placeholder="R$ 800"/></div>
-          </div>
-          <div class="f"><label>Descrição</label><textarea id="e-desc"></textarea></div>
-          <div class="f"><label>Tags (separadas por vírgula)</label><input type="text" id="e-tags" placeholder="Documentado, Zona Urbana"/></div>
-          <div class="f"><label>Link da página</label><input type="text" id="e-link" placeholder="mararu/"/></div>
-          <div class="f"><label>Mensagem WhatsApp</label><input type="text" id="e-wpp"/></div>
-
-          <!-- GALERIA DE FOTOS -->
-          <div class="card-title" style="margin-top:18px"><span>📸</span> Galeria de Fotos</div>
-          <div id="galeria-fotos-preview" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;min-height:80px;background:var(--bg3);border-radius:8px;padding:10px;border:1px dashed var(--border)">
-            <div style="font-size:12px;color:var(--text3);align-self:center">Nenhuma foto adicionada</div>
-          </div>
-          <label class="btn-upload" for="input-empr-fotos" style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;margin-bottom:6px">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            Adicionar fotos
-          </label>
-          <input type="file" id="input-empr-fotos" accept="image/*" multiple style="display:none" onchange="adicionarFotosEmpr(this)"/>
-          <div style="font-size:10px;color:var(--text3)">JPG ou PNG · Múltiplas fotos permitidas · Clique na foto para remover</div>
-
-          <input type="hidden" id="e-idx" value="-1"/>
-          <input type="hidden" id="e-fotos" value="[]"/>
-          <div class="btn-row" style="margin-top:16px">
-            <button class="btn-save" onclick="salvarEmpr()">💾 Salvar empreendimento</button>
-            <button class="btn-d" onclick="fecharFormEmpr()" style="padding:10px 16px">Cancelar</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- ══════ PÁGINA: BACKUP / DRIVE ══════ -->
-      <div class="page" id="page-backup">
-        <div class="page-header">
-          <div class="page-title">Backup & Exportação</div>
-          <div class="page-sub">Salve e restaure os dados do site</div>
-        </div>
-
-        <!-- CARD DOWNLOAD -->
-        <div class="card">
-          <div class="card-title"><span>📥</span> Baixar site_data.json</div>
-          <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:20px">
-            Baixe o arquivo de dados do site a qualquer momento. Você pode salvar no <strong style="color:var(--gold)">Google Drive</strong>, pendrive ou enviar por WhatsApp como backup.
-          </p>
-          <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:16px 18px;margin-bottom:20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-            <div style="font-size:28px">📄</div>
-            <div style="flex:1;min-width:140px">
-              <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px">site_data.json</div>
-              <div style="font-size:11px;color:var(--text3)">Todos os dados: pinos, empreendimentos, configurações</div>
-            </div>
-            <button onclick="baixarJSON()" class="btn-save" style="white-space:nowrap">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              Baixar agora
-            </button>
-          </div>
-          <div style="background:rgba(96,165,250,0.06);border:1px solid rgba(96,165,250,0.2);border-radius:10px;padding:14px 16px">
-            <div style="font-size:11px;font-weight:600;color:#60a5fa;margin-bottom:8px">📖 Como salvar no Google Drive</div>
-            <div style="display:flex;flex-direction:column;gap:6px">
-              <div style="display:flex;gap:8px;font-size:12px;color:var(--text2)"><span style="background:#60a5fa;color:#000;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">1</span>Clique em "Baixar agora" — o arquivo vai para sua pasta de Downloads</div>
-              <div style="display:flex;gap:8px;font-size:12px;color:var(--text2)"><span style="background:#60a5fa;color:#000;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">2</span>Acesse <a href="https://drive.google.com/drive/folders/12diLis3VaBsXjiASa6H2N4gv9la70KFb" target="_blank" style="color:#60a5fa">sua pasta no Drive</a> e faça o upload do arquivo baixado</div>
-              <div style="display:flex;gap:8px;font-size:12px;color:var(--text2)"><span style="background:#60a5fa;color:#000;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">3</span>Pronto! O arquivo fica salvo no Drive como backup</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- CARD RESTAURAR -->
-        <div class="card">
-          <div class="card-title"><span>📤</span> Restaurar backup</div>
-          <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:16px">Importe um arquivo <code style="background:var(--bg3);border:1px solid var(--border);padding:1px 6px;border-radius:4px;font-size:12px">site_data.json</code> salvo anteriormente para restaurar os dados.</p>
-          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-            <label class="btn-upload" for="input-restore-json" style="cursor:pointer">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-              Selecionar arquivo
-            </label>
-            <input type="file" id="input-restore-json" accept=".json" style="display:none" onchange="restaurarJSON(this)"/>
-            <div id="restore-status" style="font-size:12px;color:var(--text3)">Nenhum arquivo selecionado</div>
-          </div>
-        </div>
-
-        <!-- CARD TAMANHO DOS PINOS -->
-        <div class="card">
-          <div class="card-title"><span>📍</span> Tamanho dos pinos no mapa</div>
-          <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:16px">
-            Define o tamanho base dos pinos em porcentagem. <strong style="color:var(--gold)">100% = tamanho padrão.</strong> Este valor é lido pelo rumoamilhao e pelo site automaticamente.
-          </p>
-          <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:16px">
-            <div style="flex:1;min-width:200px">
-              <label style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);font-weight:500;display:block;margin-bottom:6px">Tamanho — <span id="pin-size-val">100</span>%</label>
-              <input type="range" id="pin-size-range" min="50" max="200" value="100" oninput="document.getElementById('pin-size-val').textContent=this.value;document.getElementById('pin-size-num').value=this.value" style="width:100%;accent-color:var(--gold);height:6px;cursor:pointer"/>
-            </div>
-            <div style="display:flex;align-items:center;gap:6px">
-              <input type="number" id="pin-size-num" value="100" min="50" max="200" style="width:70px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:9px 10px;font-size:14px;color:var(--text);font-family:inherit;outline:none;-webkit-appearance:none;text-align:center" oninput="var v=Math.min(200,Math.max(50,parseInt(this.value)||100));document.getElementById('pin-size-range').value=v;document.getElementById('pin-size-val').textContent=v"/>
-              <span style="font-size:13px;color:var(--text3)">%</span>
-            </div>
-          </div>
-          <div class="btn-row">
-            <button class="btn-save" onclick="salvarPinSize()">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg>
-              Salvar tamanho
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- ══════ PÁGINA: GRUPO VIP ══════ -->
-      <div class="page" id="page-vip">
-        <div class="page-header">
-          <div class="page-title">Grupo VIP</div>
-          <div class="page-sub">Configure o grupo de WhatsApp VIP</div>
-        </div>
-        <div class="card">
-          <div class="card-title"><span>💬</span> Link do Grupo VIP</div>
-          <div class="f">
-            <label>Link do grupo WhatsApp</label>
-            <input type="text" id="vip-link" placeholder="https://chat.whatsapp.com/..." value="https://chat.whatsapp.com/Eo6QSIOw7GS6bNWujn5oNu"/>
-            <span class="f-hint">O link aparece no botão "Entrar no Grupo VIP" do site</span>
-          </div>
-          <div class="f">
-            <label>Nome do grupo</label>
-            <input type="text" id="vip-nome" placeholder="Grupo VIP Mararu" value="Grupo VIP Oficial"/>
-          </div>
-          <div class="f">
-            <label>Descrição</label>
-            <textarea id="vip-desc">Primeiro acesso aos preços, condições exclusivas e reserva antecipada.</textarea>
-          </div>
-          <div class="btn-row">
-            <button class="btn-save" onclick="salvarVIP()">💾 Salvar</button>
-          </div>
-        </div>
-      </div>
-
-
