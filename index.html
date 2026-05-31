@@ -846,8 +846,7 @@ function startMap(){
   });
 
   // Tile dourado — CartoDB Positron (fundo claro) + filtro CSS sepia/contraste
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{
-    subdomains:'abcd',
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
     maxZoom:19,
     subdomains:['a','b','c','d']
   }).addTo(map);
