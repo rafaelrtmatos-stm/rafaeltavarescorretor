@@ -846,17 +846,13 @@ function startMap(){
   });
 
   // Tile dourado — CartoDB Positron (fundo claro) + filtro CSS sepia/contraste
-  // Satélite Esri
-  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{
+  // Mapa limpo: ruas pretas, rios, sem satélite (CartoDB Positron)
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/positron/{z}/{x}/{y}{r}.png',{
+    subdomains:'abcd',
     maxZoom:19,
     subdomains:['a','b','c','d']
   }).addTo(map);
 
-  // Labels híbrido (ruas/nomes sobre satélite)
-  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',{
-    maxZoom:19,
-    opacity:0.85
-  }).addTo(map);
 
   // Adicionar pinos e coletar bounds
   var bounds=[];
