@@ -2369,8 +2369,9 @@ document.addEventListener('touchmove',function(e){
       var lblEls  = document.querySelectorAll('.stat-lbl-big');
       st.forEach(function(s, i){
         if(statEls[i]){
-          statEls[i].setAttribute('data-target', s.numero || '');
-          statEls[i].textContent = s.numero || statEls[i].textContent;
+          var n = s.numero || s.num || '';
+          statEls[i].setAttribute('data-target', n);
+          statEls[i].textContent = n || statEls[i].textContent;
         }
         if(lblEls[i]) lblEls[i].textContent = s.label || lblEls[i].textContent;
       });
