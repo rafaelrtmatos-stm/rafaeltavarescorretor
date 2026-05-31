@@ -508,6 +508,14 @@ function salvarTokenModal(){
               <option value="false">❌ Não — ocultar card de destaque</option>
             </select>
           </div>
+          <div class="f">
+            <label>Botão Pré-Reserva</label>
+            <select id="lanc-prereserva">
+              <option value="true">✅ Mostrar botão "Garantir Minha Pré-Reserva"</option>
+              <option value="false">❌ Ocultar botão de pré-reserva</option>
+            </select>
+            <span class="f-hint">Controla o botão dourado no card do Mararu</span>
+          </div>
           <div class="btn-row">
             <button class="btn-save" onclick="salvarLancamento()">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg>
@@ -1427,6 +1435,7 @@ async function carregarLancamento(){
   if(document.getElementById('lanc-desc'))document.getElementById('lanc-desc').value=l.descricao||'';
   if(document.getElementById('lanc-link'))document.getElementById('lanc-link').value=l.link||'mararu/';
   if(document.getElementById('lanc-ativo'))document.getElementById('lanc-ativo').value=l.ativo===false?'false':'true';
+  if(document.getElementById('lanc-prereserva'))document.getElementById('lanc-prereserva').value=l.prereserva===false?'false':'true';
 }
 
 async function salvarLancamento(){
@@ -1436,6 +1445,7 @@ async function salvarLancamento(){
   var dataVal=document.getElementById('lanc-data').value;
   d.lancamento={
     ativo:document.getElementById('lanc-ativo').value!=='false',
+    prereserva:document.getElementById('lanc-prereserva').value!=='false',
     titulo:(document.getElementById('lanc-titulo')||{}).value||'BAIRRO MARARU',
     subtitulo:(document.getElementById('lanc-subtitulo')||{}).value||'Novo Lançamento',
     descricao:(document.getElementById('lanc-desc')||{}).value||'',
