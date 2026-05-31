@@ -25,22 +25,59 @@
     "subtitulo": "Loteamentos selecionados nas melhores regiões para você investir e viver bem."
   },
   "stats": [
-    {"num": 120, "label": "Lotes disponíveis"},
-    {"num": 48, "label": "Lotes vendidos"},
-    {"num": 4, "label": "Empreendimentos"},
-    {"num": 200, "label": "Clientes atendidos"}
+    {
+      "num": 22,
+      "label": "Empreendimentos"
+    },
+    {
+      "num": 1227,
+      "label": "Clientes atendidos"
+    }
   ],
   "beneficios": [
-    {"titulo": "Documentação regularizada", "desc": "Todos os terrenos com matrícula, escritura e documentação 100% em ordem. Compre com total segurança jurídica."},
-    {"titulo": "Parcelamento facilitado", "desc": "Entrada acessível e parcelamento em até 70x. Condições pensadas para caber no seu bolso."},
-    {"titulo": "Localizações estratégicas", "desc": "Empreendimentos nos bairros com maior potencial de crescimento e valorização em Santarém."},
-    {"titulo": "Alta valorização", "desc": "Terrenos em regiões em expansão com valorização constante. Seu investimento crescendo."},
-    {"titulo": "Atendimento personalizado", "desc": "Rafael Tavares acompanha você em cada etapa — da escolha do lote à assinatura do contrato. Transparência total."}
+    {
+      "titulo": "Documentação regularizada",
+      "desc": "Todos os terrenos com matrícula, escritura e documentação 100% em ordem. Compre com total segurança jurídica."
+    },
+    {
+      "titulo": "Parcelamento facilitado",
+      "desc": "Entrada acessível e parcelamento em até 70x. Condições pensadas para caber no seu bolso."
+    },
+    {
+      "titulo": "Localizações estratégicas",
+      "desc": "Empreendimentos nos bairros com maior potencial de crescimento e valorização em Santarém."
+    },
+    {
+      "titulo": "Alta valorização",
+      "desc": "Terrenos em regiões em expansão com valorização constante. Seu investimento crescendo."
+    },
+    {
+      "titulo": "Atendimento personalizado",
+      "desc": "Rafael Tavares acompanha você em cada etapa — da escolha do lote à assinatura do contrato. Transparência total."
+    }
   ],
   "depoimentos": [
-    {"texto": "Atendimento incrível! Rafael me ajudou a escolher o lote ideal e todo o processo foi muito transparente.", "nome": "João Mendes", "cidade": "Santarém, PA", "iniciais": "JM", "cor": "#C9A84C"},
-    {"texto": "Comprei meu terreno no Bom Sossego e não me arrependo! Documentação impecável e preço justo.", "nome": "Ana Silva", "cidade": "Santarém, PA", "iniciais": "AS", "cor": "#40916C"},
-    {"texto": "Profissional sério e dedicado. Cumpriu tudo o que prometeu e ainda me ajudou a fazer o melhor negócio.", "nome": "Pedro Costa", "cidade": "Belém, PA", "iniciais": "PC", "cor": "#60a5fa"}
+    {
+      "texto": "Atendimento incrível! Rafael me ajudou a escolher o lote ideal e todo o processo foi muito transparente.",
+      "nome": "João Mendes",
+      "cidade": "Santarém, PA",
+      "iniciais": "JM",
+      "cor": "#C9A84C"
+    },
+    {
+      "texto": "Comprei meu terreno no Bom Sossego e não me arrependo! Documentação impecável e preço justo.",
+      "nome": "Ana Silva",
+      "cidade": "Santarém, PA",
+      "iniciais": "AS",
+      "cor": "#40916C"
+    },
+    {
+      "texto": "Profissional sério e dedicado. Cumpriu tudo o que prometeu e ainda me ajudou a fazer o melhor negócio.",
+      "nome": "Pedro Costa",
+      "cidade": "Belém, PA",
+      "iniciais": "PC",
+      "cor": "#60a5fa"
+    }
   ],
   "vip": {
     "link": "mararu/",
@@ -112,7 +149,10 @@
       "max": "R$ 2.500",
       "desc": "Paraíso do Tapajós. Alto valor de investimento.",
       "msg": "Olá Rafael! Tenho interesse em Alter do Chão.",
-      "tags": ["Premium", "Turístico"],
+      "tags": [
+        "Premium",
+        "Turístico"
+      ],
       "link": ""
     },
     {
@@ -126,7 +166,10 @@
       "max": "R$ 1.500",
       "desc": "Área ribeirinha privilegiada com vista para o Tapajós.",
       "msg": "Olá Rafael! Tenho interesse em Ponta de Pedras.",
-      "tags": ["Ribeirinho", "Vista Rio"],
+      "tags": [
+        "Ribeirinho",
+        "Vista Rio"
+      ],
       "link": ""
     },
     {
@@ -140,7 +183,10 @@
       "max": "R$ 800",
       "desc": "Bairro em expansão com fácil acesso e alta valorização.",
       "msg": "Olá Rafael! Tenho interesse em Pajuçara.",
-      "tags": ["Disponível", "Zona Urbana"],
+      "tags": [
+        "Disponível",
+        "Zona Urbana"
+      ],
       "link": ""
     },
     {
@@ -154,7 +200,10 @@
       "max": "R$ 900",
       "desc": "Loteamento Bom Sossego com documentação regularizada.",
       "msg": "Olá Rafael! Tenho interesse em Santa Maria.",
-      "tags": ["Disponível", "Documentado"],
+      "tags": [
+        "Disponível",
+        "Documentado"
+      ],
       "link": ""
     },
     {
@@ -168,7 +217,9 @@
       "max": "R$ 1.200",
       "desc": "Região em expansão estratégica com alto potencial.",
       "msg": "Olá Rafael! Tenho interesse em Cucurunã.",
-      "tags": ["Em breve"],
+      "tags": [
+        "Em breve"
+      ],
       "link": ""
     },
     {
@@ -182,7 +233,9 @@
       "max": "—",
       "desc": "Região em desenvolvimento. Entre em contato.",
       "msg": "Olá Rafael! Tenho interesse em Espírito Santo.",
-      "tags": ["Em breve"],
+      "tags": [
+        "Em breve"
+      ],
       "link": ""
     },
     {
@@ -196,7 +249,10 @@
       "max": "R$ 800",
       "desc": "🔥 Lançamento exclusivo! Terrenos residenciais, comerciais e econômicos.",
       "msg": "Olá Rafael! Tenho interesse no Bairro Mararu!",
-      "tags": ["Lançamento", "Documentado"],
+      "tags": [
+        "Lançamento",
+        "Documentado"
+      ],
       "link": "mararu/"
     }
   ],
@@ -212,10 +268,26 @@
     "data_lancamento": "2026-06-06T08:00:00",
     "link": "mararu/",
     "beneficios": [
-      {"icone": "pin", "titulo": "LOCALIZAÇÃO", "sub": "ZONA URBANA"},
-      {"icone": "lock", "titulo": "PARCELAMENTO", "sub": "SEM SPC/SERASA"},
-      {"icone": "shield", "titulo": "INVESTIMENTO", "sub": "SEGURO"},
-      {"icone": "chart", "titulo": "INVESTIMENTO", "sub": "INTELIGENTE"}
+      {
+        "icone": "pin",
+        "titulo": "LOCALIZAÇÃO",
+        "sub": "ZONA URBANA"
+      },
+      {
+        "icone": "lock",
+        "titulo": "PARCELAMENTO",
+        "sub": "SEM SPC/SERASA"
+      },
+      {
+        "icone": "shield",
+        "titulo": "INVESTIMENTO",
+        "sub": "SEGURO"
+      },
+      {
+        "icone": "chart",
+        "titulo": "INVESTIMENTO",
+        "sub": "INTELIGENTE"
+      }
     ]
   }
 }
