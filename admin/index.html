@@ -312,6 +312,11 @@ function salvarTokenModal(){
         <div class="sidebar-title">📊 Site</div>
         <button class="sitem on" onclick="goPage('geral',this)"><span class="icon">🏠</span><span>Geral</span></button>
         <button class="sitem" onclick="goPage('textos',this)"><span class="icon">✏️</span><span>Textos</span></button>
+        <button class="sitem" onclick="goPage('hero',this)"><span class="icon">🌅</span><span>Hero</span></button>
+        <button class="sitem" onclick="goPage('stats',this)"><span class="icon">📊</span><span>Números</span></button>
+        <button class="sitem" onclick="goPage('beneficios',this)"><span class="icon">✅</span><span>Benefícios</span></button>
+        <button class="sitem" onclick="goPage('depoimentos',this)"><span class="icon">💬</span><span>Depoimentos</span></button>
+        <button class="sitem" onclick="goPage('cta',this)"><span class="icon">📢</span><span>CTA</span></button>
         <div class="sidebar-title">🏘️ Imóveis</div>
         <button class="sitem" onclick="goPage('imoveis',this)"><span class="icon">📍</span><span>Pinos & Empreed.</span></button>
         <button class="sitem" onclick="goPage('lancamento',this)"><span class="icon">🎯</span><span>Destaque</span></button>
@@ -759,20 +764,129 @@ function salvarTokenModal(){
         <div class="card">
           <div class="card-title"><span>💬</span> Link do Grupo VIP</div>
           <div class="f">
+            <label>Badge (texto acima do título)</label>
+            <input type="text" id="vip-badge" placeholder="Comunidade Exclusiva"/>
+          </div>
+          <div class="f">
             <label>Link do grupo WhatsApp</label>
             <input type="text" id="vip-link" placeholder="https://chat.whatsapp.com/..."/>
             <span class="f-hint">O link aparece no botão "Entrar no Grupo VIP" do site</span>
           </div>
           <div class="f">
-            <label>Nome do grupo</label>
+            <label>Nome do grupo (título)</label>
             <input type="text" id="vip-nome" placeholder="Grupo VIP Oficial"/>
           </div>
           <div class="f">
             <label>Descrição curta</label>
             <textarea id="vip-desc" placeholder="Primeiro acesso aos preços, condições exclusivas e reserva antecipada."></textarea>
           </div>
+          <div class="f">
+            <label>Benefícios do grupo (um por linha)</label>
+            <textarea id="vip-itens" rows="6" placeholder="Primeiro acesso a novos lançamentos&#10;Condições exclusivas para membros&#10;Suporte prioritário"></textarea>
+            <span class="f-hint">Cada linha vira um item com ✓ na lista do site</span>
+          </div>
           <div class="btn-row">
             <button class="btn-save" onclick="salvarVIP()">💾 Salvar grupo VIP</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ PÁGINA: HERO ══════ -->
+      <div class="page" id="page-hero">
+        <div class="page-header">
+          <div class="page-title">Hero — Início</div>
+          <div class="page-sub">Textos da seção principal (primeiro bloco do site)</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>🌅</span> Textos do Hero</div>
+          <div class="f">
+            <label>Badge (etiqueta dourada acima do título)</label>
+            <input type="text" id="h-badge" placeholder="Corretor de Imóveis · Santarém PA"/>
+          </div>
+          <div class="f">
+            <label>Título principal (use \n para quebrar linha)</label>
+            <textarea id="h-titulo" rows="3" placeholder="Realize seu\nSonho Imobiliário"></textarea>
+            <span class="f-hint">Use \n para quebrar linha. HTML &lt;em&gt; aceito para itálico dourado.</span>
+          </div>
+          <div class="f">
+            <label>Subtítulo / descrição</label>
+            <textarea id="h-subtitulo" rows="3" placeholder="Especialista em loteamentos e terrenos em Santarém..."></textarea>
+          </div>
+          <div class="f">
+            <label>Assinatura (frase em itálico no hero)</label>
+            <input type="text" id="h-assinatura" placeholder="Tudo justo e perfeito…"/>
+            <span class="f-hint">Aparece também no final da seção CTA</span>
+          </div>
+          <div class="btn-row">
+            <button class="btn-save" onclick="salvarHero()">💾 Salvar hero</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ PÁGINA: NÚMEROS / STATS ══════ -->
+      <div class="page" id="page-stats">
+        <div class="page-header">
+          <div class="page-title">Números & Estatísticas</div>
+          <div class="page-sub">Contadores exibidos na seção de destaque do hero</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>📊</span> 4 contadores</div>
+          <div id="stats-editor"></div>
+          <div class="btn-row" style="margin-top:16px">
+            <button class="btn-save" onclick="salvarStats()">💾 Salvar números</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ PÁGINA: BENEFÍCIOS ══════ -->
+      <div class="page" id="page-beneficios">
+        <div class="page-header">
+          <div class="page-title">Benefícios</div>
+          <div class="page-sub">Cards de benefícios exibidos abaixo do hero</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>✅</span> Cards de benefícios</div>
+          <div id="ben-editor"></div>
+          <div class="btn-row" style="margin-top:16px">
+            <button class="btn-save" onclick="salvarBeneficios()">💾 Salvar benefícios</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ PÁGINA: DEPOIMENTOS ══════ -->
+      <div class="page" id="page-depoimentos">
+        <div class="page-header">
+          <div class="page-title">Depoimentos</div>
+          <div class="page-sub">Avaliações de clientes exibidas no site</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>💬</span> Depoimentos de clientes</div>
+          <div id="dep-editor"></div>
+          <div class="btn-row" style="margin-top:8px">
+            <button class="btn-save" onclick="novoDep()">+ Novo depoimento</button>
+            <button class="btn-save" onclick="salvarDep()" style="background:var(--gold)">💾 Salvar depoimentos</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ PÁGINA: CTA ══════ -->
+      <div class="page" id="page-cta">
+        <div class="page-header">
+          <div class="page-title">CTA — Chamada Final</div>
+          <div class="page-sub">Seção de chamada para ação antes do rodapé</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>📢</span> Textos do CTA</div>
+          <div class="f">
+            <label>Título (HTML aceito para &lt;em&gt; itálico dourado)</label>
+            <textarea id="cta-titulo-inp" rows="3" placeholder="Vamos encontrar o empreendimento &lt;em&gt;ideal para você&lt;/em&gt;"></textarea>
+          </div>
+          <div class="f">
+            <label>Descrição / subtítulo</label>
+            <textarea id="cta-desc-inp" rows="3" placeholder="Atendimento personalizado, transparência total..."></textarea>
+          </div>
+          <div class="btn-row">
+            <button class="btn-save" onclick="salvarCTA()">💾 Salvar CTA</button>
           </div>
         </div>
       </div>
@@ -885,8 +999,14 @@ function goPage(id,el){
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('on');});
   document.querySelectorAll('.sitem').forEach(function(b){b.classList.remove('on');});
   document.getElementById('page-'+id).classList.add('on');
-  el.classList.add('on');
+  if(el) el.classList.add('on');
   if(id==='backup'){carregarPinSize();}
+  if(id==='hero'){carregarHero();}
+  if(id==='stats'){carregarStats();}
+  if(id==='beneficios'){carregarBeneficios();}
+  if(id==='depoimentos'){carregarDepoimentos();}
+  if(id==='cta'){carregarCTA();}
+  if(id==='vip'){carregarVIP();}
 }
 
 // ── CARREGAR ──
@@ -1399,21 +1519,193 @@ async function carregarVIP(){
   if(!d || !d.vip) return;
   var v = d.vip;
   var el;
-  el = document.getElementById('vip-link'); if(el && v.link) el.value = v.link;
-  el = document.getElementById('vip-nome'); if(el && v.nome) el.value = v.nome;
-  el = document.getElementById('vip-desc'); if(el && v.desc !== undefined) el.value = v.desc;
+  el = document.getElementById('vip-badge'); if(el) el.value = v.badge||'';
+  el = document.getElementById('vip-link');  if(el) el.value = v.link||'';
+  el = document.getElementById('vip-nome');  if(el) el.value = v.nome||'';
+  el = document.getElementById('vip-desc');  if(el) el.value = v.desc||'';
+  el = document.getElementById('vip-itens'); if(el) el.value = (v.itens||[]).join('\n');
 }
 
 async function salvarVIP(){
   var d = await loadSiteData() || {};
+  var itensRaw = (document.getElementById('vip-itens')||{}).value || '';
   d.vip = {
-    link: document.getElementById('vip-link').value,
-    nome: document.getElementById('vip-nome').value,
-    desc: document.getElementById('vip-desc').value
+    badge: document.getElementById('vip-badge').value,
+    link:  document.getElementById('vip-link').value,
+    nome:  document.getElementById('vip-nome').value,
+    desc:  document.getElementById('vip-desc').value,
+    itens: itensRaw.split('\n').map(function(s){return s.trim();}).filter(Boolean)
   };
-  // Atualizar link no site
   var ok = await saveSiteData(d);
   if(ok) toast('✅ Grupo VIP salvo!', 'ok');
+}
+
+// ── HERO ──
+async function carregarHero(){
+  var d = await loadSiteData();
+  if(!d) return;
+  var h = d.hero || {};
+  var el;
+  el = document.getElementById('h-badge');     if(el) el.value = h.badge||'';
+  el = document.getElementById('h-titulo');    if(el) el.value = h.titulo||'';
+  el = document.getElementById('h-subtitulo'); if(el) el.value = h.subtitulo||'';
+  el = document.getElementById('h-assinatura');if(el) el.value = (d.textos&&d.textos.assinatura)||'';
+}
+async function salvarHero(){
+  var btn=event.target; btn.textContent='⏳ Salvando...'; btn.disabled=true;
+  var d = await loadSiteData() || {};
+  d.hero = d.hero || {};
+  d.hero.badge     = (document.getElementById('h-badge')||{}).value||'';
+  d.hero.titulo    = (document.getElementById('h-titulo')||{}).value||'';
+  d.hero.subtitulo = (document.getElementById('h-subtitulo')||{}).value||'';
+  d.textos = d.textos || {};
+  d.textos.assinatura = (document.getElementById('h-assinatura')||{}).value||'';
+  var ok = await saveSiteData(d);
+  btn.textContent='💾 Salvar hero'; btn.disabled=false;
+  if(ok) toast('✅ Hero salvo!','ok');
+}
+
+// ── STATS ──
+var _statsData = [];
+async function carregarStats(){
+  var d = await loadSiteData();
+  _statsData = (d && d.stats) ? JSON.parse(JSON.stringify(d.stats)) : [
+    {numero:'150+',label:'Famílias Atendidas'},
+    {numero:'8+',label:'Anos de Experiência'},
+    {numero:'200+',label:'Lotes Negociados'},
+    {numero:'98%',label:'Satisfação dos Clientes'}
+  ];
+  renderStatsEditor();
+}
+function renderStatsEditor(){
+  var c = document.getElementById('stats-editor');
+  if(!c) return;
+  c.innerHTML = _statsData.map(function(s,i){
+    return '<div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px">'
+      +'<div style="font-size:10px;letter-spacing:1px;color:var(--text3);text-transform:uppercase;margin-bottom:10px">Contador '+(i+1)+'</div>'
+      +'<div class="g2">'
+      +'<div class="f"><label>Número</label><input type="text" id="st-num-'+i+'" value="'+s.numero+'" placeholder="150+"/></div>'
+      +'<div class="f"><label>Label</label><input type="text" id="st-lbl-'+i+'" value="'+s.label+'" placeholder="Famílias Atendidas"/></div>'
+      +'</div></div>';
+  }).join('');
+}
+async function salvarStats(){
+  var btn=event.target; btn.textContent='⏳ Salvando...'; btn.disabled=true;
+  var d = await loadSiteData() || {};
+  d.stats = _statsData.map(function(s,i){
+    return {
+      numero: (document.getElementById('st-num-'+i)||{}).value || s.numero,
+      label:  (document.getElementById('st-lbl-'+i)||{}).value || s.label
+    };
+  });
+  var ok = await saveSiteData(d);
+  btn.textContent='💾 Salvar números'; btn.disabled=false;
+  if(ok) toast('✅ Números salvos!','ok');
+}
+
+// ── BENEFÍCIOS ──
+var _bensData = [];
+async function carregarBeneficios(){
+  var d = await loadSiteData();
+  _bensData = (d && d.beneficios) ? JSON.parse(JSON.stringify(d.beneficios)) : [];
+  renderBenEditor();
+}
+function renderBenEditor(){
+  var c = document.getElementById('ben-editor');
+  if(!c) return;
+  c.innerHTML = _bensData.map(function(b,i){
+    return '<div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px">'
+      +'<div style="font-size:10px;letter-spacing:1px;color:var(--text3);text-transform:uppercase;margin-bottom:10px">Card '+(i+1)+'</div>'
+      +'<div class="g2">'
+      +'<div class="f"><label>Ícone (emoji)</label><input type="text" id="ben-ico-'+i+'" value="'+b.icone+'" placeholder="🏡"/></div>'
+      +'<div class="f"><label>Título</label><input type="text" id="ben-tit-'+i+'" value="'+b.titulo+'" placeholder="Título"/></div>'
+      +'</div>'
+      +'<div class="f"><label>Descrição</label><textarea id="ben-desc-'+i+'" rows="2">'+b.desc+'</textarea></div>'
+      +'</div>';
+  }).join('');
+}
+async function salvarBeneficios(){
+  var btn=event.target; btn.textContent='⏳ Salvando...'; btn.disabled=true;
+  var d = await loadSiteData() || {};
+  d.beneficios = _bensData.map(function(b,i){
+    return {
+      icone:  (document.getElementById('ben-ico-'+i)||{}).value  || b.icone,
+      titulo: (document.getElementById('ben-tit-'+i)||{}).value  || b.titulo,
+      desc:   (document.getElementById('ben-desc-'+i)||{}).value || b.desc
+    };
+  });
+  var ok = await saveSiteData(d);
+  btn.textContent='💾 Salvar benefícios'; btn.disabled=false;
+  if(ok) toast('✅ Benefícios salvos!','ok');
+}
+
+// ── DEPOIMENTOS ──
+var _depsData = [];
+async function carregarDepoimentos(){
+  var d = await loadSiteData();
+  _depsData = (d && d.depoimentos) ? JSON.parse(JSON.stringify(d.depoimentos)) : [];
+  renderDepEditor();
+}
+function renderDepEditor(){
+  var c = document.getElementById('dep-editor');
+  if(!c) return;
+  c.innerHTML = _depsData.map(function(dep,i){
+    return '<div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px">'
+      +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">'
+      +'<div style="font-size:10px;letter-spacing:1px;color:var(--text3);text-transform:uppercase">Depoimento '+(i+1)+'</div>'
+      +'<button onclick="excluirDep('+i+')" class="btn-d" style="padding:4px 10px;font-size:11px">✕ Remover</button>'
+      +'</div>'
+      +'<div class="g2">'
+      +'<div class="f"><label>Nome</label><input type="text" id="dep-nome-'+i+'" value="'+dep.nome+'" placeholder="João Silva"/></div>'
+      +'<div class="f"><label>Cargo / Cidade</label><input type="text" id="dep-cargo-'+i+'" value="'+dep.cargo+'" placeholder="Cliente · Santarém PA"/></div>'
+      +'</div>'
+      +'<div class="f"><label>Depoimento</label><textarea id="dep-txt-'+i+'" rows="3">'+dep.texto+'</textarea></div>'
+      +'</div>';
+  }).join('');
+}
+function novoDep(){
+  _depsData.push({nome:'',cargo:'',texto:''});
+  renderDepEditor();
+  document.getElementById('dep-editor').lastElementChild.scrollIntoView({behavior:'smooth'});
+}
+function excluirDep(i){
+  _depsData.splice(i,1);
+  renderDepEditor();
+}
+async function salvarDep(){
+  var btn=event.target; btn.textContent='⏳ Salvando...'; btn.disabled=true;
+  var d = await loadSiteData() || {};
+  d.depoimentos = _depsData.map(function(dep,i){
+    return {
+      nome:  (document.getElementById('dep-nome-'+i)||{}).value  || dep.nome,
+      cargo: (document.getElementById('dep-cargo-'+i)||{}).value || dep.cargo,
+      texto: (document.getElementById('dep-txt-'+i)||{}).value   || dep.texto
+    };
+  });
+  var ok = await saveSiteData(d);
+  btn.textContent='💾 Salvar depoimentos'; btn.disabled=false;
+  if(ok) toast('✅ Depoimentos salvos!','ok');
+}
+
+// ── CTA ──
+async function carregarCTA(){
+  var d = await loadSiteData();
+  if(!d) return;
+  var ct = d.cta || {};
+  var el;
+  el = document.getElementById('cta-titulo-inp'); if(el) el.value = ct.titulo||'';
+  el = document.getElementById('cta-desc-inp');   if(el) el.value = ct.desc||'';
+}
+async function salvarCTA(){
+  var btn=event.target; btn.textContent='⏳ Salvando...'; btn.disabled=true;
+  var d = await loadSiteData() || {};
+  d.cta = {
+    titulo: (document.getElementById('cta-titulo-inp')||{}).value||'',
+    desc:   (document.getElementById('cta-desc-inp')||{}).value||''
+  };
+  var ok = await saveSiteData(d);
+  btn.textContent='💾 Salvar CTA'; btn.disabled=false;
+  if(ok) toast('✅ CTA salvo!','ok');
 }
 
 // Registrar aba imoveis no goPage
@@ -1587,6 +1879,11 @@ document.addEventListener('DOMContentLoaded',function(){
     <div class="adm-nav-title">📊 Site</div>
     <button class="adm-si" onclick="goPageM('geral')"><span class="adm-ic">🏠</span>Geral</button>
     <button class="adm-si" onclick="goPageM('textos')"><span class="adm-ic">✏️</span>Textos</button>
+    <button class="adm-si" onclick="goPageM('hero')"><span class="adm-ic">🌅</span>Hero</button>
+    <button class="adm-si" onclick="goPageM('stats')"><span class="adm-ic">📊</span>Números</button>
+    <button class="adm-si" onclick="goPageM('beneficios')"><span class="adm-ic">✅</span>Benefícios</button>
+    <button class="adm-si" onclick="goPageM('depoimentos')"><span class="adm-ic">💬</span>Depoimentos</button>
+    <button class="adm-si" onclick="goPageM('cta')"><span class="adm-ic">📢</span>CTA</button>
     <div class="adm-nav-divider"></div>
     <div class="adm-nav-title">🏘️ Imóveis</div>
     <button class="adm-si" onclick="goPageM('imoveis')"><span class="adm-ic">📍</span>Pinos & Empreendimentos</button>
