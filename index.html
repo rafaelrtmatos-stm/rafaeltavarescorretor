@@ -836,6 +836,11 @@ function fecharModal(){
   document.getElementById('mapa-modal').style.display='none';
   document.body.style.overflow='';
 }
+function irParaRegiao(id){
+  fecharModal();
+  var el=document.getElementById(id);
+  if(el){setTimeout(function(){el.scrollIntoView({behavior:'smooth',block:'center'});el.style.transition='box-shadow .4s';el.style.boxShadow='0 0 0 2px #C9A84C';setTimeout(function(){el.style.boxShadow='';},1500);},300);}
+}
 document.getElementById('mapa-modal').addEventListener('click',function(e){if(e.target===this)fecharModal();});
 
 var _mapStarted=false;
@@ -1299,7 +1304,7 @@ function startMap(){
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
 
       <!-- MARARU — mesmo padrão, contorno pulsante -->
-      <div class="regiao-card regiao-mararu" onclick="window.location.href='mararu/'" style="cursor:pointer;animation:borderPulse 2s ease-in-out infinite">
+      <div class="regiao-card regiao-mararu" id="regiao-mararu" onclick="abrirCatalogo('mararu')" style="cursor:pointer;animation:borderPulse 2s ease-in-out infinite">
         <div style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;margin-bottom:10px">
           <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="4" y="16" width="11" height="17" rx="1.2" stroke="#f87171" stroke-width="1.4" fill="rgba(248,113,113,0.08)"/>
@@ -1321,11 +1326,10 @@ function startMap(){
         <div class="rc-sub">Novo Lançamento · Santarém</div>
         <div class="rc-desc">Lotes residenciais, comerciais e econômicos. Documentação regularizada e condições especiais.</div>
         <div class="rc-empr-count">🔥 Pré-lançamento</div>
-        <div class="rc-price-sm">A partir de <strong style="color:#f87171">R$ 300</strong></div>
-      </div>
+        </div>
 
       <!-- PAJUÇARA -->
-      <div class="regiao-card" onclick="window.location.href='#empreendimentos'" style="cursor:pointer">
+      <div class="regiao-card" id="regiao-pajucara" onclick="abrirCatalogo('pajucara')" style="cursor:pointer">
         <div style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;margin-bottom:10px">
   <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect x="4" y="16" width="11" height="17" rx="1.2" stroke="#C9A84C" stroke-width="1.4" fill="rgba(201,168,76,0.08)"/>
@@ -1344,11 +1348,11 @@ function startMap(){
         <div class="rc-sub">Zona Urbana</div>
         <div class="rc-desc">Bairro em plena expansão com fácil acesso e alta valorização. Área residencial consolidada.</div>
         <div class="rc-empr-count">1 empreendimento</div>
-        <div class="rc-price-sm">A partir de <strong style="color:var(--gold)">R$ 300</strong></div>
+        
       </div>
 
       <!-- SANTA MARIA -->
-      <div class="regiao-card" onclick="window.location.href='#empreendimentos'" style="cursor:pointer">
+      <div class="regiao-card" id="regiao-santa-maria" onclick="abrirCatalogo('santa-maria')" style="cursor:pointer">
         <div style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;margin-bottom:10px">
   <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M18 32 Q18 22 10 16 Q6 13 4 6 Q12 6 18 12 Q24 6 32 6 Q30 13 26 16 Q18 22 18 32Z" stroke="#C9A84C" stroke-width="1.4" fill="rgba(201,168,76,0.1)" stroke-linejoin="round"/>
@@ -1363,11 +1367,11 @@ function startMap(){
         <div class="rc-sub">Zona Sul</div>
         <div class="rc-desc">Tranquila e estruturada. Loteamento Bom Sossego com documentação completa.</div>
         <div class="rc-empr-count">1 empreendimento</div>
-        <div class="rc-price-sm">A partir de <strong style="color:var(--gold)">R$ 350</strong></div>
+        
       </div>
 
       <!-- CUCURUNÃ -->
-      <div class="regiao-card" onclick="window.location.href='#empreendimentos'" style="cursor:pointer">
+      <div class="regiao-card" id="regiao-cucuruna" onclick="abrirCatalogo('cucuruna')" style="cursor:pointer">
         <div style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;margin-bottom:10px">
   <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect x="4" y="18" width="9" height="13" rx="1" stroke="#C9A84C" stroke-width="1.4" fill="rgba(201,168,76,0.08)"/>
@@ -1387,7 +1391,7 @@ function startMap(){
       </div>
 
       <!-- PONTA DE PEDRAS -->
-      <div class="regiao-card" onclick="window.location.href='#empreendimentos'" style="cursor:pointer">
+      <div class="regiao-card" id="regiao-ponta-pedras" onclick="abrirCatalogo('ponta-pedras')" style="cursor:pointer">
         <div style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;margin-bottom:10px">
   <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M6 22 L10 14 L26 14 L30 22 Z" stroke="#C9A84C" stroke-width="1.4" fill="rgba(201,168,76,0.1)" stroke-linejoin="round"/>
@@ -1406,7 +1410,7 @@ function startMap(){
       </div>
 
       <!-- ALTER DO CHÃO -->
-      <div class="regiao-card" onclick="window.location.href='#empreendimentos'" style="cursor:pointer">
+      <div class="regiao-card" id="regiao-alter" onclick="abrirCatalogo('alter')" style="cursor:pointer">
         <div style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;margin-bottom:10px">
   <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
     <line x1="16" y1="32" x2="20" y2="10" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
@@ -2439,5 +2443,105 @@ document.addEventListener('touchmove',function(e){
     }).catch(function(){});
 })();
 </script>
+
+<!-- MODAL CATÁLOGO REGIÃO -->
+<div id="modal-catalogo" style="display:none;position:fixed;inset:0;z-index:999;align-items:flex-start;justify-content:center;padding:20px;background:rgba(0,0,0,0.92);backdrop-filter:blur(10px);overflow-y:auto">
+  <div style="background:#0A0A0A;border:1px solid rgba(201,168,76,0.2);border-radius:18px;width:100%;max-width:520px;margin:20px auto;overflow:hidden">
+    <!-- Header -->
+    <div style="padding:20px 22px 16px;border-bottom:1px solid rgba(201,168,76,0.1);display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <div id="cat-badge" style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#C9A84C;margin-bottom:4px"></div>
+        <div id="cat-nome" style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:#F2EDE4"></div>
+      </div>
+      <button onclick="fecharCatalogo()" style="background:rgba(255,255,255,0.06);border:none;color:rgba(242,237,228,0.5);width:34px;height:34px;border-radius:50%;font-size:18px;cursor:pointer;flex-shrink:0">×</button>
+    </div>
+    <!-- Fotos -->
+    <div id="cat-fotos" style="display:none;overflow-x:auto;padding:16px 16px 0;gap:8px;display:flex"></div>
+    <!-- Info lotes -->
+    <div style="padding:16px 22px">
+      <div id="cat-desc" style="font-size:13px;color:rgba(242,237,228,0.7);line-height:1.8;margin-bottom:16px"></div>
+      <div id="cat-lotes-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px"></div>
+    </div>
+    <!-- CTA -->
+    <div style="padding:0 22px 22px;display:flex;flex-direction:column;gap:10px">
+      <a id="cat-btn-reserva" href="#" style="display:flex;align-items:center;justify-content:center;gap:8px;background:#C9A84C;color:#000;padding:14px;border-radius:11px;font-size:13px;font-weight:700;text-decoration:none;font-family:inherit">
+        🔥 Quero garantir meu lote
+      </a>
+      <a id="cat-btn-wpp" href="#" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.3);color:#25d366;padding:12px;border-radius:11px;font-size:13px;font-weight:600;text-decoration:none;font-family:inherit">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#25d366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Falar com Rafael Tavares
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+var _catalogos = {
+  'mararu': {
+    nome:'Bairro Mararu',badge:'🔥 Lançamento',
+    desc:'Novo lançamento em Santarém. Lotes residenciais, comerciais e econômicos com documentação regularizada. Localização estratégica com fácil acesso e alta valorização.',
+    lotes:[{label:'Tamanho',val:'200m² a 360m²'},{label:'Tipo',val:'Residencial / Comercial'},{label:'Documentação',val:'Regularizada'},{label:'Situação',val:'Pré-lançamento'}],
+    reserva:'mararu/reserva/',wpp:'Olá Rafael! Tenho interesse nos lotes do Bairro Mararu.'
+  },
+  'pajucara': {
+    nome:'Pajuçara',badge:'Zona Urbana',
+    desc:'Bairro em plena expansão com fácil acesso e alta valorização. Área residencial consolidada com toda infraestrutura urbana disponível.',
+    lotes:[{label:'Tipo',val:'Residencial'},{label:'Região',val:'Zona Urbana'},{label:'Situação',val:'Disponível'}],
+    wpp:'Olá Rafael! Tenho interesse em lotes na região de Pajuçara em Santarém.'
+  },
+  'santa-maria': {
+    nome:'Santa Maria',badge:'Zona Sul',
+    desc:'Tranquila e estruturada. Loteamento Bom Sossego com documentação completa. Ideal para quem busca qualidade de vida e tranquilidade.',
+    lotes:[{label:'Empreendimento',val:'Bom Sossego'},{label:'Tipo',val:'Residencial'},{label:'Documentação',val:'Completa'},{label:'Situação',val:'Disponível'}],
+    wpp:'Olá Rafael! Tenho interesse nos lotes da região de Santa Maria / Bom Sossego.'
+  },
+  'cucuruna': {
+    nome:'Cucurunã',badge:'Zona Norte',
+    desc:'Região em expansão estratégica. Novos loteamentos com alto potencial de valorização.',
+    lotes:[{label:'Tipo',val:'Residencial'},{label:'Região',val:'Zona Norte'},{label:'Situação',val:'Em breve'}],
+    wpp:'Olá Rafael! Tenho interesse em lotes na região de Cucurunã.'
+  },
+  'ponta-pedras': {
+    nome:'Ponta de Pedras',badge:'Zona Ribeirinha',
+    desc:'Acesso ao rio Tapajós. Área privilegiada com vista panorâmica e alto potencial turístico. Uma das regiões mais valorizadas de Santarém.',
+    lotes:[{label:'Tipo',val:'Residencial / Turístico'},{label:'Diferencial',val:'Vista rio Tapajós'},{label:'Situação',val:'Em breve'}],
+    wpp:'Olá Rafael! Tenho interesse em lotes na região de Ponta de Pedras.'
+  },
+  'alter': {
+    nome:'Alter do Chão',badge:'Premium · Paraíso do Tapajós',
+    desc:'O destino turístico mais famoso do Pará. Terrenos de alto valor em região paradisíaca com potencial de valorização único.',
+    lotes:[{label:'Tipo',val:'Residencial / Turístico'},{label:'Diferencial',val:'Alter do Chão'},{label:'Situação',val:'Em breve'}],
+    wpp:'Olá Rafael! Tenho interesse em terrenos na região de Alter do Chão.'
+  }
+};
+
+function abrirCatalogo(id){
+  var c=_catalogos[id];
+  if(!c)return;
+  document.getElementById('cat-nome').textContent=c.nome;
+  document.getElementById('cat-badge').textContent=c.badge;
+  document.getElementById('cat-desc').textContent=c.desc;
+  var grid=document.getElementById('cat-lotes-grid');
+  grid.innerHTML=c.lotes.map(function(l){
+    return '<div style="background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.12);border-radius:8px;padding:10px 12px">'
+      +'<div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(242,237,228,0.3);margin-bottom:3px">'+l.label+'</div>'
+      +'<div style="font-size:13px;font-weight:600;color:#F2EDE4">'+l.val+'</div>'
+      +'</div>';
+  }).join('');
+  var btnRes=document.getElementById('cat-btn-reserva');
+  if(c.reserva){btnRes.href=c.reserva;btnRes.style.display='flex';}
+  else{btnRes.style.display='none';}
+  document.getElementById('cat-btn-wpp').href='https://wa.me/5593992332012?text='+encodeURIComponent(c.wpp);
+  var modal=document.getElementById('modal-catalogo');
+  modal.style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function fecharCatalogo(){
+  document.getElementById('modal-catalogo').style.display='none';
+  document.body.style.overflow='';
+}
+document.getElementById('modal-catalogo').addEventListener('click',function(e){if(e.target===this)fecharCatalogo();});
+</script>
+
 </body>
 </html>
