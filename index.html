@@ -864,8 +864,13 @@ function startMap(){
   _pinosDefault.forEach(function(p){
     var cor=p.cor;
     var isRed=cor==='#f87171';
-    var base=isRed?36:30;
-    var sz=Math.round(base*_pinScale);
+    // Tamanho responsivo: 2.5% da largura do container do mapa
+    var mapaEl=document.getElementById('mapa-leaflet')||document.getElementById('map');
+    var containerW=mapaEl?mapaEl.offsetWidth:window.innerWidth;
+    var pct=_pinScale*0.025; // 2.5% da largura
+    var base=Math.round(containerW*pct);
+    base=Math.max(isRed?28:22,Math.min(isRed?52:42,base)); // min/max para não distorcer
+    var sz=base;
     var pinoHtml='<div style="display:flex;flex-direction:column;align-items:center;cursor:pointer;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.7))">'
       +'<svg width="'+sz+'" height="'+(sz*1.3)+'" viewBox="0 0 36 46" fill="none" xmlns="http://www.w3.org/2000/svg">'
       +'<defs>'
@@ -881,7 +886,7 @@ function startMap(){
       +'</svg>'
       +'<div style="background:linear-gradient(135deg,rgba(8,8,8,0.97),rgba(20,16,8,0.97));border:1px solid '+(isRed?'rgba(248,113,113,0.6)':'rgba(201,168,76,0.55)')+';color:'+(isRed?'#f87171':'#E8C96A')+';font-size:9.5px;font-weight:700;padding:3px 10px;border-radius:5px;white-space:nowrap;margin-top:2px;letter-spacing:.6px;text-transform:uppercase;box-shadow:0 2px 8px rgba(0,0,0,0.5)">'+p.nome+'</div>'
       +'</div>';
-    var icon=L.divIcon({className:'',html:pinoHtml,iconSize:[120,60],iconAnchor:[60,46]});
+    var icon=L.divIcon({className:'',html:pinoHtml,iconSize:[sz*3,Math.round(sz*1.8)],iconAnchor:[Math.round(sz*1.5),Math.round(sz*1.4)]});
     var marker=L.marker([p.lat,p.lng],{icon:icon});
     marker.on('click',function(){abrirModal(p);});
     marker.addTo(map);
