@@ -1,0 +1,215 @@
+{
+  "config": {
+    "empresa": "Geoflorestal Imobiliária",
+    "nome": "Rafael Tavares",
+    "creci": "13919",
+    "cidade": "Santarém",
+    "estado": "PA",
+    "endereco": "Santarém, Pará",
+    "tel": "",
+    "wpp": "5593992332012",
+    "email": "rafaelrtmatos@gmail.com",
+    "ig": "rafaeltavarescorretorstm",
+    "fb": "rafaeltavarescorretorstm",
+    "li": "rafaeltavarescorretorstm",
+    "badge": "Santarém · Pará · Brasil",
+    "desc": "Terrenos e loteamentos com documentação regularizada nos melhores bairros de Santarém — PA.",
+    "s1": "Sou Rafael Tavares, corretor de imóveis com CRECI 13919, especializado em terrenos e loteamentos em Santarém — PA.",
+    "s2": "Trabalho com os melhores empreendimentos da região, conectando famílias e investidores a terrenos com segurança jurídica.",
+    "contato": "Vamos encontrar seu imóvel ideal",
+    "assinatura": "tudo justo e perfeito…"
+  },
+  "empreendimentos": [
+    {
+      "nome": "Bairro Mararu",
+      "local": "Mararu",
+      "emoji": "🏡",
+      "status": "lancamento",
+      "desc": "Novo lançamento com terrenos residenciais, comerciais e econômicos.",
+      "tags": "🏡 Lote Padrão,🏪 Esquina Comercial,💰 Econômico",
+      "link": "mararu/",
+      "wppMsg": ""
+    },
+    {
+      "nome": "Bom Sossego",
+      "local": "Santa Maria",
+      "emoji": "🌿",
+      "status": "disponivel",
+      "desc": "Loteamento em Santa Maria com terrenos documentados.",
+      "tags": "📍 Santa Maria,Documentado",
+      "link": "",
+      "wppMsg": "Olá Rafael! Tenho interesse no Bom Sossego."
+    },
+    {
+      "nome": "Céu Azul 1",
+      "local": "Pajuçara",
+      "emoji": "🌤️",
+      "status": "disponivel",
+      "desc": "Loteamento no bairro Pajuçara com terrenos prontos.",
+      "tags": "📍 Pajuçara,Documentado",
+      "link": "",
+      "wppMsg": "Olá Rafael! Tenho interesse no Céu Azul 1."
+    },
+    {
+      "nome": "São Braz",
+      "local": "São Braz",
+      "emoji": "🏘️",
+      "status": "disponivel",
+      "desc": "Empreendimento no bairro São Braz com terrenos regularizados.",
+      "tags": "📍 São Braz,Documentado",
+      "link": "",
+      "wppMsg": "Olá Rafael! Tenho interesse no São Braz."
+    }
+  ],
+  "pinos": [
+    {
+      "id": "alter",
+      "nome": "Alter do Chão",
+      "regiao": "Alter do Chão",
+      "lat": -2.502556,
+      "lng": -54.931083,
+      "cor": "gold",
+      "min": "R$ 800",
+      "max": "R$ 2.500",
+      "desc": "Paraíso do Tapajós. Alto valor de investimento.",
+      "msg": "Olá Rafael! Tenho interesse em Alter do Chão.",
+      "tags": [
+        "Premium",
+        "Turístico"
+      ],
+      "link": ""
+    },
+    {
+      "id": "ponta",
+      "nome": "Ponta de Pedras",
+      "regiao": "Ponta de Pedras",
+      "lat": -2.467861,
+      "lng": -54.909028,
+      "cor": "gold",
+      "min": "R$ 500",
+      "max": "R$ 1.500",
+      "desc": "Área ribeirinha privilegiada com vista para o Tapajós.",
+      "msg": "Olá Rafael! Tenho interesse em Ponta de Pedras.",
+      "tags": [
+        "Ribeirinho",
+        "Vista Rio"
+      ],
+      "link": ""
+    },
+    {
+      "id": "pajucara",
+      "nome": "Pajuçara",
+      "regiao": "Pajuçara",
+      "lat": -2.441833,
+      "lng": -54.825861,
+      "cor": "gold",
+      "min": "R$ 300",
+      "max": "R$ 800",
+      "desc": "Bairro em expansão com fácil acesso e alta valorização.",
+      "msg": "Olá Rafael! Tenho interesse em Pajuçara.",
+      "tags": [
+        "Disponível",
+        "Zona Urbana"
+      ],
+      "link": ""
+    },
+    {
+      "id": "smaria",
+      "nome": "Santa Maria",
+      "regiao": "Santa Maria",
+      "lat": -2.448417,
+      "lng": -54.806361,
+      "cor": "gold",
+      "min": "R$ 350",
+      "max": "R$ 900",
+      "desc": "Loteamento Bom Sossego com documentação regularizada.",
+      "msg": "Olá Rafael! Tenho interesse em Santa Maria.",
+      "tags": [
+        "Disponível",
+        "Documentado"
+      ],
+      "link": ""
+    },
+    {
+      "id": "cucuruna",
+      "nome": "Cucurunã",
+      "regiao": "Cucurunã",
+      "lat": -2.463222,
+      "lng": -54.791694,
+      "cor": "gold",
+      "min": "R$ 400",
+      "max": "R$ 1.200",
+      "desc": "Região em expansão estratégica com alto potencial.",
+      "msg": "Olá Rafael! Tenho interesse em Cucurunã.",
+      "tags": [
+        "Em breve"
+      ],
+      "link": ""
+    },
+    {
+      "id": "espirito",
+      "nome": "Espírito Santo",
+      "regiao": "Espírito Santo",
+      "lat": -2.478306,
+      "lng": -54.753889,
+      "cor": "gold",
+      "min": "—",
+      "max": "—",
+      "desc": "Região em desenvolvimento. Entre em contato.",
+      "msg": "Olá Rafael! Tenho interesse em Espírito Santo.",
+      "tags": [
+        "Em breve"
+      ],
+      "link": ""
+    },
+    {
+      "id": "mararu",
+      "nome": "Mararu",
+      "regiao": "Mararu",
+      "lat": -2.492528,
+      "lng": -54.686639,
+      "cor": "red",
+      "min": "R$ 300",
+      "max": "R$ 800",
+      "desc": "🔥 Lançamento exclusivo! Terrenos residenciais, comerciais e econômicos.",
+      "msg": "Olá Rafael! Tenho interesse no Bairro Mararu!",
+      "tags": [
+        "Lançamento",
+        "Documentado"
+      ],
+      "link": "mararu/"
+    }
+  ],
+  "geradoEm": "2026-05-29T21:05:49.125Z",
+  "lancamento": {
+    "ativo": true,
+    "empreendimento_id": "mararu",
+    "titulo": "BAIRRO MARARU",
+    "subtitulo": "Novo Lançamento",
+    "descricao": "Terrenos residenciais, comerciais e econômicos em Santarém — PA.",
+    "data_lancamento": "2026-06-06T08:00:00",
+    "link": "mararu/",
+    "beneficios": [
+      {
+        "icone": "pin",
+        "titulo": "LOCALIZAÇÃO",
+        "sub": "ZONA URBANA"
+      },
+      {
+        "icone": "lock",
+        "titulo": "PARCELAMENTO",
+        "sub": "SEM SPC/SERASA"
+      },
+      {
+        "icone": "shield",
+        "titulo": "INVESTIMENTO",
+        "sub": "SEGURO"
+      },
+      {
+        "icone": "chart",
+        "titulo": "INVESTIMENTO",
+        "sub": "INTELIGENTE"
+      }
+    ]
+  }
+}
