@@ -320,6 +320,7 @@ function salvarTokenModal(){
         <button class="sitem" onclick="goPage('vip',this)"><span class="icon">💬</span><span>Grupo VIP</span></button>
         <div class="sidebar-title">⚙️ Sistema</div>
         <button class="sitem" onclick="goPage('senha',this)"><span class="icon">🔐</span><span>Senha</span></button>
+        <button class="sitem" onclick="goPage('backup',this)"><span class="icon">💾</span><span>Backup / Drive</span></button>
       </div>
     </div>
 
@@ -886,6 +887,7 @@ function goPage(id,el){
   document.querySelectorAll('.sitem').forEach(function(b){b.classList.remove('on');});
   document.getElementById('page-'+id).classList.add('on');
   el.classList.add('on');
+  if(id==='backup'){carregarPinSize();}
 }
 
 // ── CARREGAR ──
@@ -1455,6 +1457,58 @@ function toast(msg,tipo){
   setTimeout(function(){t.classList.remove('show');},3000);
 }
 
+// ── BACKUP / DOWNLOAD ──
+async function baixarJSON(){
+  var d=await loadSiteData();
+  if(!d){toast('Erro ao carregar dados','erro');return;}
+  var blob=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;
+  a.download='site_data_backup_'+new Date().toISOString().slice(0,10)+'.json';
+  document.body.appendChild(a);a.click();
+  setTimeout(function(){URL.revokeObjectURL(url);a.remove();},500);
+  toast('✅ Download iniciado! Salve no Google Drive.','ok');
+}
+
+function restaurarJSON(input){
+  var file=input.files[0];
+  if(!file){return;}
+  var st=document.getElementById('restore-status');
+  st.textContent='Lendo arquivo...';st.style.color='var(--gold)';
+  var reader=new FileReader();
+  reader.onload=async function(e){
+    try{
+      var d=JSON.parse(e.target.result);
+      if(!d||!d.config){st.textContent='❌ Arquivo inválido';st.style.color='var(--red)';return;}
+      st.textContent='Arquivo lido. Salvando no GitHub...';
+      var ok=await saveSiteData(d);
+      if(ok){st.textContent='✅ Dados restaurados e publicados!';st.style.color='var(--green)';toast('✅ Backup restaurado!','ok');}
+      else{st.textContent='❌ Erro ao salvar';st.style.color='var(--red)';}
+    }catch(err){st.textContent='❌ JSON inválido';st.style.color='var(--red)';}
+  };
+  reader.readAsText(file);
+}
+
+async function salvarPinSize(){
+  var val=parseInt(document.getElementById('pin-size-num').value)||100;
+  val=Math.min(200,Math.max(50,val));
+  var d=await loadSiteData()||{};
+  d.pinSize=val;
+  var ok=await saveSiteData(d);
+  if(ok)toast('✅ Tamanho dos pinos salvo: '+val+'%','ok');
+}
+
+async function carregarPinSize(){
+  var d=await loadSiteData();
+  if(d&&d.pinSize){
+    var v=d.pinSize;
+    document.getElementById('pin-size-range').value=v;
+    document.getElementById('pin-size-num').value=v;
+    document.getElementById('pin-size-val').textContent=v;
+  }
+}
+
 // Fechar modal ao clicar fora
 document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('modal-push').addEventListener('click',function(e){
@@ -1535,7 +1589,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <div class="adm-nav-divider"></div>
     <div class="adm-nav-title">⚙️ Sistema</div>
     <button class="adm-si" onclick="goPageM('senha')"><span class="adm-ic">🔐</span>Senha</button>
-    
+    <button class="adm-si" onclick="goPageM('backup')"><span class="adm-ic">💾</span>Backup / Drive</button>
   </nav>
   <div style="padding:14px 18px;border-top:1px solid rgba(201,168,76,0.1)">
     <a href="../" target="_blank" style="display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(242,237,228,0.3);text-decoration:none">
@@ -1732,6 +1786,79 @@ function goPageM(id){
           <div class="btn-row" style="margin-top:16px">
             <button class="btn-save" onclick="salvarEmpr()">💾 Salvar empreendimento</button>
             <button class="btn-d" onclick="fecharFormEmpr()" style="padding:10px 16px">Cancelar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ PÁGINA: BACKUP / DRIVE ══════ -->
+      <div class="page" id="page-backup">
+        <div class="page-header">
+          <div class="page-title">Backup & Exportação</div>
+          <div class="page-sub">Salve e restaure os dados do site</div>
+        </div>
+
+        <!-- CARD DOWNLOAD -->
+        <div class="card">
+          <div class="card-title"><span>📥</span> Baixar site_data.json</div>
+          <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:20px">
+            Baixe o arquivo de dados do site a qualquer momento. Você pode salvar no <strong style="color:var(--gold)">Google Drive</strong>, pendrive ou enviar por WhatsApp como backup.
+          </p>
+          <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:16px 18px;margin-bottom:20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+            <div style="font-size:28px">📄</div>
+            <div style="flex:1;min-width:140px">
+              <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px">site_data.json</div>
+              <div style="font-size:11px;color:var(--text3)">Todos os dados: pinos, empreendimentos, configurações</div>
+            </div>
+            <button onclick="baixarJSON()" class="btn-save" style="white-space:nowrap">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Baixar agora
+            </button>
+          </div>
+          <div style="background:rgba(96,165,250,0.06);border:1px solid rgba(96,165,250,0.2);border-radius:10px;padding:14px 16px">
+            <div style="font-size:11px;font-weight:600;color:#60a5fa;margin-bottom:8px">📖 Como salvar no Google Drive</div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <div style="display:flex;gap:8px;font-size:12px;color:var(--text2)"><span style="background:#60a5fa;color:#000;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">1</span>Clique em "Baixar agora" — o arquivo vai para sua pasta de Downloads</div>
+              <div style="display:flex;gap:8px;font-size:12px;color:var(--text2)"><span style="background:#60a5fa;color:#000;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">2</span>Acesse <a href="https://drive.google.com/drive/folders/12diLis3VaBsXjiASa6H2N4gv9la70KFb" target="_blank" style="color:#60a5fa">sua pasta no Drive</a> e faça o upload do arquivo baixado</div>
+              <div style="display:flex;gap:8px;font-size:12px;color:var(--text2)"><span style="background:#60a5fa;color:#000;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">3</span>Pronto! O arquivo fica salvo no Drive como backup</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD RESTAURAR -->
+        <div class="card">
+          <div class="card-title"><span>📤</span> Restaurar backup</div>
+          <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:16px">Importe um arquivo <code style="background:var(--bg3);border:1px solid var(--border);padding:1px 6px;border-radius:4px;font-size:12px">site_data.json</code> salvo anteriormente para restaurar os dados.</p>
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+            <label class="btn-upload" for="input-restore-json" style="cursor:pointer">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Selecionar arquivo
+            </label>
+            <input type="file" id="input-restore-json" accept=".json" style="display:none" onchange="restaurarJSON(this)"/>
+            <div id="restore-status" style="font-size:12px;color:var(--text3)">Nenhum arquivo selecionado</div>
+          </div>
+        </div>
+
+        <!-- CARD TAMANHO DOS PINOS -->
+        <div class="card">
+          <div class="card-title"><span>📍</span> Tamanho dos pinos no mapa</div>
+          <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:16px">
+            Define o tamanho base dos pinos em porcentagem. <strong style="color:var(--gold)">100% = tamanho padrão.</strong> Este valor é lido pelo rumoamilhao e pelo site automaticamente.
+          </p>
+          <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:16px">
+            <div style="flex:1;min-width:200px">
+              <label style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);font-weight:500;display:block;margin-bottom:6px">Tamanho — <span id="pin-size-val">100</span>%</label>
+              <input type="range" id="pin-size-range" min="50" max="200" value="100" oninput="document.getElementById('pin-size-val').textContent=this.value;document.getElementById('pin-size-num').value=this.value" style="width:100%;accent-color:var(--gold);height:6px;cursor:pointer"/>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <input type="number" id="pin-size-num" value="100" min="50" max="200" style="width:70px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:9px 10px;font-size:14px;color:var(--text);font-family:inherit;outline:none;-webkit-appearance:none;text-align:center" oninput="var v=Math.min(200,Math.max(50,parseInt(this.value)||100));document.getElementById('pin-size-range').value=v;document.getElementById('pin-size-val').textContent=v"/>
+              <span style="font-size:13px;color:var(--text3)">%</span>
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="btn-save" onclick="salvarPinSize()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg>
+              Salvar tamanho
+            </button>
           </div>
         </div>
       </div>
