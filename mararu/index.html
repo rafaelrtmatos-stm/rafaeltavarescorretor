@@ -548,7 +548,7 @@ section#hero{z-index:0;overflow:hidden!important}
       </div>
 
       <!-- BOTÃO PRÉ-RESERVA -->
-      <a href="reserva/" style="display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(90deg,#C9A84C,#E8C96A);color:#000;padding:12px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+      <a id="btn-prereserva" href="reserva/" style="display:none;align-items:center;justify-content:center;gap:10px;background:linear-gradient(90deg,#C9A84C,#E8C96A);color:#000;padding:12px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
         GARANTIR MINHA PRÉ-RESERVA
       </a>
@@ -1834,5 +1834,18 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')fecharMenu()
 </script>
 <!-- ═══ FIM MENU ═══ -->
 
+<script>
+(function(){
+  fetch('../site_data.json?v='+Date.now())
+    .then(function(r){return r.json();})
+    .then(function(d){
+      var btn=document.getElementById('btn-prereserva');
+      if(!btn)return;
+      var mostrar=(d&&d.lancamento&&d.lancamento.prereserva===true);
+      btn.style.display=mostrar?'flex':'none';
+    })
+    .catch(function(){});
+})();
+</script>
 </body>
 </html>
