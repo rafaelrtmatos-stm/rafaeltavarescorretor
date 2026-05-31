@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Rafael Tavares — Corretor de Imóveis | Santarém, PA</title>
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -2299,5 +2299,16 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')fecharMenu()
 })();
 </script>
 
+<script>
+// Bloqueia zoom nativo no body — Leaflet (#leaflet-map) tem zoom próprio
+document.addEventListener('touchmove',function(e){
+  if(e.touches.length>1){
+    var el=e.target;
+    var inMap=false;
+    while(el){if(el.id==='leaflet-map'||el.classList&&el.classList.contains('leaflet-container')){inMap=true;break;}el=el.parentElement;}
+    if(!inMap)e.preventDefault();
+  }
+},{passive:false});
+</script>
 </body>
 </html>
