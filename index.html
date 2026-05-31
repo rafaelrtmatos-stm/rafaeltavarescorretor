@@ -483,15 +483,15 @@ section#hero{z-index:0;overflow:hidden!important}
       <!-- Logo RT -->
       <img src="logo-rt.png" alt="RT Corretor" style="width:52px;height:52px;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5))">
       <div>
-        <div style="font-size:14px;font-weight:700;color:#F2EDE4;letter-spacing:2px;line-height:1.1;text-shadow:0 0 12px rgba(0,0,0,1),0 0 24px rgba(0,0,0,1),0 2px 4px rgba(0,0,0,1)"><span style="color:#C9A84C">RAFAEL</span> TAVARES</div>
-        <div style="font-size:8px;letter-spacing:2px;color:rgba(242,237,228,0.45);text-transform:uppercase;margin-top:2px">Corretor de Imóveis · CRECI 13919</div>
+        <div style="font-size:14px;font-weight:700;color:#F2EDE4;letter-spacing:2px;line-height:1.1;text-shadow:0 0 12px rgba(0,0,0,1),0 0 24px rgba(0,0,0,1),0 2px 4px rgba(0,0,0,1)"><span style="color:#C9A84C" id="nav-nome-p1">RAFAEL</span> <span id="nav-nome-p2">TAVARES</span></div>
+        <div style="font-size:8px;letter-spacing:2px;color:rgba(242,237,228,0.45);text-transform:uppercase;margin-top:2px">Corretor de Imóveis · CRECI <span id="nav-creci-val">13919</span></div>
       </div>
     </div>
     <div style="display:flex;gap:12px;align-items:center">
-      <a href="https://instagram.com/rafaeltavarescorretorstm" target="_blank" style="display:flex;opacity:.7;transition:opacity .2s" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.7'">
+      <a id="nav-ig-link" href="https://instagram.com/rafaeltavarescorretorstm" target="_blank" style="display:flex;opacity:.7;transition:opacity .2s" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.7'">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="#C9A84C" stroke="none"/></svg>
       </a>
-      <a href="https://facebook.com/rafaeltavarescorretorstm" target="_blank" style="display:flex;opacity:.7;transition:opacity .2s" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.7'">
+      <a id="nav-fb-link" href="https://facebook.com/rafaeltavarescorretorstm" target="_blank" style="display:flex;opacity:.7;transition:opacity .2s" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.7'">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="#C9A84C"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
       </a>
     </div>
@@ -504,18 +504,18 @@ section#hero{z-index:0;overflow:hidden!important}
     <!-- BADGE LOTES EM SANTARÉM -->
     <div style="font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px;margin-bottom:14px;text-shadow:0 0 14px rgba(0,0,0,1),0 0 28px rgba(0,0,0,1),0 2px 6px rgba(0,0,0,1)">
       <div style="width:24px;height:1px;background:var(--gold);opacity:.7"></div>
-      Lotes em Santarém
+      <span id="hero-badge-txt">Lotes em Santarém</span>
     </div>
 
     <!-- TÍTULO -->
-    <h1 style="font-family:'DM Sans',sans-serif;font-size:clamp(30px,8vw,52px);font-weight:700;color:#F2EDE4;line-height:1.05;letter-spacing:-0.5px;margin-bottom:12px;max-width:360px;text-shadow:0 0 20px rgba(0,0,0,1),0 0 40px rgba(0,0,0,1),0 0 60px rgba(0,0,0,0.9),2px 2px 0 rgba(0,0,0,0.8),-1px -1px 0 rgba(0,0,0,0.8)">
+    <h1 id="hero-titulo" style="font-family:'DM Sans',sans-serif;font-size:clamp(30px,8vw,52px);font-weight:700;color:#F2EDE4;line-height:1.05;letter-spacing:-0.5px;margin-bottom:12px;max-width:360px;text-shadow:0 0 20px rgba(0,0,0,1),0 0 40px rgba(0,0,0,1),0 0 60px rgba(0,0,0,0.9),2px 2px 0 rgba(0,0,0,0.8),-1px -1px 0 rgba(0,0,0,0.8)">
       Encontre o<br>
       <span style="color:var(--gold)">Empreendimento</span><br>
       Ideal para Você
     </h1>
 
     <!-- SUBTÍTULO -->
-    <p style="font-size:13px;color:rgba(242,237,228,0.8);line-height:1.7;font-weight:300;max-width:280px;margin-bottom:24px;text-shadow:0 0 12px rgba(0,0,0,1),0 0 24px rgba(0,0,0,1),0 2px 4px rgba(0,0,0,1)">
+    <p id="hero-subtitulo" style="font-size:13px;color:rgba(242,237,228,0.8);line-height:1.7;font-weight:300;max-width:280px;margin-bottom:24px;text-shadow:0 0 12px rgba(0,0,0,1),0 0 24px rgba(0,0,0,1),0 2px 4px rgba(0,0,0,1)">
       Loteamentos selecionados nas melhores regiões para você investir e viver bem.
     </p>
 
@@ -662,7 +662,7 @@ section#hero{z-index:0;overflow:hidden!important}
   <!-- ASSINATURA -->
   <div style="position:absolute;bottom:32px;right:80px;z-index:6;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;color:rgba(201,168,76,0.3);display:flex;align-items:center;gap:8px">
     <div style="width:20px;height:1px;background:rgba(201,168,76,0.2)"></div>
-    Tudo justo e perfeito…
+    <span id="hero-assinatura-txt">Tudo justo e perfeito…</span>
   </div>
 
 </section>
@@ -1469,16 +1469,16 @@ function startMap(){
 
       <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.25);border-radius:100px;padding:5px 14px;font-size:10px;font-weight:700;color:#f87171;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px">
         <span style="width:6px;height:6px;border-radius:50%;background:#f87171;animation:pulse 1.2s infinite"></span>
-        Lançamento · Bairro Mararu
+        <span id="vip-badge-txt">Lançamento · Bairro Mararu</span>
       </div>
 
-      <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--text);margin-bottom:8px">Grupo VIP Oficial</div>
-      <div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:28px;font-weight:300">
+      <div id="vip-titulo" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--text);margin-bottom:8px">Grupo VIP Oficial</div>
+      <div id="vip-desc-txt" style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:28px;font-weight:300">
         Primeiro acesso aos preços · Condições exclusivas de pré-lançamento · Reserva antecipada garantida
       </div>
 
-      <!-- BENEFÍCIOS -->
-      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px;text-align:left">
+      <!-- BENEFÍCIOS VIP -->
+      <div id="vip-itens" style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px;text-align:left">
         <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text2)">
           <span style="width:6px;height:6px;border-radius:50%;background:#25d366;flex-shrink:0"></span>
           Preços revelados antes do público geral
@@ -1497,7 +1497,7 @@ function startMap(){
         </div>
       </div>
 
-      <a href="mararu/" style="display:flex;align-items:center;justify-content:center;gap:10px;background:#25d366;color:#0A1209;padding:16px 32px;border-radius:10px;font-size:14px;font-weight:700;text-decoration:none;transition:all .2s;letter-spacing:.3px" onmouseover="this.style.background='#20b858';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#25d366';this.style.transform='none'">
+      <a id="vip-link-btn" href="mararu/" style="display:flex;align-items:center;justify-content:center;gap:10px;background:#25d366;color:#0A1209;padding:16px 32px;border-radius:10px;font-size:14px;font-weight:700;text-decoration:none;transition:all .2s;letter-spacing:.3px" onmouseover="this.style.background='#20b858';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#25d366';this.style.transform='none'">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="#C9A84C"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
         Entrar no Grupo VIP
       </a>
@@ -1576,7 +1576,7 @@ function startMap(){
       <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:600">Por que escolher</div>
       <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(36px,4vw,52px);font-weight:700;color:var(--text);line-height:.95;letter-spacing:-2px">Nossas <em style="font-style:italic;color:var(--gold)">vantagens</em></h2>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div id="beneficios-container" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
       <div class="ben-card">
         <div class="ben-icon">
   <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1734,7 +1734,7 @@ function galTab(el,panel){
       <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:600">Avaliações</div>
       <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(36px,4vw,52px);font-weight:700;color:var(--text);line-height:.95;letter-spacing:-2px">O que dizem nossos <em style="font-style:italic;color:var(--gold)">clientes</em></h2>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+    <div id="depoimentos-container" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
 
       <div class="dep-card">
         <div class="dep-stars">★★★★★</div>
@@ -1788,8 +1788,8 @@ function galTab(el,panel){
   <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(201,168,76,0.05) 0%,transparent 70%);pointer-events:none"></div>
   <div style="max-width:680px;margin:0 auto;text-align:center;position:relative;z-index:2">
     <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;font-weight:600">Próximo passo</div>
-    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(38px,5vw,60px);font-weight:700;color:var(--text);line-height:.95;letter-spacing:-2px;margin-bottom:18px">Vamos encontrar o empreendimento <em style="font-style:italic;color:var(--gold)">ideal para você</em></h2>
-    <p style="font-size:15px;color:var(--text2);line-height:1.8;margin-bottom:36px;font-weight:300">Atendimento personalizado, transparência total e as melhores condições do mercado. Entre em contato agora.</p>
+    <h2 id="cta-titulo" style="font-family:'Cormorant Garamond',serif;font-size:clamp(38px,5vw,60px);font-weight:700;color:var(--text);line-height:.95;letter-spacing:-2px;margin-bottom:18px">Vamos encontrar o empreendimento <em style="font-style:italic;color:var(--gold)">ideal para você</em></h2>
+    <p id="cta-desc" style="font-size:15px;color:var(--text2);line-height:1.8;margin-bottom:36px;font-weight:300">Atendimento personalizado, transparência total e as melhores condições do mercado. Entre em contato agora.</p>
     <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
       <a href="https://wa.me/5593992332012?text=Olá+Rafael!+Quero+encontrar+o+empreendimento+ideal." target="_blank" style="display:inline-flex;align-items:center;gap:9px;background:var(--gold);color:#0A1209;padding:16px 36px;border-radius:10px;font-size:14px;font-weight:700;text-decoration:none;transition:all .25s;letter-spacing:.3px" onmouseover="this.style.background='var(--gold2)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='var(--gold)';this.style.transform='none'">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="#C9A84C"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
@@ -1799,7 +1799,7 @@ function galTab(el,panel){
         Ver regiões
       </a>
     </div>
-    <div style="margin-top:40px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;color:rgba(201,168,76,0.45);letter-spacing:.5px">Tudo justo e perfeito…</div>
+    <div style="margin-top:40px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;color:rgba(201,168,76,0.45);letter-spacing:.5px"><span id="cta-assinatura-txt">Tudo justo e perfeito…</span></div>
   </div>
 </section>
 
@@ -2309,6 +2309,117 @@ document.addEventListener('touchmove',function(e){
     if(!inMap)e.preventDefault();
   }
 },{passive:false});
+</script>
+
+<script>
+// ══════════════════════════════════════════════════
+//  carregarSite — carrega site_data.json e aplica
+//  todos os campos editáveis do painel admin
+// ══════════════════════════════════════════════════
+(function carregarSite(){
+  fetch('/site_data.json?_='+Date.now())
+    .then(function(r){return r.json();})
+    .then(function(d){
+
+      // ── CONFIG (nav) ──
+      var c = d.config || {};
+      if(c.nome){
+        var partes = c.nome.split(' ');
+        var p1 = partes[0] || '';
+        var p2 = partes.slice(1).join(' ');
+        var e1 = document.getElementById('nav-nome-p1');
+        var e2 = document.getElementById('nav-nome-p2');
+        if(e1) e1.textContent = p1;
+        if(e2) e2.textContent = p2;
+      }
+      var ncr = document.getElementById('nav-creci-val');
+      if(ncr && c.creci) ncr.textContent = c.creci;
+      var nig = document.getElementById('nav-ig-link');
+      if(nig && c.ig) nig.href = 'https://instagram.com/' + c.ig.replace('@','');
+      var nfb = document.getElementById('nav-fb-link');
+      if(nfb && c.fb) nfb.href = c.fb.startsWith('http') ? c.fb : 'https://facebook.com/' + c.fb;
+
+      // ── HERO ──
+      var h = d.hero || {};
+      var hb = document.getElementById('hero-badge-txt');
+      if(hb && h.badge) hb.textContent = h.badge;
+      var ht = document.getElementById('hero-titulo');
+      if(ht && h.titulo) ht.innerHTML = h.titulo.replace(/\n/g,'<br>');
+      var hs = document.getElementById('hero-subtitulo');
+      if(hs && h.subtitulo) hs.textContent = h.subtitulo;
+      var ha = document.getElementById('hero-assinatura-txt');
+      if(ha && d.textos && d.textos.assinatura) ha.textContent = d.textos.assinatura;
+
+      // ── STATS ──
+      var st = d.stats || [];
+      var statEls = document.querySelectorAll('.stat-num-big');
+      var lblEls  = document.querySelectorAll('.stat-lbl-big');
+      st.forEach(function(s, i){
+        if(statEls[i]){
+          statEls[i].setAttribute('data-target', s.numero || '');
+          statEls[i].textContent = s.numero || statEls[i].textContent;
+        }
+        if(lblEls[i]) lblEls[i].textContent = s.label || lblEls[i].textContent;
+      });
+
+      // ── BENEFÍCIOS ──
+      var benContainer = document.getElementById('beneficios-container');
+      var bens = d.beneficios || [];
+      if(benContainer && bens.length){
+        benContainer.innerHTML = bens.map(function(b){
+          return '<div class="ben-card"><div class="ben-icon">'+b.icone+'</div>'
+            +'<div class="ben-titulo">'+b.titulo+'</div>'
+            +'<div class="ben-desc">'+b.desc+'</div></div>';
+        }).join('');
+      }
+
+      // ── DEPOIMENTOS ──
+      var depContainer = document.getElementById('depoimentos-container');
+      var deps = d.depoimentos || [];
+      if(depContainer && deps.length){
+        depContainer.innerHTML = deps.map(function(dep){
+          var initials = dep.nome ? dep.nome.split(' ').map(function(n){return n[0];}).join('').slice(0,2).toUpperCase() : '??';
+          return '<div class="dep-card">'
+            +'<div class="dep-stars">★★★★★</div>'
+            +'<div class="dep-text">"'+dep.texto+'"</div>'
+            +'<div class="dep-author">'
+            +'<div class="dep-avatar">'+initials+'</div>'
+            +'<div><div class="dep-name">'+dep.nome+'</div>'
+            +'<div class="dep-role">'+dep.cargo+'</div></div>'
+            +'</div></div>';
+        }).join('');
+      }
+
+      // ── VIP ──
+      var v = d.vip || {};
+      var vb = document.getElementById('vip-badge-txt');
+      if(vb && v.badge) vb.textContent = v.badge;
+      var vt = document.getElementById('vip-titulo');
+      if(vt && v.nome) vt.textContent = v.nome;
+      var vdesc = document.getElementById('vip-desc-txt');
+      if(vdesc && v.desc) vdesc.textContent = v.desc;
+      var vitens = document.getElementById('vip-itens');
+      if(vitens && v.itens && v.itens.length){
+        vitens.innerHTML = v.itens.map(function(item){
+          return '<li style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:rgba(242,237,228,0.7);line-height:1.6">'
+            +'<svg style="flex-shrink:0;margin-top:3px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>'
+            + item + '</li>';
+        }).join('');
+      }
+      var vlnk = document.getElementById('vip-link-btn');
+      if(vlnk && v.link) vlnk.href = v.link;
+
+      // ── CTA ──
+      var ct = d.cta || {};
+      var ctTit = document.getElementById('cta-titulo');
+      if(ctTit && ct.titulo) ctTit.innerHTML = ct.titulo;
+      var ctDesc = document.getElementById('cta-desc');
+      if(ctDesc && ct.desc) ctDesc.textContent = ct.desc;
+      var ctAs = document.getElementById('cta-assinatura-txt');
+      if(ctAs && d.textos && d.textos.assinatura) ctAs.textContent = d.textos.assinatura;
+
+    }).catch(function(){});
+})();
 </script>
 </body>
 </html>
