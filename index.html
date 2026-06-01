@@ -843,6 +843,37 @@ function irParaRegiao(id){
 }
 document.getElementById('mapa-modal').addEventListener('click',function(e){if(e.target===this)fecharModal();});
 
+// Mapeamento pino → ID do catálogo da seção "Escolha sua região"
+var _pinoNomeCatalogo={
+  'Alter do Chão':'alter',
+  'Ponta de Pedras':'ponta-pedras',
+  'Pajuçara':'pajucara',
+  'Santa Maria':'santa-maria',
+  'Cucurunã':'cucuruna',
+  'Mararu':'mararu'
+};
+function irParaCatalogoPino(p){
+  var catalogoId=_pinoNomeCatalogo[p.nome]||null;
+  var secaoRegioes=document.getElementById('regioes');
+  if(secaoRegioes){
+    secaoRegioes.scrollIntoView({behavior:'smooth',block:'start'});
+    if(catalogoId){
+      setTimeout(function(){abrirCatalogo(catalogoId);},700);
+    } else {
+      // Sem card específico: apenas destaca a seção
+      setTimeout(function(){
+        secaoRegioes.style.transition='box-shadow .4s';
+        secaoRegioes.style.boxShadow='0 0 0 2px #C9A84C';
+        setTimeout(function(){secaoRegioes.style.boxShadow='';},1500);
+      },400);
+    }
+  } else if(catalogoId){
+    abrirCatalogo(catalogoId);
+  } else {
+    abrirModal(p);
+  }
+}
+
 var _mapStarted=false;
 function startMap(){
   if(_mapStarted)return;
@@ -893,7 +924,7 @@ function startMap(){
       +'</div>';
     var icon=L.divIcon({className:'',html:pinoHtml,iconSize:[sz*3,Math.round(sz*1.8)],iconAnchor:[Math.round(sz*1.5),Math.round(sz*1.4)]});
     var marker=L.marker([p.lat,p.lng],{icon:icon});
-    marker.on('click',function(){abrirModal(p);});
+    marker.on('click',function(){irParaCatalogoPino(p);});
     marker.addTo(map);
     bounds.push([p.lat,p.lng]);
   });
