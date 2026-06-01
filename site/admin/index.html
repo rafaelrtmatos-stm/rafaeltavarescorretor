@@ -330,6 +330,7 @@ function salvarTokenModal(){
         <div class="sidebar-title">📱 Marketing</div>
         <button class="sitem" onclick="goPage('redes',this)"><span class="icon">📱</span><span>Redes Sociais</span></button>
         <button class="sitem" onclick="goPage('vip',this)"><span class="icon">💬</span><span>Grupo VIP</span></button>
+        <button class="sitem" onclick="goPage('menu',this)"><span class="icon">📋</span><span>Menu & Seções</span></button>
         <div class="sidebar-title">⚙️ Sistema</div>
         <button class="sitem" onclick="goPage('senha',this)"><span class="icon">🔐</span><span>Senha</span></button>
         <button class="sitem" onclick="goPage('backup',this)"><span class="icon">💾</span><span>Backup / Drive</span></button>
@@ -692,6 +693,99 @@ function salvarTokenModal(){
         </div>
       </div>
 
+      <!-- ══════ PÁGINA: MENU & SEÇÕES ══════ -->
+      <div class="page" id="page-menu">
+        <div class="page-header">
+          <div class="page-title">Menu & Seções</div>
+          <div class="page-sub">Edite os itens do menu de navegação e gerencie as seções do site</div>
+        </div>
+
+        <!-- MENU DE NAVEGAÇÃO -->
+        <div class="card">
+          <div class="card-title"><span>🔗</span> Itens do Menu de Navegação</div>
+          <div style="font-size:12px;color:var(--text3);margin-bottom:16px;line-height:1.6">
+            Esses itens aparecem no menu do topo do site. Arraste para reordenar, edite o nome ou o link, ou exclua o item.
+          </div>
+          <div id="menu-nav-lista" style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px"></div>
+          <div class="btn-row">
+            <button class="btn-save" onclick="adicionarItemMenu()">+ Novo item</button>
+            <button class="btn-save" onclick="salvarMenu()" style="background:var(--green);color:#fff">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg>
+              Salvar Menu
+            </button>
+          </div>
+        </div>
+
+        <!-- SEÇÕES DO SITE -->
+        <div class="card">
+          <div class="card-title"><span>📄</span> Seções do Site</div>
+          <div style="font-size:12px;color:var(--text3);margin-bottom:16px;line-height:1.6">
+            Cada seção corresponde a um bloco do site. Clique em <strong style="color:var(--gold)">Editar</strong> para alterar título, descrição e foto de cada seção.
+          </div>
+          <div id="secoes-lista" style="display:flex;flex-direction:column;gap:10px"></div>
+        </div>
+      </div>
+
+      <!-- ══════ MODAL EDITAR SEÇÃO ══════ -->
+      <div class="modal-bg" id="modal-secao">
+        <div class="modal" style="max-width:520px;max-height:90vh;overflow-y:auto">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+            <h3 id="modal-secao-titulo" style="font-size:18px">Editar Seção</h3>
+            <button onclick="fecharModalSecao()" style="background:transparent;border:none;color:var(--text3);font-size:22px;cursor:pointer;line-height:1">×</button>
+          </div>
+
+          <div class="f">
+            <label>Título da seção</label>
+            <input type="text" id="ms-titulo" placeholder="Ex: Sobre Rafael Tavares" />
+          </div>
+          <div class="f">
+            <label>Subtítulo / Badge</label>
+            <input type="text" id="ms-subtitulo" placeholder="Ex: Corretor de Imóveis" />
+          </div>
+          <div class="f">
+            <label>Descrição / Conteúdo</label>
+            <textarea id="ms-desc" rows="4" placeholder="Texto exibido na seção..."></textarea>
+          </div>
+
+          <!-- FOTO -->
+          <div style="margin-bottom:16px">
+            <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);font-weight:500;margin-bottom:10px">Foto da seção</div>
+            <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap">
+              <div id="ms-foto-atual-wrap" style="flex-shrink:0;text-align:center;display:none">
+                <div style="font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Atual</div>
+                <div style="width:90px;height:70px;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--bg3)">
+                  <img id="ms-foto-atual" src="" alt="Foto atual" style="width:100%;height:100%;object-fit:cover">
+                </div>
+                <button onclick="removerFotoSecao()" style="display:inline-block;margin-top:8px;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.25);color:var(--red);padding:5px 10px;border-radius:6px;font-size:11px;cursor:pointer;font-family:inherit">
+                  🗑 Remover foto
+                </button>
+              </div>
+              <div style="flex:1;min-width:160px">
+                <div style="font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Nova foto</div>
+                <div id="ms-foto-nova-preview" style="width:90px;height:70px;border-radius:8px;overflow:hidden;border:1px dashed rgba(201,168,76,0.3);background:var(--bg3);display:flex;align-items:center;justify-content:center;margin-bottom:8px">
+                  <span style="font-size:10px;color:var(--text3);text-align:center;padding:6px">Sem<br>foto</span>
+                </div>
+                <label class="btn-upload" for="ms-input-foto" style="display:inline-flex;align-items:center;gap:6px;cursor:pointer">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  Escolher foto
+                </label>
+                <input type="file" id="ms-input-foto" accept="image/*" style="display:none" onchange="previewFotoSecao(this)" />
+                <div style="font-size:10px;color:var(--text3);margin-top:6px">JPG ou PNG · Máx. 2MB</div>
+              </div>
+            </div>
+          </div>
+
+          <input type="hidden" id="ms-id" value="" />
+          <div class="btn-row" style="margin-top:4px">
+            <button class="btn-save" onclick="salvarEdicaoSecao()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg>
+              Salvar alterações
+            </button>
+            <button onclick="fecharModalSecao()" class="btn-restore">Cancelar</button>
+          </div>
+        </div>
+      </div>
+
       <!-- ══════ PÁGINA: BACKUP / DRIVE ══════ -->
       <div class="page" id="page-backup">
         <div class="page-header">
@@ -1014,6 +1108,7 @@ function goPage(id,el){
   if(id==='depoimentos'){carregarDepoimentos();}
   if(id==='cta'){carregarCTA();}
   if(id==='vip'){carregarVIP();}
+  if(id==='menu'){carregarMenuSecoes();}
 }
 
 // ── CARREGAR ──
@@ -1822,7 +1917,261 @@ document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('modal-push').addEventListener('click',function(e){
     if(e.target===this)fecharModal();
   });
+  document.getElementById('modal-secao').addEventListener('click',function(e){
+    if(e.target===this)fecharModalSecao();
+  });
 });
+
+// ══════════════════════════════════════
+//  MENU & SEÇÕES
+// ══════════════════════════════════════
+
+// Seções fixas do site (mapeadas para o site_data.json)
+var _SECOES_SITE = [
+  { id:'hero',         label:'🌅 Hero — Início',          descKey:'hero.subtitulo',    tituloKey:'hero.titulo',    subKey:'hero.badge',   fotoKey:null },
+  { id:'mapa',         label:'🗺️ Mapa Interativo',         descKey:null,               tituloKey:null,             subKey:null,           fotoKey:null },
+  { id:'lancamento',   label:'🔥 Destaque / Lançamento',   descKey:'lancamento.descricao', tituloKey:'lancamento.titulo', subKey:'lancamento.subtitulo', fotoKey:null },
+  { id:'regioes',      label:'📍 Escolha sua Região',      descKey:null,               tituloKey:null,             subKey:null,           fotoKey:null },
+  { id:'beneficios',   label:'✅ Benefícios',               descKey:null,               tituloKey:null,             subKey:null,           fotoKey:null },
+  { id:'sobre',        label:'👤 Sobre o Corretor',        descKey:'config.s1',        tituloKey:null,             subKey:null,           fotoKey:'fotoCorretor' },
+  { id:'depoimentos',  label:'💬 Depoimentos',             descKey:null,               tituloKey:null,             subKey:null,           fotoKey:null },
+  { id:'cta',          label:'📢 CTA (chamada para ação)', descKey:'cta.desc',         tituloKey:'cta.titulo',     subKey:null,           fotoKey:null },
+  { id:'vip',          label:'💬 Grupo VIP',               descKey:'vip.desc',         tituloKey:'vip.nome',       subKey:'vip.badge',    fotoKey:null },
+  { id:'imoveis',      label:'🏘️ Pinos & Empreendimentos', descKey:null,               tituloKey:null,             subKey:null,           fotoKey:null },
+];
+
+// Dados de menu e seções em memória
+var _menuItens = [];
+var _siteDataCache = null;
+var _secaoEditando = null;
+var _novaFotoBase64 = null;
+var _removerFotoFlag = false;
+
+// Ler valor aninhado do objeto (ex: "hero.titulo")
+function _getNestedVal(obj, path){
+  if(!path) return '';
+  return path.split('.').reduce(function(o,k){ return o&&o[k]!==undefined?o[k]:''; }, obj);
+}
+function _setNestedVal(obj, path, val){
+  if(!path) return;
+  var parts = path.split('.');
+  var cur = obj;
+  for(var i=0;i<parts.length-1;i++){
+    if(!cur[parts[i]]) cur[parts[i]]={};
+    cur=cur[parts[i]];
+  }
+  cur[parts[parts.length-1]]=val;
+}
+
+// ── Carregar a aba Menu & Seções ──
+async function carregarMenuSecoes(){
+  _siteDataCache = await loadSiteData();
+  if(!_siteDataCache) return;
+  // Pegar menu do site_data ou usar padrão
+  _menuItens = (_siteDataCache.menu && _siteDataCache.menu.length)
+    ? JSON.parse(JSON.stringify(_siteDataCache.menu))
+    : [
+        { label:'Mapa', href:'#mapa' },
+        { label:'Regiões', href:'#regioes' },
+        { label:'Lançamento', href:'#lancamento' },
+        { label:'Sobre', href:'#sobre' },
+        { label:'Contato', href:'#cta' }
+      ];
+  renderMenuNav();
+  renderSecoesLista();
+}
+
+// ── Renderizar lista do menu de navegação ──
+function renderMenuNav(){
+  var c = document.getElementById('menu-nav-lista');
+  if(!c) return;
+  if(!_menuItens.length){
+    c.innerHTML='<div style="font-size:13px;color:var(--text3);padding:12px 0">Nenhum item no menu. Clique em "+ Novo item".</div>';
+    return;
+  }
+  c.innerHTML = _menuItens.map(function(item, i){
+    return '<div class="order-item" style="gap:10px" data-menu-idx="'+i+'">'
+      +'<span class="drag-handle" title="Arrastar">⠿</span>'
+      +'<div style="flex:1;display:flex;gap:10px;flex-wrap:wrap">'
+      +'  <input type="text" value="'+_esc(item.label)+'" placeholder="Nome" '
+      +'    style="flex:1;min-width:100px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:13px;color:var(--text);font-family:inherit;outline:none" '
+      +'    oninput="_menuItens['+i+'].label=this.value" />'
+      +'  <input type="text" value="'+_esc(item.href)+'" placeholder="#secao ou /pagina/" '
+      +'    style="flex:1;min-width:120px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:13px;color:var(--text2);font-family:inherit;outline:none" '
+      +'    oninput="_menuItens['+i+'].href=this.value" />'
+      +'</div>'
+      +'<button onclick="excluirItemMenu('+i+')" title="Excluir" '
+      +'  style="background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.25);color:var(--red);width:34px;height:34px;border-radius:7px;font-size:15px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center">🗑</button>'
+    +'</div>';
+  }).join('');
+  ativarDragMenu();
+}
+
+function _esc(v){ return String(v||'').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+
+function adicionarItemMenu(){
+  _menuItens.push({ label:'Novo Item', href:'#' });
+  renderMenuNav();
+}
+
+function excluirItemMenu(idx){
+  if(!confirm('Excluir o item "'+(_menuItens[idx]&&_menuItens[idx].label)+'" do menu?')) return;
+  _menuItens.splice(idx,1);
+  renderMenuNav();
+  toast('Item removido. Clique em "Salvar Menu" para confirmar.','aviso');
+}
+
+async function salvarMenu(){
+  var btn = event.target.closest('button');
+  var orig = btn.innerHTML; btn.disabled=true; btn.textContent='⏳ Salvando...';
+  var d = await loadSiteData()||{};
+  d.menu = _menuItens.map(function(it){ return { label:it.label, href:it.href }; });
+  var ok = await saveSiteData(d);
+  btn.innerHTML=orig; btn.disabled=false;
+  if(ok) toast('✅ Menu salvo e publicado!','ok');
+}
+
+// Drag-and-drop simples para reordenar menu
+function ativarDragMenu(){
+  var lista = document.getElementById('menu-nav-lista');
+  if(!lista) return;
+  var dragging = null;
+  lista.querySelectorAll('.order-item').forEach(function(el){
+    el.setAttribute('draggable','true');
+    el.addEventListener('dragstart',function(){ dragging=el; el.classList.add('dragging'); });
+    el.addEventListener('dragend',function(){ el.classList.remove('dragging'); dragging=null; });
+    el.addEventListener('dragover',function(e){ e.preventDefault(); if(dragging&&dragging!==el){ lista.insertBefore(dragging,el); } });
+    el.addEventListener('drop',function(e){ e.preventDefault();
+      // Recalcular _menuItens com base na nova ordem DOM
+      var novos=[];
+      lista.querySelectorAll('.order-item').forEach(function(r){ var i=parseInt(r.dataset.menuIdx); if(!isNaN(i)) novos.push(_menuItens[i]); });
+      _menuItens=novos;
+    });
+  });
+}
+
+// ── Renderizar lista de seções ──
+function renderSecoesLista(){
+  var c = document.getElementById('secoes-lista');
+  if(!c) return;
+  c.innerHTML = _SECOES_SITE.map(function(s){
+    var titulo = s.tituloKey ? _getNestedVal(_siteDataCache||{}, s.tituloKey) : '';
+    var desc   = s.descKey   ? _getNestedVal(_siteDataCache||{}, s.descKey)   : '';
+    var temFoto = s.fotoKey !== null;
+    return '<div style="display:flex;align-items:center;gap:14px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px 16px;flex-wrap:wrap">'
+      +'<div style="flex:1;min-width:160px">'
+      +'  <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px">'+s.label+'</div>'
+      +(titulo?'<div style="font-size:11px;color:var(--gold);margin-bottom:2px">'+_esc(titulo)+'</div>':'')
+      +(desc?'<div style="font-size:11px;color:var(--text3);line-height:1.5;max-width:380px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+_esc(desc)+'</div>':'')
+      +(temFoto?'<div style="font-size:10px;color:rgba(96,165,250,0.7);margin-top:3px">📸 Suporta foto</div>':'')
+      +'</div>'
+      +'<div style="display:flex;gap:8px;flex-shrink:0">'
+      +'  <button onclick="editarSecao(\''+s.id+'\')" style="background:var(--gold3);border:1px solid var(--border2);color:var(--gold);padding:8px 16px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px">✏️ Editar</button>'
+      +'</div>'
+      +'</div>';
+  }).join('');
+}
+
+// ── Editar seção — abre modal ──
+function editarSecao(id){
+  _secaoEditando = _SECOES_SITE.find(function(s){ return s.id===id; });
+  if(!_secaoEditando) return;
+  _novaFotoBase64 = null;
+  _removerFotoFlag = false;
+
+  document.getElementById('modal-secao-titulo').textContent = 'Editar: '+_secaoEditando.label;
+  document.getElementById('ms-id').value = id;
+
+  var d = _siteDataCache || {};
+  document.getElementById('ms-titulo').value   = _secaoEditando.tituloKey ? _getNestedVal(d, _secaoEditando.tituloKey) : '';
+  document.getElementById('ms-subtitulo').value= _secaoEditando.subKey   ? _getNestedVal(d, _secaoEditando.subKey)   : '';
+  document.getElementById('ms-desc').value     = _secaoEditando.descKey  ? _getNestedVal(d, _secaoEditando.descKey)  : '';
+
+  // Foto
+  var fotoWrap = document.getElementById('ms-foto-atual-wrap');
+  var fotoImg  = document.getElementById('ms-foto-atual');
+  var novaPreview = document.getElementById('ms-foto-nova-preview');
+  novaPreview.innerHTML = '<span style="font-size:10px;color:var(--text3);text-align:center;padding:6px">Sem<br>foto</span>';
+  document.getElementById('ms-input-foto').value='';
+
+  if(_secaoEditando.fotoKey === 'fotoCorretor'){
+    fotoImg.src = '../rafael-foto.jpg?_='+Date.now();
+    fotoWrap.style.display='block';
+  } else {
+    fotoWrap.style.display='none';
+  }
+
+  // Desabilitar campos que a seção não usa
+  document.getElementById('ms-titulo').disabled    = !_secaoEditando.tituloKey;
+  document.getElementById('ms-subtitulo').disabled = !_secaoEditando.subKey;
+  document.getElementById('ms-desc').disabled      = !_secaoEditando.descKey;
+  document.getElementById('ms-titulo').style.opacity    = _secaoEditando.tituloKey ? '1':'0.4';
+  document.getElementById('ms-subtitulo').style.opacity = _secaoEditando.subKey    ? '1':'0.4';
+  document.getElementById('ms-desc').style.opacity      = _secaoEditando.descKey   ? '1':'0.4';
+
+  document.getElementById('modal-secao').classList.add('on');
+  document.body.style.overflow='hidden';
+}
+
+function fecharModalSecao(){
+  document.getElementById('modal-secao').classList.remove('on');
+  document.body.style.overflow='';
+  _secaoEditando=null; _novaFotoBase64=null; _removerFotoFlag=false;
+}
+
+function previewFotoSecao(input){
+  if(!input.files||!input.files[0]) return;
+  var file=input.files[0];
+  if(file.size>2*1024*1024){ toast('Foto muito grande. Máx. 2MB.','erro'); input.value=''; return; }
+  var reader=new FileReader();
+  reader.onload=function(e){
+    _novaFotoBase64=e.target.result;
+    var prev=document.getElementById('ms-foto-nova-preview');
+    prev.innerHTML='<img src="'+e.target.result+'" style="width:100%;height:100%;object-fit:cover">';
+  };
+  reader.readAsDataURL(file);
+}
+
+function removerFotoSecao(){
+  if(!confirm('Remover a foto desta seção?')) return;
+  _removerFotoFlag=true;
+  document.getElementById('ms-foto-atual-wrap').style.display='none';
+  toast('Foto marcada para remoção. Salve para confirmar.','aviso');
+}
+
+async function salvarEdicaoSecao(){
+  var btn=event.target; var orig=btn.innerHTML;
+  btn.disabled=true; btn.textContent='⏳ Salvando...';
+
+  var d = await loadSiteData()||{};
+  var s = _secaoEditando;
+
+  if(s.tituloKey) _setNestedVal(d, s.tituloKey, document.getElementById('ms-titulo').value);
+  if(s.subKey)    _setNestedVal(d, s.subKey,    document.getElementById('ms-subtitulo').value);
+  if(s.descKey)   _setNestedVal(d, s.descKey,   document.getElementById('ms-desc').value);
+
+  // Foto do corretor — salvar via GitHub API como arquivo binário não é suportado diretamente
+  // Solução: salvar o base64 no site_data.json e o site lê dinamicamente
+  if(s.fotoKey === 'fotoCorretor'){
+    if(_removerFotoFlag){
+      if(!d.config) d.config={};
+      d.config.fotoBase64 = null;
+    } else if(_novaFotoBase64){
+      if(!d.config) d.config={};
+      d.config.fotoBase64 = _novaFotoBase64;
+    }
+  }
+
+  var ok = await saveSiteData(d);
+  _siteDataCache = d;
+  btn.innerHTML=orig; btn.disabled=false;
+
+  if(ok){
+    toast('✅ Seção salva e publicada!','ok');
+    renderSecoesLista();
+    fecharModalSecao();
+  }
+}
 </script>
 
 <style>
@@ -1899,6 +2248,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <div class="adm-nav-title">📱 Marketing</div>
     <button class="adm-si" onclick="goPageM('redes')"><span class="adm-ic">📱</span>Redes Sociais</button>
     <button class="adm-si" onclick="goPageM('vip')"><span class="adm-ic">💬</span>Grupo VIP</button>
+    <button class="adm-si" onclick="goPageM('menu')"><span class="adm-ic">📋</span>Menu & Seções</button>
     <div class="adm-nav-divider"></div>
     <div class="adm-nav-title">⚙️ Sistema</div>
     <button class="adm-si" onclick="goPageM('senha')"><span class="adm-ic">🔐</span>Senha</button>
