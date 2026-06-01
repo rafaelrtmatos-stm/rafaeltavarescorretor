@@ -257,12 +257,76 @@
     }
   ],
   "regioes": [
-    {"id":"mararu","nome":"Mararu","foto":"","loc":"Novo Lançamento · Santarém","desc":"Lotes residenciais, comerciais e econômicos. Documentação regularizada e condições especiais.","badge":"🔥 Lançamento","badgeTipo":"lancamento","wpp":"Olá Rafael! Tenho interesse no Bairro Mararu!"},
-    {"id":"pajucara","nome":"Pajuçara","foto":"","loc":"Zona Urbana · Santarém","desc":"Bairro em plena expansão com fácil acesso e alta valorização. Área residencial consolidada.","badge":"Disponível","badgeTipo":"disponivel","wpp":"Olá Rafael! Tenho interesse em Pajuçara!"},
-    {"id":"santa-maria","nome":"Santa Maria","foto":"","loc":"Zona Sul · Santarém","desc":"Tranquila e estruturada. Loteamento Bom Sossego com documentação completa.","badge":"Disponível","badgeTipo":"disponivel","wpp":"Olá Rafael! Tenho interesse em Santa Maria!"},
-    {"id":"cucuruna","nome":"Cucurunã","foto":"","loc":"Zona Norte · Santarém","desc":"Região em expansão estratégica. Novos loteamentos com alto potencial de valorização.","badge":"Em breve","badgeTipo":"breve","wpp":"Olá Rafael! Tenho interesse em Cucurunã!"},
-    {"id":"ponta-pedras","nome":"Ponta de Pedras","foto":"","loc":"Zona Ribeirinha · Tapajós","desc":"Acesso ao rio Tapajós. Área privilegiada com vista panorâmica e potencial turístico.","badge":"Em breve","badgeTipo":"breve-azul","wpp":"Olá Rafael! Tenho interesse em Ponta de Pedras!"},
-    {"id":"alter","nome":"Alter do Chão","foto":"","loc":"Paraíso do Tapajós","desc":"O destino turístico mais famoso do Pará. Terrenos de alto valor em região paradisíaca.","badge":"Premium","badgeTipo":"premium","wpp":"Olá Rafael! Tenho interesse em Alter do Chão!"}
+    {
+      "id": "mararu",
+      "nome": "Mararu",
+      "foto": "",
+      "loc": "Novo Lançamento · Santarém",
+      "desc": "Lotes residenciais, comerciais e econômicos. Documentação regularizada e condições especiais.",
+      "badge": "🔥 Lançamento",
+      "badgeTipo": "lancamento",
+      "wpp": "Olá Rafael! Tenho interesse no Bairro Mararu!"
+    },
+    {
+      "id": "pajucara",
+      "nome": "Pajuçara",
+      "foto": "",
+      "loc": "Zona Urbana · Santarém",
+      "desc": "Bairro em plena expansão com fácil acesso e alta valorização. Área residencial consolidada.",
+      "badge": "Disponível",
+      "badgeTipo": "disponivel",
+      "wpp": "Olá Rafael! Tenho interesse em Pajuçara!"
+    },
+    {
+      "id": "santa-maria",
+      "nome": "Santa Maria",
+      "foto": "",
+      "loc": "Zona Sul · Santarém",
+      "desc": "Tranquila e estruturada. Loteamento Bom Sossego com documentação completa.",
+      "badge": "Disponível",
+      "badgeTipo": "disponivel",
+      "wpp": "Olá Rafael! Tenho interesse em Santa Maria!"
+    },
+    {
+      "id": "cucuruna",
+      "nome": "Cucurunã",
+      "foto": "",
+      "loc": "Zona Norte · Santarém",
+      "desc": "Região em expansão estratégica. Novos loteamentos com alto potencial de valorização.",
+      "badge": "Em breve",
+      "badgeTipo": "breve",
+      "wpp": "Olá Rafael! Tenho interesse em Cucurunã!"
+    },
+    {
+      "id": "ponta-pedras",
+      "nome": "Ponta de Pedras",
+      "foto": "",
+      "loc": "Zona Ribeirinha · Tapajós",
+      "desc": "Acesso ao rio Tapajós. Área privilegiada com vista panorâmica e potencial turístico.",
+      "badge": "Em breve",
+      "badgeTipo": "breve-azul",
+      "wpp": "Olá Rafael! Tenho interesse em Ponta de Pedras!"
+    },
+    {
+      "id": "alter",
+      "nome": "Alter do Chão",
+      "foto": "",
+      "loc": "Paraíso do Tapajós",
+      "desc": "O destino turístico mais famoso do Pará. Terrenos de alto valor em região paradisíaca.",
+      "badge": "Premium",
+      "badgeTipo": "premium",
+      "wpp": "Olá Rafael! Tenho interesse em Alter do Chão!"
+    },
+    {
+      "id": "espirito-santo",
+      "nome": "Espírito Santo",
+      "loc": "Santarém, Pará",
+      "badge": "Zona Leste · Rio Tapajós",
+      "desc": "Região à beira do Tapajós com paisagens únicas e alto potencial de valorização.",
+      "sobre": "A região do Espírito Santo se destaca pela proximidade com o rio Tapajós e pela tranquilidade. Com novos empreendimentos surgindo na área, é uma das regiões com maior potencial de valorização em Santarém.",
+      "foto": "",
+      "wpp": "Olá Rafael! Tenho interesse em lotes na região do Espírito Santo em Santarém."
+    }
   ],
   "pinSize": 100,
   "geradoEm": "2026-05-31T00:00:00.000Z",

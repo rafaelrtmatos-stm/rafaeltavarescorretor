@@ -1473,7 +1473,19 @@ function startMap(){
     .then(function(d){
       if(!d||!d.regioes||!d.regioes.length)return;
       var map={};
-      d.regioes.forEach(function(r){if(r.id)map[r.id]=r;});
+      d.regioes.forEach(function(r){
+        if(r.id)map[r.id]=r;
+        // Atualizar _catalogos com dados do site_data.json
+        if(r.id&&_catalogos[r.id]){
+          if(r.nome)_catalogos[r.id].nome=r.nome;
+          if(r.loc)_catalogos[r.id].loc=r.loc;
+          if(r.badge)_catalogos[r.id].badge=r.badge;
+          if(r.desc)_catalogos[r.id].desc=r.desc;
+          if(r.sobre)_catalogos[r.id].sobre=r.sobre;
+          if(r.foto)_catalogos[r.id].heroBg='url('+r.foto+') center/cover';
+          if(r.wpp)_catalogos[r.id].wpp=r.wpp;
+        }
+      });
       document.querySelectorAll('.rc2-card').forEach(function(card){
         var nomeEl=card.querySelector('.rc2-nome-over');
         if(!nomeEl)return;
@@ -2801,6 +2813,16 @@ var _catalogos={
     diferenciais:['Vista panorâmica para o rio Tapajós','Alto potencial turístico','Uma das regiões mais valorizadas','Ambiente natural preservado','Proximidade com o centro de Santarém'],
     mapLink:'https://maps.google.com/?q=-2.49,-54.72',
     wpp:'Olá Rafael! Tenho interesse em lotes na região de Ponta de Pedras.'
+  },
+  'espirito-santo':{
+    nome:'Espírito Santo',loc:'Santarém, Pará',badge:'Zona Leste · Rio Tapajós',
+    heroBg:'linear-gradient(135deg,#0a1a2a,#1a3a5a,#2a5a8a)',
+    desc:'Região à beira do Tapajós com paisagens únicas e alto potencial de valorização. Tranquilidade e natureza com fácil acesso à cidade.',
+    sobre:'A região do Espírito Santo se destaca pela proximidade com o rio Tapajós e pela tranquilidade que oferece aos moradores. Com novos empreendimentos surgindo na área, é uma das regiões com maior potencial de valorização em Santarém — ideal para quem busca sossego sem abrir mão da proximidade com a cidade.',
+    galeria:['linear-gradient(135deg,#0a1a2a,#1a3a5a)','linear-gradient(135deg,#0e2030,#1e4060)','linear-gradient(135deg,#081520,#162e48)','linear-gradient(135deg,#122030,#204060)'],
+    diferenciais:['Próximo ao rio Tapajós','Região tranquila e arborizada','Alto potencial de valorização','Fácil acesso à cidade de Santarém','Ambiente natural preservado'],
+    mapLink:'https://maps.google.com/?q=-2.478306,-54.753889',
+    wpp:'Olá Rafael! Tenho interesse em lotes na região do Espírito Santo em Santarém.'
   },
   'alter':{
     nome:'Alter do Chão',loc:'Santarém, Pará',badge:'Premium · Paraíso do Tapajós',
