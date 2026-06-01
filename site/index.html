@@ -853,6 +853,7 @@ var _pinoNomeCatalogo={
   'Mararu':'mararu'
 };
 function irParaCatalogoPino(p){
+  if(p.nome==='Mararu'){window.open('https://www.rafaeltavarescorretor.com.br/mararu/','_blank');return;}
   var catalogoId=_pinoNomeCatalogo[p.nome]||null;
   var secaoRegioes=document.getElementById('regioes');
   if(secaoRegioes){
@@ -1335,7 +1336,7 @@ function startMap(){
     <div class="rc2-grid">
 
       <!-- MARARU -->
-      <div class="rc2-card rc2-lancamento" onclick="abrirCatalogo('mararu')">
+      <div class="rc2-card rc2-lancamento" onclick="window.open('https://www.rafaeltavarescorretor.com.br/mararu/','_blank')">
         <div class="rc2-foto">
           <div class="rc2-img" style="background:linear-gradient(160deg,#1a0a00 0%,#3d1a00 30%,#7c3d00 60%,#c9600a 85%,#e8872a 100%)">
             <div style="position:absolute;inset:0;background:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22><defs><filter id=%22n%22><feTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/><feColorMatrix type=%22saturate%22 values=%220%22/></filter></defs><rect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22 opacity=%220.08%22/></svg>') repeat;opacity:.5"></div>
