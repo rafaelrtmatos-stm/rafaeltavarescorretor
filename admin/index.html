@@ -326,6 +326,7 @@ function salvarTokenModal(){
         <button class="sitem" onclick="goPage('cta',this)"><span class="icon">📢</span><span>CTA</span></button>
         <div class="sidebar-title">🏘️ Imóveis</div>
         <button class="sitem" onclick="goPage('imoveis',this)"><span class="icon">📍</span><span>Pinos & Empreed.</span></button>
+        <button class="sitem" onclick="goPage('regioes',this)"><span class="icon">🗺️</span><span>Regiões</span></button>
         <button class="sitem" onclick="goPage('lancamento',this)"><span class="icon">🎯</span><span>Destaque</span></button>
         <div class="sidebar-title">📱 Marketing</div>
         <button class="sitem" onclick="goPage('redes',this)"><span class="icon">📱</span><span>Redes Sociais</span></button>
@@ -535,6 +536,21 @@ function salvarTokenModal(){
               Salvar & Publicar
             </button>
           </div>
+        </div>
+      </div>
+
+      <!-- REGIÕES -->
+      <div class="page" id="page-regioes">
+        <div class="page-header">
+          <div class="page-title">Cards de Regiões</div>
+          <div class="page-sub">Edite foto, descrição e informações de cada card na seção "Escolha sua região"</div>
+        </div>
+        <div id="regioes-editor"></div>
+        <div class="btn-row" style="margin-top:20px">
+          <button class="btn-save" onclick="salvarRegioes(event)">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg>
+            Salvar e Publicar
+          </button>
         </div>
       </div>
 
@@ -1109,6 +1125,7 @@ function goPage(id,el){
   if(id==='cta'){carregarCTA();}
   if(id==='vip'){carregarVIP();}
   if(id==='menu'){carregarMenuSecoes();}
+  if(id==='regioes'){carregarRegioes();}
 }
 
 // ── CARREGAR ──
@@ -1852,6 +1869,86 @@ async function salvarLancamento(){
   if(ok)toast('✅ Lançamento salvo e publicado!','ok');
 }
 
+// ── REGIÕES ──
+var _regData=[];
+var REG_DEF=[
+  {id:'mararu',nome:'Mararu',foto:'',loc:'Novo Lançamento · Santarém',desc:'Lotes residenciais, comerciais e econômicos. Documentação regularizada e condições especiais.',badge:'🔥 Lançamento',badgeTipo:'lancamento'},
+  {id:'pajucara',nome:'Pajuçara',foto:'',loc:'Zona Urbana · Santarém',desc:'Bairro em plena expansão com fácil acesso e alta valorização. Área residencial consolidada.',badge:'Disponível',badgeTipo:'disponivel'},
+  {id:'santa-maria',nome:'Santa Maria',foto:'',loc:'Zona Sul · Santarém',desc:'Tranquila e estruturada. Loteamento Bom Sossego com documentação completa.',badge:'Disponível',badgeTipo:'disponivel'},
+  {id:'cucuruna',nome:'Cucurunã',foto:'',loc:'Zona Norte · Santarém',desc:'Região em expansão estratégica. Novos loteamentos com alto potencial de valorização.',badge:'Em breve',badgeTipo:'breve'},
+  {id:'ponta-pedras',nome:'Ponta de Pedras',foto:'',loc:'Zona Ribeirinha · Tapajós',desc:'Acesso ao rio Tapajós. Área privilegiada com vista panorâmica e potencial turístico.',badge:'Em breve',badgeTipo:'breve-azul'},
+  {id:'alter',nome:'Alter do Chão',foto:'',loc:'Paraíso do Tapajós',desc:'O destino turístico mais famoso do Pará. Terrenos de alto valor em região paradisíaca.',badge:'Premium',badgeTipo:'premium'}
+];
+
+async function carregarRegioes(){
+  var d=await loadSiteData();
+  if(d&&d.regioes&&d.regioes.length){
+    _regData=REG_DEF.map(function(def,i){return Object.assign({},def,d.regioes[i]||{});});
+  } else {
+    _regData=JSON.parse(JSON.stringify(REG_DEF));
+  }
+  renderRegEditor();
+}
+
+function renderRegEditor(){
+  var c=document.getElementById('regioes-editor');
+  if(!c)return;
+  c.innerHTML=_regData.map(function(r,i){
+    var fv=(r.foto||'').replace(/"/g,'&quot;');
+    var lv=(r.loc||'').replace(/"/g,'&quot;');
+    var bv=(r.badge||'').replace(/"/g,'&quot;');
+    var dv=(r.desc||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    var prev=r.foto
+      ?'<img src="'+fv+'" style="width:100%;height:100%;object-fit:cover;border-radius:6px" onerror="this.style.display=\'none\';this.nextSibling.style.display=\'flex\'">'
+        +'<div style="display:none;align-items:center;justify-content:center;height:100%;font-size:10px;color:var(--red)">Imagem inválida</div>'
+      :'<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:10px;color:var(--text3)">Sem foto</div>';
+    return '<div class="card" style="margin-bottom:16px" id="regcard-'+i+'">'
+      +'<div class="card-title"><span>🗺️</span> '+r.nome+'</div>'
+      +'<div style="display:flex;gap:16px;align-items:flex-start;margin-bottom:12px">'
+      +'<div id="reg-prev-'+i+'" style="flex-shrink:0;width:110px;height:72px;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--bg3)">'+prev+'</div>'
+      +'<div style="flex:1">'
+      +'<div class="f"><label>🖼️ URL da foto de fundo</label>'
+      +'<input type="url" id="reg-foto-'+i+'" value="'+fv+'" placeholder="https://... (link direto da imagem)" oninput="prevRegFoto('+i+')"/></div>'
+      +'<div style="font-size:10px;color:var(--text3);margin-top:2px">Cole a URL direta de uma imagem pública (Imgur, Google Drive, etc.)</div>'
+      +'</div></div>'
+      +'<div class="g2">'
+      +'<div class="f"><label>📍 Localização</label><input type="text" id="reg-loc-'+i+'" value="'+lv+'" placeholder="Zona Urbana · Santarém"/></div>'
+      +'<div class="f"><label>🏷️ Badge</label><input type="text" id="reg-badge-'+i+'" value="'+bv+'" placeholder="Disponível"/></div>'
+      +'</div>'
+      +'<div class="f"><label>📝 Descrição</label><textarea id="reg-desc-'+i+'" rows="2">'+dv+'</textarea></div>'
+      +'</div>';
+  }).join('');
+}
+
+function prevRegFoto(i){
+  var url=((document.getElementById('reg-foto-'+i)||{}).value||'').trim();
+  var box=document.getElementById('reg-prev-'+i);
+  if(!box)return;
+  if(url){
+    box.innerHTML='<img src="'+url.replace(/"/g,'%22')+'" style="width:100%;height:100%;object-fit:cover;border-radius:6px" onerror="this.parentElement.innerHTML=\'<div style=\\\"display:flex;align-items:center;justify-content:center;height:100%;font-size:10px;color:var(--red)\\\">Imagem inválida</div>\'">';
+  } else {
+    box.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:10px;color:var(--text3)">Sem foto</div>';
+  }
+}
+
+async function salvarRegioes(e){
+  var btn=e&&e.target?e.target:document.querySelector('#page-regioes .btn-save');
+  if(btn){btn.textContent='⏳ Salvando...';btn.disabled=true;}
+  var d=await loadSiteData()||{};
+  d.regioes=_regData.map(function(r,i){
+    return Object.assign({},r,{
+      foto:((document.getElementById('reg-foto-'+i)||{}).value||'').trim(),
+      loc:(document.getElementById('reg-loc-'+i)||{}).value||r.loc,
+      badge:(document.getElementById('reg-badge-'+i)||{}).value||r.badge,
+      desc:(document.getElementById('reg-desc-'+i)||{}).value||r.desc
+    });
+  });
+  var ok=await saveSiteData(d);
+  if(btn){btn.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg> Salvar e Publicar';btn.disabled=false;}
+  if(ok)toast('✅ Regiões salvas e publicadas!','ok');
+  else toast('⚠️ Erro ao salvar. Verifique o token GitHub.','aviso');
+}
+
 function toast(msg,tipo){
   var t=document.getElementById('toast');
   t.textContent=msg;
@@ -2243,6 +2340,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <div class="adm-nav-divider"></div>
     <div class="adm-nav-title">🏘️ Imóveis</div>
     <button class="adm-si" onclick="goPageM('imoveis')"><span class="adm-ic">📍</span>Pinos & Empreendimentos</button>
+    <button class="adm-si" onclick="goPageM('regioes')"><span class="adm-ic">🗺️</span>Regiões</button>
     <button class="adm-si" onclick="goPageM('lancamento')"><span class="adm-ic">🎯</span>Destaque</button>
     <div class="adm-nav-divider"></div>
     <div class="adm-nav-title">📱 Marketing</div>

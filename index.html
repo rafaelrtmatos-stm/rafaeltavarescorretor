@@ -1455,6 +1455,58 @@ function startMap(){
 
   </div>
 </section>
+<script>
+(function(){
+  var NAME_MAP={
+    'Mararu':'mararu','Pajuçara':'pajucara','Santa Maria':'santa-maria',
+    'Cucurunã':'cucuruna','Ponta de Pedras':'ponta-pedras','Alter do Chão':'alter'
+  };
+  var BADGE_STYLE={
+    'lancamento':'background:rgba(248,113,113,0.18);border-color:rgba(248,113,113,0.45);color:#f87171',
+    'disponivel':'background:rgba(64,145,108,0.25);border-color:rgba(64,145,108,0.5);color:#52c47a',
+    'breve':'background:rgba(201,168,76,0.2);border-color:rgba(201,168,76,0.45);color:#e8c84a',
+    'breve-azul':'background:rgba(96,165,250,0.18);border-color:rgba(96,165,250,0.45);color:#60a5fa',
+    'premium':'background:rgba(167,139,250,0.18);border-color:rgba(167,139,250,0.45);color:#c4b5fd'
+  };
+  fetch('/site_data.json?_='+Date.now())
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(!d||!d.regioes||!d.regioes.length)return;
+      var map={};
+      d.regioes.forEach(function(r){if(r.id)map[r.id]=r;});
+      document.querySelectorAll('.rc2-card').forEach(function(card){
+        var nomeEl=card.querySelector('.rc2-nome-over');
+        if(!nomeEl)return;
+        var id=NAME_MAP[nomeEl.textContent.trim()];
+        if(!id||!map[id])return;
+        var r=map[id];
+        var img=card.querySelector('.rc2-img');
+        if(img&&r.foto&&r.foto.trim()){
+          img.style.backgroundImage='url("'+r.foto.replace(/"/g,'%22')+'")';
+          img.style.backgroundSize='cover';
+          img.style.backgroundPosition='center';
+        }
+        if(r.desc&&r.desc.trim()){
+          var el=card.querySelector('.rc2-desc2');
+          if(el)el.textContent=r.desc;
+        }
+        if(r.loc&&r.loc.trim()){
+          var el2=card.querySelector('.rc2-loc');
+          if(el2)el2.textContent='📍 '+r.loc;
+        }
+        if(r.badge&&r.badge.trim()){
+          var badgeEl=card.querySelector('.rc2-top-badge');
+          if(badgeEl){
+            var dot=(r.badgeTipo==='lancamento')?'<span style="width:5px;height:5px;border-radius:50%;background:#f87171;animation:pulse 1.2s infinite;flex-shrink:0;display:inline-block"></span> ':'';
+            var bs=BADGE_STYLE[r.badgeTipo]||'';
+            if(bs)badgeEl.setAttribute('style',bs);
+            badgeEl.innerHTML=dot+r.badge;
+          }
+        }
+      });
+    }).catch(function(){});
+})();
+</script>
 
 <style>
 /* ── GRID ── */
