@@ -289,5 +289,13 @@
         "sub": "INTELIGENTE"
       }
     ]
+  },
+  "regioes_fotos": {
+    "mararu": "",
+    "pajucara": "",
+    "santa-maria": "",
+    "cucuruna": "",
+    "ponta-pedras": "",
+    "alter": ""
   }
 }

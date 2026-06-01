@@ -327,6 +327,7 @@ function salvarTokenModal(){
         <div class="sidebar-title">🏘️ Imóveis</div>
         <button class="sitem" onclick="goPage('imoveis',this)"><span class="icon">📍</span><span>Pinos & Empreed.</span></button>
         <button class="sitem" onclick="goPage('lancamento',this)"><span class="icon">🎯</span><span>Destaque</span></button>
+        <button class="sitem" onclick="goPage('regioes',this)"><span class="icon">🗺️</span><span>Fotos Regiões</span></button>
         <div class="sidebar-title">📱 Marketing</div>
         <button class="sitem" onclick="goPage('redes',this)"><span class="icon">📱</span><span>Redes Sociais</span></button>
         <button class="sitem" onclick="goPage('vip',this)"><span class="icon">💬</span><span>Grupo VIP</span></button>
@@ -691,6 +692,22 @@ function salvarTokenModal(){
             <button class="btn-d" onclick="fecharFormEmpr()" style="padding:10px 16px">Cancelar</button>
           </div>
         </div>
+      </div>
+
+      <!-- ══════ PÁGINA: FOTOS DAS REGIÕES ══════ -->
+      <div class="page" id="page-regioes">
+        <div class="page-header">
+          <div class="page-title">Fotos das Regiões</div>
+          <div class="page-sub">Adicione fotos reais nos cards de cada região do site</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>ℹ️</span> Como funciona</div>
+          <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:0">
+            Escolha uma foto para cada região. A foto será <strong style="color:var(--gold)">enviada diretamente para o GitHub</strong> e aparecerá no card correspondente no site. Formatos aceitos: JPG ou PNG. Tamanho recomendado: 800×500px.
+          </p>
+        </div>
+
+        <div id="regioes-fotos-lista" style="display:flex;flex-direction:column;gap:16px"></div>
       </div>
 
       <!-- ══════ PÁGINA: MENU & SEÇÕES ══════ -->
@@ -1109,6 +1126,7 @@ function goPage(id,el){
   if(id==='cta'){carregarCTA();}
   if(id==='vip'){carregarVIP();}
   if(id==='menu'){carregarMenuSecoes();}
+  if(id==='regioes'){carregarFotosRegioes();}
 }
 
 // ── CARREGAR ──
@@ -1196,6 +1214,171 @@ function previewFoto(input){
     toast('✅ Foto atualizada!','ok');
   };
   reader.readAsDataURL(file);
+}
+
+// Mostra preview de nova foto e exibe botão de salvar
+function previewNovaFoto(input, previewId, btnId){
+  if(!input.files||!input.files[0])return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var prev=document.getElementById(previewId);
+    if(prev) prev.innerHTML='<img src="'+e.target.result+'" style="width:100%;height:100%;object-fit:cover;border-radius:8px">';
+    var btn=document.getElementById(btnId);
+    if(btn) btn.style.display='inline-flex';
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+
+// Envia arquivo de imagem para o GitHub e atualiza site_data.json
+async function salvarFoto(inputId, filename){
+  var input=document.getElementById(inputId);
+  if(!input||!input.files||!input.files[0]){toast('Selecione uma foto primeiro','aviso');return;}
+  var token=getToken();
+  if(!token){showTokenModal();return;}
+  var btnId=filename.replace(/[^a-zA-Z0-9]/g,'-')+'-salvar';
+  var btn=document.getElementById(btnId)||event.target;
+  var orig=btn.innerHTML; btn.disabled=true; btn.textContent='⏳ Enviando...';
+  var reader=new FileReader();
+  reader.onload=async function(e){
+    try{
+      var b64=e.target.result.split(',')[1];
+      var shaR=await fetch('https://api.github.com/repos/'+GITHUB_REPO+'/contents/'+filename,
+        {headers:{Authorization:'token '+token,Accept:'application/vnd.github.v3+json'}});
+      var shaD=await shaR.json();
+      var body={message:'Admin: foto '+filename,content:b64};
+      if(shaD.sha) body.sha=shaD.sha;
+      var r=await fetch('https://api.github.com/repos/'+GITHUB_REPO+'/contents/'+filename,
+        {method:'PUT',headers:{Authorization:'token '+token,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},
+         body:JSON.stringify(body)});
+      btn.innerHTML=orig; btn.disabled=false;
+      if(r.ok){ toast('✅ Foto publicada!','ok'); }
+      else{ var err=await r.json(); toast('Erro: '+(err.message||'desconhecido'),'erro'); }
+    }catch(err){ btn.innerHTML=orig; btn.disabled=false; toast('Erro de conexão','erro'); }
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+
+// ══════════════════════════════════════
+//  FOTOS DAS REGIÕES
+// ══════════════════════════════════════
+var _REGIOES_DEF=[
+  {id:'mararu',      label:'🔥 Mararu',         cor:'#f87171'},
+  {id:'pajucara',    label:'🌿 Pajuçara',        cor:'#52c47a'},
+  {id:'santa-maria', label:'🌲 Santa Maria',     cor:'#52c47a'},
+  {id:'cucuruna',    label:'🏔️ Cucurunã',        cor:'#e8c84a'},
+  {id:'ponta-pedras',label:'🌊 Ponta de Pedras', cor:'#60a5fa'},
+  {id:'alter',       label:'💜 Alter do Chão',   cor:'#c4b5fd'}
+];
+var _regFotos={};
+
+async function carregarFotosRegioes(){
+  var d=await loadSiteData();
+  _regFotos=(d&&d.regioes_fotos)?JSON.parse(JSON.stringify(d.regioes_fotos)):{};
+  renderFotosRegioes();
+}
+
+function renderFotosRegioes(){
+  var c=document.getElementById('regioes-fotos-lista');
+  if(!c)return;
+  c.innerHTML=_REGIOES_DEF.map(function(r){
+    var fotoUrl=_regFotos[r.id]||'';
+    var temFoto=!!fotoUrl;
+    return '<div class="card" style="margin-bottom:0">'
+      +'<div class="card-title"><span style="color:'+r.cor+'">●</span> '+r.label+'</div>'
+      +'<div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap">'
+
+      // Preview atual
+      +'<div style="flex-shrink:0;text-align:center">'
+      +'  <div style="font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Foto atual</div>'
+      +'  <div style="width:140px;height:90px;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--bg3);display:flex;align-items:center;justify-content:center">'
+      +(temFoto
+        ?'<img src="'+fotoUrl+'?_='+Date.now()+'" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML=\'<span style=font-size:11px;color:var(--red)>Erro ao carregar</span>\'">'
+        :'<span style="font-size:11px;color:var(--text3);text-align:center;padding:8px">Gradiente<br>(sem foto)</span>')
+      +'  </div>'
+      +(temFoto?'<button onclick="removerFotoRegiao(\''+r.id+'\')" style="display:inline-block;margin-top:8px;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.25);color:var(--red);padding:5px 10px;border-radius:6px;font-size:11px;cursor:pointer;font-family:inherit">🗑 Remover</button>':'')
+      +'</div>'
+
+      // Nova foto
+      +'<div style="flex:1;min-width:180px">'
+      +'  <div style="font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Nova foto</div>'
+      +'  <div id="prev-regiao-'+r.id+'" style="width:140px;height:90px;border-radius:10px;overflow:hidden;border:1px dashed rgba(201,168,76,0.3);background:var(--bg3);display:flex;align-items:center;justify-content:center;margin-bottom:8px">'
+      +'    <span style="font-size:10px;color:var(--text3);text-align:center;padding:6px">Nenhuma<br>selecionada</span>'
+      +'  </div>'
+      +'  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">'
+      +'    <label class="btn-upload" for="input-regiao-'+r.id+'" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px">'
+      +'      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>'
+      +'      Escolher foto'
+      +'    </label>'
+      +'    <input type="file" id="input-regiao-'+r.id+'" accept="image/*" style="display:none" onchange="previewFotoRegiao(this,\''+r.id+'\')" />'
+      +'    <button id="btn-salvar-regiao-'+r.id+'" onclick="salvarFotoRegiao(\''+r.id+'\')" class="btn-save" style="display:none;padding:9px 16px;font-size:12px">'
+      +'      💾 Salvar'
+      +'    </button>'
+      +'  </div>'
+      +'  <div style="font-size:10px;color:var(--text3);margin-top:6px">JPG ou PNG · Recomendado: 800×500px</div>'
+      +'</div>'
+
+      +'</div></div>';
+  }).join('');
+}
+
+function previewFotoRegiao(input, id){
+  if(!input.files||!input.files[0])return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var prev=document.getElementById('prev-regiao-'+id);
+    if(prev) prev.innerHTML='<img src="'+e.target.result+'" style="width:100%;height:100%;object-fit:cover;border-radius:10px">';
+    var btn=document.getElementById('btn-salvar-regiao-'+id);
+    if(btn) btn.style.display='inline-flex';
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+
+async function salvarFotoRegiao(id){
+  var input=document.getElementById('input-regiao-'+id);
+  if(!input||!input.files||!input.files[0]){toast('Selecione uma foto','aviso');return;}
+  var token=getToken();
+  if(!token){showTokenModal();return;}
+  var btn=document.getElementById('btn-salvar-regiao-'+id);
+  var orig=btn.innerHTML; btn.disabled=true; btn.textContent='⏳ Enviando...';
+  var file=input.files[0];
+  var ext=file.name.split('.').pop().toLowerCase()||'jpg';
+  var filename='img/regiao-'+id+'.'+ext;
+  var reader=new FileReader();
+  reader.onload=async function(e){
+    try{
+      var b64=e.target.result.split(',')[1];
+      // Verifica SHA existente
+      var shaR=await fetch('https://api.github.com/repos/'+GITHUB_REPO+'/contents/'+filename,
+        {headers:{Authorization:'token '+token,Accept:'application/vnd.github.v3+json'}});
+      var shaD=await shaR.json();
+      var body={message:'Admin: foto regiao '+id,content:b64};
+      if(shaD.sha) body.sha=shaD.sha;
+      var r=await fetch('https://api.github.com/repos/'+GITHUB_REPO+'/contents/'+filename,
+        {method:'PUT',headers:{Authorization:'token '+token,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},
+         body:JSON.stringify(body)});
+      if(!r.ok){ var errD=await r.json(); btn.innerHTML=orig; btn.disabled=false; toast('Erro: '+(errD.message||'GitHub'),'erro'); return; }
+      // Atualiza site_data.json com o caminho da foto
+      var d=await loadSiteData()||{};
+      if(!d.regioes_fotos) d.regioes_fotos={};
+      d.regioes_fotos[id]='/'+filename+'?v='+Date.now();
+      _regFotos[id]=d.regioes_fotos[id];
+      var ok2=await saveSiteData(d);
+      btn.innerHTML=orig; btn.disabled=false;
+      if(ok2){ toast('✅ Foto da região publicada!','ok'); renderFotosRegioes(); }
+      else toast('Foto enviada, mas erro ao salvar JSON','aviso');
+    }catch(err){ btn.innerHTML=orig; btn.disabled=false; toast('Erro de conexão','erro'); }
+  };
+  reader.readAsDataURL(file);
+}
+
+async function removerFotoRegiao(id){
+  if(!confirm('Remover a foto de "'+id+'"? O card voltará a usar o gradiente.'))return;
+  var d=await loadSiteData()||{};
+  if(!d.regioes_fotos) d.regioes_fotos={};
+  d.regioes_fotos[id]='';
+  _regFotos[id]='';
+  var ok=await saveSiteData(d);
+  if(ok){ toast('✅ Foto removida!','ok'); renderFotosRegioes(); }
 }
 
 // ── HEADER ──
@@ -2244,6 +2427,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <div class="adm-nav-title">🏘️ Imóveis</div>
     <button class="adm-si" onclick="goPageM('imoveis')"><span class="adm-ic">📍</span>Pinos & Empreendimentos</button>
     <button class="adm-si" onclick="goPageM('lancamento')"><span class="adm-ic">🎯</span>Destaque</button>
+    <button class="adm-si" onclick="goPageM('regioes')"><span class="adm-ic">🗺️</span>Fotos Regiões</button>
     <div class="adm-nav-divider"></div>
     <div class="adm-nav-title">📱 Marketing</div>
     <button class="adm-si" onclick="goPageM('redes')"><span class="adm-ic">📱</span>Redes Sociais</button>
