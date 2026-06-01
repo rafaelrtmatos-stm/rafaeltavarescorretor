@@ -47,3 +47,19 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+artifacts/
+lib/
+scripts/
+site/
+terrenos/
+attached_assets/
+package.json
+pnpm-lock.yaml
+pnpm-workspace.yaml
+replit.md
+tsconfig.base.json
+tsconfig.json
+.npmrc
+.replitignore
+santarem-sunset.jpg
+serve.js
