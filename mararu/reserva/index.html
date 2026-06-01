@@ -1110,6 +1110,70 @@ async function salvarDados(dados){
     }catch(e){console.warn('Supabase vendas:',e);}
   }
 
+  // ── API Rumo ao Milhão (Reservas Online) ─────────────
+  try{
+    // 1. Upload dos documentos
+    var docUrls=[];
+    var docsParaUpload=[
+      {base64:_fotosBase64.frente,nome:dados.nome.replace(/ /g,'_')+'_'+(dados.tipoDoc||'doc')+'_frente.jpg'},
+      {base64:_fotosBase64.verso,nome:dados.nome.replace(/ /g,'_')+'_'+(dados.tipoDoc||'doc')+'_verso.jpg'},
+    ];
+    for(var di=0;di<docsParaUpload.length;di++){
+      var doc=docsParaUpload[di];
+      if(!doc.base64)continue;
+      try{
+        // Converter base64 para Blob
+        var arr=doc.base64.split(',');
+        var mime=arr[0].match(/:(.*?);/)[1];
+        var bstr=atob(arr[1]);
+        var n=bstr.length;
+        var u8=new Uint8Array(n);
+        for(var bi=0;bi<n;bi++)u8[bi]=bstr.charCodeAt(bi);
+        var blob=new Blob([u8],{type:mime});
+        var fd=new FormData();
+        fd.append('arquivo',blob,doc.nome);
+        fd.append('clienteNome',dados.nome);
+        fd.append('nomeArquivo',doc.nome);
+        var ru=await fetch('https://rumoaomilhao.imb.br/api/publico/upload-doc',{method:'POST',body:fd});
+        if(ru.ok){var rd=await ru.json();if(rd.url)docUrls.push(rd.url);}
+      }catch(eu){console.warn('Upload doc:',eu);}
+    }
+
+    // 2. Enviar pré-reserva
+    var preReserva={
+      empreendimentoId:MARARU_EMP_ID||'',
+      empreendimentoNome:'MARARU',
+      quadra:(_loteSel&&_loteSel.quadra)||'',
+      numeroLote:(_loteSel&&_loteSel.lote)||'',
+      valorLote:(_loteSel&&_loteSel._precoNum)||0,
+      valorEntrada:(_loteSel&&_loteSel._entradaNum)||0,
+      quantidadeParcelas:(_loteSel&&_loteSel.parcelas)||0,
+      valorParcela:(_loteSel&&_loteSel._vparcelaNum)||0,
+      clienteNome:dados.nome,
+      clienteCpf:(dados.cpf||'').replace(/\D/g,''),
+      clienteTelefone:dados.wpp||'',
+      clienteWhatsapp:dados.wpp||'',
+      clienteDataNascimento:dados.nascimento||'',
+      clienteEndereco:(dados.rua||'')+', '+(dados.numero||'')+', '+(dados.bairro||''),
+      clienteCep:dados.cep||'',
+      clienteRua:dados.rua||'',
+      clienteNumero:dados.numero||'',
+      clienteBairro:dados.bairro||'',
+      clienteCidade:dados.cidade||'',
+      clienteEstado:dados.estado||'PA',
+      status:'rascunho',
+      origemReserva:'site_publico',
+      documentos:docUrls
+    };
+    var rr=await fetch('https://rumoaomilhao.imb.br/api/publico/pre-reserva',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(preReserva)
+    });
+    if(rr.ok){console.log('✅ Pré-reserva enviada ao Rumo ao Milhão!');}
+    else{console.warn('Rumo ao Milhão status:',rr.status,await rr.text());}
+  }catch(e){console.warn('Rumo ao Milhão:',e);}
+
   // ── Google Sheets (mantém integração existente) ───────
   try{await fetch(SHEET,{method:'POST',body:JSON.stringify(dados)});}
   catch(e){console.warn('Sheets:',e);}
