@@ -1907,9 +1907,15 @@ function renderRegEditor(){
       +'<div style="display:flex;gap:16px;align-items:flex-start;margin-bottom:12px">'
       +'<div id="reg-prev-'+i+'" style="flex-shrink:0;width:110px;height:72px;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--bg3)">'+prev+'</div>'
       +'<div style="flex:1">'
-      +'<div class="f"><label>🖼️ URL da foto de fundo</label>'
-      +'<input type="url" id="reg-foto-'+i+'" value="'+fv+'" placeholder="https://... (link direto da imagem)" oninput="prevRegFoto('+i+')"/></div>'
-      +'<div style="font-size:10px;color:var(--text3);margin-top:2px">Cole a URL direta de uma imagem pública (Imgur, Google Drive, etc.)</div>'
+      +'<div class="f"><label>🖼️ Foto ou Vídeo de fundo</label>'
+      +'<input type="url" id="reg-foto-'+i+'" value="'+fv+'" placeholder="URL gerada automaticamente ao fazer upload" oninput="prevRegFoto('+i+')"/>'
+      +'<div style="margin-top:8px;display:flex;align-items:center;gap:10px">'
+      +'<label style="display:inline-flex;align-items:center;gap:7px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);color:var(--gold);padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer" id="reg-upload-btn-'+i+'">'
+      +'📷 Escolher foto/video'
+      +'<input type="file" accept="image/*,video/mp4,video/webm,video/quicktime" style="display:none" onchange="if(this.files[0])uploadFotoRegiao('+i+',this.files[0])">'
+      +'</label>'
+      +'<span id="reg-upload-prog-'+i+'" style="display:none;font-size:11px;color:var(--gold)">⏳ Enviando...</span>'
+      +'</div></div>'
       +'</div></div>'
       +'<div class="g2">'
       +'<div class="f"><label>📍 Localização</label><input type="text" id="reg-loc-'+i+'" value="'+lv+'" placeholder="Zona Urbana · Santarém"/></div>'
@@ -1918,6 +1924,39 @@ function renderRegEditor(){
       +'<div class="f"><label>📝 Descrição</label><textarea id="reg-desc-'+i+'" rows="2">'+dv+'</textarea></div>'
       +'</div>';
   }).join('');
+}
+
+
+async function uploadFotoRegiao(i,file){
+  var btn=document.getElementById('reg-upload-btn-'+i);
+  var prog=document.getElementById('reg-upload-prog-'+i);
+  if(btn){btn.textContent='Enviando...';btn.disabled=true;}
+  if(prog)prog.style.display='block';
+  try{
+    var ext=file.name.split('.').pop().toLowerCase();
+    var nomeArq='regioes/regiao-'+i+'-'+Date.now()+'.'+ext;
+    var r=await fetch('https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/fotos-site/'+nomeArq,{
+      method:'POST',
+      headers:{
+        'apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI',
+        'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI',
+        'Content-Type':file.type,
+        'x-upsert':'true'
+      },
+      body:file
+    });
+    if(r.ok){
+      var url='https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/'+nomeArq;
+      var el=document.getElementById('reg-foto-'+i);
+      if(el)el.value=url;
+      prevRegFoto(i);
+      toast('Foto enviada com sucesso!','ok');
+    }else{
+      toast('Erro no upload: '+r.status,'aviso');
+    }
+  }catch(e){toast('Erro ao enviar','aviso');}
+  if(btn){btn.textContent='Escolher foto/video';btn.disabled=false;}
+  if(prog)prog.style.display='none';
 }
 
 function prevRegFoto(i){
