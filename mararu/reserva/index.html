@@ -272,21 +272,13 @@ iframe[src*="gso.kommo"] {
           <input type="tel" id="f-wpp" placeholder="(93) 99999-9999" maxlength="15" oninput="mascaraTel(this)" onblur="validarTel('f-wpp','h-wpp')">
           <div class="hint" id="h-wpp"></div>
         </div>
+
         <div class="f">
-          <label>Confirmar Telefone Principal *</label>
-          <input type="tel" id="f-wpp-confirm" placeholder="(93) 99999-9999" maxlength="15" oninput="mascaraTel(this)" onblur="validarConfirmTel('f-wpp','f-wpp-confirm','h-wpp-confirm')" autocomplete="off" onpaste="return false">
-          <div class="hint" id="h-wpp-confirm"></div>
-        </div>
-        <div class="f">
-          <label>Telefone Secundário *</label>
+          <label>Telefone Secundário</label>
           <input type="tel" id="f-tel2" placeholder="(93) 99999-9999" maxlength="15" oninput="mascaraTel(this)" onblur="validarTel('f-tel2','h-tel2')">
           <div class="hint" id="h-tel2"></div>
         </div>
-        <div class="f">
-          <label>Confirmar Telefone Secundário *</label>
-          <input type="tel" id="f-tel2-confirm" placeholder="(93) 99999-9999" maxlength="15" oninput="mascaraTel(this)" onblur="validarConfirmTel('f-tel2','f-tel2-confirm','h-tel2-confirm')" autocomplete="off" onpaste="return false">
-          <div class="hint" id="h-tel2-confirm"></div>
-        </div>
+
         
         <div class="f" style="grid-column:1/-1">
           <label>CEP *</label>
@@ -330,12 +322,19 @@ iframe[src*="gso.kommo"] {
       <div class="card-title" style="font-size:16px;margin-top:8px;margin-bottom:4px">📎 Documentos</div>
       <div class="card-sub" style="margin-bottom:14px">Envie seu documento de identificação</div>
 
-      <div class="f">
+      <div class="f" style="margin-bottom:4px">
         <label>Tipo de documento</label>
-        <select id="tipo-doc" onchange="alterarTipoDoc(this.value)">
-          <option value="rg">RG (Registro Geral)</option>
-          <option value="cnh">CNH (Carteira de Habilitação)</option>
-        </select>
+        <div style="display:flex;gap:10px;margin-top:6px">
+          <button type="button" id="tab-rg" onclick="selecionarDoc('rg')"
+            style="flex:1;padding:10px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;border:2px solid var(--gold);color:var(--gold);background:rgba(201,168,76,0.08);transition:all .2s">
+            🪪 RG
+          </button>
+          <button type="button" id="tab-cnh" onclick="selecionarDoc('cnh')"
+            style="flex:1;padding:10px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;border:2px solid var(--border);color:var(--text2);background:transparent;transition:all .2s">
+            🚗 CNH
+          </button>
+        </div>
+        <input type="hidden" id="tipo-doc" value="rg">
       </div>
 
       <div class="g2" id="area-docs">
@@ -1266,6 +1265,21 @@ function removeImg(prevId,imgId,areaId,tipo){
   if(pdfLabel)pdfLabel.remove();
   document.getElementById(areaId).style.display='block';
   _fotos[tipo]=null;
+}
+function selecionarDoc(tipo){
+  document.getElementById('tipo-doc').value=tipo;
+  var tabRg=document.getElementById('tab-rg');
+  var tabCnh=document.getElementById('tab-cnh');
+  if(tabRg&&tabCnh){
+    if(tipo==='rg'){
+      tabRg.style.borderColor='var(--gold)';tabRg.style.color='var(--gold)';tabRg.style.background='rgba(201,168,76,0.08)';
+      tabCnh.style.borderColor='var(--border)';tabCnh.style.color='var(--text2)';tabCnh.style.background='transparent';
+    } else {
+      tabCnh.style.borderColor='var(--gold)';tabCnh.style.color='var(--gold)';tabCnh.style.background='rgba(201,168,76,0.08)';
+      tabRg.style.borderColor='var(--border)';tabRg.style.color='var(--text2)';tabRg.style.background='transparent';
+    }
+  }
+  alterarTipoDoc(tipo);
 }
 function alterarTipoDoc(tipo){
   var verso=document.getElementById('campo-verso');
