@@ -405,12 +405,12 @@
     "subtitulo": "Novo Lançamento",
     "descricao": "Terrenos residenciais, comerciais e econômicos em Santarém — PA.",
     "link": "mararu/",
-    "data_lancamento": "2026-06-06T20:00:00.000Z",
+    "data_lancamento": "2026-06-06T23:00:00.000Z",
     "marcaDagua": true,
     "marcaDaguaTxt": "Em Breve"
   },
   "mararu": {
     "galeria": [],
-    "fotoPrincipal": ""
+    "fotoPrincipal": "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/mararu/principal-1780429240306.png"
   }
 }
