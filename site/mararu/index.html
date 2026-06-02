@@ -718,6 +718,7 @@ var _lotes=[];
 var _pontos=[];
 var _imgUrl='';
 var _selLote=null;
+var _pinSize=100;
 
 function fmt(n){return n?'R$ '+Number(n).toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0}):'A consultar';}
 function fmtDec(n){return n?'R$ '+Number(n).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}):'A consultar';}
@@ -782,7 +783,8 @@ function renderMapaInterativo(){
   }
   var lookup={};
   _lotes.forEach(function(l){lookup[l.quadra+'-'+l.lote]=l;});
-  var cSize=calcCircleSize();
+  var cBase=calcCircleSize();
+  var cSize=Math.round(cBase*_pinSize/100);
   var fSize=Math.max(5,Math.round(cSize*0.46));
   var html='<div style="position:relative;display:block;width:100%;border-radius:10px;overflow:visible;transform-origin:0 0;will-change:transform">';
   html+='<img src="'+_imgUrl+'" style="width:100%;display:block;border-radius:10px" alt="Planta Bairro Mararu">';
@@ -794,7 +796,7 @@ function renderMapaInterativo(){
     var cor=disp?'#22c55e':'#f87171';
     var cur=disp?'pointer':'not-allowed';
     var click=disp?'onclick="window._mapaAbrirLote(\''+key+'\')"':'';
-    html+='<div '+click+' title="Q'+p.quadra+' L'+p.lote+(disp?'':' — Indisponível')+'" style="position:absolute;left:'+p.xPercent+'%;top:'+p.yPercent+'%;transform:translate(-50%,-50%);width:'+cSize+'px;height:'+cSize+'px;cursor:'+cur+';z-index:10;pointer-events:auto;transition:transform .15s" id="mponto-'+key+'">';
+    html+='<div '+click+' class="bolinha-lote" data-base="'+cBase+'" title="Q'+p.quadra+' L'+p.lote+(disp?'':' — Indisponível')+'" style="position:absolute;left:'+p.xPercent+'%;top:'+p.yPercent+'%;transform:translate(-50%,-50%);width:'+cSize+'px;height:'+cSize+'px;cursor:'+cur+';z-index:10;pointer-events:auto;transition:transform .15s" id="mponto-'+key+'">';
     html+='<div id="mpi-'+key+'" style="width:100%;height:100%;border-radius:50%;background:'+cor+';border:2px solid rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:'+fSize+'px;font-weight:800;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.45);transition:all .15s">'+p.lote+'</div>';
     html+='</div>';
   });
@@ -1964,6 +1966,7 @@ fetch('/site_data.json?_='+Date.now())
     }
     // Tamanho bolinhas mapa de lotes
     if(d.pinSize){
+      _pinSize=d.pinSize;
       var ps=d.pinSize/100;
       document.querySelectorAll('.bolinha-lote').forEach(function(b){
         var base=parseInt(b.getAttribute('data-base')||'12');
