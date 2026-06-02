@@ -270,7 +270,16 @@
       "desc": "Lotes residenciais, comerciais e econômicos. Documentação regularizada e condições especiais.",
       "badge": "🔥 Lançamento",
       "badgeTipo": "lancamento",
-      "wpp": "Olá Rafael! Tenho interesse no Bairro Mararu!"
+      "wpp": "Olá Rafael! Tenho interesse no Bairro Mararu!",
+      "lat": -2.492528,
+      "lng": -54.686639,
+      "diferenciais": [
+        "Documentação regularizada",
+        "Lotes residenciais e comerciais",
+        "Condições especiais de lançamento",
+        "Fácil acesso a Santarém",
+        "Alto potencial de valorização"
+      ]
     },
     {
       "id": "pajucara",
@@ -280,7 +289,16 @@
       "desc": "Bairro em plena expansão com fácil acesso e alta valorização. Área residencial consolidada.",
       "badge": "Disponível",
       "badgeTipo": "disponivel",
-      "wpp": "Olá Rafael! Tenho interesse em Pajuçara!"
+      "wpp": "Olá Rafael! Tenho interesse em Pajuçara!",
+      "lat": -2.441833,
+      "lng": -54.825861,
+      "diferenciais": [
+        "Infraestrutura urbana completa",
+        "Bairro em franca expansão",
+        "Fácil acesso ao centro de Santarém",
+        "Transporte público disponível",
+        "Alta demanda por imóveis na região"
+      ]
     },
     {
       "id": "santa-maria",
@@ -290,7 +308,16 @@
       "desc": "Tranquila e estruturada. Loteamento Bom Sossego com documentação completa.",
       "badge": "Disponível",
       "badgeTipo": "disponivel",
-      "wpp": "Olá Rafael! Tenho interesse em Santa Maria!"
+      "wpp": "Olá Rafael! Tenho interesse em Santa Maria!",
+      "lat": -2.448417,
+      "lng": -54.806361,
+      "diferenciais": [
+        "Empreendimento Bom Sossego",
+        "Documentação completa",
+        "Região tranquila e estruturada",
+        "Qualidade de vida",
+        "Fácil acesso"
+      ]
     },
     {
       "id": "cucuruna",
@@ -300,7 +327,16 @@
       "desc": "Região em expansão estratégica. Novos loteamentos com alto potencial de valorização.",
       "badge": "Disponível",
       "badgeTipo": "breve",
-      "wpp": "Olá Rafael! Tenho interesse em Cucurunã!"
+      "wpp": "Olá Rafael! Tenho interesse em Cucurunã!",
+      "lat": -2.463222,
+      "lng": -54.791694,
+      "diferenciais": [
+        "Região em expansão estratégica",
+        "Alto potencial de valorização",
+        "Novos loteamentos",
+        "Boa localização",
+        "Infraestrutura em crescimento"
+      ]
     },
     {
       "id": "ponta-pedras",
@@ -310,7 +346,16 @@
       "desc": "Acesso ao rio Tapajós. Área privilegiada com vista panorâmica e potencial turístico.",
       "badge": "Premium",
       "badgeTipo": "breve-azul",
-      "wpp": "Olá Rafael! Tenho interesse em Ponta de Pedras!"
+      "wpp": "Olá Rafael! Tenho interesse em Ponta de Pedras!",
+      "lat": -2.467861,
+      "lng": -54.909028,
+      "diferenciais": [
+        "Acesso ao rio Tapajós",
+        "Vista panorâmica",
+        "Alto potencial turístico",
+        "Região valorizada",
+        "Natureza preservada"
+      ]
     },
     {
       "id": "alter",
@@ -320,7 +365,35 @@
       "desc": "O destino turístico mais famoso do Pará. Terrenos de alto valor em região paradisíaca.",
       "badge": "Premium",
       "badgeTipo": "premium",
-      "wpp": "Olá Rafael! Tenho interesse em Alter do Chão!"
+      "wpp": "Olá Rafael! Tenho interesse em Alter do Chão!",
+      "lat": -2.502556,
+      "lng": -54.931083,
+      "diferenciais": [
+        "Praias de água doce únicas no mundo",
+        "Alto valor de revenda e renda turística",
+        "Região com valorização consistente",
+        "Ativo raro e exclusivo no mercado",
+        "\"Caribe do Brasil\" — destino mundial"
+      ]
+    },
+    {
+      "id": "espirito-santo",
+      "nome": "Espírito Santo",
+      "badge": "Zona Leste · Rio Tapajós",
+      "badgeTipo": "disponivel",
+      "loc": "Santarém, Pará",
+      "desc": "Região à beira do Tapajós com paisagens únicas e alto potencial de valorização. Tranquilidade e natureza com fácil acesso à cidade.",
+      "diferenciais": [
+        "Próximo ao rio Tapajós",
+        "Região tranquila e arborizada",
+        "Alto potencial de valorização",
+        "Fácil acesso a Santarém",
+        "Ambiente natural preservado"
+      ],
+      "foto": "",
+      "lat": -2.478306,
+      "lng": -54.753889,
+      "wpp": "Olá Rafael! Tenho interesse em lotes na região do Espírito Santo em Santarém."
     }
   ],
   "pinSize": 100,

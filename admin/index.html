@@ -2054,7 +2054,7 @@ var REG_DEF=[
 async function carregarRegioes(){
   var d=await loadSiteData();
   if(d&&d.regioes&&d.regioes.length){
-    _regData=REG_DEF.map(function(def,i){return Object.assign({},def,d.regioes[i]||{});});
+    _regData=d.regioes.map(function(r){return Object.assign({diferenciais:[],lat:0,lng:0},r);});
   } else {
     _regData=JSON.parse(JSON.stringify(REG_DEF));
   }
@@ -2064,70 +2064,58 @@ async function carregarRegioes(){
 function renderRegEditor(){
   var c=document.getElementById('regioes-editor');
   if(!c)return;
-  c.innerHTML=_regData.map(function(r,i){
+  c.innerHTML='';
+  _regData.forEach(function(r,i){
     var fv=(r.foto||'').replace(/"/g,'&quot;');
-    var lv=(r.loc||'').replace(/"/g,'&quot;');
-    var bv=(r.badge||'').replace(/"/g,'&quot;');
-    var dv=(r.desc||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    var prev=r.foto
-      ?'<img src="'+fv+'" style="width:100%;height:100%;object-fit:cover;border-radius:6px" onerror="this.style.display=\'none\';this.nextSibling.style.display=\'flex\'">'
-        +'<div style="display:none;align-items:center;justify-content:center;height:100%;font-size:10px;color:var(--red)">Imagem inválida</div>'
-      :'<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:10px;color:var(--text3)">Sem foto</div>';
-    return '<div class="card" style="margin-bottom:16px" id="regcard-'+i+'">'
-      +'<div class="card-title"><span>🗺️</span> '+r.nome+'</div>'
-      +'<div style="display:flex;gap:16px;align-items:flex-start;margin-bottom:12px">'
-      +'<div id="reg-prev-'+i+'" style="flex-shrink:0;width:110px;height:72px;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--bg3)">'+prev+'</div>'
-      +'<div style="flex:1">'
-      +'<div class="f"><label>🖼️ Foto ou Vídeo de fundo</label>'
-      +'<input type="url" id="reg-foto-'+i+'" value="'+fv+'" placeholder="URL gerada automaticamente ao fazer upload" oninput="prevRegFoto('+i+')"/>'
-      +'<div style="margin-top:8px;display:flex;align-items:center;gap:10px">'
-      +'<label style="display:inline-flex;align-items:center;gap:7px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);color:var(--gold);padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer" id="reg-upload-btn-'+i+'">'
+    var div=document.createElement('div');
+    div.className='card';
+    div.style.marginBottom='16px';
+    div.innerHTML=
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">'
+      +'<div class="card-title" style="margin:0">'+( r.nome||'Nova Região')+'</div>'
+      +'<button onclick="excluirRegiao('+i+')" style="background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);color:#f87171;padding:5px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit">🗑 Excluir</button>'
+      +'</div>'
+      // Nome + Badge
+      +'<div class="g2" style="margin-bottom:10px">'
+      +'<div class="f"><label>Nome da Região</label><input type="text" id="reg-nome-'+i+'" value="'+(r.nome||'')+'" placeholder="Ex: Alter do Chão"/></div>'
+      +'<div class="f"><label>Badge</label><input type="text" id="reg-badge-'+i+'" value="'+(r.badge||'')+'" placeholder="Ex: Premium · Tapajós"/></div>'
+      +'</div>'
+      // Descrição
+      +'<div class="f" style="margin-bottom:10px"><label>Descrição do catálogo</label>'
+      +'<textarea id="reg-desc-'+i+'" rows="3" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px;font-size:13px;color:var(--text);font-family:inherit;resize:vertical;width:100%" placeholder="Texto que aparece no catálogo ao clicar na região">'+(r.desc||'')+'</textarea></div>'
+      // Diferenciais
+      +'<div class="f" style="margin-bottom:10px"><label>Diferenciais (um por linha)</label>'
+      +'<textarea id="reg-dif-'+i+'" rows="4" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px;font-size:13px;color:var(--text);font-family:inherit;resize:vertical;width:100%" placeholder="Ex: Praias de água doce
+Alto potencial de valorização">'+(r.diferenciais||[]).join('
+')+'</textarea></div>'
+      // Foto
+      +'<div class="f" style="margin-bottom:10px"><label>🖼️ Foto de fundo do card</label>'
+      +'<input type="url" id="reg-foto-'+i+'" value="'+fv+'" placeholder="URL gerada após upload" oninput="prevRegFoto('+i+')"/>'
+      +'<div style="display:flex;align-items:center;gap:10px;margin-top:8px">'
+      +'<label style="display:inline-flex;align-items:center;gap:7px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);color:var(--gold);padding:8px 14px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer" id="reg-upload-btn-'+i+'">'
       +'📷 Escolher foto/video'
       +'<input type="file" accept="image/*,video/mp4,video/webm,video/quicktime" style="display:none" onchange="if(this.files[0])uploadFotoRegiao('+i+',this.files[0])">'
       +'</label>'
       +'<span id="reg-upload-prog-'+i+'" style="display:none;font-size:11px;color:var(--gold)">⏳ Enviando...</span>'
-      +'</div></div>'
-      +'</div></div>'
-      +'<div class="g2">'
-      +'<div class="f"><label>📍 Localização</label><input type="text" id="reg-loc-'+i+'" value="'+lv+'" placeholder="Zona Urbana · Santarém"/></div>'
-      +'<div class="f"><label>🏷️ Badge</label><input type="text" id="reg-badge-'+i+'" value="'+bv+'" placeholder="Disponível"/></div>'
+      +'<div id="reg-foto-prev-'+i+'" style="width:60px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);background:var(--bg3);">'
+      +(r.foto?'<img src="'+fv+'" style="width:100%;height:100%;object-fit:cover">':'')
       +'</div>'
-      +'<div class="f"><label>📝 Descrição</label><textarea id="reg-desc-'+i+'" rows="2">'+dv+'</textarea></div>'
-      +'</div>';
-  }).join('');
-}
-
-
-async function uploadFotoRegiao(i,file){
-  var btn=document.getElementById('reg-upload-btn-'+i);
-  var prog=document.getElementById('reg-upload-prog-'+i);
-  if(btn){btn.textContent='Enviando...';btn.disabled=true;}
-  if(prog)prog.style.display='block';
-  try{
-    var ext=file.name.split('.').pop().toLowerCase();
-    var nomeArq='regioes/regiao-'+i+'-'+Date.now()+'.'+ext;
-    var r=await fetch('https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/fotos-site/'+nomeArq,{
-      method:'POST',
-      headers:{
-        'apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI',
-        'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI',
-        'Content-Type':file.type,
-        'x-upsert':'true'
-      },
-      body:file
-    });
-    if(r.ok){
-      var url='https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/'+nomeArq;
-      var el=document.getElementById('reg-foto-'+i);
-      if(el)el.value=url;
-      prevRegFoto(i);
-      toast('Foto enviada com sucesso!','ok');
-    }else{
-      toast('Erro no upload: '+r.status,'aviso');
-    }
-  }catch(e){toast('Erro ao enviar','aviso');}
-  if(btn){btn.textContent='Escolher foto/video';btn.disabled=false;}
-  if(prog)prog.style.display='none';
+      +'</div></div>'
+      // Coordenadas do pino
+      +'<div class="g2" style="margin-bottom:10px">'
+      +'<div class="f"><label>📍 Latitude do pino</label><input type="number" id="reg-lat-'+i+'" value="'+(r.lat||'')+'" placeholder="-2.478306" step="0.000001"/></div>'
+      +'<div class="f"><label>📍 Longitude do pino</label><input type="number" id="reg-lng-'+i+'" value="'+(r.lng||'')+'" placeholder="-54.753889" step="0.000001"/></div>'
+      +'</div>'
+      // WhatsApp
+      +'<div class="f" style="margin-bottom:10px"><label>💬 Mensagem WhatsApp</label>'
+      +'<input type="text" id="reg-wpp-'+i+'" value="'+(r.wpp||'')+'" placeholder="Olá Rafael! Tenho interesse em..."/></div>'
+      // Salvar
+      +'<button class="btn-save" onclick="salvarRegiao('+i+')" style="width:100%">'
+      +'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg>'
+      +' Salvar Região'
+      +'</button>';
+    c.appendChild(div);
+  });
 }
 
 function prevRegFoto(i){
@@ -2141,22 +2129,45 @@ function prevRegFoto(i){
   }
 }
 
-async function salvarRegioes(e){
-  var btn=e&&e.target?e.target:document.querySelector('#page-regioes .btn-save');
-  if(btn){btn.textContent='⏳ Salvando...';btn.disabled=true;}
+function excluirRegiao(i){
+  if(!confirm('Excluir "'+(_regData[i]&&_regData[i].nome||'esta região')+'"?'))return;
+  _regData.splice(i,1);
+  renderRegEditor();
+  salvarTodasRegioes();
+}
+function adicionarRegiao(){
+  _regData.push({id:'reg-'+Date.now(),nome:'Nova Região',badge:'',desc:'',diferenciais:[],foto:'',lat:-2.45,lng:-54.8,wpp:'Olá Rafael! Tenho interesse nessa região.'});
+  renderRegEditor();
+  setTimeout(function(){var cs=document.getElementById('regioes-editor').children;if(cs.length)cs[cs.length-1].scrollIntoView({behavior:'smooth'});},200);
+}
+async function salvarTodasRegioes(){
   var d=await loadSiteData()||{};
-  d.regioes=_regData.map(function(r,i){
-    return Object.assign({},r,{
-      foto:((document.getElementById('reg-foto-'+i)||{}).value||'').trim(),
-      loc:(document.getElementById('reg-loc-'+i)||{}).value||r.loc,
-      badge:(document.getElementById('reg-badge-'+i)||{}).value||r.badge,
-      desc:(document.getElementById('reg-desc-'+i)||{}).value||r.desc
-    });
-  });
+  d.regioes=_regData;
   var ok=await saveSiteData(d);
-  if(btn){btn.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg> Salvar e Publicar';btn.disabled=false;}
-  if(ok)toast('✅ Regiões salvas e publicadas!','ok');
-  else toast('⚠️ Erro ao salvar. Verifique o token GitHub.','aviso');
+  if(ok)toast('Regiões salvas!','ok');
+  else toast('Erro ao salvar','aviso');
+}
+function coletarRegiaoData(i){
+  var dif=((document.getElementById('reg-dif-'+i)||{value:''}).value||'');
+  return {
+    id:_regData[i].id,
+    nome:((document.getElementById('reg-nome-'+i)||{value:''}).value||'').trim(),
+    badge:((document.getElementById('reg-badge-'+i)||{value:''}).value||'').trim(),
+    desc:((document.getElementById('reg-desc-'+i)||{value:''}).value||'').trim(),
+    diferenciais:dif.split('\n').map(function(s){return s.trim();}).filter(function(s){return s.length>0;}),
+    foto:((document.getElementById('reg-foto-'+i)||{value:''}).value||'').trim(),
+    lat:parseFloat((document.getElementById('reg-lat-'+i)||{value:0}).value)||0,
+    lng:parseFloat((document.getElementById('reg-lng-'+i)||{value:0}).value)||0,
+    wpp:((document.getElementById('reg-wpp-'+i)||{value:''}).value||'').trim()
+  };
+}
+async function salvarRegiao(i){
+  _regData[i]=coletarRegiaoData(i);
+  await salvarTodasRegioes();
+}
+async function salvarRegioes(e){
+  _regData=_regData.map(function(r,i){return coletarRegiaoData(i);});
+  await salvarTodasRegioes();
 }
 
 function toast(msg,tipo){
