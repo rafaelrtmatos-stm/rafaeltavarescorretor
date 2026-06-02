@@ -37,23 +37,28 @@
   "beneficios": [
     {
       "titulo": "Documentação regularizada",
-      "desc": "Todos os terrenos com matrícula, escritura e documentação 100% em ordem. Compre com total segurança jurídica."
+      "desc": "Todos os terrenos com matrícula, escritura e documentação 100% em ordem. Compre com total segurança jurídica.",
+      "icone": "📋"
     },
     {
       "titulo": "Parcelamento facilitado",
-      "desc": "Entrada acessível e parcelamento em até 70x. Condições pensadas para caber no seu bolso."
+      "desc": "Entrada acessível e parcelamento em até 70x. Condições pensadas para caber no seu bolso.",
+      "icone": "💳"
     },
     {
       "titulo": "Localizações estratégicas",
-      "desc": "Empreendimentos nos bairros com maior potencial de crescimento e valorização em Santarém."
+      "desc": "Empreendimentos nos bairros com maior potencial de crescimento e valorização em Santarém.",
+      "icone": "📍"
     },
     {
       "titulo": "Alta valorização",
-      "desc": "Terrenos em regiões em expansão com valorização constante. Seu investimento crescendo."
+      "desc": "Terrenos em regiões em expansão com valorização constante. Seu investimento crescendo.",
+      "icone": "📈"
     },
     {
       "titulo": "Atendimento personalizado",
-      "desc": "Rafael Tavares acompanha você em cada etapa — da escolha do lote à assinatura do contrato. Transparência total."
+      "desc": "Rafael Tavares acompanha você em cada etapa — da escolha do lote à assinatura do contrato. Transparência total.",
+      "icone": "🤝"
     }
   ],
   "depoimentos": [
