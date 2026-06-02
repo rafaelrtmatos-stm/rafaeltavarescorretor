@@ -537,6 +537,50 @@ function salvarTokenModal(){
             </button>
           </div>
         </div>
+
+        <!-- MARCA D'ÁGUA + BOLINHAS -->
+        <div class="card">
+          <div class="card-title"><span>🗺️</span> Mapa Global</div>
+          <div class="g2">
+            <div class="f">
+              <label>Marca d'água no mapa</label>
+              <select id="lanc-marca-dagua">
+                <option value="true">✅ Mostrar marca d'água</option>
+                <option value="false">❌ Ocultar marca d'água</option>
+              </select>
+            </div>
+            <div class="f">
+              <label>Texto da marca d'água</label>
+              <input type="text" id="lanc-marca-txt" placeholder="Em Breve"/>
+            </div>
+          </div>
+          <div class="f">
+            <label>Tamanho das bolinhas no mapa: <strong id="pin-size-val">100</strong>%</label>
+            <input type="range" id="lanc-pin-size" min="50" max="200" step="5" value="100"
+              oninput="document.getElementById('pin-size-val').textContent=this.value"
+              style="width:100%;accent-color:var(--gold);margin-top:6px">
+            <span class="f-hint">50% = menor · 100% = padrão · 200% = maior</span>
+          </div>
+          <div class="btn-row">
+            <button class="btn-save" onclick="salvarLancamento()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg>
+              Salvar & Publicar
+            </button>
+          </div>
+        </div>
+
+        <!-- GALERIA MARARU -->
+        <div class="card">
+          <div class="card-title"><span>📸</span> Galeria do Bairro Mararu</div>
+          <div class="card-sub">Fotos e vídeos que aparecem na página do Mararu</div>
+          <div id="gal-mararu-preview" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px"></div>
+          <label style="display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);color:var(--gold);padding:10px 16px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer">
+            📷 Adicionar foto ou vídeo
+            <input type="file" accept="image/*,video/mp4,video/webm,video/quicktime" multiple style="display:none" onchange="uploadGaleriaMararu(this.files)">
+          </label>
+          <span id="gal-mararu-prog" style="display:none;font-size:11px;color:var(--gold);margin-left:10px">⏳ Enviando...</span>
+          <span class="f-hint" style="display:block;margin-top:8px">Clique nas fotos para remover</span>
+        </div>
       </div>
 
       <!-- REGIÕES -->
@@ -1126,6 +1170,7 @@ function goPage(id,el){
   if(id==='vip'){carregarVIP();}
   if(id==='menu'){carregarMenuSecoes();}
   if(id==='regioes'){carregarRegioes();}
+  if(id==='lancamento'){carregarLancamento();}
 }
 
 // ── CARREGAR ──
@@ -1847,6 +1892,77 @@ async function carregarLancamento(){
   if(document.getElementById('lanc-link'))document.getElementById('lanc-link').value=l.link||'mararu/';
   if(document.getElementById('lanc-ativo'))document.getElementById('lanc-ativo').value=l.ativo===false?'false':'true';
   if(document.getElementById('lanc-prereserva'))document.getElementById('lanc-prereserva').value=l.prereserva===false?'false':'true';
+}
+
+var _galeriaMararu=[];
+
+function renderGaleriaMararuPreview(){
+  var grid=document.getElementById('gal-mararu-preview');
+  if(!grid)return;
+  if(!_galeriaMararu.length){
+    grid.innerHTML='<div style="color:var(--text3);font-size:12px;grid-column:1/-1;padding:10px">Nenhuma foto adicionada</div>';
+    return;
+  }
+  grid.innerHTML=_galeriaMararu.map(function(url,i){
+    var isVid=url.match(/\.(mp4|webm|mov)$/i);
+    return '<div style="position:relative;border-radius:8px;overflow:hidden;aspect-ratio:4/3;background:#111;cursor:pointer" onclick="removerGaleriaMararu('+i+')" title="Clique para remover">'
+      +(isVid
+        ?'<video src="'+url+'" style="width:100%;height:100%;object-fit:cover" muted></video>'
+        :'<img src="'+url+'" style="width:100%;height:100%;object-fit:cover">')
+      +'<div style="position:absolute;top:4px;right:4px;background:rgba(248,113,113,0.85);color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700">×</div>'
+      +'</div>';
+  }).join('');
+}
+
+function removerGaleriaMararu(i){
+  if(!confirm('Remover esta foto?'))return;
+  _galeriaMararu.splice(i,1);
+  renderGaleriaMararuPreview();
+}
+
+async function uploadGaleriaMararu(files){
+  var prog=document.getElementById('gal-mararu-prog');
+  if(prog)prog.style.display='inline';
+  for(var i=0;i<files.length;i++){
+    var file=files[i];
+    var ext=file.name.split('.').pop().toLowerCase();
+    var nomeArq='mararu/galeria-'+Date.now()+'-'+i+'.'+ext;
+    try{
+      var r=await fetch('https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/fotos-site/'+nomeArq,{
+        method:'POST',
+        headers:{'apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI','Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI','Content-Type':file.type,'x-upsert':'true'},
+        body:file
+      });
+      if(r.ok){
+        _galeriaMararu.push('https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/'+nomeArq);
+        renderGaleriaMararuPreview();
+      }
+    }catch(e){console.warn('Upload galeria:',e);}
+  }
+  if(prog)prog.style.display='none';
+  // Auto-salvar após upload
+  await salvarLancamento();
+}
+
+async function carregarLancamento(){
+  var d=await loadSiteData()||{};
+  var l=d.lancamento||{};
+  if(document.getElementById('lanc-data'))document.getElementById('lanc-data').value=l.data_lancamento?l.data_lancamento.replace('Z','').substring(0,16):'';
+  if(document.getElementById('lanc-titulo'))document.getElementById('lanc-titulo').value=l.titulo||'';
+  if(document.getElementById('lanc-subtitulo'))document.getElementById('lanc-subtitulo').value=l.subtitulo||'';
+  if(document.getElementById('lanc-desc'))document.getElementById('lanc-desc').value=l.descricao||'';
+  if(document.getElementById('lanc-link'))document.getElementById('lanc-link').value=l.link||'';
+  if(document.getElementById('lanc-ativo'))document.getElementById('lanc-ativo').value=l.ativo!==false?'true':'false';
+  if(document.getElementById('lanc-prereserva'))document.getElementById('lanc-prereserva').value=l.prereserva!==false?'true':'false';
+  // Marca d'água
+  if(document.getElementById('lanc-marca-dagua'))document.getElementById('lanc-marca-dagua').value=l.marcaDagua===false?'false':'true';
+  if(document.getElementById('lanc-marca-txt'))document.getElementById('lanc-marca-txt').value=l.marcaDaguaTxt||'Em Breve';
+  // Tamanho bolinhas
+  var ps=d.pinSize||100;
+  if(document.getElementById('lanc-pin-size')){document.getElementById('lanc-pin-size').value=ps;document.getElementById('pin-size-val').textContent=ps;}
+  // Galeria Mararu
+  _galeriaMararu=(d.mararu&&d.mararu.galeria)||[];
+  renderGaleriaMararuPreview();
 }
 
 async function salvarLancamento(){
