@@ -1482,7 +1482,7 @@ function startMap(){
           if(r.badge)_catalogos[r.id].badge=r.badge;
           if(r.desc)_catalogos[r.id].desc=r.desc;
           if(r.sobre)_catalogos[r.id].sobre=r.sobre;
-          if(r.foto)_catalogos[r.id].heroBg='url('+r.foto+') center/cover';
+          if(r.foto)_catalogos[r.id].heroFoto=r.foto;
           if(r.wpp)_catalogos[r.id].wpp=r.wpp;
           if(r.diferenciais&&r.diferenciais.length)_catalogos[r.id].diferenciais=r.diferenciais;
           if(r.desc)_catalogos[r.id].desc=r.desc;
@@ -2786,7 +2786,17 @@ function abrirCatalogo(id){
   var c=_catalogos[id];
   if(!c)return;
   _regiaoAtual=id;
-  document.getElementById('rm-hero-bg').style.background=c.heroBg;
+  var _heroEl=document.getElementById('rm-hero-bg');
+  if(c.heroFoto){
+    _heroEl.style.backgroundImage='url("'+c.heroFoto.replace(/"/g,'%22')+'")';
+    _heroEl.style.backgroundSize='cover';
+    _heroEl.style.backgroundPosition='center';
+  } else {
+    _heroEl.style.backgroundImage='';
+    _heroEl.style.backgroundSize='';
+    _heroEl.style.backgroundPosition='';
+    _heroEl.style.background=c.heroBg;
+  }
   document.getElementById('rm-badge').textContent=c.badge||'';
   document.getElementById('rm-nome').textContent=c.nome||'';
   document.getElementById('rm-desc').textContent=c.desc||'';
