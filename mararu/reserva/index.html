@@ -427,6 +427,12 @@ iframe[src*="gso.kommo"] {
       <div class="card-title">Mapa de Lotes</div>
       <div class="card-sub" id="mapa-subtitulo">Visualize os lotes disponíveis</div>
 
+      <!-- Toggle Mapa / Lista -->
+      <div class="vista-toggle" style="display:flex;gap:8px;margin-bottom:12px">
+        <button class="vista-btn on" id="btn-vista-mapa" onclick="toggleVista('mapa')" style="flex:1;padding:9px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;border:2px solid var(--gold);color:var(--gold);background:rgba(201,168,76,0.1)">🗺️ Mapa</button>
+        <button class="vista-btn" id="btn-vista-lista" onclick="toggleVista('lista')" style="flex:1;padding:9px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;border:2px solid var(--border);color:var(--text2);background:transparent">☰ Lista</button>
+      </div>
+
       <!-- Container do mapa com overlay -->
       <div style="position:relative;border-radius:12px;overflow:hidden;margin-bottom:16px;min-height:260px;background:var(--bg3)">
 
@@ -445,6 +451,11 @@ iframe[src*="gso.kommo"] {
       <!-- Mensagem quando borrado -->
       <div id="msg-mapa-borrado" style="display:none;text-align:center;padding:14px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);border-radius:10px;font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:16px">
         🔥 O mapa de lotes será liberado no dia do lançamento.<br>Continue para garantir sua posição na fila de reservas.
+      </div>
+
+      <!-- Lista de lotes (oculta por padrão) -->
+      <div id="lista-lotes" style="display:none;flex-direction:column;gap:10px;margin-bottom:16px">
+        <!-- Gerado por JS -->
       </div>
 
       <!-- Info do lote selecionado (quando liberado) -->

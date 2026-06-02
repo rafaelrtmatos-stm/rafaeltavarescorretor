@@ -24,13 +24,13 @@ args = "Site Rafael Tavares"
 name = "Site Rafael Tavares"
 author = "agent"
 
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "node /home/runner/workspace/site/serve.js"
-waitForPort = 5000
-
 [workflows.workflow.metadata]
 outputType = "webview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd /home/runner/workspace && python3 -m http.server 5000"
+waitForPort = 5000
 
 [agent]
 stack = "PNPM_WORKSPACE"
