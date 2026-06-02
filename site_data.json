@@ -26,11 +26,11 @@
   },
   "stats": [
     {
-      "num": 7,
+      "numero": "7+",
       "label": "Empreendimentos"
     },
     {
-      "num": 1227,
+      "numero": "1437",
       "label": "Clientes atendidos"
     }
   ],
