@@ -4,7 +4,7 @@ title = "Rafael Tavares Corretor"
 version = "1.0.0"
 
 [[services]]
-localPort = 3001
+localPort = 3000
 name = "web"
 paths = ["/"]
 
@@ -12,4 +12,4 @@ paths = ["/"]
 run = "node serve.js"
 
 [services.development.env]
-PORT = "3001"
+PORT = "3000"
