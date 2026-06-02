@@ -325,7 +325,6 @@ function salvarTokenModal(){
         <button class="sitem" onclick="goPage('depoimentos',this)"><span class="icon">💬</span><span>Depoimentos</span></button>
         <button class="sitem" onclick="goPage('cta',this)"><span class="icon">📢</span><span>CTA</span></button>
         <div class="sidebar-title">🏘️ Imóveis</div>
-        <button class="sitem" onclick="goPage('imoveis',this)"><span class="icon">📍</span><span>Pinos & Empreed.</span></button>
         <button class="sitem" onclick="goPage('regioes',this)"><span class="icon">🗺️</span><span>Regiões</span></button>
         <button class="sitem" onclick="goPage('lancamento',this)"><span class="icon">🎯</span><span>Destaque</span></button>
         <div class="sidebar-title">📱 Marketing</div>
@@ -543,10 +542,10 @@ function salvarTokenModal(){
           <div class="card-title"><span>🗺️</span> Mapa Global</div>
           <div class="g2">
             <div class="f">
-              <label>Marca d'água no mapa</label>
+              <label>Borrar mapa do Bairro Mararu</label>
               <select id="lanc-marca-dagua">
-                <option value="true">✅ Mostrar marca d'água</option>
-                <option value="false">❌ Ocultar marca d'água</option>
+                <option value="true">✅ Borrado + "Em Breve"</option>
+                <option value="false">❌ Mostrar mapa normal</option>
               </select>
             </div>
             <div class="f">
@@ -555,11 +554,11 @@ function salvarTokenModal(){
             </div>
           </div>
           <div class="f">
-            <label>Tamanho das bolinhas no mapa: <strong id="pin-size-val">100</strong>%</label>
+            <label>Tamanho das bolinhas — Mapa de Lotes (Mararu): <strong id="pin-size-val">100</strong>%</label>
             <input type="range" id="lanc-pin-size" min="50" max="200" step="5" value="100"
               oninput="document.getElementById('pin-size-val').textContent=this.value"
               style="width:100%;accent-color:var(--gold);margin-top:6px">
-            <span class="f-hint">50% = menor · 100% = padrão · 200% = maior</span>
+            <span class="f-hint">50% = menor · 100% = padrão · 200% = maior (afeta mapa de lotes do Bairro Mararu)</span>
           </div>
           <div class="btn-row">
             <button class="btn-save" onclick="salvarLancamento()">
@@ -602,9 +601,14 @@ function salvarTokenModal(){
 
       <!-- REGIÕES -->
       <div class="page" id="page-regioes">
-        <div class="page-header">
-          <div class="page-title">Cards de Regiões</div>
-          <div class="page-sub">Edite foto, descrição e informações de cada card na seção "Escolha sua região"</div>
+        <div class="page-header" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px">
+          <div>
+            <div class="page-title">Regiões do Site</div>
+            <div class="page-sub">Edite cards, catálogos e pinos do mapa global</div>
+          </div>
+          <button onclick="adicionarRegiao()" style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);color:var(--gold);padding:9px 16px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap">
+            + Adicionar Região
+          </button>
         </div>
         <div id="regioes-editor"></div>
         <div class="btn-row" style="margin-top:20px">
@@ -2585,7 +2589,6 @@ document.addEventListener('DOMContentLoaded',function(){
     <button class="adm-si" onclick="goPageM('cta')"><span class="adm-ic">📢</span>CTA</button>
     <div class="adm-nav-divider"></div>
     <div class="adm-nav-title">🏘️ Imóveis</div>
-    <button class="adm-si" onclick="goPageM('imoveis')"><span class="adm-ic">📍</span>Pinos & Empreendimentos</button>
     <button class="adm-si" onclick="goPageM('regioes')"><span class="adm-ic">🗺️</span>Regiões</button>
     <button class="adm-si" onclick="goPageM('lancamento')"><span class="adm-ic">🎯</span>Destaque</button>
     <div class="adm-nav-divider"></div>
