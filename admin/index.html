@@ -2025,23 +2025,34 @@ async function carregarLancamento(){
 }
 
 async function salvarLancamento(){
-  var btn=event.target;
-  btn.innerHTML='⏳ Salvando...';btn.disabled=true;
+  var btn=event&&event.target?event.target:document.querySelector('#page-lancamento .btn-save');
+  if(btn){btn.innerHTML='⏳ Salvando...';btn.disabled=true;}
   var d=await loadSiteData()||{};
   var dataVal=document.getElementById('lanc-data').value;
-  d.lancamento={
+  // Preservar campos existentes e adicionar novos
+  d.lancamento=Object.assign({},d.lancamento||{},{
     ativo:document.getElementById('lanc-ativo').value!=='false',
     prereserva:document.getElementById('lanc-prereserva').value!=='false',
-    titulo:(document.getElementById('lanc-titulo')||{}).value||'BAIRRO MARARU',
-    subtitulo:(document.getElementById('lanc-subtitulo')||{}).value||'Novo Lançamento',
-    descricao:(document.getElementById('lanc-desc')||{}).value||'',
-    link:(document.getElementById('lanc-link')||{}).value||'mararu/',
-    data_lancamento:dataVal?new Date(dataVal).toISOString():(d.lancamento&&d.lancamento.data_lancamento)||'2026-06-06T08:00:00'
-  };
+    titulo:(document.getElementById('lanc-titulo')||{value:'BAIRRO MARARU'}).value||'BAIRRO MARARU',
+    subtitulo:(document.getElementById('lanc-subtitulo')||{value:'Novo Lançamento'}).value||'Novo Lançamento',
+    descricao:(document.getElementById('lanc-desc')||{value:''}).value||'',
+    link:(document.getElementById('lanc-link')||{value:'mararu/'}).value||'mararu/',
+    data_lancamento:dataVal?new Date(dataVal).toISOString():(d.lancamento&&d.lancamento.data_lancamento)||'2026-06-06T08:00:00',
+    marcaDagua:(document.getElementById('lanc-marca-dagua')||{value:'true'}).value!=='false',
+    marcaDaguaTxt:(document.getElementById('lanc-marca-txt')||{value:'Em Breve'}).value||'Em Breve'
+  });
+  // Tamanho bolinhas
+  var psEl=document.getElementById('lanc-pin-size');
+  if(psEl)d.pinSize=parseInt(psEl.value)||100;
+  // Galeria Mararu
+  if(!d.mararu)d.mararu={};
+  d.mararu.galeria=_galeriaMararu||[];
+  var fpEl=document.getElementById('mararu-foto-principal');
+  if(fpEl)d.mararu.fotoPrincipal=fpEl.value||'';
   var ok=await saveSiteData(d);
-  btn.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg> Salvar & Publicar';
-  btn.disabled=false;
+  if(btn){btn.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg> Salvar & Publicar';btn.disabled=false;}
   if(ok)toast('✅ Lançamento salvo e publicado!','ok');
+  else toast('⚠️ Erro ao salvar','aviso');
 }
 
 // ── REGIÕES ──

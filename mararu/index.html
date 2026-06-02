@@ -1955,8 +1955,21 @@ fetch('/site_data.json?_='+Date.now())
     var mdEl=document.getElementById('mapa-marca-dagua');
     var mdTxt=document.getElementById('mapa-marca-txt');
     if(d.lancamento){
-      if(mdEl)mdEl.style.display=d.lancamento.marcaDagua===false?'none':'flex';
+      var mostrar=d.lancamento.marcaDagua!==false;
+      if(mdEl)mdEl.style.display=mostrar?'flex':'none';
       if(mdTxt&&d.lancamento.marcaDaguaTxt)mdTxt.textContent=d.lancamento.marcaDaguaTxt;
+      // Blur layer
+      var blurEl=document.getElementById('mapa-blur-layer');
+      if(blurEl)blurEl.style.display=mostrar?'block':'none';
+    }
+    // Tamanho bolinhas mapa de lotes
+    if(d.pinSize){
+      var ps=d.pinSize/100;
+      document.querySelectorAll('.bolinha-lote').forEach(function(b){
+        var base=parseInt(b.getAttribute('data-base')||'12');
+        b.style.width=Math.round(base*ps)+'px';
+        b.style.height=Math.round(base*ps)+'px';
+      });
     }
     // Galeria de fotos do Mararu com proporção A4
     var grid=document.getElementById('gal-fotos-grid');
