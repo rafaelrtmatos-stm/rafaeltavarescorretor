@@ -773,7 +773,7 @@ function irEtapa2(){
   // Carregar lotes do Supabase
   _loteSel=null;
   document.getElementById('lote-selecionado').style.display='none';
-  document.getElementById('btn-reservar').disabled=true;
+  document.getElementById('btn-reservar').disabled=!_mapaBorrado;
   carregarLotes();
   document.querySelectorAll('.etapa').forEach(function(e){e.classList.remove('on');});
   document.getElementById('etapa2').classList.add('on');
@@ -782,14 +782,21 @@ function irEtapa2(){
 }
 
 function irEtapa3(){
-  if(!_loteSel){showToast('⚠️ Selecione um lote');return;}
+  if(!_loteSel&&!_mapaBorrado){showToast('⚠️ Selecione um lote');return;}
   calcularVencimento();
   // Preencher resumo
   document.getElementById('r-nome').textContent=document.getElementById('f-nome').value.trim();
-  document.getElementById('r-lote').textContent='Quadra '+_loteSel.quadra+' / Lote '+_loteSel.lote;
-  document.getElementById('r-area').textContent=_loteSel.area;
-  document.getElementById('r-entrada').textContent=_loteSel.entrada;
-  document.getElementById('r-parcelas').textContent=_loteSel.parcelas?(_loteSel.parcelas+'x de '+_loteSel.vparcela):'A consultar';
+  if(_loteSel){
+    document.getElementById('r-lote').textContent='Quadra '+_loteSel.quadra+' / Lote '+_loteSel.lote;
+    document.getElementById('r-area').textContent=_loteSel.area;
+    document.getElementById('r-entrada').textContent=_loteSel.entrada;
+    document.getElementById('r-parcelas').textContent=_loteSel.parcelas?(_loteSel.parcelas+'x de '+_loteSel.vparcela):'A consultar';
+  } else {
+    document.getElementById('r-lote').textContent='A definir no lançamento';
+    document.getElementById('r-area').textContent='—';
+    document.getElementById('r-entrada').textContent='A consultar';
+    document.getElementById('r-parcelas').textContent='A consultar';
+  }
   document.querySelectorAll('.etapa').forEach(function(e){e.classList.remove('on');});
   document.getElementById('etapa3').classList.add('on');
   setStep(3);
@@ -1868,11 +1875,14 @@ function aplicarEstadoMapa(borrado){
   var secPag=document.getElementById('secao-pagamento');
   var btnFinalizar=document.getElementById('btn-finalizar-sem-pag');
   var btnConfirmar=document.getElementById('btn-confirmar');
+  var btnAvancar=document.getElementById('btn-reservar');
   if(overlay)overlay.style.display=borrado?'flex':'none';
   if(msgBorrado)msgBorrado.style.display=borrado?'block':'none';
   if(secPag)secPag.style.display=borrado?'none':'block';
   if(btnFinalizar)btnFinalizar.style.display=borrado?'block':'none';
   if(btnConfirmar)btnConfirmar.style.display=borrado?'none':'block';
+  // Em modo Em Breve, libera o Avançar sem precisar selecionar lote
+  if(btnAvancar&&borrado&&!_loteSel)btnAvancar.disabled=false;
 }
 
 // Carregar estado do mapa ao iniciar
