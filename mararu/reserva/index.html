@@ -376,13 +376,14 @@ iframe[src*="gso.kommo"] {
 
       <!-- Pergunta CPF -->
       <div id="bloco-pergunta-cpf" style="display:none;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:14px;margin-bottom:14px;margin-top:14px">
-        <div style="font-size:13px;color:var(--text);margin-bottom:12px;font-weight:500">Deseja enviar também o CPF?</div>
+        <div style="font-size:13px;color:var(--text);margin-bottom:4px;font-weight:500">A foto do seu RG já tem o CPF?</div>
+        <div style="font-size:11px;color:var(--text2);margin-bottom:12px">Se o número do CPF aparece no seu documento, não precisa enviar separado.</div>
         <div style="display:flex;gap:10px">
-          <button type="button" onclick="respostaCPF(true)" style="flex:1;padding:10px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);color:#22c55e">
-            ✓ Sim, vou enviar
+          <button type="button" onclick="respostaCPF(false)" style="flex:1;padding:10px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);color:#22c55e">
+            ✓ Sim, já está no RG
           </button>
-          <button type="button" onclick="respostaCPF(false)" style="flex:1;padding:10px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);color:#f87171">
-            ✗ Pular
+          <button type="button" onclick="respostaCPF(true)" style="flex:1;padding:10px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);color:#f87171">
+            ✗ Não, vou enviar
           </button>
         </div>
       </div>
