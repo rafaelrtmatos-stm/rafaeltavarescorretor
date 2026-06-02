@@ -914,6 +914,27 @@ function salvarTokenModal(){
         </div>
 
         <div class="card">
+          <div class="card-title"><span>🔄</span> Migrar imagens para GitHub</div>
+          <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:16px">
+            Move as <strong style="color:var(--gold)">capas de catálogo</strong> e a <strong style="color:var(--gold)">capa do Mararu</strong> que ainda estão no Supabase para o GitHub, mantendo tudo em um único lugar.
+          </p>
+          <div id="migrar-itens" style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;font-size:12px;color:var(--text3)"></div>
+          <div id="migrar-status-box" style="display:none;background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:12px 14px;margin-bottom:14px">
+            <div style="font-size:11px;color:var(--text3);margin-bottom:6px;letter-spacing:.5px;text-transform:uppercase">Migrando...</div>
+            <div id="migrar-status" style="font-size:13px;color:var(--text)"></div>
+            <div id="migrar-bar-wrap" style="margin-top:8px;background:var(--bg);border-radius:4px;height:4px;overflow:hidden">
+              <div id="migrar-bar" style="height:100%;background:var(--gold);width:0%;transition:width .3s"></div>
+            </div>
+          </div>
+          <div class="btn-row">
+            <button id="migrar-btn" class="btn-save" onclick="migrarSupabaseParaGithub()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+              Migrar para GitHub
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
           <div class="card-title"><span>📍</span> Tamanho dos pinos no mapa</div>
           <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:16px">
             Define o tamanho base dos pinos em porcentagem. <strong style="color:var(--gold)">100% = tamanho padrão.</strong>
@@ -1190,7 +1211,7 @@ function goPage(id,el){
   document.querySelectorAll('.sitem').forEach(function(b){b.classList.remove('on');});
   document.getElementById('page-'+id).classList.add('on');
   if(el) el.classList.add('on');
-  if(id==='backup'){carregarPinSize();}
+  if(id==='backup'){carregarPinSize();renderMigrarItens();}
   if(id==='hero'){carregarHero();}
   if(id==='stats'){carregarStats();}
   if(id==='beneficios'){carregarBeneficios();}
@@ -2057,6 +2078,104 @@ async function uploadGaleriaMararu(files){
   if(prog)prog.style.display='none';
   // Auto-salvar após upload
   await salvarLancamento();
+}
+
+async function migrarSupabaseParaGithub(){
+  var token=getToken();
+  if(!token){showTokenModal();return;}
+  var d=await loadSiteData();
+  if(!d){toast('❌ Erro ao carregar dados','erro');return;}
+  var btnEl=document.getElementById('migrar-btn');
+  var statusBox=document.getElementById('migrar-status-box');
+  var statusEl=document.getElementById('migrar-status');
+  var barEl=document.getElementById('migrar-bar');
+  if(btnEl)btnEl.disabled=true;
+  if(statusBox)statusBox.style.display='block';
+  var itens=[];
+  if(d.regioes&&Array.isArray(d.regioes)){
+    d.regioes.forEach(function(reg,idx){
+      if(reg.foto&&reg.foto.includes('supabase.co')){
+        var ext=(reg.foto.split('.').pop().split('?')[0])||'jpg';
+        var regIdx=idx;
+        itens.push({
+          label:'Capa catálogo: '+(reg.nome||'Região '+idx),
+          caminho:'imagens/regiao-'+(reg.id||('reg'+idx))+'-'+Date.now()+regIdx+'.'+ext,
+          url:reg.foto,
+          set:function(nova){d.regioes[regIdx].foto=nova;}
+        });
+      }
+    });
+  }
+  if(d.mararu&&d.mararu.fotoPrincipal&&d.mararu.fotoPrincipal.includes('supabase.co')){
+    var ext2=(d.mararu.fotoPrincipal.split('.').pop().split('?')[0])||'png';
+    itens.push({
+      label:'Capa do Mararu',
+      caminho:'imagens/mararu-principal-'+Date.now()+'.'+ext2,
+      url:d.mararu.fotoPrincipal,
+      set:function(nova){d.mararu.fotoPrincipal=nova;}
+    });
+  }
+  if(itens.length===0){
+    toast('✅ Todas as imagens já estão no GitHub!','ok');
+    if(statusBox)statusBox.style.display='none';
+    if(btnEl)btnEl.disabled=false;
+    renderMigrarItens(d);
+    return;
+  }
+  var ok=0,erros=0;
+  for(var i=0;i<itens.length;i++){
+    var item=itens[i];
+    if(statusEl)statusEl.textContent=(i+1)+' / '+itens.length+' — '+item.label;
+    if(barEl)barEl.style.width=Math.round((i/itens.length)*100)+'%';
+    try{
+      var resp=await fetch(item.url);
+      if(!resp.ok)throw new Error('HTTP '+resp.status);
+      var blob=await resp.blob();
+      var ext3=item.caminho.split('.').pop();
+      var file=new File([blob],'img.'+ext3,{type:blob.type||'image/jpeg'});
+      var novaUrl=await uploadParaGithub(item.caminho,file,'');
+      if(novaUrl){item.set(novaUrl);ok++;}
+      else{erros++;console.warn('Falha:',item.label);}
+    }catch(e){erros++;console.warn('Erro ao migrar '+item.label,e);}
+    await new Promise(function(r){setTimeout(r,400);});
+  }
+  if(barEl)barEl.style.width='100%';
+  if(ok>0){
+    var saveOk=await saveSiteData(d);
+    if(saveOk)toast('✅ '+ok+' imagem(ns) migrada(s) para o GitHub!','ok');
+    else toast('⚠️ Imagens enviadas mas erro ao salvar dados','erro');
+  }
+  if(erros>0)toast('⚠️ '+erros+' imagem(ns) com erro — verifique o console','erro');
+  setTimeout(function(){if(statusBox)statusBox.style.display='none';if(barEl)barEl.style.width='0%';},1500);
+  if(btnEl)btnEl.disabled=false;
+  renderMigrarItens(d);
+}
+
+async function renderMigrarItens(d){
+  var el=document.getElementById('migrar-itens');
+  if(!el)return;
+  if(!d)d=await loadSiteData();
+  if(!d){el.innerHTML='';return;}
+  var linhas=[];
+  var qtdSupabase=0;
+  if(d.regioes&&Array.isArray(d.regioes)){
+    d.regioes.forEach(function(reg,i){
+      var isGH=reg.foto&&reg.foto.includes('raw.githubusercontent.com');
+      var isSupa=reg.foto&&reg.foto.includes('supabase.co');
+      var icon=isGH?'<span style="color:#22c55e">✓ GitHub</span>':isSupa?'<span style="color:#f87171">Supabase</span>':'<span style="color:var(--text3)">sem foto</span>';
+      if(isSupa)qtdSupabase++;
+      linhas.push('<div style="display:flex;align-items:center;gap:8px"><span style="color:var(--text2)">Catálogo '+(reg.nome||i)+'</span>'+icon+'</div>');
+    });
+  }
+  var mFoto=d.mararu&&d.mararu.fotoPrincipal;
+  var mGH=mFoto&&mFoto.includes('raw.githubusercontent.com');
+  var mSupa=mFoto&&mFoto.includes('supabase.co');
+  if(mSupa)qtdSupabase++;
+  var mIcon=mGH?'<span style="color:#22c55e">✓ GitHub</span>':mSupa?'<span style="color:#f87171">Supabase</span>':'<span style="color:var(--text3)">sem foto</span>';
+  linhas.push('<div style="display:flex;align-items:center;gap:8px"><span style="color:var(--text2)">Capa do Mararu</span>'+mIcon+'</div>');
+  el.innerHTML=linhas.join('');
+  var btn=document.getElementById('migrar-btn');
+  if(btn)btn.textContent=qtdSupabase>0?'Migrar '+qtdSupabase+' imagem(ns) para GitHub':'Tudo no GitHub ✓';
 }
 
 // Upload da foto de capa de uma região — salva no GitHub, apaga antiga se existir
