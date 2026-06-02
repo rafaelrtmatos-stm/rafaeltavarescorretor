@@ -556,7 +556,7 @@ function salvarTokenModal(){
           <div class="f">
             <label>Tamanho das bolinhas — Mapa de Lotes (Mararu): <strong id="pin-size-val">100</strong>%</label>
             <input type="range" id="lanc-pin-size" min="50" max="200" step="5" value="100"
-              oninput="document.getElementById('pin-size-val').textContent=this.value"
+              oninput="document.getElementById('pin-size-val').textContent=this.value;updatePinPreview(this.value)"
               style="width:100%;accent-color:var(--gold);margin-top:6px">
             <span class="f-hint">50% = menor · 100% = padrão · 200% = maior (afeta mapa de lotes do Bairro Mararu)</span>
           </div>
@@ -921,12 +921,20 @@ function salvarTokenModal(){
           <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:16px">
             <div style="flex:1;min-width:200px">
               <label style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);font-weight:500;display:block;margin-bottom:6px">Tamanho — <span id="pin-size-val">100</span>%</label>
-              <input type="range" id="pin-size-range" min="50" max="200" value="100" oninput="document.getElementById('pin-size-val').textContent=this.value;document.getElementById('pin-size-num').value=this.value" style="width:100%;accent-color:var(--gold);height:6px;cursor:pointer"/>
+              <input type="range" id="pin-size-range" min="50" max="200" value="100" oninput="document.getElementById('pin-size-val').textContent=this.value;document.getElementById('pin-size-num').value=this.value;updatePinPreview(this.value)" style="width:100%;accent-color:var(--gold);height:6px;cursor:pointer"/>
             </div>
             <div style="display:flex;align-items:center;gap:6px">
-              <input type="number" id="pin-size-num" value="100" min="50" max="200" style="width:70px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:9px 10px;font-size:14px;color:var(--text);font-family:inherit;outline:none;-webkit-appearance:none;text-align:center" oninput="var v=Math.min(200,Math.max(50,parseInt(this.value)||100));document.getElementById('pin-size-range').value=v;document.getElementById('pin-size-val').textContent=v"/>
+              <input type="number" id="pin-size-num" value="100" min="50" max="200" style="width:70px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:9px 10px;font-size:14px;color:var(--text);font-family:inherit;outline:none;-webkit-appearance:none;text-align:center" oninput="var v=Math.min(200,Math.max(50,parseInt(this.value)||100));document.getElementById('pin-size-range').value=v;document.getElementById('pin-size-val').textContent=v;updatePinPreview(v)"/>
               <span style="font-size:13px;color:var(--text3)">%</span>
             </div>
+          </div>
+          <div id="pin-preview-box" style="display:flex;align-items:center;gap:14px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:16px">
+            <span style="font-size:11px;color:var(--text3);white-space:nowrap;letter-spacing:.5px">Prévia:</span>
+            <div style="display:flex;align-items:center;gap:10px">
+              <div id="pin-prev-disp" style="border-radius:50%;background:#22c55e;border:2px solid rgba(255,255,255,0.35);width:18px;height:18px;transition:width .15s,height .15s;flex-shrink:0"></div>
+              <div id="pin-prev-indisp" style="border-radius:50%;background:#f87171;border:2px solid rgba(255,255,255,0.35);width:18px;height:18px;transition:width .15s,height .15s;flex-shrink:0"></div>
+            </div>
+            <span style="font-size:10px;color:var(--text3)">tamanho aproximado das bolinhas no mapa</span>
           </div>
           <div class="btn-row">
             <button class="btn-save" onclick="salvarPinSize()">
@@ -2091,6 +2099,7 @@ async function carregarLancamento(){
   // Tamanho bolinhas
   var ps=d.pinSize||100;
   if(document.getElementById('lanc-pin-size')){document.getElementById('lanc-pin-size').value=ps;document.getElementById('pin-size-val').textContent=ps;}
+  updatePinPreview(ps);
   // Galeria Mararu
   _galeriaMararu=(d.mararu&&d.mararu.galeria)||[];
   renderGaleriaMararuPreview();
@@ -2345,7 +2354,16 @@ async function carregarPinSize(){
     document.getElementById('pin-size-range').value=v;
     document.getElementById('pin-size-num').value=v;
     document.getElementById('pin-size-val').textContent=v;
+    updatePinPreview(v);
   }
+}
+
+function updatePinPreview(val){
+  var size=Math.max(6,Math.round(18*(parseInt(val)||100)/100));
+  var d=document.getElementById('pin-prev-disp');
+  var i=document.getElementById('pin-prev-indisp');
+  if(d){d.style.width=size+'px';d.style.height=size+'px';}
+  if(i){i.style.width=size+'px';i.style.height=size+'px';}
 }
 
 // Fechar modal ao clicar fora
