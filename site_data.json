@@ -285,7 +285,7 @@
     {
       "id": "santa-maria",
       "nome": "Santa Maria",
-      "foto": "",
+      "foto": "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-2-1780364588826.png",
       "loc": "Atrás do Horizonte Park",
       "desc": "Tranquila e estruturada. Loteamento Bom Sossego com documentação completa.",
       "badge": "Disponível",
@@ -305,7 +305,7 @@
     {
       "id": "ponta-pedras",
       "nome": "Ponta de Pedras",
-      "foto": "",
+      "foto": "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-4-1780364714914.jpeg",
       "loc": "3 minutos da praia",
       "desc": "Acesso ao rio Tapajós. Área privilegiada com vista panorâmica e potencial turístico.",
       "badge": "Premium",
