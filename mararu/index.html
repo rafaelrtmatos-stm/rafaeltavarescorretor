@@ -1380,24 +1380,15 @@ else carregarMapa();
 </style>
 
 
-<section id="galeria" style="background:var(--bg2);padding:96px 24px;border-bottom:1px solid var(--border)">
+<section id="galeria" style="background:var(--bg2);padding:64px 24px;border-bottom:1px solid var(--border)">
   <div style="max-width:900px;margin:0 auto">
-    <div style="text-align:center;margin-bottom:48px">
+    <div style="text-align:center;margin-bottom:40px">
       <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:600">Galeria</div>
-      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(36px,4vw,52px);font-weight:700;color:var(--text);line-height:.95;letter-spacing:-2px">Conheça os <em style="font-style:italic;color:var(--gold)">empreendimentos</em></h2>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,48px);font-weight:700;color:var(--text);line-height:.95;letter-spacing:-1px">Conheça o <em style="font-style:italic;color:var(--gold)">Bairro Mararu</em></h2>
     </div>
-    <!-- TABS -->
-    <div style="display:flex;gap:6px;justify-content:center;margin-bottom:32px;flex-wrap:wrap">
-      <button class="gal-tab on" onclick="galTab(this,'fotos')">📸 Fotos</button>
-      <button class="gal-tab" onclick="galTab(this,'videos')">🎥 Vídeos</button>
-      <button class="gal-tab" onclick="galTab(this,'drone')">🚁 Drone</button>
-      <button class="gal-tab" onclick="galTab(this,'pdf')">📄 PDF</button>
-    </div>
-    <!-- FOTOS -->
-    <div id="gal-fotos" class="gal-panel on">
-      <div id="gal-fotos-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
-        <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text3);font-size:13px">📸 Fotos em breve</div>
-      </div>
+    <!-- GRID DINÂMICO COM PROPORÇÃO A4 -->
+    <div id="gal-fotos-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px">
+      <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text3);font-size:13px">📸 Fotos em breve</div>
     </div></div>
     <!-- VÍDEOS -->
     <div id="gal-videos" class="gal-panel">
@@ -1964,24 +1955,48 @@ fetch('/site_data.json?_='+Date.now())
     var mdEl=document.getElementById('mapa-marca-dagua');
     var mdTxt=document.getElementById('mapa-marca-txt');
     if(d.lancamento){
-      if(mdEl) mdEl.style.display=d.lancamento.marcaDagua===false?'none':'flex';
-      if(mdTxt && d.lancamento.marcaDaguaTxt) mdTxt.textContent=d.lancamento.marcaDaguaTxt;
+      if(mdEl)mdEl.style.display=d.lancamento.marcaDagua===false?'none':'flex';
+      if(mdTxt&&d.lancamento.marcaDaguaTxt)mdTxt.textContent=d.lancamento.marcaDaguaTxt;
     }
-    // Galeria de fotos do Mararu
+    // Galeria de fotos do Mararu com proporção A4
     var grid=document.getElementById('gal-fotos-grid');
-    if(grid && d.mararu && d.mararu.galeria && d.mararu.galeria.length){
+    if(grid&&d.mararu&&d.mararu.galeria&&d.mararu.galeria.length){
       var fotos=d.mararu.galeria;
-      grid.innerHTML=fotos.map(function(f,i){
-        var isVideo=f.match(/\.(mp4|webm|mov)$/i);
+      grid.innerHTML='';
+      fotos.forEach(function(url){
+        var isVideo=/\.(mp4|webm|mov)$/i.test(url);
+        var wrapper=document.createElement('div');
+        wrapper.style.cssText='border-radius:10px;overflow:hidden;background:#111;';
         if(isVideo){
-          return '<div style="border-radius:10px;overflow:hidden;background:#111;aspect-ratio:4/3">'
-            +'<video src="'+f+'" style="width:100%;height:100%;object-fit:cover" muted playsinline loop autoplay></video>'
-            +'</div>';
+          wrapper.style.aspectRatio='210/297'; // A4 retrato padrão para vídeo
+          var v=document.createElement('video');
+          v.src=url;v.style.cssText='width:100%;height:100%;object-fit:cover';
+          v.muted=true;v.loop=true;v.autoplay=true;v.playsInline=true;
+          wrapper.appendChild(v);
+          grid.appendChild(wrapper);
+        } else {
+          // Detectar proporção real da imagem
+          var img=new Image();
+          img.onload=function(){
+            var retrato=img.naturalHeight>img.naturalWidth;
+            // A4 retrato: 210x297 → ratio 1:1.414
+            // A4 paisagem: 297x210 → ratio 1.414:1
+            wrapper.style.aspectRatio=retrato?'210/297':'297/210';
+            var i2=document.createElement('img');
+            i2.src=url;i2.style.cssText='width:100%;height:100%;object-fit:cover';
+            i2.loading='lazy';
+            wrapper.appendChild(i2);
+          };
+          img.onerror=function(){
+            wrapper.style.aspectRatio='4/3';
+            var i2=document.createElement('img');
+            i2.src=url;i2.style.cssText='width:100%;height:100%;object-fit:cover';
+            wrapper.appendChild(i2);
+          };
+          img.src=url;
+          grid.appendChild(wrapper);
         }
-        return '<div style="border-radius:10px;overflow:hidden;background:#111;aspect-ratio:4/3;'+(i===1?'grid-row:span 2;aspect-ratio:auto':'')+'">'
-          +'<img src="'+f+'" style="width:100%;height:100%;object-fit:cover" loading="lazy">'
-          +'</div>';
-      }).join('');
+      });
     }
   }).catch(function(){});
 </script>

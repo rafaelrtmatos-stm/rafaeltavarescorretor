@@ -569,17 +569,34 @@ function salvarTokenModal(){
           </div>
         </div>
 
+        <!-- FOTO PRINCIPAL DO CARD -->
+        <div class="card">
+          <div class="card-title"><span>🖼️</span> Foto Principal do Card Mararu</div>
+          <div class="card-sub">Aparece no card de destaque na home e no topo da página Mararu</div>
+          <div style="display:flex;gap:14px;align-items:flex-start">
+            <div id="mararu-foto-prev" style="width:120px;height:80px;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--bg3);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text3)">Sem foto</div>
+            <div style="flex:1">
+              <input type="url" id="mararu-foto-principal" placeholder="URL da foto principal" oninput="prevMararuFoto()" style="width:100%;margin-bottom:8px"/>
+              <label style="display:inline-flex;align-items:center;gap:7px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);color:var(--gold);padding:8px 14px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer">
+                📷 Fazer upload
+                <input type="file" accept="image/*" style="display:none" onchange="uploadFotoMararuPrincipal(this.files[0])">
+              </label>
+              <span id="mararu-foto-prog" style="display:none;font-size:11px;color:var(--gold);margin-left:8px">⏳</span>
+            </div>
+          </div>
+        </div>
+
         <!-- GALERIA MARARU -->
         <div class="card">
           <div class="card-title"><span>📸</span> Galeria do Bairro Mararu</div>
-          <div class="card-sub">Fotos e vídeos que aparecem na página do Mararu</div>
+          <div class="card-sub">Fotos e vídeos após o mapa — adicione quantas quiser. Proporção A4 automática.</div>
           <div id="gal-mararu-preview" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px"></div>
           <label style="display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);color:var(--gold);padding:10px 16px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer">
-            📷 Adicionar foto ou vídeo
+            📷 Adicionar fotos/vídeos
             <input type="file" accept="image/*,video/mp4,video/webm,video/quicktime" multiple style="display:none" onchange="uploadGaleriaMararu(this.files)">
           </label>
           <span id="gal-mararu-prog" style="display:none;font-size:11px;color:var(--gold);margin-left:10px">⏳ Enviando...</span>
-          <span class="f-hint" style="display:block;margin-top:8px">Clique nas fotos para remover</span>
+          <span class="f-hint" style="display:block;margin-top:8px">Clique nas fotos para remover · Proporção detectada automaticamente (A4 retrato/paisagem)</span>
         </div>
       </div>
 
@@ -1920,6 +1937,38 @@ function removerGaleriaMararu(i){
   renderGaleriaMararuPreview();
 }
 
+function prevMararuFoto(){
+  var url=(document.getElementById('mararu-foto-principal')||{}).value||'';
+  var prev=document.getElementById('mararu-foto-prev');
+  if(!prev)return;
+  if(url){prev.innerHTML='<img src="'+url+'" style="width:100%;height:100%;object-fit:cover">';}
+  else{prev.innerHTML='<span style="font-size:11px;color:var(--text3)">Sem foto</span>';}
+}
+
+async function uploadFotoMararuPrincipal(file){
+  if(!file)return;
+  var prog=document.getElementById('mararu-foto-prog');
+  if(prog)prog.style.display='inline';
+  var ext=file.name.split('.').pop().toLowerCase();
+  var nomeArq='mararu/principal-'+Date.now()+'.'+ext;
+  try{
+    var r=await fetch('https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/fotos-site/'+nomeArq,{
+      method:'POST',
+      headers:{'apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI','Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI','Content-Type':file.type,'x-upsert':'true'},
+      body:file
+    });
+    if(r.ok){
+      var url='https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/'+nomeArq;
+      var el=document.getElementById('mararu-foto-principal');
+      if(el)el.value=url;
+      prevMararuFoto();
+      toast('✅ Foto principal enviada!','ok');
+      await salvarLancamento();
+    }
+  }catch(e){console.warn(e);}
+  if(prog)prog.style.display='none';
+}
+
 async function uploadGaleriaMararu(files){
   var prog=document.getElementById('gal-mararu-prog');
   if(prog)prog.style.display='inline';
@@ -1963,6 +2012,12 @@ async function carregarLancamento(){
   // Galeria Mararu
   _galeriaMararu=(d.mararu&&d.mararu.galeria)||[];
   renderGaleriaMararuPreview();
+  // Foto principal
+  var fp=(d.mararu&&d.mararu.fotoPrincipal)||'';
+  if(document.getElementById('mararu-foto-principal')){
+    document.getElementById('mararu-foto-principal').value=fp;
+    prevMararuFoto();
+  }
 }
 
 async function salvarLancamento(){
