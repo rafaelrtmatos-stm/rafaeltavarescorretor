@@ -2066,55 +2066,80 @@ function renderRegEditor(){
   if(!c)return;
   c.innerHTML='';
   _regData.forEach(function(r,i){
-    var fv=(r.foto||'').replace(/"/g,'&quot;');
-    var div=document.createElement('div');
-    div.className='card';
-    div.style.marginBottom='16px';
-    div.innerHTML=
-      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">'
-      +'<div class="card-title" style="margin:0">'+( r.nome||'Nova Região')+'</div>'
-      +'<button onclick="excluirRegiao('+i+')" style="background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);color:#f87171;padding:5px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit">🗑 Excluir</button>'
-      +'</div>'
-      // Nome + Badge
-      +'<div class="g2" style="margin-bottom:10px">'
-      +'<div class="f"><label>Nome da Região</label><input type="text" id="reg-nome-'+i+'" value="'+(r.nome||'')+'" placeholder="Ex: Alter do Chão"/></div>'
-      +'<div class="f"><label>Badge</label><input type="text" id="reg-badge-'+i+'" value="'+(r.badge||'')+'" placeholder="Ex: Premium · Tapajós"/></div>'
-      +'</div>'
-      // Descrição
-      +'<div class="f" style="margin-bottom:10px"><label>Descrição do catálogo</label>'
-      +'<textarea id="reg-desc-'+i+'" rows="3" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px;font-size:13px;color:var(--text);font-family:inherit;resize:vertical;width:100%" placeholder="Texto que aparece no catálogo ao clicar na região">'+(r.desc||'')+'</textarea></div>'
-      // Diferenciais
-      +'<div class="f" style="margin-bottom:10px"><label>Diferenciais (um por linha)</label>'
-      +'<textarea id="reg-dif-'+i+'" rows="4" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px;font-size:13px;color:var(--text);font-family:inherit;resize:vertical;width:100%" placeholder="Ex: Praias de água doce
-Alto potencial de valorização">'+(r.diferenciais||[]).join('
-')+'</textarea></div>'
-      // Foto
-      +'<div class="f" style="margin-bottom:10px"><label>🖼️ Foto de fundo do card</label>'
-      +'<input type="url" id="reg-foto-'+i+'" value="'+fv+'" placeholder="URL gerada após upload" oninput="prevRegFoto('+i+')"/>'
-      +'<div style="display:flex;align-items:center;gap:10px;margin-top:8px">'
-      +'<label style="display:inline-flex;align-items:center;gap:7px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);color:var(--gold);padding:8px 14px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer" id="reg-upload-btn-'+i+'">'
-      +'📷 Escolher foto/video'
-      +'<input type="file" accept="image/*,video/mp4,video/webm,video/quicktime" style="display:none" onchange="if(this.files[0])uploadFotoRegiao('+i+',this.files[0])">'
-      +'</label>'
-      +'<span id="reg-upload-prog-'+i+'" style="display:none;font-size:11px;color:var(--gold)">⏳ Enviando...</span>'
-      +'<div id="reg-foto-prev-'+i+'" style="width:60px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);background:var(--bg3);">'
-      +(r.foto?'<img src="'+fv+'" style="width:100%;height:100%;object-fit:cover">':'')
-      +'</div>'
-      +'</div></div>'
-      // Coordenadas do pino
-      +'<div class="g2" style="margin-bottom:10px">'
-      +'<div class="f"><label>📍 Latitude do pino</label><input type="number" id="reg-lat-'+i+'" value="'+(r.lat||'')+'" placeholder="-2.478306" step="0.000001"/></div>'
-      +'<div class="f"><label>📍 Longitude do pino</label><input type="number" id="reg-lng-'+i+'" value="'+(r.lng||'')+'" placeholder="-54.753889" step="0.000001"/></div>'
-      +'</div>'
-      // WhatsApp
-      +'<div class="f" style="margin-bottom:10px"><label>💬 Mensagem WhatsApp</label>'
-      +'<input type="text" id="reg-wpp-'+i+'" value="'+(r.wpp||'')+'" placeholder="Olá Rafael! Tenho interesse em..."/></div>'
-      // Salvar
-      +'<button class="btn-save" onclick="salvarRegiao('+i+')" style="width:100%">'
-      +'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg>'
-      +' Salvar Região'
-      +'</button>';
-    c.appendChild(div);
+    var card=document.createElement('div');
+    card.className='card';
+    card.style.marginBottom='16px';
+    var header=document.createElement('div');
+    header.style.cssText='display:flex;justify-content:space-between;align-items:center;margin-bottom:14px';
+    var title=document.createElement('div');
+    title.className='card-title';title.style.margin='0';
+    title.textContent=r.nome||'Nova Região';
+    var btnDel=document.createElement('button');
+    btnDel.textContent='🗑 Excluir';
+    btnDel.style.cssText='background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);color:#f87171;padding:5px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit';
+    btnDel.onclick=(function(idx){return function(){excluirRegiao(idx);};})(i);
+    header.appendChild(title);header.appendChild(btnDel);card.appendChild(header);
+    // Nome + Badge
+    var g1=document.createElement('div');
+    g1.className='g2';g1.style.marginBottom='10px';
+    g1.innerHTML='<div class="f"><label>Nome</label><input type="text" id="reg-nome-'+i+'" value="'+((r.nome||'').replace(/"/g,'&quot;'))+'"/></div>'
+      +'<div class="f"><label>Badge</label><input type="text" id="reg-badge-'+i+'" value="'+((r.badge||'').replace(/"/g,'&quot;'))+'"/></div>';
+    card.appendChild(g1);
+    // Descrição
+    var dDiv=document.createElement('div');dDiv.className='f';dDiv.style.marginBottom='10px';
+    var dL=document.createElement('label');dL.textContent='Descrição';
+    var dT=document.createElement('textarea');dT.id='reg-desc-'+i;dT.rows=3;
+    dT.style.cssText='background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px;font-size:13px;color:var(--text);font-family:inherit;resize:vertical;width:100%';
+    dT.value=r.desc||'';dDiv.appendChild(dL);dDiv.appendChild(dT);card.appendChild(dDiv);
+    // Diferenciais
+    var difDiv=document.createElement('div');difDiv.className='f';difDiv.style.marginBottom='10px';
+    var difL=document.createElement('label');difL.textContent='Diferenciais (um por linha)';
+    var difT=document.createElement('textarea');difT.id='reg-dif-'+i;difT.rows=4;
+    difT.style.cssText='background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px;font-size:13px;color:var(--text);font-family:inherit;resize:vertical;width:100%';
+    difT.placeholder='Praias de água doce\nAlto potencial de valorização';
+    difT.value=(r.diferenciais||[]).join('\n');
+    difDiv.appendChild(difL);difDiv.appendChild(difT);card.appendChild(difDiv);
+    // Foto
+    var fDiv=document.createElement('div');fDiv.className='f';fDiv.style.marginBottom='10px';
+    var fL=document.createElement('label');fL.textContent='🖼️ Foto de fundo';
+    var fI=document.createElement('input');fI.type='url';fI.id='reg-foto-'+i;
+    fI.value=r.foto||'';fI.placeholder='URL gerada após upload';
+    fI.oninput=(function(idx){return function(){prevRegFoto(idx);};})(i);
+    var fRow=document.createElement('div');fRow.style.cssText='display:flex;align-items:center;gap:10px;margin-top:8px';
+    var fBtn=document.createElement('label');fBtn.id='reg-upload-btn-'+i;
+    fBtn.style.cssText='display:inline-flex;align-items:center;gap:7px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);color:var(--gold);padding:8px 14px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer';
+    fBtn.textContent='📷 Escolher foto';
+    var fFile=document.createElement('input');fFile.type='file';fFile.accept='image/*,video/mp4,video/webm,video/quicktime';fFile.style.display='none';
+    fFile.onchange=(function(idx){return function(){if(this.files[0])uploadFotoRegiao(idx,this.files[0]);};})(i);
+    fBtn.appendChild(fFile);
+    var fProg=document.createElement('span');fProg.id='reg-upload-prog-'+i;fProg.style.cssText='display:none;font-size:11px;color:var(--gold)';fProg.textContent='⏳';
+    var fPrev=document.createElement('div');fPrev.id='reg-foto-prev-'+i;
+    fPrev.style.cssText='width:60px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);background:var(--bg3)';
+    if(r.foto)fPrev.innerHTML='<img src="'+r.foto.replace(/"/g,'%22')+'" style="width:100%;height:100%;object-fit:cover">';
+    fRow.appendChild(fBtn);fRow.appendChild(fProg);fRow.appendChild(fPrev);
+    fDiv.appendChild(fL);fDiv.appendChild(fI);fDiv.appendChild(fRow);card.appendChild(fDiv);
+    // Lat/Lng + Maps
+    var cDiv=document.createElement('div');cDiv.style.marginBottom='10px';
+    var cGrid=document.createElement('div');cGrid.className='g2';cGrid.style.marginBottom='8px';
+    cGrid.innerHTML='<div class="f"><label>📍 Latitude</label><input type="number" id="reg-lat-'+i+'" value="'+(r.lat||'')+'" step="0.000001"/></div>'
+      +'<div class="f"><label>📍 Longitude</label><input type="number" id="reg-lng-'+i+'" value="'+(r.lng||'')+'" step="0.000001"/></div>';
+    var mBtn=document.createElement('a');mBtn.id='reg-maps-btn-'+i;
+    mBtn.href='https://maps.google.com/?q='+(r.lat||0)+','+(r.lng||0);
+    mBtn.target='_blank';
+    mBtn.style.cssText='display:inline-flex;align-items:center;gap:7px;background:rgba(66,133,244,0.1);border:1px solid rgba(66,133,244,0.25);color:#4285f4;padding:7px 14px;border-radius:8px;font-size:11px;font-weight:600;text-decoration:none';
+    mBtn.textContent='🗺️ Ver no Google Maps';
+    mBtn.onclick=(function(idx,btn){return function(){var la=document.getElementById('reg-lat-'+idx).value;var ln=document.getElementById('reg-lng-'+idx).value;btn.href='https://maps.google.com/?q='+la+','+ln;};})(i,mBtn);
+    cDiv.appendChild(cGrid);cDiv.appendChild(mBtn);card.appendChild(cDiv);
+    // WhatsApp
+    var wDiv=document.createElement('div');wDiv.className='f';wDiv.style.marginBottom='10px';
+    wDiv.innerHTML='<label>💬 Mensagem WhatsApp</label><input type="text" id="reg-wpp-'+i+'" value="'+((r.wpp||'').replace(/"/g,'&quot;'))+'"/>';
+    card.appendChild(wDiv);
+    // Salvar
+    var bSave=document.createElement('button');bSave.className='btn-save';bSave.style.width='100%';
+    bSave.innerHTML='💾 Salvar Região';
+    bSave.onclick=(function(idx){return function(){salvarRegiao(idx);};})(i);
+    card.appendChild(bSave);
+    c.appendChild(card);
   });
 }
 
