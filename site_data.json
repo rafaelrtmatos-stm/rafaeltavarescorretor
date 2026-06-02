@@ -396,7 +396,7 @@
       "wpp": "Olá Rafael! Tenho interesse em lotes na região do Espírito Santo em Santarém."
     }
   ],
-  "pinSize": 100,
+  "pinSize": 70,
   "geradoEm": "2026-05-31T00:00:00.000Z",
   "lancamento": {
     "ativo": true,
@@ -405,7 +405,9 @@
     "subtitulo": "Novo Lançamento",
     "descricao": "Terrenos residenciais, comerciais e econômicos em Santarém — PA.",
     "link": "mararu/",
-    "data_lancamento": "2026-06-06T17:00:00.000Z"
+    "data_lancamento": "2026-06-06T20:00:00.000Z",
+    "marcaDagua": true,
+    "marcaDaguaTxt": "Em Breve"
   },
   "mararu": {
     "galeria": [],
