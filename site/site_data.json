@@ -1,0 +1,416 @@
+{
+  "config": {
+    "empresa": "Geoflorestal Imobiliária",
+    "nome": "Rafael Tavares",
+    "creci": "13919",
+    "cidade": "Santarém",
+    "estado": "PA",
+    "endereco": "Santarém, Pará",
+    "tel": "",
+    "wpp": "5593992332012",
+    "email": "rafaelrtmatos@gmail.com",
+    "ig": "rafaeltavarescorretorstm",
+    "fb": "rafaeltavarescorretorstm",
+    "li": "rafaeltavarescorretorstm",
+    "badge": "Santarém · Pará · Brasil",
+    "desc": "Terrenos e loteamentos com documentação regularizada nos melhores bairros de Santarém — PA.",
+    "s1": "Sou Rafael Tavares, corretor de imóveis com CRECI 13919, especializado em terrenos e loteamentos em Santarém — PA.",
+    "s2": "Trabalho com os melhores empreendimentos da região, conectando famílias e investidores a terrenos com segurança jurídica.",
+    "contato": "Vamos encontrar seu imóvel ideal",
+    "assinatura": "tudo justo e perfeito…"
+  },
+  "hero": {
+    "badge": "Lotes em Santarém",
+    "titulo": "Encontre o\nEmpreendimento\nIdeal para Você",
+    "subtitulo": "Loteamentos selecionados nas melhores regiões para você investir e viver bem."
+  },
+  "stats": [
+    {
+      "numero": "7+",
+      "label": "Empreendimentos"
+    },
+    {
+      "numero": "1437",
+      "label": "Clientes atendidos"
+    }
+  ],
+  "beneficios": [
+    {
+      "titulo": "Documentação regularizada",
+      "desc": "Todos os terrenos com matrícula, escritura e documentação 100% em ordem. Compre com total segurança jurídica.",
+      "icone": "📋"
+    },
+    {
+      "titulo": "Parcelamento facilitado",
+      "desc": "Entrada acessível e parcelamento em até 70x. Condições pensadas para caber no seu bolso.",
+      "icone": "💳"
+    },
+    {
+      "titulo": "Localizações estratégicas",
+      "desc": "Empreendimentos nos bairros com maior potencial de crescimento e valorização em Santarém.",
+      "icone": "📍"
+    },
+    {
+      "titulo": "Alta valorização",
+      "desc": "Terrenos em regiões em expansão com valorização constante. Seu investimento crescendo.",
+      "icone": "📈"
+    },
+    {
+      "titulo": "Atendimento personalizado",
+      "desc": "Rafael Tavares acompanha você em cada etapa — da escolha do lote à assinatura do contrato. Transparência total.",
+      "icone": "🤝"
+    }
+  ],
+  "depoimentos": [
+    {
+      "texto": "Atendimento incrível! Rafael me ajudou a escolher o lote ideal e todo o processo foi muito transparente.",
+      "nome": "João Mendes",
+      "cidade": "Santarém, PA",
+      "iniciais": "JM",
+      "cor": "#C9A84C"
+    },
+    {
+      "texto": "Comprei meu terreno no Bom Sossego e não me arrependo! Documentação impecável e preço justo.",
+      "nome": "Ana Silva",
+      "cidade": "Santarém, PA",
+      "iniciais": "AS",
+      "cor": "#40916C"
+    },
+    {
+      "texto": "Profissional sério e dedicado. Cumpriu tudo o que prometeu e ainda me ajudou a fazer o melhor negócio.",
+      "nome": "Pedro Costa",
+      "cidade": "Belém, PA",
+      "iniciais": "PC",
+      "cor": "#60a5fa"
+    }
+  ],
+  "vip": {
+    "link": "mararu/",
+    "nome": "Grupo VIP Oficial",
+    "badge": "Lançamento · Bairro Mararu",
+    "desc": "Primeiro acesso aos preços · Condições exclusivas de pré-lançamento · Reserva antecipada garantida",
+    "itens": [
+      "Preços revelados antes do público geral",
+      "Condições especiais exclusivas para membros VIP",
+      "Atendimento direto com Rafael Tavares",
+      "Grupo moderado · Sem spam · Só informações oficiais"
+    ]
+  },
+  "cta": {
+    "titulo": "Vamos encontrar o empreendimento ideal para você",
+    "desc": "Atendimento personalizado, transparência total e as melhores condições do mercado. Entre em contato agora."
+  },
+  "empreendimentos": [
+    {
+      "nome": "Bairro Mararu",
+      "local": "Mararu",
+      "emoji": "🏡",
+      "status": "lancamento",
+      "desc": "Novo lançamento com terrenos residenciais, comerciais e econômicos.",
+      "tags": "🏡 Lote Padrão,🏪 Esquina Comercial,💰 Econômico",
+      "link": "mararu/",
+      "wppMsg": ""
+    },
+    {
+      "nome": "Bom Sossego",
+      "local": "Santa Maria",
+      "emoji": "🌿",
+      "status": "disponivel",
+      "desc": "Loteamento em Santa Maria com terrenos documentados.",
+      "tags": "📍 Santa Maria,Documentado",
+      "link": "",
+      "wppMsg": "Olá Rafael! Tenho interesse no Bom Sossego."
+    },
+    {
+      "nome": "Céu Azul 1",
+      "local": "Pajuçara",
+      "emoji": "🌤️",
+      "status": "disponivel",
+      "desc": "Loteamento no bairro Pajuçara com terrenos prontos.",
+      "tags": "📍 Pajuçara,Documentado",
+      "link": "",
+      "wppMsg": "Olá Rafael! Tenho interesse no Céu Azul 1."
+    },
+    {
+      "nome": "São Braz",
+      "local": "São Braz",
+      "emoji": "🏘️",
+      "status": "disponivel",
+      "desc": "Empreendimento no bairro São Braz com terrenos regularizados.",
+      "tags": "📍 São Braz,Documentado",
+      "link": "",
+      "wppMsg": "Olá Rafael! Tenho interesse no São Braz."
+    }
+  ],
+  "pinos": [
+    {
+      "id": "alter",
+      "nome": "Alter do Chão",
+      "regiao": "Alter do Chão",
+      "lat": -2.502556,
+      "lng": -54.931083,
+      "cor": "gold",
+      "min": "R$ 800",
+      "max": "R$ 2.500",
+      "desc": "Paraíso do Tapajós. Alto valor de investimento.",
+      "msg": "Olá Rafael! Tenho interesse em Alter do Chão.",
+      "tags": [
+        "Premium",
+        "Turístico"
+      ],
+      "link": ""
+    },
+    {
+      "id": "ponta",
+      "nome": "Ponta de Pedras",
+      "regiao": "Ponta de Pedras",
+      "lat": -2.467861,
+      "lng": -54.909028,
+      "cor": "gold",
+      "min": "R$ 500",
+      "max": "R$ 1.500",
+      "desc": "Área ribeirinha privilegiada com vista para o Tapajós.",
+      "msg": "Olá Rafael! Tenho interesse em Ponta de Pedras.",
+      "tags": [
+        "Ribeirinho",
+        "Vista Rio"
+      ],
+      "link": ""
+    },
+    {
+      "id": "pajucara",
+      "nome": "Pajuçara",
+      "regiao": "Pajuçara",
+      "lat": -2.441833,
+      "lng": -54.825861,
+      "cor": "gold",
+      "min": "R$ 300",
+      "max": "R$ 800",
+      "desc": "Bairro em expansão com fácil acesso e alta valorização.",
+      "msg": "Olá Rafael! Tenho interesse em Pajuçara.",
+      "tags": [
+        "Disponível",
+        "Zona Urbana"
+      ],
+      "link": ""
+    },
+    {
+      "id": "smaria",
+      "nome": "Santa Maria",
+      "regiao": "Santa Maria",
+      "lat": -2.448417,
+      "lng": -54.806361,
+      "cor": "gold",
+      "min": "R$ 350",
+      "max": "R$ 900",
+      "desc": "Loteamento Bom Sossego com documentação regularizada.",
+      "msg": "Olá Rafael! Tenho interesse em Santa Maria.",
+      "tags": [
+        "Disponível",
+        "Documentado"
+      ],
+      "link": ""
+    },
+    {
+      "id": "cucuruna",
+      "nome": "Cucurunã",
+      "regiao": "Cucurunã",
+      "lat": -2.463222,
+      "lng": -54.791694,
+      "cor": "gold",
+      "min": "R$ 400",
+      "max": "R$ 1.200",
+      "desc": "Região em expansão estratégica com alto potencial.",
+      "msg": "Olá Rafael! Tenho interesse em Cucurunã.",
+      "tags": [
+        "Em breve"
+      ],
+      "link": ""
+    },
+    {
+      "id": "espirito",
+      "nome": "Espírito Santo",
+      "regiao": "Espírito Santo",
+      "lat": -2.478306,
+      "lng": -54.753889,
+      "cor": "gold",
+      "min": "—",
+      "max": "—",
+      "desc": "Região em desenvolvimento. Entre em contato.",
+      "msg": "Olá Rafael! Tenho interesse em Espírito Santo.",
+      "tags": [
+        "Em breve"
+      ],
+      "link": ""
+    },
+    {
+      "id": "mararu",
+      "nome": "Mararu",
+      "regiao": "Mararu",
+      "lat": -2.492528,
+      "lng": -54.686639,
+      "cor": "red",
+      "min": "R$ 300",
+      "max": "R$ 800",
+      "desc": "🔥 Lançamento exclusivo! Terrenos residenciais, comerciais e econômicos.",
+      "msg": "Olá Rafael! Tenho interesse no Bairro Mararu!",
+      "tags": [
+        "Lançamento",
+        "Documentado"
+      ],
+      "link": "mararu/"
+    }
+  ],
+  "regioes": [
+    {
+      "id": "mararu",
+      "nome": "Mararu",
+      "foto": "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-0-1780364307268.jpeg",
+      "loc": "Novo Lançamento · Santarém",
+      "desc": "Lotes residenciais, comerciais e econômicos. Documentação regularizada e condições especiais.",
+      "badge": "🔥 Lançamento",
+      "badgeTipo": "lancamento",
+      "wpp": "Olá Rafael! Tenho interesse no Bairro Mararu!",
+      "lat": -2.492528,
+      "lng": -54.686639,
+      "diferenciais": [
+        "Documentação regularizada",
+        "Lotes residenciais e comerciais",
+        "Condições especiais de lançamento",
+        "Fácil acesso a Santarém",
+        "Alto potencial de valorização"
+      ]
+    },
+    {
+      "id": "pajucara",
+      "nome": "Pajuçara",
+      "foto": "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-1-1780364341875.jpeg",
+      "loc": "A 6 minutos da praia",
+      "desc": "Bairro em plena expansão com fácil acesso e alta valorização. Área residencial consolidada.",
+      "badge": "Disponível",
+      "badgeTipo": "disponivel",
+      "wpp": "Olá Rafael! Tenho interesse em Pajuçara!",
+      "lat": -2.441833,
+      "lng": -54.825861,
+      "diferenciais": [
+        "Infraestrutura urbana completa",
+        "Bairro em franca expansão",
+        "Fácil acesso ao centro de Santarém",
+        "Transporte público disponível",
+        "Alta demanda por imóveis na região"
+      ]
+    },
+    {
+      "id": "santa-maria",
+      "nome": "Santa Maria",
+      "foto": "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-2-1780364588826.png",
+      "loc": "Atrás do Horizonte Park",
+      "desc": "Tranquila e estruturada. Loteamento Bom Sossego com documentação completa.",
+      "badge": "Disponível",
+      "badgeTipo": "disponivel",
+      "wpp": "Olá Rafael! Tenho interesse em Santa Maria!",
+      "lat": -2.448417,
+      "lng": -54.806361,
+      "diferenciais": [
+        "Empreendimento Bom Sossego",
+        "Documentação completa",
+        "Região tranquila e estruturada",
+        "Qualidade de vida",
+        "Fácil acesso"
+      ]
+    },
+    {
+      "id": "cucuruna",
+      "nome": "Cucurunã",
+      "foto": "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-3-1780365626321.jpeg",
+      "loc": "Ramal dos Coelhos",
+      "desc": "Região em expansão estratégica. Novos loteamentos com alto potencial de valorização.",
+      "badge": "Disponível",
+      "badgeTipo": "breve",
+      "wpp": "Olá Rafael! Tenho interesse em Cucurunã!",
+      "lat": -2.463222,
+      "lng": -54.791694,
+      "diferenciais": [
+        "Região em expansão estratégica",
+        "Alto potencial de valorização",
+        "Novos loteamentos",
+        "Boa localização",
+        "Infraestrutura em crescimento"
+      ]
+    },
+    {
+      "id": "ponta-pedras",
+      "nome": "Ponta de Pedras",
+      "foto": "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-4-1780364714914.jpeg",
+      "loc": "3 minutos da praia",
+      "desc": "Acesso ao rio Tapajós. Área privilegiada com vista panorâmica e potencial turístico.",
+      "badge": "Premium",
+      "badgeTipo": "breve-azul",
+      "wpp": "Olá Rafael! Tenho interesse em Ponta de Pedras!",
+      "lat": -2.467861,
+      "lng": -54.909028,
+      "diferenciais": [
+        "Acesso ao rio Tapajós",
+        "Vista panorâmica",
+        "Alto potencial turístico",
+        "Região valorizada",
+        "Natureza preservada"
+      ]
+    },
+    {
+      "id": "alter",
+      "nome": "Alter do Chão",
+      "foto": "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-5-1780365599905.png",
+      "loc": "Terrenos na beira do lago verde",
+      "desc": "O destino turístico mais famoso do Pará. Terrenos de alto valor em região paradisíaca.",
+      "badge": "Premium",
+      "badgeTipo": "premium",
+      "wpp": "Olá Rafael! Tenho interesse em Alter do Chão!",
+      "lat": -2.502556,
+      "lng": -54.931083,
+      "diferenciais": [
+        "Praias de água doce únicas no mundo",
+        "Alto valor de revenda e renda turística",
+        "Região com valorização consistente",
+        "Ativo raro e exclusivo no mercado",
+        "\"Caribe do Brasil\" — destino mundial"
+      ]
+    },
+    {
+      "id": "espirito-santo",
+      "nome": "Espírito Santo",
+      "badge": "Zona Leste · Rio Tapajós",
+      "badgeTipo": "disponivel",
+      "loc": "Santarém, Pará",
+      "desc": "Região à beira do Tapajós com paisagens únicas e alto potencial de valorização. Tranquilidade e natureza com fácil acesso à cidade.",
+      "diferenciais": [
+        "Próximo ao rio Tapajós",
+        "Região tranquila e arborizada",
+        "Alto potencial de valorização",
+        "Fácil acesso a Santarém",
+        "Ambiente natural preservado"
+      ],
+      "foto": "",
+      "lat": -2.478306,
+      "lng": -54.753889,
+      "wpp": "Olá Rafael! Tenho interesse em lotes na região do Espírito Santo em Santarém."
+    }
+  ],
+  "pinSize": 50,
+  "geradoEm": "2026-05-31T00:00:00.000Z",
+  "lancamento": {
+    "ativo": true,
+    "prereserva": true,
+    "titulo": "BAIRRO MARARU",
+    "subtitulo": "Novo Lançamento",
+    "descricao": "Terrenos residenciais, comerciais e econômicos em Santarém — PA.",
+    "link": "mararu/",
+    "data_lancamento": "2026-06-06T20:00:00.000Z",
+    "marcaDagua": true,
+    "marcaDaguaTxt": "Em Breve"
+  },
+  "mararu": {
+    "galeria": [],
+    "fotoPrincipal": ""
+  }
+}

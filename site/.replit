@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-modules = ["nodejs-24", "python3"]
-=======
 modules = ["nodejs-24", "python-3.11"]
->>>>>>> 0e09250a96bd8ed81283bb5da3955e01eedb6137
 
 [deployment]
 router = "application"
@@ -13,6 +9,7 @@ args = ["pnpm", "store", "prune"]
 env = { "CI" = "true" }
 
 [workflows]
+runButton = "Project"
 
 [[workflows.workflow]]
 name = "Project"
@@ -27,13 +24,13 @@ args = "Site Rafael Tavares"
 name = "Site Rafael Tavares"
 author = "agent"
 
-[workflows.workflow.metadata]
-outputType = "webview"
-
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd /home/runner/workspace && python3 -m http.server 5000"
+args = "node /home/runner/workspace/site/serve.js"
 waitForPort = 5000
+
+[workflows.workflow.metadata]
+outputType = "webview"
 
 [agent]
 stack = "PNPM_WORKSPACE"
@@ -43,18 +40,6 @@ expertMode = true
 path = "scripts/post-merge.sh"
 timeoutMs = 20000
 
-<<<<<<< HEAD
-[nix]
-channel = "stable-25_05"
-
-[[ports]]
-localPort = 3000
-externalPort = 3000
-
-[[ports]]
-localPort = 5000
-externalPort = 80
-=======
 [[ports]]
 localPort = 5000
 externalPort = 5000
@@ -66,4 +51,3 @@ externalPort = 80
 [[ports]]
 localPort = 8081
 externalPort = 8081
->>>>>>> 0e09250a96bd8ed81283bb5da3955e01eedb6137
