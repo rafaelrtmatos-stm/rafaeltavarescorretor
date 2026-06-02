@@ -458,7 +458,7 @@ iframe[src*="gso.kommo"] {
         <!-- Gerado por JS -->
       </div>
 
-      <!-- Info do lote selecionado (quando liberado) -->
+      <!-- Info do lote selecionado — modo Em Breve (único) -->
       <div class="lote-info" id="lote-selecionado" style="display:none">
         <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;font-weight:600">Lote Selecionado</div>
         <div class="lote-row"><span class="lote-lbl">Empreendimento</span><span class="lote-val" id="l-empr">Bairro Mararu</span></div>
@@ -468,6 +468,16 @@ iframe[src*="gso.kommo"] {
         <div class="lote-row"><span class="lote-lbl">Valor</span><span class="lote-val gold" id="l-avista">—</span></div>
         <div class="lote-row"><span class="lote-lbl">Entrada</span><span class="lote-val gold" id="l-entrada">—</span></div>
         <div class="lote-row"><span class="lote-lbl">Parcelas</span><span class="lote-val" id="l-parcelas">—</span></div>
+      </div>
+
+      <!-- Painel multi-lotes — modo mapa normal -->
+      <div id="multi-lotes-panel" style="display:none">
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;font-weight:600">Lotes Selecionados</div>
+        <div id="multi-lotes-vazio" style="text-align:center;padding:16px;color:var(--text3);font-size:13px;background:rgba(255,255,255,0.03);border-radius:10px;border:1px dashed rgba(201,168,76,0.2)">Toque em um lote no mapa para selecionar</div>
+        <div id="multi-lotes-lista" style="display:flex;flex-direction:column;gap:8px"></div>
+        <button id="btn-proposta-vista" onclick="enviarPropostaVista()" style="display:none;width:100%;margin-top:12px;padding:14px;background:#25d366;color:#0a1209;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:.3px">
+          💬 Enviar proposta à vista no WhatsApp
+        </button>
       </div>
     </div>
 
@@ -633,6 +643,7 @@ var PIX_KEY='60.659.875/0001-21';
 
 var _fotos={frente:null,verso:null,comprovante:null};
 var _loteSel=null;
+var _lotesSel=[];
 var _pagOpt=null;
 
 var MARARU_EMP_ID='1780067816277';
