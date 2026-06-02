@@ -325,17 +325,12 @@ iframe[src*="gso.kommo"] {
       <!-- Tipo de documento -->
       <div class="f" style="margin-bottom:16px">
         <label>Tipo de documento *</label>
-        <div style="display:flex;gap:10px;margin-top:6px">
-          <button type="button" id="tab-rg" onclick="selecionarDoc('rg')"
-            style="flex:1;padding:10px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;border:2px solid var(--gold);color:var(--gold);background:rgba(201,168,76,0.08);transition:all .2s">
-            🪪 RG
-          </button>
-          <button type="button" id="tab-cnh" onclick="selecionarDoc('cnh')"
-            style="flex:1;padding:10px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;border:2px solid var(--border);color:var(--text2);background:transparent;transition:all .2s">
-            🚗 CNH
-          </button>
-        </div>
-        <input type="hidden" id="tipo-doc" value="rg">
+        <select id="tipo-doc" onchange="selecionarDoc(this.value)"
+          style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 14px;font-size:13px;color:var(--text);font-family:inherit;outline:none;width:100%;margin-top:6px;cursor:pointer;appearance:auto">
+          <option value="">— Selecione o documento —</option>
+          <option value="rg">🪪 RG (Registro Geral)</option>
+          <option value="cnh">🚗 CNH (Carteira de Habilitação)</option>
+        </select>
       </div>
 
       <!-- Upload principal (frente) -->
@@ -1347,13 +1342,15 @@ function previewImg(input,prevId,areaId,tipo){
 }
 function removeImg(prevId,imgId,areaId,tipo){
   var prev=document.getElementById(prevId);
-  prev.style.display='none';
-  document.getElementById(imgId).src='';
-  var pdfLabel=prev.querySelector('.pdf-label');
-  if(pdfLabel)pdfLabel.remove();
-  document.getElementById(areaId).style.display='block';
+  if(prev)prev.style.display='none';
+  var imgEl=document.getElementById(imgId);
+  if(imgEl)imgEl.src='';
+  if(prev){var pdfLabel=prev.querySelector('.pdf-label');if(pdfLabel)pdfLabel.remove();}
+  var areaEl=document.getElementById(areaId);
+  if(areaEl)areaEl.style.display='block';
   _fotos[tipo]=null;
 }
+var _fotosBase64={frente:null,verso:null,cpf:null};
 var _docEstado = {frente:null, verso:null, cpfDoc:null, tipoDoc:'rg', versoRespondido:false, cpfRespondido:false};
 
 function handleFrentePrincipal(input){
@@ -1465,8 +1462,25 @@ function habilitarContinuar(){
 }
 
 function selecionarDoc(tipo){
+  if(!tipo)return;
   _docEstado.tipoDoc=tipo;
-  document.getElementById('tipo-doc').value=tipo;
+  // Resetar estado
+  _docEstado.frente=null;_docEstado.verso=null;
+  _fotosBase64={frente:null,verso:null,cpf:null};
+  // Ocultar blocos
+  ['bloco-pergunta-verso','bloco-verso','bloco-pergunta-cpf','bloco-cpf'].forEach(function(id){
+    var el=document.getElementById(id);if(el)el.style.display='none';
+  });
+  // Resetar preview
+  var prev=document.getElementById('prev-frente');if(prev)prev.style.display='none';
+  var img=document.getElementById('img-frente');if(img)img.src='';
+  var txt=document.getElementById('txt-frente');if(txt)txt.textContent='Toque para enviar foto ou PDF';
+  var ico=document.getElementById('ico-frente');if(ico)ico.textContent='📎';
+  var inp=document.getElementById('inp-frente');if(inp)inp.value='';
+  // Atualizar label
+  var lbl=document.getElementById('label-frente');
+  if(lbl)lbl.textContent=tipo==='rg'?'Frente do RG *':'CNH *';
+  var btn=document.getElementById('btn-continuar');if(btn)btn.disabled=true;
   var tabRg=document.getElementById('tab-rg');
   var tabCnh=document.getElementById('tab-cnh');
   if(tabRg&&tabCnh){
