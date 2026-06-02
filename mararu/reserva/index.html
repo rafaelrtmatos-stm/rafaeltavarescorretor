@@ -723,12 +723,8 @@ function irEtapa2(){
   if(!rg||rg.length<5)erros.push('RG obrigatório');
   if(!nasc)erros.push('Data de nascimento obrigatória');
   if(wpp.length<14)erros.push('Telefone principal inválido');
-  else if(wppConfirm.length<14)erros.push('Confirme o telefone principal');
-  else if(wpp!==wppConfirm)erros.push('Telefone principal não confere — verifique a confirmação');
-  if(tel2.length<14)erros.push('Telefone secundário obrigatório');
-  else if(tel2Confirm.length<14)erros.push('Confirme o telefone secundário');
-  else if(tel2!==tel2Confirm)erros.push('Telefone secundário não confere — verifique a confirmação');
-  if(wpp.length>=14&&tel2.length>=14&&wpp===tel2)erros.push('Os dois telefones não podem ser iguais — informe números diferentes');
+  if(tel2&&tel2.length>0&&tel2.length<14)erros.push('Telefone secundário inválido');
+  if(wpp.length>=14&&tel2&&tel2.length>=14&&wpp.replace(/\D/g,'')=== tel2.replace(/\D/g,''))erros.push('Os dois telefones não podem ser iguais');
   if(!rua)erros.push('Endereço obrigatório');
   if(!num)erros.push('Número obrigatório');
   if(!bairro)erros.push('Bairro obrigatório');
