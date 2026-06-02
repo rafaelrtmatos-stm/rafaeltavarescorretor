@@ -1548,12 +1548,37 @@ function validarTel(fieldId,hintId){
   var el=document.getElementById(fieldId||'f-wpp');
   var h=document.getElementById(hintId||'h-wpp');
   if(!el)return;
-  if(el.value.length>=14){el.className='ok';if(h){h.textContent='✓ Telefone válido';h.className='hint ok';}}
-  else{el.className='err';if(h){h.textContent='Formato inválido';h.className='hint err';}}
-  // re-validar confirmação se já preenchida
-  var confirmId=fieldId+'-confirm';
-  var confirmEl=document.getElementById(confirmId);
-  if(confirmEl&&confirmEl.value.length>=14)validarConfirmTel(fieldId,confirmId,hintId.replace('h-','h-')+'_c'.replace('_c','-confirm'));
+  var v=el.value.replace(/\D/g,'');
+  if(v.length<10){
+    if(el.value.length>0){el.className='err';if(h){h.textContent='Telefone inválido';h.className='hint err';}}
+    return;
+  }
+  // Verificar se os dois números são iguais
+  var outroId=fieldId==='f-wpp'?'f-tel2':'f-wpp';
+  var outro=document.getElementById(outroId);
+  if(outro&&outro.value){
+    var outroV=outro.value.replace(/\D/g,'');
+    if(outroV===v&&outroV.length>=10){
+      el.className='err';
+      if(h){h.textContent='⚠️ Número igual ao outro telefone';h.className='hint err';}
+      // Também marcar o outro
+      var outroH=document.getElementById(fieldId==='f-wpp'?'h-tel2':'h-wpp');
+      if(outro.className!=='err'){
+        outro.className='err';
+        if(outroH){outroH.textContent='⚠️ Número igual ao outro telefone';outroH.className='hint err';}
+      }
+      return;
+    } else if(outroV.length>=10&&outro.className==='err'){
+      // Limpar erro do outro se agora são diferentes
+      outro.className='ok';
+      var outroH=document.getElementById(fieldId==='f-wpp'?'h-tel2':'h-wpp');
+      if(outroH&&outroH.textContent.includes('igual')){
+        outroH.textContent='✓ Telefone válido';outroH.className='hint ok';
+      }
+    }
+  }
+  el.className='ok';
+  if(h){h.textContent='✓ Telefone válido';h.className='hint ok';}
 }
 function validarConfirmTel(originalId,confirmId,hintId){
   var orig=document.getElementById(originalId);
