@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-modules = ["nodejs-24", "python3"]
-=======
-modules = ["nodejs-24", "python-3.11"]
->>>>>>> 0e09250a96bd8ed81283bb5da3955e01eedb6137
+modules = ["nodejs-24"]
 
 [deployment]
 router = "application"
@@ -13,27 +9,7 @@ args = ["pnpm", "store", "prune"]
 env = { "CI" = "true" }
 
 [workflows]
-
-[[workflows.workflow]]
-name = "Project"
-mode = "parallel"
-author = "agent"
-
-[[workflows.workflow.tasks]]
-task = "workflow.run"
-args = "Site Rafael Tavares"
-
-[[workflows.workflow]]
-name = "Site Rafael Tavares"
-author = "agent"
-
-[workflows.workflow.metadata]
-outputType = "webview"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd /home/runner/workspace && python3 -m http.server 5000"
-waitForPort = 5000
+runButton = "Project"
 
 [agent]
 stack = "PNPM_WORKSPACE"
@@ -42,37 +18,3 @@ expertMode = true
 [postMerge]
 path = "scripts/post-merge.sh"
 timeoutMs = 20000
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-[nix]
-channel = "stable-25_05"
-
-[[ports]]
-localPort = 3000
-externalPort = 3000
-
-[[ports]]
-localPort = 5000
-externalPort = 80
-=======
-[[ports]]
-localPort = 5000
-externalPort = 5000
-=======
-[[ports]]
-localPort = 3001
-externalPort = 3001
->>>>>>> aae469a (Saved progress at the end of the loop)
-
-[[ports]]
-localPort = 8080
-externalPort = 80
-
-[[ports]]
-localPort = 8081
-externalPort = 8081
-<<<<<<< HEAD
->>>>>>> 0e09250a96bd8ed81283bb5da3955e01eedb6137
-=======
->>>>>>> aae469a (Saved progress at the end of the loop)
