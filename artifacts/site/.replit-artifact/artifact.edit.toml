@@ -1,0 +1,12 @@
+kind = "web"
+previewPath = "/"
+title = "Site Rafael Tavares"
+version = "1.0.0"
+
+[[services]]
+localPort = 5000
+name = "Site"
+paths = ["/"]
+
+[services.development]
+run = "node /home/runner/workspace/artifacts/site/serve.js"
