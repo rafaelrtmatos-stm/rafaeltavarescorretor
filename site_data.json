@@ -295,7 +295,7 @@
     {
       "id": "cucuruna",
       "nome": "Cucurunã",
-      "foto": "",
+      "foto": "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-3-1780365626321.jpeg",
       "loc": "Ramal dos Coelhos",
       "desc": "Região em expansão estratégica. Novos loteamentos com alto potencial de valorização.",
       "badge": "Disponível",
@@ -315,7 +315,7 @@
     {
       "id": "alter",
       "nome": "Alter do Chão",
-      "foto": "",
+      "foto": "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-5-1780365599905.png",
       "loc": "Terrenos na beira do lago verde",
       "desc": "O destino turístico mais famoso do Pará. Terrenos de alto valor em região paradisíaca.",
       "badge": "Premium",
