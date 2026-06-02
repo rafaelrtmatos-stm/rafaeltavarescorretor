@@ -718,6 +718,7 @@ var _lotes=[];
 var _pontos=[];
 var _imgUrl='';
 var _selLote=null;
+var _pinScale=1;
 
 function fmt(n){return n?'R$ '+Number(n).toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0}):'A consultar';}
 function fmtDec(n){return n?'R$ '+Number(n).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}):'A consultar';}
@@ -770,7 +771,7 @@ function renderErro(){
 function calcCircleSize(){
   var el=document.getElementById('mapa-interativo');
   var w=(el&&(el.getBoundingClientRect().width||el.offsetWidth))||320;
-  return Math.max(8,Math.round(w*0.038));
+  return Math.max(6,Math.round(w*0.038*_pinScale));
 }
 
 function renderMapaInterativo(){
@@ -1964,12 +1965,8 @@ fetch('/site_data.json?_='+Date.now())
     }
     // Tamanho bolinhas mapa de lotes
     if(d.pinSize){
-      var ps=d.pinSize/100;
-      document.querySelectorAll('.bolinha-lote').forEach(function(b){
-        var base=parseInt(b.getAttribute('data-base')||'12');
-        b.style.width=Math.round(base*ps)+'px';
-        b.style.height=Math.round(base*ps)+'px';
-      });
+      _pinScale=d.pinSize/100;
+      if(_imgUrl&&_pontos.length)renderMapaInterativo();
     }
     // Galeria de fotos do Mararu com proporção A4
     var grid=document.getElementById('gal-fotos-grid');
