@@ -1,0 +1,22 @@
+kind = "web"
+previewPath = "/"
+title = "Site Rafael Tavares"
+version = "1.0.0"
+id = "artifacts/site-rt"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21147
+
+[services.development]
+run = "cd /home/runner/workspace/site && python3 -m http.server 21147"
+
+[services.env]
+PORT = "21147"
+BASE_PATH = "/"
