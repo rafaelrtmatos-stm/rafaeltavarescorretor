@@ -1,4 +1,4 @@
-modules = ["nodejs-24", "python3"]
+modules = ["nodejs-24", "python-3.11"]
 
 [deployment]
 router = "application"
@@ -18,10 +18,10 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "Start application"
+args = "Site Rafael Tavares"
 
 [[workflows.workflow]]
-name = "Start application"
+name = "Site Rafael Tavares"
 author = "agent"
 
 [workflows.workflow.metadata]
@@ -29,7 +29,7 @@ outputType = "webview"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "node /home/runner/workspace/artifacts/site/serve.js"
+args = "cd /home/runner/workspace && python3 -m http.server 5000"
 waitForPort = 5000
 
 [agent]
@@ -40,9 +40,14 @@ expertMode = true
 path = "scripts/post-merge.sh"
 timeoutMs = 20000
 
-[nix]
-channel = "stable-25_05"
-
 [[ports]]
 localPort = 5000
+externalPort = 5000
+
+[[ports]]
+localPort = 8080
 externalPort = 80
+
+[[ports]]
+localPort = 8081
+externalPort = 8081
