@@ -1949,27 +1949,81 @@ function prevMararuFoto(){
   else{prev.innerHTML='<span style="font-size:11px;color:var(--text3)">Sem foto</span>';}
 }
 
+// ── UPLOAD PARA GITHUB ──
+// Apaga foto antiga do repo (se for do nosso repo) e faz upload da nova.
+// Retorna a URL raw.githubusercontent.com ou null em caso de erro.
+async function uploadParaGithub(caminho, file, urlAntiga){
+  var token=getToken();
+  if(!token){showTokenModal();return null;}
+
+  // Converter arquivo para base64
+  var base64=await new Promise(function(resolve,reject){
+    var reader=new FileReader();
+    reader.onload=function(e){resolve(e.target.result.split(',')[1]);};
+    reader.onerror=reject;
+    reader.readAsDataURL(file);
+  });
+
+  // Se URL antiga é do nosso repo no GitHub, deletar antes
+  var REPO='rafaelrtmatos-stm/rafaeltavarescorretor';
+  var RAW_PREFIX='https://raw.githubusercontent.com/'+REPO+'/main/';
+  if(urlAntiga && urlAntiga.startsWith(RAW_PREFIX)){
+    var oldPath=urlAntiga.replace(RAW_PREFIX,'').split('?')[0];
+    try{
+      var shaR=await fetch('https://api.github.com/repos/'+REPO+'/contents/'+oldPath,
+        {headers:{Authorization:'token '+token,Accept:'application/vnd.github.v3+json'}});
+      if(shaR.ok){
+        var shaD=await shaR.json();
+        if(shaD.sha){
+          await fetch('https://api.github.com/repos/'+REPO+'/contents/'+oldPath,
+            {method:'DELETE',headers:{Authorization:'token '+token,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},
+             body:JSON.stringify({message:'Admin: remover foto antiga '+oldPath,sha:shaD.sha})});
+        }
+      }
+    }catch(e){console.warn('Erro ao apagar foto antiga:',e);}
+  }
+
+  // Verificar se já existe arquivo no mesmo caminho (para obter SHA e fazer update)
+  var shaExistente=null;
+  try{
+    var checkR=await fetch('https://api.github.com/repos/'+REPO+'/contents/'+caminho,
+      {headers:{Authorization:'token '+token,Accept:'application/vnd.github.v3+json'}});
+    if(checkR.ok){var checkD=await checkR.json();shaExistente=checkD.sha||null;}
+  }catch(e){}
+
+  // Fazer upload
+  var body={message:'Admin: foto '+caminho,content:base64};
+  if(shaExistente)body.sha=shaExistente;
+  var uploadR=await fetch('https://api.github.com/repos/'+REPO+'/contents/'+caminho,
+    {method:'PUT',headers:{Authorization:'token '+token,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},
+     body:JSON.stringify(body)});
+  if(!uploadR.ok){
+    var err=await uploadR.json();
+    console.warn('Erro upload GitHub:',err);
+    if(err.message&&err.message.includes('Bad credentials')){localStorage.removeItem('gh_rt_tok');showTokenModal();}
+    return null;
+  }
+  // Retornar URL com cache-busting para mostrar imagem nova imediatamente
+  return RAW_PREFIX+caminho+'?t='+Date.now();
+}
+
 async function uploadFotoMararuPrincipal(file){
   if(!file)return;
   var prog=document.getElementById('mararu-foto-prog');
   if(prog)prog.style.display='inline';
   var ext=file.name.split('.').pop().toLowerCase();
-  var nomeArq='mararu/principal-'+Date.now()+'.'+ext;
-  try{
-    var r=await fetch('https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/fotos-site/'+nomeArq,{
-      method:'POST',
-      headers:{'apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI','Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI','Content-Type':file.type,'x-upsert':'true'},
-      body:file
-    });
-    if(r.ok){
-      var url='https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/'+nomeArq;
-      var el=document.getElementById('mararu-foto-principal');
-      if(el)el.value=url;
-      prevMararuFoto();
-      toast('✅ Foto principal enviada!','ok');
-      await salvarLancamento();
-    }
-  }catch(e){console.warn(e);}
+  var caminho='imagens/mararu-principal-'+Date.now()+'.'+ext;
+  var urlAntiga=((document.getElementById('mararu-foto-principal')||{}).value||'').trim();
+  var novaUrl=await uploadParaGithub(caminho,file,urlAntiga);
+  if(novaUrl){
+    var el=document.getElementById('mararu-foto-principal');
+    if(el)el.value=novaUrl;
+    prevMararuFoto();
+    toast('✅ Foto do Mararu salva no GitHub!','ok');
+    await salvarLancamento();
+  }else{
+    toast('❌ Erro ao enviar foto','erro');
+  }
   if(prog)prog.style.display='none';
 }
 
@@ -1995,6 +2049,30 @@ async function uploadGaleriaMararu(files){
   if(prog)prog.style.display='none';
   // Auto-salvar após upload
   await salvarLancamento();
+}
+
+// Upload da foto de capa de uma região — salva no GitHub, apaga antiga se existir
+async function uploadFotoRegiao(idx,file){
+  if(!file)return;
+  var prog=document.getElementById('reg-upload-prog-'+idx);
+  if(prog)prog.style.display='inline';
+  var ext=file.name.split('.').pop().toLowerCase();
+  var id=(_regData[idx]&&_regData[idx].id)||('reg'+idx);
+  var caminho='imagens/regiao-'+id+'-'+Date.now()+'.'+ext;
+  var urlAntiga=((_regData[idx]&&_regData[idx].foto)||'').trim();
+  var novaUrl=await uploadParaGithub(caminho,file,urlAntiga);
+  if(novaUrl){
+    _regData[idx].foto=novaUrl;
+    var el=document.getElementById('reg-foto-'+idx);
+    if(el)el.value=novaUrl;
+    var prev=document.getElementById('reg-foto-prev-'+idx);
+    if(prev)prev.innerHTML='<img src="'+novaUrl+'" style="width:100%;height:100%;object-fit:cover">';
+    toast('✅ Foto salva no GitHub!','ok');
+    await salvarRegiao(idx);
+  }else{
+    toast('❌ Erro ao enviar foto','erro');
+  }
+  if(prog)prog.style.display='none';
 }
 
 async function carregarLancamento(){
