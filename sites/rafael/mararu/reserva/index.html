@@ -788,6 +788,15 @@ function irEtapa2(){
   if(!_lotesSel&&!_mapaEmBreve){showToast('Selecione um lote primeiro');return;}
   var txt=document.getElementById('resumo-lote-txt');
   if(txt)txt.textContent=_lotesSel?'Q'+_lotesSel.quadra+' — Lote '+_lotesSel.lote:'A definir no lançamento';
+  // Quando mapa está com blur: esconder resumo do lote, mostrar campo de interesse, esconder botão voltar
+  if(_mapaEmBreve){
+    var resumoEl=document.getElementById('res-lote-resumo');
+    if(resumoEl)resumoEl.style.display='none';
+    var loteWrap=document.getElementById('lote-interesse-wrap');
+    if(loteWrap)loteWrap.style.display='block';
+    var btnVoltar=document.getElementById('btn-voltar-mapa');
+    if(btnVoltar)btnVoltar.style.display='none';
+  }
   showEtapa('etapa2-dados');setStep(2);
 }
 function irEtapa3(){
@@ -971,14 +980,18 @@ function showToast(msg){
     var _md=data.lancamento?data.lancamento.marcaDagua:'normal';
     _mapaEmBreve=_md===true||_md==='em-breve'||_md==='fechado';
     if(_mapaEmBreve){
-      // Mapa com blur ou fechado → pular etapa 1, ir direto ao formulário
-      var resumoEl=document.getElementById('res-lote-resumo');
-      if(resumoEl)resumoEl.style.display='none';
-      var loteInteresseWrap=document.getElementById('lote-interesse-wrap');
-      if(loteInteresseWrap)loteInteresseWrap.style.display='block';
-      var btnVoltarMapa=document.getElementById('btn-voltar-mapa');
-      if(btnVoltarMapa)btnVoltarMapa.style.display='none';
-      showEtapa('etapa2-dados');setStep(1);
+      // Mapa com blur: mostra "Em Breve" igual ao mapa principal, não-clicável
+      var wrap2=document.getElementById('res-mapa-wrap');
+      if(wrap2){
+        wrap2.innerHTML='<div style="height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:rgba(0,0,0,0.18);border-radius:10px;position:relative;overflow:hidden"><div style="position:absolute;inset:0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);background:rgba(0,0,0,0.4)"></div><div style="position:relative;z-index:1;text-align:center"><div style="font-family:\'Cormorant Garamond\',serif;font-size:36px;font-weight:700;color:#fff;letter-spacing:5px;text-transform:uppercase;text-shadow:0 4px 24px rgba(0,0,0,0.6)">Em Breve</div><div style="font-size:11px;color:rgba(255,255,255,0.55);letter-spacing:2px;text-transform:uppercase;margin-top:6px">Mapa disponível no lançamento</div></div></div>';
+        wrap2.style.padding='0';wrap2.style.background='transparent';
+      }
+      // Habilitar botão para continuar sem selecionar lote
+      var btnE2=document.getElementById('btn-ir-etapa2');
+      if(btnE2){
+        btnE2.disabled=false;
+        btnE2.innerHTML='Garantir posição na fila \u2192';
+      }
     } else {
       renderMapaClicavel(_lotesInfo,_mapaPontos,_mapaImagemUrl);
     }
