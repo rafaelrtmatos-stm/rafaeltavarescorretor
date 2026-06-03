@@ -406,7 +406,7 @@
     "descricao": "Terrenos residenciais, comerciais e econômicos em Santarém — PA.",
     "link": "mararu/",
     "data_lancamento": "2026-06-07T20:00:00.000Z",
-    "marcaDagua": false,
+    "marcaDagua": true,
     "marcaDaguaTxt": "Em Breve"
   },
   "mararu": {
