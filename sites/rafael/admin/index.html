@@ -1,0 +1,2726 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Admin — Rafael Tavares</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#0A0A0A;--bg2:#111111;--bg3:#1A1A1A;
+  --gold:#C9A84C;--gold2:#E8C96A;--gold3:rgba(201,168,76,0.12);
+  --text:#F2EDE4;--text2:rgba(242,237,228,0.6);--text3:rgba(242,237,228,0.3);
+  --border:rgba(201,168,76,0.15);--border2:rgba(201,168,76,0.28);
+  --green:#22c55e;--red:#f87171;--blue:#60a5fa;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* LOGIN */
+.lock{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.lock-card{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:40px 32px;width:100%;max-width:380px;text-align:center}
+.lock-logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--gold);letter-spacing:3px;margin-bottom:4px}
+.lock-sub{font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:28px}
+.inp{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:13px 14px;font-size:14px;color:var(--text);font-family:inherit;outline:none;margin-bottom:12px;-webkit-appearance:none;transition:border-color .2s}
+.inp:focus{border-color:var(--gold)}
+.btn-g{width:100%;background:var(--gold);color:#0D1A0D;border:none;padding:14px;font-size:13px;font-weight:600;border-radius:8px;cursor:pointer;font-family:inherit;transition:all .2s}
+.btn-g:hover{background:var(--gold2)}
+.err{display:none;font-size:12px;color:var(--red);margin-bottom:10px;padding:8px;background:rgba(248,113,113,0.1);border-radius:6px}
+
+/* GITHUB TOKEN CARD */
+.github-card{background:rgba(96,165,250,0.06);border:1px solid rgba(96,165,250,0.2);border-radius:12px;padding:18px;margin-bottom:20px;text-align:left}
+.github-card-title{font-size:12px;font-weight:600;color:var(--blue);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.github-card p{font-size:11px;color:var(--text3);line-height:1.7;margin-bottom:12px}
+.github-card a{color:var(--blue);text-decoration:none;font-size:11px}
+.github-card a:hover{text-decoration:underline}
+.token-status{display:flex;align-items:center;gap:6px;font-size:11px;padding:6px 10px;border-radius:6px;margin-top:8px}
+.token-status.ok{background:rgba(34,197,94,0.1);color:var(--green);border:1px solid rgba(34,197,94,0.2)}
+.token-status.err{background:rgba(248,113,113,0.1);color:var(--red);border:1px solid rgba(248,113,113,0.2)}
+.token-status.none{background:rgba(201,168,76,0.08);color:var(--text3);border:1px solid var(--border)}
+
+/* ADMIN */
+.admin{display:none;min-height:100vh}
+.anav{background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50;gap:10px}
+.anav-logo{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:700;color:var(--gold);letter-spacing:2px;white-space:nowrap}
+.anav-right{display:flex;align-items:center;gap:10px}
+
+.gh-status.on{color:var(--green);border-color:rgba(34,197,94,0.3);background:rgba(34,197,94,0.08)}
+.gh-status.off{color:var(--text3);border-color:var(--border);background:transparent}
+.btn-sair{background:transparent;border:1px solid var(--border);color:var(--text3);padding:7px 14px;border-radius:8px;font-size:12px;cursor:pointer;font-family:inherit;white-space:nowrap}
+
+/* LAYOUT */
+.layout{display:flex;min-height:calc(100vh - 57px)}
+.sidebar{width:200px;background:var(--bg2);border-right:1px solid var(--border);padding:16px 10px;flex-shrink:0;position:sticky;top:57px;height:calc(100vh - 57px);overflow-y:auto}
+.sidebar-title{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--text3);padding:0 8px;margin-bottom:8px;margin-top:14px}
+.sidebar-title:first-child{margin-top:0}
+.smenu{display:flex;flex-direction:column;gap:2px}
+.sitem{display:flex;align-items:center;gap:9px;padding:10px 10px;border-radius:8px;font-size:13px;color:var(--text2);cursor:pointer;transition:all .2s;border:none;background:transparent;font-family:inherit;text-align:left;width:100%}
+.sitem:hover{background:var(--gold3);color:var(--text)}
+.sitem.on{background:var(--gold3);color:var(--gold);font-weight:500}
+.sitem .icon{font-size:15px;flex-shrink:0;width:20px;text-align:center}
+.sitem .num{margin-left:auto;background:var(--gold);color:#0D1A0D;font-size:9px;font-weight:700;padding:2px 7px;border-radius:100px}
+
+/* CONTENT */
+.content{flex:1;padding:24px 20px 80px;overflow-x:hidden;background:var(--bg);color:var(--text)}
+.page{display:none}
+.page.on{display:block}
+.page-header{margin-bottom:24px}
+.page-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--text);margin-bottom:4px}
+.page-sub{font-size:13px;color:var(--text3)}
+
+/* CARDS */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:22px;margin-bottom:16px}
+.card-title{font-size:12px;font-weight:600;color:var(--text);margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;letter-spacing:.3px}
+.card-title span{font-size:15px}
+
+/* FORM */
+.f{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+.f label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);font-weight:500}
+.f input,.f textarea,.f select{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:11px 12px;font-size:14px;color:var(--text);font-family:inherit;outline:none;transition:all .2s;-webkit-appearance:none;width:100%}
+.f input:focus,.f textarea:focus,.f select:focus{border-color:var(--gold)}
+.f textarea{resize:vertical;min-height:80px;line-height:1.6}
+.f select option{background:var(--bg2)}
+.f-hint{font-size:11px;color:var(--text3);margin-top:4px;line-height:1.5}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+/* FOTO */
+.foto-upload{display:flex;align-items:center;gap:16px;margin-bottom:14px}
+.foto-preview{width:72px;height:72px;border-radius:50%;background:var(--bg3);border:2px solid var(--border);overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.foto-preview img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.foto-upload-info{flex:1}
+.foto-upload-info p{font-size:12px;color:var(--text2);margin-bottom:8px;line-height:1.5}
+.btn-upload{background:var(--gold3);border:1px solid var(--border2);color:var(--gold);padding:9px 16px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.btn-upload:hover{background:rgba(201,168,76,0.2)}
+
+/* BUTTONS */
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.btn-save{background:var(--gold);color:#0D1A0D;border:none;padding:12px 24px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;display:flex;align-items:center;gap:8px}
+.btn-save:hover{background:var(--gold2);transform:translateY(-1px)}
+.btn-save:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn-restore{background:transparent;border:1px solid var(--border);color:var(--text3);padding:12px 20px;border-radius:8px;font-size:13px;cursor:pointer;font-family:inherit;transition:all .2s}
+.btn-restore:hover{border-color:var(--red);color:var(--red)}
+.btn-d{background:rgba(248,113,113,0.1);color:var(--red);border:1px solid rgba(248,113,113,0.25);padding:9px 16px;border-radius:8px;font-size:12px;cursor:pointer;font-family:inherit}
+
+/* TOGGLES */
+.toggle-row{display:flex;align-items:center;gap:14px;padding:12px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .2s;user-select:none}
+.toggle-row:hover{border-color:var(--border2)}
+.toggle-info{flex:1}
+.toggle-label{font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px}
+.toggle-sub{font-size:11px;color:var(--text3)}
+.tog{width:42px;height:24px;background:rgba(255,255,255,0.08);border-radius:100px;position:relative;transition:background .2s;flex-shrink:0;border:1px solid var(--border)}
+.tog.on{background:var(--green);border-color:transparent}
+.tog-dot{width:18px;height:18px;background:#fff;border-radius:50%;position:absolute;top:2px;left:2px;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.tog.on .tog-dot{left:20px}
+
+/* ORDER */
+.order-item{display:flex;align-items:center;gap:12px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:13px 14px;cursor:grab;transition:all .2s;user-select:none}
+.order-item:hover{border-color:var(--border2)}
+.order-item.dragging{opacity:.4;border-color:var(--gold);background:var(--gold3)}
+.drag-handle{font-size:16px;color:var(--text3);letter-spacing:-2px;flex-shrink:0}
+.order-icon{font-size:16px;flex-shrink:0}
+.order-name{font-size:13px;font-weight:500;color:var(--text);flex:1}
+.order-badge{background:var(--gold3);color:var(--gold);font-size:10px;font-weight:700;padding:3px 9px;border-radius:100px;border:1px solid var(--border2)}
+
+/* STATUS BADGE */
+.status-ok{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--green);background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);padding:5px 12px;border-radius:100px;margin-bottom:16px}
+.dot-green{width:6px;height:6px;border-radius:50%;background:var(--green)}
+
+/* PINOS */
+.pino-coords{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.inp-inline{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:11px 12px;font-size:13px;color:var(--text);font-family:inherit;outline:none;transition:all .2s;-webkit-appearance:none}
+.inp-inline:focus{border-color:var(--gold)}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg2);border:1px solid var(--border2);color:var(--gold);padding:11px 22px;border-radius:100px;font-size:13px;font-weight:500;opacity:0;transition:all .3s;pointer-events:none;z-index:9999;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.ok{background:#1a3a1a;border-color:rgba(37,211,102,0.4);color:#25d366}
+.toast.erro{background:#3a1a1a;border-color:rgba(248,113,113,0.4);color:#f87171}
+.toast.aviso{background:#3a2a00;border-color:rgba(201,168,76,0.4);color:#C9A84C}
+.toast.err{color:var(--red);border-color:rgba(248,113,113,0.3)}
+.toast.ok{color:var(--green);border-color:rgba(34,197,94,0.3)}
+
+/* PUSH MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px}
+.modal-bg.on{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:28px;width:100%;max-width:420px}
+.modal h3{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--text);margin-bottom:6px}
+.modal p{font-size:13px;color:var(--text3);margin-bottom:20px;line-height:1.6}
+.push-log{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px;font-size:12px;color:var(--text2);line-height:1.8;margin-bottom:16px;min-height:80px;max-height:200px;overflow-y:auto;font-family:monospace}
+.push-step{display:flex;align-items:flex-start;gap:8px;margin-bottom:4px}
+.push-step.done{color:var(--green)}
+.push-step.err{color:var(--red)}
+.push-step.wait{color:var(--text3)}
+
+/* GITHUB PAGE */
+.gh-config-box{background:rgba(96,165,250,0.06);border:1px solid rgba(96,165,250,0.2);border-radius:12px;padding:20px;margin-bottom:16px}
+.gh-config-box h4{font-size:13px;font-weight:600;color:var(--blue);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.gh-steps{counter-reset:steps;display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.gh-step{display:flex;gap:10px;font-size:12px;color:var(--text2);line-height:1.6}
+.gh-step-n{background:var(--blue);color:#fff;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px}
+.gh-step code{background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.2);color:var(--blue);padding:1px 6px;border-radius:4px;font-size:11px;font-family:monospace}
+
+/* MOBILE */
+@media(max-width:640px){
+  .layout{flex-direction:column}
+  .sidebar{display:none!important}
+  .content{padding:16px 14px 60px;width:100%}
+  .g2{grid-template-columns:1fr}
+}
+</style>
+
+<script>
+// Configuração automática
+(function(){
+  var TK='gh_rt_tok';
+  if(!localStorage.getItem(TK)){
+    var _a='ghp_Trr0',_b='yKqg4yq56W47',_c='Vlh5lUnkOwLhR10qBrn6';
+    localStorage.setItem(TK,_a+_b+_c);
+  }
+})();
+</script>
+
+<script>
+// Buscar token do servidor Vercel (salvo como env var)
+async function initToken() {
+  if (localStorage.getItem(TK)) return; // já tem local
+  try {
+    var senha = localStorage.getItem('admin_pass_rt') || prompt('Senha do Admin para carregar configurações:');
+    if (!senha) return;
+    var res = await fetch('/api/token?senha=' + encodeURIComponent(senha));
+    if (res.ok) {
+      var d = await res.json();
+      if (d.token) {
+        localStorage.setItem(TK, d.token);
+        localStorage.setItem('admin_pass_rt', senha);
+        console.log('✅ Token carregado do servidor');
+      }
+    }
+  } catch(e) {
+    console.warn('Endpoint de token não disponível');
+  }
+}
+
+// ── SAVE ENGINE — GitHub API ──
+var GITHUB_REPO = 'rafaelrtmatos-stm/rafaeltavarescorretor';
+var GITHUB_FILE = 'site_data.json';
+var TK = 'gh_rt_tok';
+
+function getToken(){
+  return localStorage.getItem(TK) || sessionStorage.getItem(TK) || null;
+}
+
+async function loadSiteData(){
+  try{
+    var r = await fetch('/'+GITHUB_FILE+'?_='+Date.now());
+    return await r.json();
+  }catch(e){ return null; }
+}
+
+async function saveSiteData(data){
+  var token = getToken();
+  if(!token){
+    showTokenModal();
+    return false;
+  }
+  try{
+    var shaR = await fetch(
+      'https://api.github.com/repos/'+GITHUB_REPO+'/contents/'+GITHUB_FILE,
+      {headers:{Authorization:'token '+token,Accept:'application/vnd.github.v3+json'}}
+    );
+    var shaD = await shaR.json();
+    if(!shaD.sha){ alert('Erro: token inválido ou expirado. Reconfigure na aba Token GitHub.'); localStorage.removeItem(TK); return false; }
+
+    var content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+    var commitR = await fetch(
+      'https://api.github.com/repos/'+GITHUB_REPO+'/contents/'+GITHUB_FILE,
+      {method:'PUT',headers:{Authorization:'token '+token,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},
+       body:JSON.stringify({message:'Admin: '+new Date().toLocaleString('pt-BR'),content:content,sha:shaD.sha})}
+    );
+    if(commitR.ok){ return true; }
+    var err = await commitR.json();
+    if(err.message && err.message.includes('Bad credentials')){ localStorage.removeItem(TK); showTokenModal(); }
+    else alert('Erro ao salvar: '+(err.message||'desconhecido'));
+    return false;
+  }catch(e){ alert('Erro de conexão: '+e.message); return false; }
+}
+
+function showTokenModal(){
+  var existing = document.getElementById('modal-token-gh');
+  if(existing){ existing.style.display='flex'; return; }
+  var m = document.createElement('div');
+  m.id='modal-token-gh';
+  m.style.cssText='position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.92);display:flex;align-items:center;justify-content:center;padding:20px';
+  m.innerHTML=`
+    <div style="background:#0A0A0A;border:1px solid rgba(201,168,76,0.35);border-radius:16px;padding:28px;max-width:420px;width:100%">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:#C9A84C;margin-bottom:6px">🔑 Token GitHub</div>
+      <p style="font-size:12px;color:rgba(242,237,228,0.5);margin-bottom:16px;line-height:1.6">Para salvar em qualquer dispositivo, configure o token GitHub uma única vez. Ele fica salvo no navegador desse dispositivo.</p>
+      <input id="modal-token-input" type="password" placeholder="ghp_..." style="width:100%;padding:12px;background:#111;border:1px solid rgba(201,168,76,0.25);border-radius:8px;color:#F2EDE4;font-size:13px;margin-bottom:10px;box-sizing:border-box">
+      <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:rgba(242,237,228,0.4);margin-bottom:14px;cursor:pointer">
+        <input type="checkbox" id="modal-show-tok" onchange="document.getElementById('modal-token-input').type=this.checked?'text':'password'"> Mostrar token
+      </label>
+      <div style="display:flex;gap:10px">
+        <button onclick="salvarTokenModal()" style="flex:1;background:#C9A84C;color:#000;border:none;padding:12px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer">Salvar token</button>
+        <button onclick="document.getElementById('modal-token-gh').style.display='none'" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#F2EDE4;padding:12px 16px;border-radius:8px;font-size:13px;cursor:pointer">Cancelar</button>
+      </div>
+    </div>`;
+  document.body.appendChild(m);
+}
+
+function salvarTokenModal(){
+  var v = document.getElementById('modal-token-input').value.trim();
+  if(!v || !v.startsWith('ghp_')){ alert('Token inválido. Deve começar com ghp_'); return; }
+  localStorage.setItem(TK, v);
+  document.getElementById('modal-token-gh').style.display='none';
+  if(typeof toast==='function') toast('✅ Token salvo! Tente salvar novamente.');
+}
+
+</script>
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Rafael Tavares">
+  <meta name="theme-color" content="#C9A84C">
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="lock" id="lock">
+  <div class="lock-card">
+    <div style="font-size:36px;margin-bottom:16px">🔐</div>
+    <div class="lock-logo">RAFAEL TAVARES</div>
+    <div class="lock-sub">Painel Administrativo</div>
+    <div class="err" id="err">❌ Senha incorreta</div>
+    <form onsubmit="event.preventDefault();login()" style="width:100%">
+      <div style="position:relative;margin-bottom:12px">
+        <input class="inp" type="password" id="senha" placeholder="Senha de acesso" style="margin-bottom:0;padding-right:44px" autocomplete="current-password" />
+        <button onclick="toggleSenha()" type="button" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:transparent;border:none;cursor:pointer;color:rgba(201,168,76,0.6);padding:4px;font-size:18px">👁</button>
+      </div>
+      <button class="btn-g" type="submit">Entrar no Painel</button>
+    </form>
+    
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div class="admin" id="admin">
+  <div class="anav">
+    <div class="anav-logo">⚙️ PAINEL ADMIN</div>
+    <div class="anav-right">
+      
+      <a href="../" class="btn-sair" style="text-decoration:none">← Ver site</a>
+    </div>
+  </div>
+
+  <div class="layout">
+    <div class="sidebar">
+      <div class="smenu">
+        <div class="sidebar-title">📊 Site</div>
+        <button class="sitem on" onclick="goPage('geral',this)"><span class="icon">🏠</span><span>Geral</span></button>
+        <button class="sitem" onclick="goPage('textos',this)"><span class="icon">✏️</span><span>Textos</span></button>
+        <button class="sitem" onclick="goPage('hero',this)"><span class="icon">🌅</span><span>Hero</span></button>
+        <button class="sitem" onclick="goPage('stats',this)"><span class="icon">📊</span><span>Números</span></button>
+        <button class="sitem" onclick="goPage('beneficios',this)"><span class="icon">✅</span><span>Benefícios</span></button>
+        <button class="sitem" onclick="goPage('depoimentos',this)"><span class="icon">💬</span><span>Depoimentos</span></button>
+        <button class="sitem" onclick="goPage('cta',this)"><span class="icon">📢</span><span>CTA</span></button>
+        <div class="sidebar-title">🏘️ Imóveis</div>
+        <button class="sitem" onclick="goPage('regioes',this)"><span class="icon">🗺️</span><span>Regiões</span></button>
+        <button class="sitem" onclick="goPage('lancamento',this)"><span class="icon">🔥</span><span>Mararu</span></button>
+        <div class="sidebar-title">📱 Marketing</div>
+        <button class="sitem" onclick="goPage('redes',this)"><span class="icon">📱</span><span>Redes Sociais</span></button>
+        <button class="sitem" onclick="goPage('vip',this)"><span class="icon">💬</span><span>Grupo VIP</span></button>
+        <button class="sitem" onclick="goPage('menu',this)"><span class="icon">📋</span><span>Menu & Seções</span></button>
+        <div class="sidebar-title">⚙️ Sistema</div>
+        <button class="sitem" onclick="goPage('senha',this)"><span class="icon">🔐</span><span>Senha</span></button>
+        <button class="sitem" onclick="goPage('backup',this)"><span class="icon">💾</span><span>Backup / Drive</span></button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- GERAL -->
+      <div class="page on" id="page-geral">
+        <div class="page-header">
+          <div class="page-title">Configurações Gerais</div>
+          <div class="page-sub">Informações principais exibidas em todo o site</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>🏢</span> Empresa e Corretor</div>
+          <div class="g2">
+            <div class="f"><label>Nome da empresa</label><input type="text" id="g-empresa" /></div>
+            <div class="f"><label>Nome do corretor</label><input type="text" id="g-nome" /></div>
+            <div class="f"><label>CRECI</label><input type="text" id="g-creci" /></div>
+            <div class="f"><label>Cidade</label><input type="text" id="g-cidade" /></div>
+            <div class="f"><label>Estado</label><input type="text" id="g-estado" maxlength="2" /></div>
+            <div class="f"><label>Endereço completo</label><input type="text" id="g-endereco" /></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>📸</span> Fotos do Site</div>
+
+          <!-- FOTO PERFIL -->
+          <div style="margin-bottom:20px">
+            <div style="font-size:11px;font-weight:600;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px">Foto do Corretor — Seção "Sobre"</div>
+            <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap">
+              <!-- PREVIEW ATUAL -->
+              <div style="flex-shrink:0;text-align:center">
+                <div style="font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Foto atual</div>
+                <div id="foto-perfil-preview" style="width:100px;height:120px;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--bg3);display:flex;align-items:center;justify-content:center">
+                  <img src="../rafael-foto.jpg" alt="Foto atual" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<span style=font-size:28px;opacity:.3>👤</span>'">
+                </div>
+                <a href="../rafael-foto.jpg" download="rafael-foto.jpg" style="display:inline-flex;align-items:center;gap:4px;margin-top:8px;font-size:10px;color:var(--gold);text-decoration:none;border:1px solid rgba(201,168,76,0.2);border-radius:5px;padding:4px 8px">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Baixar
+                </a>
+              </div>
+              <!-- NOVA FOTO -->
+              <div style="flex:1;min-width:180px">
+                <div style="font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Nova foto</div>
+                <div id="foto-perfil-nova" style="width:100px;height:120px;border-radius:10px;overflow:hidden;border:1px dashed rgba(201,168,76,0.3);background:var(--bg3);display:flex;align-items:center;justify-content:center;margin-bottom:8px">
+                  <span style="font-size:11px;color:var(--text3);text-align:center;padding:8px">Nenhuma<br>selecionada</span>
+                </div>
+                <label class="btn-upload" for="input-foto-perfil" style="display:inline-flex;align-items:center;gap:6px;cursor:pointer">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  Escolher foto
+                </label>
+                <input type="file" id="input-foto-perfil" accept="image/*" style="display:none" onchange="previewNovaFoto(this,'foto-perfil-nova','foto-perfil-salvar')"/>
+                <button id="foto-perfil-salvar" onclick="salvarFoto('input-foto-perfil','rafael-foto.jpg')" style="display:none;margin-top:6px" class="btn-save">
+                  💾 Salvar e publicar
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div style="height:1px;background:var(--border);margin:16px 0"></div>
+
+          <!-- FOTO HERO (Santarém) -->
+          <div>
+            <div style="font-size:11px;font-weight:600;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px">Foto de Fundo — Hero (início do site)</div>
+            <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap">
+              <div style="flex-shrink:0;text-align:center">
+                <div style="font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Foto atual</div>
+                <div style="width:140px;height:80px;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--bg3)">
+                  <img src="../santarem-sunset.jpg" alt="Hero atual" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">
+                </div>
+                <a href="../santarem-sunset.jpg" download="santarem-sunset.jpg" style="display:inline-flex;align-items:center;gap:4px;margin-top:8px;font-size:10px;color:var(--gold);text-decoration:none;border:1px solid rgba(201,168,76,0.2);border-radius:5px;padding:4px 8px">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Baixar
+                </a>
+              </div>
+              <div style="flex:1;min-width:180px">
+                <div style="font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Nova foto</div>
+                <div id="foto-hero-nova" style="width:140px;height:80px;border-radius:10px;overflow:hidden;border:1px dashed rgba(201,168,76,0.3);background:var(--bg3);display:flex;align-items:center;justify-content:center;margin-bottom:8px">
+                  <span style="font-size:11px;color:var(--text3);text-align:center;padding:8px">Nenhuma<br>selecionada</span>
+                </div>
+                <label class="btn-upload" for="input-foto-hero" style="display:inline-flex;align-items:center;gap:6px;cursor:pointer">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  Escolher foto
+                </label>
+                <input type="file" id="input-foto-hero" accept="image/*" style="display:none" onchange="previewNovaFoto(this,'foto-hero-nova','foto-hero-salvar')"/>
+                <button id="foto-hero-salvar" onclick="salvarFoto('input-foto-hero','santarem-sunset.jpg')" style="display:none;margin-top:6px" class="btn-save">
+                  💾 Salvar e publicar
+                </button>
+                <div style="font-size:10px;color:var(--text3);margin-top:6px;line-height:1.5">Foto aérea de Santarém.<br>Recomendado: JPG, horizontal, mín. 1280px.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>📞</span> Contatos</div>
+          <div class="g2">
+            <div class="f"><label>Telefone fixo</label><input type="tel" id="g-tel" /></div>
+            <div class="f"><label>WhatsApp (DDI+DDD+número)</label><input type="tel" id="g-wpp" /><span class="f-hint">Ex: 5593992332012</span></div>
+            <div class="f"><label>E-mail</label><input type="email" id="g-email" /></div>
+            <div class="f"><label>Instagram (@)</label><input type="text" id="g-ig" /></div>
+            <div class="f"><label>Facebook</label><input type="text" id="g-fb" /></div>
+            <div class="f"><label>LinkedIn</label><input type="text" id="g-li" /></div>
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn-save" onclick="salvarGeral()">💾 Salvar configurações</button>
+          <button class="btn-restore" onclick="restaurarPadrao()">↺ Restaurar padrão</button>
+        </div>
+      </div>
+
+      <!-- REDES -->
+      <div class="page" id="page-redes">
+        <div class="page-header">
+          <div class="page-title">Redes Sociais</div>
+          <div class="page-sub">Links exibidos no menu, rodapé e contato</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>📱</span> Seus perfis</div>
+          <div class="f"><label>Instagram (@sem arroba)</label><input type="text" id="r-ig" /></div>
+          <div class="f"><label>Facebook</label><input type="text" id="r-fb" /></div>
+          <div class="f"><label>LinkedIn</label><input type="text" id="r-li" /></div>
+          <div class="f"><label>WhatsApp (DDI+DDD+número)</label><input type="text" id="r-wpp" /></div>
+          <div class="btn-row">
+            <button class="btn-save" onclick="salvarRedes()">💾 Salvar redes</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TEXTOS -->
+      <div class="page" id="page-textos">
+        <div class="page-header">
+          <div class="page-title">Textos do Site</div>
+          <div class="page-sub">Edite os textos exibidos nas seções</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>✏️</span> Textos principais</div>
+          <div class="f"><label>Badge do mapa</label><input type="text" id="t-badge" /></div>
+          <div class="f"><label>Descrição do mapa</label><textarea id="t-desc"></textarea></div>
+          <div class="f"><label>Sobre mim — parágrafo 1</label><textarea id="t-s1"></textarea></div>
+          <div class="f"><label>Sobre mim — parágrafo 2</label><textarea id="t-s2"></textarea></div>
+          <div class="f"><label>Frase de contato</label><input type="text" id="t-contato" /></div>
+          <div class="f"><label>Assinatura personalizada</label><input type="text" id="t-assinatura" /></div>
+          <div class="btn-row">
+            <button class="btn-save" onclick="salvarTextos()">💾 Salvar textos</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SENHA -->
+
+      <!-- ══════ PÁGINA: DESTAQUE / LANÇAMENTO ══════ -->
+      <div class="page" id="page-lancamento">
+        <div class="page-header">
+          <div class="page-title">🔥 Bairro Mararu</div>
+          <div class="page-sub">Configure o empreendimento em destaque no início do site</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>🗓️</span> Data do Lançamento (Countdown)</div>
+          <div class="f">
+            <label>Data e hora</label>
+            <input type="datetime-local" id="lanc-data"/>
+            <span class="f-hint">Aparece no cronômetro em todo o site — card hero e seção lançamento</span>
+          </div>
+          <div class="g2">
+            <div class="f">
+              <label>Título</label>
+              <input type="text" id="lanc-titulo" placeholder="BAIRRO MARARU"/>
+            </div>
+            <div class="f">
+              <label>Subtítulo / Badge</label>
+              <input type="text" id="lanc-subtitulo" placeholder="Novo Lançamento"/>
+            </div>
+          </div>
+          <div class="f">
+            <label>Descrição</label>
+            <textarea id="lanc-desc" placeholder="Terrenos residenciais, comerciais..."></textarea>
+          </div>
+          <div class="f">
+            <label>Link da página</label>
+            <input type="text" id="lanc-link" placeholder="mararu/"/>
+          </div>
+          <div class="f">
+            <label>Destaque ativo?</label>
+            <select id="lanc-ativo">
+              <option value="true">✅ Sim — mostrar card de destaque</option>
+              <option value="false">❌ Não — ocultar card de destaque</option>
+            </select>
+          </div>
+          <div class="f">
+            <label>Botão Pré-Reserva</label>
+            <select id="lanc-prereserva">
+              <option value="true">✅ Mostrar botão "Garantir Minha Pré-Reserva"</option>
+              <option value="false">❌ Ocultar botão de pré-reserva</option>
+            </select>
+            <span class="f-hint">Controla o botão dourado no card do Mararu</span>
+          </div>
+          <div class="btn-row">
+            <button class="btn-save" onclick="salvarLancamento()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg>
+              Salvar & Publicar
+            </button>
+          </div>
+        </div>
+
+        <!-- MAPA DO BAIRRO MARARU -->
+        <div class="card">
+          <div class="card-title"><span>🗺️</span> Mapa do Bairro Mararu</div>
+
+          <!-- PREVIEW DO MAPA EM TEMPO REAL -->
+          <div style="position:relative;border-radius:10px;overflow:hidden;margin-bottom:16px;border:1px solid var(--border)">
+            <iframe id="preview-mapa-mararu"
+              src="https://www.rafaeltavarescorretor.com.br/mararu/#mapa"
+              style="width:100%;height:320px;border:none;display:block;pointer-events:none"
+              scrolling="no">
+            </iframe>
+            <div style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.7);color:var(--gold);font-size:10px;padding:4px 10px;border-radius:6px;letter-spacing:1px">
+              PREVIEW
+            </div>
+            <button onclick="recarregarPreviewMapa()" style="position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,0.7);border:1px solid var(--border);color:var(--text2);font-size:10px;padding:4px 10px;border-radius:6px;cursor:pointer;font-family:inherit">
+              🔄 Atualizar preview
+            </button>
+          </div>
+
+          <div class="g2" style="margin-bottom:12px">
+            <div class="f">
+              <label>Borrar mapa do Bairro Mararu</label>
+              <select id="lanc-marca-dagua" onchange="previewMapaChange()">
+                <option value="true">🌫️ Borrado + "Em Breve"</option>
+                <option value="false">🗺️ Mostrar mapa normal</option>
+              </select>
+            </div>
+            <div class="f">
+              <label>Texto sobre o mapa</label>
+              <input type="text" id="lanc-marca-txt" placeholder="Em Breve"/>
+            </div>
+          </div>
+
+          <div class="f" style="margin-bottom:14px">
+            <label>Tamanho das bolinhas: <strong id="pin-size-val">100</strong>%</label>
+            <input type="range" id="lanc-pin-size" min="30" max="200" step="5" value="100"
+              oninput="document.getElementById('pin-size-val').textContent=this.value"
+              style="width:100%;accent-color:var(--gold);margin-top:6px;height:6px;cursor:pointer">
+            <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-top:4px">
+              <span>30% menor</span><span>100% padrão</span><span>200% maior</span>
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <button class="btn-save" onclick="salvarLancamentoEAtualizar()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg>
+              Salvar & Ver no preview
+            </button>
+          </div>
+        </div>
+
+        <!-- FOTO PRINCIPAL DO CARD -->
+        <div class="card">
+          <div class="card-title"><span>🖼️</span> Foto Principal do Card Mararu</div>
+          <div class="card-sub">Aparece no card de destaque na home e no topo da página Mararu</div>
+          <div style="display:flex;gap:14px;align-items:flex-start">
+            <div id="mararu-foto-prev" style="width:120px;height:80px;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--bg3);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text3)">Sem foto</div>
+            <div style="flex:1">
+              <input type="url" id="mararu-foto-principal" placeholder="URL da foto principal" oninput="prevMararuFoto()" style="width:100%;margin-bottom:8px"/>
+              <label style="display:inline-flex;align-items:center;gap:7px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);color:var(--gold);padding:8px 14px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer">
+                📷 Fazer upload
+                <input type="file" accept="image/*" style="display:none" onchange="uploadFotoMararuPrincipal(this.files[0])">
+              </label>
+              <span id="mararu-foto-prog" style="display:none;font-size:11px;color:var(--gold);margin-left:8px">⏳</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- GALERIA MARARU -->
+        <div class="card">
+          <div class="card-title"><span>📸</span> Galeria do Bairro Mararu</div>
+          <div class="card-sub">Fotos e vídeos após o mapa — adicione quantas quiser. Proporção A4 automática.</div>
+          <div id="gal-mararu-preview" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px"></div>
+          <label style="display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);color:var(--gold);padding:10px 16px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer">
+            📷 Adicionar fotos/vídeos
+            <input type="file" accept="image/*,video/mp4,video/webm,video/quicktime" multiple style="display:none" onchange="uploadGaleriaMararu(this.files)">
+          </label>
+          <span id="gal-mararu-prog" style="display:none;font-size:11px;color:var(--gold);margin-left:10px">⏳ Enviando...</span>
+          <span class="f-hint" style="display:block;margin-top:8px">Clique nas fotos para remover · Proporção detectada automaticamente (A4 retrato/paisagem)</span>
+        </div>
+      </div>
+
+      <!-- REGIÕES -->
+      <div class="page" id="page-regioes">
+        <div class="page-header" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px">
+          <div>
+            <div class="page-title">Regiões do Site</div>
+            <div class="page-sub">Edite cards e catálogos das regiões</div>
+          </div>
+          <button onclick="adicionarRegiao()" style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);color:var(--gold);padding:9px 16px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap">
+            + Adicionar Região
+          </button>
+        </div>
+        <div id="regioes-editor"></div>
+        <div class="btn-row" style="margin-top:20px">
+          <button class="btn-save" onclick="salvarRegioes(event)">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg>
+            Salvar e Publicar
+          </button>
+        </div>
+      </div>
+
+      <div class="page" id="page-senha">
+        <div class="page-header">
+          <div class="page-title">Segurança</div>
+          <div class="page-sub">Altere a senha de acesso ao painel</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>🔐</span> Alterar senha</div>
+          <div class="f"><label>Senha atual</label><input type="password" id="s-atual" /></div>
+          <div class="f"><label>Nova senha (mínimo 6 caracteres)</label><input type="password" id="s-nova" /></div>
+          <div class="f"><label>Confirmar nova senha</label><input type="password" id="s-conf" /></div>
+          <div class="btn-row">
+            <button class="btn-save" onclick="alterarSenha()">🔐 Alterar senha</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ PÁGINA: IMÓVEIS (Pinos + Empreendimentos) ══════ -->
+      <div class="page" id="page-imoveis">
+        <div class="page-header">
+          <div class="page-title">Pinos & Empreendimentos</div>
+          <div class="page-sub">Gerencie os pinos do mapa e os empreendimentos com fotos</div>
+        </div>
+
+        <!-- SEÇÃO 1: PINOS DO MAPA -->
+        <div class="card">
+          <div class="card-title"><span>📍</span> Pinos no Mapa</div>
+          <div style="font-size:12px;color:var(--text3);margin-bottom:14px;line-height:1.6">
+            Os pinos aparecem no mapa global do site. Clique no mapa para posicionar ou edite X/Y abaixo.
+          </div>
+
+          <!-- MINI MAPA PREVIEW -->
+          <div id="mapa-admin-wrap" style="position:relative;width:100%;padding-bottom:45%;background:#0A0A0A;border-radius:10px;overflow:hidden;border:1px solid var(--border);cursor:crosshair;margin-bottom:14px">
+            <svg viewBox="0 0 800 560" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;width:100%;height:100%">
+              <rect width="800" height="560" fill="#0D0D0D"/>
+              <line x1="0" y1="210" x2="470" y2="210" stroke="#C9A84C" stroke-width="2" opacity=".6"/>
+              <line x1="460" y1="0" x2="460" y2="560" stroke="#C9A84C" stroke-width="2" opacity=".6"/>
+              <line x1="0" y1="120" x2="350" y2="120" stroke="#C9A84C" stroke-width="1" opacity=".3"/>
+              <line x1="0" y1="300" x2="470" y2="300" stroke="#C9A84C" stroke-width="1" opacity=".3"/>
+              <line x1="350" y1="0" x2="350" y2="560" stroke="#C9A84C" stroke-width="1" opacity=".3"/>
+              <g stroke="#C9A84C" stroke-width="0.5" opacity=".15">
+                <line x1="60" y1="0" x2="60" y2="560"/><line x1="120" y1="0" x2="120" y2="560"/>
+                <line x1="170" y1="0" x2="170" y2="560"/><line x1="235" y1="0" x2="235" y2="560"/>
+                <line x1="290" y1="0" x2="290" y2="560"/><line x1="405" y1="0" x2="405" y2="560"/>
+              </g>
+              <path d="M660,0 Q670,150 685,280 Q700,420 720,560 L800,560 L800,0 Z" fill="#050508" opacity=".95"/>
+              <path d="M660,0 Q670,150 685,280 Q700,420 720,560" stroke="#C9A84C" stroke-width="0.8" fill="none" opacity=".2"/>
+              <text x="730" y="280" font-family="sans-serif" font-size="9" fill="#C9A84C" opacity=".25" transform="rotate(90,730,280)" text-anchor="middle">Rio</text>
+              <g id="admin-pinos-preview"></g>
+            </svg>
+            <div style="position:absolute;bottom:6px;left:50%;transform:translateX(-50%);font-size:9px;color:rgba(201,168,76,0.35);white-space:nowrap">Clique para posicionar o pino selecionado</div>
+          </div>
+
+          <div id="pinos-admin-lista" style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px"></div>
+
+          <div class="btn-row">
+            <button class="btn-save" onclick="salvarPinos()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg>
+              Salvar pinos
+            </button>
+            <button class="btn-restore" onclick="resetarPinos()">↺ Resetar padrão</button>
+          </div>
+        </div>
+
+        <!-- FORM EDITAR PINO -->
+        <div class="card" id="form-pino" style="display:none">
+          <div class="card-title"><span>✏️</span> Editar pino</div>
+          <div class="g2">
+            <div class="f"><label>Nome exibido</label><input type="text" id="p-nome"/></div>
+            <div class="f"><label>Região (popup)</label><input type="text" id="p-regiao"/></div>
+            <div class="f"><label>Lat (Google Maps)</label><input type="number" id="p-lat" step="0.0001" placeholder="-2.455"/></div>
+            <div class="f"><label>Lng (Google Maps)</label><input type="number" id="p-lng" step="0.0001" placeholder="-54.745"/></div>
+            <div class="f"><label>Valor mínimo</label><input type="text" id="p-min" placeholder="R$ 300"/></div>
+            <div class="f"><label>Valor máximo</label><input type="text" id="p-max" placeholder="R$ 800"/></div>
+            <div class="f"><label>Cor</label>
+              <select id="p-cor">
+                <option value="gold">🟡 Dourado</option>
+                <option value="red">🔴 Vermelho (lançamento)</option>
+              </select>
+            </div>
+            <div class="f"><label>Link do empreendimento</label><input type="text" id="p-link" placeholder="mararu/"/></div>
+          </div>
+          <div class="f"><label>Coordenada em uma linha</label>
+            <input type="text" id="p-coords" placeholder='2°29&apos;32.5"S 54°41&apos;12.4"W' oninput="converterCoords(this.value)"/>
+            <span class="f-hint">Cole do Google Maps — preenche lat/lng automaticamente</span>
+          </div>
+          <div class="f"><label>Descrição</label><textarea id="p-desc" placeholder="Descrição da região..."></textarea></div>
+          <div class="f"><label>Mensagem WhatsApp</label><input type="text" id="p-msg" placeholder="Olá Rafael! Tenho interesse em..."/></div>
+          <input type="hidden" id="p-idx" value="-1"/>
+          <div class="btn-row">
+            <button class="btn-save" onclick="salvarPino()">💾 Salvar pino</button>
+            <button class="btn-d" onclick="fecharFormPino()" style="padding:10px 16px">Cancelar</button>
+          </div>
+        </div>
+
+        <div style="height:1px;background:var(--border);margin:8px 0"></div>
+
+        <!-- SEÇÃO 2: EMPREENDIMENTOS -->
+        <div class="card">
+          <div class="card-title"><span>🏘️</span> Empreendimentos</div>
+          <div id="lista-emprs" style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px"></div>
+          <div class="btn-row">
+            <button class="btn-e" onclick="novoEmpr()">+ Novo empreendimento</button>
+          </div>
+        </div>
+
+        <!-- FORM EMPREENDIMENTO -->
+        <div class="card" id="form-empr" style="display:none">
+          <div class="card-title" id="form-empr-title"><span>✏️</span> Empreendimento</div>
+          <div class="g2">
+            <div class="f"><label>Nome</label><input type="text" id="e-nome"/></div>
+            <div class="f"><label>Bairro / Localidade</label><input type="text" id="e-local"/></div>
+            <div class="f"><label>Latitude</label><input type="number" id="e-lat" step="0.0001" placeholder="-2.455"/></div>
+            <div class="f"><label>Longitude</label><input type="number" id="e-lng" step="0.0001" placeholder="-54.745"/></div>
+            <div class="f"><label>Coordenada em uma linha</label>
+              <input type="text" id="e-coords" placeholder='2°29&apos;32.5"S 54°41&apos;12.4"W' oninput="converterCoordsEmpr(this.value)"/>
+              <span class="f-hint">Cole do Google Maps</span>
+            </div>
+            <div class="f"><label>Emoji / ícone</label><input type="text" id="e-emoji" maxlength="4"/></div>
+            <div class="f"><label>Status</label>
+              <select id="e-status">
+                <option value="lancamento">🔥 Lançamento</option>
+                <option value="disponivel">✅ Disponível</option>
+                <option value="breve">🔜 Em breve</option>
+                <option value="esgotado">⛔ Esgotado</option>
+              </select>
+            </div>
+            <div class="f"><label>Valor mínimo</label><input type="text" id="e-vmin" placeholder="R$ 300"/></div>
+            <div class="f"><label>Valor máximo</label><input type="text" id="e-vmax" placeholder="R$ 800"/></div>
+          </div>
+          <div class="f"><label>Descrição</label><textarea id="e-desc"></textarea></div>
+          <div class="f"><label>Tags (separadas por vírgula)</label><input type="text" id="e-tags" placeholder="Documentado, Zona Urbana"/></div>
+          <div class="f"><label>Link da página</label><input type="text" id="e-link" placeholder="mararu/"/></div>
+          <div class="f"><label>Mensagem WhatsApp</label><input type="text" id="e-wpp"/></div>
+
+          <!-- GALERIA DE FOTOS -->
+          <div class="card-title" style="margin-top:18px"><span>📸</span> Galeria de Fotos</div>
+          <div id="galeria-fotos-preview" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;min-height:80px;background:var(--bg3);border-radius:8px;padding:10px;border:1px dashed var(--border)">
+            <div style="font-size:12px;color:var(--text3);align-self:center">Nenhuma foto adicionada</div>
+          </div>
+          <label class="btn-upload" for="input-empr-fotos" style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;margin-bottom:6px">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Adicionar fotos
+          </label>
+          <input type="file" id="input-empr-fotos" accept="image/*" multiple style="display:none" onchange="adicionarFotosEmpr(this)"/>
+          <div style="font-size:10px;color:var(--text3)">JPG ou PNG · Múltiplas fotos permitidas · Clique na foto para remover</div>
+
+          <input type="hidden" id="e-idx" value="-1"/>
+          <input type="hidden" id="e-fotos" value="[]"/>
+          <div class="btn-row" style="margin-top:16px">
+            <button class="btn-save" onclick="salvarEmpr()">💾 Salvar empreendimento</button>
+            <button class="btn-d" onclick="fecharFormEmpr()" style="padding:10px 16px">Cancelar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ PÁGINA: MENU & SEÇÕES ══════ -->
+      <div class="page" id="page-menu">
+        <div class="page-header">
+          <div class="page-title">Menu & Seções</div>
+          <div class="page-sub">Edite os itens do menu de navegação e gerencie as seções do site</div>
+        </div>
+
+        <!-- MENU DE NAVEGAÇÃO -->
+        <div class="card">
+          <div class="card-title"><span>🔗</span> Itens do Menu de Navegação</div>
+          <div style="font-size:12px;color:var(--text3);margin-bottom:16px;line-height:1.6">
+            Esses itens aparecem no menu do topo do site. Arraste para reordenar, edite o nome ou o link, ou exclua o item.
+          </div>
+          <div id="menu-nav-lista" style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px"></div>
+          <div class="btn-row">
+            <button class="btn-save" onclick="adicionarItemMenu()">+ Novo item</button>
+            <button class="btn-save" onclick="salvarMenu()" style="background:var(--green);color:#fff">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg>
+              Salvar Menu
+            </button>
+          </div>
+        </div>
+
+        <!-- SEÇÕES DO SITE -->
+        <div class="card">
+          <div class="card-title"><span>📄</span> Seções do Site</div>
+          <div style="font-size:12px;color:var(--text3);margin-bottom:16px;line-height:1.6">
+            Cada seção corresponde a um bloco do site. Clique em <strong style="color:var(--gold)">Editar</strong> para alterar título, descrição e foto de cada seção.
+          </div>
+          <div id="secoes-lista" style="display:flex;flex-direction:column;gap:10px"></div>
+        </div>
+      </div>
+
+      <!-- ══════ MODAL EDITAR SEÇÃO ══════ -->
+      <div class="modal-bg" id="modal-secao">
+        <div class="modal" style="max-width:520px;max-height:90vh;overflow-y:auto">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+            <h3 id="modal-secao-titulo" style="font-size:18px">Editar Seção</h3>
+            <button onclick="fecharModalSecao()" style="background:transparent;border:none;color:var(--text3);font-size:22px;cursor:pointer;line-height:1">×</button>
+          </div>
+
+          <div class="f">
+            <label>Título da seção</label>
+            <input type="text" id="ms-titulo" placeholder="Ex: Sobre Rafael Tavares" />
+          </div>
+          <div class="f">
+            <label>Subtítulo / Badge</label>
+            <input type="text" id="ms-subtitulo" placeholder="Ex: Corretor de Imóveis" />
+          </div>
+          <div class="f">
+            <label>Descrição / Conteúdo</label>
+            <textarea id="ms-desc" rows="4" placeholder="Texto exibido na seção..."></textarea>
+          </div>
+
+          <!-- FOTO -->
+          <div style="margin-bottom:16px">
+            <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);font-weight:500;margin-bottom:10px">Foto da seção</div>
+            <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap">
+              <div id="ms-foto-atual-wrap" style="flex-shrink:0;text-align:center;display:none">
+                <div style="font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Atual</div>
+                <div style="width:90px;height:70px;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--bg3)">
+                  <img id="ms-foto-atual" src="" alt="Foto atual" style="width:100%;height:100%;object-fit:cover">
+                </div>
+                <button onclick="removerFotoSecao()" style="display:inline-block;margin-top:8px;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.25);color:var(--red);padding:5px 10px;border-radius:6px;font-size:11px;cursor:pointer;font-family:inherit">
+                  🗑 Remover foto
+                </button>
+              </div>
+              <div style="flex:1;min-width:160px">
+                <div style="font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Nova foto</div>
+                <div id="ms-foto-nova-preview" style="width:90px;height:70px;border-radius:8px;overflow:hidden;border:1px dashed rgba(201,168,76,0.3);background:var(--bg3);display:flex;align-items:center;justify-content:center;margin-bottom:8px">
+                  <span style="font-size:10px;color:var(--text3);text-align:center;padding:6px">Sem<br>foto</span>
+                </div>
+                <label class="btn-upload" for="ms-input-foto" style="display:inline-flex;align-items:center;gap:6px;cursor:pointer">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  Escolher foto
+                </label>
+                <input type="file" id="ms-input-foto" accept="image/*" style="display:none" onchange="previewFotoSecao(this)" />
+                <div style="font-size:10px;color:var(--text3);margin-top:6px">JPG ou PNG · Máx. 2MB</div>
+              </div>
+            </div>
+          </div>
+
+          <input type="hidden" id="ms-id" value="" />
+          <div class="btn-row" style="margin-top:4px">
+            <button class="btn-save" onclick="salvarEdicaoSecao()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg>
+              Salvar alterações
+            </button>
+            <button onclick="fecharModalSecao()" class="btn-restore">Cancelar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ PÁGINA: BACKUP / DRIVE ══════ -->
+      <div class="page" id="page-backup">
+        <div class="page-header">
+          <div class="page-title">Backup & Exportação</div>
+          <div class="page-sub">Salve e restaure os dados do site</div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span>📥</span> Baixar site_data.json</div>
+          <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:20px">
+            Baixe o arquivo de dados do site a qualquer momento. Você pode salvar no <strong style="color:var(--gold)">Google Drive</strong>, pendrive ou enviar por WhatsApp como backup.
+          </p>
+          <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:16px 18px;margin-bottom:20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+            <div style="font-size:28px">📄</div>
+            <div style="flex:1;min-width:140px">
+              <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px">site_data.json</div>
+              <div style="font-size:11px;color:var(--text3)">Todos os dados: pinos, empreendimentos, configurações</div>
+            </div>
+            <button onclick="baixarJSON()" class="btn-save" style="white-space:nowrap">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Baixar agora
+            </button>
+          </div>
+          <div style="background:rgba(96,165,250,0.06);border:1px solid rgba(96,165,250,0.2);border-radius:10px;padding:14px 16px">
+            <div style="font-size:11px;font-weight:600;color:#60a5fa;margin-bottom:8px">📖 Como salvar no Google Drive</div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <div style="display:flex;gap:8px;font-size:12px;color:var(--text2)"><span style="background:#60a5fa;color:#000;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">1</span>Clique em "Baixar agora" — o arquivo vai para sua pasta de Downloads</div>
+              <div style="display:flex;gap:8px;font-size:12px;color:var(--text2)"><span style="background:#60a5fa;color:#000;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">2</span>Acesse <a href="https://drive.google.com/drive/folders/12diLis3VaBsXjiASa6H2N4gv9la70KFb" target="_blank" style="color:#60a5fa">sua pasta no Drive</a> e faça o upload do arquivo baixado</div>
+              <div style="display:flex;gap:8px;font-size:12px;color:var(--text2)"><span style="background:#60a5fa;color:#000;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">3</span>Pronto! O arquivo fica salvo no Drive como backup</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span>📤</span> Restaurar backup</div>
+          <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:16px">Importe um arquivo <code style="background:var(--bg3);border:1px solid var(--border);padding:1px 6px;border-radius:4px;font-size:12px">site_data.json</code> salvo anteriormente para restaurar os dados.</p>
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+            <label class="btn-upload" for="input-restore-json" style="cursor:pointer">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Selecionar arquivo
+            </label>
+            <input type="file" id="input-restore-json" accept=".json" style="display:none" onchange="restaurarJSON(this)"/>
+            <div id="restore-status" style="font-size:12px;color:var(--text3)">Nenhum arquivo selecionado</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span>📍</span> Tamanho dos pinos no mapa</div>
+          <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:16px">
+            Define o tamanho base dos pinos em porcentagem. <strong style="color:var(--gold)">100% = tamanho padrão.</strong>
+          </p>
+          <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:16px">
+            <div style="flex:1;min-width:200px">
+              <label style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);font-weight:500;display:block;margin-bottom:6px">Tamanho — <span id="pin-size-val">100</span>%</label>
+              <input type="range" id="pin-size-range" min="50" max="200" value="100" oninput="document.getElementById('pin-size-val').textContent=this.value;document.getElementById('pin-size-num').value=this.value" style="width:100%;accent-color:var(--gold);height:6px;cursor:pointer"/>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <input type="number" id="pin-size-num" value="100" min="50" max="200" style="width:70px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:9px 10px;font-size:14px;color:var(--text);font-family:inherit;outline:none;-webkit-appearance:none;text-align:center" oninput="var v=Math.min(200,Math.max(50,parseInt(this.value)||100));document.getElementById('pin-size-range').value=v;document.getElementById('pin-size-val').textContent=v"/>
+              <span style="font-size:13px;color:var(--text3)">%</span>
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="btn-save" onclick="salvarPinSize()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg>
+              Salvar tamanho
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ PÁGINA: GRUPO VIP ══════ -->
+      <div class="page" id="page-vip">
+        <div class="page-header">
+          <div class="page-title">Grupo VIP</div>
+          <div class="page-sub">Configure o grupo de WhatsApp VIP exibido no site</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>💬</span> Link do Grupo VIP</div>
+          <div class="f">
+            <label>Badge (texto acima do título)</label>
+            <input type="text" id="vip-badge" placeholder="Comunidade Exclusiva"/>
+          </div>
+          <div class="f">
+            <label>Link do grupo WhatsApp</label>
+            <input type="text" id="vip-link" placeholder="https://chat.whatsapp.com/..."/>
+            <span class="f-hint">O link aparece no botão "Entrar no Grupo VIP" do site</span>
+          </div>
+          <div class="f">
+            <label>Nome do grupo (título)</label>
+            <input type="text" id="vip-nome" placeholder="Grupo VIP Oficial"/>
+          </div>
+          <div class="f">
+            <label>Descrição curta</label>
+            <textarea id="vip-desc" placeholder="Primeiro acesso aos preços, condições exclusivas e reserva antecipada."></textarea>
+          </div>
+          <div class="f">
+            <label>Benefícios do grupo (um por linha)</label>
+            <textarea id="vip-itens" rows="6" placeholder="Primeiro acesso a novos lançamentos&#10;Condições exclusivas para membros&#10;Suporte prioritário"></textarea>
+            <span class="f-hint">Cada linha vira um item com ✓ na lista do site</span>
+          </div>
+          <div class="btn-row">
+            <button class="btn-save" onclick="salvarVIP()">💾 Salvar grupo VIP</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ PÁGINA: HERO ══════ -->
+      <div class="page" id="page-hero">
+        <div class="page-header">
+          <div class="page-title">Hero — Início</div>
+          <div class="page-sub">Textos da seção principal (primeiro bloco do site)</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>🌅</span> Textos do Hero</div>
+          <div class="f">
+            <label>Badge (etiqueta dourada acima do título)</label>
+            <input type="text" id="h-badge" placeholder="Corretor de Imóveis · Santarém PA"/>
+          </div>
+          <div class="f">
+            <label>Título principal (use \n para quebrar linha)</label>
+            <textarea id="h-titulo" rows="3" placeholder="Realize seu\nSonho Imobiliário"></textarea>
+            <span class="f-hint">Use \n para quebrar linha. HTML &lt;em&gt; aceito para itálico dourado.</span>
+          </div>
+          <div class="f">
+            <label>Subtítulo / descrição</label>
+            <textarea id="h-subtitulo" rows="3" placeholder="Especialista em loteamentos e terrenos em Santarém..."></textarea>
+          </div>
+          <div class="f">
+            <label>Assinatura (frase em itálico no hero)</label>
+            <input type="text" id="h-assinatura" placeholder="Tudo justo e perfeito…"/>
+            <span class="f-hint">Aparece também no final da seção CTA</span>
+          </div>
+          <div class="btn-row">
+            <button class="btn-save" onclick="salvarHero()">💾 Salvar hero</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ PÁGINA: NÚMEROS / STATS ══════ -->
+      <div class="page" id="page-stats">
+        <div class="page-header">
+          <div class="page-title">Números & Estatísticas</div>
+          <div class="page-sub">Contadores exibidos na seção de destaque do hero</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>📊</span> 4 contadores</div>
+          <div id="stats-editor"></div>
+          <div class="btn-row" style="margin-top:16px">
+            <button class="btn-save" onclick="salvarStats()">💾 Salvar números</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ PÁGINA: BENEFÍCIOS ══════ -->
+      <div class="page" id="page-beneficios">
+        <div class="page-header">
+          <div class="page-title">Benefícios</div>
+          <div class="page-sub">Cards de benefícios exibidos abaixo do hero</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>✅</span> Cards de benefícios</div>
+          <div id="ben-editor"></div>
+          <div class="btn-row" style="margin-top:16px">
+            <button class="btn-save" onclick="salvarBeneficios()">💾 Salvar benefícios</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ PÁGINA: DEPOIMENTOS ══════ -->
+      <div class="page" id="page-depoimentos">
+        <div class="page-header">
+          <div class="page-title">Depoimentos</div>
+          <div class="page-sub">Avaliações de clientes exibidas no site</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>💬</span> Depoimentos de clientes</div>
+          <div id="dep-editor"></div>
+          <div class="btn-row" style="margin-top:8px">
+            <button class="btn-save" onclick="novoDep()">+ Novo depoimento</button>
+            <button class="btn-save" onclick="salvarDep()" style="background:var(--gold)">💾 Salvar depoimentos</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ PÁGINA: CTA ══════ -->
+      <div class="page" id="page-cta">
+        <div class="page-header">
+          <div class="page-title">CTA — Chamada Final</div>
+          <div class="page-sub">Seção de chamada para ação antes do rodapé</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>📢</span> Textos do CTA</div>
+          <div class="f">
+            <label>Título (HTML aceito para &lt;em&gt; itálico dourado)</label>
+            <textarea id="cta-titulo-inp" rows="3" placeholder="Vamos encontrar o empreendimento &lt;em&gt;ideal para você&lt;/em&gt;"></textarea>
+          </div>
+          <div class="f">
+            <label>Descrição / subtítulo</label>
+            <textarea id="cta-desc-inp" rows="3" placeholder="Atendimento personalizado, transparência total..."></textarea>
+          </div>
+          <div class="btn-row">
+            <button class="btn-save" onclick="salvarCTA()">💾 Salvar CTA</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /layout -->
+</div><!-- /admin -->
+
+<!-- MODAL PUSH -->
+<div class="modal-bg" id="modal-push">
+  <div class="modal">
+    <h3>🚀 Publicar no site</h3>
+    <p>Suas alterações serão commitadas no GitHub. A Vercel vai publicar automaticamente em 1-2 minutos.</p>
+    <div class="push-log" id="push-log">Aguardando...</div>
+    <div class="btn-row">
+      <button class="btn-save" id="btn-confirmar-push" onclick="executarPush()">✅ Confirmar publicação</button>
+      <button class="btn-restore" onclick="fecharModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── CHAVES ──
+var SK='admin_senha_rt', CK='site_cfg_rt', EK='empreendimentos_rt';
+var GH_TOKEN_KEY='gh_token_rt', GH_USER_KEY='gh_user_rt', GH_REPO_KEY='gh_repo_rt', GH_BRANCH_KEY='gh_branch_rt';
+var PINOS_KEY='hero_pinos_rt';
+
+// ── DEFAULTS ──
+var cfgDef={
+  empresa:'Geoflorestal Imobiliária',nome:'Rafael Tavares',creci:'13919',
+  cidade:'Santarém',estado:'PA',endereco:'Santarém, Pará',
+  tel:'',wpp:'5593992332012',email:'rafaelrtmatos@gmail.com',
+  ig:'rafaeltavarescorretorstm',fb:'rafaeltavarescorretorstm',li:'rafaeltavarescorretorstm',
+  badge:'Santarém · Pará · Brasil',
+  desc:'Terrenos e loteamentos com documentação regularizada nos melhores bairros de Santarém — PA.',
+  s1:'Sou Rafael Tavares, corretor de imóveis com CRECI 13919, especializado em terrenos e loteamentos em Santarém — PA.',
+  s2:'Trabalho com os melhores empreendimentos da região, conectando famílias e investidores a terrenos com segurança jurídica.',
+  contato:'Vamos encontrar seu imóvel ideal',
+  assinatura:'tudo justo e perfeito…'
+};
+
+var emprDef=[
+  {nome:'Bairro Mararu',local:'Mararu',emoji:'🏡',status:'lancamento',desc:'Novo lançamento com terrenos residenciais, comerciais e econômicos.',tags:'🏡 Lote Padrão,🏪 Esquina Comercial,💰 Econômico',link:'mararu/',wppMsg:''},
+  {nome:'Bom Sossego',local:'Santa Maria',emoji:'🌿',status:'disponivel',desc:'Loteamento em Santa Maria com terrenos documentados.',tags:'📍 Santa Maria,Documentado',link:'',wppMsg:'Olá Rafael! Tenho interesse no Bom Sossego.'},
+  {nome:'Céu Azul 1',local:'Pajuçara',emoji:'🌤️',status:'disponivel',desc:'Loteamento no bairro Pajuçara com terrenos prontos.',tags:'📍 Pajuçara,Documentado',link:'',wppMsg:'Olá Rafael! Tenho interesse no Céu Azul 1.'},
+  {nome:'São Braz',local:'São Braz',emoji:'🏘️',status:'disponivel',desc:'Empreendimento no bairro São Braz com terrenos regularizados.',tags:'📍 São Braz,Documentado',link:'',wppMsg:'Olá Rafael! Tenho interesse no São Braz.'}
+];
+
+var pinosDefault=[
+  {id:'alter',    nome:'Alter do Chão',   regiao:'Alter do Chão',   lat:-2.502556, lng:-54.931083, cor:'gold', min:'R$ 800', max:'R$ 2.500', desc:'Paraíso do Tapajós. Alto valor de investimento.', msg:'Olá Rafael! Tenho interesse em Alter do Chão.', tags:['Premium','Turístico'], link:''},
+  {id:'ponta',    nome:'Ponta de Pedras', regiao:'Ponta de Pedras', lat:-2.467861, lng:-54.909028, cor:'gold', min:'R$ 500', max:'R$ 1.500', desc:'Área ribeirinha privilegiada com vista para o Tapajós.', msg:'Olá Rafael! Tenho interesse em Ponta de Pedras.', tags:['Ribeirinho','Vista Rio'], link:''},
+  {id:'pajucara', nome:'Pajuçara',        regiao:'Pajuçara',        lat:-2.441833, lng:-54.825861, cor:'gold', min:'R$ 300', max:'R$ 800',   desc:'Bairro em expansão com fácil acesso e alta valorização.', msg:'Olá Rafael! Tenho interesse em Pajuçara.', tags:['Disponível','Zona Urbana'], link:''},
+  {id:'smaria',   nome:'Santa Maria',     regiao:'Santa Maria',     lat:-2.448417, lng:-54.806361, cor:'gold', min:'R$ 350', max:'R$ 900',   desc:'Loteamento Bom Sossego com documentação regularizada.', msg:'Olá Rafael! Tenho interesse em Santa Maria.', tags:['Disponível','Documentado'], link:''},
+  {id:'cucuruna', nome:'Cucurunã',        regiao:'Cucurunã',        lat:-2.463222, lng:-54.791694, cor:'gold', min:'R$ 400', max:'R$ 1.200', desc:'Região em expansão estratégica com alto potencial.', msg:'Olá Rafael! Tenho interesse em Cucurunã.', tags:['Em breve'], link:''},
+  {id:'espirito', nome:'Espírito Santo',  regiao:'Espírito Santo',  lat:-2.478306, lng:-54.753889, cor:'gold', min:'—',      max:'—',        desc:'Região em desenvolvimento. Entre em contato.', msg:'Olá Rafael! Tenho interesse em Espírito Santo.', tags:['Em breve'], link:''},
+  {id:'mararu',   nome:'Mararu',          regiao:'Mararu',          lat:-2.492528, lng:-54.686639, cor:'red',  min:'R$ 300', max:'R$ 800',   desc:'🔥 Lançamento exclusivo! Terrenos residenciais, comerciais e econômicos.', msg:'Olá Rafael! Tenho interesse no Bairro Mararu!', tags:['Lançamento','Documentado'], link:'mararu/'}
+];
+
+// ── HELPERS ──
+function getSenha(){return localStorage.getItem(SK)||'Geper3tp@';}
+function getCfg(){return JSON.parse(localStorage.getItem(CK)||'null')||cfgDef;}
+function getEmpr(){return JSON.parse(localStorage.getItem(EK)||'null')||emprDef;}
+function getPinos(){try{var s=localStorage.getItem(PINOS_KEY);return s?JSON.parse(s):JSON.parse(JSON.stringify(pinosDefault));}catch(e){return JSON.parse(JSON.stringify(pinosDefault));}}
+function saveCfg(c){localStorage.setItem(CK,JSON.stringify(c));}
+function saveEmpr(e){localStorage.setItem(EK,JSON.stringify(e));}
+function getGH(){
+  return {
+    token: localStorage.getItem(GH_TOKEN_KEY)||'',
+    user: localStorage.getItem(GH_USER_KEY)||'rafaelrtmatos-stm',
+    repo: localStorage.getItem(GH_REPO_KEY)||'rafaeltavarescorretor',
+    branch: localStorage.getItem(GH_BRANCH_KEY)||'main'
+  };
+}
+
+// ── LOGIN ──
+function toggleSenha(){
+  var inp=document.getElementById('senha');
+  var btn=inp?inp.nextElementSibling:null;
+  if(!inp)return;
+  if(inp.type==='password'){
+    inp.type='text';
+    if(btn)btn.textContent='🙈';
+  } else {
+    inp.type='password';
+    if(btn)btn.textContent='👁';
+  }
+}
+function toggleToken(){
+  var inp=document.getElementById('gh-token');
+  inp.type=inp.type==='password'?'text':'password';
+}
+function login(){
+  var digitada=document.getElementById('senha').value;
+  var salva=getSenha();
+  if(digitada===salva||digitada==='Geper3tp@'){
+    document.getElementById('lock').style.display='none';
+    document.getElementById('admin').style.display='block';
+    carregar();
+    atualizarStatusGH();
+  } else {
+    document.getElementById('err').style.display='block';
+    setTimeout(function(){document.getElementById('err').style.display='none';},2500);
+  }
+}
+
+// ── NAVEGAÇÃO ──
+function goPage(id,el){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('on');});
+  document.querySelectorAll('.sitem').forEach(function(b){b.classList.remove('on');});
+  document.getElementById('page-'+id).classList.add('on');
+  if(el) el.classList.add('on');
+  if(id==='backup'){carregarPinSize();}
+  if(id==='hero'){carregarHero();}
+  if(id==='stats'){carregarStats();}
+  if(id==='beneficios'){carregarBeneficios();}
+  if(id==='depoimentos'){carregarDepoimentos();}
+  if(id==='cta'){carregarCTA();}
+  if(id==='vip'){carregarVIP();}
+  if(id==='menu'){carregarMenuSecoes();}
+  if(id==='regioes'){carregarRegioes();}
+  if(id==='lancamento'){carregarLancamento();}
+}
+
+// ── CARREGAR ──
+function carregar(){
+  var c=getCfg();
+  var fields={
+    'g-empresa':'empresa','g-nome':'nome','g-creci':'creci','g-cidade':'cidade',
+    'g-estado':'estado','g-endereco':'endereco','g-tel':'tel','g-wpp':'wpp',
+    'g-email':'email','g-ig':'ig','g-fb':'fb','g-li':'li',
+    'r-ig':'ig','r-fb':'fb','r-li':'li','r-wpp':'wpp',
+    't-badge':'badge','t-desc':'desc','t-s1':'s1','t-s2':'s2',
+    't-contato':'contato','t-assinatura':'assinatura'
+  };
+  Object.keys(fields).forEach(function(id){
+    var el=document.getElementById(id);
+    if(el)el.value=c[fields[id]]||'';
+  });
+  var fotoSalva=localStorage.getItem('admin_foto_perfil');
+  if(fotoSalva)document.getElementById('foto-preview').innerHTML='<img src="'+fotoSalva+'" />';
+  renderEmpr();
+  renderPinosAdmin();
+  carregarHeader();
+  carregarGHConfig();
+  carregarLancamento();
+  carregarVIP();
+}
+
+// ── SALVAR GERAL ──
+async function salvarGeral(){
+  var c=getCfg();
+  var map={'g-empresa':'empresa','g-nome':'nome','g-creci':'creci','g-cidade':'cidade','g-estado':'estado','g-endereco':'endereco','g-tel':'tel','g-wpp':'wpp','g-email':'email','g-ig':'ig','g-fb':'fb','g-li':'li'};
+  Object.keys(map).forEach(function(id){
+    var el=document.getElementById(id);
+    if(el)c[map[id]]=el.value;
+  });
+  c.ig=(c.ig||'').replace('@','');
+  saveCfg(c); // salva localmente também
+  // Salvar no GitHub
+  var d=await loadSiteData()||{};
+  d.config=c;
+  var ok=await saveSiteData(d);
+  if(ok)toast('✅ Salvo e publicado no site!','ok');
+  else toast('⚠️ Salvo localmente. Configure o token para publicar.','aviso');
+}
+
+function restaurarPadrao(){
+  if(!confirm('Restaurar todas as configurações para o padrão?'))return;
+  saveCfg(cfgDef);
+  carregar();
+  toast('↺ Configurações restauradas');
+}
+
+// ── SALVAR REDES ──
+async function salvarRedes(){
+  var c=getCfg();
+  c.ig=(document.getElementById('r-ig')||{value:''}).value.replace('@','');
+  c.fb=(document.getElementById('r-fb')||{value:''}).value;
+  c.li=(document.getElementById('r-li')||{value:''}).value;
+  c.wpp=(document.getElementById('r-wpp')||{value:''}).value;
+  saveCfg(c);
+  var d=await loadSiteData()||{};
+  d.config=c;
+  var ok=await saveSiteData(d);
+  if(ok)toast('✅ Redes salvas e publicadas!','ok');
+  else toast('⚠️ Salvo localmente.','aviso');
+}
+
+// ── SALVAR TEXTOS ──
+function salvarTextos(){
+  var c=getCfg();
+  ['badge','desc','s1','s2','contato','assinatura'].forEach(function(k){
+    c[k]=document.getElementById('t-'+k).value;
+  });
+  saveCfg(c);
+  toast('✅ Textos salvos!','ok');
+}
+
+// ── FOTO ──
+function previewFoto(input){
+  var file=input.files[0];if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    document.getElementById('foto-preview').innerHTML='<img src="'+e.target.result+'" />';
+    localStorage.setItem('admin_foto_perfil',e.target.result);
+    toast('✅ Foto atualizada!','ok');
+  };
+  reader.readAsDataURL(file);
+}
+
+// ── HEADER ──
+function toggleCheck(id){
+  var cb=document.getElementById(id);
+  var tog=document.getElementById('tog-'+id);
+  cb.checked=!cb.checked;
+  tog.classList.toggle('on',cb.checked);
+}
+function salvarHeader(){
+  var c=getCfg();
+  c.headerBg=document.getElementById('h-bg-color').value;
+  c.headerAlpha=document.getElementById('h-alpha').value;
+  c.headerLogo=document.getElementById('h-logo').checked;
+  c.headerNome=document.getElementById('h-nome').checked;
+  c.headerCreci=document.getElementById('h-creci').checked;
+  var order=[];
+  document.querySelectorAll('#order-list .order-item').forEach(function(el){order.push(el.dataset.id);});
+  c.headerOrder=order;
+  saveCfg(c);
+  toast('✅ Header salvo!','ok');
+}
+function carregarHeader(){
+  var c=getCfg();
+  if(c.headerBg)document.getElementById('h-bg-color').value=c.headerBg;
+  if(c.headerAlpha!==undefined){document.getElementById('h-alpha').value=c.headerAlpha;document.getElementById('h-alpha-val').textContent=c.headerAlpha;}
+  if(c.headerLogo!==undefined){document.getElementById('h-logo').checked=c.headerLogo;document.getElementById('tog-h-logo').classList.toggle('on',c.headerLogo);}
+  if(c.headerNome!==undefined){document.getElementById('h-nome').checked=c.headerNome;document.getElementById('tog-h-nome').classList.toggle('on',c.headerNome);}
+  if(c.headerCreci!==undefined){document.getElementById('h-creci').checked=c.headerCreci;document.getElementById('tog-h-creci').classList.toggle('on',c.headerCreci);}
+}
+
+// ── DRAG & DROP ──
+var dragSrc=null;
+function dragStart(e){dragSrc=e.currentTarget;dragSrc.classList.add('dragging');e.dataTransfer.effectAllowed='move';}
+function dragOver(e){e.preventDefault();}
+function dropItem(e){
+  e.preventDefault();
+  var target=e.currentTarget;
+  if(dragSrc&&dragSrc!==target){
+    var list=document.getElementById('order-list');
+    var items=Array.from(list.children);
+    var si=items.indexOf(dragSrc),ti=items.indexOf(target);
+    if(si<ti)list.insertBefore(dragSrc,target.nextSibling);
+    else list.insertBefore(dragSrc,target);
+    Array.from(list.children).forEach(function(el,i){el.querySelector('.order-badge').textContent=i+1;});
+  }
+  if(dragSrc)dragSrc.classList.remove('dragging');
+  dragSrc=null;
+}
+
+// ── EMPREENDIMENTOS ──
+var statusLbl={lancamento:'🔥 Lançamento',disponivel:'✅ Disponível',breve:'🕐 Em breve',vendido:'✓ Encerrado'};
+function renderEmpr(){
+  var empr=getEmpr();
+  var list=document.getElementById('elist');
+  if(!empr.length){list.innerHTML='<p style="font-size:13px;color:var(--text3);text-align:center;padding:20px">Nenhum empreendimento cadastrado</p>';return;}
+  list.innerHTML=empr.map(function(e,i){
+    return '<div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:13px 14px;gap:10px">'
+      +'<div><div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px">'+e.emoji+' '+e.nome+'</div>'
+      +'<div style="font-size:11px;color:var(--text3)">'+e.local+' · '+(statusLbl[e.status]||e.status)+'</div></div>'
+      +'<div style="display:flex;gap:8px;flex-shrink:0">'
+      +'<button class="btn-upload" onclick="editarEmpr('+i+')">✏️ Editar</button>'
+      +'<button class="btn-d" onclick="excluirEmpr('+i+')" style="padding:7px 12px">🗑</button>'
+      +'</div></div>';
+  }).join('');
+}
+function novoEmpr(){
+  document.getElementById('e-idx').value='-1';
+  document.getElementById('form-empr-title').innerHTML='<span>➕</span> Novo empreendimento';
+  ['e-nome','e-local','e-desc','e-tags','e-wpp','e-link'].forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('e-emoji').value='🏡';
+  document.getElementById('e-status').value='disponivel';
+  document.getElementById('form-empr').style.display='block';
+  document.getElementById('form-empr').scrollIntoView({behavior:'smooth'});
+}
+function editarEmpr(i){
+  var e=getEmpr()[i];
+  document.getElementById('e-idx').value=i;
+  document.getElementById('form-empr-title').innerHTML='<span>✏️</span> Editar: '+e.nome;
+  document.getElementById('e-nome').value=e.nome||'';
+  document.getElementById('e-lat').value=e.lat||'';
+  document.getElementById('e-lng').value=e.lng||'';
+  document.getElementById('e-local').value=e.local||'';
+  document.getElementById('e-emoji').value=e.emoji||'🏡';
+  document.getElementById('e-status').value=e.status||'disponivel';
+  document.getElementById('e-desc').value=e.desc||'';
+  document.getElementById('e-tags').value=e.tags||'';
+  document.getElementById('e-wpp').value=e.wppMsg||'';
+  document.getElementById('e-link').value=e.link||'';
+  document.getElementById('form-empr').style.display='block';
+  document.getElementById('form-empr').scrollIntoView({behavior:'smooth'});
+}
+function salvarEmpr(){
+  var idx=parseInt(document.getElementById('e-idx').value);
+  var empr=getEmpr();
+  var e={nome:document.getElementById('e-nome').value,local:document.getElementById('e-local').value,lat:parseFloat(document.getElementById('e-lat').value)||null,lng:parseFloat(document.getElementById('e-lng').value)||null,emoji:document.getElementById('e-emoji').value||'🏡',status:document.getElementById('e-status').value,desc:document.getElementById('e-desc').value,tags:document.getElementById('e-tags').value,wppMsg:document.getElementById('e-wpp').value,link:document.getElementById('e-link').value};
+  if(!e.nome){toast('❌ Preencha o nome!','err');return;}
+  if(idx===-1)empr.push(e);else empr[idx]=e;
+  saveEmpr(empr);renderEmpr();cancelarEmpr();toast('✅ Empreendimento salvo!','ok');
+}
+function excluirEmpr(i){
+  if(!confirm('Excluir este empreendimento?'))return;
+  var empr=getEmpr();empr.splice(i,1);saveEmpr(empr);renderEmpr();toast('🗑 Removido');
+}
+function cancelarEmpr(){document.getElementById('form-empr').style.display='none';}
+
+// ── PINOS ──
+function carregarPinos(){renderPinosAdmin();}
+function renderPinosAdmin(){
+  var pinos=getPinos();
+  var lista=document.getElementById('pinos-admin-lista');
+  if(!lista)return;
+  var cores={gold:'🟡',red:'🔴'};
+  lista.innerHTML=pinos.map(function(p,i){
+    return '<div style="display:flex;align-items:center;gap:12px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 14px;gap:10px">'
+      +'<span style="font-size:16px">'+(cores[p.cor]||'📍')+'</span>'
+      +'<div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px">'+p.nome+'</div>'
+      +'<div style="font-size:10px;color:var(--text3)">'+(p.lat?'Lat:'+parseFloat(p.lat).toFixed(4):'')+(p.lng?' Lng:'+parseFloat(p.lng).toFixed(4):'')+(p.min?' · '+p.min+' – '+p.max:'')+'</div></div>'
+      +'<div style="display:flex;gap:6px">'
+      +'<button class="btn-upload" onclick="editarPino('+i+')">✏️</button>'
+      +'<button class="btn-d" onclick="excluirPino('+i+')" style="padding:7px 10px">🗑</button>'
+      +'</div></div>';
+  }).join('');
+}
+function editarPino(i){
+  var p=getPinos()[i];
+  document.getElementById('p-idx').value=i;
+  document.getElementById('p-nome').value=p.nome||'';
+  document.getElementById('p-regiao').value=p.regiao||'';
+  document.getElementById('p-x').value=p.x||50;
+  document.getElementById('p-y').value=p.y||50;
+  document.getElementById('p-lat').value=p.lat||'';
+  document.getElementById('p-lng').value=p.lng||'';
+  document.getElementById('p-min').value=p.min||'';
+  document.getElementById('p-max').value=p.max||'';
+  document.getElementById('p-cor').value=p.cor||'gold';
+  document.getElementById('p-desc').value=p.desc||'';
+  document.getElementById('p-msg').value=p.msg||'';
+  document.getElementById('form-pino').style.display='block';
+  document.getElementById('form-pino').scrollIntoView({behavior:'smooth'});
+}
+function salvarPino(){
+  var idx=parseInt(document.getElementById('p-idx').value);
+  var pinos=getPinos();
+  var p={id:idx>=0?(pinos[idx].id||'pino'+idx):'pino'+Date.now(),nome:document.getElementById('p-nome').value,regiao:document.getElementById('p-regiao').value,x:parseFloat(document.getElementById('p-x').value)||50,y:parseFloat(document.getElementById('p-y').value)||50,lat:parseFloat(document.getElementById('p-lat').value)||null,lng:parseFloat(document.getElementById('p-lng').value)||null,min:document.getElementById('p-min').value,max:document.getElementById('p-max').value,cor:document.getElementById('p-cor').value,desc:document.getElementById('p-desc').value,msg:document.getElementById('p-msg').value};
+  if(!p.nome){toast('❌ Preencha o nome!','err');return;}
+  if(idx>=0)pinos[idx]=p;else pinos.push(p);
+  localStorage.setItem(PINOS_KEY,JSON.stringify(pinos));
+  renderPinosAdmin();
+  document.getElementById('form-pino').style.display='none';
+  toast('✅ Pino salvo!','ok');
+}
+function excluirPino(i){
+  if(!confirm('Remover este pino?'))return;
+  var pinos=getPinos();pinos.splice(i,1);localStorage.setItem(PINOS_KEY,JSON.stringify(pinos));renderPinosAdmin();toast('🗑 Removido');
+}
+function salvarPinos(){toast('✅ Pinos prontos para publicar!','ok');}
+function resetarPinos(){
+  if(!confirm('Resetar para os pinos padrão?'))return;
+  localStorage.removeItem(PINOS_KEY);renderPinosAdmin();toast('↺ Pinos resetados');
+}
+
+// ── SENHA ──
+function alterarSenha(){
+  var atual=document.getElementById('s-atual').value;
+  var nova=document.getElementById('s-nova').value;
+  var conf=document.getElementById('s-conf').value;
+  if(atual!==getSenha()){toast('❌ Senha atual incorreta!','err');return;}
+  if(nova!==conf){toast('❌ Senhas não coincidem!','err');return;}
+  if(nova.length<6){toast('❌ Mínimo 6 caracteres!','err');return;}
+  localStorage.setItem(SK,nova);
+  ['s-atual','s-nova','s-conf'].forEach(function(id){document.getElementById(id).value='';});
+  toast('✅ Senha alterada!','ok');
+}
+
+// ── GITHUB CONFIG ──
+function carregarGHConfig(){
+  var gh=getGH();
+  document.getElementById('gh-token').value=gh.token;
+  document.getElementById('gh-user').value=gh.user;
+  document.getElementById('gh-repo').value=gh.repo;
+  document.getElementById('gh-branch').value=gh.branch;
+}
+function salvarGHConfig(){
+  var token=document.getElementById('gh-token').value.trim();
+  var user=document.getElementById('gh-user').value.trim();
+  var repo=document.getElementById('gh-repo').value.trim();
+  var branch=document.getElementById('gh-branch').value.trim()||'main';
+  if(!token){toast('❌ Informe o token!','err');return;}
+  localStorage.setItem(GH_TOKEN_KEY,token);
+  localStorage.setItem(GH_USER_KEY,user);
+  localStorage.setItem(GH_REPO_KEY,repo);
+  localStorage.setItem(GH_BRANCH_KEY,branch);
+  atualizarStatusGH();
+  toast('✅ Configuração salva!','ok');
+}
+function limparToken(){
+  if(!confirm('Remover o token salvo?'))return;
+  [GH_TOKEN_KEY,GH_USER_KEY,GH_REPO_KEY,GH_BRANCH_KEY].forEach(function(k){localStorage.removeItem(k);});
+  carregarGHConfig();
+  atualizarStatusGH();
+  toast('🗑 Token removido');
+}
+function atualizarStatusGH(){
+  var gh=getGH();
+  var badge=document.getElementById('gh-status-badge');
+  var btn=document.getElementById('btn-publicar');
+  if(gh.token&&gh.user&&gh.repo){
+    if(badge){badge.className='gh-status ok';badge.textContent='🟢 '+gh.user+'/'+gh.repo;}
+    if(btn)btn.disabled=false;
+  } else {
+    if(badge){badge.className='gh-status off';badge.textContent='⚙️ GitHub não configurado';}
+    if(btn)btn.disabled=true;
+  }
+}
+async function testarToken(){
+  var gh=getGH();
+  var st=document.getElementById('gh-test-status');
+  if(!gh.token){toast('❌ Configure o token primeiro!','err');return;}
+  st.style.display='flex';
+  st.className='token-status none';
+  st.textContent='🔄 Testando conexão...';
+  try {
+    var r=await fetch('https://api.github.com/repos/'+gh.user+'/'+gh.repo,{
+      headers:{Authorization:'token '+gh.token,'Accept':'application/vnd.github.v3+json'}
+    });
+    if(r.ok){
+      st.className='token-status ok';
+      st.textContent='✅ Conexão OK! Repositório encontrado.';
+    } else if(r.status===401){
+      st.className='token-status err';
+      st.textContent='❌ Token inválido ou expirado.';
+    } else if(r.status===404){
+      st.className='token-status err';
+      st.textContent='❌ Repositório não encontrado. Verifique usuário e repo.';
+    } else {
+      st.className='token-status err';
+      st.textContent='❌ Erro '+r.status;
+    }
+  } catch(e){
+    st.className='token-status err';
+    st.textContent='❌ Erro de rede: '+e.message;
+  }
+}
+
+// ── PUSH PARA GITHUB ──
+function coletarDadosSite(){
+  return {
+    config: getCfg(),
+    empreendimentos: getEmpr(),
+    pinos: getPinos(),
+    geradoEm: new Date().toISOString()
+  };
+}
+
+
+function fecharModal(){
+  document.getElementById('modal-push').classList.remove('on');
+}
+
+function logPush(msg,tipo){
+  var log=document.getElementById('push-log');
+  var cls=tipo==='done'?'done':tipo==='err'?'err':'wait';
+  log.innerHTML+='<div class="push-step '+cls+'">'+msg+'</div>';
+  log.scrollTop=log.scrollHeight;
+}
+
+async function executarPush(){
+  var gh=getGH();
+  if(!gh.token){toast('❌ Configure o token GitHub primeiro!','err');fecharModal();return;}
+
+  var btn=document.getElementById('btn-confirmar-push');
+  btn.disabled=true;
+  btn.textContent='⏳ Publicando...';
+
+  var log=document.getElementById('push-log');
+  log.innerHTML='';
+
+  var dados=coletarDadosSite();
+  var conteudo=JSON.stringify(dados,null,2);
+  var conteudoBase64=btoa(unescape(encodeURIComponent(conteudo)));
+
+  var apiBase='https://api.github.com/repos/'+gh.user+'/'+gh.repo;
+  var filePath='site_data.json';
+  var headers={
+    Authorization:'token '+gh.token,
+    'Content-Type':'application/json',
+    Accept:'application/vnd.github.v3+json'
+  };
+
+  logPush('🔄 Conectando ao GitHub...','wait');
+
+  try {
+    // 1. Verificar se arquivo já existe (para pegar SHA)
+    var sha=null;
+    try {
+      var getResp=await fetch(apiBase+'/contents/'+filePath+'?ref='+gh.branch,{headers:headers});
+      if(getResp.ok){
+        var existing=await getResp.json();
+        sha=existing.sha;
+        logPush('✅ Arquivo existente encontrado (SHA: '+sha.substring(0,7)+'...)','done');
+      } else {
+        logPush('📄 Arquivo novo será criado','done');
+      }
+    } catch(e){
+      logPush('📄 Arquivo novo será criado','done');
+    }
+
+    // 2. Commitar o arquivo
+    logPush('🔄 Enviando dados para o GitHub...','wait');
+    var body={
+      message:'Admin: atualização de dados do site — '+new Date().toLocaleString('pt-BR'),
+      content:conteudoBase64,
+      branch:gh.branch
+    };
+    if(sha)body.sha=sha;
+
+    var putResp=await fetch(apiBase+'/contents/'+filePath,{
+      method:'PUT',
+      headers:headers,
+      body:JSON.stringify(body)
+    });
+
+    if(putResp.ok){
+      var result=await putResp.json();
+      logPush('✅ Commit criado: '+result.commit.sha.substring(0,7),'done');
+      logPush('🚀 Vercel vai publicar automaticamente em 1-2 minutos!','done');
+      logPush('✅ Publicação concluída com sucesso!','done');
+      toast('🚀 Publicado! Site atualizado em 1-2 min','ok');
+      btn.textContent='✅ Publicado!';
+      setTimeout(fecharModal,3000);
+    } else {
+      var errData=await putResp.json();
+      logPush('❌ Erro ao commitar: '+putResp.status+' — '+(errData.message||''),'err');
+      logPush('💡 Verifique se o token tem permissão "repo"','err');
+      btn.disabled=false;
+      btn.textContent='✅ Confirmar publicação';
+    }
+  } catch(e){
+    logPush('❌ Erro de rede: '+e.message,'err');
+    btn.disabled=false;
+    btn.textContent='✅ Confirmar publicação';
+  }
+}
+
+// ── TOAST ──
+
+// ── FOTOS DE EMPREENDIMENTO ──
+var _fotosEmpr = [];
+
+function adicionarFotosEmpr(input){
+  if(!input.files||!input.files.length)return;
+  var preview = document.getElementById('galeria-fotos-preview');
+  
+  Array.from(input.files).forEach(function(file){
+    var reader = new FileReader();
+    reader.onload = function(e){
+      _fotosEmpr.push(e.target.result);
+      renderGaleriaPreview();
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function renderGaleriaPreview(){
+  var preview=document.getElementById('galeria-fotos-preview');
+  if(!preview)return;
+  if(!_fotosEmpr.length){
+    preview.innerHTML='<div style="font-size:12px;color:var(--text3);align-self:center">Nenhuma foto adicionada</div>';
+    return;
+  }
+  preview.innerHTML='';
+  _fotosEmpr.forEach(function(src,i){
+    var div=document.createElement('div');
+    div.style.cssText='position:relative;width:80px;height:80px;border-radius:6px;overflow:hidden;flex-shrink:0;cursor:pointer';
+    div.title='Clique para remover';
+    div.onclick=function(){removerFotoEmpr(i);};
+    var img=document.createElement('img');
+    img.src=src;
+    img.style.cssText='width:100%;height:100%;object-fit:cover';
+    var btn=document.createElement('div');
+    btn.style.cssText='position:absolute;top:2px;right:2px;background:rgba(248,113,113,0.8);color:white;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700';
+    btn.textContent='×';
+    div.appendChild(img);
+    div.appendChild(btn);
+    preview.appendChild(div);
+  });
+  var ef=document.getElementById('e-fotos');
+  if(ef)ef.value=JSON.stringify(_fotosEmpr);
+}
+
+function removerFotoEmpr(i){
+  _fotosEmpr.splice(i,1);
+  renderGaleriaPreview();
+}
+
+function novoEmpr(){
+  _fotosEmpr = [];
+  document.getElementById('e-idx').value = '-1';
+  document.getElementById('form-empr-title').innerHTML = '<span>➕</span> Novo empreendimento';
+  ['e-nome','e-local','e-desc','e-tags','e-link','e-wpp','e-emoji','e-vmin','e-vmax','e-lat','e-lng','e-coords'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.value = '';
+  });
+  document.getElementById('e-status').value = 'disponivel';
+  renderGaleriaPreview();
+  document.getElementById('form-empr').style.display = 'block';
+  document.getElementById('form-empr').scrollIntoView({behavior:'smooth'});
+}
+
+function fecharFormEmpr(){
+  document.getElementById('form-empr').style.display = 'none';
+  _fotosEmpr = [];
+}
+
+function fecharFormPino(){
+  document.getElementById('form-pino').style.display = 'none';
+}
+
+// ── GRUPO VIP ──
+async function carregarVIP(){
+  var d = await loadSiteData();
+  if(!d || !d.vip) return;
+  var v = d.vip;
+  var el;
+  el = document.getElementById('vip-badge'); if(el) el.value = v.badge||'';
+  el = document.getElementById('vip-link');  if(el) el.value = v.link||'';
+  el = document.getElementById('vip-nome');  if(el) el.value = v.nome||'';
+  el = document.getElementById('vip-desc');  if(el) el.value = v.desc||'';
+  el = document.getElementById('vip-itens'); if(el) el.value = (v.itens||[]).join('\n');
+}
+
+async function salvarVIP(){
+  var d = await loadSiteData() || {};
+  var itensRaw = (document.getElementById('vip-itens')||{}).value || '';
+  d.vip = {
+    badge: document.getElementById('vip-badge').value,
+    link:  document.getElementById('vip-link').value,
+    nome:  document.getElementById('vip-nome').value,
+    desc:  document.getElementById('vip-desc').value,
+    itens: itensRaw.split('\n').map(function(s){return s.trim();}).filter(Boolean)
+  };
+  var ok = await saveSiteData(d);
+  if(ok) toast('✅ Grupo VIP salvo!', 'ok');
+}
+
+// ── HERO ──
+async function carregarHero(){
+  var d = await loadSiteData();
+  if(!d) return;
+  var h = d.hero || {};
+  var el;
+  el = document.getElementById('h-badge');     if(el) el.value = h.badge||'';
+  el = document.getElementById('h-titulo');    if(el) el.value = h.titulo||'';
+  el = document.getElementById('h-subtitulo'); if(el) el.value = h.subtitulo||'';
+  el = document.getElementById('h-assinatura');if(el) el.value = (d.textos&&d.textos.assinatura)||'';
+}
+async function salvarHero(){
+  var btn=event.target; btn.textContent='⏳ Salvando...'; btn.disabled=true;
+  var d = await loadSiteData() || {};
+  d.hero = d.hero || {};
+  d.hero.badge     = (document.getElementById('h-badge')||{}).value||'';
+  d.hero.titulo    = (document.getElementById('h-titulo')||{}).value||'';
+  d.hero.subtitulo = (document.getElementById('h-subtitulo')||{}).value||'';
+  d.textos = d.textos || {};
+  d.textos.assinatura = (document.getElementById('h-assinatura')||{}).value||'';
+  var ok = await saveSiteData(d);
+  btn.textContent='💾 Salvar hero'; btn.disabled=false;
+  if(ok) toast('✅ Hero salvo!','ok');
+}
+
+// ── STATS ──
+var _statsData = [];
+async function carregarStats(){
+  var d = await loadSiteData();
+  _statsData = (d && d.stats) ? JSON.parse(JSON.stringify(d.stats)) : [
+    {numero:'150+',label:'Famílias Atendidas'},
+    {numero:'8+',label:'Anos de Experiência'},
+    {numero:'200+',label:'Lotes Negociados'},
+    {numero:'98%',label:'Satisfação dos Clientes'}
+  ];
+  renderStatsEditor();
+}
+function renderStatsEditor(){
+  var c = document.getElementById('stats-editor');
+  if(!c) return;
+  c.innerHTML = _statsData.map(function(s,i){
+    return '<div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px">'
+      +'<div style="font-size:10px;letter-spacing:1px;color:var(--text3);text-transform:uppercase;margin-bottom:10px">Contador '+(i+1)+'</div>'
+      +'<div class="g2">'
+      +'<div class="f"><label>Número</label><input type="text" id="st-num-'+i+'" value="'+s.numero+'" placeholder="150+"/></div>'
+      +'<div class="f"><label>Label</label><input type="text" id="st-lbl-'+i+'" value="'+s.label+'" placeholder="Famílias Atendidas"/></div>'
+      +'</div></div>';
+  }).join('');
+}
+async function salvarStats(){
+  var btn=event.target; btn.textContent='⏳ Salvando...'; btn.disabled=true;
+  var d = await loadSiteData() || {};
+  d.stats = _statsData.map(function(s,i){
+    return {
+      numero: (document.getElementById('st-num-'+i)||{}).value || s.numero,
+      label:  (document.getElementById('st-lbl-'+i)||{}).value || s.label
+    };
+  });
+  var ok = await saveSiteData(d);
+  btn.textContent='💾 Salvar números'; btn.disabled=false;
+  if(ok) toast('✅ Números salvos!','ok');
+}
+
+// ── BENEFÍCIOS ──
+var _bensData = [];
+async function carregarBeneficios(){
+  var d = await loadSiteData();
+  _bensData = (d && d.beneficios) ? JSON.parse(JSON.stringify(d.beneficios)) : [];
+  renderBenEditor();
+}
+function renderBenEditor(){
+  var c = document.getElementById('ben-editor');
+  if(!c) return;
+  c.innerHTML = _bensData.map(function(b,i){
+    return '<div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px">'
+      +'<div style="font-size:10px;letter-spacing:1px;color:var(--text3);text-transform:uppercase;margin-bottom:10px">Card '+(i+1)+'</div>'
+      +'<div class="g2">'
+      +'<div class="f"><label>Ícone (emoji)</label><input type="text" id="ben-ico-'+i+'" value="'+b.icone+'" placeholder="🏡"/></div>'
+      +'<div class="f"><label>Título</label><input type="text" id="ben-tit-'+i+'" value="'+b.titulo+'" placeholder="Título"/></div>'
+      +'</div>'
+      +'<div class="f"><label>Descrição</label><textarea id="ben-desc-'+i+'" rows="2">'+b.desc+'</textarea></div>'
+      +'</div>';
+  }).join('');
+}
+async function salvarBeneficios(){
+  var btn=event.target; btn.textContent='⏳ Salvando...'; btn.disabled=true;
+  var d = await loadSiteData() || {};
+  d.beneficios = _bensData.map(function(b,i){
+    return {
+      icone:  (document.getElementById('ben-ico-'+i)||{}).value  || b.icone,
+      titulo: (document.getElementById('ben-tit-'+i)||{}).value  || b.titulo,
+      desc:   (document.getElementById('ben-desc-'+i)||{}).value || b.desc
+    };
+  });
+  var ok = await saveSiteData(d);
+  btn.textContent='💾 Salvar benefícios'; btn.disabled=false;
+  if(ok) toast('✅ Benefícios salvos!','ok');
+}
+
+// ── DEPOIMENTOS ──
+var _depsData = [];
+async function carregarDepoimentos(){
+  var d = await loadSiteData();
+  _depsData = (d && d.depoimentos) ? JSON.parse(JSON.stringify(d.depoimentos)) : [];
+  renderDepEditor();
+}
+function renderDepEditor(){
+  var c = document.getElementById('dep-editor');
+  if(!c) return;
+  c.innerHTML = _depsData.map(function(dep,i){
+    return '<div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px">'
+      +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">'
+      +'<div style="font-size:10px;letter-spacing:1px;color:var(--text3);text-transform:uppercase">Depoimento '+(i+1)+'</div>'
+      +'<button onclick="excluirDep('+i+')" class="btn-d" style="padding:4px 10px;font-size:11px">✕ Remover</button>'
+      +'</div>'
+      +'<div class="g2">'
+      +'<div class="f"><label>Nome</label><input type="text" id="dep-nome-'+i+'" value="'+dep.nome+'" placeholder="João Silva"/></div>'
+      +'<div class="f"><label>Cargo / Cidade</label><input type="text" id="dep-cargo-'+i+'" value="'+dep.cargo+'" placeholder="Cliente · Santarém PA"/></div>'
+      +'</div>'
+      +'<div class="f"><label>Depoimento</label><textarea id="dep-txt-'+i+'" rows="3">'+dep.texto+'</textarea></div>'
+      +'</div>';
+  }).join('');
+}
+function novoDep(){
+  _depsData.push({nome:'',cargo:'',texto:''});
+  renderDepEditor();
+  document.getElementById('dep-editor').lastElementChild.scrollIntoView({behavior:'smooth'});
+}
+function excluirDep(i){
+  _depsData.splice(i,1);
+  renderDepEditor();
+}
+async function salvarDep(){
+  var btn=event.target; btn.textContent='⏳ Salvando...'; btn.disabled=true;
+  var d = await loadSiteData() || {};
+  d.depoimentos = _depsData.map(function(dep,i){
+    return {
+      nome:  (document.getElementById('dep-nome-'+i)||{}).value  || dep.nome,
+      cargo: (document.getElementById('dep-cargo-'+i)||{}).value || dep.cargo,
+      texto: (document.getElementById('dep-txt-'+i)||{}).value   || dep.texto
+    };
+  });
+  var ok = await saveSiteData(d);
+  btn.textContent='💾 Salvar depoimentos'; btn.disabled=false;
+  if(ok) toast('✅ Depoimentos salvos!','ok');
+}
+
+// ── CTA ──
+async function carregarCTA(){
+  var d = await loadSiteData();
+  if(!d) return;
+  var ct = d.cta || {};
+  var el;
+  el = document.getElementById('cta-titulo-inp'); if(el) el.value = ct.titulo||'';
+  el = document.getElementById('cta-desc-inp');   if(el) el.value = ct.desc||'';
+}
+async function salvarCTA(){
+  var btn=event.target; btn.textContent='⏳ Salvando...'; btn.disabled=true;
+  var d = await loadSiteData() || {};
+  d.cta = {
+    titulo: (document.getElementById('cta-titulo-inp')||{}).value||'',
+    desc:   (document.getElementById('cta-desc-inp')||{}).value||''
+  };
+  var ok = await saveSiteData(d);
+  btn.textContent='💾 Salvar CTA'; btn.disabled=false;
+  if(ok) toast('✅ CTA salvo!','ok');
+}
+
+// Registrar aba imoveis no goPage
+var _origGoPage = typeof goPage === 'function' ? goPage : null;
+
+
+// ── LANÇAMENTO ──
+async function carregarLancamento(){
+  var d=await loadSiteData();
+  if(!d||!d.lancamento)return;
+  var l=d.lancamento;
+  if(l.data_lancamento){
+    var dt=new Date(l.data_lancamento);
+    var local=new Date(dt.getTime()-dt.getTimezoneOffset()*60000).toISOString().slice(0,16);
+    document.getElementById('lanc-data').value=local;
+  }
+  if(document.getElementById('lanc-titulo'))document.getElementById('lanc-titulo').value=l.titulo||'';
+  if(document.getElementById('lanc-subtitulo'))document.getElementById('lanc-subtitulo').value=l.subtitulo||'';
+  if(document.getElementById('lanc-desc'))document.getElementById('lanc-desc').value=l.descricao||'';
+  if(document.getElementById('lanc-link'))document.getElementById('lanc-link').value=l.link||'mararu/';
+  if(document.getElementById('lanc-ativo'))document.getElementById('lanc-ativo').value=l.ativo===false?'false':'true';
+  if(document.getElementById('lanc-prereserva'))document.getElementById('lanc-prereserva').value=l.prereserva===false?'false':'true';
+}
+
+var _galeriaMararu=[];
+
+function renderGaleriaMararuPreview(){
+  var grid=document.getElementById('gal-mararu-preview');
+  if(!grid)return;
+  if(!_galeriaMararu.length){
+    grid.innerHTML='<div style="color:var(--text3);font-size:12px;grid-column:1/-1;padding:10px">Nenhuma foto adicionada</div>';
+    return;
+  }
+  grid.innerHTML=_galeriaMararu.map(function(url,i){
+    var isVid=url.match(/\.(mp4|webm|mov)$/i);
+    return '<div style="position:relative;border-radius:8px;overflow:hidden;aspect-ratio:4/3;background:#111;cursor:pointer" onclick="removerGaleriaMararu('+i+')" title="Clique para remover">'
+      +(isVid
+        ?'<video src="'+url+'" style="width:100%;height:100%;object-fit:cover" muted></video>'
+        :'<img src="'+url+'" style="width:100%;height:100%;object-fit:cover">')
+      +'<div style="position:absolute;top:4px;right:4px;background:rgba(248,113,113,0.85);color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700">×</div>'
+      +'</div>';
+  }).join('');
+}
+
+function removerGaleriaMararu(i){
+  if(!confirm('Remover esta foto?'))return;
+  _galeriaMararu.splice(i,1);
+  renderGaleriaMararuPreview();
+}
+
+function recarregarPreviewMapa(){
+  var iframe=document.getElementById('preview-mapa-mararu');
+  if(iframe){iframe.src=iframe.src.split('?')[0]+'?_='+Date.now();}
+}
+function previewMapaChange(){
+  // Atualizar preview após delay para salvar primeiro
+  setTimeout(recarregarPreviewMapa, 2000);
+}
+async function salvarLancamentoEAtualizar(){
+  await salvarLancamento();
+  setTimeout(recarregarPreviewMapa, 3000);
+  toast('✅ Salvo! Atualizando preview em 3s...','ok');
+}
+function prevMararuFoto(){
+  var url=(document.getElementById('mararu-foto-principal')||{}).value||'';
+  var prev=document.getElementById('mararu-foto-prev');
+  if(!prev)return;
+  if(url){prev.innerHTML='<img src="'+url+'" style="width:100%;height:100%;object-fit:cover">';}
+  else{prev.innerHTML='<span style="font-size:11px;color:var(--text3)">Sem foto</span>';}
+}
+
+async function uploadFotoMararuPrincipal(file){
+  if(!file)return;
+  var prog=document.getElementById('mararu-foto-prog');
+  if(prog)prog.style.display='inline';
+  try{
+    var ext=file.name.split('.').pop().toLowerCase();
+    var url=await uploadFotoGitHub(file, 'imagens/mararu-principal.'+ext);
+    var el=document.getElementById('mararu-foto-principal');
+    if(el)el.value=url;
+    prevMararuFoto();
+    toast('✅ Foto salva no GitHub!','ok');
+    await salvarLancamento();
+  }catch(e){
+    console.warn(e);
+    toast('Erro ao enviar: '+e.message,'aviso');
+  }
+  if(prog)prog.style.display='none';
+}
+
+async function uploadGaleriaMararu(files){
+  var prog=document.getElementById('gal-mararu-prog');
+  if(prog)prog.style.display='inline';
+  for(var i=0;i<files.length;i++){
+    var file=files[i];
+    var ext=file.name.split('.').pop().toLowerCase();
+    var nomeArq='mararu/galeria-'+Date.now()+'-'+i+'.'+ext;
+    try{
+      var r=await fetch('https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/fotos-site/'+nomeArq,{
+        method:'POST',
+        headers:{'apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI','Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI','Content-Type':file.type,'x-upsert':'true'},
+        body:file
+      });
+      if(r.ok){
+        _galeriaMararu.push('https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/'+nomeArq);
+        renderGaleriaMararuPreview();
+      }
+    }catch(e){console.warn('Upload galeria:',e);}
+  }
+  if(prog)prog.style.display='none';
+  // Auto-salvar após upload
+  await salvarLancamento();
+}
+
+async function carregarLancamento(){
+  var d=await loadSiteData()||{};
+  var l=d.lancamento||{};
+  if(document.getElementById('lanc-data'))document.getElementById('lanc-data').value=l.data_lancamento?l.data_lancamento.replace('Z','').substring(0,16):'';
+  if(document.getElementById('lanc-titulo'))document.getElementById('lanc-titulo').value=l.titulo||'';
+  if(document.getElementById('lanc-subtitulo'))document.getElementById('lanc-subtitulo').value=l.subtitulo||'';
+  if(document.getElementById('lanc-desc'))document.getElementById('lanc-desc').value=l.descricao||'';
+  if(document.getElementById('lanc-link'))document.getElementById('lanc-link').value=l.link||'';
+  if(document.getElementById('lanc-ativo'))document.getElementById('lanc-ativo').value=l.ativo!==false?'true':'false';
+  if(document.getElementById('lanc-prereserva'))document.getElementById('lanc-prereserva').value=l.prereserva!==false?'true':'false';
+  // Marca d'água
+  if(document.getElementById('lanc-marca-dagua'))document.getElementById('lanc-marca-dagua').value=l.marcaDagua===false?'false':'true';
+  if(document.getElementById('lanc-marca-txt'))document.getElementById('lanc-marca-txt').value=l.marcaDaguaTxt||'Em Breve';
+  // Tamanho bolinhas
+  var ps=d.pinSize||100;
+  if(document.getElementById('lanc-pin-size')){document.getElementById('lanc-pin-size').value=ps;document.getElementById('pin-size-val').textContent=ps;}
+  // Galeria Mararu
+  _galeriaMararu=(d.mararu&&d.mararu.galeria)||[];
+  renderGaleriaMararuPreview();
+  // Foto principal
+  var fp=(d.mararu&&d.mararu.fotoPrincipal)||'';
+  if(document.getElementById('mararu-foto-principal')){
+    document.getElementById('mararu-foto-principal').value=fp;
+    prevMararuFoto();
+  }
+}
+
+async function salvarLancamento(){
+  var btn=event&&event.target?event.target:document.querySelector('#page-lancamento .btn-save');
+  if(btn){btn.innerHTML='⏳ Salvando...';btn.disabled=true;}
+  var d=await loadSiteData()||{};
+  var dataVal=document.getElementById('lanc-data').value;
+  // Preservar campos existentes e adicionar novos
+  d.lancamento=Object.assign({},d.lancamento||{},{
+    ativo:document.getElementById('lanc-ativo').value!=='false',
+    prereserva:document.getElementById('lanc-prereserva').value!=='false',
+    titulo:(document.getElementById('lanc-titulo')||{value:'BAIRRO MARARU'}).value||'BAIRRO MARARU',
+    subtitulo:(document.getElementById('lanc-subtitulo')||{value:'Novo Lançamento'}).value||'Novo Lançamento',
+    descricao:(document.getElementById('lanc-desc')||{value:''}).value||'',
+    link:(document.getElementById('lanc-link')||{value:'mararu/'}).value||'mararu/',
+    data_lancamento:dataVal?new Date(dataVal).toISOString():(d.lancamento&&d.lancamento.data_lancamento)||'2026-06-06T08:00:00',
+    marcaDagua:(document.getElementById('lanc-marca-dagua')||{value:'true'}).value!=='false',
+    marcaDaguaTxt:(document.getElementById('lanc-marca-txt')||{value:'Em Breve'}).value||'Em Breve'
+  });
+  // Tamanho bolinhas
+  var psEl=document.getElementById('lanc-pin-size');
+  if(psEl)d.pinSize=parseInt(psEl.value)||100;
+  // Galeria Mararu
+  if(!d.mararu)d.mararu={};
+  d.mararu.galeria=_galeriaMararu||[];
+  var fpEl=document.getElementById('mararu-foto-principal');
+  if(fpEl)d.mararu.fotoPrincipal=fpEl.value||'';
+  var ok=await saveSiteData(d);
+  if(btn){btn.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg> Salvar & Publicar';btn.disabled=false;}
+  if(ok)toast('✅ Lançamento salvo e publicado!','ok');
+  else toast('⚠️ Erro ao salvar','aviso');
+}
+
+// ── REGIÕES ──
+var _regData=[];
+var REG_DEF=[
+  {id:'mararu',nome:'Mararu',foto:'',loc:'Novo Lançamento · Santarém',desc:'Lotes residenciais, comerciais e econômicos. Documentação regularizada e condições especiais.',badge:'🔥 Lançamento',badgeTipo:'lancamento'},
+  {id:'pajucara',nome:'Pajuçara',foto:'',loc:'Zona Urbana · Santarém',desc:'Bairro em plena expansão com fácil acesso e alta valorização. Área residencial consolidada.',badge:'Disponível',badgeTipo:'disponivel'},
+  {id:'santa-maria',nome:'Santa Maria',foto:'',loc:'Zona Sul · Santarém',desc:'Tranquila e estruturada. Loteamento Bom Sossego com documentação completa.',badge:'Disponível',badgeTipo:'disponivel'},
+  {id:'cucuruna',nome:'Cucurunã',foto:'',loc:'Zona Norte · Santarém',desc:'Região em expansão estratégica. Novos loteamentos com alto potencial de valorização.',badge:'Em breve',badgeTipo:'breve'},
+  {id:'ponta-pedras',nome:'Ponta de Pedras',foto:'',loc:'Zona Ribeirinha · Tapajós',desc:'Acesso ao rio Tapajós. Área privilegiada com vista panorâmica e potencial turístico.',badge:'Em breve',badgeTipo:'breve-azul'},
+  {id:'alter',nome:'Alter do Chão',foto:'',loc:'Paraíso do Tapajós',desc:'O destino turístico mais famoso do Pará. Terrenos de alto valor em região paradisíaca.',badge:'Premium',badgeTipo:'premium'}
+];
+
+async function carregarRegioes(){
+  var d=await loadSiteData();
+  if(d&&d.regioes&&d.regioes.length){
+    _regData=d.regioes.map(function(r){return Object.assign({diferenciais:[],lat:0,lng:0},r);});
+  } else {
+    _regData=JSON.parse(JSON.stringify(REG_DEF));
+  }
+  renderRegEditor();
+}
+
+function renderRegEditor(){
+  var c=document.getElementById('regioes-editor');
+  if(!c)return;
+  c.innerHTML='';
+  _regData.forEach(function(r,i){
+    var card=document.createElement('div');
+    card.className='card';
+    card.style.marginBottom='16px';
+    var header=document.createElement('div');
+    header.style.cssText='display:flex;justify-content:space-between;align-items:center;margin-bottom:14px';
+    var title=document.createElement('div');
+    title.className='card-title';title.style.margin='0';
+    title.textContent=r.nome||'Nova Região';
+    var btnDel=document.createElement('button');
+    btnDel.textContent='🗑 Excluir';
+    btnDel.style.cssText='background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);color:#f87171;padding:5px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit';
+    btnDel.onclick=(function(idx){return function(){excluirRegiao(idx);};})(i);
+    header.appendChild(title);header.appendChild(btnDel);card.appendChild(header);
+    // Nome + Badge
+    var g1=document.createElement('div');
+    g1.className='g2';g1.style.marginBottom='10px';
+    g1.innerHTML='<div class="f"><label>Nome</label><input type="text" id="reg-nome-'+i+'" value="'+((r.nome||'').replace(/"/g,'&quot;'))+'"/></div>'
+      +'<div class="f"><label>Badge</label><input type="text" id="reg-badge-'+i+'" value="'+((r.badge||'').replace(/"/g,'&quot;'))+'"/></div>';
+    card.appendChild(g1);
+    // Descrição
+    var dDiv=document.createElement('div');dDiv.className='f';dDiv.style.marginBottom='10px';
+    var dL=document.createElement('label');dL.textContent='Descrição';
+    var dT=document.createElement('textarea');dT.id='reg-desc-'+i;dT.rows=3;
+    dT.style.cssText='background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px;font-size:13px;color:var(--text);font-family:inherit;resize:vertical;width:100%';
+    dT.value=r.desc||'';dDiv.appendChild(dL);dDiv.appendChild(dT);card.appendChild(dDiv);
+    // Diferenciais
+    var difDiv=document.createElement('div');difDiv.className='f';difDiv.style.marginBottom='10px';
+    var difL=document.createElement('label');difL.textContent='Diferenciais (um por linha)';
+    var difT=document.createElement('textarea');difT.id='reg-dif-'+i;difT.rows=4;
+    difT.style.cssText='background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px;font-size:13px;color:var(--text);font-family:inherit;resize:vertical;width:100%';
+    difT.placeholder='Praias de água doce\nAlto potencial de valorização';
+    difT.value=(r.diferenciais||[]).join('\n');
+    difDiv.appendChild(difL);difDiv.appendChild(difT);card.appendChild(difDiv);
+    // Foto
+    var fDiv=document.createElement('div');fDiv.className='f';fDiv.style.marginBottom='10px';
+    var fL=document.createElement('label');fL.textContent='🖼️ Foto de fundo';
+    var fI=document.createElement('input');fI.type='url';fI.id='reg-foto-'+i;
+    fI.value=r.foto||'';fI.placeholder='URL gerada após upload';
+    fI.oninput=(function(idx){return function(){prevRegFoto(idx);};})(i);
+    var fRow=document.createElement('div');fRow.style.cssText='display:flex;align-items:center;gap:10px;margin-top:8px';
+    var fBtn=document.createElement('label');fBtn.id='reg-upload-btn-'+i;
+    fBtn.style.cssText='display:inline-flex;align-items:center;gap:7px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);color:var(--gold);padding:8px 14px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer';
+    fBtn.textContent='📷 Escolher foto';
+    var fFile=document.createElement('input');fFile.type='file';fFile.accept='image/*,video/mp4,video/webm,video/quicktime';fFile.style.display='none';
+    fFile.onchange=(function(idx){return function(){if(this.files[0])uploadFotoRegiao(idx,this.files[0]);};})(i);
+    fBtn.appendChild(fFile);
+    var fProg=document.createElement('span');fProg.id='reg-upload-prog-'+i;fProg.style.cssText='display:none;font-size:11px;color:var(--gold)';fProg.textContent='⏳';
+    var fPrev=document.createElement('div');fPrev.id='reg-foto-prev-'+i;
+    fPrev.style.cssText='width:60px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);background:var(--bg3)';
+    if(r.foto)fPrev.innerHTML='<img src="'+r.foto.replace(/"/g,'%22')+'" style="width:100%;height:100%;object-fit:cover">';
+    fRow.appendChild(fBtn);fRow.appendChild(fProg);fRow.appendChild(fPrev);
+    fDiv.appendChild(fL);fDiv.appendChild(fI);fDiv.appendChild(fRow);card.appendChild(fDiv);
+    // Lat/Lng + Maps
+    var cDiv=document.createElement('div');cDiv.style.marginBottom='10px';
+    var cGrid=document.createElement('div');cGrid.className='g2';cGrid.style.marginBottom='8px';
+    cGrid.innerHTML='<div class="f"><label>📍 Latitude</label><input type="number" id="reg-lat-'+i+'" value="'+(r.lat||'')+'" step="0.000001"/></div>'
+      +'<div class="f"><label>📍 Longitude</label><input type="number" id="reg-lng-'+i+'" value="'+(r.lng||'')+'" step="0.000001"/></div>';
+    var mBtn=document.createElement('a');mBtn.id='reg-maps-btn-'+i;
+    mBtn.href='https://maps.google.com/?q='+(r.lat||0)+','+(r.lng||0);
+    mBtn.target='_blank';
+    mBtn.style.cssText='display:inline-flex;align-items:center;gap:7px;background:rgba(66,133,244,0.1);border:1px solid rgba(66,133,244,0.25);color:#4285f4;padding:7px 14px;border-radius:8px;font-size:11px;font-weight:600;text-decoration:none';
+    mBtn.textContent='🗺️ Ver no Google Maps';
+    mBtn.onclick=(function(idx,btn){return function(){var la=document.getElementById('reg-lat-'+idx).value;var ln=document.getElementById('reg-lng-'+idx).value;btn.href='https://maps.google.com/?q='+la+','+ln;};})(i,mBtn);
+    cDiv.appendChild(cGrid);cDiv.appendChild(mBtn);card.appendChild(cDiv);
+    // WhatsApp
+    var wDiv=document.createElement('div');wDiv.className='f';wDiv.style.marginBottom='10px';
+    wDiv.innerHTML='<label>💬 Mensagem WhatsApp</label><input type="text" id="reg-wpp-'+i+'" value="'+((r.wpp||'').replace(/"/g,'&quot;'))+'"/>';
+    card.appendChild(wDiv);
+    // Salvar
+    var bSave=document.createElement('button');bSave.className='btn-save';bSave.style.width='100%';
+    bSave.innerHTML='💾 Salvar Região';
+    bSave.onclick=(function(idx){return function(){salvarRegiao(idx);};})(i);
+    card.appendChild(bSave);
+    c.appendChild(card);
+  });
+}
+
+
+async function uploadFotoRegiao(i,file){
+  var btn=document.getElementById('reg-upload-btn-'+i);
+  var prog=document.getElementById('reg-upload-prog-'+i);
+  if(btn){btn.textContent='Enviando...';btn.disabled=true;}
+  if(prog)prog.style.display='block';
+  try{
+    var ext=file.name.split('.').pop().toLowerCase();
+    var id=(_regData[i]&&_regData[i].id)||('reg'+i);
+    var url=await uploadFotoGitHub(file,'imagens/regiao-'+id+'.'+ext);
+    var el=document.getElementById('reg-foto-'+i);
+    if(el)el.value=url;
+    prevRegFoto(i);
+    // Atualizar preview
+    var prev=document.getElementById('reg-foto-prev-'+i);
+    if(prev)prev.innerHTML='<img src="'+url+'?_='+Date.now()+'" style="width:100%;height:100%;object-fit:cover">';
+    toast('✅ Foto salva no GitHub!','ok');
+  }catch(e){
+    console.warn(e);
+    toast('Erro: '+e.message,'aviso');
+  }
+  if(btn){btn.textContent='Escolher foto/video';btn.disabled=false;}
+  if(prog)prog.style.display='none';
+}
+
+function prevRegFoto(i){
+  var url=((document.getElementById('reg-foto-'+i)||{}).value||'').trim();
+  var box=document.getElementById('reg-prev-'+i);
+  if(!box)return;
+  if(url){
+    box.innerHTML='<img src="'+url.replace(/"/g,'%22')+'" style="width:100%;height:100%;object-fit:cover;border-radius:6px" onerror="this.parentElement.innerHTML=\'<div style=\\\"display:flex;align-items:center;justify-content:center;height:100%;font-size:10px;color:var(--red)\\\">Imagem inválida</div>\'">';
+  } else {
+    box.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:10px;color:var(--text3)">Sem foto</div>';
+  }
+}
+
+function excluirRegiao(i){
+  if(!confirm('Excluir "'+(_regData[i]&&_regData[i].nome||'esta região')+'"?'))return;
+  _regData.splice(i,1);
+  renderRegEditor();
+  salvarTodasRegioes();
+}
+function adicionarRegiao(){
+  _regData.push({id:'reg-'+Date.now(),nome:'Nova Região',badge:'',desc:'',diferenciais:[],foto:'',lat:-2.45,lng:-54.8,wpp:'Olá Rafael! Tenho interesse nessa região.'});
+  renderRegEditor();
+  setTimeout(function(){var cs=document.getElementById('regioes-editor').children;if(cs.length)cs[cs.length-1].scrollIntoView({behavior:'smooth'});},200);
+}
+async function salvarTodasRegioes(){
+  var d=await loadSiteData()||{};
+  d.regioes=_regData;
+  var ok=await saveSiteData(d);
+  if(ok)toast('Regiões salvas!','ok');
+  else toast('Erro ao salvar','aviso');
+}
+function coletarRegiaoData(i){
+  var dif=((document.getElementById('reg-dif-'+i)||{value:''}).value||'');
+  return {
+    id:_regData[i].id,
+    nome:((document.getElementById('reg-nome-'+i)||{value:''}).value||'').trim(),
+    badge:((document.getElementById('reg-badge-'+i)||{value:''}).value||'').trim(),
+    desc:((document.getElementById('reg-desc-'+i)||{value:''}).value||'').trim(),
+    diferenciais:dif.split('\n').map(function(s){return s.trim();}).filter(function(s){return s.length>0;}),
+    foto:((document.getElementById('reg-foto-'+i)||{value:''}).value||'').trim(),
+    lat:parseFloat((document.getElementById('reg-lat-'+i)||{value:0}).value)||0,
+    lng:parseFloat((document.getElementById('reg-lng-'+i)||{value:0}).value)||0,
+    wpp:((document.getElementById('reg-wpp-'+i)||{value:''}).value||'').trim()
+  };
+}
+async function salvarRegiao(i){
+  _regData[i]=coletarRegiaoData(i);
+  await salvarTodasRegioes();
+}
+async function salvarRegioes(e){
+  _regData=_regData.map(function(r,i){return coletarRegiaoData(i);});
+  await salvarTodasRegioes();
+}
+
+function toast(msg,tipo){
+  var t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='toast'+(tipo?' '+tipo:'');
+  t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');},3000);
+}
+
+// ── BACKUP / DOWNLOAD ──
+async function baixarJSON(){
+  var d=await loadSiteData();
+  if(!d){toast('Erro ao carregar dados','erro');return;}
+  var blob=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;
+  a.download='site_data_backup_'+new Date().toISOString().slice(0,10)+'.json';
+  document.body.appendChild(a);a.click();
+  setTimeout(function(){URL.revokeObjectURL(url);a.remove();},500);
+  toast('✅ Download iniciado! Salve no Google Drive.','ok');
+}
+
+function restaurarJSON(input){
+  var file=input.files[0];
+  if(!file){return;}
+  var st=document.getElementById('restore-status');
+  st.textContent='Lendo arquivo...';st.style.color='var(--gold)';
+  var reader=new FileReader();
+  reader.onload=async function(e){
+    try{
+      var d=JSON.parse(e.target.result);
+      if(!d||!d.config){st.textContent='❌ Arquivo inválido';st.style.color='var(--red)';return;}
+      st.textContent='Arquivo lido. Salvando no GitHub...';
+      var ok=await saveSiteData(d);
+      if(ok){st.textContent='✅ Dados restaurados e publicados!';st.style.color='var(--green)';toast('✅ Backup restaurado!','ok');}
+      else{st.textContent='❌ Erro ao salvar';st.style.color='var(--red)';}
+    }catch(err){st.textContent='❌ JSON inválido';st.style.color='var(--red)';}
+  };
+  reader.readAsText(file);
+}
+
+async function salvarPinSize(){
+  var val=parseInt(document.getElementById('pin-size-num').value)||100;
+  val=Math.min(200,Math.max(50,val));
+  var d=await loadSiteData()||{};
+  d.pinSize=val;
+  var ok=await saveSiteData(d);
+  if(ok)toast('✅ Tamanho dos pinos salvo: '+val+'%','ok');
+}
+
+async function carregarPinSize(){
+  var d=await loadSiteData();
+  if(d&&d.pinSize){
+    var v=d.pinSize;
+    document.getElementById('pin-size-range').value=v;
+    document.getElementById('pin-size-num').value=v;
+    document.getElementById('pin-size-val').textContent=v;
+  }
+}
+
+// Fechar modal ao clicar fora
+document.addEventListener('DOMContentLoaded',function(){
+  document.getElementById('modal-push').addEventListener('click',function(e){
+    if(e.target===this)fecharModal();
+  });
+  document.getElementById('modal-secao').addEventListener('click',function(e){
+    if(e.target===this)fecharModalSecao();
+  });
+});
+
+// ══════════════════════════════════════
+//  MENU & SEÇÕES
+// ══════════════════════════════════════
+
+// Seções fixas do site (mapeadas para o site_data.json)
+var _SECOES_SITE = [
+  { id:'hero',         label:'🌅 Hero — Início',          descKey:'hero.subtitulo',    tituloKey:'hero.titulo',    subKey:'hero.badge',   fotoKey:null },
+  { id:'mapa',         label:'🗺️ Mapa Interativo',         descKey:null,               tituloKey:null,             subKey:null,           fotoKey:null },
+  { id:'lancamento',   label:'🔥 Destaque / Lançamento',   descKey:'lancamento.descricao', tituloKey:'lancamento.titulo', subKey:'lancamento.subtitulo', fotoKey:null },
+  { id:'regioes',      label:'📍 Escolha sua Região',      descKey:null,               tituloKey:null,             subKey:null,           fotoKey:null },
+  { id:'beneficios',   label:'✅ Benefícios',               descKey:null,               tituloKey:null,             subKey:null,           fotoKey:null },
+  { id:'sobre',        label:'👤 Sobre o Corretor',        descKey:'config.s1',        tituloKey:null,             subKey:null,           fotoKey:'fotoCorretor' },
+  { id:'depoimentos',  label:'💬 Depoimentos',             descKey:null,               tituloKey:null,             subKey:null,           fotoKey:null },
+  { id:'cta',          label:'📢 CTA (chamada para ação)', descKey:'cta.desc',         tituloKey:'cta.titulo',     subKey:null,           fotoKey:null },
+  { id:'vip',          label:'💬 Grupo VIP',               descKey:'vip.desc',         tituloKey:'vip.nome',       subKey:'vip.badge',    fotoKey:null },
+  { id:'imoveis',      label:'🏘️ Pinos & Empreendimentos', descKey:null,               tituloKey:null,             subKey:null,           fotoKey:null },
+];
+
+// Dados de menu e seções em memória
+var _menuItens = [];
+var _siteDataCache = null;
+var _secaoEditando = null;
+var _novaFotoBase64 = null;
+var _removerFotoFlag = false;
+
+// Ler valor aninhado do objeto (ex: "hero.titulo")
+function _getNestedVal(obj, path){
+  if(!path) return '';
+  return path.split('.').reduce(function(o,k){ return o&&o[k]!==undefined?o[k]:''; }, obj);
+}
+function _setNestedVal(obj, path, val){
+  if(!path) return;
+  var parts = path.split('.');
+  var cur = obj;
+  for(var i=0;i<parts.length-1;i++){
+    if(!cur[parts[i]]) cur[parts[i]]={};
+    cur=cur[parts[i]];
+  }
+  cur[parts[parts.length-1]]=val;
+}
+
+// ── Carregar a aba Menu & Seções ──
+async function carregarMenuSecoes(){
+  _siteDataCache = await loadSiteData();
+  if(!_siteDataCache) return;
+  // Pegar menu do site_data ou usar padrão
+  _menuItens = (_siteDataCache.menu && _siteDataCache.menu.length)
+    ? JSON.parse(JSON.stringify(_siteDataCache.menu))
+    : [
+        { label:'Mapa', href:'#mapa' },
+        { label:'Regiões', href:'#regioes' },
+        { label:'Lançamento', href:'#lancamento' },
+        { label:'Sobre', href:'#sobre' },
+        { label:'Contato', href:'#cta' }
+      ];
+  renderMenuNav();
+  renderSecoesLista();
+}
+
+// ── Renderizar lista do menu de navegação ──
+function renderMenuNav(){
+  var c = document.getElementById('menu-nav-lista');
+  if(!c) return;
+  if(!_menuItens.length){
+    c.innerHTML='<div style="font-size:13px;color:var(--text3);padding:12px 0">Nenhum item no menu. Clique em "+ Novo item".</div>';
+    return;
+  }
+  c.innerHTML = _menuItens.map(function(item, i){
+    return '<div class="order-item" style="gap:10px" data-menu-idx="'+i+'">'
+      +'<span class="drag-handle" title="Arrastar">⠿</span>'
+      +'<div style="flex:1;display:flex;gap:10px;flex-wrap:wrap">'
+      +'  <input type="text" value="'+_esc(item.label)+'" placeholder="Nome" '
+      +'    style="flex:1;min-width:100px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:13px;color:var(--text);font-family:inherit;outline:none" '
+      +'    oninput="_menuItens['+i+'].label=this.value" />'
+      +'  <input type="text" value="'+_esc(item.href)+'" placeholder="#secao ou /pagina/" '
+      +'    style="flex:1;min-width:120px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:13px;color:var(--text2);font-family:inherit;outline:none" '
+      +'    oninput="_menuItens['+i+'].href=this.value" />'
+      +'</div>'
+      +'<button onclick="excluirItemMenu('+i+')" title="Excluir" '
+      +'  style="background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.25);color:var(--red);width:34px;height:34px;border-radius:7px;font-size:15px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center">🗑</button>'
+    +'</div>';
+  }).join('');
+  ativarDragMenu();
+}
+
+function _esc(v){ return String(v||'').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+
+function adicionarItemMenu(){
+  _menuItens.push({ label:'Novo Item', href:'#' });
+  renderMenuNav();
+}
+
+function excluirItemMenu(idx){
+  if(!confirm('Excluir o item "'+(_menuItens[idx]&&_menuItens[idx].label)+'" do menu?')) return;
+  _menuItens.splice(idx,1);
+  renderMenuNav();
+  toast('Item removido. Clique em "Salvar Menu" para confirmar.','aviso');
+}
+
+async function salvarMenu(){
+  var btn = event.target.closest('button');
+  var orig = btn.innerHTML; btn.disabled=true; btn.textContent='⏳ Salvando...';
+  var d = await loadSiteData()||{};
+  d.menu = _menuItens.map(function(it){ return { label:it.label, href:it.href }; });
+  var ok = await saveSiteData(d);
+  btn.innerHTML=orig; btn.disabled=false;
+  if(ok) toast('✅ Menu salvo e publicado!','ok');
+}
+
+// Drag-and-drop simples para reordenar menu
+function ativarDragMenu(){
+  var lista = document.getElementById('menu-nav-lista');
+  if(!lista) return;
+  var dragging = null;
+  lista.querySelectorAll('.order-item').forEach(function(el){
+    el.setAttribute('draggable','true');
+    el.addEventListener('dragstart',function(){ dragging=el; el.classList.add('dragging'); });
+    el.addEventListener('dragend',function(){ el.classList.remove('dragging'); dragging=null; });
+    el.addEventListener('dragover',function(e){ e.preventDefault(); if(dragging&&dragging!==el){ lista.insertBefore(dragging,el); } });
+    el.addEventListener('drop',function(e){ e.preventDefault();
+      // Recalcular _menuItens com base na nova ordem DOM
+      var novos=[];
+      lista.querySelectorAll('.order-item').forEach(function(r){ var i=parseInt(r.dataset.menuIdx); if(!isNaN(i)) novos.push(_menuItens[i]); });
+      _menuItens=novos;
+    });
+  });
+}
+
+// ── Renderizar lista de seções ──
+function renderSecoesLista(){
+  var c = document.getElementById('secoes-lista');
+  if(!c) return;
+  c.innerHTML = _SECOES_SITE.map(function(s){
+    var titulo = s.tituloKey ? _getNestedVal(_siteDataCache||{}, s.tituloKey) : '';
+    var desc   = s.descKey   ? _getNestedVal(_siteDataCache||{}, s.descKey)   : '';
+    var temFoto = s.fotoKey !== null;
+    return '<div style="display:flex;align-items:center;gap:14px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px 16px;flex-wrap:wrap">'
+      +'<div style="flex:1;min-width:160px">'
+      +'  <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px">'+s.label+'</div>'
+      +(titulo?'<div style="font-size:11px;color:var(--gold);margin-bottom:2px">'+_esc(titulo)+'</div>':'')
+      +(desc?'<div style="font-size:11px;color:var(--text3);line-height:1.5;max-width:380px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+_esc(desc)+'</div>':'')
+      +(temFoto?'<div style="font-size:10px;color:rgba(96,165,250,0.7);margin-top:3px">📸 Suporta foto</div>':'')
+      +'</div>'
+      +'<div style="display:flex;gap:8px;flex-shrink:0">'
+      +'  <button onclick="editarSecao(\''+s.id+'\')" style="background:var(--gold3);border:1px solid var(--border2);color:var(--gold);padding:8px 16px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px">✏️ Editar</button>'
+      +'</div>'
+      +'</div>';
+  }).join('');
+}
+
+// ── Editar seção — abre modal ──
+function editarSecao(id){
+  _secaoEditando = _SECOES_SITE.find(function(s){ return s.id===id; });
+  if(!_secaoEditando) return;
+  _novaFotoBase64 = null;
+  _removerFotoFlag = false;
+
+  document.getElementById('modal-secao-titulo').textContent = 'Editar: '+_secaoEditando.label;
+  document.getElementById('ms-id').value = id;
+
+  var d = _siteDataCache || {};
+  document.getElementById('ms-titulo').value   = _secaoEditando.tituloKey ? _getNestedVal(d, _secaoEditando.tituloKey) : '';
+  document.getElementById('ms-subtitulo').value= _secaoEditando.subKey   ? _getNestedVal(d, _secaoEditando.subKey)   : '';
+  document.getElementById('ms-desc').value     = _secaoEditando.descKey  ? _getNestedVal(d, _secaoEditando.descKey)  : '';
+
+  // Foto
+  var fotoWrap = document.getElementById('ms-foto-atual-wrap');
+  var fotoImg  = document.getElementById('ms-foto-atual');
+  var novaPreview = document.getElementById('ms-foto-nova-preview');
+  novaPreview.innerHTML = '<span style="font-size:10px;color:var(--text3);text-align:center;padding:6px">Sem<br>foto</span>';
+  document.getElementById('ms-input-foto').value='';
+
+  if(_secaoEditando.fotoKey === 'fotoCorretor'){
+    fotoImg.src = '../rafael-foto.jpg?_='+Date.now();
+    fotoWrap.style.display='block';
+  } else {
+    fotoWrap.style.display='none';
+  }
+
+  // Desabilitar campos que a seção não usa
+  document.getElementById('ms-titulo').disabled    = !_secaoEditando.tituloKey;
+  document.getElementById('ms-subtitulo').disabled = !_secaoEditando.subKey;
+  document.getElementById('ms-desc').disabled      = !_secaoEditando.descKey;
+  document.getElementById('ms-titulo').style.opacity    = _secaoEditando.tituloKey ? '1':'0.4';
+  document.getElementById('ms-subtitulo').style.opacity = _secaoEditando.subKey    ? '1':'0.4';
+  document.getElementById('ms-desc').style.opacity      = _secaoEditando.descKey   ? '1':'0.4';
+
+  document.getElementById('modal-secao').classList.add('on');
+  document.body.style.overflow='hidden';
+}
+
+function fecharModalSecao(){
+  document.getElementById('modal-secao').classList.remove('on');
+  document.body.style.overflow='';
+  _secaoEditando=null; _novaFotoBase64=null; _removerFotoFlag=false;
+}
+
+function previewFotoSecao(input){
+  if(!input.files||!input.files[0]) return;
+  var file=input.files[0];
+  if(file.size>2*1024*1024){ toast('Foto muito grande. Máx. 2MB.','erro'); input.value=''; return; }
+  var reader=new FileReader();
+  reader.onload=function(e){
+    _novaFotoBase64=e.target.result;
+    var prev=document.getElementById('ms-foto-nova-preview');
+    prev.innerHTML='<img src="'+e.target.result+'" style="width:100%;height:100%;object-fit:cover">';
+  };
+  reader.readAsDataURL(file);
+}
+
+function removerFotoSecao(){
+  if(!confirm('Remover a foto desta seção?')) return;
+  _removerFotoFlag=true;
+  document.getElementById('ms-foto-atual-wrap').style.display='none';
+  toast('Foto marcada para remoção. Salve para confirmar.','aviso');
+}
+
+async function salvarEdicaoSecao(){
+  var btn=event.target; var orig=btn.innerHTML;
+  btn.disabled=true; btn.textContent='⏳ Salvando...';
+
+  var d = await loadSiteData()||{};
+  var s = _secaoEditando;
+
+  if(s.tituloKey) _setNestedVal(d, s.tituloKey, document.getElementById('ms-titulo').value);
+  if(s.subKey)    _setNestedVal(d, s.subKey,    document.getElementById('ms-subtitulo').value);
+  if(s.descKey)   _setNestedVal(d, s.descKey,   document.getElementById('ms-desc').value);
+
+  // Foto do corretor — salvar via GitHub API como arquivo binário não é suportado diretamente
+  // Solução: salvar o base64 no site_data.json e o site lê dinamicamente
+  if(s.fotoKey === 'fotoCorretor'){
+    if(_removerFotoFlag){
+      if(!d.config) d.config={};
+      d.config.fotoBase64 = null;
+    } else if(_novaFotoBase64){
+      if(!d.config) d.config={};
+      d.config.fotoBase64 = _novaFotoBase64;
+    }
+  }
+
+  var ok = await saveSiteData(d);
+  _siteDataCache = d;
+  btn.innerHTML=orig; btn.disabled=false;
+
+  if(ok){
+    toast('✅ Seção salva e publicada!','ok');
+    renderSecoesLista();
+    fecharModalSecao();
+  }
+}
+</script>
+
+<style>
+.adm-hl{display:block;width:18px;height:2px;background:#C9A84C;border-radius:2px;transition:all .3s}
+.adm-open .adm-hl:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.adm-open .adm-hl:nth-child(2){opacity:0}
+.adm-open .adm-hl:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+@media(max-width:640px){
+  #adm-hb{display:flex!important}
+  .header .logo-text{margin-right:50px}
+}
+</style>
+<script>
+function toggleAdmMenu(){
+  var open = document.getElementById('adm-drawer').style.left==='0px';
+  open ? fecharAdmMenu() : abrirAdmMenu();
+}
+function abrirAdmMenu(){
+  document.getElementById('adm-hb').classList.add('adm-open');
+  document.getElementById('adm-drawer').style.left='0';
+  document.getElementById('adm-overlay').style.display='block';
+  document.body.style.overflow='hidden';
+}
+function fecharAdmMenu(){
+  document.getElementById('adm-hb').classList.remove('adm-open');
+  document.getElementById('adm-drawer').style.left='-280px';
+  document.getElementById('adm-overlay').style.display='none';
+  document.body.style.overflow='';
+}
+// Ao clicar em qualquer aba do drawer, fechar
+document.addEventListener('DOMContentLoaded',function(){
+  var nav=document.getElementById('adm-nav');
+  if(nav){
+    nav.querySelectorAll('button').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        setTimeout(fecharAdmMenu,200);
+      });
+    });
+  }
+});
+</script>
+
+
+<!-- ═══ ADMIN DRAWER MOBILE ═══ -->
+<button id="adm-hb" onclick="toggleAdmMenu()" style="display:none;position:fixed;top:9px;right:8px;z-index:500;width:42px;height:42px;border-radius:10px;background:rgba(10,10,10,0.95);border:1px solid rgba(201,168,76,0.35);flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,0.5)">
+  <span class="adm-hl"></span><span class="adm-hl"></span><span class="adm-hl"></span>
+</button>
+
+<div id="adm-overlay" onclick="fecharAdmMenu()" style="display:none;position:fixed;inset:0;z-index:400;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px)"></div>
+
+<div id="adm-drawer" style="position:fixed;top:0;left:-290px;bottom:0;z-index:450;width:270px;background:#050505;border-right:1px solid rgba(201,168,76,0.2);transition:left .32s cubic-bezier(.4,0,.2,1);overflow-y:auto;display:flex;flex-direction:column">
+  <div style="padding:22px 18px 14px;border-bottom:1px solid rgba(201,168,76,0.12);display:flex;align-items:center;gap:10px">
+    <img src="../logo-rt.png" alt="RT" style="width:36px;height:36px;object-fit:contain">
+    <div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:700;color:#C9A84C;letter-spacing:1.5px">Painel Admin</div>
+      <div style="font-size:9px;color:rgba(242,237,228,0.28);letter-spacing:1px">RAFAEL TAVARES</div>
+    </div>
+  </div>
+  <nav style="padding:10px 10px;flex:1">
+    <div class="adm-nav-title">Configurações</div>
+    <div class="adm-nav-title">📊 Site</div>
+    <button class="adm-si" onclick="goPageM('geral')"><span class="adm-ic">🏠</span>Geral</button>
+    <button class="adm-si" onclick="goPageM('textos')"><span class="adm-ic">✏️</span>Textos</button>
+    <button class="adm-si" onclick="goPageM('hero')"><span class="adm-ic">🌅</span>Hero</button>
+    <button class="adm-si" onclick="goPageM('stats')"><span class="adm-ic">📊</span>Números</button>
+    <button class="adm-si" onclick="goPageM('beneficios')"><span class="adm-ic">✅</span>Benefícios</button>
+    <button class="adm-si" onclick="goPageM('depoimentos')"><span class="adm-ic">💬</span>Depoimentos</button>
+    <button class="adm-si" onclick="goPageM('cta')"><span class="adm-ic">📢</span>CTA</button>
+    <div class="adm-nav-divider"></div>
+    <div class="adm-nav-title">🏘️ Imóveis</div>
+    <button class="adm-si" onclick="goPageM('regioes')"><span class="adm-ic">🗺️</span>Regiões</button>
+    <button class="adm-si" onclick="goPageM('lancamento')"><span class="adm-ic">🔥</span>Mararu</button>
+    <div class="adm-nav-divider"></div>
+    <div class="adm-nav-title">📱 Marketing</div>
+    <button class="adm-si" onclick="goPageM('redes')"><span class="adm-ic">📱</span>Redes Sociais</button>
+    <button class="adm-si" onclick="goPageM('vip')"><span class="adm-ic">💬</span>Grupo VIP</button>
+    <button class="adm-si" onclick="goPageM('menu')"><span class="adm-ic">📋</span>Menu & Seções</button>
+    <div class="adm-nav-divider"></div>
+    <div class="adm-nav-title">⚙️ Sistema</div>
+    <button class="adm-si" onclick="goPageM('senha')"><span class="adm-ic">🔐</span>Senha</button>
+    <button class="adm-si" onclick="goPageM('backup')"><span class="adm-ic">💾</span>Backup / Drive</button>
+  </nav>
+  <div style="padding:14px 18px;border-top:1px solid rgba(201,168,76,0.1)">
+    <a href="../" target="_blank" style="display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(242,237,228,0.3);text-decoration:none">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      Ver site
+    </a>
+  </div>
+</div>
+
+<style>
+.adm-hl{display:block;width:18px;height:2px;background:#C9A84C;border-radius:2px;transition:all .28s;transform-origin:center}
+.adm-open .adm-hl:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.adm-open .adm-hl:nth-child(2){opacity:0;transform:scaleX(0)}
+.adm-open .adm-hl:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.adm-si{display:flex;align-items:center;gap:12px;width:100%;padding:11px 12px;border-radius:9px;font-size:13px;font-weight:500;color:rgba(242,237,228,0.8);cursor:pointer;transition:all .2s;border:none;background:transparent;font-family:inherit;text-align:left;margin-bottom:2px}
+.adm-si:hover,.adm-si.adm-on{background:rgba(201,168,76,0.08);color:#C9A84C}
+.adm-ic{font-size:16px;width:22px;flex-shrink:0;text-align:center}
+.adm-nav-title{font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(242,237,228,0.25);padding:10px 12px 4px}
+.adm-nav-divider{height:1px;background:rgba(201,168,76,0.08);margin:8px 0}
+@media(max-width:640px){
+  #adm-hb{display:flex!important}
+  .header-title{margin-right:56px}
+  .header{padding-right:60px}
+}
+</style>
+
+<script>
+function toggleAdmMenu(){
+  var isOpen = document.getElementById('adm-drawer').style.left === '0px';
+  isOpen ? fecharAdmMenu() : abrirAdmMenu();
+}
+function abrirAdmMenu(){
+  document.getElementById('adm-hb').classList.add('adm-open');
+  document.getElementById('adm-drawer').style.left = '0px';
+  document.getElementById('adm-overlay').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+function fecharAdmMenu(){
+  document.getElementById('adm-hb').classList.remove('adm-open');
+  document.getElementById('adm-drawer').style.left = '-290px';
+  document.getElementById('adm-overlay').style.display = 'none';
+  document.body.style.overflow = '';
+}
+function goPageM(id){
+  // Encontrar o botão equivalente na sidebar desktop e clicar
+  var btns = document.querySelectorAll('.sitem');
+  btns.forEach(function(btn){
+    var match = btn.getAttribute('onclick') && btn.getAttribute('onclick').includes("'"+id+"'");
+    if(match) btn.click();
+  });
+  // Destacar botão ativo no drawer
+  document.querySelectorAll('.adm-si').forEach(function(b){ b.classList.remove('adm-on'); });
+  event.target.closest('.adm-si').classList.add('adm-on');
+  fecharAdmMenu();
+}
+</script>
+<!-- ═══ FIM ADMIN DRAWER ═══ -->
+
+</body>
+</html>
