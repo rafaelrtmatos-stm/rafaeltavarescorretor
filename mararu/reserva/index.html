@@ -810,10 +810,87 @@ function selecionarPag(){}
 function copiarPix(){}
 function toggleCheck(){}
 function confirmarTermos(){}
-function finalizarSemPagamento(){}
+async function salvarDados(){
+  var d=getDados();
+  var agora=Date.now();
+  var clienteId='MAR-'+agora;
+  // Supabase clientes
+  try{
+    await fetch('https://uftxcwcryqpkfdfxzlno.supabase.co/rest/v1/clientes',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI','Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI','Prefer':'return=minimal'},
+      body:JSON.stringify({id:clienteId,user_id:'shared',data:{
+        id:clienteId,nome:d.nome,cpf:(d.cpf||'').replace(/\D/g,''),
+        rg:d.rg,dataNascimento:d.nascimento,
+        telefone:d.wpp,telefone2:d.tel2,
+        cep:d.cep,rua:d.rua,numero:d.numero,
+        bairro:d.bairro,cidade:d.cidade,estado:d.estado,
+        vencimento:d.vencimento,empreendimento:'Bairro Mararu',
+        corretor:'Rafael Tavares — CRECI 13919',
+        dataCadastro:new Date().toISOString(),origem:'Site Mararu'
+      }})
+    });
+  }catch(e){console.warn('Supabase:',e);}
+  // Rumo ao Milhão
+  try{
+    await fetch('https://rumoaomilhao.imb.br/api/publico/pre-reserva',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        empreendimentoId:'1780067816277',
+        empreendimentoNome:'MARARU',
+        quadra:d.quadra||'',numeroLote:d.lote||'',
+        valorLote:0,valorEntrada:0,quantidadeParcelas:0,valorParcela:0,
+        clienteNome:d.nome,clienteCpf:(d.cpf||'').replace(/\D/g,''),
+        clienteTelefone:d.wpp,clienteWhatsapp:d.wpp,
+        clienteDataNascimento:d.nascimento,
+        clienteEndereco:(d.rua||'')+', '+(d.numero||''),
+        clienteCep:d.cep,clienteBairro:d.bairro,
+        clienteCidade:d.cidade,clienteEstado:d.estado||'PA',
+        status:'rascunho',origemReserva:'site_publico',documentos:[]
+      })
+    });
+  }catch(e){console.warn('Rumo ao Milhão:',e);}
+  // Google Sheets
+  try{await fetch(SHEET,{method:'POST',body:JSON.stringify(d)});}catch(e){}
+}
+
+function mostrarComprovante(){
+  var d=getDados();
+  try{
+    localStorage.setItem('mararu_reserva',JSON.stringify({
+      quadra:d.quadra||'',lote:d.lote||'',nome:d.nome,ts:Date.now()
+    }));
+  }catch(e){}
+  var cd=document.getElementById('comp-data');
+  if(cd){
+    cd.innerHTML=[
+      ['Cliente',d.nome],['CPF',d.cpf],
+      ['Empreendimento','Bairro Mararu'],
+      ['Lote',d.quadra?('Q'+d.quadra+' / L'+d.lote):'A definir no lançamento'],
+      ['Vencimento',d.vencimento||'—'],
+      ['Status','✅ Aguardando confirmação']
+    ].map(function(r){return '<div class="comp-row"><span class="l">'+r[0]+'</span><span class="r">'+r[1]+'</span></div>';}).join('');
+  }
+  var msg='Olá Rafael! 😊 Confirmei minha pré-reserva no Bairro Mararu.'
+    +(d.quadra?'\n\n📍 Lote: Q'+d.quadra+' / L'+d.lote:'')
+    +'\n👤 Nome: '+d.nome+'\n📱 WhatsApp: '+d.wpp+'\n📋 CPF: '+d.cpf
+    +(window._vencimentoExcedido?'\n\n⚠️ Vencimento acima de 40 dias — sujeito à confirmação presencial.':'')
+    +'\n\nAguardo confirmação! 🙏';
+  var wppUrl='https://wa.me/5593992332012?text='+encodeURIComponent(msg);
+  var wb=document.getElementById('btn-wpp-comp');if(wb)wb.href=wppUrl;
+  document.querySelectorAll('.etapa').forEach(function(e){e.classList.remove('on');});
+  var ec=document.getElementById('etapa-comp');if(ec)ec.classList.add('on');
+  var ov=document.getElementById('overlay-sucesso');
+  if(ov){ov.style.display='flex';setTimeout(function(){ov.style.display='none';window.open(wppUrl,'_blank');},3000);}
+  else{setTimeout(function(){window.open(wppUrl,'_blank');},3000);}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+async function finalizarSemPagamento(){
+}
 function irEtapa2Old(){}
 
-// stubs antigos que existem no HTML da etapa1-old:
 var _concordou=false;
 function toggleConcordo(){
   _concordou=!_concordou;
