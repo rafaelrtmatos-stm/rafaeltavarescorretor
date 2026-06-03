@@ -591,46 +591,44 @@ section#hero{z-index:0;overflow:hidden!important}
   </div>
 
 </section>
-<section id="mapa" style="background:var(--bg);padding:80px 24px 64px;border-bottom:1px solid var(--border);position:relative;overflow:hidden">
+<section id="mapa" style="background:var(--bg);padding:60px 0 0;border-bottom:1px solid var(--border);position:relative;overflow:hidden">
 
-  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(201,168,76,0.04) 0%,transparent 70%);pointer-events:none"></div>
-
-  <div style="max-width:720px;margin:0 auto;position:relative;z-index:2">
+  <div style="max-width:900px;margin:0 auto;padding:0 24px;position:relative;z-index:2">
 
     <!-- HEADER -->
-    <div style="text-align:center;margin-bottom:36px">
+    <div style="text-align:center;margin-bottom:28px">
       <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:600">Bairro Mararu</div>
       <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,48px);font-weight:700;color:var(--text);line-height:.95;letter-spacing:-2px;margin-bottom:12px">Mapa de <em style="font-style:italic;color:var(--gold)">Lotes</em></h2>
       <p style="font-size:13px;color:var(--text2);line-height:1.7;font-weight:300">Toque em um lote para ver detalhes e disponibilidade</p>
     </div>
 
-    <!-- ABAS -->
-    <div style="display:flex;gap:6px;margin-bottom:20px">
-      <button id="mapa-tab-mapa" onclick="mapaTab('mapa')" style="flex:1;padding:10px;border-radius:8px;border:1px solid var(--border2);background:var(--gold3);color:var(--gold);font-size:12px;font-family:inherit;cursor:pointer;font-weight:600;transition:all .2s;letter-spacing:.3px">🗺️ Mapa</button>
-      <button id="mapa-tab-lista" onclick="mapaTab('lista')" style="flex:1;padding:10px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text3);font-size:12px;font-family:inherit;cursor:pointer;font-weight:500;transition:all .2s;letter-spacing:.3px">☰ Lista</button>
-    </div>
-
-    <!-- PAINEL MAPA -->
-    <div id="mapa-panel-mapa">
-      <div id="mapa-interativo" style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px;min-height:220px;display:flex;align-items:center;justify-content:center">
-        <div style="text-align:center;color:var(--text3);font-size:13px">
-          <div style="font-size:28px;margin-bottom:8px">⏳</div>
-          Carregando mapa...
+    <!-- IFRAME MAPA RUMO AO MILHÃO -->
+    <div style="position:relative;width:100%;border-radius:14px;overflow:hidden;border:1px solid var(--border)">
+      <iframe
+        id="iframe-mapa-mararu"
+        src="https://rumoaomilhao.imb.br/mapa/1780067816277"
+        style="width:100%;height:600px;border:none;display:block"
+        loading="lazy"
+        allowfullscreen>
+      </iframe>
+      <!-- OVERLAY BLUR (controlado pelo Admin) -->
+      <div id="mapa-marca-dagua" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;z-index:10">
+        <div id="mapa-blur-layer" style="position:absolute;inset:0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);background:rgba(0,0,0,0.5)"></div>
+        <div style="position:relative;z-index:2;text-align:center">
+          <div id="mapa-marca-txt" style="font-family:'Cormorant Garamond',serif;font-size:clamp(28px,6vw,64px);font-weight:700;color:#fff;letter-spacing:4px;text-transform:uppercase;text-shadow:0 4px 24px rgba(0,0,0,0.6)">Em Breve</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:3px;text-transform:uppercase;margin-top:6px">Lançamento em breve</div>
+          <a href="reserva/" style="display:inline-flex;align-items:center;gap:8px;margin-top:20px;background:var(--gold);color:#000;padding:12px 24px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;letter-spacing:.3px">
+            🔥 Garantir minha vaga
+          </a>
         </div>
       </div>
-      <!-- LEGENDA -->
-      <div id="mapa-legenda" style="display:none;gap:16px;margin-top:12px;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px">
-        <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)"><div style="width:10px;height:10px;border-radius:50%;background:#22c55e;flex-shrink:0"></div>Disponível</div>
-        <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)"><div style="width:10px;height:10px;border-radius:50%;background:#f87171;flex-shrink:0"></div>Indisponível</div>
-        <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)"><div style="width:10px;height:10px;border-radius:50%;background:var(--gold);flex-shrink:0"></div>Selecionado</div>
-      </div>
     </div>
 
-    <!-- PAINEL LISTA -->
-    <div id="mapa-panel-lista" style="display:none">
-      <div id="mapa-lista-lotes" style="display:flex;flex-direction:column;gap:10px">
-        <div style="text-align:center;padding:40px;color:var(--text3);font-size:13px">⏳ Carregando lotes...</div>
-      </div>
+    <!-- LEGENDA -->
+    <div style="display:flex;gap:16px;margin-top:12px;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text3)"><div style="width:12px;height:12px;border-radius:50%;background:#3b82f6;flex-shrink:0"></div>Disponível</div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text3)"><div style="width:12px;height:12px;border-radius:50%;background:#eab308;flex-shrink:0"></div>Reservado</div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text3)"><div style="width:12px;height:12px;border-radius:50%;background:#ef4444;flex-shrink:0"></div>Vendido</div>
     </div>
 
   </div>
