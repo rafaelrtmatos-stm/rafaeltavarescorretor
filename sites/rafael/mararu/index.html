@@ -645,6 +645,7 @@ section#hero{z-index:0;overflow:hidden!important}
 </section>
 
 <script>
+var _pinScale=1;
 (function(){
   var SUPABASE_URL='https://uftxcwcryqpkfdfxzlno.supabase.co';
   var SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI';
@@ -684,7 +685,7 @@ section#hero{z-index:0;overflow:hidden!important}
         var key=p.quadra+'-'+p.lote;
         var info=lotesInfo[key]||{};
         var cor=corLote(info.status||'disponivel');
-        var sz=Math.max(6,Math.round((wrap.offsetWidth||320)*0.024));
+        var sz=Math.max(6,Math.round((wrap.offsetWidth||320)*0.024*_pinScale));
         html+='<div title="Q'+p.quadra+' L'+p.lote+'" style="position:absolute;left:'+p.xPercent+'%;top:'+p.yPercent+'%;transform:translate(-50%,-50%);width:'+sz+'px;height:'+sz+'px;pointer-events:none">';
         html+='<div style="width:100%;height:100%;border-radius:50%;background:'+cor+';border:2px solid rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:'+Math.max(5,Math.round(sz*0.44))+'px;font-weight:800;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.45)">'+p.lote+'</div>';
         html+='</div>';
@@ -728,6 +729,7 @@ section#hero{z-index:0;overflow:hidden!important}
     var lotesInfo=data.lotesInfo||{};
     var pontos=data.mapaPontos||[];
     var imgUrl=data.mapaImagemUrl||'';
+    _pinScale=(data.pinSize||100)/100;
     renderMapaVisual(lotesInfo,pontos,imgUrl);
   })
   .catch(function(){
@@ -1184,7 +1186,7 @@ function renderErro(){
 function calcCircleSize(){
   var el=document.getElementById('mapa-interativo');
   var w=(el&&(el.getBoundingClientRect().width||el.offsetWidth))||320;
-  return Math.max(6,Math.round(w*0.024));
+  return Math.max(6,Math.round(w*0.024*_pinScale));
 }
 
 function renderMapaInterativo(){

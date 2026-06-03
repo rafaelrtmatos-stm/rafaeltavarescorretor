@@ -752,6 +752,7 @@ var _lotesSel=null;
 var _mapaEmBreve=false;
 var _lotesInfo={};
 var _mapaPontos=[];
+var _pinScale=1;
 var _mapaImagemUrl='';
 
 // ── FORMATAÇÃO ──
@@ -847,7 +848,7 @@ function renderMapaClicavel(lotesInfo,pontos,imgUrl){
       var status=info.status||'disponivel';
       var cor=corLote(status);
       var isDisp=status==='disponivel';
-      var sz=Math.max(7,Math.round((wrap.offsetWidth||300)*0.026));
+      var sz=Math.max(7,Math.round((wrap.offsetWidth||300)*0.026*_pinScale));
       var cursor=isDisp?'pointer':'not-allowed';
       var opacity=isDisp?'1':'0.55';
       html+='<div data-lote-key="'+key+'" title="Q'+p.quadra+' L'+p.lote+(isDisp?'':' — '+status)+'"';
@@ -977,6 +978,7 @@ function showToast(msg){
     _lotesInfo=data.lotesInfo||{};
     _mapaPontos=data.mapaPontos||[];
     _mapaImagemUrl=data.mapaImagemUrl||'';
+    _pinScale=(data.pinSize||100)/100;
     var _md=data.lancamento?data.lancamento.marcaDagua:'normal';
     _mapaEmBreve=_md===true||_md==='em-breve'||_md==='fechado';
     if(_mapaEmBreve){
