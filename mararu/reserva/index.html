@@ -790,7 +790,10 @@ function irEtapa3(){
   var parEl=document.getElementById('r-parcelas');if(parEl)parEl.textContent=_loteSel?(_loteSel.parcelas?(_loteSel.parcelas+'x de '+_loteSel.vparcela):'A consultar'):'—';
   document.querySelectorAll('.etapa').forEach(function(e){e.classList.remove('on');});
   document.getElementById('etapa3').classList.add('on');
-  setStep(3);window.scrollTo({top:0,behavior:'smooth'});
+  setStep(3);
+  // Aplicar estado do mapa na etapa 3 também
+  aplicarEstadoMapa(_mapaBorrado);
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 // ── MAPA DE LOTES ──
