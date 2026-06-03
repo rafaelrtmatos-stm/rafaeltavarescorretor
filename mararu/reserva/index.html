@@ -268,13 +268,13 @@ iframe[src*="gso.kommo"] {
           <div class="hint" id="h-nasc"></div>
         </div>
         <div class="f">
-          <label>Telefone Principal (WhatsApp) *</label>
+          <label>Telefone para Contato 01 *</label>
           <input type="tel" id="f-wpp" placeholder="(93) 99999-9999" maxlength="15" oninput="mascaraTel(this)" onblur="validarTel('f-wpp','h-wpp')">
           <div class="hint" id="h-wpp"></div>
         </div>
 
         <div class="f">
-          <label>Telefone Secundário</label>
+          <label>Telefone para Contato 02</label>
           <input type="tel" id="f-tel2" placeholder="(93) 99999-9999" maxlength="15" oninput="mascaraTel(this)" onblur="validarTel('f-tel2','h-tel2')">
           <div class="hint" id="h-tel2"></div>
         </div>
@@ -1279,10 +1279,17 @@ function showToast(msg){
   t.textContent=msg;t.classList.add('show');
   setTimeout(function(){t.classList.remove('show');},3000);
 }
-// Data mínima vencimento = amanhã
+// Data vencimento: mínima = amanhã, padrão = 30 dias
 (function(){
   var el=document.getElementById('f-vencimento');
-  if(el){var a=new Date();a.setDate(a.getDate()+1);el.min=a.toISOString().split('T')[0];}
+  if(el){
+    var amanha=new Date();amanha.setDate(amanha.getDate()+1);
+    el.min=amanha.toISOString().split('T')[0];
+    // Preencher com 30 dias por padrão
+    var d30=new Date();d30.setDate(d30.getDate()+30);
+    el.value=d30.toISOString().split('T')[0];
+    validarVencimento();
+  }
 })();
 </script>
 <!-- ═══ FIM MENU ═══ -->
