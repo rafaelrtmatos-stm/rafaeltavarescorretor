@@ -668,6 +668,25 @@ function setStep(n){
   });
 }
 
+var _concordou=false;
+function toggleConcordo(){
+  _concordou=!_concordou;
+  var box=document.getElementById('chk-box-concordo');
+  var bloco=document.getElementById('bloco-concordo');
+  var overlay=document.getElementById('overlay-lock');
+  var btn=document.getElementById('btn-continuar');
+  if(_concordou){
+    if(box){box.style.background='#C9A84C';box.style.borderColor='#C9A84C';box.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';}
+    if(bloco){bloco.style.borderColor='rgba(201,168,76,0.7)';bloco.style.background='rgba(201,168,76,0.1)';}
+    if(overlay)overlay.style.display='none';
+    if(btn)btn.disabled=false;
+  }else{
+    if(box){box.style.background='transparent';box.style.borderColor='rgba(201,168,76,0.5)';box.innerHTML='';}
+    if(bloco){bloco.style.borderColor='rgba(201,168,76,0.28)';bloco.style.background='rgba(201,168,76,0.06)';}
+    if(overlay)overlay.style.display='flex';
+    if(btn)btn.disabled=true;
+  }
+}
 function irEtapa1(){
   document.querySelectorAll('.etapa').forEach(function(e){e.classList.remove('on');});
   document.getElementById('etapa1').classList.add('on');
