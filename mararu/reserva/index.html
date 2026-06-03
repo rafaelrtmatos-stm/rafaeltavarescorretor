@@ -333,8 +333,8 @@ iframe[src*="gso.kommo"] {
         </select>
       </div>
 
-      <!-- Upload principal (frente) -->
-      <div class="f" style="margin-bottom:14px">
+      <!-- Upload principal (frente) — aparece só após escolher tipo -->
+      <div class="f" id="bloco-upload-frente" style="display:none;margin-bottom:14px">
         <label id="label-frente">Frente do RG *</label>
         <label style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:2px dashed var(--border);border-radius:12px;padding:24px;cursor:pointer;transition:border .2s;margin-top:6px;text-align:center" id="area-frente">
           <input type="file" id="inp-frente" accept="image/*,application/pdf" style="display:none" onchange="handleFrentePrincipal(this)">
@@ -1065,6 +1065,8 @@ function selecionarDoc(tipo){
   var tf=document.getElementById('txt-frente');if(tf)tf.textContent='Toque para enviar foto ou PDF';
   var ic=document.getElementById('ico-frente');if(ic)ic.textContent='📎';
   var lf=document.getElementById('label-frente');if(lf)lf.textContent=tipo==='rg'?'Frente do RG *':'CNH *';
+  // Mostrar bloco de upload após escolher o tipo
+  var bf=document.getElementById('bloco-upload-frente');if(bf)bf.style.display='block';
   var bn=document.getElementById('btn-continuar');if(bn)bn.disabled=true;
   // Estilo abas
   var tr=document.getElementById('tab-rg');var tc=document.getElementById('tab-doc-cnh')||document.getElementById('tab-cnh');
