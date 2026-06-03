@@ -1965,11 +1965,21 @@ fetch('/site_data.json?_='+Date.now())
     // Tamanho bolinhas mapa de lotes
     if(d.pinSize){
       var ps=d.pinSize/100;
-      document.querySelectorAll('.bolinha-lote').forEach(function(b){
-        var base=parseInt(b.getAttribute('data-base')||'12');
-        b.style.width=Math.round(base*ps)+'px';
-        b.style.height=Math.round(base*ps)+'px';
+      // Aplicar nas bolinhas do mapa de lotes
+      document.querySelectorAll('.bolinha-lote,.lote-pin,.pin-lote,[class*="lote-circle"],[class*="circle-lote"]').forEach(function(b){
+        var base=parseInt(b.getAttribute('data-base')||b.getAttribute('data-size')||'14');
+        var novoTamanho=Math.round(base*ps)+'px';
+        b.style.width=novoTamanho;
+        b.style.height=novoTamanho;
       });
+      // Salvar no CSS root para componentes que usam variável
+      document.documentElement.style.setProperty('--pin-scale', ps);
+      // Aplicar também via CSS no mapa de lotes
+      var styleEl=document.getElementById('pin-size-style');
+      if(!styleEl){styleEl=document.createElement('style');styleEl.id='pin-size-style';document.head.appendChild(styleEl);}
+      styleEl.textContent=
+        '.lote-bolinha,.bolinha,.pin,.circle-lote,.lote-circle{transform:scale('+ps+') !important;transform-origin:center !important;}'+
+        '[class*="lote"],[class*="pin"],[class*="bolinha"]{--ps:'+ps+';}';
     }
     // Galeria de fotos do Mararu com proporção A4
     var grid=document.getElementById('gal-fotos-grid');
