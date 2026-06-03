@@ -284,12 +284,21 @@ iframe[src*="gso.kommo"] {
         <input type="tel" id="f-wpp" placeholder="(93) 99999-9999" maxlength="15" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 14px;font-size:14px;color:var(--text);font-family:inherit;outline:none;width:100%;transition:border-color .2s" oninput="mascaraTel(this)">
       </div>
 
+      <!-- Campo de lote de interesse (visível apenas quando mapa está com blur/fechado) -->
+      <div id="lote-interesse-wrap" style="display:none;margin-top:14px">
+        <div class="f">
+          <label>Lote de interesse <span style="color:var(--text3);font-weight:400">(opcional)</span></label>
+          <input type="text" id="f-lote-interesse" placeholder="Ex: Quadra 2 Lote 15" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 14px;font-size:14px;color:var(--text);font-family:inherit;outline:none;width:100%;transition:border-color .2s">
+        </div>
+        <div style="font-size:11px;color:var(--text3);margin-top:6px;line-height:1.5">Se você já tem um lote em mente, informe aqui. Caso contrário, o Rafael entrará em contato para indicar as opções disponíveis.</div>
+      </div>
+
     </div>
     <button class="btn-primary" onclick="irEtapa3()" style="margin-top:4px">
       Revisar e Confirmar
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </button>
-    <button class="btn-secondary" onclick="irEtapa1()" style="margin-top:10px">← Voltar ao mapa</button>
+    <button class="btn-secondary" id="btn-voltar-mapa" onclick="irEtapa1()" style="margin-top:10px">← Voltar ao mapa</button>
   </div>
 
   <!-- ══════════ ETAPA 2 original (mantida, oculta por compatibilidade) ══════════ -->
@@ -885,12 +894,15 @@ function confirmarReserva(){
   if(!nome||!tel){showToast('Dados incompletos');return;}
   if(btn){btn.disabled=true;btn.textContent='Enviando...';}
 
+  var loteInteresse=(document.getElementById('f-lote-interesse')||{}).value;
+  if(loteInteresse)loteInteresse=loteInteresse.trim();
   var payload={
     empreendimento:'Bairro Mararu',
     empreendimento_id:MARARU_EMP_ID,
     quadra:_lotesSel?_lotesSel.quadra:null,
     lote:_lotesSel?_lotesSel.lote:null,
-    lote_key:_lotesSel?_lotesSel.key:'sem-selecao',
+    lote_key:_lotesSel?_lotesSel.key:(loteInteresse||'sem-selecao'),
+    lote_interesse:loteInteresse||null,
     nome:nome,
     telefone:tel,
     status:'pre-reserva',
@@ -958,21 +970,15 @@ function showToast(msg){
     _mapaImagemUrl=data.mapaImagemUrl||'';
     var _md=data.lancamento?data.lancamento.marcaDagua:'normal';
     _mapaEmBreve=_md===true||_md==='em-breve'||_md==='fechado';
-    var _mapaFechado=_md==='fechado';
-    if(_mapaFechado){
-      // Pular etapa 1 completamente — ir direto ao formulário
+    if(_mapaEmBreve){
+      // Mapa com blur ou fechado → pular etapa 1, ir direto ao formulário
       var resumoEl=document.getElementById('res-lote-resumo');
       if(resumoEl)resumoEl.style.display='none';
-      var resumoTxt=document.getElementById('resumo-lote-txt');
-      if(resumoTxt)resumoTxt.textContent='A definir no lançamento';
-      showEtapa('etapa2-dados');setStep(2);
-    } else if(_mapaEmBreve){
-      var wrap2=document.getElementById('res-mapa-wrap');
-      if(wrap2){
-        wrap2.innerHTML='<div style="height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><div style="font-family:\'Cormorant Garamond\',serif;font-size:36px;font-weight:700;color:var(--gold);letter-spacing:5px;text-transform:uppercase">Em Breve</div><div style="font-size:11px;color:var(--text3);letter-spacing:2px;text-transform:uppercase">Mapa disponível no lançamento</div></div>';
-      }
-      var btnE2=document.getElementById('btn-ir-etapa2');
-      if(btnE2){btnE2.disabled=false;btnE2.innerHTML='Garantir posição na fila <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';}
+      var loteInteresseWrap=document.getElementById('lote-interesse-wrap');
+      if(loteInteresseWrap)loteInteresseWrap.style.display='block';
+      var btnVoltarMapa=document.getElementById('btn-voltar-mapa');
+      if(btnVoltarMapa)btnVoltarMapa.style.display='none';
+      showEtapa('etapa2-dados');setStep(1);
     } else {
       renderMapaClicavel(_lotesInfo,_mapaPontos,_mapaImagemUrl);
     }
