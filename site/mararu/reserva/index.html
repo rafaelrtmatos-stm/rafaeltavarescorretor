@@ -2001,7 +2001,7 @@ function irEtapa3(){
 
 // ── MAPA CLICÁVEL ──
 function corLote(status){
-  if(status==='disponivel')return'#22c55e';
+  if(status==='disponivel')return'#2563eb';
   if(status==='reservado'||status==='pre-reserva')return'#eab308';
   return'#f87171';
 }
@@ -2038,7 +2038,7 @@ function renderMapaClicavel(lotesInfo,pontos,imgUrl){
       var sz=Math.max(12,Math.round((wrap.offsetWidth||300)*0.042));
       var cursor=isDisp?'pointer':'not-allowed';
       var opacity=isDisp?'1':'0.55';
-      html+='<div data-lote-key="'+key+'" title="Q'+p.quadra+' L'+p.lote+(isDisp?'',' — '+status)+'"';
+      html+='<div data-lote-key="'+key+'" title="Q'+p.quadra+' L'+p.lote+(isDisp?'':' — '+status)+'"';
       html+=' style="position:absolute;left:'+p.xPercent+'%;top:'+p.yPercent+'%;transform:translate(-50%,-50%);width:'+sz+'px;height:'+sz+'px;cursor:'+cursor+';opacity:'+opacity+';transition:transform .18s,box-shadow .18s;border-radius:50%;z-index:1"';
       if(isDisp)html+=' onclick="selecionarLoteUI(\''+key+'\','+JSON.stringify(info)+')"';
       html+='>';
