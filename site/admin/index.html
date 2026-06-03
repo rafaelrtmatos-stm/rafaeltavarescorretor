@@ -1353,7 +1353,8 @@ function dropItem(e){
 var statusLbl={lancamento:'🔥 Lançamento',disponivel:'✅ Disponível',breve:'🕐 Em breve',vendido:'✓ Encerrado'};
 function renderEmpr(){
   var empr=getEmpr();
-  var list=document.getElementById('elist');
+  var list=document.getElementById('lista-emprs')||document.getElementById('elist');
+  if(!list)return;
   if(!empr.length){list.innerHTML='<p style="font-size:13px;color:var(--text3);text-align:center;padding:20px">Nenhum empreendimento cadastrado</p>';return;}
   list.innerHTML=empr.map(function(e,i){
     return '<div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:13px 14px;gap:10px">'
@@ -1980,6 +1981,25 @@ function prevMararuFoto(){
   if(!prev)return;
   if(url){prev.innerHTML='<img src="'+url+'" style="width:100%;height:100%;object-fit:cover">';}
   else{prev.innerHTML='<span style="font-size:11px;color:var(--text3)">Sem foto</span>';}
+}
+
+// ── UPLOAD DE FOTO VIA SUPABASE STORAGE ──
+var _SUPA_URL_ADM='https://uftxcwcryqpkfdfxzlno.supabase.co';
+var _SUPA_KEY_ADM='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI';
+
+async function uploadFotoGitHub(file, caminho){
+  var r=await fetch(_SUPA_URL_ADM+'/storage/v1/object/fotos-site/'+caminho,{
+    method:'POST',
+    headers:{
+      'apikey':_SUPA_KEY_ADM,
+      'Authorization':'Bearer '+_SUPA_KEY_ADM,
+      'Content-Type':file.type||'application/octet-stream',
+      'x-upsert':'true'
+    },
+    body:file
+  });
+  if(!r.ok){var t=await r.text();throw new Error('Upload falhou ('+r.status+'): '+t);}
+  return _SUPA_URL_ADM+'/storage/v1/object/public/fotos-site/'+caminho;
 }
 
 async function uploadFotoMararuPrincipal(file){
