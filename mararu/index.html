@@ -1835,5 +1835,24 @@ fetch('/site_data.json?_='+Date.now())
   }).catch(function(){});
 </script>
 
+
+<script>
+// ── IDENTIFICAÇÃO DE RESERVA NO MAPA ──
+(function(){
+  try{
+    var reserva=JSON.parse(localStorage.getItem('mararu_reserva')||'null');
+    if(!reserva)return;
+    if(Date.now()-reserva.ts>30*24*60*60*1000){localStorage.removeItem('mararu_reserva');return;}
+    var iframe=document.getElementById('iframe-mapa-mararu');
+    if(!iframe)return;
+    var container=iframe.parentElement;
+    if(!container)return;
+    var banner=document.createElement('div');
+    banner.style.cssText='position:absolute;bottom:16px;left:50%;transform:translateX(-50%);background:rgba(201,168,76,0.95);color:#000;padding:10px 18px;border-radius:10px;font-size:12px;font-weight:700;z-index:20;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,0.4);pointer-events:none';
+    banner.innerHTML='⭐ Sua pré-reserva: Q'+reserva.quadra+' L'+reserva.lote+' · Aguardando confirmação';
+    container.appendChild(banner);
+  }catch(e){}
+})();
+</script>
 </body>
 </html>
