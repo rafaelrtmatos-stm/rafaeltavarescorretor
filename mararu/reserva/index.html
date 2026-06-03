@@ -745,6 +745,13 @@ function aplicarEstadoMapa(borrado){
 
 function irEtapa3(){
   if(!_loteSel&&!_mapaBorrado){showToast('⚠️ Selecione um lote no mapa');return;}
+  // Preencher vencimento padrão 30 dias
+  var vencEl=document.getElementById('f-vencimento');
+  if(vencEl&&!vencEl.value){
+    var d30=new Date();d30.setDate(d30.getDate()+30);
+    vencEl.value=d30.toISOString().split('T')[0];
+    validarVencimento();
+  }
   if(typeof calcularVencimento==='function')calcularVencimento();
   var nomeEl=document.getElementById('r-nome');if(nomeEl)nomeEl.textContent=document.getElementById('f-nome').value.trim();
   var loteEl=document.getElementById('r-lote');if(loteEl)loteEl.textContent=_loteSel?('Quadra '+_loteSel.quadra+' / Lote '+_loteSel.lote):'A definir no lançamento';
@@ -999,11 +1006,14 @@ function mostrarComprovante(){
     ].map(function(r){return '<div class="comp-row"><span class="l">'+r[0]+'</span><span class="r">'+r[1]+'</span></div>';}).join('');
   }
   // Montar WhatsApp
+  var vencStr=d.vencimento?new Date(d.vencimento+'T00:00:00').toLocaleDateString('pt-BR'):'';
   var msg='Olá Rafael! 😊 Confirmei minha pré-reserva no site do Bairro Mararu.'
     +(_loteSel?'\n\n📍 *Lote:* Q'+_loteSel.quadra+' / L'+_loteSel.lote:'')
     +'\n👤 *Nome:* '+d.nome
     +'\n📱 *WhatsApp:* '+d.wpp
     +'\n📋 *CPF:* '+d.cpf
+    +(vencStr?'\n📅 *Vencimento:* '+vencStr:'')
+    +(window._vencimentoExcedido?'\n\n⚠️ *Atenção:* Vencimento superior a 40 dias. Sujeito à confirmação e aprovação presencial no escritório.':'')
     +'\n\nAguardo a confirmação! 🙏';
   var wppUrl='https://wa.me/5593992332012?text='+encodeURIComponent(msg);
   var wb=document.getElementById('btn-wpp-comp');if(wb)wb.href=wppUrl;
@@ -1202,9 +1212,26 @@ function validarVencimento(){
   var hoje=new Date();hoje.setHours(0,0,0,0);
   var escolhida=new Date(el.value+'T00:00:00');
   var diff=Math.round((escolhida-hoje)/(1000*60*60*24));
-  if(diff<1){el.className='inp err';if(h){h.textContent='Data inválida';h.className='hint err';}if(av)av.style.display='none';if(bn)bn.disabled=true;return;}
-  el.className='inp ok';if(h){h.textContent='✓ '+diff+' dias';h.className='hint ok';}
-  if(av)av.style.display=diff>40?'block':'none';
+  if(diff<1){
+    el.className='inp err';
+    if(h){h.textContent='Data inválida — escolha uma data futura';h.className='hint err';}
+    if(av)av.style.display='none';
+    if(bn)bn.disabled=true;
+    window._vencimentoExcedido=false;
+    return;
+  }
+  el.className='inp ok';
+  if(h){h.textContent='✓ '+diff+' dias corridos';h.className='hint ok';}
+  if(diff>40){
+    window._vencimentoExcedido=true;
+    if(av){
+      av.innerHTML='⚠️ <strong>Vencimento acima de 40 dias.</strong> Esta condição é sujeita à confirmação e aprovação presencial no escritório. Você pode continuar normalmente.';
+      av.style.display='block';
+    }
+  } else {
+    window._vencimentoExcedido=false;
+    if(av)av.style.display='none';
+  }
   if(bn)bn.disabled=false;
 }
 function calcularVencimento(){
