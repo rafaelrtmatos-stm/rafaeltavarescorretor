@@ -2,9 +2,6 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<script>
-(function(){var _s={};try{localStorage.getItem('__t');}catch(e){window.localStorage={getItem:function(k){return _s[k]||null;},setItem:function(k,v){_s[k]=String(v);},removeItem:function(k){delete _s[k];},clear:function(){_s={};}};}})();
-</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Rafael Tavares — Corretor de Imóveis | Santarém, PA</title>
 <link rel="icon" type="image/x-icon" href="../favicon.ico">
@@ -1564,7 +1561,7 @@ function galTab(el,panel){
 <span id="admin-trigger" style="display:none" onclick="document.getElementById('modal-admin').style.display='flex'"></span>
 
 <script>
-function getSenha(){return localStorage.getItem('admin_senha_rt')||'Geper3tp@';}
+function getSenha(){try{return localStorage.getItem('admin_senha_rt')||'Geper3tp@';}catch(e){return 'Geper3tp@';}}
 function loginAdmin(){
   if(document.getElementById('admin-senha').value===getSenha()){
     window.location.href='admin/';

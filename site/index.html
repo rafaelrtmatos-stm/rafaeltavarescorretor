@@ -2,9 +2,6 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<script>
-(function(){var _s={};try{localStorage.getItem('__t');}catch(e){window.localStorage={getItem:function(k){return _s[k]||null;},setItem:function(k,v){_s[k]=String(v);},removeItem:function(k){delete _s[k];},clear:function(){_s={};}};}})();
-</script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Rafael Tavares — Corretor de Imóveis | Santarém, PA</title>
@@ -610,13 +607,13 @@ section#hero{z-index:0;overflow:hidden!important}
     // Carregar data do lançamento do servidor
     fetch('/site_data.json?_='+Date.now()).then(function(r){return r.json();}).then(function(d){
       if(d && d.lancamento && d.lancamento.data_lancamento){
-        localStorage.setItem('mararu_lancamento_data', d.lancamento.data_lancamento);
+        try{localStorage.setItem('mararu_lancamento_data', d.lancamento.data_lancamento);}catch(e){}
       }
     }).catch(function(){});
     var KEY='mararu_lancamento_data';
       var DEFAULT_DATE='2026-06-06T08:00:00'; // próximo sábado de referência
       function getTarget(){
-        return new Date(localStorage.getItem(KEY)||DEFAULT_DATE);
+        try{return new Date(localStorage.getItem(KEY)||DEFAULT_DATE);}catch(e){return new Date(DEFAULT_DATE);}
       }
       function pad(n){return String(n).padStart(2,'0');}
       function tick(){
@@ -2159,7 +2156,7 @@ function galTab(el,panel){
 <span id="admin-trigger" style="display:none" onclick="document.getElementById('modal-admin').style.display='flex'"></span>
 
 <script>
-function getSenha(){return localStorage.getItem('admin_senha_rt')||'Geper3tp@';}
+function getSenha(){try{return localStorage.getItem('admin_senha_rt')||'Geper3tp@';}catch(e){return 'Geper3tp@';}}
 function loginAdmin(){
   if(document.getElementById('admin-senha').value===getSenha()){
     window.location.href='admin/';
