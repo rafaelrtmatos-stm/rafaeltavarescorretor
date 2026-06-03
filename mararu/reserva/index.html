@@ -1165,6 +1165,14 @@ function showToast(msg){
 
 // ── STUB PARA COMPATIBILIDADE (funções do script antigo remanescentes no HTML não usado) ──
 function buscarCEP(){}
+function cpfValido(cpf){
+  var n=cpf.replace(/\D/g,'');
+  if(n.length!==11||/^(\d)+$/.test(n))return false;
+  var s=0;for(var i=0;i<9;i++)s+=parseInt(n[i])*(10-i);
+  var r=(s*10)%11;if(r===10||r===11)r=0;if(r!==parseInt(n[9]))return false;
+  s=0;for(var i=0;i<10;i++)s+=parseInt(n[i])*(11-i);
+  r=(s*10)%11;if(r===10||r===11)r=0;return r===parseInt(n[10]);
+}
 function validarCPF(){}
 function validarNasc(){}
 function validarTel(){}
