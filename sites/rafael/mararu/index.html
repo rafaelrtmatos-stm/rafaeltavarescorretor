@@ -1133,14 +1133,14 @@ function fmtDec(n){return n?'R$ '+Number(n).toLocaleString('pt-BR',{minimumFract
 
 window.mapaTab=function(tab){
   var isMapa=tab==='mapa';
-  document.getElementById('mapa-panel-mapa').style.display=isMapa?'block':'none';
-  document.getElementById('mapa-panel-lista').style.display=isMapa?'none':'block';
-  document.getElementById('mapa-tab-mapa').style.background=isMapa?'var(--gold3)':'transparent';
-  document.getElementById('mapa-tab-mapa').style.color=isMapa?'var(--gold)':'var(--text3)';
-  document.getElementById('mapa-tab-mapa').style.borderColor=isMapa?'var(--border2)':'var(--border)';
-  document.getElementById('mapa-tab-lista').style.background=!isMapa?'var(--gold3)':'transparent';
-  document.getElementById('mapa-tab-lista').style.color=!isMapa?'var(--gold)':'var(--text3)';
-  document.getElementById('mapa-tab-lista').style.borderColor=!isMapa?'var(--border2)':'var(--border)';
+  var pm=document.getElementById('mapa-panel-mapa');
+  var pl=document.getElementById('mapa-panel-lista');
+  var tm=document.getElementById('mapa-tab-mapa');
+  var tl=document.getElementById('mapa-tab-lista');
+  if(pm)pm.style.display=isMapa?'block':'none';
+  if(pl)pl.style.display=isMapa?'none':'block';
+  if(tm){tm.style.background=isMapa?'var(--gold3)':'transparent';tm.style.color=isMapa?'var(--gold)':'var(--text3)';tm.style.borderColor=isMapa?'var(--border2)':'var(--border)';}
+  if(tl){tl.style.background=!isMapa?'var(--gold3)':'transparent';tl.style.color=!isMapa?'var(--gold)':'var(--text3)';tl.style.borderColor=!isMapa?'var(--border2)':'var(--border)';}
 };
 
 function carregarMapa(){
@@ -1172,8 +1172,13 @@ function carregarMapa(){
 }
 
 function renderErro(){
-  document.getElementById('mapa-interativo').innerHTML='<div style="text-align:center;padding:40px;color:var(--text3);font-size:13px">Não foi possível carregar o mapa. Verifique sua conexão.</div>';
-  document.getElementById('mapa-lista-lotes').innerHTML='<div style="text-align:center;padding:40px;color:var(--text3);font-size:13px">Não foi possível carregar os lotes.</div>';
+  var mi=document.getElementById('mapa-interativo');
+  var ml=document.getElementById('mapa-lista-lotes');
+  var mw=document.getElementById('mapa-vis-wrap');
+  var msg='<div style="text-align:center;padding:40px;color:var(--text3);font-size:13px">Não foi possível carregar o mapa. Verifique sua conexão.</div>';
+  if(mi)mi.innerHTML=msg;
+  if(ml)ml.innerHTML='<div style="text-align:center;padding:40px;color:var(--text3);font-size:13px">Não foi possível carregar os lotes.</div>';
+  if(mw&&!mi)mw.innerHTML=msg;
 }
 
 function calcCircleSize(){
@@ -1183,8 +1188,9 @@ function calcCircleSize(){
 }
 
 function renderMapaInterativo(){
-  var el=document.getElementById('mapa-interativo');
+  var el=document.getElementById('mapa-interativo')||document.getElementById('mapa-vis-wrap');
   var leg=document.getElementById('mapa-legenda');
+  if(!el)return;
   if(!_imgUrl||!_pontos.length){
     renderGradeEsquematica();
     return;
@@ -1212,7 +1218,7 @@ function renderMapaInterativo(){
   el.style.padding='0';
   el.style.display='block';
   el.style.overflow='hidden';
-  leg.style.display='flex';
+  if(leg)leg.style.display='flex';
   setTimeout(initMapaZoom, 60);
 }
 
@@ -1301,7 +1307,8 @@ function initMapaZoom(){
 }
 
 function renderGradeEsquematica(){
-  var el=document.getElementById('mapa-interativo');
+  var el=document.getElementById('mapa-interativo')||document.getElementById('mapa-vis-wrap');
+  if(!el)return;
   var grupos={};
   _lotes.forEach(function(l){if(!grupos[l.quadra])grupos[l.quadra]=[];grupos[l.quadra].push(l);});
   var html='<div>';
@@ -1324,6 +1331,7 @@ function renderGradeEsquematica(){
 
 function renderListaLotes(){
   var el=document.getElementById('mapa-lista-lotes');
+  if(!el)return;
   el.innerHTML=_lotes.map(function(l){
     var click=l.disponivel?'onclick="window._mapaAbrirLote(\''+l.id+'\')"':'';
     return '<div '+click+' style="background:var(--bg2);border:2px solid '+(l.disponivel?'var(--border)':'rgba(248,113,113,0.2)')+';border-radius:12px;padding:14px;cursor:'+(l.disponivel?'pointer':'default')+';transition:all .2s;opacity:'+(l.disponivel?'1':'.55')+'" onmouseover="if('+(l.disponivel?'true':'false')+')this.style.borderColor=\'var(--border2)\'" onmouseout="this.style.borderColor=\''+(l.disponivel?'var(--border)':'rgba(248,113,113,0.2)')+'\'">'
