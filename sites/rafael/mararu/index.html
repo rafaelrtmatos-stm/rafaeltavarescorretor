@@ -604,8 +604,8 @@ section#hero{z-index:0;overflow:hidden!important}
 
     <!-- STATS DINÂMICOS -->
     <div id="mapa-stats" style="display:none;gap:12px;margin-bottom:20px;grid-template-columns:repeat(3,1fr)">
-      <div style="background:var(--bg2);border:1px solid rgba(34,197,94,0.2);border-radius:10px;padding:14px;text-align:center">
-        <div id="stat-disp" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:#22c55e">—</div>
+      <div style="background:var(--bg2);border:1px solid rgba(59,130,246,0.2);border-radius:10px;padding:14px;text-align:center">
+        <div id="stat-disp" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:#3b82f6">—</div>
         <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-top:2px">Disponíveis</div>
       </div>
       <div style="background:var(--bg2);border:1px solid rgba(234,179,8,0.2);border-radius:10px;padding:14px;text-align:center">
@@ -625,7 +625,7 @@ section#hero{z-index:0;overflow:hidden!important}
 
     <!-- LEGENDA -->
     <div style="display:flex;gap:16px;margin-top:12px;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;flex-wrap:wrap">
-      <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text3)"><div style="width:12px;height:12px;border-radius:50%;background:#22c55e;flex-shrink:0"></div>Disponível</div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text3)"><div style="width:12px;height:12px;border-radius:50%;background:#3b82f6;flex-shrink:0"></div>Disponível</div>
       <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text3)"><div style="width:12px;height:12px;border-radius:50%;background:#eab308;flex-shrink:0"></div>Reservado</div>
       <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text3)"><div style="width:12px;height:12px;border-radius:50%;background:#f87171;flex-shrink:0"></div>Vendido/Indisponível</div>
     </div>
@@ -651,7 +651,7 @@ section#hero{z-index:0;overflow:hidden!important}
   var MARARU_ID='1780067816277';
 
   function corLote(status){
-    if(status==='disponivel')return'#22c55e';
+    if(status==='disponivel')return'#3b82f6';
     if(status==='reservado'||status==='pre-reserva')return'#eab308';
     return'#f87171';
   }
@@ -684,7 +684,7 @@ section#hero{z-index:0;overflow:hidden!important}
         var key=p.quadra+'-'+p.lote;
         var info=lotesInfo[key]||{};
         var cor=corLote(info.status||'disponivel');
-        var sz=Math.max(10,Math.round((wrap.offsetWidth||320)*0.038));
+        var sz=Math.max(6,Math.round((wrap.offsetWidth||320)*0.024));
         html+='<div title="Q'+p.quadra+' L'+p.lote+'" style="position:absolute;left:'+p.xPercent+'%;top:'+p.yPercent+'%;transform:translate(-50%,-50%);width:'+sz+'px;height:'+sz+'px;pointer-events:none">';
         html+='<div style="width:100%;height:100%;border-radius:50%;background:'+cor+';border:2px solid rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:'+Math.max(5,Math.round(sz*0.44))+'px;font-weight:800;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.45)">'+p.lote+'</div>';
         html+='</div>';
@@ -706,7 +706,7 @@ section#hero{z-index:0;overflow:hidden!important}
         html2+='<div style="display:flex;flex-wrap:wrap;gap:8px">';
         grupos[q].sort(function(a,b){return+a.lote-+b.lote;}).forEach(function(l){
           var cor=corLote(l.status);
-          html2+='<div title="Q'+q+' L'+l.lote+'" style="width:50px;height:50px;border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px solid '+cor.replace(')',',0.35)').replace('rgb','rgba')+';background:'+cor.replace(')',',0.1)').replace('rgb','rgba')+';pointer-events:none;opacity:'+(l.status==='disponivel'?'1':'0.6')+'">';
+          html2+='<div title="Q'+q+' L'+l.lote+'" style="width:34px;height:34px;border-radius:7px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px solid '+cor.replace(')',',0.35)').replace('rgb','rgba')+';background:'+cor.replace(')',',0.1)').replace('rgb','rgba')+';pointer-events:none;opacity:'+(l.status==='disponivel'?'1':'0.6')+'">';
           html2+='<div style="font-size:14px;font-weight:800;color:var(--text)">'+l.lote+'</div>';
           html2+='<div style="width:6px;height:6px;border-radius:50%;margin-top:4px;background:'+cor+'"></div>';
           html2+='</div>';
@@ -1184,7 +1184,7 @@ function renderErro(){
 function calcCircleSize(){
   var el=document.getElementById('mapa-interativo');
   var w=(el&&(el.getBoundingClientRect().width||el.offsetWidth))||320;
-  return Math.max(8,Math.round(w*0.038));
+  return Math.max(6,Math.round(w*0.024));
 }
 
 function renderMapaInterativo(){
@@ -1206,7 +1206,7 @@ function renderMapaInterativo(){
     var key=p.quadra+'-'+p.lote;
     var lot=lookup[key];
     var disp=lot?lot.disponivel:(p.status==='disponivel');
-    var cor=disp?'#22c55e':'#f87171';
+    var cor=disp?'#3b82f6':'#f87171';
     var cur=disp?'pointer':'not-allowed';
     var click=disp?'onclick="window._mapaAbrirLote(\''+key+'\')"':'';
     html+='<div '+click+' title="Q'+p.quadra+' L'+p.lote+(disp?'':' — Indisponível')+'" style="position:absolute;left:'+p.xPercent+'%;top:'+p.yPercent+'%;transform:translate(-50%,-50%);width:'+cSize+'px;height:'+cSize+'px;cursor:'+cur+';z-index:10;pointer-events:auto;transition:transform .15s" id="mponto-'+key+'">';
@@ -1318,9 +1318,9 @@ function renderGradeEsquematica(){
     grupos[q].forEach(function(l){
       var cls=l.disponivel?'disp':'ocup';
       var click=l.disponivel?'onclick="window._mapaAbrirLote(\''+l.id+'\')"':'';
-      html+='<div '+click+' id="mponto-'+l.id+'" style="width:54px;height:54px;border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px solid '+(l.disponivel?'rgba(34,197,94,0.35)':'rgba(248,113,113,0.2)')+';background:'+(l.disponivel?'rgba(34,197,94,0.1)':'rgba(248,113,113,0.06)')+';cursor:'+(l.disponivel?'pointer':'default')+';opacity:'+(l.disponivel?'1':'0.5')+';transition:all .18s">';
+      html+='<div '+click+' id="mponto-'+l.id+'" style="width:36px;height:36px;border-radius:7px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px solid '+(l.disponivel?'rgba(59,130,246,0.35)':'rgba(248,113,113,0.2)')+';background:'+(l.disponivel?'rgba(59,130,246,0.1)':'rgba(248,113,113,0.06)')+';cursor:'+(l.disponivel?'pointer':'default')+';opacity:'+(l.disponivel?'1':'0.5')+';transition:all .18s">';
       html+='<div style="font-size:14px;font-weight:800;color:var(--text);line-height:1">'+l.lote+'</div>';
-      html+='<div style="width:6px;height:6px;border-radius:50%;margin-top:5px;background:'+(l.disponivel?'#22c55e':'#f87171')+'"></div>';
+      html+='<div style="width:6px;height:6px;border-radius:50%;margin-top:5px;background:'+(l.disponivel?'#3b82f6':'#f87171')+'"></div>';
       html+='</div>';
     });
     html+='</div></div>';
@@ -1355,7 +1355,7 @@ window._mapaAbrirLote=function(key){
   _pontos.forEach(function(p){
     var k=p.quadra+'-'+p.lote;
     var pi=document.getElementById('mpi-'+k);
-    if(pi){pi.style.background=k===key?'var(--gold)':(lot&&lot.disponivel?'#22c55e':'#f87171');}
+    if(pi){pi.style.background=k===key?'var(--gold)':(lot&&lot.disponivel?'#3b82f6':'#f87171');}
   });
   var piSel=document.getElementById('mpi-'+key);
   if(piSel)piSel.style.background='var(--gold)';
@@ -1380,7 +1380,7 @@ window.fecharPopupLote=function(e){
     var key=p.quadra+'-'+p.lote;
     var lot=null;_lotes.forEach(function(l){if(l.id===key)lot=l;});
     var pi=document.getElementById('mpi-'+key);
-    if(pi)pi.style.background=lot&&lot.disponivel?'#22c55e':'#f87171';
+    if(pi)pi.style.background=lot&&lot.disponivel?'#3b82f6':'#f87171';
   });
   _selLote=null;
 };

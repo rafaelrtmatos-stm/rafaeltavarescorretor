@@ -96,15 +96,15 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .mapa-quadra:last-child{margin-bottom:4px}
 .mapa-q-label{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--text3);margin-bottom:8px;font-weight:600;padding-left:2px}
 .mapa-q-row{display:flex;flex-wrap:wrap;gap:8px}
-.mc{width:54px;height:54px;border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px solid transparent;position:relative;flex-shrink:0;transition:all .18s}
-.mc.disp{background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.28);cursor:pointer}
-.mc.disp:hover{background:rgba(34,197,94,0.2);border-color:rgba(34,197,94,0.65);transform:scale(1.1)}
+.mc{width:36px;height:36px;border-radius:7px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px solid transparent;position:relative;flex-shrink:0;transition:all .18s}
+.mc.disp{background:rgba(59,130,246,0.1);border-color:rgba(59,130,246,0.28);cursor:pointer}
+.mc.disp:hover{background:rgba(59,130,246,0.2);border-color:rgba(59,130,246,0.65);transform:scale(1.1)}
 .mc.ocup{background:rgba(248,113,113,0.06);border-color:rgba(248,113,113,0.18);cursor:default;opacity:.45}
 .mc.sel{background:rgba(201,168,76,0.18);border-color:var(--gold);box-shadow:0 0 14px rgba(201,168,76,0.25);transform:scale(1.08)}
 .mc-num{font-size:14px;font-weight:800;color:var(--text);line-height:1;font-family:'DM Sans',sans-serif}
 .mc.sel .mc-num{color:var(--gold)}
 .mc-dot{width:6px;height:6px;border-radius:50%;margin-top:5px}
-.mc.disp .mc-dot{background:#22c55e}
+.mc.disp .mc-dot{background:#3b82f6}
 .mc.ocup .mc-dot{background:#f87171}
 .mc.sel .mc-dot{background:var(--gold)}
 .mapa-legenda{display:flex;gap:16px;margin-top:12px;padding-top:10px;border-top:1px solid var(--border)}
@@ -231,7 +231,7 @@ iframe[src*="gso.kommo"] {
 
       <!-- LEGENDA -->
       <div style="display:flex;gap:14px;flex-wrap:wrap;padding:8px 0;margin-bottom:12px">
-        <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)"><div style="width:10px;height:10px;border-radius:50%;background:#22c55e"></div>Disponível</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)"><div style="width:10px;height:10px;border-radius:50%;background:#3b82f6"></div>Disponível</div>
         <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)"><div style="width:10px;height:10px;border-radius:50%;background:#eab308"></div>Reservado</div>
         <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)"><div style="width:10px;height:10px;border-radius:50%;background:#f87171"></div>Vendido</div>
       </div>
@@ -794,7 +794,7 @@ function irEtapa3(){
 
 // ── MAPA CLICÁVEL ──
 function corLote(status){
-  if(status==='disponivel')return'#22c55e';
+  if(status==='disponivel')return'#3b82f6';
   if(status==='reservado'||status==='pre-reserva')return'#eab308';
   return'#f87171';
 }
@@ -828,7 +828,7 @@ function renderMapaClicavel(lotesInfo,pontos,imgUrl){
       var status=info.status||'disponivel';
       var cor=corLote(status);
       var isDisp=status==='disponivel';
-      var sz=Math.max(12,Math.round((wrap.offsetWidth||300)*0.042));
+      var sz=Math.max(7,Math.round((wrap.offsetWidth||300)*0.026));
       var cursor=isDisp?'pointer':'not-allowed';
       var opacity=isDisp?'1':'0.55';
       html+='<div data-lote-key="'+key+'" title="Q'+p.quadra+' L'+p.lote+(isDisp?'',' — '+status)+'"';
