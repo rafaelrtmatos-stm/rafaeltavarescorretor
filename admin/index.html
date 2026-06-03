@@ -1953,23 +1953,18 @@ async function uploadFotoMararuPrincipal(file){
   if(!file)return;
   var prog=document.getElementById('mararu-foto-prog');
   if(prog)prog.style.display='inline';
-  var ext=file.name.split('.').pop().toLowerCase();
-  var nomeArq='mararu/principal-'+Date.now()+'.'+ext;
   try{
-    var r=await fetch('https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/fotos-site/'+nomeArq,{
-      method:'POST',
-      headers:{'apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI','Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI','Content-Type':file.type,'x-upsert':'true'},
-      body:file
-    });
-    if(r.ok){
-      var url='https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/'+nomeArq;
-      var el=document.getElementById('mararu-foto-principal');
-      if(el)el.value=url;
-      prevMararuFoto();
-      toast('✅ Foto principal enviada!','ok');
-      await salvarLancamento();
-    }
-  }catch(e){console.warn(e);}
+    var ext=file.name.split('.').pop().toLowerCase();
+    var url=await uploadFotoGitHub(file, 'imagens/mararu-principal.'+ext);
+    var el=document.getElementById('mararu-foto-principal');
+    if(el)el.value=url;
+    prevMararuFoto();
+    toast('✅ Foto salva no GitHub!','ok');
+    await salvarLancamento();
+  }catch(e){
+    console.warn(e);
+    toast('Erro ao enviar: '+e.message,'aviso');
+  }
   if(prog)prog.style.display='none';
 }
 
@@ -2156,6 +2151,31 @@ function renderRegEditor(){
     card.appendChild(bSave);
     c.appendChild(card);
   });
+}
+
+
+async function uploadFotoRegiao(i,file){
+  var btn=document.getElementById('reg-upload-btn-'+i);
+  var prog=document.getElementById('reg-upload-prog-'+i);
+  if(btn){btn.textContent='Enviando...';btn.disabled=true;}
+  if(prog)prog.style.display='block';
+  try{
+    var ext=file.name.split('.').pop().toLowerCase();
+    var id=(_regData[i]&&_regData[i].id)||('reg'+i);
+    var url=await uploadFotoGitHub(file,'imagens/regiao-'+id+'.'+ext);
+    var el=document.getElementById('reg-foto-'+i);
+    if(el)el.value=url;
+    prevRegFoto(i);
+    // Atualizar preview
+    var prev=document.getElementById('reg-foto-prev-'+i);
+    if(prev)prev.innerHTML='<img src="'+url+'?_='+Date.now()+'" style="width:100%;height:100%;object-fit:cover">';
+    toast('✅ Foto salva no GitHub!','ok');
+  }catch(e){
+    console.warn(e);
+    toast('Erro: '+e.message,'aviso');
+  }
+  if(btn){btn.textContent='Escolher foto/video';btn.disabled=false;}
+  if(prog)prog.style.display='none';
 }
 
 function prevRegFoto(i){
