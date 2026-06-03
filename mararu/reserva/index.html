@@ -799,9 +799,11 @@ function showEtapa(id){
 }
 function irEtapa1(){showEtapa('etapa1');setStep(1);}
 function irEtapa2(){
-  if(!_lotesSel){showToast('Selecione um lote primeiro');return;}
+  // Se mapa borrado, avança sem lote
+  var borrado=document.getElementById('res-blur-overlay')&&document.getElementById('res-blur-overlay').style.display!=='none';
+  if(!_lotesSel&&!borrado){showToast('Selecione um lote primeiro');return;}
   var txt=document.getElementById('resumo-lote-txt');
-  if(txt)txt.textContent='Q'+_lotesSel.quadra+' — Lote '+_lotesSel.lote;
+  if(txt)txt.textContent=_lotesSel?('Q'+_lotesSel.quadra+' — Lote '+_lotesSel.lote):'A definir no lançamento';
   showEtapa('etapa2-dados');setStep(2);
 }
 function irEtapa3(){
@@ -810,7 +812,7 @@ function irEtapa3(){
   if(nome.split(' ').filter(Boolean).length<2){showToast('Informe nome e sobrenome');return;}
   if(tel.replace(/\D/g,'').length<10){showToast('Informe um telefone válido');return;}
   var rl=document.getElementById('rev-lote');var rn=document.getElementById('rev-nome');var rt=document.getElementById('rev-tel');
-  if(rl)rl.textContent='Quadra '+_lotesSel.quadra+' — Lote '+_lotesSel.lote;
+  if(rl)rl.textContent=_lotesSel?('Quadra '+_lotesSel.quadra+' — Lote '+_lotesSel.lote):'A definir no lançamento';
   if(rn)rn.textContent=nome;
   if(rt)rt.textContent=tel;
   showEtapa('etapa3');setStep(3);
