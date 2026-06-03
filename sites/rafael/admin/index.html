@@ -560,8 +560,9 @@ function salvarTokenModal(){
             <div class="f">
               <label>Borrar mapa do Bairro Mararu</label>
               <select id="lanc-marca-dagua" onchange="previewMapaChange()">
-                <option value="true">🌫️ Borrado + "Em Breve"</option>
-                <option value="false">🗺️ Mostrar mapa normal</option>
+                <option value="normal">🗺️ Mostrar mapa normal</option>
+                <option value="em-breve">🌫️ Borrado + "Em Breve"</option>
+                <option value="fechado">🚫 Mapa fechado (pular seleção de lote)</option>
               </select>
             </div>
             <div class="f">
@@ -2036,7 +2037,7 @@ async function carregarLancamento(){
   if(document.getElementById('lanc-ativo'))document.getElementById('lanc-ativo').value=l.ativo!==false?'true':'false';
   if(document.getElementById('lanc-prereserva'))document.getElementById('lanc-prereserva').value=l.prereserva!==false?'true':'false';
   // Marca d'água
-  if(document.getElementById('lanc-marca-dagua'))document.getElementById('lanc-marca-dagua').value=l.marcaDagua===false?'false':'true';
+  if(document.getElementById('lanc-marca-dagua')){var _md=l.marcaDagua;document.getElementById('lanc-marca-dagua').value=(_md===false||_md==='false'||_md==='normal')?'normal':(_md==='fechado')?'fechado':'em-breve';}
   if(document.getElementById('lanc-marca-txt'))document.getElementById('lanc-marca-txt').value=l.marcaDaguaTxt||'Em Breve';
   // Tamanho bolinhas
   var ps=d.pinSize||100;
@@ -2066,7 +2067,7 @@ async function salvarLancamento(){
     descricao:(document.getElementById('lanc-desc')||{value:''}).value||'',
     link:(document.getElementById('lanc-link')||{value:'mararu/'}).value||'mararu/',
     data_lancamento:dataVal?new Date(dataVal).toISOString():(d.lancamento&&d.lancamento.data_lancamento)||'2026-06-06T08:00:00',
-    marcaDagua:(document.getElementById('lanc-marca-dagua')||{value:'true'}).value!=='false',
+    marcaDagua:(document.getElementById('lanc-marca-dagua')||{value:'normal'}).value,
     marcaDaguaTxt:(document.getElementById('lanc-marca-txt')||{value:'Em Breve'}).value||'Em Breve'
   });
   // Tamanho bolinhas

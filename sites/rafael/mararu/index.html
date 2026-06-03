@@ -1877,7 +1877,7 @@ fetch('/site_data.json?_='+Date.now())
     var mdEl=document.getElementById('mapa-marca-dagua');
     var mdTxt=document.getElementById('mapa-marca-txt');
     if(d.lancamento){
-      var mostrar=d.lancamento.marcaDagua!==false;
+      var _mdv=d.lancamento.marcaDagua;var mostrar=_mdv===true||_mdv==='em-breve'||_mdv==='fechado';
       if(mdEl)mdEl.style.display=mostrar?'flex':'none';
       if(mdTxt&&d.lancamento.marcaDaguaTxt)mdTxt.textContent=d.lancamento.marcaDaguaTxt;
       // Blur layer

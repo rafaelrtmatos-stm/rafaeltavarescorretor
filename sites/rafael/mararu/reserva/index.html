@@ -956,8 +956,17 @@ function showToast(msg){
     _lotesInfo=data.lotesInfo||{};
     _mapaPontos=data.mapaPontos||[];
     _mapaImagemUrl=data.mapaImagemUrl||'';
-    _mapaEmBreve=!!(data.lancamento&&data.lancamento.marcaDagua!==false);
-    if(_mapaEmBreve){
+    var _md=data.lancamento?data.lancamento.marcaDagua:'normal';
+    _mapaEmBreve=_md===true||_md==='em-breve'||_md==='fechado';
+    var _mapaFechado=_md==='fechado';
+    if(_mapaFechado){
+      // Pular etapa 1 completamente — ir direto ao formulário
+      var resumoEl=document.getElementById('res-lote-resumo');
+      if(resumoEl)resumoEl.style.display='none';
+      var resumoTxt=document.getElementById('resumo-lote-txt');
+      if(resumoTxt)resumoTxt.textContent='A definir no lançamento';
+      showEtapa('etapa2-dados');setStep(2);
+    } else if(_mapaEmBreve){
       var wrap2=document.getElementById('res-mapa-wrap');
       if(wrap2){
         wrap2.innerHTML='<div style="height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><div style="font-family:\'Cormorant Garamond\',serif;font-size:36px;font-weight:700;color:var(--gold);letter-spacing:5px;text-transform:uppercase">Em Breve</div><div style="font-size:11px;color:var(--text3);letter-spacing:2px;text-transform:uppercase">Mapa disponível no lançamento</div></div>';
