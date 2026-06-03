@@ -427,22 +427,19 @@ iframe[src*="gso.kommo"] {
       <div class="card-title">Mapa de Lotes</div>
       <div class="card-sub" id="mapa-subtitulo">Visualize os lotes disponíveis</div>
 
-      <!-- Toggle Mapa / Lista -->
-      <div class="vista-toggle" style="display:flex;gap:8px;margin-bottom:12px">
-        <button class="vista-btn on" id="btn-vista-mapa" onclick="toggleVista('mapa')" style="flex:1;padding:9px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;border:2px solid var(--gold);color:var(--gold);background:rgba(201,168,76,0.1)">🗺️ Mapa</button>
-        <button class="vista-btn" id="btn-vista-lista" onclick="toggleVista('lista')" style="flex:1;padding:9px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;border:2px solid var(--border);color:var(--text2);background:transparent">☰ Lista</button>
-      </div>
+      <!-- iframe + overlay Em Breve -->
+      <div style="position:relative;border-radius:12px;overflow:hidden;margin-bottom:16px;border:1px solid var(--border)">
 
-      <!-- Container do mapa com overlay -->
-      <div style="position:relative;border-radius:12px;overflow:hidden;margin-bottom:16px;min-height:260px;background:var(--bg3)">
-
-        <!-- Mapa real (quando liberado) -->
-        <div id="mapa-lotes" style="min-height:260px;display:flex;align-items:center;justify-content:center">
-          <div style="text-align:center;padding:40px;color:rgba(242,237,228,0.4);font-size:13px">⏳ Carregando...</div>
-        </div>
+        <!-- iframe Rumo ao Milhão -->
+        <iframe
+          id="iframe-mapa-reserva"
+          src="https://rumoaomilhao.imb.br/mapa/1780067816277"
+          style="width:100%;height:480px;border:none;display:block"
+          loading="lazy">
+        </iframe>
 
         <!-- Overlay Em Breve (quando borrado) -->
-        <div id="overlay-em-breve" style="display:none;position:absolute;inset:0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);background:rgba(0,0,0,0.5);align-items:center;justify-content:center;flex-direction:column;gap:8px;z-index:10">
+        <div id="overlay-em-breve" style="position:absolute;inset:0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;z-index:10">
           <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(24px,5vw,48px);font-weight:700;color:#fff;letter-spacing:4px;text-transform:uppercase;text-shadow:0 4px 24px rgba(0,0,0,0.6)" id="txt-em-breve">Em Breve</div>
           <div style="font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:2px;text-transform:uppercase">Lançamento em breve</div>
         </div>
