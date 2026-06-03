@@ -1849,7 +1849,8 @@ fetch('/site_data.json?_='+Date.now())
     if(!container)return;
     var banner=document.createElement('div');
     banner.style.cssText='position:absolute;bottom:16px;left:50%;transform:translateX(-50%);background:rgba(201,168,76,0.95);color:#000;padding:10px 18px;border-radius:10px;font-size:12px;font-weight:700;z-index:20;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,0.4);pointer-events:none';
-    banner.innerHTML='⭐ Sua pré-reserva: Q'+reserva.quadra+' L'+reserva.lote+' · Aguardando confirmação';
+    var loteInfo=(reserva.quadra&&reserva.lote)?' — Q'+reserva.quadra+' L'+reserva.lote:'';
+    banner.innerHTML='⭐ Sua pré-reserva'+loteInfo+' · Aguardando confirmação';
     container.appendChild(banner);
   }catch(e){}
 })();
