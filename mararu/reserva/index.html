@@ -278,44 +278,213 @@ fetch('/site_data.json?_='+Date.now())
     </button>
   </div>
 
-  <!-- ══════════ ETAPA 2 — DADOS DO CLIENTE (antigo ETAPA 1) ══════════ -->
-  <div class="etapa" id="etapa2-dados">
+  <!-- ══════════ ETAPA 2 — DADOS DO CLIENTE ══════════ -->
+<div class="etapa" id="etapa2-dados">
     <div class="card">
       <!-- INFO NO TOPO -->
       <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:18px;margin-bottom:22px;text-align:justify;font-size:12px;color:rgba(242,237,228,0.7);line-height:1.85">
         <div style="font-size:14px;font-weight:700;color:#C9A84C;margin-bottom:12px;font-family:'Cormorant Garamond',serif;text-align:left">Como funciona a Pré-Reserva</div>
         <p style="margin-bottom:10px"><strong style="color:rgba(242,237,228,0.9)">1. Pré-Reserva.</strong> O preenchimento deste formulário constitui uma manifestação de interesse e não gera obrigação contratual entre as partes. Serve para agilizar o atendimento e garantir prioridade na fila de negociação.</p>
-        <p style="margin-bottom:10px"><strong style="color:rgba(242,237,228,0.9)">2. Confirmação da Reserva.</strong> A reserva do lote será confirmada somente após: envio completo dos dados; pagamento da entrada devidamente comprovado; e confirmação expressa por Rafael Tavares, CRECI 13919.</p>
-        <p><strong style="color:rgba(242,237,228,0.9)">3. Proteção de Dados.</strong> Os dados coletados serão utilizados exclusivamente para fins desta negociação, sendo tratados em conformidade com a LGPD (Lei nº 13.709/2018).</p>
+        <p style="margin-bottom:10px"><strong style="color:rgba(242,237,228,0.9)">2. Envio dos Dados.</strong> O envio dos dados pessoais e documentos demonstra intenção de compra e garante atendimento prioritário. A disponibilidade do lote está sujeita à confirmação pelo corretor responsável.</p>
+        <p style="margin-bottom:10px"><strong style="color:rgba(242,237,228,0.9)">3. Confirmação da Reserva.</strong> A reserva do lote será confirmada somente após: envio completo dos dados e documentos; pagamento da entrada devidamente comprovado; e confirmação expressa por Rafael Tavares, CRECI 13919.</p>
+        <p style="margin-bottom:10px"><strong style="color:rgba(242,237,228,0.9)">4. Pagamento.</strong> O pagamento da entrada deverá ser realizado via PIX e o comprovante encaminhado a Rafael Tavares pelo WhatsApp (93) 99233-2012. A confirmação ocorrerá em até 24 horas úteis. O PIX deve ser enviado exclusivamente para a conta da imobiliária: Nome Fantasia: Geoflorestal Imobiliária. Razão Social: D Souza de Andrade Imóveis. CNPJ: 60.659.875/0001-21. Banco: Santander. Agência: 4375. Conta Corrente: 13.005479-0. Chave PIX: 60.659.875/0001-21 (CNPJ).</p>
+        <p style="margin-bottom:10px"><strong style="color:rgba(242,237,228,0.9)">5. Instrumento Contratual.</strong> Após a confirmação da reserva, o contrato de compra e venda será formalizado em até 48 horas — presencialmente no escritório ou por assinatura digital via aplicativo Gov.br, ambos com validade jurídica nos termos da Lei nº 14.063/2020.</p>
+        <p><strong style="color:rgba(242,237,228,0.9)">6. Proteção de Dados.</strong> Os dados coletados serão utilizados exclusivamente para fins desta negociação, sendo tratados em conformidade com a Lei Geral de Proteção de Dados — LGPD (Lei nº 13.709/2018).</p>
       </div>
 
-      <!-- LOTE SELECIONADO (resumo) -->
-      <div id="res-lote-resumo" style="background:rgba(201,168,76,0.06);border:1px solid var(--border2);border-radius:10px;padding:12px 16px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center">
-        <div>
-          <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:2px">Lote escolhido</div>
-          <div id="resumo-lote-txt" style="font-size:15px;font-weight:700;color:var(--gold);font-family:'Cormorant Garamond',serif">—</div>
+      <!-- CHECKBOX LI E CONCORDO -->
+      <label id="bloco-concordo" style="display:flex;align-items:center;gap:12px;background:rgba(201,168,76,0.06);border:1.5px solid rgba(201,168,76,0.28);border-radius:10px;padding:14px 16px;margin-bottom:20px;cursor:pointer;transition:border-color .2s" onclick="toggleConcordo()">
+        <div id="chk-box-concordo" style="width:22px;height:22px;border-radius:6px;border:2px solid rgba(201,168,76,0.5);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;background:transparent"></div>
+        <span style="font-size:13px;color:rgba(242,237,228,0.85);line-height:1.45;font-weight:500">Li e concordo com os <strong style="color:#C9A84C">Termos e Condições</strong> da pré-reserva acima</span>
+      </label>
+
+      <div id="form-bloqueado" style="position:relative">
+        <!-- Overlay de bloqueio -->
+        <div id="overlay-lock" style="position:absolute;inset:-4px;z-index:10;border-radius:10px;background:rgba(5,5,3,0.55);backdrop-filter:blur(2px);display:flex;align-items:center;justify-content:center;cursor:not-allowed">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,76,0.6)" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="11" width="16" height="11" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/><circle cx="12" cy="16.5" r="1.5" fill="rgba(201,168,76,0.6)" stroke="none"/></svg>
+            <span style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,0.6);font-weight:700">Aceite os termos para preencher</span>
+          </div>
         </div>
-        <button onclick="irEtapa1()" style="background:transparent;border:1px solid var(--border);color:var(--text3);padding:6px 12px;border-radius:8px;font-size:11px;cursor:pointer;font-family:inherit">Trocar</button>
+
+      <div style="margin-bottom:18px">
+        <div class="card-title" style="margin-bottom:2px">Dados do Cliente</div>
+        <div class="card-sub">Todos os campos marcados com * são obrigatórios</div>
       </div>
 
-      <div class="card-title" style="margin-bottom:4px">Seus Dados</div>
-      <div class="card-sub" style="margin-bottom:18px">Apenas nome e telefone para contato</div>
+      <div class="g2">
+        <div class="f" style="grid-column:1/-1">
+          <label>Nome Completo *</label>
+          <input type="text" id="f-nome" placeholder="Seu nome completo" oninput="validarCampo(this,'nome')">
+          <div class="hint" id="h-nome"></div>
+        </div>
+        <div class="f">
+          <label>CPF *</label>
+          <input type="text" id="f-cpf" placeholder="000.000.000-00" maxlength="14" oninput="mascaraCPF(this)" onblur="validarCPF()">
+          <div class="hint" id="h-cpf"></div>
+        </div>
+        <div class="f">
+          <label>RG *</label>
+          <input type="text" id="f-rg" placeholder="0000000-0" oninput="validarCampo(this,'rg')">
+          <div class="hint" id="h-rg"></div>
+        </div>
+        <div class="f">
+          <label>Data de Nascimento *</label>
+          <input type="date" id="f-nasc" onblur="validarNasc()">
+          <div class="hint" id="h-nasc"></div>
+        </div>
+        <div class="f">
+          <label>Telefone para Contato 01 *</label>
+          <input type="tel" id="f-wpp" placeholder="(93) 99999-9999" maxlength="15" oninput="mascaraTel(this)" onblur="validarTel('f-wpp','h-wpp')">
+          <div class="hint" id="h-wpp"></div>
+        </div>
 
-      <div class="f">
-        <label>Nome Completo *</label>
-        <input type="text" id="f-nome" placeholder="Seu nome completo" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 14px;font-size:14px;color:var(--text);font-family:inherit;outline:none;width:100%;transition:border-color .2s" oninput="this.style.borderColor=this.value.trim().split(' ').length>=2?'var(--green)':''">
-      </div>
-      <div class="f" style="margin-top:14px">
-        <label>WhatsApp / Telefone *</label>
-        <input type="tel" id="f-wpp" placeholder="(93) 99999-9999" maxlength="15" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 14px;font-size:14px;color:var(--text);font-family:inherit;outline:none;width:100%;transition:border-color .2s" oninput="mascaraTel(this)">
+        <div class="f">
+          <label>Telefone para Contato 02</label>
+          <input type="tel" id="f-tel2" placeholder="(93) 99999-9999" maxlength="15" oninput="mascaraTel(this)" onblur="validarTel('f-tel2','h-tel2')">
+          <div class="hint" id="h-tel2"></div>
+        </div>
+
+        
+        <div class="f" style="grid-column:1/-1">
+          <label>CEP *</label>
+          <input type="text" id="f-cep" placeholder="00000-000" maxlength="9" oninput="mascaraCEP(this)" onblur="buscarCEP()">
+          <div class="hint" id="h-cep"></div>
+        </div>
+        <div class="f" style="grid-column:1/-1">
+          <label>Endereço *</label>
+          <input type="text" id="f-rua" placeholder="Rua, Avenida...">
+        </div>
+        <div class="f">
+          <label>Número *</label>
+          <input type="text" id="f-num" placeholder="123">
+        </div>
+        <div class="f">
+          <label>Bairro *</label>
+          <input type="text" id="f-bairro" placeholder="Bairro">
+        </div>
+        <div class="f">
+          <label>Cidade *</label>
+          <input type="text" id="f-cidade" placeholder="Santarém">
+        </div>
+        <div class="f">
+          <label>Estado</label>
+          <select id="f-estado">
+            <option value="PA" selected>PA</option>
+            <option value="AC">AC</option><option value="AL">AL</option><option value="AM">AM</option>
+            <option value="AP">AP</option><option value="BA">BA</option><option value="CE">CE</option>
+            <option value="DF">DF</option><option value="ES">ES</option><option value="GO">GO</option>
+            <option value="MA">MA</option><option value="MG">MG</option><option value="MS">MS</option>
+            <option value="MT">MT</option><option value="PB">PB</option><option value="PE">PE</option>
+            <option value="PI">PI</option><option value="PR">PR</option><option value="RJ">RJ</option>
+            <option value="RN">RN</option><option value="RO">RO</option><option value="RR">RR</option>
+            <option value="RS">RS</option><option value="SC">SC</option><option value="SE">SE</option>
+            <option value="SP">SP</option><option value="TO">TO</option>
+          </select>
+        </div>
       </div>
 
+      <!-- DOCUMENTOS -->
+      <div class="card-title" style="font-size:16px;margin-top:8px;margin-bottom:4px">📎 Documentos</div>
+      <div class="card-sub" style="margin-bottom:14px">Envie seu documento de identificação</div>
+
+      <!-- Tipo de documento -->
+      <div class="f" style="margin-bottom:16px">
+        <label>Tipo de documento *</label>
+        <select id="tipo-doc" onchange="selecionarDoc(this.value)"
+          style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 14px;font-size:13px;color:var(--text);font-family:inherit;outline:none;width:100%;margin-top:6px;cursor:pointer;appearance:auto">
+          <option value="">— Selecione o documento —</option>
+          <option value="rg">🪪 RG (Registro Geral)</option>
+          <option value="cnh">🚗 CNH (Carteira de Habilitação)</option>
+        </select>
+      </div>
+
+      <!-- Upload principal (frente) — aparece só após escolher tipo -->
+      <div class="f" id="bloco-upload-frente" style="display:none;margin-bottom:14px">
+        <label id="label-frente">Frente do RG *</label>
+        <label style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:2px dashed var(--border);border-radius:12px;padding:24px;cursor:pointer;transition:border .2s;margin-top:6px;text-align:center" id="area-frente">
+          <input type="file" id="inp-frente" accept="image/*,application/pdf" style="display:none" onchange="handleFrentePrincipal(this)">
+          <div style="font-size:28px" id="ico-frente">📎</div>
+          <div id="txt-frente" style="font-size:13px;color:var(--text2)">Toque para enviar foto ou PDF</div>
+        </label>
+        <div class="preview-box" id="prev-frente" style="display:none;margin-top:8px">
+          <img id="img-frente" src="" style="max-height:120px;border-radius:8px;width:100%;object-fit:cover">
+          <button onclick="removeDoc('frente')" style="position:absolute;top:6px;right:6px;background:rgba(248,113,113,0.85);border:none;color:#fff;width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:14px;font-weight:700">×</button>
+        </div>
+      </div>
+
+      <!-- Pergunta verso (só aparece após enviar frente do RG) -->
+      <div id="bloco-pergunta-verso" style="display:none;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:14px;margin-bottom:14px">
+        <div style="font-size:13px;color:var(--text);margin-bottom:12px;font-weight:500">✅ Frente enviada! O RG tem verso?</div>
+        <div style="display:flex;gap:10px">
+          <button type="button" onclick="respostaVerso(true)" style="flex:1;padding:10px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);color:#22c55e">
+            ✓ Sim, vou enviar
+          </button>
+          <button type="button" onclick="respostaVerso(false)" style="flex:1;padding:10px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);color:#f87171">
+            ✗ Não tem verso
+          </button>
+        </div>
+      </div>
+
+      <!-- Upload verso -->
+      <div id="bloco-verso" style="display:none" class="f" style="margin-bottom:14px">
+        <label style="margin-bottom:6px;display:block">Verso do RG *</label>
+        <label style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:2px dashed var(--border);border-radius:12px;padding:24px;cursor:pointer;transition:border .2s;text-align:center">
+          <input type="file" id="inp-verso" accept="image/*,application/pdf" style="display:none" onchange="handleVerso(this)">
+          <div style="font-size:28px">📎</div>
+          <div id="txt-verso" style="font-size:13px;color:var(--text2)">Toque para enviar o verso</div>
+        </label>
+        <div class="preview-box" id="prev-verso" style="display:none;margin-top:8px;position:relative">
+          <img id="img-verso" src="" style="max-height:120px;border-radius:8px;width:100%;object-fit:cover">
+          <button onclick="removeDoc('verso')" style="position:absolute;top:6px;right:6px;background:rgba(248,113,113,0.85);border:none;color:#fff;width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:14px;font-weight:700">×</button>
+        </div>
+      </div>
+
+      <!-- Pergunta CPF -->
+      <div id="bloco-pergunta-cpf" style="display:none;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:14px;margin-bottom:14px;margin-top:14px">
+        <div style="font-size:13px;color:var(--text);margin-bottom:4px;font-weight:500">A foto do seu RG já tem o CPF?</div>
+        <div style="font-size:11px;color:var(--text2);margin-bottom:12px">Se o número do CPF aparece no seu documento, não precisa enviar separado.</div>
+        <div style="display:flex;gap:10px">
+          <button type="button" onclick="respostaCPF(false)" style="flex:1;padding:10px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);color:#22c55e">
+            ✓ Sim, já está no RG
+          </button>
+          <button type="button" onclick="respostaCPF(true)" style="flex:1;padding:10px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);color:#f87171">
+            ✗ Não, vou enviar
+          </button>
+        </div>
+      </div>
+
+      <!-- Upload CPF -->
+      <div id="bloco-cpf" style="display:none" class="f">
+        <label style="margin-bottom:6px;display:block">Foto/PDF do CPF</label>
+        <label style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:2px dashed var(--border);border-radius:12px;padding:24px;cursor:pointer;transition:border .2s;text-align:center">
+          <input type="file" id="inp-cpf-doc" accept="image/*,application/pdf" style="display:none" onchange="handleCPFDoc(this)">
+          <div style="font-size:28px">📋</div>
+          <div id="txt-cpf-doc" style="font-size:13px;color:var(--text2)">Toque para enviar o CPF</div>
+        </label>
+      </div>
+
+      </div><!-- /form-bloqueado -->
     </div>
-    <button class="btn-primary" onclick="irEtapa3()" style="margin-top:4px">
-      Revisar e Confirmar
+
+    <!-- DATA DE VENCIMENTO -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title" style="font-size:15px;margin-bottom:4px">📅 Data de Vencimento</div>
+      <div class="card-sub" style="margin-bottom:12px">Escolha a data para vencimento do contrato</div>
+      <div class="f">
+        <label>Data de vencimento *</label>
+        <input type="date" id="f-vencimento" class="inp" style="margin-top:6px" onchange="validarVencimento()">
+        <div class="hint" id="h-vencimento"></div>
+        <div id="aviso-vencimento" style="display:none;margin-top:8px;padding:10px 14px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:8px;font-size:12px;color:var(--gold);line-height:1.6">
+          ⚠️ Prazo acima de 40 dias — sujeito à confirmação pelo escritório. Você pode continuar normalmente.
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-primary" id="btn-continuar" onclick="irEtapa3()" disabled>
+      Continuar
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </button>
-    <button class="btn-secondary" onclick="irEtapa1()" style="margin-top:10px">← Voltar ao mapa</button>
   </div>
 
   <!-- ══════════ ETAPA 2 original (mantida, oculta por compatibilidade) ══════════ -->
