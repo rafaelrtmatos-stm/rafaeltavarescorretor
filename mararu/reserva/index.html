@@ -782,14 +782,20 @@ function irEtapa2(){
 }
 
 function irEtapa3(){
-  if(!_loteSel){showToast('⚠️ Selecione um lote');return;}
-  calcularVencimento();
+  // Se mapa borrado, avança sem lote
+  if(!_loteSel && !_mapaBorrado){showToast('⚠️ Selecione um lote');return;}
+  if(typeof calcularVencimento==='function')calcularVencimento();
   // Preencher resumo
-  document.getElementById('r-nome').textContent=document.getElementById('f-nome').value.trim();
-  document.getElementById('r-lote').textContent='Quadra '+_loteSel.quadra+' / Lote '+_loteSel.lote;
-  document.getElementById('r-area').textContent=_loteSel.area;
-  document.getElementById('r-entrada').textContent=_loteSel.entrada;
-  document.getElementById('r-parcelas').textContent=_loteSel.parcelas?(_loteSel.parcelas+'x de '+_loteSel.vparcela):'A consultar';
+  var nomeEl=document.getElementById('r-nome');
+  if(nomeEl)nomeEl.textContent=document.getElementById('f-nome').value.trim();
+  var loteEl=document.getElementById('r-lote');
+  if(loteEl)loteEl.textContent=_loteSel?('Quadra '+_loteSel.quadra+' / Lote '+_loteSel.lote):'A definir no lançamento';
+  var areaEl=document.getElementById('r-area');
+  if(areaEl)areaEl.textContent=_loteSel?_loteSel.area:'—';
+  var entEl=document.getElementById('r-entrada');
+  if(entEl)entEl.textContent=_loteSel?_loteSel.entrada:'—';
+  var parEl=document.getElementById('r-parcelas');
+  if(parEl)parEl.textContent=_loteSel?(_loteSel.parcelas?(_loteSel.parcelas+'x de '+_loteSel.vparcela):'A consultar'):'—';
   document.querySelectorAll('.etapa').forEach(function(e){e.classList.remove('on');});
   document.getElementById('etapa3').classList.add('on');
   setStep(3);
@@ -1414,8 +1420,7 @@ function handleFrentePrincipal(input){
     if(_docEstado.tipoDoc==='rg'){
       document.getElementById('bloco-pergunta-verso').style.display='block';
     } else {
-      // CNH — ir direto para pergunta de CPF
-      document.getElementById('bloco-pergunta-cpf').style.display='block';
+      // CNH — avança direto sem perguntar CPF
       habilitarContinuar();
     }
   };
@@ -1428,8 +1433,12 @@ function respostaVerso(sim){
     document.getElementById('bloco-verso').style.display='block';
   } else {
     _docEstado.versoRespondido=true;
-    document.getElementById('bloco-pergunta-cpf').style.display='block';
-    habilitarContinuar();
+    // Pergunta CPF só para RG
+    if(_docEstado.tipoDoc==='rg'){
+      document.getElementById('bloco-pergunta-cpf').style.display='block';
+    } else {
+      habilitarContinuar();
+    }
   }
 }
 
@@ -1447,7 +1456,10 @@ function handleVerso(input){
     if(file.type!=='application/pdf'&&img){img.src=e.target.result;img.style.display='block';}
     if(prev)prev.style.display='block';
     _docEstado.versoRespondido=true;
-    document.getElementById('bloco-pergunta-cpf').style.display='block';
+    // Pergunta CPF só para RG
+    if(_docEstado.tipoDoc==='rg'){
+      document.getElementById('bloco-pergunta-cpf').style.display='block';
+    }
     habilitarContinuar();
   };
   reader.readAsDataURL(file);
