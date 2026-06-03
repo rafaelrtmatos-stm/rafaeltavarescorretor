@@ -829,7 +829,7 @@ function renderMapaClicavel(lotesInfo,pontos,imgUrl){
       var status=info.status||'disponivel';
       var cor=corLote(status);
       var isDisp=status==='disponivel';
-      var sz=Math.max(12,Math.round((wrap.offsetWidth||300)*0.042));
+      var sz=Math.max(6,Math.round((wrap.offsetWidth||300)*0.021));
       var cursor=isDisp?'pointer':'not-allowed';
       var opacity=isDisp?'1':'0.55';
       html+='<div data-lote-key="'+key+'" title="Q'+p.quadra+' L'+p.lote+(isDisp?'':' — '+status)+'"';
