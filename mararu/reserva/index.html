@@ -1292,6 +1292,83 @@ async function finalizarSemPagamento(){
   await salvarDados();
 }
 
+
+// ── FUNÇÕES CORRIGIDAS ──
+function validarCampo(el,tipo){
+  if(el.value.trim().length>=3){el.className='ok';}else{el.className='';}
+}
+function mascaraCPF(el){
+  var v=el.value.replace(/\D/g,'').substring(0,11);
+  v=v.replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2');
+  el.value=v;
+}
+function mascaraTel(el){
+  var v=el.value.replace(/\D/g,'').substring(0,11);
+  v=v.length>10?v.replace(/(\d{2})(\d{5})(\d{4})/,'($1) $2-$3'):v.replace(/(\d{2})(\d{4})(\d{4})/,'($1) $2-$3');
+  el.value=v;
+}
+function mascaraCEP(el){
+  var v=el.value.replace(/\D/g,'').substring(0,8);
+  el.value=v.replace(/(\d{5})(\d)/,'$1-$2');
+}
+function validarNasc(){
+  var el=document.getElementById('f-nasc');
+  if(el&&el.value){el.className='ok';}
+}
+function buscarCEP(){
+  var elCep=document.getElementById('f-cep');
+  if(!elCep)return;
+  var cep=elCep.value.replace(/\D/g,'');
+  if(cep.length!==8)return;
+  fetch('https://viacep.com.br/ws/'+cep+'/json/')
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(!d.erro){
+        var r=document.getElementById('f-rua');var b=document.getElementById('f-bairro');
+        var c=document.getElementById('f-cidade');
+        if(r)r.value=d.logradouro||'';
+        if(b)b.value=d.bairro||'';
+        if(c)c.value=d.localidade||'';
+        elCep.className='ok';
+      }
+    }).catch(function(){});
+}
+function previewImg(input,prevId,areaId,tipo){
+  var file=input.files[0];if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var prev=document.getElementById(prevId);
+    var img=document.getElementById('img-'+tipo);
+    if(img){img.src=e.target.result;}
+    if(prev)prev.style.display='block';
+    var area=document.getElementById(areaId);
+    if(area)area.style.display='none';
+    if(typeof _fotosBase64!=='undefined')_fotosBase64[tipo]=e.target.result;
+    if(typeof _fotos!=='undefined')_fotos[tipo]=e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+function previewAnexo(input){
+  var file=input.files[0];if(!file)return;
+  var nome=document.getElementById('anexo-nome');
+  if(nome){nome.style.display='block';nome.textContent='📄 '+file.name;}
+  var reader=new FileReader();
+  reader.onload=function(e){
+    if(typeof _fotosBase64!=='undefined')_fotosBase64.anexo=e.target.result;
+    if(typeof _fotos!=='undefined')_fotos.anexo=e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+function toggleVista(v){
+  var m=document.getElementById('mapa-panel-mapa');
+  var l=document.getElementById('mapa-panel-lista');
+  var bm=document.getElementById('btn-vista-mapa');
+  var bl=document.getElementById('btn-vista-lista');
+  if(m)m.style.display=v==='mapa'?'block':'none';
+  if(l)l.style.display=v==='lista'?'block':'none';
+  if(bm){bm.style.borderColor=v==='mapa'?'var(--gold)':'var(--border)';bm.style.color=v==='mapa'?'var(--gold)':'var(--text2)';}
+  if(bl){bl.style.borderColor=v==='lista'?'var(--gold)':'var(--border)';bl.style.color=v==='lista'?'var(--gold)':'var(--text2)';}
+}
 </script>
 <!-- ═══ FIM MENU ═══ -->
 
