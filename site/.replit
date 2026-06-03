@@ -18,37 +18,20 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-<<<<<<< HEAD
-args = "Site Rafael"
+args = "Site Rafael Tavares"
 
 [[workflows.workflow]]
-name = "Site Rafael"
+name = "Site Rafael Tavares"
 author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "node sites/serve.js"
-waitForPort = 3000
-
-[workflows.workflow.metadata]
-outputType = "webview"
-
-=======
-args = "Rafael Tavares Corretor"
-
-[[workflows.workflow]]
-name = "Rafael Tavares Corretor"
-author = "agent"
-
-[workflows.workflow.metadata]
-outputType = "webview"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "node serve.js"
+args = "node /home/runner/workspace/site/serve.js"
 waitForPort = 5000
 
->>>>>>> ce55d7ab06561993c2fc7d351bd2b0750bfbec00
+[workflows.workflow.metadata]
+outputType = "webview"
+
 [agent]
 stack = "PNPM_WORKSPACE"
 expertMode = true
@@ -58,18 +41,6 @@ path = "scripts/post-merge.sh"
 timeoutMs = 20000
 
 [[ports]]
-localPort = 3000
-externalPort = 3000
-
-[[ports]]
-<<<<<<< HEAD
-localPort = 8080
-externalPort = 8080
-
-[[ports]]
-localPort = 8081
-externalPort = 80
-=======
 localPort = 5000
 externalPort = 5000
 
@@ -80,4 +51,3 @@ externalPort = 80
 [[ports]]
 localPort = 8081
 externalPort = 8081
->>>>>>> ce55d7ab06561993c2fc7d351bd2b0750bfbec00
