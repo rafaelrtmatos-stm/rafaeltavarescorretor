@@ -793,6 +793,10 @@ var _pinosDefault=[
 // Tamanho dos pinos — lido do site_data.json (campo pinSize, padrão 100%)
 var _pinScale=1;
 fetch('/site_data.json?_='+Date.now()).then(function(r){return r.json();}).then(function(d){
+<<<<<<< HEAD
+=======
+  if(d&&d.pinSize){_pinScale=d.pinSize/100;}
+>>>>>>> d855d3e (Saved progress at the end of the loop)
   if(d&&d.pinos&&d.pinos.length){_pinosDefault=d.pinos.map(function(p){return{nome:p.nome,lat:p.lat,lng:p.lng,cor:p.cor==='red'?'#f87171':'#C9A84C',min:p.min||'—',max:p.max||'—',desc:p.desc||'',msg:p.msg||'Olá Rafael!'};});}
 }).catch(function(){});
 
@@ -902,7 +906,11 @@ function startMap(){
     // Tamanho responsivo: % da largura do container (igual ao Rumo ao Milhão)
     var mapaContainer=document.getElementById('map-container')||document.querySelector('#mapa .leaflet-container')||document.querySelector('.leaflet-container');
     var containerW=mapaContainer?mapaContainer.offsetWidth:window.innerWidth;
+<<<<<<< HEAD
     var pct=0.02; // 2% da largura = padrão proporcional
+=======
+    var pct=(_pinScale||1)*0.02; // 2% da largura = padrão proporcional
+>>>>>>> d855d3e (Saved progress at the end of the loop)
     var sz=Math.round(containerW*pct);
     sz=Math.max(isRed?16:12,Math.min(isRed?48:40,sz));
     var pinoHtml='<div style="display:flex;flex-direction:column;align-items:center;cursor:pointer;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.7))">'
@@ -1481,7 +1489,11 @@ function startMap(){
           if(r.badge)_catalogos[r.id].badge=r.badge;
           if(r.desc)_catalogos[r.id].desc=r.desc;
           if(r.sobre)_catalogos[r.id].sobre=r.sobre;
+<<<<<<< HEAD
           if(r.foto)_catalogos[r.id].heroFoto=r.foto;
+=======
+          if(r.foto)_catalogos[r.id].heroBg='url('+r.foto+') center/cover';
+>>>>>>> d855d3e (Saved progress at the end of the loop)
           if(r.wpp)_catalogos[r.id].wpp=r.wpp;
           if(r.diferenciais&&r.diferenciais.length)_catalogos[r.id].diferenciais=r.diferenciais;
           if(r.desc)_catalogos[r.id].desc=r.desc;
@@ -2785,6 +2797,7 @@ function abrirCatalogo(id){
   var c=_catalogos[id];
   if(!c)return;
   _regiaoAtual=id;
+<<<<<<< HEAD
   var _heroEl=document.getElementById('rm-hero-bg');
   if(c.heroFoto){
     _heroEl.style.backgroundImage='url("'+c.heroFoto.replace(/"/g,'%22')+'")';
@@ -2796,6 +2809,9 @@ function abrirCatalogo(id){
     _heroEl.style.backgroundPosition='';
     _heroEl.style.background=c.heroBg;
   }
+=======
+  document.getElementById('rm-hero-bg').style.background=c.heroBg;
+>>>>>>> d855d3e (Saved progress at the end of the loop)
   document.getElementById('rm-badge').textContent=c.badge||'';
   document.getElementById('rm-nome').textContent=c.nome||'';
   document.getElementById('rm-desc').textContent=c.desc||'';

@@ -96,15 +96,15 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .mapa-quadra:last-child{margin-bottom:4px}
 .mapa-q-label{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--text3);margin-bottom:8px;font-weight:600;padding-left:2px}
 .mapa-q-row{display:flex;flex-wrap:wrap;gap:8px}
-.mc{width:54px;height:54px;border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px solid transparent;position:relative;flex-shrink:0;transition:all .18s}
-.mc.disp{background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.28);cursor:pointer}
-.mc.disp:hover{background:rgba(34,197,94,0.2);border-color:rgba(34,197,94,0.65);transform:scale(1.1)}
+.mc{width:36px;height:36px;border-radius:7px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px solid transparent;position:relative;flex-shrink:0;transition:all .18s}
+.mc.disp{background:rgba(59,130,246,0.1);border-color:rgba(59,130,246,0.28);cursor:pointer}
+.mc.disp:hover{background:rgba(59,130,246,0.2);border-color:rgba(59,130,246,0.65);transform:scale(1.1)}
 .mc.ocup{background:rgba(248,113,113,0.06);border-color:rgba(248,113,113,0.18);cursor:default;opacity:.45}
 .mc.sel{background:rgba(201,168,76,0.18);border-color:var(--gold);box-shadow:0 0 14px rgba(201,168,76,0.25);transform:scale(1.08)}
 .mc-num{font-size:14px;font-weight:800;color:var(--text);line-height:1;font-family:'DM Sans',sans-serif}
 .mc.sel .mc-num{color:var(--gold)}
 .mc-dot{width:6px;height:6px;border-radius:50%;margin-top:5px}
-.mc.disp .mc-dot{background:#22c55e}
+.mc.disp .mc-dot{background:#3b82f6}
 .mc.ocup .mc-dot{background:#f87171}
 .mc.sel .mc-dot{background:var(--gold)}
 .mapa-legenda{display:flex;gap:16px;margin-top:12px;padding-top:10px;border-top:1px solid var(--border)}
@@ -194,12 +194,9 @@ iframe[src*="gso.kommo"] {
     <div class="header-title">Pré-Reserva Online</div>
     <div class="header-sub">Bairro Mararu · Rafael Tavares</div>
   </div>
-<<<<<<< HEAD
-=======
   <a href="../" style="display:inline-flex;align-items:center;gap:6px;color:var(--text3);font-size:12px;text-decoration:none;padding:6px 12px;border:1px solid var(--border);border-radius:8px;transition:color .2s" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text3)'">
     🏠 Início
   </a>
->>>>>>> d855d3e (Saved progress at the end of the loop)
 </div>
 
 <!-- PROGRESS -->
@@ -208,12 +205,6 @@ iframe[src*="gso.kommo"] {
     <div class="step-circle active" id="sc1">1</div>
     <div class="step-line" id="sl1"></div>
     <div class="step-circle pending" id="sc2">2</div>
-<<<<<<< HEAD
-  </div>
-  <div class="step-labels">
-    <span class="active" id="sl-1">Dados</span>
-    <span id="sl-2">Reserva</span>
-=======
     <div class="step-line" id="sl2"></div>
     <div class="step-circle pending" id="sc3">3</div>
   </div>
@@ -221,18 +212,12 @@ iframe[src*="gso.kommo"] {
     <span class="active" id="sl-1">Lote</span>
     <span id="sl-2">Dados</span>
     <span id="sl-3">Confirmação</span>
->>>>>>> d855d3e (Saved progress at the end of the loop)
   </div>
 </div>
 
 <div class="wrap">
   <div id="toast" class="toast"></div>
 
-<<<<<<< HEAD
-  <!-- ══════════ ETAPA 1 — DADOS DO CLIENTE ══════════ -->
-  <div class="etapa on" id="etapa1">
-    <div class="card">
-=======
   <!-- ══════════ ETAPA 1 — MAPA CLICÁVEL ══════════ -->
   <div class="etapa on" id="etapa1">
     <div class="card">
@@ -246,7 +231,7 @@ iframe[src*="gso.kommo"] {
 
       <!-- LEGENDA -->
       <div style="display:flex;gap:14px;flex-wrap:wrap;padding:8px 0;margin-bottom:12px">
-        <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)"><div style="width:10px;height:10px;border-radius:50%;background:#22c55e"></div>Disponível</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)"><div style="width:10px;height:10px;border-radius:50%;background:#3b82f6"></div>Disponível</div>
         <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)"><div style="width:10px;height:10px;border-radius:50%;background:#eab308"></div>Reservado</div>
         <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)"><div style="width:10px;height:10px;border-radius:50%;background:#f87171"></div>Vendido</div>
       </div>
@@ -299,18 +284,26 @@ iframe[src*="gso.kommo"] {
         <input type="tel" id="f-wpp" placeholder="(93) 99999-9999" maxlength="15" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 14px;font-size:14px;color:var(--text);font-family:inherit;outline:none;width:100%;transition:border-color .2s" oninput="mascaraTel(this)">
       </div>
 
+      <!-- Campo de lote de interesse (visível apenas quando mapa está com blur/fechado) -->
+      <div id="lote-interesse-wrap" style="display:none;margin-top:14px">
+        <div class="f">
+          <label>Lote de interesse <span style="color:var(--text3);font-weight:400">(opcional)</span></label>
+          <input type="text" id="f-lote-interesse" placeholder="Ex: Quadra 2 Lote 15" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 14px;font-size:14px;color:var(--text);font-family:inherit;outline:none;width:100%;transition:border-color .2s">
+        </div>
+        <div style="font-size:11px;color:var(--text3);margin-top:6px;line-height:1.5">Se você já tem um lote em mente, informe aqui. Caso contrário, o Rafael entrará em contato para indicar as opções disponíveis.</div>
+      </div>
+
     </div>
     <button class="btn-primary" onclick="irEtapa3()" style="margin-top:4px">
       Revisar e Confirmar
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </button>
-    <button class="btn-secondary" onclick="irEtapa1()" style="margin-top:10px">← Voltar ao mapa</button>
+    <button class="btn-secondary" id="btn-voltar-mapa" onclick="irEtapa1()" style="margin-top:10px">← Voltar ao mapa</button>
   </div>
 
   <!-- ══════════ ETAPA 2 original (mantida, oculta por compatibilidade) ══════════ -->
   <div class="etapa" id="etapa1-old" style="display:none!important">
     <div class="card">
->>>>>>> d855d3e (Saved progress at the end of the loop)
       <!-- INFO NO TOPO -->
       <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:18px;margin-bottom:22px;text-align:justify;font-size:12px;color:rgba(242,237,228,0.7);line-height:1.85">
         <div style="font-size:14px;font-weight:700;color:#C9A84C;margin-bottom:12px;font-family:'Cormorant Garamond',serif;text-align:left">Como funciona a Pré-Reserva</div>
@@ -364,21 +357,13 @@ iframe[src*="gso.kommo"] {
           <div class="hint" id="h-nasc"></div>
         </div>
         <div class="f">
-<<<<<<< HEAD
-          <label>Telefone Principal (WhatsApp) *</label>
-=======
           <label>Telefone para Contato 01 *</label>
->>>>>>> d855d3e (Saved progress at the end of the loop)
           <input type="tel" id="f-wpp" placeholder="(93) 99999-9999" maxlength="15" oninput="mascaraTel(this)" onblur="validarTel('f-wpp','h-wpp')">
           <div class="hint" id="h-wpp"></div>
         </div>
 
         <div class="f">
-<<<<<<< HEAD
-          <label>Telefone Secundário</label>
-=======
           <label>Telefone para Contato 02</label>
->>>>>>> d855d3e (Saved progress at the end of the loop)
           <input type="tel" id="f-tel2" placeholder="(93) 99999-9999" maxlength="15" oninput="mascaraTel(this)" onblur="validarTel('f-tel2','h-tel2')">
           <div class="hint" id="h-tel2"></div>
         </div>
@@ -426,65 +411,6 @@ iframe[src*="gso.kommo"] {
       <div class="card-title" style="font-size:16px;margin-top:8px;margin-bottom:4px">📎 Documentos</div>
       <div class="card-sub" style="margin-bottom:14px">Envie seu documento de identificação</div>
 
-<<<<<<< HEAD
-      <div class="f" style="margin-bottom:4px">
-        <label>Tipo de documento</label>
-        <div style="display:flex;gap:10px;margin-top:6px">
-          <button type="button" id="tab-rg" onclick="selecionarDoc('rg')"
-            style="flex:1;padding:10px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;border:2px solid var(--gold);color:var(--gold);background:rgba(201,168,76,0.08);transition:all .2s">
-            🪪 RG
-          </button>
-          <button type="button" id="tab-cnh" onclick="selecionarDoc('cnh')"
-            style="flex:1;padding:10px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;border:2px solid var(--border);color:var(--text2);background:transparent;transition:all .2s">
-            🚗 CNH
-          </button>
-        </div>
-        <input type="hidden" id="tipo-doc" value="rg">
-      </div>
-
-      <div class="g2" id="area-docs">
-        <div class="f">
-          <label id="label-frente">RG — Frente *</label>
-          <div class="upload-area" id="area-frente">
-            <input type="file" accept="image/*,application/pdf" onchange="previewImg(this,'prev-frente','area-frente','frente')">
-            <div class="ico">🪪</div>
-            <h4>Foto ou PDF</h4>
-            <p id="txt-frente">Frente do RG</p>
-          </div>
-          <div class="preview-box" id="prev-frente">
-            <img id="img-frente" src="">
-            <button onclick="removeImg('prev-frente','img-frente','area-frente','frente')">×</button>
-          </div>
-        </div>
-        <div class="f" id="campo-verso">
-          <label>RG — Verso *</label>
-          <div class="upload-area" id="area-verso">
-            <input type="file" accept="image/*,application/pdf" onchange="previewImg(this,'prev-verso','area-verso','verso')">
-            <div class="ico">🪪</div>
-            <h4>Foto ou PDF</h4>
-            <p>Verso do RG</p>
-          </div>
-          <div class="preview-box" id="prev-verso">
-            <img id="img-verso" src="">
-            <button onclick="removeImg('prev-verso','img-verso','area-verso','verso')">×</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="f">
-        <label>Anexo adicional (opcional)</label>
-        <div class="upload-area" id="area-anexo" style="border-style:dashed;opacity:.8">
-          <input type="file" accept="image/*,application/pdf,.pdf" onchange="previewAnexo(this)">
-          <div class="ico">📄</div>
-          <h4>PDF ou imagem extra</h4>
-          <p>CNH frente+verso em PDF, ou outro documento</p>
-        </div>
-        <div id="anexo-nome" style="display:none;font-size:12px;color:#C9A84C;margin-top:6px;padding:8px 12px;background:rgba(201,168,76,0.06);border-radius:6px;border:1px solid rgba(201,168,76,0.15)"></div>
-      </div>
-      </div><!-- /form-bloqueado -->
-    </div>
-
-=======
       <!-- Tipo de documento -->
       <div class="f" style="margin-bottom:16px">
         <label>Tipo de documento *</label>
@@ -578,37 +504,12 @@ iframe[src*="gso.kommo"] {
       </div>
     </div>
 
->>>>>>> d855d3e (Saved progress at the end of the loop)
     <button class="btn-primary" id="btn-continuar" onclick="irEtapa2()" disabled>
       Continuar
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </button>
   </div>
 
-<<<<<<< HEAD
-  <!-- ══════════ ETAPA 2 — ESCOLHA DO TERRENO ══════════ -->
-  <div class="etapa" id="etapa2">
-    <div class="card">
-      <div class="card-title">Escolha seu Terreno</div>
-      <div class="card-sub">Toque no lote desejado para selecioná-lo</div>
-
-      <!-- Toggle Mapa / Lista -->
-      <div class="vista-toggle">
-        <button class="vista-btn on" id="btn-vista-mapa" onclick="toggleVista('mapa')">🗺️ Mapa</button>
-        <button class="vista-btn" id="btn-vista-lista" onclick="toggleVista('lista')">☰ Lista</button>
-      </div>
-
-      <!-- Mapa visual de lotes (padrão) -->
-      <div id="mapa-lotes" class="mapa-lotes">
-        <div style="text-align:center;padding:40px;color:rgba(242,237,228,0.4);font-size:13px">⏳ Carregando lotes...</div>
-      </div>
-
-      <!-- Lista (oculta por padrão) -->
-      <div style="display:none;flex-direction:column;gap:10px;margin-bottom:16px" id="lista-lotes">
-        <!-- Gerado por JS -->
-      </div>
-
-=======
   <!-- ══════════ ETAPA 2 — MAPA DE LOTES ══════════ -->
   <div class="etapa" id="etapa2">
     <div class="card">
@@ -644,37 +545,12 @@ iframe[src*="gso.kommo"] {
       </div>
 
       <!-- Info do lote selecionado (quando liberado) -->
->>>>>>> d855d3e (Saved progress at the end of the loop)
       <div class="lote-info" id="lote-selecionado" style="display:none">
         <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;font-weight:600">Lote Selecionado</div>
         <div class="lote-row"><span class="lote-lbl">Empreendimento</span><span class="lote-val" id="l-empr">Bairro Mararu</span></div>
         <div class="lote-row"><span class="lote-lbl">Quadra</span><span class="lote-val" id="l-quadra">—</span></div>
         <div class="lote-row"><span class="lote-lbl">Lote</span><span class="lote-val" id="l-lote">—</span></div>
         <div class="lote-row"><span class="lote-lbl">Área</span><span class="lote-val" id="l-area">—</span></div>
-<<<<<<< HEAD
-        <div class="lote-row"><span class="lote-lbl">Valor à Vista</span><span class="lote-val gold" id="l-avista">—</span></div>
-        <div class="lote-row"><span class="lote-lbl">Entrada</span><span class="lote-val gold" id="l-entrada">—</span></div>
-        <div class="lote-row"><span class="lote-lbl">Parcelas</span><span class="lote-val" id="l-parcelas">—</span></div>
-        <div class="lote-row"><span class="lote-lbl">Valor da Parcela</span><span class="lote-val" id="l-vparcela">—</span></div>
-        <div class="lote-row"><span class="lote-lbl">Vencimento</span><span class="lote-val" id="l-venc">Todo dia 10</span></div>
-      </div>
-
-      <div style="background:rgba(201,168,76,0.06);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:11px;color:var(--text3);line-height:1.6;margin-bottom:14px">
-        ⚠️ Esta é uma pré-reserva. A disponibilidade será validada pelo corretor antes da confirmação final.
-      </div>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn-primary" id="btn-reservar" onclick="irEtapa3()" disabled>
-        Reservar Lote
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </button>
-      <button class="btn-secondary" onclick="irEtapa1()">← Voltar</button>
-    </div>
-  </div>
-
-  <!-- ══════════ ETAPA 3 — RESERVA E PAGAMENTO ══════════ -->
-=======
         <div class="lote-row"><span class="lote-lbl">Valor</span><span class="lote-val gold" id="l-avista">—</span></div>
         <div class="lote-row"><span class="lote-lbl">Entrada</span><span class="lote-val gold" id="l-entrada">—</span></div>
         <div class="lote-row"><span class="lote-lbl">Parcelas</span><span class="lote-val" id="l-parcelas">—</span></div>
@@ -690,7 +566,6 @@ iframe[src*="gso.kommo"] {
   </div>
 
 <!-- ══════════ ETAPA 3 — RESERVA E PAGAMENTO ══════════ -->
->>>>>>> d855d3e (Saved progress at the end of the loop)
   <div class="etapa" id="etapa3">
     <div class="card">
       <div class="card-title">Finalizar Pré-Reserva</div>
@@ -714,13 +589,8 @@ iframe[src*="gso.kommo"] {
         <div id="txt-vencimento">Calculando...</div>
       </div>
 
-<<<<<<< HEAD
-      <!-- PAGAMENTO — aparece direto -->
-      <div id="secao-pagamento" style="margin-top:4px">
-=======
       <!-- PAGAMENTO — controlado pelo Admin -->
       <div id="secao-pagamento" style="display:none" style="margin-top:4px">
->>>>>>> d855d3e (Saved progress at the end of the loop)
         <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:14px">Como deseja realizar o pagamento da entrada?</div>
         <div class="pay-opts">
           <div class="pay-opt" id="opt-agora" onclick="selecionarPag('agora')">
@@ -797,9 +667,6 @@ iframe[src*="gso.kommo"] {
 
           <div id="aviso-termos" style="display:none;color:var(--red);font-size:12px;margin:8px 0 10px">⚠️ Aceite todos os termos para continuar.</div>
 
-<<<<<<< HEAD
-          <button class="btn-primary" onclick="confirmarTermos()" id="btn-confirmar" style="margin-top:8px">
-=======
           <!-- Botão finalizar sem pagamento (mapa borrado) -->
       <button class="btn-primary" id="btn-finalizar-sem-pag" onclick="finalizarSemPagamento()" style="margin-top:8px;display:none">
         ✅ Finalizar Pré-Cadastro
@@ -807,7 +674,6 @@ iframe[src*="gso.kommo"] {
       </button>
       <!-- Botão confirmar pagamento (mapa liberado) -->
       <button class="btn-primary" onclick="confirmarTermos()" id="btn-confirmar" style="margin-top:8px">
->>>>>>> d855d3e (Saved progress at the end of the loop)
             ✅ OK — Confirmar Reserva
           </button>
         </div>
@@ -819,20 +685,6 @@ iframe[src*="gso.kommo"] {
     </div>
   </div>
 
-<<<<<<< HEAD
-  <!-- ══════════ COMPROVANTE ══════════ -->
-  <div class="etapa" id="etapa-comp">
-    <div class="comp-box">
-      <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,0.6);margin-bottom:6px">Registro de Novas Vendas</div>
-      <div class="comp-icon">🎉</div>
-      <div class="comp-title">Venda Registrada!</div>
-      <div class="comp-sub" id="comp-msg">O cadastro foi concluído e os dados estão salvos.</div>
-      <div class="comp-data" id="comp-data"></div>
-      <a href="https://wa.me/5593992332012" target="_blank" class="btn-primary btn-wpp" style="text-decoration:none;margin-top:4px">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-        Falar com Rafael
-      </a>
-=======
   <!-- ══════════ ETAPA 3 — REVISÃO E CONFIRMAÇÃO ══════════ -->
   <div class="etapa" id="etapa3">
     <div class="card">
@@ -882,7 +734,6 @@ iframe[src*="gso.kommo"] {
       <a href="../" class="btn-secondary" style="text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px">
         🏠 Ver outros lotes
       </a>
->>>>>>> d855d3e (Saved progress at the end of the loop)
     </div>
   </div>
 
@@ -890,71 +741,6 @@ iframe[src*="gso.kommo"] {
 
 <script>
 // ══════════════════════════════════════
-<<<<<<< HEAD
-// DADOS
-// ══════════════════════════════════════
-var SUPABASE_URL='https://uftxcwcryqpkfdfxzlno.supabase.co';
-var SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI';
-var SUPABASE_USER_ID='a02e9603-a770-4be6-8f9b-b1c48b631969';
-var SHEET='https://script.google.com/macros/s/AKfycbyTEVKb3QS3F_dgs6Avnzz1GFpDienr157DhHVtzk174kiNniB8SLMh8rKDA81z8UAQ/exec';
-var DRIVE_SCRIPT=''; // ← Cole aqui a URL do Apps Script após implantar (arquivo apps-script-drive.js)
-var WPP='5593992332012';
-var PIX_KEY='60.659.875/0001-21';
-
-var _fotos={frente:null,verso:null,comprovante:null};
-var _loteSel=null;
-var _pagOpt=null;
-
-var MARARU_EMP_ID='1780067816277';
-var lotes=[];
-var _mapaPontos=[];
-var _mapaImagemUrl='';
-
-function fmt(n){return n?'R$ '+Number(n).toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0}):'A consultar';}
-function fmtDec(n){return n?'R$ '+Number(n).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}):'A consultar';}
-
-function carregarLotes(){
-  var lista=document.getElementById('lista-lotes');
-  lista.innerHTML='<div style="text-align:center;padding:40px;color:rgba(242,237,228,0.4);font-size:13px">⏳ Carregando lotes disponíveis...</div>';
-  fetch(SUPABASE_URL+'/rest/v1/empreendimentos?id=eq.'+MARARU_EMP_ID,{
-    headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Accept':'application/json'}
-  })
-  .then(function(r){return r.json();})
-  .then(function(data){
-    if(!data||!data[0]){lista.innerHTML='<div style="color:var(--red);padding:20px;text-align:center">Erro ao carregar lotes.</div>';return;}
-    var d=data[0].data;
-    var lotesInfo=d.lotesInfo||{};
-    _mapaPontos=d.mapaPontos||[];
-    _mapaImagemUrl=d.mapaImagemUrl||'';
-    lotes=Object.keys(lotesInfo).sort(function(a,b){
-      var pa=a.split('-'),pb=b.split('-');
-      var qc=pa[0].localeCompare(pb[0]);
-      return qc||parseInt(pa[1]||0)-parseInt(pb[1]||0);
-    }).map(function(key){
-      var info=lotesInfo[key];
-      var parts=key.split('-'),q=parts[0],l=parts.slice(1).join('-');
-      var preco=info.preco||null,entN=info.entrada||null,parc=info.parcelas||null;
-      var vparc=(preco&&entN&&parc)?(preco-entN)/parc:null;
-      return {
-        id:key,quadra:q,lote:l,area:'—',
-        avista:fmt(preco),entrada:fmt(entN),
-        parcelas:parc||0,vparcela:fmtDec(vparc),
-        disponivel:info.status==='disponivel',
-        _precoNum:preco||0,_entradaNum:entN||0,_vparcelaNum:vparc||0
-      };
-    });
-    renderLotes();
-  })
-  .catch(function(e){
-    console.warn('Erro lotes:',e);
-    lista.innerHTML='<div style="color:var(--red);padding:20px;text-align:center">Não foi possível carregar os lotes. Verifique sua conexão.</div>';
-  });
-}
-
-// ══════════════════════════════════════
-// PROGRESSO
-// ══════════════════════════════════════
-=======
 // NOVO FLUXO SIMPLIFICADO: MAPA → DADOS → CONFIRMAÇÃO
 // ══════════════════════════════════════
 var SUPABASE_URL='https://uftxcwcryqpkfdfxzlno.supabase.co';
@@ -963,8 +749,10 @@ var MARARU_EMP_ID='1780067816277';
 var WPP='5593992332012';
 
 var _lotesSel=null;
+var _mapaEmBreve=false;
 var _lotesInfo={};
 var _mapaPontos=[];
+var _pinScale=1;
 var _mapaImagemUrl='';
 
 // ── FORMATAÇÃO ──
@@ -979,994 +767,10 @@ function mascaraTel(el){
 }
 
 // ── CONTROLE ETAPAS ──
->>>>>>> d855d3e (Saved progress at the end of the loop)
 function setStep(n){
   [1,2,3].forEach(function(i){
     var sc=document.getElementById('sc'+i);
     var sl=document.getElementById('sl-'+i);
-<<<<<<< HEAD
-    sc.className='step-circle '+(i<n?'done':i===n?'active':'pending');
-    sl.className=i<n?'done':i===n?'active':'';
-  });
-  [1,2].forEach(function(i){
-    var line=document.getElementById('sl'+i);
-    line.className='step-line'+(i<n?' done':'');
-  });
-}
-
-// ══════════════════════════════════════
-// CHECKBOX LI E CONCORDO
-// ══════════════════════════════════════
-var _concordou = false;
-function toggleConcordo(){
-  _concordou = !_concordou;
-  var box = document.getElementById('chk-box-concordo');
-  var bloco = document.getElementById('bloco-concordo');
-  var overlay = document.getElementById('overlay-lock');
-  var btnContinuar = document.getElementById('btn-continuar');
-  if(_concordou){
-    box.style.background = '#C9A84C';
-    box.style.borderColor = '#C9A84C';
-    box.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
-    bloco.style.borderColor = 'rgba(201,168,76,0.7)';
-    bloco.style.background = 'rgba(201,168,76,0.1)';
-    overlay.style.display = 'none';
-    btnContinuar.disabled = false;
-  } else {
-    box.style.background = 'transparent';
-    box.style.borderColor = 'rgba(201,168,76,0.5)';
-    box.innerHTML = '';
-    bloco.style.borderColor = 'rgba(201,168,76,0.28)';
-    bloco.style.background = 'rgba(201,168,76,0.06)';
-    overlay.style.display = 'flex';
-    btnContinuar.disabled = true;
-  }
-}
-
-// ══════════════════════════════════════
-// ETAPA 1 → 2
-// ══════════════════════════════════════
-function irEtapa1(){
-  document.querySelectorAll('.etapa').forEach(function(e){e.classList.remove('on');});
-  document.getElementById('etapa1').classList.add('on');
-  setStep(1);
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-function irEtapa2(){
-  // Validar campos obrigatórios
-  var nome=document.getElementById('f-nome').value.trim();
-  var cpf=document.getElementById('f-cpf').value.trim();
-  var rg=document.getElementById('f-rg').value.trim();
-  var nasc=document.getElementById('f-nasc').value;
-  var wpp=document.getElementById('f-wpp').value.trim();
-  var wppConfirm=document.getElementById('f-wpp-confirm').value.trim();
-  var tel2=document.getElementById('f-tel2').value.trim();
-  var tel2Confirm=document.getElementById('f-tel2-confirm').value.trim();
-  var rua=document.getElementById('f-rua').value.trim();
-  var num=document.getElementById('f-num').value.trim();
-  var bairro=document.getElementById('f-bairro').value.trim();
-  var cidade=document.getElementById('f-cidade').value.trim();
-  var erros=[];
-  if(!nome)erros.push('Nome completo obrigatório');
-  else if(nome.split(' ').length<2)erros.push('Informe nome e sobrenome');
-  if(cpf.length<14||!cpfValido(cpf))erros.push('CPF inválido');
-  if(!rg||rg.length<5)erros.push('RG obrigatório');
-  if(!nasc)erros.push('Data de nascimento obrigatória');
-  if(wpp.length<14)erros.push('Telefone principal inválido');
-  else if(wppConfirm.length<14)erros.push('Confirme o telefone principal');
-  else if(wpp!==wppConfirm)erros.push('Telefone principal não confere — verifique a confirmação');
-  if(tel2.length<14)erros.push('Telefone secundário obrigatório');
-  else if(tel2Confirm.length<14)erros.push('Confirme o telefone secundário');
-  else if(tel2!==tel2Confirm)erros.push('Telefone secundário não confere — verifique a confirmação');
-  if(wpp.length>=14&&tel2.length>=14&&wpp===tel2)erros.push('Os dois telefones não podem ser iguais — informe números diferentes');
-  if(!rua)erros.push('Endereço obrigatório');
-  if(!num)erros.push('Número obrigatório');
-  if(!bairro)erros.push('Bairro obrigatório');
-  if(!cidade)erros.push('Cidade obrigatória');
-  if(erros.length){showToast('⚠️ '+erros[0]);return;}
-
-  // Carregar lotes do Supabase
-  _loteSel=null;
-  document.getElementById('lote-selecionado').style.display='none';
-  document.getElementById('btn-reservar').disabled=true;
-  carregarLotes();
-  document.querySelectorAll('.etapa').forEach(function(e){e.classList.remove('on');});
-  document.getElementById('etapa2').classList.add('on');
-  setStep(2);
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-function irEtapa3(){
-  if(!_loteSel){showToast('⚠️ Selecione um lote');return;}
-  calcularVencimento();
-  // Preencher resumo
-  document.getElementById('r-nome').textContent=document.getElementById('f-nome').value.trim();
-  document.getElementById('r-lote').textContent='Quadra '+_loteSel.quadra+' / Lote '+_loteSel.lote;
-  document.getElementById('r-area').textContent=_loteSel.area;
-  document.getElementById('r-entrada').textContent=_loteSel.entrada;
-  document.getElementById('r-parcelas').textContent=_loteSel.parcelas?(_loteSel.parcelas+'x de '+_loteSel.vparcela):'A consultar';
-  document.querySelectorAll('.etapa').forEach(function(e){e.classList.remove('on');});
-  document.getElementById('etapa3').classList.add('on');
-  setStep(3);
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-// ══════════════════════════════════════
-// LOTES
-// ══════════════════════════════════════
-function renderLotes(){
-  var lista=document.getElementById('lista-lotes');
-  lista.innerHTML=lotes.map(function(l){
-    var disp=l.disponivel;
-    return '<div onclick="'+(disp?'selecionarLote(\''+l.id+'\')':'')+'" style="background:var(--bg3);border:2px solid '+(disp?'var(--border)':'rgba(248,113,113,0.2)')+';border-radius:12px;padding:14px;cursor:'+(disp?'pointer':'default')+';transition:all .2s;opacity:'+(disp?'1':'0.5')+'" id="lote-'+l.id+'">'
-      +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">'
-      +'<span style="font-size:13px;font-weight:700;color:'+(disp?'var(--text)':'var(--red)')+'">Quadra '+l.quadra+' — Lote '+l.lote+'</span>'
-      +'<span style="font-size:10px;font-weight:700;padding:3px 10px;border-radius:100px;background:'+(disp?'rgba(37,211,102,0.1)':'rgba(248,113,113,0.1)')+';color:'+(disp?'var(--green)':'var(--red)')+';">'+(disp?'Disponível':'Indisponível')+'</span>'
-      +'</div>'
-      +'<div style="display:flex;gap:12px;font-size:12px;color:var(--text3)">'
-      +'<span>'+l.area+'</span>'
-      +'<span>Entrada: <strong style="color:var(--gold)">'+l.entrada+'</strong></span>'
-      +'<span>'+l.parcelas+'x de '+l.vparcela+'</span>'
-      +'</div></div>';
-  }).join('');
-  renderMapaLotes();
-}
-
-function renderMapaLotes(){
-  var mapa=document.getElementById('mapa-lotes');
-  if(!mapa)return;
-
-  // Se tiver imagem e pontos do Supabase, usa o mapa real com bolinhas
-  if(_mapaImagemUrl && _mapaPontos.length){
-    var lookup={};
-    lotes.forEach(function(l){lookup[l.quadra+'-'+l.lote]=l;});
-
-    var html='<div style="position:relative;display:inline-block;width:100%;border-radius:10px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.5)">';
-    html+='<img id="mapa-img" src="'+_mapaImagemUrl+'" style="width:100%;display:block;border-radius:10px" alt="Planta do Loteamento Mararu">';
-    html+='<div id="mapa-pontos" style="position:absolute;inset:0;pointer-events:none">';
-
-    _mapaPontos.forEach(function(p){
-      var key=p.quadra+'-'+p.lote;
-      var lotInfo=lookup[key];
-      var disp=lotInfo?lotInfo.disponivel:(p.status==='disponivel');
-      var cor=disp?'#22c55e':'#f87171';
-      var cursor=disp?'pointer':'not-allowed';
-      var onclick=disp?'onclick="selecionarLote(\''+key+'\')"':'';
-      var title='Q'+p.quadra+' L'+p.lote+(disp?'':'  — Indisponível');
-      html+='<div id="ponto-'+key+'" '+onclick+' title="'+title+'" style="position:absolute;left:'+p.xPercent+'%;top:'+p.yPercent+'%;transform:translate(-50%,-50%);width:clamp(22px,5%,34px);height:clamp(22px,5%,34px);cursor:'+cursor+';z-index:10;pointer-events:auto;transition:transform .15s">';
-      html+='<div id="pi-'+key+'" style="width:100%;height:100%;border-radius:50%;background:'+cor+';border:2.5px solid rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:clamp(7px,1.2%,11px);font-weight:800;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.45);transition:all .15s">'+p.lote+'</div>';
-      html+='</div>';
-    });
-
-    html+='</div></div>';
-    html+='<div class="mapa-legenda" style="margin-top:10px">'
-      +'<div class="mapa-leg-item"><div class="mapa-leg-dot" style="background:#22c55e"></div>Disponível</div>'
-      +'<div class="mapa-leg-item"><div class="mapa-leg-dot" style="background:#f87171"></div>Indisponível</div>'
-      +'<div class="mapa-leg-item"><div class="mapa-leg-dot" style="background:var(--gold)"></div>Selecionado</div>'
-      +'</div>';
-    mapa.innerHTML=html;
-    return;
-  }
-
-  // Fallback: grade esquemática
-  var grupos={};
-  lotes.forEach(function(l){
-    if(!grupos[l.quadra])grupos[l.quadra]=[];
-    grupos[l.quadra].push(l);
-  });
-  var quadras=Object.keys(grupos).sort();
-  var html='';
-  quadras.forEach(function(q){
-    var lots=grupos[q];
-    html+='<div class="mapa-quadra">';
-    html+='<div class="mapa-q-label">Quadra '+q+'</div>';
-    html+='<div class="mapa-q-row">';
-    lots.forEach(function(l){
-      var cls=l.disponivel?'disp':'ocup';
-      var onclick=l.disponivel?' onclick="selecionarLote(\''+l.id+'\')"':'';
-      var title='Quadra '+l.quadra+' — Lote '+l.lote+(l.disponivel?' · Entrada: '+l.entrada:' · Indisponível');
-      html+='<div class="mc '+cls+'" id="mc-'+l.id+'"'+onclick+' title="'+title+'">';
-      html+='<span class="mc-num">'+l.lote+'</span>';
-      html+='<span class="mc-dot"></span>';
-      html+='</div>';
-    });
-    html+='</div></div>';
-  });
-  html+='<div class="mapa-legenda">'
-    +'<div class="mapa-leg-item"><div class="mapa-leg-dot" style="background:#22c55e"></div>Disponível</div>'
-    +'<div class="mapa-leg-item"><div class="mapa-leg-dot" style="background:#f87171"></div>Indisponível</div>'
-    +'<div class="mapa-leg-item"><div class="mapa-leg-dot" style="background:var(--gold)"></div>Selecionado</div>'
-    +'</div>';
-  mapa.innerHTML=html;
-}
-
-function toggleVista(tipo){
-  var mapa=document.getElementById('mapa-lotes');
-  var lista=document.getElementById('lista-lotes');
-  var btnMapa=document.getElementById('btn-vista-mapa');
-  var btnLista=document.getElementById('btn-vista-lista');
-  if(tipo==='mapa'){
-    mapa.style.display='block';
-    lista.style.display='none';
-    btnMapa.className='vista-btn on';
-    btnLista.className='vista-btn';
-  } else {
-    mapa.style.display='none';
-    lista.style.display='flex';
-    btnMapa.className='vista-btn';
-    btnLista.className='vista-btn on';
-  }
-}
-
-function selecionarLote(id){
-  _loteSel=lotes.find(function(l){return l.id===id;});
-  if(!_loteSel)return;
-  // Destacar na lista
-  lotes.forEach(function(l){
-    var el=document.getElementById('lote-'+l.id);
-    if(el)el.style.borderColor=l.id===id?'var(--gold)':'var(--border)';
-  });
-  // Destacar no mapa real (bolinhas)
-  if(_mapaImagemUrl && _mapaPontos.length){
-    var lookup={};
-    lotes.forEach(function(l){lookup[l.quadra+'-'+l.lote]=l;});
-    _mapaPontos.forEach(function(p){
-      var key=p.quadra+'-'+p.lote;
-      var lotInfo=lookup[key];
-      var disp=lotInfo?lotInfo.disponivel:(p.status==='disponivel');
-      var pi=document.getElementById('pi-'+key);
-      var pt=document.getElementById('ponto-'+key);
-      if(pi) pi.style.background=key===id?'var(--gold)':disp?'#22c55e':'#f87171';
-      if(pt){
-        pt.style.transform=key===id?'translate(-50%,-50%) scale(1.35)':'translate(-50%,-50%)';
-        pt.style.zIndex=key===id?'20':'10';
-      }
-    });
-    // Scroll suave para o ponto selecionado
-    var selPt=document.getElementById('ponto-'+id);
-    if(selPt)setTimeout(function(){selPt.scrollIntoView({behavior:'smooth',block:'nearest'});},100);
-  } else {
-    // Fallback: grade esquemática
-    document.querySelectorAll('.mc').forEach(function(el){el.classList.remove('sel');});
-    var mc=document.getElementById('mc-'+id);
-    if(mc){mc.classList.add('sel');mc.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});}
-  }
-  // Preencher info
-  document.getElementById('l-quadra').textContent='Quadra '+_loteSel.quadra;
-  document.getElementById('l-lote').textContent='Lote '+_loteSel.lote;
-  document.getElementById('l-area').textContent=_loteSel.area;
-  document.getElementById('l-avista').textContent=_loteSel.avista;
-  document.getElementById('l-entrada').textContent=_loteSel.entrada;
-  document.getElementById('l-parcelas').textContent=_loteSel.parcelas?(_loteSel.parcelas+'x de '+_loteSel.vparcela):'A consultar';
-  document.getElementById('lote-selecionado').style.display='block';
-  document.getElementById('btn-reservar').disabled=false;
-  // Scroll suave para o card de detalhes
-  setTimeout(function(){document.getElementById('lote-selecionado').scrollIntoView({behavior:'smooth',block:'nearest'});},200);
-}
-
-// ══════════════════════════════════════
-// TERMOS E PAGAMENTO
-// ══════════════════════════════════════
-function toggleCheck(id){
-  var cb=document.getElementById(id);
-  var box=document.getElementById('cb'+id.replace('c',''));
-  cb.checked=!cb.checked;
-  box.className='check-box'+(cb.checked?' checked':'');
-}
-
-async function confirmarTermos(){
-  var c1=document.getElementById('c1').checked;
-  var c2=document.getElementById('c2').checked;
-  var c3=document.getElementById('c3').checked;
-  if(!c1||!c2||!c3){
-    document.getElementById('aviso-termos').style.display='block';
-    return;
-  }
-  document.getElementById('aviso-termos').style.display='none';
-  var btn=document.getElementById('btn-confirmar');
-  if(btn){btn.disabled=true;btn.textContent='Registrando...';}
-  var d=getDados();
-  await salvarDados(d);
-  var status=_pagOpt==='agora'?'pago':'depois';
-  var wppMsg='Olá! Vim pelo site para garantir minha pré-reserva.\n\nEmpreendimento: '+d.empreendimento+'\nQuadra: '+d.quadra+'\nLote: '+d.lote+'\n\nNome: '+d.nome+'\nCPF: '+d.cpf+'\n\nStatus: '+(_pagOpt==='agora'?'PIX enviado.':'Aguardando pagamento.')+'.';
-  window.open('https://wa.me/'+WPP+'?text='+encodeURIComponent(wppMsg),'_blank');
-  mostrarComprovante(status);
-}
-
-function selecionarPag(opt){
-  _pagOpt=opt;
-  document.getElementById('opt-agora').className='pay-opt'+(opt==='agora'?' selected':'');
-  document.getElementById('opt-depois').className='pay-opt'+(opt==='depois'?' selected':'');
-  // PIX só quando pagar agora
-  if(opt==='agora'){
-    document.getElementById('secao-pix').style.display='block';
-    var termoPix=document.getElementById('termo-pix');
-    if(termoPix)termoPix.style.display='block';
-    gerarPix();
-  } else {
-    document.getElementById('secao-pix').style.display='none';
-    var termoPix=document.getElementById('termo-pix');
-    if(termoPix)termoPix.style.display='none';
-  }
-  // Mostrar seção de termos após escolher pagamento
-  var secTermos=document.getElementById('secao-termos');
-  if(secTermos){
-    secTermos.style.display='block';
-    setTimeout(function(){secTermos.scrollIntoView({behavior:'smooth',block:'start'});},150);
-  }
-}
-
-// ══════════════════════════════════════
-// PIX
-// ══════════════════════════════════════
-function gerarPix(){
-  if(!_loteSel)return;
-  var entrada=_loteSel.entrada.replace('R$ ','').replace('.','').replace(',','.');
-  var valor=parseFloat(entrada)||300;
-  document.getElementById('pix-valor-label').textContent='Valor da Entrada: '+_loteSel.entrada;
-  var pixCode=gerarCodigoPix(PIX_KEY,'D Souza Imoveis',valor,'Entrada Mararu');
-  document.getElementById('pix-code').textContent=pixCode;
-  // QR Code simples usando canvas
-  desenharQR(pixCode);
-}
-
-function gerarCodigoPix(chave,nome,valor,desc){
-  function campo(id,v){var l=v.length.toString().padStart(2,'0');return id+l+v;}
-  var merchantAccountInfo=campo('00','BR.GOV.BCB.PIX')+campo('01',chave);
-  var valorStr=valor.toFixed(2);
-  var payload=campo('00','01')+campo('26',merchantAccountInfo)+campo('52','0000')+campo('53','986')+campo('54',valorStr)+campo('58','BR')+campo('59',nome.substring(0,25))+campo('60','Santarem')+campo('62',campo('05','***'))+campo('63','0000');
-  var crc=calcCRC16(payload);
-  return payload.slice(0,-4)+crc;
-}
-
-function calcCRC16(str){
-  var crc=0xFFFF;
-  for(var i=0;i<str.length;i++){
-    crc^=str.charCodeAt(i)<<8;
-    for(var j=0;j<8;j++){crc=(crc&0x8000)?(crc<<1)^0x1021:(crc<<1);}
-  }
-  return ((crc&0xFFFF)|0x10000).toString(16).substring(1).toUpperCase();
-}
-
-function desenharQR(text){
-  // Usar API pública para gerar QR Code real
-  var canvas=document.getElementById('qr-canvas');
-  var img=document.createElement('img');
-  var encoded=encodeURIComponent(text);
-  img.src='https://api.qrserver.com/v1/create-qr-code/?size=180x180&data='+encoded+'&bgcolor=F2EDE4&color=000000&margin=10';
-  img.style.cssText='width:180px;height:180px;border-radius:8px;display:block';
-  img.alt='QR Code PIX';
-  img.onerror=function(){
-    // Fallback: desenhar no canvas
-    var ctx=canvas.getContext('2d');
-    ctx.fillStyle='#F2EDE4';
-    ctx.fillRect(0,0,180,180);
-    ctx.fillStyle='#000';
-    ctx.font='bold 11px sans-serif';
-    ctx.textAlign='center';
-    ctx.fillText('QR Code PIX',90,85);
-    ctx.font='10px sans-serif';
-    ctx.fillText('Copie o código abaixo',90,105);
-  };
-  // Substituir canvas por img
-  if(canvas&&canvas.parentNode){
-    canvas.parentNode.replaceChild(img,canvas);
-    img.id='qr-canvas';
-  }
-}
-
-function copiarPix(){
-  var code=document.getElementById('pix-code').textContent;
-  navigator.clipboard.writeText(code).then(function(){showToast('✅ Código PIX copiado!');});
-}
-
-// ══════════════════════════════════════
-// FINALIZAR
-// ══════════════════════════════════════
-function getDados(){
-  return {
-    nome:document.getElementById('f-nome').value.trim(),
-    cpf:document.getElementById('f-cpf').value.trim(),
-    rg:document.getElementById('f-rg').value.trim(),
-    nascimento:document.getElementById('f-nasc').value,
-    wpp:document.getElementById('f-wpp').value.trim(),
-    tel2:document.getElementById('f-tel2').value.trim(),
-    cep:document.getElementById('f-cep').value.trim(),
-    rua:document.getElementById('f-rua').value.trim(),
-    numero:document.getElementById('f-num').value.trim(),
-    bairro:document.getElementById('f-bairro').value.trim(),
-    cidade:document.getElementById('f-cidade').value.trim(),
-    estado:document.getElementById('f-estado').value,
-    empreendimento:'Bairro Mararu',
-    quadra:_loteSel?_loteSel.quadra:'',
-    lote:_loteSel?_loteSel.lote:'',
-    area:_loteSel?_loteSel.area:'',
-    entrada:_loteSel?_loteSel.entrada:'',
-    parcelas:_loteSel?_loteSel.parcelas:'',
-    vparcela:_loteSel?_loteSel.vparcela:'',
-    pagamento:_pagOpt==='agora'?'Pagamento informado':'Aguardando pagamento',
-    origem:'Site Mararu',
-    corretor:'Rafael Tavares - CRECI 13919',
-    timestamp:new Date().toISOString(),
-    data:new Date().toLocaleDateString('pt-BR'),
-    fotos:{frente:_fotos.frente,verso:_fotos.verso,anexo:_fotos.anexo||null}
-  };
-}
-
-async function salvarDados(dados){
-  var agora=Date.now();
-  var clienteId='MAR-'+agora;
-
-  // ── Cliente ──────────────────────────────────────────
-  var clienteData={
-    id:clienteId,
-    nome:dados.nome,
-    cpf:dados.cpf,
-    rg:dados.rg,
-    nascimento:dados.nascimento,
-    telefone1:dados.wpp,
-    telefone2:dados.tel2||'',
-    cep:dados.cep,
-    endereco:dados.rua,
-    numero:dados.numero,
-    bairro:dados.bairro,
-    cidade:dados.cidade,
-    estado:dados.estado,
-    genero:'',
-    profissao:'',
-    estadoCivil:'',
-    nacionalidade:'Brasileira',
-    dataCadastro:new Date().toISOString(),
-    origem:'Site Mararu'
-  };
-  try{
-    var rc=await fetch(SUPABASE_URL+'/rest/v1/clientes',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Prefer':'return=minimal'},
-      body:JSON.stringify({id:clienteId,user_id:'shared',data:clienteData})
-    });
-    if(!rc.ok)console.warn('Supabase clientes status:',rc.status);
-  }catch(e){console.warn('Supabase clientes:',e);}
-
-  // ── Reserva/Venda ─────────────────────────────────────
-  if(_loteSel){
-    var vendaId='RES-'+agora;
-    var vendaData={
-      id:vendaId,
-      quadra:_loteSel.quadra,
-      numeroLote:_loteSel.lote,
-      clienteId:clienteId,
-      clienteNome:dados.nome,
-      empreendimentoId:MARARU_EMP_ID,
-      empreendimentoNome:'MARARU',
-      valorLote:_loteSel._precoNum,
-      valorEntrada:_loteSel._entradaNum,
-      valorParcela:_loteSel._vparcelaNum,
-      quantidadeParcelas:_loteSel.parcelas||0,
-      formaPagamento:_pagOpt==='agora'?'PIX':'Aguardando',
-      status:'pre-reserva',
-      dataVenda:new Date().toISOString(),
-      numeroContrato:'PRE-'+vendaId,
-      custo:0,comissao:0,
-      vendedor:'Rafael Tavares',rua:''
-    };
-    try{
-      var rv=await fetch(SUPABASE_URL+'/rest/v1/vendas',{
-        method:'POST',
-        headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Prefer':'return=minimal'},
-        body:JSON.stringify({id:vendaId,user_id:'shared',data:vendaData})
-      });
-      if(!rv.ok)console.warn('Supabase vendas status:',rv.status);
-    }catch(e){console.warn('Supabase vendas:',e);}
-  }
-
-  // ── API Rumo ao Milhão (Reservas Online) ─────────────
-  try{
-    // 1. Upload dos documentos
-    var docUrls=[];
-    var docsParaUpload=[
-      {base64:_fotosBase64.frente,nome:dados.nome.replace(/ /g,'_')+'_'+(dados.tipoDoc||'doc')+'_frente.jpg'},
-      {base64:_fotosBase64.verso,nome:dados.nome.replace(/ /g,'_')+'_'+(dados.tipoDoc||'doc')+'_verso.jpg'},
-    ];
-    for(var di=0;di<docsParaUpload.length;di++){
-      var doc=docsParaUpload[di];
-      if(!doc.base64)continue;
-      try{
-        // Converter base64 para Blob
-        var arr=doc.base64.split(',');
-        var mime=arr[0].match(/:(.*?);/)[1];
-        var bstr=atob(arr[1]);
-        var n=bstr.length;
-        var u8=new Uint8Array(n);
-        for(var bi=0;bi<n;bi++)u8[bi]=bstr.charCodeAt(bi);
-        var blob=new Blob([u8],{type:mime});
-        var fd=new FormData();
-        fd.append('arquivo',blob,doc.nome);
-        fd.append('clienteNome',dados.nome);
-        fd.append('nomeArquivo',doc.nome);
-        var ru=await fetch('https://rumoaomilhao.imb.br/api/publico/upload-doc',{method:'POST',body:fd});
-        if(ru.ok){var rd=await ru.json();if(rd.url)docUrls.push(rd.url);}
-      }catch(eu){console.warn('Upload doc:',eu);}
-    }
-
-    // 2. Enviar pré-reserva
-    var preReserva={
-      empreendimentoId:MARARU_EMP_ID||'',
-      empreendimentoNome:'MARARU',
-      quadra:(_loteSel&&_loteSel.quadra)||'',
-      numeroLote:(_loteSel&&_loteSel.lote)||'',
-      valorLote:(_loteSel&&_loteSel._precoNum)||0,
-      valorEntrada:(_loteSel&&_loteSel._entradaNum)||0,
-      quantidadeParcelas:(_loteSel&&_loteSel.parcelas)||0,
-      valorParcela:(_loteSel&&_loteSel._vparcelaNum)||0,
-      clienteNome:dados.nome,
-      clienteCpf:(dados.cpf||'').replace(/\D/g,''),
-      clienteTelefone:dados.wpp||'',
-      clienteWhatsapp:dados.wpp||'',
-      clienteDataNascimento:dados.nascimento||'',
-      clienteEndereco:(dados.rua||'')+', '+(dados.numero||'')+', '+(dados.bairro||''),
-      clienteCep:dados.cep||'',
-      clienteRua:dados.rua||'',
-      clienteNumero:dados.numero||'',
-      clienteBairro:dados.bairro||'',
-      clienteCidade:dados.cidade||'',
-      clienteEstado:dados.estado||'PA',
-      status:'rascunho',
-      origemReserva:'site_publico',
-      documentos:docUrls
-    };
-    var rr=await fetch('https://rumoaomilhao.imb.br/api/publico/pre-reserva',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(preReserva)
-    });
-    if(rr.ok){console.log('✅ Pré-reserva enviada ao Rumo ao Milhão!');}
-    else{console.warn('Rumo ao Milhão status:',rr.status,await rr.text());}
-  }catch(e){console.warn('Rumo ao Milhão:',e);}
-
-  // ── Google Sheets (mantém integração existente) ───────
-  try{await fetch(SHEET,{method:'POST',body:JSON.stringify(dados)});}
-  catch(e){console.warn('Sheets:',e);}
-
-  // ── Google Drive (documentos organizados por pasta) ───
-  try{await uploadParaDrive(dados);}
-  catch(e){console.warn('Drive:',e);}
-}
-
-function mostrarComprovante(status){
-  var d=getDados();
-  document.getElementById('comp-msg').textContent=status==='pago'
-    ?'O cadastro foi concluído e os dados estão salvos. Rafael confirmará o pagamento em até 24h úteis.'
-    :'O cadastro foi concluído e os dados estão salvos. Rafael entrará em contato para confirmar o pagamento.';
-  document.getElementById('comp-data').innerHTML=[
-    ['Cliente',d.nome],['CPF',d.cpf],
-    ['Empreendimento','Bairro Mararu'],
-    ['Quadra / Lote','Quadra '+d.quadra+' / Lote '+d.lote],
-    ['Área',d.area],['Entrada',d.entrada],
-    ['Parcelamento',d.parcelas+'x de '+d.vparcela],
-    ['Status',d.pagamento],['Data',d.data]
-  ].map(function(r){
-    return '<div class="comp-row"><span class="l">'+r[0]+'</span><span class="r">'+r[1]+'</span></div>';
-  }).join('');
-  document.querySelectorAll('.etapa').forEach(function(e){e.classList.remove('on');});
-  document.getElementById('etapa-comp').classList.add('on');
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-function finalizarPago(){
-  var d=getDados();
-  salvarDados(d);
-  var msg='Olá Rafael! Vim pelo site para garantir minha pré-reserva com você.\n\nEmpreendimento: '+d.empreendimento+'\nQuadra: '+d.quadra+'\nLote: '+d.lote+'\n\nNome: '+d.nome+'\nCPF: '+d.cpf+'\n\nStatus: Pagamento realizado.\n\nAguardo confirmação da reserva com você, Rafael Tavares — CRECI 13919.';
-  window.open('https://wa.me/'+WPP+'?text='+encodeURIComponent(msg),'_blank');
-  mostrarComprovante('pago');
-}
-
-function finalizarDepois(){
-  var d=getDados();
-  salvarDados(d);
-  var msg='Olá Rafael! Vim pelo site e gostaria de garantir minha pré-reserva com você.\n\nEmpreendimento: '+d.empreendimento+'\nQuadra: '+d.quadra+'\nLote: '+d.lote+'\n\nNome: '+d.nome+'\nCPF: '+d.cpf+'\n\nGostaria de combinar o pagamento diretamente com você, Rafael Tavares — CRECI 13919.';
-  window.open('https://wa.me/'+WPP+'?text='+encodeURIComponent(msg),'_blank');
-  mostrarComprovante('depois');
-}
-
-// ══════════════════════════════════════
-// UPLOAD GOOGLE DRIVE
-// ══════════════════════════════════════
-function normalizarNome(str){
-  return String(str)
-    .normalize('NFD').replace(/[\u0300-\u036f]/g,'') // remove acentos
-    .toUpperCase()
-    .replace(/[^A-Z0-9]+/g,'_')  // espaços e caracteres especiais → _
-    .replace(/^_+|_+$/g,'')       // remove _ no início/fim
-    .substring(0,40);
-}
-async function uploadParaDrive(dados){
-  if(!DRIVE_SCRIPT)return; // sem URL configurada, pula silenciosamente
-
-  var arquivos=[];
-  var tipoDoc=document.getElementById('tipo-doc')?document.getElementById('tipo-doc').value:'rg';
-  var docLabel=tipoDoc==='cnh'?'CNH':'RG';
-
-  if(_fotos.frente){
-    var mimeF=_fotos.frente.startsWith('data:application/pdf')?'application/pdf':'image/jpeg';
-    var extF=mimeF==='application/pdf'?'.pdf':'.jpg';
-    arquivos.push({nome:docLabel+'_frente'+extF,base64:_fotos.frente,tipo:mimeF});
-  }
-  if(_fotos.verso){
-    var mimeV=_fotos.verso.startsWith('data:application/pdf')?'application/pdf':'image/jpeg';
-    var extV=mimeV==='application/pdf'?'.pdf':'.jpg';
-    arquivos.push({nome:docLabel+'_verso'+extV,base64:_fotos.verso,tipo:mimeV});
-  }
-  if(_fotos.anexo){
-    var mimeA=_fotos.anexo.startsWith('data:application/pdf')?'application/pdf':'image/jpeg';
-    var extA=mimeA==='application/pdf'?'.pdf':'.jpg';
-    arquivos.push({nome:'Anexo'+extA,base64:_fotos.anexo,tipo:mimeA});
-  }
-
-  if(!arquivos.length)return; // nenhum documento enviado
-
-  var loteQuadra=_loteSel?('Q'+_loteSel.quadra+'-L'+(String(_loteSel.lote).padStart(2,'0'))):'SEM-LOTE';
-  var pasta=loteQuadra+'_'+normalizarNome(dados.nome||'SEM_NOME');
-  var payload={
-    empreendimento:dados.empreendimento||'Bairro Mararu',
-    pasta:pasta,
-    arquivos:arquivos
-  };
-
-  var r=await fetch(DRIVE_SCRIPT,{
-    method:'POST',
-    headers:{'Content-Type':'text/plain'},
-    body:JSON.stringify(payload)
-  });
-  var json=await r.json();
-  if(!json.ok)console.warn('Drive upload erro:',json.erro);
-}
-
-// ══════════════════════════════════════
-// FOTOS
-// ══════════════════════════════════════
-function previewImg(input,prevId,areaId,tipo){
-  var file=input.files[0];if(!file)return;
-  var reader=new FileReader();
-  reader.onload=function(e){
-    var prev=document.getElementById(prevId);
-    var img=prev.querySelector('img');
-    if(file.type==='application/pdf'){
-      img.src='';img.style.display='none';
-      var pdfLabel=prev.querySelector('.pdf-label');
-      if(!pdfLabel){pdfLabel=document.createElement('div');pdfLabel.className='pdf-label';pdfLabel.style.cssText='padding:20px;text-align:center;color:#C9A84C;font-size:13px;line-height:1.5;';}
-      pdfLabel.innerHTML='📄<br>'+file.name;
-      if(!prev.querySelector('.pdf-label'))prev.appendChild(pdfLabel);
-    } else {
-      img.src=e.target.result;img.style.display='block';
-      var pdfLabel=prev.querySelector('.pdf-label');
-      if(pdfLabel)pdfLabel.remove();
-    }
-    prev.style.display='block';
-    document.getElementById(areaId).style.display='none';
-    _fotos[tipo]=e.target.result;
-    // Verificar se RG precisa de verso
-    if(tipo==='frente'){
-      var tipoDoc=document.getElementById('tipo-doc');
-      if(tipoDoc&&tipoDoc.value==='rg'){
-        var versoArea=document.getElementById('area-verso');
-        var versoPrev=document.getElementById('prev-verso');
-        var versoFilled=versoPrev&&versoPrev.style.display!=='none';
-        if(!versoFilled){
-          var aviso=document.getElementById('aviso-verso');
-          if(!aviso){
-            aviso=document.createElement('div');
-            aviso.id='aviso-verso';
-            aviso.style.cssText='font-size:11px;color:#C9A84C;padding:8px 12px;background:rgba(201,168,76,0.06);border-radius:6px;border:1px solid rgba(201,168,76,0.2);margin-top:8px';
-            aviso.textContent='⚠️ Você enviou a frente do RG. Não esqueça de enviar também o verso!';
-            document.getElementById(prevId).parentElement.appendChild(aviso);
-          }
-        }
-      }
-    }
-    if(tipo==='verso'){
-      var aviso=document.getElementById('aviso-verso');
-      if(aviso)aviso.remove();
-    }
-  };
-  reader.readAsDataURL(file);
-}
-function removeImg(prevId,imgId,areaId,tipo){
-  var prev=document.getElementById(prevId);
-  prev.style.display='none';
-  document.getElementById(imgId).src='';
-  var pdfLabel=prev.querySelector('.pdf-label');
-  if(pdfLabel)pdfLabel.remove();
-  document.getElementById(areaId).style.display='block';
-  _fotos[tipo]=null;
-}
-function selecionarDoc(tipo){
-  document.getElementById('tipo-doc').value=tipo;
-  var tabRg=document.getElementById('tab-rg');
-  var tabCnh=document.getElementById('tab-cnh');
-  if(tabRg&&tabCnh){
-    if(tipo==='rg'){
-      tabRg.style.borderColor='var(--gold)';tabRg.style.color='var(--gold)';tabRg.style.background='rgba(201,168,76,0.08)';
-      tabCnh.style.borderColor='var(--border)';tabCnh.style.color='var(--text2)';tabCnh.style.background='transparent';
-    } else {
-      tabCnh.style.borderColor='var(--gold)';tabCnh.style.color='var(--gold)';tabCnh.style.background='rgba(201,168,76,0.08)';
-      tabRg.style.borderColor='var(--border)';tabRg.style.color='var(--text2)';tabRg.style.background='transparent';
-    }
-  }
-  alterarTipoDoc(tipo);
-}
-function alterarTipoDoc(tipo){
-  var verso=document.getElementById('campo-verso');
-  var labelFrente=document.getElementById('label-frente');
-  var txtFrente=document.getElementById('txt-frente');
-  if(tipo==='cnh'){
-    if(verso)verso.style.display='none';
-    if(labelFrente)labelFrente.textContent='CNH — Frente';
-    if(txtFrente)txtFrente.textContent='Frente da CNH';
-  } else {
-    if(verso)verso.style.display='block';
-    if(labelFrente)labelFrente.textContent='RG — Frente';
-    if(txtFrente)txtFrente.textContent='Frente do RG';
-  }
-  // Limpar uploads
-  removeImg('prev-frente','img-frente','area-frente','frente');
-  removeImg('prev-verso','img-verso','area-verso','verso');
-}
-function previewAnexo(input){
-  var file=input.files[0];if(!file)return;
-  var nome=document.getElementById('anexo-nome');
-  nome.style.display='block';
-  nome.textContent='📄 '+file.name+' ('+Math.round(file.size/1024)+'KB)';
-  var reader=new FileReader();
-  reader.onload=function(e){_fotos.anexo=e.target.result;};
-  reader.readAsDataURL(file);
-}
-
-// ══════════════════════════════════════
-// VALIDAÇÕES
-// ══════════════════════════════════════
-function mascaraCPF(el){
-  var v=el.value.replace(/\D/g,'').substring(0,11);
-  v=v.replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2');
-  el.value=v;
-}
-function mascaraTel(el){
-  var v=el.value.replace(/\D/g,'').substring(0,11);
-  v=v.length>10?v.replace(/(\d{2})(\d{5})(\d{4})/,'($1) $2-$3'):v.replace(/(\d{2})(\d{4})(\d{4})/,'($1) $2-$3');
-  el.value=v;
-}
-function mascaraCEP(el){
-  var v=el.value.replace(/\D/g,'').substring(0,8);
-  el.value=v.replace(/(\d{5})(\d)/,'$1-$2');
-}
-function cpfValido(cpf){
-  var n=cpf.replace(/\D/g,'');
-  if(n.length!==11||/^(\d)\1+$/.test(n))return false;
-  var s=0;for(var i=0;i<9;i++)s+=parseInt(n[i])*(10-i);
-  var r=(s*10)%11;if(r===10||r===11)r=0;if(r!==parseInt(n[9]))return false;
-  s=0;for(var i=0;i<10;i++)s+=parseInt(n[i])*(11-i);
-  r=(s*10)%11;if(r===10||r===11)r=0;return r===parseInt(n[10]);
-}
-function validarCPF(){
-  var el=document.getElementById('f-cpf');
-  var h=document.getElementById('h-cpf');
-  if(!el||!el.value){return;}
-  if(cpfValido(el.value)){
-    el.className='ok';
-    if(h){h.textContent='✓ CPF válido';h.className='hint ok';}
-  } else {
-    el.className='err';
-    if(h){h.textContent='CPF inválido — verifique os números';h.className='hint err';}
-  }
-}
-function validarTel(fieldId,hintId){
-  var el=document.getElementById(fieldId||'f-wpp');
-  var h=document.getElementById(hintId||'h-wpp');
-  if(!el)return;
-  if(el.value.length>=14){el.className='ok';if(h){h.textContent='✓ Telefone válido';h.className='hint ok';}}
-  else{el.className='err';if(h){h.textContent='Formato inválido';h.className='hint err';}}
-  // re-validar confirmação se já preenchida
-  var confirmId=fieldId+'-confirm';
-  var confirmEl=document.getElementById(confirmId);
-  if(confirmEl&&confirmEl.value.length>=14)validarConfirmTel(fieldId,confirmId,hintId.replace('h-','h-')+'_c'.replace('_c','-confirm'));
-}
-function validarConfirmTel(originalId,confirmId,hintId){
-  var orig=document.getElementById(originalId);
-  var conf=document.getElementById(confirmId);
-  var h=document.getElementById(hintId);
-  if(!orig||!conf)return;
-  if(conf.value.length<14){
-    conf.className='err';
-    if(h){h.textContent='Formato inválido';h.className='hint err';}
-    return;
-  }
-  if(orig.value.trim()===conf.value.trim()){
-    conf.className='ok';
-    if(h){h.textContent='✓ Telefones conferem';h.className='hint ok';}
-  } else {
-    conf.className='err';
-    if(h){h.textContent='⚠️ Não confere com o telefone acima';h.className='hint err';}
-  }
-}
-function validarNasc(){
-  var el=document.getElementById('f-nasc');
-  var h=document.getElementById('h-nasc');
-  if(!el.value){el.className='err';if(h)h.textContent='Data obrigatória';return;}
-  var nasc=new Date(el.value);
-  var hoje=new Date();
-  var idade=hoje.getFullYear()-nasc.getFullYear();
-  if(idade<18){el.className='err';if(h)h.textContent='Deve ter 18 anos ou mais';}
-  else{el.className='ok';if(h)h.textContent='';}
-}
-function calcularVencimento(){
-  var hoje=new Date();
-  var v24=new Date(hoje.getTime()+24*60*60*1000);
-  var optsData={day:'2-digit',month:'long',year:'numeric'};
-  var optsHora={hour:'2-digit',minute:'2-digit'};
-  var txtData=v24.toLocaleDateString('pt-BR',optsData);
-  var txtHora=v24.toLocaleTimeString('pt-BR',optsHora);
-  var el=document.getElementById('txt-vencimento');
-  if(el){
-    el.innerHTML='📅 Esta pré-reserva é válida por <strong style="color:#C9A84C">24 horas</strong> a partir de agora, com vencimento em <strong style="color:#C9A84C">'+txtData+' às '+txtHora+'</strong> — porém a confirmação será realizada diretamente com o corretor.';
-  }
-}
-function validarEmail(){
-  var el=document.getElementById('f-email');
-  var h=document.getElementById('h-email');
-  if(!el||!el.value){if(h)h.textContent='';return;}
-  if(/^[^@]+@[^@]+\.[^@]+$/.test(el.value)){el.className='ok';if(h){h.textContent='✓';h.className='hint ok';}}
-  else{el.className='err';if(h){h.textContent='E-mail inválido';h.className='hint err';}}
-}
-function validarCampo(el,tipo){
-  if(tipo==='nome'){
-    if(el.value.trim().length>2)el.className='ok';
-    else if(el.value.trim().length>0)el.className='err';
-  }
-  if(tipo==='rg'){
-    var h=document.getElementById('h-rg');
-    var v=el.value.replace(/[^0-9a-zA-Z]/g,'');
-    if(v.length>=5){
-      el.className='ok';
-      if(h){h.textContent='✓ RG válido';h.className='hint ok';}
-    } else if(el.value.length>0){
-      el.className='err';
-      if(h){h.textContent='RG inválido — mínimo 5 dígitos';h.className='hint err';}
-    }
-  }
-}
-function buscarCEP(){
-  var elCep=document.getElementById('f-cep');
-  var hCep=document.getElementById('h-cep');
-  var cep=elCep.value.replace(/\D/g,'');
-  if(cep.length!==8){
-    if(cep.length>0){elCep.className='err';if(hCep){hCep.textContent='CEP inválido';hCep.className='hint err';}}
-    return;
-  }
-  if(hCep){hCep.textContent='🔍 Buscando...';hCep.className='hint';}
-  fetch('https://viacep.com.br/ws/'+cep+'/json/')
-    .then(function(r){return r.json();})
-    .then(function(d){
-      if(!d.erro){
-        document.getElementById('f-rua').value=d.logradouro||'';
-        document.getElementById('f-bairro').value=d.bairro||'';
-        document.getElementById('f-cidade').value=d.localidade||'';
-        document.getElementById('f-estado').value=d.uf||'PA';
-        elCep.className='ok';
-        if(hCep){hCep.textContent='✓ Endereço encontrado';hCep.className='hint ok';}
-      } else {
-        elCep.className='err';
-        if(hCep){hCep.textContent='CEP não encontrado';hCep.className='hint err';}
-      }
-    }).catch(function(){
-      if(hCep){hCep.textContent='Erro ao buscar CEP';hCep.className='hint err';}
-    });
-}
-
-// ══════════════════════════════════════
-// TOAST
-// ══════════════════════════════════════
-function showToast(msg){
-  var t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
-  setTimeout(function(){t.classList.remove('show');},3000);
-}
-</script>
-
-<!-- ═══ MENU HAMBÚRGUER ═══ -->
-<button id="menu-btn" onclick="toggleMenu()" style="position:fixed;top:14px;right:14px;z-index:300;width:42px;height:42px;border-radius:10px;background:rgba(0,0,0,0.92);border:1px solid rgba(201,168,76,0.3);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;backdrop-filter:blur(12px)">
-  <span class="hbl"></span><span class="hbl"></span><span class="hbl"></span>
-</button>
-
-<div id="menu-overlay" onclick="fecharMenu()" style="position:fixed;inset:0;z-index:250;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);display:none;opacity:0;transition:opacity .3s"></div>
-
-<div id="menu-drawer" style="position:fixed;top:0;right:-320px;bottom:0;z-index:260;width:290px;background:#000;border-left:1px solid rgba(201,168,76,0.2);transition:right .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;overflow-y:auto">
-  <div style="padding:22px 20px 14px;border-bottom:1px solid rgba(201,168,76,0.12);flex-shrink:0">
-    <div style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:700;color:#C9A84C;letter-spacing:2px">Rafael Tavares</div>
-    <div style="font-size:9px;letter-spacing:2px;color:rgba(242,237,228,0.28);text-transform:uppercase;margin-top:3px">Corretor · CRECI 13919</div>
-  </div>
-  <nav style="padding:8px 0;flex:1;overflow-y:auto">
-    <div class="dmi" onclick="irMenu('../../')">
-      <svg class="dico" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      <span>Início</span>
-    </div>
-    <div class="dmi" onclick="irMenu('../../#mapa')">
-      <svg class="dico" viewBox="0 0 24 24"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
-      <span>Mapa de Regiões</span>
-    </div>
-    <div class="dmi" onclick="irMenu('../../#lancamento')">
-      <svg class="dico" viewBox="0 0 24 24"><path d="M12 2C12 2 8 8 8 13a4 4 0 008 0c0-2-1-4-1-4s2 1 2 4a6 6 0 01-12 0C5 7 12 2 12 2z"/></svg>
-      <span>Lançamento</span>
-      <em class="dbg red">NOVO</em>
-    </div>
-    <div class="dmi" onclick="irMenu('../../#regioes')">
-      <svg class="dico" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      <span>Regiões</span>
-    </div>
-    <div class="dmi" onclick="irMenu('../../#grupos')">
-      <svg class="dico" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-      <span>Grupo VIP</span>
-    </div>
-    <div style="height:1px;background:rgba(201,168,76,0.1);margin:6px 18px"></div>
-    <div class="dmi" onclick="irMenu('../../mararu/')">
-      <svg class="dico" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
-      <span>Bairro Mararu</span>
-      <em class="dbg red">🔥</em>
-    </div>
-    <div class="dmi" style="border-left:2px solid #C9A84C;background:rgba(201,168,76,0.07)">
-      <svg class="dico" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
-      <span style="color:#C9A84C">Fazer Reserva</span>
-      <em class="dbg" style="background:rgba(201,168,76,0.15);color:#C9A84C;border:1px solid rgba(201,168,76,0.3)">AQUI</em>
-    </div>
-  </nav>
-  <div style="padding:14px 18px;border-top:1px solid rgba(201,168,76,0.12);flex-shrink:0">
-    <a href="https://wa.me/5593992332012?text=Olá+Rafael!+Tenho+interesse+no+Bairro+Mararu!" target="_blank" onclick="fecharMenu()" style="display:flex;align-items:center;justify-content:center;gap:9px;background:#25d366;color:#000;padding:13px;border-radius:10px;font-size:13px;font-weight:700;text-decoration:none">
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-      Falar com Rafael
-    </a>
-  </div>
-</div>
-
-<style>
-.hbl{display:block;width:20px;height:2px;background:#C9A84C;border-radius:2px;transition:all .3s;transform-origin:center}
-.menu-open .hbl:nth-child(1){transform:translateY(7px) rotate(45deg)}
-.menu-open .hbl:nth-child(2){opacity:0;transform:scaleX(0)}
-.menu-open .hbl:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-.dmi{display:flex;align-items:center;gap:12px;padding:12px 20px;cursor:pointer;transition:all .2s;border-left:2px solid transparent}
-.dmi:hover,.dmi:active{background:rgba(201,168,76,0.07);border-left-color:#C9A84C}
-.dmi:hover span,.dmi:active span{color:#C9A84C}
-.dico{width:18px;height:18px;flex-shrink:0;fill:none;stroke:#C9A84C;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-.dmi span{font-size:13px;font-weight:500;color:rgba(242,237,228,0.82);flex:1}
-.dbg{font-size:9px;padding:2px 8px;border-radius:100px;font-style:normal;font-weight:700;letter-spacing:.5px}
-.dbg.red{background:rgba(248,113,113,0.15);color:#f87171;border:1px solid rgba(248,113,113,0.3)}
-</style>
-
-<script>
-(function(){
-var _open=false;
-window.toggleMenu=function(){_open?fecharMenu():abrirMenu();};
-window.abrirMenu=function(){
-  _open=true;
-  document.getElementById('menu-btn').classList.add('menu-open');
-  var o=document.getElementById('menu-overlay'),d=document.getElementById('menu-drawer');
-  o.style.display='block';setTimeout(function(){o.style.opacity='1';},10);
-  d.style.right='0';document.body.style.overflow='hidden';
-};
-window.fecharMenu=function(){
-  _open=false;
-  document.getElementById('menu-btn').classList.remove('menu-open');
-  var o=document.getElementById('menu-overlay'),d=document.getElementById('menu-drawer');
-  o.style.opacity='0';d.style.right='-320px';
-  setTimeout(function(){o.style.display='none';},300);
-  document.body.style.overflow='';
-};
-window.irMenu=function(href){
-  fecharMenu();
-  setTimeout(function(){window.location.href=href;},350);
-};
-document.addEventListener('keydown',function(e){if(e.key==='Escape')fecharMenu();});
-})();
-=======
     if(sc)sc.className='step-circle '+(i<n?'done':i===n?'active':'pending');
     if(sl)sl.className=i<n?'done':i===n?'active':'';
   });
@@ -1982,9 +786,18 @@ function showEtapa(id){
 }
 function irEtapa1(){showEtapa('etapa1');setStep(1);}
 function irEtapa2(){
-  if(!_lotesSel){showToast('Selecione um lote primeiro');return;}
+  if(!_lotesSel&&!_mapaEmBreve){showToast('Selecione um lote primeiro');return;}
   var txt=document.getElementById('resumo-lote-txt');
-  if(txt)txt.textContent='Q'+_lotesSel.quadra+' — Lote '+_lotesSel.lote;
+  if(txt)txt.textContent=_lotesSel?'Q'+_lotesSel.quadra+' — Lote '+_lotesSel.lote:'A definir no lançamento';
+  // Quando mapa está com blur: esconder resumo do lote, mostrar campo de interesse, esconder botão voltar
+  if(_mapaEmBreve){
+    var resumoEl=document.getElementById('res-lote-resumo');
+    if(resumoEl)resumoEl.style.display='none';
+    var loteWrap=document.getElementById('lote-interesse-wrap');
+    if(loteWrap)loteWrap.style.display='block';
+    var btnVoltar=document.getElementById('btn-voltar-mapa');
+    if(btnVoltar)btnVoltar.style.display='none';
+  }
   showEtapa('etapa2-dados');setStep(2);
 }
 function irEtapa3(){
@@ -1993,7 +806,7 @@ function irEtapa3(){
   if(nome.split(' ').filter(Boolean).length<2){showToast('Informe nome e sobrenome');return;}
   if(tel.replace(/\D/g,'').length<10){showToast('Informe um telefone válido');return;}
   var rl=document.getElementById('rev-lote');var rn=document.getElementById('rev-nome');var rt=document.getElementById('rev-tel');
-  if(rl)rl.textContent='Quadra '+_lotesSel.quadra+' — Lote '+_lotesSel.lote;
+  if(rl)rl.textContent=_lotesSel?'Quadra '+_lotesSel.quadra+' — Lote '+_lotesSel.lote:'A definir no lançamento';
   if(rn)rn.textContent=nome;
   if(rt)rt.textContent=tel;
   showEtapa('etapa3');setStep(3);
@@ -2001,7 +814,7 @@ function irEtapa3(){
 
 // ── MAPA CLICÁVEL ──
 function corLote(status){
-  if(status==='disponivel')return'#22c55e';
+  if(status==='disponivel')return'#3b82f6';
   if(status==='reservado'||status==='pre-reserva')return'#eab308';
   return'#f87171';
 }
@@ -2035,10 +848,10 @@ function renderMapaClicavel(lotesInfo,pontos,imgUrl){
       var status=info.status||'disponivel';
       var cor=corLote(status);
       var isDisp=status==='disponivel';
-      var sz=Math.max(12,Math.round((wrap.offsetWidth||300)*0.042));
+      var sz=Math.max(7,Math.round((wrap.offsetWidth||300)*0.026*_pinScale));
       var cursor=isDisp?'pointer':'not-allowed';
       var opacity=isDisp?'1':'0.55';
-      html+='<div data-lote-key="'+key+'" title="Q'+p.quadra+' L'+p.lote+(isDisp?'',' — '+status)+'"';
+      html+='<div data-lote-key="'+key+'" title="Q'+p.quadra+' L'+p.lote+(isDisp?'':' — '+status)+'"';
       html+=' style="position:absolute;left:'+p.xPercent+'%;top:'+p.yPercent+'%;transform:translate(-50%,-50%);width:'+sz+'px;height:'+sz+'px;cursor:'+cursor+';opacity:'+opacity+';transition:transform .18s,box-shadow .18s;border-radius:50%;z-index:1"';
       if(isDisp)html+=' onclick="selecionarLoteUI(\''+key+'\','+JSON.stringify(info)+')"';
       html+='>';
@@ -2088,15 +901,18 @@ function confirmarReserva(){
   var nome=document.getElementById('f-nome').value.trim();
   var tel=document.getElementById('f-wpp').value.trim();
   var btn=document.getElementById('btn-confirmar-final');
-  if(!nome||!tel||!_lotesSel){showToast('Dados incompletos');return;}
+  if(!nome||!tel){showToast('Dados incompletos');return;}
   if(btn){btn.disabled=true;btn.textContent='Enviando...';}
 
+  var loteInteresse=(document.getElementById('f-lote-interesse')||{}).value;
+  if(loteInteresse)loteInteresse=loteInteresse.trim();
   var payload={
     empreendimento:'Bairro Mararu',
     empreendimento_id:MARARU_EMP_ID,
-    quadra:_lotesSel.quadra,
-    lote:_lotesSel.lote,
-    lote_key:_lotesSel.key,
+    quadra:_lotesSel?_lotesSel.quadra:null,
+    lote:_lotesSel?_lotesSel.lote:null,
+    lote_key:_lotesSel?_lotesSel.key:(loteInteresse||'sem-selecao'),
+    lote_interesse:loteInteresse||null,
     nome:nome,
     telefone:tel,
     status:'pre-reserva',
@@ -2162,7 +978,25 @@ function showToast(msg){
     _lotesInfo=data.lotesInfo||{};
     _mapaPontos=data.mapaPontos||[];
     _mapaImagemUrl=data.mapaImagemUrl||'';
-    renderMapaClicavel(_lotesInfo,_mapaPontos,_mapaImagemUrl);
+    _pinScale=(data.pinSize||100)/100;
+    var _md=data.lancamento?data.lancamento.marcaDagua:'normal';
+    _mapaEmBreve=_md===true||_md==='em-breve'||_md==='fechado';
+    if(_mapaEmBreve){
+      // Mapa com blur: mostra "Em Breve" igual ao mapa principal, não-clicável
+      var wrap2=document.getElementById('res-mapa-wrap');
+      if(wrap2){
+        wrap2.innerHTML='<div style="height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:rgba(0,0,0,0.18);border-radius:10px;position:relative;overflow:hidden"><div style="position:absolute;inset:0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);background:rgba(0,0,0,0.4)"></div><div style="position:relative;z-index:1;text-align:center"><div style="font-family:\'Cormorant Garamond\',serif;font-size:36px;font-weight:700;color:#fff;letter-spacing:5px;text-transform:uppercase;text-shadow:0 4px 24px rgba(0,0,0,0.6)">Em Breve</div><div style="font-size:11px;color:rgba(255,255,255,0.55);letter-spacing:2px;text-transform:uppercase;margin-top:6px">Mapa disponível no lançamento</div></div></div>';
+        wrap2.style.padding='0';wrap2.style.background='transparent';
+      }
+      // Habilitar botão para continuar sem selecionar lote
+      var btnE2=document.getElementById('btn-ir-etapa2');
+      if(btnE2){
+        btnE2.disabled=false;
+        btnE2.innerHTML='Garantir posição na fila \u2192';
+      }
+    } else {
+      renderMapaClicavel(_lotesInfo,_mapaPontos,_mapaImagemUrl);
+    }
   })
   .catch(function(){
     var wrap=document.getElementById('res-mapa-wrap');
@@ -2201,7 +1035,6 @@ function toggleConcordo(){}
 // ──── SUPABASE_USER_ID e SHEET podem existir em código remanescente ────
 var SUPABASE_USER_ID='a02e9603-a770-4be6-8f9b-b1c48b631969';
 var PIX_KEY='60.659.875/0001-21';
->>>>>>> d855d3e (Saved progress at the end of the loop)
 </script>
 <!-- ═══ FIM MENU ═══ -->
 

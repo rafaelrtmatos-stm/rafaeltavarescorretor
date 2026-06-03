@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 modules = ["nodejs-24", "python-3.11"]
-=======
-modules = ["nodejs-24"]
->>>>>>> d855d3e (Saved progress at the end of the loop)
 
 [deployment]
 router = "application"
@@ -22,31 +18,19 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-<<<<<<< HEAD
-args = "Site Rafael Tavares"
+args = "Rafael Tavares Corretor"
 
 [[workflows.workflow]]
-name = "Site Rafael Tavares"
-=======
-args = "Site Rafael"
-
-[[workflows.workflow]]
-name = "Site Rafael"
->>>>>>> d855d3e (Saved progress at the end of the loop)
+name = "Rafael Tavares Corretor"
 author = "agent"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-<<<<<<< HEAD
-args = "node /home/runner/workspace/site/serve.js"
-waitForPort = 5000
-=======
-args = "node sites/serve.js"
-waitForPort = 3000
->>>>>>> d855d3e (Saved progress at the end of the loop)
 
 [workflows.workflow.metadata]
 outputType = "webview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node serve.js"
+waitForPort = 5000
 
 [agent]
 stack = "PNPM_WORKSPACE"
@@ -55,7 +39,10 @@ expertMode = true
 [postMerge]
 path = "scripts/post-merge.sh"
 timeoutMs = 20000
-<<<<<<< HEAD
+
+[[ports]]
+localPort = 3000
+externalPort = 3000
 
 [[ports]]
 localPort = 5000
@@ -68,5 +55,3 @@ externalPort = 80
 [[ports]]
 localPort = 8081
 externalPort = 8081
-=======
->>>>>>> d855d3e (Saved progress at the end of the loop)

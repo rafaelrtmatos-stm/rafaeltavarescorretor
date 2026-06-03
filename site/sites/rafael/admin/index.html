@@ -326,11 +326,7 @@ function salvarTokenModal(){
         <button class="sitem" onclick="goPage('cta',this)"><span class="icon">📢</span><span>CTA</span></button>
         <div class="sidebar-title">🏘️ Imóveis</div>
         <button class="sitem" onclick="goPage('regioes',this)"><span class="icon">🗺️</span><span>Regiões</span></button>
-<<<<<<< HEAD
-        <button class="sitem" onclick="goPage('lancamento',this)"><span class="icon">🎯</span><span>Destaque</span></button>
-=======
         <button class="sitem" onclick="goPage('lancamento',this)"><span class="icon">🔥</span><span>Mararu</span></button>
->>>>>>> d855d3e (Saved progress at the end of the loop)
         <div class="sidebar-title">📱 Marketing</div>
         <button class="sitem" onclick="goPage('redes',this)"><span class="icon">📱</span><span>Redes Sociais</span></button>
         <button class="sitem" onclick="goPage('vip',this)"><span class="icon">💬</span><span>Grupo VIP</span></button>
@@ -490,11 +486,7 @@ function salvarTokenModal(){
       <!-- ══════ PÁGINA: DESTAQUE / LANÇAMENTO ══════ -->
       <div class="page" id="page-lancamento">
         <div class="page-header">
-<<<<<<< HEAD
-          <div class="page-title">Destaque / Lançamento</div>
-=======
           <div class="page-title">🔥 Bairro Mararu</div>
->>>>>>> d855d3e (Saved progress at the end of the loop)
           <div class="page-sub">Configure o empreendimento em destaque no início do site</div>
         </div>
         <div class="card">
@@ -545,35 +537,6 @@ function salvarTokenModal(){
           </div>
         </div>
 
-<<<<<<< HEAD
-        <!-- MARCA D'ÁGUA + BOLINHAS -->
-        <div class="card">
-          <div class="card-title"><span>🗺️</span> Mapa Global</div>
-          <div class="g2">
-            <div class="f">
-              <label>Borrar mapa do Bairro Mararu</label>
-              <select id="lanc-marca-dagua">
-                <option value="true">✅ Borrado + "Em Breve"</option>
-                <option value="false">❌ Mostrar mapa normal</option>
-              </select>
-            </div>
-            <div class="f">
-              <label>Texto da marca d'água</label>
-              <input type="text" id="lanc-marca-txt" placeholder="Em Breve"/>
-            </div>
-          </div>
-          <div class="f">
-            <label>Tamanho das bolinhas — Mapa de Lotes (Mararu): <strong id="pin-size-val">100</strong>%</label>
-            <input type="range" id="lanc-pin-size" min="50" max="200" step="5" value="100"
-              oninput="document.getElementById('pin-size-val').textContent=this.value"
-              style="width:100%;accent-color:var(--gold);margin-top:6px">
-            <span class="f-hint">50% = menor · 100% = padrão · 200% = maior (afeta mapa de lotes do Bairro Mararu)</span>
-          </div>
-          <div class="btn-row">
-            <button class="btn-save" onclick="salvarLancamento()">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg>
-              Salvar & Publicar
-=======
         <!-- MAPA DO BAIRRO MARARU -->
         <div class="card">
           <div class="card-title"><span>🗺️</span> Mapa do Bairro Mararu</div>
@@ -597,8 +560,9 @@ function salvarTokenModal(){
             <div class="f">
               <label>Borrar mapa do Bairro Mararu</label>
               <select id="lanc-marca-dagua" onchange="previewMapaChange()">
-                <option value="true">🌫️ Borrado + "Em Breve"</option>
-                <option value="false">🗺️ Mostrar mapa normal</option>
+                <option value="normal">🗺️ Mostrar mapa normal</option>
+                <option value="em-breve">🌫️ Borrado + "Em Breve"</option>
+                <option value="fechado">🚫 Mapa fechado (pular seleção de lote)</option>
               </select>
             </div>
             <div class="f">
@@ -621,7 +585,6 @@ function salvarTokenModal(){
             <button class="btn-save" onclick="salvarLancamentoEAtualizar()">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg>
               Salvar & Ver no preview
->>>>>>> d855d3e (Saved progress at the end of the loop)
             </button>
           </div>
         </div>
@@ -662,11 +625,7 @@ function salvarTokenModal(){
         <div class="page-header" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px">
           <div>
             <div class="page-title">Regiões do Site</div>
-<<<<<<< HEAD
-            <div class="page-sub">Edite cards, catálogos e pinos do mapa global</div>
-=======
             <div class="page-sub">Edite cards e catálogos das regiões</div>
->>>>>>> d855d3e (Saved progress at the end of the loop)
           </div>
           <button onclick="adicionarRegiao()" style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);color:var(--gold);padding:9px 16px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap">
             + Adicionar Região
@@ -2003,8 +1962,6 @@ function removerGaleriaMararu(i){
   renderGaleriaMararuPreview();
 }
 
-<<<<<<< HEAD
-=======
 function recarregarPreviewMapa(){
   var iframe=document.getElementById('preview-mapa-mararu');
   if(iframe){iframe.src=iframe.src.split('?')[0]+'?_='+Date.now();}
@@ -2018,7 +1975,6 @@ async function salvarLancamentoEAtualizar(){
   setTimeout(recarregarPreviewMapa, 3000);
   toast('✅ Salvo! Atualizando preview em 3s...','ok');
 }
->>>>>>> d855d3e (Saved progress at the end of the loop)
 function prevMararuFoto(){
   var url=(document.getElementById('mararu-foto-principal')||{}).value||'';
   var prev=document.getElementById('mararu-foto-prev');
@@ -2031,25 +1987,6 @@ async function uploadFotoMararuPrincipal(file){
   if(!file)return;
   var prog=document.getElementById('mararu-foto-prog');
   if(prog)prog.style.display='inline';
-<<<<<<< HEAD
-  var ext=file.name.split('.').pop().toLowerCase();
-  var nomeArq='mararu/principal-'+Date.now()+'.'+ext;
-  try{
-    var r=await fetch('https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/fotos-site/'+nomeArq,{
-      method:'POST',
-      headers:{'apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI','Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI','Content-Type':file.type,'x-upsert':'true'},
-      body:file
-    });
-    if(r.ok){
-      var url='https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/'+nomeArq;
-      var el=document.getElementById('mararu-foto-principal');
-      if(el)el.value=url;
-      prevMararuFoto();
-      toast('✅ Foto principal enviada!','ok');
-      await salvarLancamento();
-    }
-  }catch(e){console.warn(e);}
-=======
   try{
     var ext=file.name.split('.').pop().toLowerCase();
     var url=await uploadFotoGitHub(file, 'imagens/mararu-principal.'+ext);
@@ -2062,7 +1999,6 @@ async function uploadFotoMararuPrincipal(file){
     console.warn(e);
     toast('Erro ao enviar: '+e.message,'aviso');
   }
->>>>>>> d855d3e (Saved progress at the end of the loop)
   if(prog)prog.style.display='none';
 }
 
@@ -2101,7 +2037,7 @@ async function carregarLancamento(){
   if(document.getElementById('lanc-ativo'))document.getElementById('lanc-ativo').value=l.ativo!==false?'true':'false';
   if(document.getElementById('lanc-prereserva'))document.getElementById('lanc-prereserva').value=l.prereserva!==false?'true':'false';
   // Marca d'água
-  if(document.getElementById('lanc-marca-dagua'))document.getElementById('lanc-marca-dagua').value=l.marcaDagua===false?'false':'true';
+  if(document.getElementById('lanc-marca-dagua')){var _md=l.marcaDagua;document.getElementById('lanc-marca-dagua').value=(_md===false||_md==='false'||_md==='normal')?'normal':(_md==='fechado')?'fechado':'em-breve';}
   if(document.getElementById('lanc-marca-txt'))document.getElementById('lanc-marca-txt').value=l.marcaDaguaTxt||'Em Breve';
   // Tamanho bolinhas
   var ps=d.pinSize||100;
@@ -2131,7 +2067,7 @@ async function salvarLancamento(){
     descricao:(document.getElementById('lanc-desc')||{value:''}).value||'',
     link:(document.getElementById('lanc-link')||{value:'mararu/'}).value||'mararu/',
     data_lancamento:dataVal?new Date(dataVal).toISOString():(d.lancamento&&d.lancamento.data_lancamento)||'2026-06-06T08:00:00',
-    marcaDagua:(document.getElementById('lanc-marca-dagua')||{value:'true'}).value!=='false',
+    marcaDagua:(document.getElementById('lanc-marca-dagua')||{value:'normal'}).value,
     marcaDaguaTxt:(document.getElementById('lanc-marca-txt')||{value:'Em Breve'}).value||'Em Breve'
   });
   // Tamanho bolinhas
@@ -2251,8 +2187,6 @@ function renderRegEditor(){
   });
 }
 
-<<<<<<< HEAD
-=======
 
 async function uploadFotoRegiao(i,file){
   var btn=document.getElementById('reg-upload-btn-'+i);
@@ -2278,7 +2212,6 @@ async function uploadFotoRegiao(i,file){
   if(prog)prog.style.display='none';
 }
 
->>>>>>> d855d3e (Saved progress at the end of the loop)
 function prevRegFoto(i){
   var url=((document.getElementById('reg-foto-'+i)||{}).value||'').trim();
   var box=document.getElementById('reg-prev-'+i);
@@ -2722,11 +2655,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <div class="adm-nav-divider"></div>
     <div class="adm-nav-title">🏘️ Imóveis</div>
     <button class="adm-si" onclick="goPageM('regioes')"><span class="adm-ic">🗺️</span>Regiões</button>
-<<<<<<< HEAD
-    <button class="adm-si" onclick="goPageM('lancamento')"><span class="adm-ic">🎯</span>Destaque</button>
-=======
     <button class="adm-si" onclick="goPageM('lancamento')"><span class="adm-ic">🔥</span>Mararu</button>
->>>>>>> d855d3e (Saved progress at the end of the loop)
     <div class="adm-nav-divider"></div>
     <div class="adm-nav-title">📱 Marketing</div>
     <button class="adm-si" onclick="goPageM('redes')"><span class="adm-ic">📱</span>Redes Sociais</button>
