@@ -740,6 +740,7 @@ var MARARU_EMP_ID='1780067816277';
 var WPP='5593992332012';
 
 var _lotesSel=null;
+var _mapaEmBreve=false;
 var _lotesInfo={};
 var _mapaPontos=[];
 var _mapaImagemUrl='';
@@ -775,9 +776,9 @@ function showEtapa(id){
 }
 function irEtapa1(){showEtapa('etapa1');setStep(1);}
 function irEtapa2(){
-  if(!_lotesSel){showToast('Selecione um lote primeiro');return;}
+  if(!_lotesSel&&!_mapaEmBreve){showToast('Selecione um lote primeiro');return;}
   var txt=document.getElementById('resumo-lote-txt');
-  if(txt)txt.textContent='Q'+_lotesSel.quadra+' — Lote '+_lotesSel.lote;
+  if(txt)txt.textContent=_lotesSel?'Q'+_lotesSel.quadra+' — Lote '+_lotesSel.lote:'A definir no lançamento';
   showEtapa('etapa2-dados');setStep(2);
 }
 function irEtapa3(){
@@ -786,7 +787,7 @@ function irEtapa3(){
   if(nome.split(' ').filter(Boolean).length<2){showToast('Informe nome e sobrenome');return;}
   if(tel.replace(/\D/g,'').length<10){showToast('Informe um telefone válido');return;}
   var rl=document.getElementById('rev-lote');var rn=document.getElementById('rev-nome');var rt=document.getElementById('rev-tel');
-  if(rl)rl.textContent='Quadra '+_lotesSel.quadra+' — Lote '+_lotesSel.lote;
+  if(rl)rl.textContent=_lotesSel?'Quadra '+_lotesSel.quadra+' — Lote '+_lotesSel.lote:'A definir no lançamento';
   if(rn)rn.textContent=nome;
   if(rt)rt.textContent=tel;
   showEtapa('etapa3');setStep(3);
@@ -881,15 +882,15 @@ function confirmarReserva(){
   var nome=document.getElementById('f-nome').value.trim();
   var tel=document.getElementById('f-wpp').value.trim();
   var btn=document.getElementById('btn-confirmar-final');
-  if(!nome||!tel||!_lotesSel){showToast('Dados incompletos');return;}
+  if(!nome||!tel){showToast('Dados incompletos');return;}
   if(btn){btn.disabled=true;btn.textContent='Enviando...';}
 
   var payload={
     empreendimento:'Bairro Mararu',
     empreendimento_id:MARARU_EMP_ID,
-    quadra:_lotesSel.quadra,
-    lote:_lotesSel.lote,
-    lote_key:_lotesSel.key,
+    quadra:_lotesSel?_lotesSel.quadra:null,
+    lote:_lotesSel?_lotesSel.lote:null,
+    lote_key:_lotesSel?_lotesSel.key:'sem-selecao',
     nome:nome,
     telefone:tel,
     status:'pre-reserva',
@@ -955,7 +956,17 @@ function showToast(msg){
     _lotesInfo=data.lotesInfo||{};
     _mapaPontos=data.mapaPontos||[];
     _mapaImagemUrl=data.mapaImagemUrl||'';
-    renderMapaClicavel(_lotesInfo,_mapaPontos,_mapaImagemUrl);
+    _mapaEmBreve=!!(data.lancamento&&data.lancamento.marcaDagua!==false);
+    if(_mapaEmBreve){
+      var wrap2=document.getElementById('res-mapa-wrap');
+      if(wrap2){
+        wrap2.innerHTML='<div style="height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><div style="font-family:\'Cormorant Garamond\',serif;font-size:36px;font-weight:700;color:var(--gold);letter-spacing:5px;text-transform:uppercase">Em Breve</div><div style="font-size:11px;color:var(--text3);letter-spacing:2px;text-transform:uppercase">Mapa disponível no lançamento</div></div>';
+      }
+      var btnE2=document.getElementById('btn-ir-etapa2');
+      if(btnE2){btnE2.disabled=false;btnE2.innerHTML='Garantir posição na fila <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';}
+    } else {
+      renderMapaClicavel(_lotesInfo,_mapaPontos,_mapaImagemUrl);
+    }
   })
   .catch(function(){
     var wrap=document.getElementById('res-mapa-wrap');
