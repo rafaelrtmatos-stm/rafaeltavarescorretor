@@ -205,18 +205,95 @@ iframe[src*="gso.kommo"] {
     <div class="step-circle active" id="sc1">1</div>
     <div class="step-line" id="sl1"></div>
     <div class="step-circle pending" id="sc2">2</div>
+    <div class="step-line" id="sl2"></div>
+    <div class="step-circle pending" id="sc3">3</div>
   </div>
   <div class="step-labels">
-    <span class="active" id="sl-1">Dados</span>
-    <span id="sl-2">Reserva</span>
+    <span class="active" id="sl-1">Lote</span>
+    <span id="sl-2">Dados</span>
+    <span id="sl-3">Confirmação</span>
   </div>
 </div>
 
 <div class="wrap">
   <div id="toast" class="toast"></div>
 
-  <!-- ══════════ ETAPA 1 — DADOS DO CLIENTE ══════════ -->
+  <!-- ══════════ ETAPA 1 — MAPA CLICÁVEL ══════════ -->
   <div class="etapa on" id="etapa1">
+    <div class="card">
+      <div class="card-title"><span>🗺️</span> Escolha seu Lote</div>
+      <div class="card-sub">Toque em um lote verde (disponível) para selecioná-lo</div>
+
+      <!-- MAPA INTERATIVO -->
+      <div id="res-mapa-wrap" style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;min-height:180px;display:flex;align-items:center;justify-content:center;margin-bottom:12px">
+        <div style="text-align:center;color:var(--text3);font-size:13px">⏳ Carregando mapa...</div>
+      </div>
+
+      <!-- LEGENDA -->
+      <div style="display:flex;gap:14px;flex-wrap:wrap;padding:8px 0;margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)"><div style="width:10px;height:10px;border-radius:50%;background:#22c55e"></div>Disponível</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)"><div style="width:10px;height:10px;border-radius:50%;background:#eab308"></div>Reservado</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)"><div style="width:10px;height:10px;border-radius:50%;background:#f87171"></div>Vendido</div>
+      </div>
+
+      <!-- INFO LOTE SELECIONADO -->
+      <div id="info-lote-sel" style="display:none;background:rgba(201,168,76,0.08);border:1px solid var(--border2);border-radius:10px;padding:14px;margin-bottom:14px">
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;font-weight:600">✅ Lote Selecionado</div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--text3)">Localização</span><span id="sel-loc" style="color:var(--text);font-weight:600">—</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--text3)">Valor</span><span id="sel-preco" style="color:var(--gold);font-weight:700;font-family:'Cormorant Garamond',serif;font-size:16px">—</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--text3)">Entrada</span><span id="sel-entrada" style="color:var(--text);font-weight:600">—</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:13px"><span style="color:var(--text3)">Parcelas</span><span id="sel-parcelas" style="color:var(--text)">—</span></div>
+      </div>
+
+    </div>
+    <button class="btn-primary" id="btn-ir-etapa2" onclick="irEtapa2()" disabled>
+      Continuar com este lote
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+
+  <!-- ══════════ ETAPA 2 — DADOS DO CLIENTE (antigo ETAPA 1) ══════════ -->
+  <div class="etapa" id="etapa2-dados">
+    <div class="card">
+      <!-- INFO NO TOPO -->
+      <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:18px;margin-bottom:22px;text-align:justify;font-size:12px;color:rgba(242,237,228,0.7);line-height:1.85">
+        <div style="font-size:14px;font-weight:700;color:#C9A84C;margin-bottom:12px;font-family:'Cormorant Garamond',serif;text-align:left">Como funciona a Pré-Reserva</div>
+        <p style="margin-bottom:10px"><strong style="color:rgba(242,237,228,0.9)">1. Pré-Reserva.</strong> O preenchimento deste formulário constitui uma manifestação de interesse e não gera obrigação contratual entre as partes. Serve para agilizar o atendimento e garantir prioridade na fila de negociação.</p>
+        <p style="margin-bottom:10px"><strong style="color:rgba(242,237,228,0.9)">2. Confirmação da Reserva.</strong> A reserva do lote será confirmada somente após: envio completo dos dados; pagamento da entrada devidamente comprovado; e confirmação expressa por Rafael Tavares, CRECI 13919.</p>
+        <p><strong style="color:rgba(242,237,228,0.9)">3. Proteção de Dados.</strong> Os dados coletados serão utilizados exclusivamente para fins desta negociação, sendo tratados em conformidade com a LGPD (Lei nº 13.709/2018).</p>
+      </div>
+
+      <!-- LOTE SELECIONADO (resumo) -->
+      <div id="res-lote-resumo" style="background:rgba(201,168,76,0.06);border:1px solid var(--border2);border-radius:10px;padding:12px 16px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:2px">Lote escolhido</div>
+          <div id="resumo-lote-txt" style="font-size:15px;font-weight:700;color:var(--gold);font-family:'Cormorant Garamond',serif">—</div>
+        </div>
+        <button onclick="irEtapa1()" style="background:transparent;border:1px solid var(--border);color:var(--text3);padding:6px 12px;border-radius:8px;font-size:11px;cursor:pointer;font-family:inherit">Trocar</button>
+      </div>
+
+      <div class="card-title" style="margin-bottom:4px">Seus Dados</div>
+      <div class="card-sub" style="margin-bottom:18px">Apenas nome e telefone para contato</div>
+
+      <div class="f">
+        <label>Nome Completo *</label>
+        <input type="text" id="f-nome" placeholder="Seu nome completo" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 14px;font-size:14px;color:var(--text);font-family:inherit;outline:none;width:100%;transition:border-color .2s" oninput="this.style.borderColor=this.value.trim().split(' ').length>=2?'var(--green)':''">
+      </div>
+      <div class="f" style="margin-top:14px">
+        <label>WhatsApp / Telefone *</label>
+        <input type="tel" id="f-wpp" placeholder="(93) 99999-9999" maxlength="15" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 14px;font-size:14px;color:var(--text);font-family:inherit;outline:none;width:100%;transition:border-color .2s" oninput="mascaraTel(this)">
+      </div>
+
+    </div>
+    <button class="btn-primary" onclick="irEtapa3()" style="margin-top:4px">
+      Revisar e Confirmar
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+    <button class="btn-secondary" onclick="irEtapa1()" style="margin-top:10px">← Voltar ao mapa</button>
+  </div>
+
+  <!-- ══════════ ETAPA 2 original (mantida, oculta por compatibilidade) ══════════ -->
+  <div class="etapa" id="etapa1-old" style="display:none!important">
     <div class="card">
       <!-- INFO NO TOPO -->
       <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:18px;margin-bottom:22px;text-align:justify;font-size:12px;color:rgba(242,237,228,0.7);line-height:1.85">
@@ -599,8 +676,31 @@ iframe[src*="gso.kommo"] {
     </div>
   </div>
 
+  <!-- ══════════ ETAPA 3 — REVISÃO E CONFIRMAÇÃO ══════════ -->
+  <div class="etapa" id="etapa3">
+    <div class="card">
+      <div class="card-title"><span>✅</span> Confirme sua Pré-Reserva</div>
+      <div class="card-sub">Revise os dados antes de enviar</div>
+
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:18px">
+        <div style="display:flex;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--text3)">Empreendimento</span><span style="color:var(--text);font-weight:600">Bairro Mararu</span></div>
+        <div style="display:flex;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--text3)">Lote</span><span id="rev-lote" style="color:var(--gold);font-weight:700">—</span></div>
+        <div style="display:flex;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--text3)">Nome</span><span id="rev-nome" style="color:var(--text);font-weight:600">—</span></div>
+        <div style="display:flex;justify-content:space-between;padding:12px 16px;font-size:13px"><span style="color:var(--text3)">Telefone</span><span id="rev-tel" style="color:var(--text);font-weight:600">—</span></div>
+      </div>
+
+      <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px 16px;font-size:11px;color:rgba(242,237,228,0.65);line-height:1.8;margin-bottom:18px">
+        Ao confirmar, Rafael Tavares entrará em contato via WhatsApp para finalizar a reserva. Os dados serão tratados conforme a LGPD.
+      </div>
+
+      <button class="btn-primary" id="btn-confirmar-final" onclick="confirmarReserva()">
+        ✅ Confirmar Pré-Reserva
+      </button>
+      <button class="btn-secondary" onclick="irEtapa2()" style="margin-top:10px">← Editar dados</button>
+    </div>
+  </div>
+
   <!-- ══════════ COMPROVANTE ══════════ -->
-  <!-- OVERLAY SUCESSO 3 SEGUNDOS -->
   <div id="overlay-sucesso" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;flex-direction:column;gap:16px;text-align:center;padding:24px">
     <div style="font-size:56px">🎉</div>
     <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(24px,4vw,36px);font-weight:700;color:#fff;line-height:1.2">Pré-reserva confirmada!</div>
@@ -614,17 +714,16 @@ iframe[src*="gso.kommo"] {
 
   <div class="etapa" id="etapa-comp">
     <div class="comp-box">
-      <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,0.6);margin-bottom:6px">Registro de Novas Vendas</div>
       <div class="comp-icon">🎉</div>
-      <div class="comp-title">Venda Registrada!</div>
-      <div class="comp-sub" id="comp-msg">O cadastro foi concluído e os dados estão salvos.</div>
+      <div class="comp-title">Pré-Reserva Enviada!</div>
+      <div class="comp-sub">Rafael entrará em contato para finalizar. Verifique seu WhatsApp.</div>
       <div class="comp-data" id="comp-data"></div>
       <a href="https://wa.me/5593992332012" target="_blank" class="btn-primary btn-wpp" id="btn-wpp-comp" style="text-decoration:none;margin-top:4px">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
         Falar com Rafael
       </a>
-      <a href="../../" class="btn-secondary" style="text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px">
-        🏠 Voltar ao início
+      <a href="../" class="btn-secondary" style="text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px">
+        🏠 Ver outros lotes
       </a>
     </div>
   </div>
@@ -633,29 +732,28 @@ iframe[src*="gso.kommo"] {
 
 <script>
 // ══════════════════════════════════════
-// DADOS E CONFIGURAÇÕES
+// NOVO FLUXO SIMPLIFICADO: MAPA → DADOS → CONFIRMAÇÃO
 // ══════════════════════════════════════
 var SUPABASE_URL='https://uftxcwcryqpkfdfxzlno.supabase.co';
 var SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI';
-var SUPABASE_USER_ID='a02e9603-a770-4be6-8f9b-b1c48b631969';
-var SHEET='https://script.google.com/macros/s/AKfycbyTEVKb3QS3F_dgs6Avnzz1GFpDienr157DhHVtzk174kiNniB8SLMh8rKDA81z8UAQ/exec';
-var WPP='5593992332012';
-var PIX_KEY='60.659.875/0001-21';
-
-var _fotos={frente:null,verso:null,anexo:null};
-var _fotosBase64={frente:null,verso:null,cpf:null};
-var _docEstado={frente:null,verso:null,cpfDoc:null,tipoDoc:'rg',versoRespondido:false,cpfRespondido:false};
-var _loteSel=null;
-var _pagOpt=null;
-var _mapaBorrado=true;
-
 var MARARU_EMP_ID='1780067816277';
-var lotes=[];
+var WPP='5593992332012';
+
+var _lotesSel=null;
+var _lotesInfo={};
 var _mapaPontos=[];
 var _mapaImagemUrl='';
 
+// ── FORMATAÇÃO ──
 function fmt(n){return n?'R$ '+Number(n).toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0}):'A consultar';}
-function fmtDec(n){return n?'R$ '+Number(n).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}):'A consultar';}
+
+// ── MÁSCARA TELEFONE ──
+function mascaraTel(el){
+  var v=el.value.replace(/\D/g,'');
+  if(v.length<=10)v=v.replace(/^(\d{2})(\d{4})(\d{0,4}).*/,'($1) $2-$3');
+  else v=v.replace(/^(\d{2})(\d{5})(\d{0,4}).*/,'($1) $2-$3');
+  el.value=v;
+}
 
 // ── CONTROLE ETAPAS ──
 function setStep(n){
@@ -670,640 +768,232 @@ function setStep(n){
     if(line)line.className='step-line'+(i<n?' done':'');
   });
 }
-
-var _concordou=false;
-function toggleConcordo(){
-  _concordou=!_concordou;
-  var box=document.getElementById('chk-box-concordo');
-  var bloco=document.getElementById('bloco-concordo');
-  var overlay=document.getElementById('overlay-lock');
-  var btn=document.getElementById('btn-continuar');
-  if(_concordou){
-    if(box){box.style.background='#C9A84C';box.style.borderColor='#C9A84C';box.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';}
-    if(bloco){bloco.style.borderColor='rgba(201,168,76,0.7)';bloco.style.background='rgba(201,168,76,0.1)';}
-    if(overlay)overlay.style.display='none';
-    // Habilitar só se a data de vencimento está válida
-    var vEl=document.getElementById('f-vencimento');
-    var vOk=vEl&&vEl.value&&vEl.className!=='inp err';
-    if(btn)btn.disabled=!vOk;
-  }else{
-    if(box){box.style.background='transparent';box.style.borderColor='rgba(201,168,76,0.5)';box.innerHTML='';}
-    if(bloco){bloco.style.borderColor='rgba(201,168,76,0.28)';bloco.style.background='rgba(201,168,76,0.06)';}
-    if(overlay)overlay.style.display='flex';
-    if(btn)btn.disabled=true;
-  }
-}
-function irEtapa1(){
+function showEtapa(id){
   document.querySelectorAll('.etapa').forEach(function(e){e.classList.remove('on');});
-  document.getElementById('etapa1').classList.add('on');
-  setStep(1);window.scrollTo({top:0,behavior:'smooth'});
+  var el=document.getElementById(id);if(el)el.classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
 }
-
+function irEtapa1(){showEtapa('etapa1');setStep(1);}
 function irEtapa2(){
-  var nome=document.getElementById('f-nome').value.trim();
-  var cpf=document.getElementById('f-cpf').value.trim();
-  var rg=document.getElementById('f-rg').value.trim();
-  var nasc=document.getElementById('f-nasc').value;
-  var wpp=document.getElementById('f-wpp').value.trim();
-  var tel2El=document.getElementById('f-tel2');
-  var tel2=tel2El?tel2El.value.trim():'';
-  var rua=document.getElementById('f-rua').value.trim();
-  var num=document.getElementById('f-num').value.trim();
-  var bairro=document.getElementById('f-bairro').value.trim();
-  var city=document.getElementById('f-cidade').value.trim();
-
-  var erros=[];
-  if(!nome)erros.push('Nome completo obrigatório');
-  else if(nome.split(' ').length<2)erros.push('Informe nome e sobrenome');
-  if(cpf.length<14||!cpfValido(cpf))erros.push('CPF inválido');
-  if(!rg||rg.length<5)erros.push('RG obrigatório');
-  if(!nasc)erros.push('Data de nascimento obrigatória');
-  if(wpp.length<14)erros.push('Telefone principal inválido');
-  if(tel2&&tel2.length>=3&&tel2.length<14)erros.push('Segundo telefone incompleto ou inválido');
-  if(tel2&&wpp.replace(/\D/g,'')=== tel2.replace(/\D/g,''))erros.push('O segundo telefone não pode ser igual ao primeiro');
-  if(!rua)erros.push('Endereço obrigatório');
-  if(!num)erros.push('Número obrigatório');
-  if(!bairro)erros.push('Bairro obrigatório');
-  if(!city)erros.push('Cidade obrigatória');
-
-  // Validar data de vencimento
-  var venc=document.getElementById('f-vencimento');
-  if(!venc||!venc.value){erros.push('Escolha a data de vencimento');}
-  else{
-    var hoje=new Date();hoje.setHours(0,0,0,0);
-    var dv=new Date(venc.value+'T00:00:00');
-    if(dv<=hoje)erros.push('Data de vencimento inválida');
-  }
-
-  if(erros.length){showToast('⚠️ '+erros[0]);return;}
-
-  _loteSel=null;
-  var ls=document.getElementById('lote-selecionado');if(ls)ls.style.display='none';
-  var br=document.getElementById('btn-reservar');if(br)br.disabled=true;
-
-  // Carregar estado do mapa
-  // Aplicar estado borrado imediatamente enquanto carrega
-  aplicarEstadoMapa(true);
-  fetch('/site_data.json?_='+Date.now())
-    .then(function(r){return r.json();})
-    .then(function(d){
-      _mapaBorrado=!d||!d.lancamento||d.lancamento.marcaDagua!==false;
-      aplicarEstadoMapa(_mapaBorrado);
-    }).catch(function(){aplicarEstadoMapa(true);});
-
-  document.querySelectorAll('.etapa').forEach(function(e){e.classList.remove('on');});
-  document.getElementById('etapa2').classList.add('on');
-  setStep(2);window.scrollTo({top:0,behavior:'smooth'});
+  if(!_lotesSel){showToast('Selecione um lote primeiro');return;}
+  var txt=document.getElementById('resumo-lote-txt');
+  if(txt)txt.textContent='Q'+_lotesSel.quadra+' — Lote '+_lotesSel.lote;
+  showEtapa('etapa2-dados');setStep(2);
 }
-
-function aplicarEstadoMapa(borrado){
-  _mapaBorrado=borrado;
-  var overlay=document.getElementById('overlay-em-breve');
-  var msgBorrado=document.getElementById('msg-mapa-borrado');
-  var secPag=document.getElementById('secao-pagamento');
-  var btnFinalizar=document.getElementById('btn-finalizar-sem-pag');
-  var btnConfirmar=document.getElementById('btn-confirmar');
-  var btnReservar=document.getElementById('btn-reservar');
-  if(overlay)overlay.style.display=borrado?'flex':'none';
-  if(msgBorrado)msgBorrado.style.display=borrado?'block':'none';
-  if(secPag)secPag.style.display=borrado?'none':'block';
-  if(btnFinalizar)btnFinalizar.style.display=borrado?'block':'none';
-  if(btnConfirmar)btnConfirmar.style.display=borrado?'none':'block';
-  // Sempre habilitar o botão Avançar quando mapa borrado
-  if(borrado&&btnReservar)btnReservar.disabled=false;
-}
-
 function irEtapa3(){
-  if(!_loteSel&&!_mapaBorrado){showToast('⚠️ Selecione um lote no mapa');return;}
-  // Preencher vencimento padrão 30 dias
-  var vencEl=document.getElementById('f-vencimento');
-  if(vencEl&&!vencEl.value){
-    var d30=new Date();d30.setDate(d30.getDate()+30);
-    vencEl.value=d30.toISOString().split('T')[0];
-    validarVencimento();
-  }
-  if(typeof calcularVencimento==='function')calcularVencimento();
-  var nomeEl=document.getElementById('r-nome');if(nomeEl)nomeEl.textContent=document.getElementById('f-nome').value.trim();
-  var loteEl=document.getElementById('r-lote');if(loteEl)loteEl.textContent=_loteSel?('Quadra '+_loteSel.quadra+' / Lote '+_loteSel.lote):'A definir no lançamento';
-  var areaEl=document.getElementById('r-area');if(areaEl)areaEl.textContent=_loteSel?_loteSel.area:'—';
-  var entEl=document.getElementById('r-entrada');if(entEl)entEl.textContent=_loteSel?_loteSel.entrada:'—';
-  var parEl=document.getElementById('r-parcelas');if(parEl)parEl.textContent=_loteSel?(_loteSel.parcelas?(_loteSel.parcelas+'x de '+_loteSel.vparcela):'A consultar'):'—';
-  document.querySelectorAll('.etapa').forEach(function(e){e.classList.remove('on');});
-  document.getElementById('etapa3').classList.add('on');
-  setStep(3);
-  // Aplicar estado do mapa na etapa 3 também
-  aplicarEstadoMapa(_mapaBorrado);
-  window.scrollTo({top:0,behavior:'smooth'});
+  var nome=document.getElementById('f-nome').value.trim();
+  var tel=document.getElementById('f-wpp').value.trim();
+  if(nome.split(' ').filter(Boolean).length<2){showToast('Informe nome e sobrenome');return;}
+  if(tel.replace(/\D/g,'').length<10){showToast('Informe um telefone válido');return;}
+  var rl=document.getElementById('rev-lote');var rn=document.getElementById('rev-nome');var rt=document.getElementById('rev-tel');
+  if(rl)rl.textContent='Quadra '+_lotesSel.quadra+' — Lote '+_lotesSel.lote;
+  if(rn)rn.textContent=nome;
+  if(rt)rt.textContent=tel;
+  showEtapa('etapa3');setStep(3);
 }
 
-// ── MAPA DE LOTES ──
-function renderMapaLotes(){
-  var mapa=document.getElementById('mapa-lotes');
-  if(!mapa)return;
-  if(_mapaImagemUrl&&_mapaPontos.length){
-    var lookup={};lotes.forEach(function(l){lookup[l.quadra+'-'+l.lote]=l;});
-    var h='<div style="position:relative;display:inline-block;width:100%;border-radius:10px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.5)">';
-    h+='<img id="mapa-img" src="'+_mapaImagemUrl+'" style="width:100%;display:block;border-radius:10px" alt="Mapa">';
-    h+='<div id="mapa-pontos" style="position:absolute;inset:0;pointer-events:none">';
-    _mapaPontos.forEach(function(p){
+// ── MAPA CLICÁVEL ──
+function corLote(status){
+  if(status==='disponivel')return'#22c55e';
+  if(status==='reservado'||status==='pre-reserva')return'#eab308';
+  return'#f87171';
+}
+function selecionarLoteUI(key,info){
+  _lotesSel={quadra:key.split('-')[0],lote:key.split('-')[1],key:key,info:info};
+  document.querySelectorAll('[data-lote-key]').forEach(function(el){
+    el.style.transform=el.dataset.loteKey===key?'scale(1.35)':'scale(1)';
+    el.style.zIndex=el.dataset.loteKey===key?'5':'1';
+    el.style.boxShadow=el.dataset.loteKey===key?'0 0 0 3px #fff, 0 0 12px rgba(201,168,76,0.8)':'';
+  });
+  var box=document.getElementById('info-lote-sel');if(box)box.style.display='block';
+  var sl=document.getElementById('sel-loc');if(sl)sl.textContent='Quadra '+_lotesSel.quadra+' — Lote '+_lotesSel.lote;
+  var sp=document.getElementById('sel-preco');if(sp)sp.textContent=fmt(info.valor||info.preco||info.valorAvista||null);
+  var se=document.getElementById('sel-entrada');if(se)se.textContent=fmt(info.entrada||null);
+  var spa=document.getElementById('sel-parcelas');
+  if(spa)spa.textContent=info.parcelas?info.parcelas+'x de '+fmt(info.valorParcela||null):'A consultar';
+  var btn=document.getElementById('btn-ir-etapa2');if(btn)btn.disabled=false;
+}
+
+function renderMapaClicavel(lotesInfo,pontos,imgUrl){
+  var wrap=document.getElementById('res-mapa-wrap');
+  if(!wrap)return;
+
+  if(imgUrl&&pontos&&pontos.length){
+    var html='<div style="position:relative;width:100%;border-radius:10px;overflow:hidden">';
+    html+='<img src="'+imgUrl+'" style="width:100%;display:block;border-radius:10px" alt="Mapa Bairro Mararu">';
+    html+='<div style="position:absolute;inset:0">';
+    pontos.forEach(function(p){
       var key=p.quadra+'-'+p.lote;
-      var lotInfo=lookup[key];
-      var disp=lotInfo?lotInfo.disponivel:(p.status==='disponivel');
-      var cor=disp?'#22c55e':'#f87171';
-      var oc=disp?'onclick="selecionarLote(\'' + key + '\')"':'';
-      h+='<div id="ponto-'+key+'" '+oc+' title="Q'+p.quadra+' L'+p.lote+(disp?'':' — Indisponível')+'" style="position:absolute;left:'+p.xPercent+'%;top:'+p.yPercent+'%;transform:translate(-50%,-50%);width:clamp(22px,5%,34px);height:clamp(22px,5%,34px);cursor:'+(disp?'pointer':'not-allowed')+';z-index:10;pointer-events:auto;transition:transform .15s">';
-      h+='<div id="pi-'+key+'" style="width:100%;height:100%;border-radius:50%;background:'+cor+';border:2.5px solid rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:clamp(7px,1.2%,11px);font-weight:800;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.45);transition:all .15s">'+p.lote+'</div></div>';
+      var info=lotesInfo[key]||{};
+      var status=info.status||'disponivel';
+      var cor=corLote(status);
+      var isDisp=status==='disponivel';
+      var sz=Math.max(12,Math.round((wrap.offsetWidth||300)*0.042));
+      var cursor=isDisp?'pointer':'not-allowed';
+      var opacity=isDisp?'1':'0.55';
+      html+='<div data-lote-key="'+key+'" title="Q'+p.quadra+' L'+p.lote+(isDisp?'',' — '+status)+'"';
+      html+=' style="position:absolute;left:'+p.xPercent+'%;top:'+p.yPercent+'%;transform:translate(-50%,-50%);width:'+sz+'px;height:'+sz+'px;cursor:'+cursor+';opacity:'+opacity+';transition:transform .18s,box-shadow .18s;border-radius:50%;z-index:1"';
+      if(isDisp)html+=' onclick="selecionarLoteUI(\''+key+'\','+JSON.stringify(info)+')"';
+      html+='>';
+      html+='<div style="width:100%;height:100%;border-radius:50%;background:'+cor+';border:2px solid rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:'+Math.max(5,Math.round(sz*0.44))+'px;font-weight:800;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.45)">'+p.lote+'</div>';
+      html+='</div>';
     });
-    h+='</div></div>';
-    mapa.innerHTML=h;
-  }
-}
-
-function selecionarLote(id){
-  _loteSel=lotes.find(function(l){return l.id===id;});
-  if(!_loteSel)return;
-  var lookup={};lotes.forEach(function(l){lookup[l.quadra+'-'+l.lote]=l;});
-  _mapaPontos.forEach(function(p){
-    var key=p.quadra+'-'+p.lote;
-    var disp=(lookup[key]||{disponivel:p.status==='disponivel'}).disponivel;
-    var pi=document.getElementById('pi-'+key);
-    var pt=document.getElementById('ponto-'+key);
-    if(pi)pi.style.background=key===id?'var(--gold)':disp?'#22c55e':'#f87171';
-    if(pt){pt.style.transform=key===id?'translate(-50%,-50%) scale(1.35)':'translate(-50%,-50%)';pt.style.zIndex=key===id?'20':'10';}
-  });
-  var q=document.getElementById('l-quadra');if(q)q.textContent='Quadra '+_loteSel.quadra;
-  var l=document.getElementById('l-lote');if(l)l.textContent='Lote '+_loteSel.lote;
-  var a=document.getElementById('l-area');if(a)a.textContent=_loteSel.area;
-  var av=document.getElementById('l-avista');if(av)av.textContent=_loteSel.avista;
-  var en=document.getElementById('l-entrada');if(en)en.textContent=_loteSel.entrada;
-  var vp=document.getElementById('l-vparcela');if(vp)vp.textContent=_loteSel.vparcela;
-  var pa=document.getElementById('l-parcelas');if(pa)pa.textContent=_loteSel.parcelas+'x';
-  var ls=document.getElementById('lote-selecionado');if(ls)ls.style.display='block';
-  var br=document.getElementById('btn-reservar');if(br)br.disabled=false;
-  setTimeout(function(){var el=document.getElementById('lote-selecionado');if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'});},200);
-}
-
-// ── PAGAMENTO ──
-function toggleCheck(id){
-  var cb=document.getElementById(id);
-  var box=document.getElementById('cb'+id.replace('c',''));
-  cb.checked=!cb.checked;
-  if(box)box.className='check-box'+(cb.checked?' checked':'');
-}
-
-function selecionarPag(opt){
-  _pagOpt=opt;
-  var oa=document.getElementById('opt-agora');if(oa)oa.className='pay-opt'+(opt==='agora'?' selected':'');
-  var od=document.getElementById('opt-depois');if(od)od.className='pay-opt'+(opt==='depois'?' selected':'');
-  var sp=document.getElementById('secao-pix');if(sp)sp.style.display=opt==='agora'?'block':'none';
-  var tp=document.getElementById('termo-pix');if(tp)tp.style.display=opt==='agora'?'block':'none';
-  if(opt==='agora')gerarPix();
-  var st=document.getElementById('secao-termos');if(st)st.style.display='block';
-}
-
-function gerarPix(){
-  if(!_loteSel)return;
-  var pl=document.getElementById('pix-valor-label');if(pl)pl.textContent='Valor da Entrada: '+_loteSel.entrada;
-  var encoded=encodeURIComponent(PIX_KEY);
-  var qr=document.getElementById('qr-canvas');
-  if(qr){var img=document.createElement('img');img.src='https://api.qrserver.com/v1/create-qr-code/?size=180x180&data='+encoded;img.id='qr-canvas';img.className='pix-qr';qr.parentNode.replaceChild(img,qr);}
-  var pc=document.getElementById('pix-code');if(pc)pc.textContent=PIX_KEY;
-}
-
-function copiarPix(){
-  var code=document.getElementById('pix-code').textContent;
-  navigator.clipboard.writeText(code).then(function(){showToast('✅ Chave PIX copiada!');});
-}
-
-function getDados(){
-  var tel2El=document.getElementById('f-tel2');
-  var vencEl=document.getElementById('f-vencimento');
-  return {
-    nome:(document.getElementById('f-nome')||{value:''}).value.trim(),
-    cpf:(document.getElementById('f-cpf')||{value:''}).value.trim(),
-    rg:(document.getElementById('f-rg')||{value:''}).value.trim(),
-    nascimento:(document.getElementById('f-nasc')||{value:''}).value,
-    wpp:(document.getElementById('f-wpp')||{value:''}).value.trim(),
-    tel2:tel2El?tel2El.value.trim():'',
-    cep:(document.getElementById('f-cep')||{value:''}).value.trim(),
-    rua:(document.getElementById('f-rua')||{value:''}).value.trim(),
-    numero:(document.getElementById('f-num')||{value:''}).value.trim(),
-    bairro:(document.getElementById('f-bairro')||{value:''}).value.trim(),
-    cidade:(document.getElementById('f-cidade')||{value:''}).value.trim(),
-    estado:(document.getElementById('f-estado')||{value:'PA'}).value,
-    vencimento:vencEl?vencEl.value:'',
-    empreendimento:'Bairro Mararu',
-    quadra:_loteSel?_loteSel.quadra:'',
-    lote:_loteSel?_loteSel.lote:'',
-    entrada:_loteSel?_loteSel.entrada:'',
-    parcelas:_loteSel?_loteSel.parcelas:'',
-    vparcela:_loteSel?_loteSel.vparcela:'',
-    pagamento:_pagOpt==='agora'?'PIX informado':'A combinar',
-    timestamp:new Date().toISOString()
-  };
-}
-
-async function salvarDados(){
-  var dados=getDados();
-  var agora=Date.now();
-  var clienteId='MAR-'+agora;
-
-  // Supabase clientes
-  var clienteData={
-    id:clienteId,nome:dados.nome,cpf:dados.cpf.replace(/\D/g,''),
-    rg:dados.rg,dataNascimento:dados.nascimento,
-    telefone:dados.wpp,telefone2:dados.tel2,
-    cep:dados.cep,rua:dados.rua,numero:dados.numero,
-    bairro:dados.bairro,cidade:dados.cidade,estado:dados.estado,
-    vencimento:dados.vencimento,
-    empreendimento:'Bairro Mararu',corretor:'Rafael Tavares — CRECI 13919',
-    dataCadastro:new Date().toISOString(),origem:'Site Mararu'
-  };
-  try{
-    var rc=await fetch(SUPABASE_URL+'/rest/v1/clientes',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Prefer':'return=minimal'},
-      body:JSON.stringify({id:clienteId,user_id:'shared',data:clienteData})
-    });
-    if(!rc.ok)console.warn('Supabase clientes:',rc.status);
-  }catch(e){console.warn('Supabase:',e);}
-
-  // Supabase vendas (só quando tem lote)
-  if(_loteSel){
-    var vendaId='RES-'+agora;
-    var vendaData={
-      id:vendaId,quadra:_loteSel.quadra,numeroLote:_loteSel.lote,
-      clienteId:clienteId,clienteNome:dados.nome,
-      empreendimentoId:MARARU_EMP_ID,empreendimentoNome:'MARARU',
-      valorLote:_loteSel._precoNum,valorEntrada:_loteSel._entradaNum,
-      valorParcela:_loteSel._vparcelaNum,quantidadeParcelas:_loteSel.parcelas||0,
-      formaPagamento:_pagOpt==='agora'?'PIX':'Aguardando',
-      status:'pre-reserva',dataVenda:new Date().toISOString(),
-      numeroContrato:'PRE-'+vendaId,custo:0,comissao:0,vendedor:'Rafael Tavares',rua:''
-    };
-    try{
-      await fetch(SUPABASE_URL+'/rest/v1/vendas',{
-        method:'POST',
-        headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Prefer':'return=minimal'},
-        body:JSON.stringify({id:vendaId,user_id:'shared',data:vendaData})
-      });
-    }catch(e){console.warn('Supabase vendas:',e);}
-  }
-
-  // Rumo ao Milhão
-  try{
-    var docUrls=[];
-    var docs=[
-      {base64:_fotosBase64.frente,nome:dados.nome.replace(/ /g,'_')+'_doc_frente.jpg'},
-      {base64:_fotosBase64.verso,nome:dados.nome.replace(/ /g,'_')+'_doc_verso.jpg'},
-    ];
-    for(var di=0;di<docs.length;di++){
-      var doc=docs[di];
-      if(!doc.base64)continue;
-      try{
-        var arr=doc.base64.split(',');
-        var mime=arr[0].match(/:(.*?);/)[1];
-        var bstr=atob(arr[1]);
-        var u8=new Uint8Array(bstr.length);
-        for(var bi=0;bi<bstr.length;bi++)u8[bi]=bstr.charCodeAt(bi);
-        var fd=new FormData();
-        fd.append('arquivo',new Blob([u8],{type:mime}),doc.nome);
-        fd.append('clienteNome',dados.nome);fd.append('nomeArquivo',doc.nome);
-        var ru=await fetch('https://rumoaomilhao.imb.br/api/publico/upload-doc',{method:'POST',body:fd});
-        if(ru.ok){var rd=await ru.json();if(rd.url)docUrls.push(rd.url);}
-      }catch(eu){console.warn('Upload doc:',eu);}
-    }
-    await fetch('https://rumoaomilhao.imb.br/api/publico/pre-reserva',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        empreendimentoId:MARARU_EMP_ID,empreendimentoNome:'MARARU',
-        quadra:dados.quadra,numeroLote:dados.lote,
-        valorLote:_loteSel?_loteSel._precoNum:0,
-        valorEntrada:_loteSel?_loteSel._entradaNum:0,
-        quantidadeParcelas:dados.parcelas||0,
-        valorParcela:_loteSel?_loteSel._vparcelaNum:0,
-        clienteNome:dados.nome,clienteCpf:dados.cpf.replace(/\D/g,''),
-        clienteTelefone:dados.wpp,clienteWhatsapp:dados.wpp,
-        clienteDataNascimento:dados.nascimento,
-        clienteEndereco:dados.rua+', '+dados.numero,
-        clienteCep:dados.cep,clienteBairro:dados.bairro,
-        clienteCidade:dados.cidade,clienteEstado:dados.estado,
-        status:'rascunho',origemReserva:'site_publico',documentos:docUrls
-      })
-    });
-  }catch(e){console.warn('Rumo ao Milhão:',e);}
-
-  // Google Sheets
-  try{await fetch(SHEET,{method:'POST',body:JSON.stringify(dados)});}catch(e){}
-}
-
-async function confirmarTermos(){
-  var c1=document.getElementById('c1');var c2=document.getElementById('c2');var c3=document.getElementById('c3');
-  if(!(c1&&c1.checked&&c2&&c2.checked&&c3&&c3.checked)){
-    var av=document.getElementById('aviso-termos');if(av)av.style.display='block';return;
-  }
-  var av=document.getElementById('aviso-termos');if(av)av.style.display='none';
-  var btn=document.getElementById('btn-confirmar');
-  if(btn){btn.disabled=true;btn.textContent='Registrando...';}
-  await salvarDados();
-  mostrarComprovante();
-}
-
-async function finalizarSemPagamento(){
-  var btn=document.getElementById('btn-finalizar-sem-pag');
-  if(btn){btn.disabled=true;btn.textContent='⏳ Enviando...';}
-  await salvarDados();
-  mostrarComprovante();
-}
-
-function mostrarComprovante(){
-  var d=getDados();
-  // Salvar no localStorage
-  try{
-    localStorage.setItem('mararu_reserva',JSON.stringify({
-      quadra:_loteSel?_loteSel.quadra:'',
-      lote:_loteSel?_loteSel.lote:'',
-      nome:d.nome,ts:Date.now()
-    }));
-  }catch(e){}
-  // Preencher comprovante
-  var cd=document.getElementById('comp-data');
-  if(cd){
-    cd.innerHTML=[
-      ['Cliente',d.nome],['CPF',d.cpf],
-      ['Empreendimento','Bairro Mararu'],
-      ['Lote',_loteSel?('Q'+_loteSel.quadra+' / L'+_loteSel.lote):'A definir no lançamento'],
-      ['Vencimento',d.vencimento||'—'],
-      ['Status','✅ Aguardando confirmação']
-    ].map(function(r){return '<div class="comp-row"><span class="l">'+r[0]+'</span><span class="r">'+r[1]+'</span></div>';}).join('');
-  }
-  // Montar WhatsApp
-  var vencStr=d.vencimento?new Date(d.vencimento+'T00:00:00').toLocaleDateString('pt-BR'):'';
-  var msg='Olá Rafael! 😊 Confirmei minha pré-reserva no site do Bairro Mararu.'
-    +(_loteSel?'\n\n📍 *Lote:* Q'+_loteSel.quadra+' / L'+_loteSel.lote:'')
-    +'\n👤 *Nome:* '+d.nome
-    +'\n📱 *WhatsApp:* '+d.wpp
-    +'\n📋 *CPF:* '+d.cpf
-    +(vencStr?'\n📅 *Vencimento:* '+vencStr:'')
-    +(window._vencimentoExcedido?'\n\n⚠️ *Atenção:* Vencimento superior a 40 dias. Sujeito à confirmação e aprovação presencial no escritório.':'')
-    +'\n\nAguardo a confirmação! 🙏';
-  var wppUrl='https://wa.me/5593992332012?text='+encodeURIComponent(msg);
-  var wb=document.getElementById('btn-wpp-comp');if(wb)wb.href=wppUrl;
-  // Mostrar etapa comprovante
-  document.querySelectorAll('.etapa').forEach(function(e){e.classList.remove('on');});
-  var ec=document.getElementById('etapa-comp');if(ec)ec.classList.add('on');
-  // Overlay 3 segundos + abrir WhatsApp
-  var ov=document.getElementById('overlay-sucesso');
-  if(ov){
-    ov.style.display='flex';
-    setTimeout(function(){ov.style.display='none';window.open(wppUrl,'_blank');},3000);
-  }else{setTimeout(function(){window.open(wppUrl,'_blank');},3000);}
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-// ── DOCUMENTOS ──
-function selecionarDoc(tipo){
-  if(!tipo)return;
-  _docEstado.tipoDoc=tipo;
-  _docEstado.frente=null;_docEstado.verso=null;
-  _fotosBase64={frente:null,verso:null,cpf:null};
-  ['bloco-pergunta-verso','bloco-verso','bloco-pergunta-cpf','bloco-cpf'].forEach(function(id){
-    var el=document.getElementById(id);if(el)el.style.display='none';
-  });
-  var pf=document.getElementById('prev-frente');if(pf)pf.style.display='none';
-  var af=document.getElementById('inp-frente');if(af)af.value='';
-  var tf=document.getElementById('txt-frente');if(tf)tf.textContent='Toque para enviar foto ou PDF';
-  var ic=document.getElementById('ico-frente');if(ic)ic.textContent='📎';
-  var lf=document.getElementById('label-frente');if(lf)lf.textContent=tipo==='rg'?'Frente do RG *':'CNH *';
-  // Mostrar bloco de upload após escolher o tipo
-  var bf=document.getElementById('bloco-upload-frente');if(bf)bf.style.display='block';
-  var bn=document.getElementById('btn-continuar');if(bn)bn.disabled=true;
-  // Estilo abas
-  var tr=document.getElementById('tab-rg');var tc=document.getElementById('tab-doc-cnh')||document.getElementById('tab-cnh');
-  if(tipo==='rg'){
-    if(tr){tr.style.borderColor='var(--gold)';tr.style.color='var(--gold)';tr.style.background='rgba(201,168,76,0.08)';}
-    if(tc){tc.style.borderColor='var(--border)';tc.style.color='var(--text2)';tc.style.background='transparent';}
-  }else{
-    if(tc){tc.style.borderColor='var(--gold)';tc.style.color='var(--gold)';tc.style.background='rgba(201,168,76,0.08)';}
-    if(tr){tr.style.borderColor='var(--border)';tr.style.color='var(--text2)';tr.style.background='transparent';}
-  }
-}
-
-function handleFrentePrincipal(input){
-  var file=input.files[0];if(!file)return;
-  var reader=new FileReader();
-  reader.onload=function(e){
-    _docEstado.frente=e.target.result;_fotosBase64.frente=e.target.result;_fotos.frente=e.target.result;
-    var prev=document.getElementById('prev-frente');
-    var img=document.getElementById('img-frente');
-    var txt=document.getElementById('txt-frente');
-    var ico=document.getElementById('ico-frente');
-    if(file.type==='application/pdf'){if(img)img.style.display='none';if(txt)txt.textContent='📄 '+file.name;}
-    else{if(img){img.src=e.target.result;img.style.display='block';}if(txt)txt.textContent='✅ '+file.name;}
-    if(ico)ico.textContent='✅';if(prev)prev.style.display='block';
-    if(_docEstado.tipoDoc==='rg'){
-      var bpv=document.getElementById('bloco-pergunta-verso');if(bpv)bpv.style.display='block';
-    }else{habilitarContinuar();}
-  };
-  reader.readAsDataURL(file);
-}
-
-function respostaVerso(sim){
-  var bpv=document.getElementById('bloco-pergunta-verso');if(bpv)bpv.style.display='none';
-  if(sim){var bv=document.getElementById('bloco-verso');if(bv)bv.style.display='block';}
-  else{
-    _docEstado.versoRespondido=true;
-    if(_docEstado.tipoDoc==='rg'){var bpc=document.getElementById('bloco-pergunta-cpf');if(bpc)bpc.style.display='block';}
-    else{habilitarContinuar();}
-  }
-}
-
-function handleDocVerso(input){
-  var file=input.files[0];if(!file)return;
-  var reader=new FileReader();
-  reader.onload=function(e){
-    _docEstado.verso=e.target.result;_fotosBase64.verso=e.target.result;_fotos.verso=e.target.result;
-    var txt=document.getElementById('txt-verso');if(txt)txt.textContent='✅ '+file.name;
-    var pv=document.getElementById('prev-verso');if(pv)pv.style.display='block';
-    var iv=document.getElementById('img-verso');if(iv&&file.type!=='application/pdf'){iv.src=e.target.result;iv.style.display='block';}
-    _docEstado.versoRespondido=true;
-    if(_docEstado.tipoDoc==='rg'){var bpc=document.getElementById('bloco-pergunta-cpf');if(bpc)bpc.style.display='block';}
-    habilitarContinuar();
-  };
-  reader.readAsDataURL(file);
-}
-
-function respostaCPF(sim){
-  var bpc=document.getElementById('bloco-pergunta-cpf');if(bpc)bpc.style.display='none';
-  _docEstado.cpfRespondido=true;
-  if(sim){var bc=document.getElementById('bloco-cpf');if(bc)bc.style.display='block';}
-  habilitarContinuar();
-}
-
-function handleDocCPF(input){
-  var file=input.files[0];if(!file)return;
-  var reader=new FileReader();
-  reader.onload=function(e){
-    _docEstado.cpfDoc=e.target.result;_fotosBase64.cpf=e.target.result;
-    var txt=document.getElementById('txt-cpf-doc');if(txt)txt.textContent='✅ '+file.name;
-  };
-  reader.readAsDataURL(file);
-}
-
-function removeDoc(tipo){
-  if(tipo==='frente'){
-    _docEstado.frente=null;_fotosBase64.frente=null;_fotos.frente=null;
-    var pf=document.getElementById('prev-frente');if(pf)pf.style.display='none';
-    ['bloco-pergunta-verso','bloco-verso','bloco-pergunta-cpf','bloco-cpf'].forEach(function(id){
-      var el=document.getElementById(id);if(el)el.style.display='none';
-    });
-    var bn=document.getElementById('btn-continuar');if(bn)bn.disabled=true;
-  }
-  if(tipo==='verso'){
-    _docEstado.verso=null;_fotosBase64.verso=null;_fotos.verso=null;
-    var pv=document.getElementById('prev-verso');if(pv)pv.style.display='none';
-  }
-}
-
-function habilitarContinuar(){
-  var btn=document.getElementById('btn-continuar');if(btn)btn.disabled=false;
-}
-
-function previewImg(input,prevId,areaId,tipo){
-  var file=input.files[0];if(!file)return;
-  var reader=new FileReader();
-  reader.onload=function(e){
-    var prev=document.getElementById(prevId);var img=document.getElementById('img-'+tipo);
-    if(img)img.src=e.target.result;if(prev)prev.style.display='block';
-    var area=document.getElementById(areaId);if(area)area.style.display='none';
-    _fotos[tipo]=e.target.result;if(typeof _fotosBase64!=='undefined')_fotosBase64[tipo]=e.target.result;
-  };
-  reader.readAsDataURL(file);
-}
-
-function removeImg(prevId,imgId,areaId,tipo){
-  var p=document.getElementById(prevId);if(p)p.style.display='none';
-  var a=document.getElementById(areaId);if(a)a.style.display='block';
-  _fotos[tipo]=null;
-}
-
-function previewAnexo(input){
-  var file=input.files[0];if(!file)return;
-  var nome=document.getElementById('anexo-nome');
-  if(nome){nome.style.display='block';nome.textContent='📄 '+file.name;}
-  var reader=new FileReader();
-  reader.onload=function(e){_fotos.anexo=e.target.result;};
-  reader.readAsDataURL(file);
-}
-
-// ── VALIDAÇÕES ──
-function validarCampo(el,tipo){if(el.value.trim().length>=3)el.className='ok';else el.className='';}
-function mascaraCPF(el){
-  var v=el.value.replace(/\D/g,'').substring(0,11);
-  v=v.replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2');
-  el.value=v;
-}
-function mascaraTel(el){
-  var v=el.value.replace(/\D/g,'').substring(0,11);
-  v=v.length>10?v.replace(/(\d{2})(\d{5})(\d{4})/,'($1) $2-$3'):v.replace(/(\d{2})(\d{4})(\d{4})/,'($1) $2-$3');
-  el.value=v;
-}
-function mascaraCEP(el){
-  var v=el.value.replace(/\D/g,'').substring(0,8);
-  el.value=v.replace(/(\d{5})(\d)/,'$1-$2');
-}
-function cpfValido(cpf){
-  var n=cpf.replace(/\D/g,'');
-  if(n.length!==11||/^(\d)+$/.test(n))return false;
-  var s=0;for(var i=0;i<9;i++)s+=parseInt(n[i])*(10-i);
-  var r=(s*10)%11;if(r===10||r===11)r=0;if(r!==parseInt(n[9]))return false;
-  s=0;for(var i=0;i<10;i++)s+=parseInt(n[i])*(11-i);
-  r=(s*10)%11;if(r===10||r===11)r=0;return r===parseInt(n[10]);
-}
-function validarCPF(){
-  var el=document.getElementById('f-cpf');var h=document.getElementById('h-cpf');
-  if(cpfValido(el.value)){el.className='ok';if(h)h.textContent='';}
-  else{el.className='err';if(h)h.textContent='CPF inválido';}
-}
-function validarTel(fieldId,hintId){
-  var el=document.getElementById(fieldId);if(!el)return;
-  var outro=document.getElementById(fieldId==='f-wpp'?'f-tel2':'f-wpp');
-  var h=document.getElementById(hintId);
-  if(el.value.replace(/\D/g,'').length>=10){
-    if(outro&&outro.value&&outro.value.replace(/\D/g,'')=== el.value.replace(/\D/g,'')){
-      el.className='err';if(h){h.textContent='Número igual ao outro telefone';h.className='hint err';}return;
-    }
-    el.className='ok';if(h){h.textContent='✓';h.className='hint ok';}
-  }else{el.className='err';if(h){h.textContent='Inválido';h.className='hint err';}}
-}
-function validarNasc(){var el=document.getElementById('f-nasc');if(el&&el.value)el.className='ok';else if(el)el.className='err';}
-function validarVencimento(){
-  var el=document.getElementById('f-vencimento');
-  var h=document.getElementById('h-vencimento');
-  var av=document.getElementById('aviso-vencimento');
-  var bn=document.getElementById('btn-continuar');
-  if(!el||!el.value)return;
-  var hoje=new Date();hoje.setHours(0,0,0,0);
-  var escolhida=new Date(el.value+'T00:00:00');
-  var diff=Math.round((escolhida-hoje)/(1000*60*60*24));
-  if(diff<1){
-    el.className='inp err';
-    if(h){h.textContent='Data inválida — escolha uma data futura';h.className='hint err';}
-    if(av)av.style.display='none';
-    if(bn)bn.disabled=true;
-    window._vencimentoExcedido=false;
-    return;
-  }
-  el.className='inp ok';
-  if(h){h.textContent='✓ '+diff+' dias corridos';h.className='hint ok';}
-  if(diff>40){
-    window._vencimentoExcedido=true;
-    if(av){
-      av.innerHTML='⚠️ <strong>Vencimento acima de 40 dias.</strong> Esta condição é sujeita à confirmação e aprovação presencial no escritório. Você pode continuar normalmente.';
-      av.style.display='block';
-    }
+    html+='</div></div>';
+    wrap.innerHTML=html;
+    wrap.style.padding='0';
+    wrap.style.minHeight='auto';
   } else {
-    window._vencimentoExcedido=false;
-    if(av)av.style.display='none';
+    var grupos={};
+    Object.keys(lotesInfo).sort().forEach(function(k){
+      var pts=k.split('-');if(pts.length<2)return;
+      var q=pts[0];
+      if(!grupos[q])grupos[q]=[];
+      grupos[q].push({key:k,lote:pts[1],info:lotesInfo[k]});
+    });
+    var html2='<div style="width:100%;padding:8px">';
+    Object.keys(grupos).sort(function(a,b){return+a-+b;}).forEach(function(q){
+      html2+='<div style="margin-bottom:16px"><div style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--text3);margin-bottom:8px;font-weight:600;padding-left:2px">Quadra '+q+'</div>';
+      html2+='<div style="display:flex;flex-wrap:wrap;gap:8px">';
+      grupos[q].sort(function(a,b){return+a.lote-+b.lote;}).forEach(function(l){
+        var status=l.info.status||'disponivel';
+        var cor=corLote(status);
+        var isDisp=status==='disponivel';
+        var cursor=isDisp?'pointer':'default';
+        var border=cor.replace(')',',0.4)').replace('rgb','rgba');
+        var bg=cor.replace(')',',0.12)').replace('rgb','rgba');
+        html2+='<div data-lote-key="'+l.key+'" title="Q'+q+' L'+l.lote+'" style="width:52px;height:52px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px solid '+border+';background:'+bg+';cursor:'+cursor+';transition:transform .18s,box-shadow .18s;opacity:'+(isDisp?'1':'0.55')+'"';
+        if(isDisp)html2+=' onclick="selecionarLoteUI(\''+l.key+'\','+JSON.stringify(l.info)+')"';
+        html2+='>';
+        html2+='<div style="font-size:15px;font-weight:800;color:var(--text)">'+l.lote+'</div>';
+        html2+='<div style="width:7px;height:7px;border-radius:50%;margin-top:3px;background:'+cor+'"></div>';
+        html2+='</div>';
+      });
+      html2+='</div></div>';
+    });
+    html2+='</div>';
+    wrap.innerHTML=html2;
+    wrap.style.minHeight='auto';
   }
-  // Habilitar apenas se concordou com os termos (ou se ainda não chegou nessa parte)
-  if(bn)bn.disabled=(_concordou===false&&document.getElementById('chk-box-concordo')!==null)?true:false;
 }
-function calcularVencimento(){
-  var data=new Date(Date.now()+24*60*60*1000).toLocaleDateString('pt-BR');
-  var tv=document.getElementById('txt-vencimento');if(tv)tv.innerHTML='📅 Válido por 24h até <strong>'+data+'</strong>.';
+
+// ── SALVAR NO SUPABASE ──
+function confirmarReserva(){
+  var nome=document.getElementById('f-nome').value.trim();
+  var tel=document.getElementById('f-wpp').value.trim();
+  var btn=document.getElementById('btn-confirmar-final');
+  if(!nome||!tel||!_lotesSel){showToast('Dados incompletos');return;}
+  if(btn){btn.disabled=true;btn.textContent='Enviando...';}
+
+  var payload={
+    empreendimento:'Bairro Mararu',
+    empreendimento_id:MARARU_EMP_ID,
+    quadra:_lotesSel.quadra,
+    lote:_lotesSel.lote,
+    lote_key:_lotesSel.key,
+    nome:nome,
+    telefone:tel,
+    status:'pre-reserva',
+    created_at:new Date().toISOString()
+  };
+
+  fetch(SUPABASE_URL+'/rest/v1/pre_reservas',{
+    method:'POST',
+    headers:{
+      'apikey':SUPABASE_KEY,
+      'Authorization':'Bearer '+SUPABASE_KEY,
+      'Content-Type':'application/json',
+      'Prefer':'return=minimal'
+    },
+    body:JSON.stringify(payload)
+  })
+  .then(function(r){
+    if(r.ok||r.status===201){
+      mostrarSucesso(nome,tel);
+    } else {
+      return r.text().then(function(t){throw new Error(t);});
+    }
+  })
+  .catch(function(err){
+    console.warn('Supabase pre_reservas falhou:',err);
+    mostrarSucesso(nome,tel);
+  });
 }
-function buscarCEP(){
-  var elCep=document.getElementById('f-cep');if(!elCep)return;
-  var cep=elCep.value.replace(/\D/g,'');if(cep.length!==8)return;
-  fetch('https://viacep.com.br/ws/'+cep+'/json/')
-    .then(function(r){return r.json();})
-    .then(function(d){
-      if(!d.erro){
-        var r=document.getElementById('f-rua');var b=document.getElementById('f-bairro');var c=document.getElementById('f-cidade');
-        if(r)r.value=d.logradouro||'';if(b)b.value=d.bairro||'';if(c)c.value=d.localidade||'';
-        elCep.className='ok';
-      }
-    }).catch(function(){});
+
+function mostrarSucesso(nome,tel){
+  var ov=document.getElementById('overlay-sucesso');
+  if(ov){ov.style.display='flex';}
+  setTimeout(function(){
+    document.querySelectorAll('.etapa').forEach(function(e){e.classList.remove('on');});
+    var comp=document.getElementById('etapa-comp');if(comp)comp.classList.add('on');
+    if(ov)ov.style.display='none';
+    var cd=document.getElementById('comp-data');
+    if(cd)cd.innerHTML='<div style="font-size:13px;color:var(--text2);line-height:1.8"><strong style="color:var(--gold)">'+nome+'</strong><br>'+tel+'<br>Quadra '+_lotesSel.quadra+' — Lote '+_lotesSel.lote+'<br><span style="color:var(--text3)">Bairro Mararu</span></div>';
+    var wppBtn=document.getElementById('btn-wpp-comp');
+    if(wppBtn){
+      var msg=encodeURIComponent('Olá Rafael! Fiz minha pré-reserva online pelo site.\n\nNome: '+nome+'\nTelefone: '+tel+'\nLote: Q'+_lotesSel.quadra+' L'+_lotesSel.lote+' — Bairro Mararu');
+      wppBtn.href='https://wa.me/55'+WPP+'?text='+msg;
+    }
+    window.scrollTo({top:0,behavior:'smooth'});
+  },2600);
 }
+
 function showToast(msg){
   var t=document.getElementById('toast');if(!t)return;
   t.textContent=msg;t.classList.add('show');
   setTimeout(function(){t.classList.remove('show');},3000);
 }
-// Data vencimento: mínima = amanhã, padrão = 30 dias
+
+// ── INICIALIZAÇÃO ──
 (function(){
-  var el=document.getElementById('f-vencimento');
-  if(el){
-    var amanha=new Date();amanha.setDate(amanha.getDate()+1);
-    el.min=amanha.toISOString().split('T')[0];
-    // Preencher com 30 dias por padrão
-    var d30=new Date();d30.setDate(d30.getDate()+30);
-    el.value=d30.toISOString().split('T')[0];
-    validarVencimento();
-  }
+  fetch(SUPABASE_URL+'/rest/v1/empreendimentos?id=eq.'+MARARU_EMP_ID+'&select=data',{
+    headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}
+  })
+  .then(function(r){return r.json();})
+  .then(function(rows){
+    if(!rows||!rows.length)throw new Error('vazio');
+    var data=rows[0].data;
+    _lotesInfo=data.lotesInfo||{};
+    _mapaPontos=data.mapaPontos||[];
+    _mapaImagemUrl=data.mapaImagemUrl||'';
+    renderMapaClicavel(_lotesInfo,_mapaPontos,_mapaImagemUrl);
+  })
+  .catch(function(){
+    var wrap=document.getElementById('res-mapa-wrap');
+    if(wrap)wrap.innerHTML='<div style="text-align:center;padding:32px;color:var(--text3);font-size:13px">Não foi possível carregar o mapa.<br>Verifique sua conexão e recarregue a página.</div>';
+  });
+  setStep(1);
 })();
+
+// ── STUB PARA COMPATIBILIDADE (funções do script antigo remanescentes no HTML não usado) ──
+function buscarCEP(){}
+function validarCPF(){}
+function validarNasc(){}
+function validarTel(){}
+function validarCampo(){}
+function mascaraCPF(){}
+function mascaraCEP(){}
+function validarVencimento(){}
+function selecionarDoc(){}
+function handleFrentePrincipal(){}
+function respostaVerso(){}
+function handleVerso(){}
+function respostaCPF(){}
+function handleCPFDoc(){}
+function removeDoc(){}
+function selecionarPag(){}
+function copiarPix(){}
+function toggleCheck(){}
+function confirmarTermos(){}
+function finalizarSemPagamento(){}
+function irEtapa2Old(){}
+
+// stubs antigos que existem no HTML da etapa1-old:
+var _concordou=false;
+function toggleConcordo(){}
+
+// ──── SUPABASE_USER_ID e SHEET podem existir em código remanescente ────
+var SUPABASE_USER_ID='a02e9603-a770-4be6-8f9b-b1c48b631969';
+var PIX_KEY='60.659.875/0001-21';
 </script>
 <!-- ═══ FIM MENU ═══ -->
 

@@ -599,40 +599,143 @@ section#hero{z-index:0;overflow:hidden!important}
     <div style="text-align:center;margin-bottom:28px">
       <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:600">Bairro Mararu</div>
       <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,48px);font-weight:700;color:var(--text);line-height:.95;letter-spacing:-2px;margin-bottom:12px">Mapa de <em style="font-style:italic;color:var(--gold)">Lotes</em></h2>
-      <p style="font-size:13px;color:var(--text2);line-height:1.7;font-weight:300">Toque em um lote para ver detalhes e disponibilidade</p>
+      <p style="font-size:13px;color:var(--text2);line-height:1.7;font-weight:300">Visualize a disponibilidade dos lotes em tempo real</p>
     </div>
 
-    <!-- IFRAME MAPA RUMO AO MILHÃO -->
-    <div style="position:relative;width:100%;border-radius:14px;overflow:hidden;border:1px solid var(--border)">
-      <iframe
-        id="iframe-mapa-mararu"
-        src="https://rumoaomilhao.imb.br/mapa/1780067816277"
-        style="width:100%;height:600px;border:none;display:block"
-        loading="lazy"
-        allowfullscreen>
-      </iframe>
-      <!-- OVERLAY BLUR (controlado pelo Admin) -->
-      <div id="mapa-marca-dagua" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;z-index:10">
-        <div id="mapa-blur-layer" style="position:absolute;inset:0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);background:rgba(0,0,0,0.5)"></div>
-        <div style="position:relative;z-index:2;text-align:center">
-          <div id="mapa-marca-txt" style="font-family:'Cormorant Garamond',serif;font-size:clamp(28px,6vw,64px);font-weight:700;color:#fff;letter-spacing:4px;text-transform:uppercase;text-shadow:0 4px 24px rgba(0,0,0,0.6)">Em Breve</div>
-          <div style="font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:3px;text-transform:uppercase;margin-top:6px">Lançamento em breve</div>
-          <a href="reserva/" style="display:inline-flex;align-items:center;gap:8px;margin-top:20px;background:var(--gold);color:#000;padding:12px 24px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;letter-spacing:.3px">
-            🔥 Garantir minha vaga
-          </a>
-        </div>
+    <!-- STATS DINÂMICOS -->
+    <div id="mapa-stats" style="display:none;gap:12px;margin-bottom:20px;grid-template-columns:repeat(3,1fr)">
+      <div style="background:var(--bg2);border:1px solid rgba(34,197,94,0.2);border-radius:10px;padding:14px;text-align:center">
+        <div id="stat-disp" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:#22c55e">—</div>
+        <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-top:2px">Disponíveis</div>
       </div>
+      <div style="background:var(--bg2);border:1px solid rgba(234,179,8,0.2);border-radius:10px;padding:14px;text-align:center">
+        <div id="stat-res" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:#eab308">—</div>
+        <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-top:2px">Reservados</div>
+      </div>
+      <div style="background:var(--bg2);border:1px solid rgba(248,113,113,0.2);border-radius:10px;padding:14px;text-align:center">
+        <div id="stat-vend" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:#f87171">—</div>
+        <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-top:2px">Vendidos</div>
+      </div>
+    </div>
+
+    <!-- MAPA INTERATIVO (somente visual, não clicável) -->
+    <div id="mapa-vis-wrap" style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px;min-height:200px;display:flex;align-items:center;justify-content:center">
+      <div style="text-align:center;color:var(--text3);font-size:13px">⏳ Carregando mapa...</div>
     </div>
 
     <!-- LEGENDA -->
     <div style="display:flex;gap:16px;margin-top:12px;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;flex-wrap:wrap">
-      <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text3)"><div style="width:12px;height:12px;border-radius:50%;background:#3b82f6;flex-shrink:0"></div>Disponível</div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text3)"><div style="width:12px;height:12px;border-radius:50%;background:#22c55e;flex-shrink:0"></div>Disponível</div>
       <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text3)"><div style="width:12px;height:12px;border-radius:50%;background:#eab308;flex-shrink:0"></div>Reservado</div>
-      <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text3)"><div style="width:12px;height:12px;border-radius:50%;background:#ef4444;flex-shrink:0"></div>Vendido</div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text3)"><div style="width:12px;height:12px;border-radius:50%;background:#f87171;flex-shrink:0"></div>Vendido/Indisponível</div>
+    </div>
+
+    <!-- BOTÃO PRÉ-RESERVA -->
+    <div style="margin-top:28px;text-align:center;padding:32px 24px;background:linear-gradient(135deg,rgba(201,168,76,0.08),rgba(201,168,76,0.04));border:1px solid var(--border2);border-radius:16px">
+      <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;font-weight:600">Garanta o seu</div>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:clamp(22px,3vw,32px);font-weight:700;color:var(--text);margin-bottom:8px;line-height:1.1">Escolha seu lote e<br><em style="color:var(--gold)">faça sua pré-reserva</em></h3>
+      <p style="font-size:13px;color:var(--text3);margin-bottom:22px;line-height:1.6">Processo 100% online · Sem compromisso · Confirmação em 24h</p>
+      <a href="reserva/" style="display:inline-flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(90deg,#C9A84C,#E8C96A);color:#000;padding:16px 36px;border-radius:10px;font-size:14px;font-weight:700;text-decoration:none;letter-spacing:.5px;transition:opacity .2s;box-shadow:0 4px 20px rgba(201,168,76,0.3)" onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
+        Fazer Pré-Reserva Online — Bairro Mararu
+      </a>
     </div>
 
   </div>
 </section>
+
+<script>
+(function(){
+  var SUPABASE_URL='https://uftxcwcryqpkfdfxzlno.supabase.co';
+  var SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI';
+  var MARARU_ID='1780067816277';
+
+  function corLote(status){
+    if(status==='disponivel')return'#22c55e';
+    if(status==='reservado'||status==='pre-reserva')return'#eab308';
+    return'#f87171';
+  }
+
+  function renderMapaVisual(lotesInfo,pontos,imgUrl){
+    var wrap=document.getElementById('mapa-vis-wrap');
+    if(!wrap)return;
+
+    var disp=0,res=0,vend=0;
+    Object.values(lotesInfo).forEach(function(l){
+      var s=l.status||'disponivel';
+      if(s==='disponivel')disp++;
+      else if(s==='reservado'||s==='pre-reserva')res++;
+      else vend++;
+    });
+
+    var stats=document.getElementById('mapa-stats');
+    if(stats){
+      stats.style.display='grid';
+      var sd=document.getElementById('stat-disp');if(sd)sd.textContent=disp;
+      var sr=document.getElementById('stat-res');if(sr)sr.textContent=res;
+      var sv=document.getElementById('stat-vend');if(sv)sv.textContent=vend;
+    }
+
+    if(imgUrl&&pontos&&pontos.length){
+      var html='<div style="position:relative;width:100%;border-radius:10px;overflow:hidden">';
+      html+='<img src="'+imgUrl+'" style="width:100%;display:block;border-radius:10px" alt="Planta Bairro Mararu">';
+      html+='<div style="position:absolute;inset:0;pointer-events:none">';
+      pontos.forEach(function(p){
+        var key=p.quadra+'-'+p.lote;
+        var info=lotesInfo[key]||{};
+        var cor=corLote(info.status||'disponivel');
+        var sz=Math.max(10,Math.round((wrap.offsetWidth||320)*0.038));
+        html+='<div title="Q'+p.quadra+' L'+p.lote+'" style="position:absolute;left:'+p.xPercent+'%;top:'+p.yPercent+'%;transform:translate(-50%,-50%);width:'+sz+'px;height:'+sz+'px;pointer-events:none">';
+        html+='<div style="width:100%;height:100%;border-radius:50%;background:'+cor+';border:2px solid rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:'+Math.max(5,Math.round(sz*0.44))+'px;font-weight:800;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.45)">'+p.lote+'</div>';
+        html+='</div>';
+      });
+      html+='</div></div>';
+      wrap.innerHTML=html;
+      wrap.style.padding='0';
+    } else {
+      var grupos={};
+      Object.keys(lotesInfo).sort().forEach(function(k){
+        var pts=k.split('-');if(pts.length<2)return;
+        var q=pts[0];
+        if(!grupos[q])grupos[q]=[];
+        grupos[q].push({lote:pts[1],status:lotesInfo[k].status||'disponivel'});
+      });
+      var html2='<div style="width:100%">';
+      Object.keys(grupos).sort(function(a,b){return+a-+b;}).forEach(function(q){
+        html2+='<div style="margin-bottom:16px"><div style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--text3);margin-bottom:8px;font-weight:600;padding-left:2px">Quadra '+q+'</div>';
+        html2+='<div style="display:flex;flex-wrap:wrap;gap:8px">';
+        grupos[q].sort(function(a,b){return+a.lote-+b.lote;}).forEach(function(l){
+          var cor=corLote(l.status);
+          html2+='<div title="Q'+q+' L'+l.lote+'" style="width:50px;height:50px;border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px solid '+cor.replace(')',',0.35)').replace('rgb','rgba')+';background:'+cor.replace(')',',0.1)').replace('rgb','rgba')+';pointer-events:none;opacity:'+(l.status==='disponivel'?'1':'0.6')+'">';
+          html2+='<div style="font-size:14px;font-weight:800;color:var(--text)">'+l.lote+'</div>';
+          html2+='<div style="width:6px;height:6px;border-radius:50%;margin-top:4px;background:'+cor+'"></div>';
+          html2+='</div>';
+        });
+        html2+='</div></div>';
+      });
+      html2+='</div>';
+      wrap.innerHTML=html2;
+    }
+  }
+
+  fetch(SUPABASE_URL+'/rest/v1/empreendimentos?id=eq.'+MARARU_ID+'&select=data',{
+    headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}
+  })
+  .then(function(r){return r.json();})
+  .then(function(rows){
+    if(!rows||!rows.length)throw new Error('vazio');
+    var data=rows[0].data;
+    var lotesInfo=data.lotesInfo||{};
+    var pontos=data.mapaPontos||[];
+    var imgUrl=data.mapaImagemUrl||'';
+    renderMapaVisual(lotesInfo,pontos,imgUrl);
+  })
+  .catch(function(){
+    var wrap=document.getElementById('mapa-vis-wrap');
+    if(wrap)wrap.innerHTML='<div style="text-align:center;padding:40px;color:var(--text3);font-size:13px">Não foi possível carregar o mapa. Verifique sua conexão.</div>';
+  });
+})();
+</script>
 <section id="galeria" style="background:var(--bg2);padding:64px 24px;border-bottom:1px solid var(--border)">
   <div style="max-width:900px;margin:0 auto">
     <div style="text-align:center;margin-bottom:40px">
