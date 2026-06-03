@@ -618,9 +618,16 @@ section#hero{z-index:0;overflow:hidden!important}
       </div>
     </div>
 
-    <!-- MAPA INTERATIVO (somente visual, não clicável) -->
-    <div id="mapa-vis-wrap" style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px;min-height:200px;display:flex;align-items:center;justify-content:center">
-      <div style="text-align:center;color:var(--text3);font-size:13px">⏳ Carregando mapa...</div>
+    <!-- MAPA VISUAL COM BLUR CONTROLADO PELO ADMIN -->
+    <div style="position:relative;border-radius:14px;overflow:hidden">
+      <div id="mapa-vis-wrap" style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px;min-height:200px;display:flex;align-items:center;justify-content:center">
+        <div style="text-align:center;color:var(--text3);font-size:13px">⏳ Carregando mapa...</div>
+      </div>
+      <!-- OVERLAY BLUR (controlado pelo Admin → aba Mararu) -->
+      <div id="mapa-vis-blur" style="display:none;position:absolute;inset:0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);background:rgba(0,0,0,0.5);align-items:center;justify-content:center;flex-direction:column;gap:8px;z-index:10">
+        <div id="mapa-vis-blur-txt" style="font-family:'Cormorant Garamond',serif;font-size:clamp(24px,5vw,52px);font-weight:700;color:#fff;letter-spacing:4px;text-transform:uppercase;text-shadow:0 4px 24px rgba(0,0,0,0.6)">Em Breve</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:2px;text-transform:uppercase">Lançamento em breve</div>
+      </div>
     </div>
 
     <!-- LEGENDA -->
@@ -1872,9 +1879,14 @@ fetch('/site_data.json?_='+Date.now())
       var mostrar=d.lancamento.marcaDagua!==false;
       if(mdEl)mdEl.style.display=mostrar?'flex':'none';
       if(mdTxt&&d.lancamento.marcaDaguaTxt)mdTxt.textContent=d.lancamento.marcaDaguaTxt;
-      // Blur layer
+      // Blur layer do mapa de lotes (/mararu/)
       var blurEl=document.getElementById('mapa-blur-layer');
       if(blurEl)blurEl.style.display=mostrar?'block':'none';
+      // Blur do mapa visual
+      var visBlur=document.getElementById('mapa-vis-blur');
+      var visTxt=document.getElementById('mapa-vis-blur-txt');
+      if(visBlur)visBlur.style.display=mostrar?'flex':'none';
+      if(visTxt&&d.lancamento.marcaDaguaTxt)visTxt.textContent=d.lancamento.marcaDaguaTxt;
     }
     // Tamanho bolinhas mapa de lotes
     if(d.pinSize){

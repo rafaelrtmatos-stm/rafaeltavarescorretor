@@ -1090,13 +1090,20 @@ function aplicarEstadoMapaReserva(borrado){
   var btnFinalizar=document.getElementById('btn-finalizar-sem-pag');
   var btnConfirmar=document.getElementById('btn-confirmar');
   var btnReservar=document.getElementById('btn-reservar');
+  var wrap=document.getElementById('mapa-reserva-wrap');
   if(overlay)overlay.style.display=borrado?'flex':'none';
   if(msgBorrado)msgBorrado.style.display=borrado?'block':'none';
   if(secPag)secPag.style.display=borrado?'none':'block';
   if(btnFinalizar)btnFinalizar.style.display=borrado?'block':'none';
   if(btnConfirmar)btnConfirmar.style.display=borrado?'none':'block';
-  if(borrado&&btnReservar)btnReservar.disabled=false;
-  if(!borrado)carregarMapaReserva();
+  if(borrado){
+    // Mapa borrado: ocultar loading, mostrar fundo escuro
+    if(wrap)wrap.innerHTML='<div style="width:100%;height:280px;background:var(--bg3);border-radius:10px"></div>';
+    if(btnReservar)btnReservar.disabled=false;
+  } else {
+    // Mapa liberado: carregar bolinhas
+    carregarMapaReserva();
+  }
 }
 
 </script>
