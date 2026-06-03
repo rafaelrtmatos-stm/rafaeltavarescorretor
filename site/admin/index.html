@@ -1983,23 +1983,44 @@ function prevMararuFoto(){
   else{prev.innerHTML='<span style="font-size:11px;color:var(--text3)">Sem foto</span>';}
 }
 
-// ── UPLOAD DE FOTO VIA SUPABASE STORAGE ──
-var _SUPA_URL_ADM='https://uftxcwcryqpkfdfxzlno.supabase.co';
-var _SUPA_KEY_ADM='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI';
-
+// ── UPLOAD DE FOTO VIA GITHUB CONTENTS API ──
 async function uploadFotoGitHub(file, caminho){
-  var r=await fetch(_SUPA_URL_ADM+'/storage/v1/object/fotos-site/'+caminho,{
-    method:'POST',
-    headers:{
-      'apikey':_SUPA_KEY_ADM,
-      'Authorization':'Bearer '+_SUPA_KEY_ADM,
-      'Content-Type':file.type||'application/octet-stream',
-      'x-upsert':'true'
-    },
-    body:file
+  var token=getToken();
+  if(!token){showTokenModal();throw new Error('Token GitHub não configurado');}
+
+  // Lê o arquivo como base64
+  var base64=await new Promise(function(res,rej){
+    var reader=new FileReader();
+    reader.onload=function(e){
+      // e.target.result é "data:image/...;base64,XXXXX"
+      res(e.target.result.split(',')[1]);
+    };
+    reader.onerror=rej;
+    reader.readAsDataURL(file);
   });
-  if(!r.ok){var t=await r.text();throw new Error('Upload falhou ('+r.status+'): '+t);}
-  return _SUPA_URL_ADM+'/storage/v1/object/public/fotos-site/'+caminho;
+
+  var apiUrl='https://api.github.com/repos/'+GITHUB_REPO+'/contents/site/'+caminho;
+  var headers={Authorization:'token '+token,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'};
+
+  // Busca SHA se arquivo já existir (necessário para atualizar)
+  var sha=null;
+  try{
+    var chkR=await fetch(apiUrl,{headers:headers});
+    if(chkR.ok){var chkD=await chkR.json();sha=chkD.sha||null;}
+  }catch(e){}
+
+  var body={message:'Admin: foto '+caminho+' — '+new Date().toLocaleString('pt-BR'),content:base64};
+  if(sha)body.sha=sha;
+
+  var putR=await fetch(apiUrl,{method:'PUT',headers:headers,body:JSON.stringify(body)});
+  if(!putR.ok){
+    var err=await putR.json();
+    if(err.message&&err.message.includes('Bad credentials')){localStorage.removeItem(TK);showTokenModal();}
+    throw new Error('GitHub upload falhou ('+putR.status+'): '+(err.message||''));
+  }
+
+  // URL pública raw do GitHub (com cache-bust para forçar atualização)
+  return 'https://raw.githubusercontent.com/'+GITHUB_REPO+'/main/site/'+caminho+'?_='+Date.now();
 }
 
 async function uploadFotoMararuPrincipal(file){
