@@ -1357,6 +1357,7 @@ window._mapaAbrirLote=function(key){
   document.getElementById('popup-entrada').textContent=lot.entrada;
   document.getElementById('popup-parcelas').textContent=lot.parcelas?lot.parcelas+'x de '+lot.vparcela:'A consultar';
   document.getElementById('popup-btn-wpp').href='https://wa.me/'+WPP+'?text=Olá+Rafael!+Tenho+interesse+no+Lote+'+lot.lote+',+Quadra+'+lot.quadra+'+do+Bairro+Mararu.';
+  document.getElementById('popup-btn-reservar').href='reserva/?lote='+encodeURIComponent(key);
   var popup=document.getElementById('mapa-popup');
   popup.style.display='flex';
   requestAnimationFrame(function(){popup.style.opacity='1';});
