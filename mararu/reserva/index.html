@@ -511,12 +511,10 @@ iframe[src*="gso.kommo"] {
       <div style="position:relative;border-radius:12px;overflow:hidden;margin-bottom:16px;border:1px solid var(--border)">
 
         <!-- iframe Rumo ao Milhão -->
-        <iframe
-          id="iframe-mapa-reserva"
-          src="https://rumoaomilhao.imb.br/mapa/1780067816277"
-          style="width:100%;height:480px;border:none;display:block"
-          loading="lazy">
-        </iframe>
+        <!-- Mapa próprio — bolinhas clicáveis -->
+        <div id="mapa-reserva-wrap" style="position:relative;width:100%;min-height:320px;background:var(--bg3);display:flex;align-items:center;justify-content:center">
+          <div style="color:var(--text3);font-size:13px">⏳ Carregando mapa...</div>
+        </div>
 
         <!-- Overlay Em Breve (quando borrado) -->
         <div id="overlay-em-breve" style="position:absolute;inset:0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;z-index:10">
@@ -831,7 +829,7 @@ function renderMapaClicavel(lotesInfo,pontos,imgUrl){
       var sz=Math.max(12,Math.round((wrap.offsetWidth||300)*0.042));
       var cursor=isDisp?'pointer':'not-allowed';
       var opacity=isDisp?'1':'0.55';
-      html+='<div data-lote-key="'+key+'" title="Q'+p.quadra+' L'+p.lote+(isDisp?'',' — '+status)+'"';
+      html+='<div data-lote-key="'+key+'" title="Q'+p.quadra+' L'+p.lote+(isDisp?'':(' — '+status))+'"';
       html+=' style="position:absolute;left:'+p.xPercent+'%;top:'+p.yPercent+'%;transform:translate(-50%,-50%);width:'+sz+'px;height:'+sz+'px;cursor:'+cursor+';opacity:'+opacity+';transition:transform .18s,box-shadow .18s;border-radius:50%;z-index:1"';
       if(isDisp)html+=' onclick="selecionarLoteUI(\''+key+'\','+JSON.stringify(info)+')"';
       html+='>';
@@ -994,6 +992,113 @@ function toggleConcordo(){}
 // ──── SUPABASE_USER_ID e SHEET podem existir em código remanescente ────
 var SUPABASE_USER_ID='a02e9603-a770-4be6-8f9b-b1c48b631969';
 var PIX_KEY='60.659.875/0001-21';
+
+var _mapaReservaData=null;
+var _mapaBorrado=true;
+
+function corLoteR(s){
+  if(s==='disponivel')return'#3b82f6';
+  if(s==='reservado'||s==='pre-reserva')return'#eab308';
+  return'#ef4444';
+}
+
+function carregarMapaReserva(){
+  var wrap=document.getElementById('mapa-reserva-wrap');
+  if(!wrap)return;
+  fetch('https://uftxcwcryqpkfdfxzlno.supabase.co/rest/v1/empreendimentos?id=eq.'+MARARU_EMP_ID+'&select=data',{
+    headers:{'apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI','Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI'}
+  }).then(function(r){return r.json();}).then(function(rows){
+    if(!rows||!rows.length)return;
+    _mapaReservaData=rows[0].data;
+    renderMapaClicavel(_mapaReservaData.lotesInfo||{},_mapaReservaData.mapaPontos||[],_mapaReservaData.mapaImagemUrl||'');
+  }).catch(function(e){console.warn('Mapa:',e);});
+}
+
+function renderMapaClicavel(lotesInfo,pontos,imgUrl){
+  var wrap=document.getElementById('mapa-reserva-wrap');
+  if(!wrap||!imgUrl||!pontos.length){if(wrap)wrap.innerHTML='<div style="padding:40px;color:var(--text3);text-align:center;font-size:13px">📍 Mapa em preparação</div>';return;}
+  var imgW=wrap.offsetWidth||320;
+  var sz=Math.max(14,Math.min(40,Math.round(imgW*0.028)));
+  var h='<div style="position:relative;width:100%;border-radius:10px;overflow:hidden">';
+  h+='<img src="'+imgUrl+'" style="width:100%;display:block;border-radius:10px">';
+  h+='<div style="position:absolute;inset:0">';
+  pontos.forEach(function(p){
+    var key=p.quadra+'-'+p.lote;
+    var info=lotesInfo[key]||{};
+    var status=info.status||p.status||'disponivel';
+    var disp=status==='disponivel';
+    var cor=corLoteR(status);
+    var oc=disp?('onclick="selecionarLoteReserva(\'' + key + '\')"'):'';
+    h+='<div id="rp-pt-'+key+'" '+oc+' style="position:absolute;left:'+p.xPercent+'%;top:'+p.yPercent+'%;transform:translate(-50%,-50%);width:'+sz+'px;height:'+sz+'px;cursor:'+(disp?'pointer':'not-allowed')+';z-index:10">';
+    h+='<div id="rp-pi-'+key+'" style="width:100%;height:100%;border-radius:50%;background:'+cor+';border:2px solid rgba(255,255,255,0.9);box-shadow:0 2px 8px rgba(0,0,0,0.45)"></div>';
+    h+='</div>';
+  });
+  h+='</div></div>';
+  h+='<div style="display:flex;gap:14px;margin-top:10px;flex-wrap:wrap">';
+  h+='<div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)"><div style="width:11px;height:11px;border-radius:50%;background:#3b82f6"></div>Disponível</div>';
+  h+='<div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)"><div style="width:11px;height:11px;border-radius:50%;background:#eab308"></div>Reservado</div>';
+  h+='<div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)"><div style="width:11px;height:11px;border-radius:50%;background:#ef4444"></div>Vendido</div>';
+  h+='</div>';
+  wrap.innerHTML=h;
+}
+
+function selecionarLoteReserva(id){
+  if(!_mapaReservaData)return;
+  var lotesInfo=_mapaReservaData.lotesInfo||{};
+  var pontos=_mapaReservaData.mapaPontos||[];
+  var info=lotesInfo[id]||{};
+  var parts=id.split('-');
+  var quadra=parts[0];
+  var lote=parts.slice(1).join('-');
+  var preco=info.preco||0,entrada=info.entrada||0,parcelas=info.parcelas||0;
+  var vparcela=preco&&entrada&&parcelas?(preco-entrada)/parcelas:0;
+  _loteSel={
+    id:id,quadra:quadra,lote:lote,area:info.area||'—',
+    avista:preco?'R$ '+Number(preco).toLocaleString('pt-BR'):'A consultar',
+    entrada:entrada?'R$ '+Number(entrada).toLocaleString('pt-BR'):'A consultar',
+    parcelas:parcelas,
+    vparcela:vparcela?'R$ '+Number(vparcela).toLocaleString('pt-BR',{minimumFractionDigits:2}):'A consultar',
+    _precoNum:preco,_entradaNum:entrada,_vparcelaNum:vparcela
+  };
+  // Destacar bolinha
+  pontos.forEach(function(p){
+    var key=p.quadra+'-'+p.lote;
+    var s=lotesInfo[key]?lotesInfo[key].status||'disponivel':'disponivel';
+    var pi=document.getElementById('rp-pi-'+key);
+    var pt=document.getElementById('rp-pt-'+key);
+    if(pi)pi.style.background=key===id?'var(--gold)':corLoteR(s);
+    if(pt)pt.style.transform=key===id?'translate(-50%,-50%) scale(1.3)':'translate(-50%,-50%)';
+  });
+  // Preencher info
+  var q=document.getElementById('l-quadra');if(q)q.textContent='Quadra '+quadra;
+  var l=document.getElementById('l-lote');if(l)l.textContent='Lote '+lote;
+  var a=document.getElementById('l-area');if(a)a.textContent=_loteSel.area;
+  var av=document.getElementById('l-avista');if(av)av.textContent=_loteSel.avista;
+  var en=document.getElementById('l-entrada');if(en)en.textContent=_loteSel.entrada;
+  var vp=document.getElementById('l-vparcela');if(vp)vp.textContent=_loteSel.vparcela;
+  var pa=document.getElementById('l-parcelas');if(pa)pa.textContent=_loteSel.parcelas+'x';
+  var ls=document.getElementById('lote-selecionado');if(ls)ls.style.display='block';
+  var br=document.getElementById('btn-reservar');if(br)br.disabled=false;
+  setTimeout(function(){var el=document.getElementById('lote-selecionado');if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'});},200);
+}
+
+function aplicarEstadoMapaReserva(borrado){
+  _mapaBorrado=borrado;
+  var overlay=document.getElementById('overlay-em-breve');
+  var msgBorrado=document.getElementById('msg-mapa-borrado');
+  var secPag=document.getElementById('secao-pagamento');
+  var btnFinalizar=document.getElementById('btn-finalizar-sem-pag');
+  var btnConfirmar=document.getElementById('btn-confirmar');
+  var btnReservar=document.getElementById('btn-reservar');
+  if(overlay)overlay.style.display=borrado?'flex':'none';
+  if(msgBorrado)msgBorrado.style.display=borrado?'block':'none';
+  if(secPag)secPag.style.display=borrado?'none':'block';
+  if(btnFinalizar)btnFinalizar.style.display=borrado?'block':'none';
+  if(btnConfirmar)btnConfirmar.style.display=borrado?'none':'block';
+  if(borrado&&btnReservar)btnReservar.disabled=false;
+  if(!borrado)carregarMapaReserva();
+}
+
 </script>
 <!-- ═══ FIM MENU ═══ -->
 
