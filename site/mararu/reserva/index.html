@@ -784,33 +784,219 @@ function showToast(msg){
 })();
 
 // ── STUB PARA COMPATIBILIDADE (funções do script antigo remanescentes no HTML não usado) ──
-function buscarCEP(){}
+
+
+// ── VALIDAÇÃO / MÁSCARAS ──
+
+function mascaraCPF(el){
+  var v=el.value.replace(/D/g,'').slice(0,11);
+  if(v.length>9)v=v.replace(/^(d{3})(d{3})(d{3})(d{0,2}).*/,'$1.$2.$3-$4');
+  else if(v.length>6)v=v.replace(/^(d{3})(d{3})(d{0,3}).*/,'$1.$2.$3');
+  else if(v.length>3)v=v.replace(/^(d{3})(d{0,3}).*/,'$1.$2');
+  el.value=v;
+}
+
 function cpfValido(cpf){
-  var n=cpf.replace(/\D/g,'');
-  if(n.length!==11||/^(\d)+$/.test(n))return false;
-  var s=0;for(var i=0;i<9;i++)s+=parseInt(n[i])*(10-i);
-  var r=(s*10)%11;if(r===10||r===11)r=0;if(r!==parseInt(n[9]))return false;
+  var n=cpf.replace(/D/g,'');
+  if(n.length!==11)return false;
+  if(/^0+$|^1+$|^2+$|^3+$|^4+$|^5+$|^6+$|^7+$|^8+$|^9+$/.test(n))return false;
+  var s=0,r;
+  for(var i=0;i<9;i++)s+=parseInt(n[i])*(10-i);
+  r=(s*10)%11;if(r===10||r===11)r=0;if(r!==parseInt(n[9]))return false;
   s=0;for(var i=0;i<10;i++)s+=parseInt(n[i])*(11-i);
   r=(s*10)%11;if(r===10||r===11)r=0;return r===parseInt(n[10]);
 }
-function validarCPF(){}
-function validarNasc(){}
-function validarTel(){}
-function validarCampo(){}
-function mascaraCPF(){}
-function mascaraCEP(){}
+
+function validarCPF(){
+  var el=document.getElementById('f-cpf');
+  var h=document.getElementById('h-cpf');
+  if(!el||!h)return;
+  var v=el.value.replace(/D/g,'');
+  if(!v){h.textContent='';el.style.borderColor='';return;}
+  if(v.length<11){h.textContent='CPF incompleto';h.style.color='#f87171';el.style.borderColor='#f87171';return;}
+  if(cpfValido(el.value)){h.textContent='✓ CPF válido';h.style.color='#4ade80';el.style.borderColor='#4ade80';}
+  else{h.textContent='CPF inválido — verifique os números';h.style.color='#f87171';el.style.borderColor='#f87171';}
+}
+
+function mascaraCEP(el){
+  var v=el.value.replace(/D/g,'').slice(0,8);
+  if(v.length>5)v=v.replace(/^(d{5})(d{0,3}).*/,'$1-$2');
+  el.value=v;
+}
+
+function buscarCEP(){
+  var el=document.getElementById('f-cep');
+  var h=document.getElementById('h-cep');
+  if(!el)return;
+  var cep=el.value.replace(/D/g,'');
+  if(cep.length!==8){if(h){h.textContent='';el.style.borderColor='';}return;}
+  el.style.borderColor='#eab308';
+  if(h){h.textContent='🔍 Buscando...';h.style.color='#eab308';}
+  fetch('https://viacep.com.br/ws/'+cep+'/json/')
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d.erro){
+        if(h){h.textContent='CEP não encontrado';h.style.color='#f87171';}
+        el.style.borderColor='#f87171';return;
+      }
+      var set=function(id,val){var e=document.getElementById(id);if(e&&val)e.value=val;};
+      set('f-rua',d.logradouro);set('f-bairro',d.bairro);set('f-cidade',d.localidade);
+      var est=document.getElementById('f-estado');if(est&&d.uf)est.value=d.uf;
+      el.style.borderColor='#4ade80';
+      if(h){h.textContent='✓ Endereço preenchido';h.style.color='#4ade80';}
+      var numEl=document.getElementById('f-num');
+      if(numEl)setTimeout(function(){numEl.focus();},100);
+    })
+    .catch(function(){
+      if(h){h.textContent='Erro ao buscar CEP';h.style.color='#f87171';}
+    });
+}
+
+function validarCampo(el,tipo){
+  if(!el)return;
+  var hId='h-'+el.id.replace('f-','');
+  var h=document.getElementById(hId);
+  var v=el.value.trim();
+  if(!h)return;
+  if(tipo==='nome'){
+    var ok=v.split(' ').filter(Boolean).length>=2;
+    h.textContent=v?(ok?'✓ Nome completo':'Informe nome e sobrenome'):'';
+    h.style.color=ok?'#4ade80':'#f87171';
+    el.style.borderColor=v?(ok?'#4ade80':'#f87171'):'';
+  }else if(tipo==='rg'){
+    var ok=v.replace(/D/g,'').length>=6;
+    h.textContent=v?(ok?'✓':'RG muito curto — mínimo 6 dígitos'):'';
+    h.style.color=ok?'#4ade80':'#f87171';
+    el.style.borderColor=v?(ok?'#4ade80':'#f87171'):'';
+  }
+}
+
+function validarTel(id,hintId){
+  var el=document.getElementById(id);
+  var h=document.getElementById(hintId);
+  if(!el)return;
+  var v=el.value.replace(/D/g,'');
+  var ok=v.length>=10;
+  if(h){h.textContent=v?(ok?'✓ Telefone válido':'Número incompleto — mínimo 10 dígitos'):'';h.style.color=ok?'#4ade80':'#f87171';}
+  el.style.borderColor=v?(ok?'#4ade80':'#f87171'):'';
+}
+
+function validarNasc(){
+  var el=document.getElementById('f-nasc');
+  var h=document.getElementById('h-nasc');
+  if(!el||!h)return;
+  var v=el.value;if(!v){h.textContent='';return;}
+  var d=new Date(v+'T12:00:00');var agora=new Date();
+  var idade=agora.getFullYear()-d.getFullYear()-((agora.getMonth()<d.getMonth()||(agora.getMonth()===d.getMonth()&&agora.getDate()<d.getDate()))?1:0);
+  if(isNaN(idade)||d>agora){h.textContent='Data inválida';h.style.color='#f87171';el.style.borderColor='#f87171';}
+  else if(idade<18){h.textContent='É necessário ter 18 anos ou mais';h.style.color='#f87171';el.style.borderColor='#f87171';}
+  else{h.textContent='✓ '+idade+' anos';h.style.color='#4ade80';el.style.borderColor='#4ade80';}
+}
+
 function validarVencimento(){}
-function selecionarDoc(){}
-function handleFrentePrincipal(){}
-function respostaVerso(){}
-function handleVerso(){}
-function respostaCPF(){}
-function handleCPFDoc(){}
-function removeDoc(){}
+
+// ── DOCUMENTOS ──
+
+function selecionarDoc(tipo){
+  var bloco=document.getElementById('bloco-upload-frente');
+  var lbl=document.getElementById('label-frente');
+  ['bloco-pergunta-verso','bloco-verso','bloco-pergunta-cpf','bloco-cpf'].forEach(function(id){
+    var el=document.getElementById(id);if(el)el.style.display='none';
+  });
+  removeDoc('frente');removeDoc('verso');removeDoc('cpf');
+  if(!tipo){if(bloco)bloco.style.display='none';return;}
+  if(bloco)bloco.style.display='block';
+  if(lbl)lbl.textContent=tipo==='rg'?'Frente do RG *':'Frente da CNH *';
+}
+
+function handleFrentePrincipal(input){
+  if(!input||!input.files||!input.files[0])return;
+  var f=input.files[0];
+  var prev=document.getElementById('prev-frente');
+  var img=document.getElementById('img-frente');
+  var txt=document.getElementById('txt-frente');
+  var ico=document.getElementById('ico-frente');
+  if(txt)txt.textContent=f.name;if(ico)ico.textContent='✅';
+  if(img&&f.type.startsWith('image/')){
+    img.src=URL.createObjectURL(f);img.style.display='block';
+    if(prev)prev.style.display='block';
+  }else if(prev){
+    prev.style.display='block';
+    if(img){img.style.display='none';}
+    var area=document.getElementById('area-frente');
+    if(area){var hint=area.querySelector('#txt-frente');if(hint)hint.textContent=f.name+' (PDF)';}
+  }
+  var tipo=document.getElementById('tipo-doc');
+  if(tipo&&tipo.value==='rg'){
+    var bp=document.getElementById('bloco-pergunta-verso');if(bp)bp.style.display='block';
+  }else{
+    var bpc=document.getElementById('bloco-pergunta-cpf');if(bpc)bpc.style.display='block';
+  }
+}
+
+function respostaVerso(tem){
+  var bp=document.getElementById('bloco-pergunta-verso');if(bp)bp.style.display='none';
+  if(tem){
+    var bv=document.getElementById('bloco-verso');if(bv)bv.style.display='block';
+  }else{
+    var bpc=document.getElementById('bloco-pergunta-cpf');if(bpc)bpc.style.display='block';
+  }
+}
+
+function handleVerso(input){
+  if(!input||!input.files||!input.files[0])return;
+  var f=input.files[0];
+  var txt=document.getElementById('txt-verso');
+  var prev=document.getElementById('prev-verso');
+  var img=document.getElementById('img-verso');
+  if(txt)txt.textContent=f.name;
+  if(img&&f.type.startsWith('image/')){img.src=URL.createObjectURL(f);if(prev)prev.style.display='block';}
+  else if(prev){prev.style.display='block';}
+  var bpc=document.getElementById('bloco-pergunta-cpf');if(bpc)bpc.style.display='block';
+}
+
+function respostaCPF(precisa){
+  var bp=document.getElementById('bloco-pergunta-cpf');if(bp)bp.style.display='none';
+  if(precisa){var bc=document.getElementById('bloco-cpf');if(bc)bc.style.display='block';}
+}
+
+function handleCPFDoc(input){
+  if(!input||!input.files||!input.files[0])return;
+  var f=input.files[0];
+  var prev=document.getElementById('prev-cpf');
+  var img=document.getElementById('img-cpf');
+  var txt=document.getElementById('txt-cpf');
+  if(txt)txt.textContent=f.name;
+  if(img&&f.type.startsWith('image/')){img.src=URL.createObjectURL(f);if(prev)prev.style.display='block';}
+  else if(prev){prev.style.display='block';}
+}
+
+function removeDoc(tipo){
+  if(tipo==='frente'){
+    var el=document.getElementById('inp-frente');if(el)el.value='';
+    var pr=document.getElementById('prev-frente');if(pr)pr.style.display='none';
+    var img=document.getElementById('img-frente');if(img){img.src='';img.style.display='block';}
+    var txt=document.getElementById('txt-frente');if(txt)txt.textContent='Toque para enviar foto ou PDF';
+    var ico=document.getElementById('ico-frente');if(ico)ico.textContent='📎';
+    ['bloco-pergunta-verso','bloco-verso','bloco-pergunta-cpf','bloco-cpf'].forEach(function(id){
+      var e=document.getElementById(id);if(e)e.style.display='none';
+    });
+  }else if(tipo==='verso'){
+    var el=document.getElementById('inp-verso');if(el)el.value='';
+    var pr=document.getElementById('prev-verso');if(pr)pr.style.display='none';
+    var txt=document.getElementById('txt-verso');if(txt)txt.textContent='Toque para enviar o verso';
+  }else if(tipo==='cpf'){
+    var el=document.getElementById('inp-cpf');if(el)el.value='';
+    var pr=document.getElementById('prev-cpf');if(pr)pr.style.display='none';
+    var txt=document.getElementById('txt-cpf');if(txt)txt.textContent='Toque para enviar foto ou PDF';
+  }
+}
+
 function selecionarPag(){}
 function copiarPix(){}
 function toggleCheck(){}
 function confirmarTermos(){}
+
 async function salvarDados(){
   var d=getDados();
   var agora=Date.now();
