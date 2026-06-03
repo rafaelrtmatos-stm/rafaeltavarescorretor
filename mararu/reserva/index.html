@@ -739,6 +739,8 @@ function irEtapa2(){
   var br=document.getElementById('btn-reservar');if(br)br.disabled=true;
 
   // Carregar estado do mapa
+  // Aplicar estado borrado imediatamente enquanto carrega
+  aplicarEstadoMapa(true);
   fetch('/site_data.json?_='+Date.now())
     .then(function(r){return r.json();})
     .then(function(d){
@@ -758,11 +760,14 @@ function aplicarEstadoMapa(borrado){
   var secPag=document.getElementById('secao-pagamento');
   var btnFinalizar=document.getElementById('btn-finalizar-sem-pag');
   var btnConfirmar=document.getElementById('btn-confirmar');
+  var btnReservar=document.getElementById('btn-reservar');
   if(overlay)overlay.style.display=borrado?'flex':'none';
   if(msgBorrado)msgBorrado.style.display=borrado?'block':'none';
   if(secPag)secPag.style.display=borrado?'none':'block';
   if(btnFinalizar)btnFinalizar.style.display=borrado?'block':'none';
   if(btnConfirmar)btnConfirmar.style.display=borrado?'none':'block';
+  // Sempre habilitar o botão Avançar quando mapa borrado
+  if(borrado&&btnReservar)btnReservar.disabled=false;
 }
 
 function irEtapa3(){
