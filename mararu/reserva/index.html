@@ -186,6 +186,22 @@ iframe[src*="gso.kommo"] {
   <meta name="theme-color" content="#C9A84C">
 </head>
 <body>
+<script>
+// Verificar estado do mapa imediatamente
+fetch('/site_data.json?_='+Date.now())
+  .then(function(r){return r.json();})
+  .then(function(d){
+    var borrado=!d||!d.lancamento||d.lancamento.marcaDagua!==false;
+    var overlay=document.getElementById('res-blur-overlay');
+    var txt=document.getElementById('res-blur-txt');
+    if(overlay)overlay.style.display=borrado?'flex':'none';
+    if(txt&&d&&d.lancamento&&d.lancamento.marcaDaguaTxt)txt.textContent=d.lancamento.marcaDaguaTxt;
+    if(!borrado&&typeof carregarMapaReserva==='function')carregarMapaReserva();
+  }).catch(function(){
+    var overlay=document.getElementById('res-blur-overlay');
+    if(overlay)overlay.style.display='flex';
+  });
+</script>
 
 <!-- HEADER -->
 <div class="header">
@@ -230,7 +246,7 @@ iframe[src*="gso.kommo"] {
           <div style="text-align:center;color:var(--text3);font-size:13px">⏳ Carregando mapa...</div>
         </div>
         <!-- OVERLAY BLUR -->
-        <div id="res-blur-overlay" style="display:none;position:absolute;inset:0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);background:rgba(0,0,0,0.55);flex-direction:column;align-items:center;justify-content:center;gap:10px;z-index:10">
+        <div id="res-blur-overlay" style="display:flex;position:absolute;inset:0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);background:rgba(0,0,0,0.55);flex-direction:column;align-items:center;justify-content:center;gap:10px;z-index:10">
           <div id="res-blur-txt" style="font-family:'Cormorant Garamond',serif;font-size:clamp(28px,6vw,56px);font-weight:700;color:#fff;letter-spacing:4px;text-transform:uppercase;text-shadow:0 4px 24px rgba(0,0,0,0.7)">Em Breve</div>
           <div style="font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:2px;text-transform:uppercase">Lançamento em breve</div>
           <button onclick="irEtapa2()" style="margin-top:12px;background:var(--gold);color:#000;border:none;padding:13px 28px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:.3px">
@@ -1117,27 +1133,7 @@ function aplicarEstadoMapaReserva(borrado){
 }
 
 
-// Verificar estado do mapa ao carregar
-(function(){
-  fetch('/site_data.json?_='+Date.now())
-    .then(function(r){return r.json();})
-    .then(function(d){
-      var borrado=!d||!d.lancamento||d.lancamento.marcaDagua!==false;
-      var overlay=document.getElementById('res-blur-overlay');
-      var txt=document.getElementById('res-blur-txt');
-      if(overlay){
-        overlay.style.display=borrado?'flex':'none';
-        if(txt&&d.lancamento&&d.lancamento.marcaDaguaTxt)txt.textContent=d.lancamento.marcaDaguaTxt;
-      }
-      if(!borrado){
-        // Carregar mapa clicável
-        if(typeof carregarMapaReserva==='function')carregarMapaReserva();
-      }
-    }).catch(function(){
-      var overlay=document.getElementById('res-blur-overlay');
-      if(overlay)overlay.style.display='flex';
-    });
-})();
+// estado do mapa carregado inline
 </script>
 <!-- ═══ FIM MENU ═══ -->
 
