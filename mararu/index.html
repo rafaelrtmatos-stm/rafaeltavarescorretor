@@ -115,6 +115,36 @@
   </div>
 </div>
 
+<!-- COUNTDOWN LANÇAMENTO -->
+<div id="sec-countdown" style="background:var(--bg2);border-bottom:1px solid var(--border);padding:32px 24px;text-align:center;display:none">
+  <div style="max-width:600px;margin:0 auto">
+    <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:600">Lançamento oficial</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(16px,2.5vw,22px);color:var(--text);margin-bottom:20px;font-weight:600">7 DE JUNHO DE 2026</div>
+    <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap">
+      <div style="text-align:center">
+        <div id="cd-dias" style="font-family:'Cormorant Garamond',serif;font-size:clamp(36px,6vw,64px);font-weight:700;color:var(--gold);line-height:1">00</div>
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-top:4px">Dias</div>
+      </div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(36px,6vw,64px);font-weight:700;color:var(--border2);line-height:1;align-self:flex-start;padding-top:4px">:</div>
+      <div style="text-align:center">
+        <div id="cd-horas" style="font-family:'Cormorant Garamond',serif;font-size:clamp(36px,6vw,64px);font-weight:700;color:var(--gold);line-height:1">00</div>
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-top:4px">Horas</div>
+      </div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(36px,6vw,64px);font-weight:700;color:var(--border2);line-height:1;align-self:flex-start;padding-top:4px">:</div>
+      <div style="text-align:center">
+        <div id="cd-min" style="font-family:'Cormorant Garamond',serif;font-size:clamp(36px,6vw,64px);font-weight:700;color:var(--gold);line-height:1">00</div>
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-top:4px">Min</div>
+      </div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(36px,6vw,64px);font-weight:700;color:var(--border2);line-height:1;align-self:flex-start;padding-top:4px">:</div>
+      <div style="text-align:center">
+        <div id="cd-seg" style="font-family:'Cormorant Garamond',serif;font-size:clamp(36px,6vw,64px);font-weight:700;color:var(--gold);line-height:1">00</div>
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-top:4px">Seg</div>
+      </div>
+    </div>
+    <div style="font-size:13px;color:var(--text2);margin-top:16px">Precos revelados no dia do lancamento</div>
+  </div>
+</div>
+
 <section id="sec-mapa" style="background:var(--bg);border-bottom:1px solid var(--border)">
   <div class="section-inner">
     <div class="section-tag">Disponibilidade em tempo real</div>
@@ -355,12 +385,38 @@ fetch('/site_data.json?_='+Date.now())
       } else {
         grid.innerHTML=galeria.map(function(url){
           var isVideo=url.indexOf('.mp4')>=0||url.indexOf('.webm')>=0||url.indexOf('.mov')>=0;
-          if(isVideo)return '<div class="galeria-item"><video src="'+url+'" controls muted playsinline style="width:100%;height:100%;object-fit:cover"></video></div>';
-          return '<div class="galeria-item"><img src="'+url+'" alt="Bairro Mararu" loading="lazy"></div>';
+          // Adicionar token se for Supabase privado
+          var srcUrl=url;
+          if(url.indexOf('supabase.co')>=0&&url.indexOf('?')< 0){
+            srcUrl=url; // URL publica, usar diretamente
+          }
+          if(isVideo)return '<div class="galeria-item"><video src="'+srcUrl+'" controls muted playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover"></video></div>';
+          return '<div class="galeria-item"><img src="'+srcUrl+'" alt="Bairro Mararu" loading="lazy"></div>';
         }).join('');
       }
     }
-  }).catch(function(){});
+  }).catch// COUNTDOWN
+(function(){
+  var target=new Date('2026-06-07T11:00:00.000Z').getTime();
+  function tick(){
+    var now=Date.now();
+    var diff=target-now;
+    var sec=document.getElementById('sec-countdown');
+    if(diff<=0){if(sec)sec.style.display='none';return;}
+    if(sec)sec.style.display='block';
+    var d=Math.floor(diff/86400000);
+    var h=Math.floor((diff%86400000)/3600000);
+    var m=Math.floor((diff%3600000)/60000);
+    var s=Math.floor((diff%60000)/1000);
+    var cd=document.getElementById('cd-dias');if(cd)cd.textContent=String(d).padStart(2,'0');
+    var ch=document.getElementById('cd-horas');if(ch)ch.textContent=String(h).padStart(2,'0');
+    var cm=document.getElementById('cd-min');if(cm)cm.textContent=String(m).padStart(2,'0');
+    var cs=document.getElementById('cd-seg');if(cs)cs.textContent=String(s).padStart(2,'0');
+  }
+  tick();setInterval(tick,1000);
+})();
+
+(function(){});
 
 (function(){
   try{
