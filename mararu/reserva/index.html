@@ -646,49 +646,100 @@ function renderMapaClicavel(lotesInfo,pontos,imgUrl){
 }
 
 // ── SALVAR NO SUPABASE ──
-function confirmarReserva(){
+async function confirmarReserva(){
   var nome=document.getElementById('f-nome').value.trim();
   var tel=document.getElementById('f-wpp').value.trim();
+  var tel2=document.getElementById('f-tel2')?document.getElementById('f-tel2').value.trim():'';
   var btn=document.getElementById('btn-confirmar-final');
-  if(!nome||!tel||!_lotesSel){showToast('Dados incompletos');return;}
+  if(!nome||!tel){showToast('Dados incompletos');return;}
   if(btn){btn.disabled=true;btn.textContent='Enviando...';}
 
-  var payload={
-    empreendimento:'Bairro Mararu',
-    empreendimento_id:MARARU_EMP_ID,
-    quadra:_lotesSel.quadra,
-    lote:_lotesSel.lote,
-    lote_key:_lotesSel.key,
-    nome:nome,
-    telefone:tel,
-    status:'pre-reserva',
-    created_at:new Date().toISOString()
-  };
+  // Coletar todos os dados
+  var cpf=document.getElementById('f-cpf')?document.getElementById('f-cpf').value:'';
+  var rg=document.getElementById('f-rg')?document.getElementById('f-rg').value:'';
+  var nasc=document.getElementById('f-nasc')?document.getElementById('f-nasc').value:'';
+  var cep=document.getElementById('f-cep')?document.getElementById('f-cep').value:'';
+  var rua=document.getElementById('f-rua')?document.getElementById('f-rua').value:'';
+  var num=document.getElementById('f-num')?document.getElementById('f-num').value:'';
+  var bairro=document.getElementById('f-bairro')?document.getElementById('f-bairro').value:'';
+  var cidade=document.getElementById('f-cidade')?document.getElementById('f-cidade').value:'';
+  var estado=document.getElementById('f-estado')?document.getElementById('f-estado').value:'PA';
+  var venc=document.getElementById('f-vencimento')?document.getElementById('f-vencimento').value:'';
+  var quadra=_lotesSel?_lotesSel.quadra:'';
+  var lote=_lotesSel?_lotesSel.lote:'';
 
-  fetch(SUPABASE_URL+'/rest/v1/pre_reservas',{
-    method:'POST',
-    headers:{
-      'apikey':SUPABASE_KEY,
-      'Authorization':'Bearer '+SUPABASE_KEY,
-      'Content-Type':'application/json',
-      'Prefer':'return=minimal'
-    },
-    body:JSON.stringify(payload)
-  })
-  .then(function(r){
-    if(r.ok||r.status===201){
-      mostrarSucesso(nome,tel);
-    } else {
-      return r.text().then(function(t){throw new Error(t);});
-    }
-  })
-  .catch(function(err){
-    console.warn('Supabase pre_reservas falhou:',err);
-    mostrarSucesso(nome,tel);
-  });
+  // 1. Rumo ao Milhão
+  try{
+    await fetch('https://rumoaomilhao.imb.br/api/publico/pre-reserva',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        empreendimentoId:MARARU_EMP_ID,
+        empreendimentoNome:'MARARU',
+        quadra:quadra,numeroLote:lote,
+        valorLote:0,valorEntrada:0,quantidadeParcelas:0,valorParcela:0,
+        clienteNome:nome,
+        clienteCpf:cpf.replace(/\D/g,''),
+        clienteTelefone:tel,
+        clienteWhatsapp:tel2||tel,
+        clienteDataNascimento:nasc,
+        clienteEndereco:rua+(num?', '+num:''),
+        clienteCep:cep,clienteBairro:bairro,
+        clienteCidade:cidade,clienteEstado:estado||'PA',
+        status:'rascunho',origemReserva:'site_publico',documentos:[]
+      })
+    });
+    console.log('Rumo ao Milhao: OK');
+  }catch(e){console.warn('Rumo ao Milhao:',e);}
+
+  // 2. Supabase clientes
+  try{
+    var clienteId='MAR-'+Date.now();
+    await fetch(SUPABASE_URL+'/rest/v1/clientes',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Prefer':'return=minimal'},
+      body:JSON.stringify({id:clienteId,user_id:'shared',data:{
+        nome:nome,cpf:cpf.replace(/\D/g,''),rg:rg,
+        dataNascimento:nasc,telefone:tel,telefone2:tel2,
+        cep:cep,rua:rua,numero:num,bairro:bairro,cidade:cidade,estado:estado,
+        vencimento:venc,quadra:quadra,lote:lote,
+        empreendimento:'Bairro Mararu',
+        corretor:'Rafael Tavares — CRECI 13919',
+        dataCadastro:new Date().toISOString(),origem:'Site Mararu'
+      }})
+    });
+    console.log('Supabase clientes: OK');
+  }catch(e){console.warn('Supabase:',e);}
+
+  // 3. Upload documentos
+  var docsList=[
+    {b64:_fotosBase64.frente,nome:'frente'},
+    {b64:_fotosBase64.verso,nome:'verso'},
+    {b64:_fotosBase64.cpf,nome:'cpf'}
+  ];
+  for(var di=0;di<docsList.length;di++){
+    var doc=docsList[di];
+    if(!doc.b64)continue;
+    try{
+      var arr=doc.b64.split(',');
+      var mime=arr[0].match(/:(.*?);/)[1];
+      var bstr=atob(arr[1]);
+      var u8=new Uint8Array(bstr.length);
+      for(var bi=0;bi<bstr.length;bi++)u8[bi]=bstr.charCodeAt(bi);
+      var fd=new FormData();
+      fd.append('arquivo',new Blob([u8],{type:mime}),nome.replace(/ /g,'_')+'_'+doc.nome+'.'+(mime.includes('pdf')?'pdf':'jpg'));
+      fd.append('clienteNome',nome);
+      await fetch('https://rumoaomilhao.imb.br/api/publico/upload-doc',{method:'POST',body:fd});
+      console.log('Upload '+doc.nome+': OK');
+    }catch(eu){console.warn('Upload doc '+doc.nome+':',eu);}
+  }
+
+  // 4. Mostrar sucesso
+  mostrarSucesso(nome,tel,quadra,lote);
 }
 
-function mostrarSucesso(nome,tel){
+function mostrarSucesso(nome,tel,quadra,lote){
+  quadra=quadra||'';lote=lote||'';
   var ov=document.getElementById('overlay-sucesso');
   if(ov){ov.style.display='flex';}
   setTimeout(function(){
@@ -699,7 +750,7 @@ function mostrarSucesso(nome,tel){
     if(cd)cd.innerHTML='<div style="font-size:13px;color:var(--text2);line-height:1.8"><strong style="color:var(--gold)">'+nome+'</strong><br>'+tel+'<br>Quadra '+_lotesSel.quadra+' — Lote '+_lotesSel.lote+'<br><span style="color:var(--text3)">Bairro Mararu</span></div>';
     var wppBtn=document.getElementById('btn-wpp-comp');
     if(wppBtn){
-      var msg=encodeURIComponent('Olá Rafael! Fiz minha pré-reserva online pelo site.\n\nNome: '+nome+'\nTelefone: '+tel+'\nLote: Q'+_lotesSel.quadra+' L'+_lotesSel.lote+' — Bairro Mararu');
+      var msg=encodeURIComponent('Olá Rafael! Fiz minha pré-reserva online pelo site.'+(quadra?'\n\nLote: Q'+quadra+' L'+lote:'')+'\n\nNome: '+nome+'\nTelefone: '+tel+'\nEmpreendimento: Bairro Mararu');
       wppBtn.href='https://wa.me/55'+WPP+'?text='+msg;
     }
     window.scrollTo({top:0,behavior:'smooth'});
