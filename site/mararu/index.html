@@ -684,7 +684,7 @@ section#hero{z-index:0;overflow:hidden!important}
         var key=p.quadra+'-'+p.lote;
         var info=lotesInfo[key]||{};
         var cor=corLote(info.status||'disponivel');
-        var szPct='2.1%';
+        var szPct=((window._pinSize||100)*2.1/100).toFixed(2)+'%';
         html+='<div title="Q'+p.quadra+' L'+p.lote+'" style="position:absolute;left:'+p.xPercent+'%;top:'+p.yPercent+'%;transform:translate(-50%,-50%);width:'+szPct+';aspect-ratio:1;pointer-events:none">';
         html+='<div style="width:100%;height:100%;border-radius:50%;background:'+cor+';border:2px solid rgba(255,255,255,0.9);box-shadow:0 2px 8px rgba(0,0,0,0.45)"></div>';
         html+='</div>';
@@ -1128,6 +1128,7 @@ var _lotes=[];
 var _pontos=[];
 var _imgUrl='';
 var _selLote=null;
+var _pinSize=100;
 
 function fmt(n){return n?'R$ '+Number(n).toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0}):'A consultar';}
 function fmtDec(n){return n?'R$ '+Number(n).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}):'A consultar';}
@@ -1195,6 +1196,7 @@ function renderMapaInterativo(){
   var html='<div style="position:relative;display:block;width:100%;border-radius:10px;overflow:visible;transform-origin:0 0;will-change:transform">';
   html+='<img src="'+_imgUrl+'" style="width:100%;display:block;border-radius:10px" alt="Planta Bairro Mararu">';
   html+='<div style="position:absolute;inset:0;pointer-events:none">';
+  var cSz=(2.1*_pinSize/100).toFixed(2)+'%';
   _pontos.forEach(function(p){
     var key=p.quadra+'-'+p.lote;
     var lot=lookup[key];
@@ -1202,7 +1204,7 @@ function renderMapaInterativo(){
     var cor=disp?'#2563eb':'#f87171';
     var cur=disp?'pointer':'not-allowed';
     var click=disp?'onclick="window._mapaAbrirLote(\''+key+'\')"':'';
-    html+='<div '+click+' title="Q'+p.quadra+' L'+p.lote+(disp?'':' — Indisponível')+'" style="position:absolute;left:'+p.xPercent+'%;top:'+p.yPercent+'%;transform:translate(-50%,-50%);width:2.1%;aspect-ratio:1;cursor:'+cur+';z-index:10;pointer-events:auto;transition:transform .15s" id="mponto-'+key+'">';
+    html+='<div '+click+' title="Q'+p.quadra+' L'+p.lote+(disp?'':' — Indisponível')+'" style="position:absolute;left:'+p.xPercent+'%;top:'+p.yPercent+'%;transform:translate(-50%,-50%);width:'+cSz+';aspect-ratio:1;cursor:'+cur+';z-index:10;pointer-events:auto;transition:transform .15s" id="mponto-'+key+'">';
     html+='<div id="mpi-'+key+'" style="width:100%;height:100%;border-radius:50%;background:'+cor+';border:2px solid rgba(255,255,255,0.9);box-shadow:0 2px 8px rgba(0,0,0,0.45);transition:all .15s"></div>';
     html+='</div>';
   });
@@ -1876,24 +1878,11 @@ fetch('/site_data.json?_='+Date.now())
       var blurEl=document.getElementById('mapa-blur-layer');
       if(blurEl)blurEl.style.display=mostrar?'block':'none';
     }
-    // Tamanho bolinhas mapa de lotes
+    // Tamanho bolinhas mapa de lotes — aplica antes de renderizar
     if(d.pinSize){
-      var ps=d.pinSize/100;
-      // Aplicar nas bolinhas do mapa de lotes
-      document.querySelectorAll('.bolinha-lote,.lote-pin,.pin-lote,[class*="lote-circle"],[class*="circle-lote"]').forEach(function(b){
-        var base=parseInt(b.getAttribute('data-base')||b.getAttribute('data-size')||'14');
-        var novoTamanho=Math.round(base*ps)+'px';
-        b.style.width=novoTamanho;
-        b.style.height=novoTamanho;
-      });
-      // Salvar no CSS root para componentes que usam variável
-      document.documentElement.style.setProperty('--pin-scale', ps);
-      // Aplicar também via CSS no mapa de lotes
-      var styleEl=document.getElementById('pin-size-style');
-      if(!styleEl){styleEl=document.createElement('style');styleEl.id='pin-size-style';document.head.appendChild(styleEl);}
-      styleEl.textContent=
-        '.lote-bolinha,.bolinha,.pin,.circle-lote,.lote-circle{transform:scale('+ps+') !important;transform-origin:center !important;}'+
-        '[class*="lote"],[class*="pin"],[class*="bolinha"]{--ps:'+ps+';}';
+      _pinSize=d.pinSize;
+      // Se o mapa já estiver renderizado, re-renderiza com o novo tamanho
+      if(_pontos.length&&_imgUrl)renderMapaInterativo();
     }
     // Galeria de fotos do Mararu com proporção A4
     var grid=document.getElementById('gal-fotos-grid');
