@@ -798,7 +798,7 @@ async function salvarDados(){
         quadra:d.quadra||'',numeroLote:d.lote||'',
         valorLote:0,valorEntrada:0,quantidadeParcelas:0,valorParcela:0,
         clienteNome:d.nome,clienteCpf:(d.cpf||'').replace(/\D/g,''),
-        clienteTelefone:d.wpp,clienteWhatsapp:d.wpp,
+        clienteTelefone:d.wpp,clienteWhatsapp:d.tel2||d.wpp,
         clienteDataNascimento:d.nascimento,
         clienteEndereco:(d.rua||'')+', '+(d.numero||''),
         clienteCep:d.cep,clienteBairro:d.bairro,
