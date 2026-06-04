@@ -792,24 +792,7 @@ function cpfValido(cpf){
   s=0;for(var i=0;i<10;i++)s+=parseInt(n[i])*(11-i);
   r=(s*10)%11;if(r===10||r===11)r=0;return r===parseInt(n[10]);
 }
-function validarCPF(){}
-function validarNasc(){}
-function validarTel(){}
-function validarCampo(){}
-function mascaraCPF(){}
-function mascaraCEP(){}
-function validarVencimento(){}
-function selecionarDoc(){}
-function handleFrentePrincipal(){}
-function respostaVerso(){}
-function handleVerso(){}
-function respostaCPF(){}
-function handleCPFDoc(){}
-function removeDoc(){}
-function selecionarPag(){}
-function copiarPix(){}
-function toggleCheck(){}
-function confirmarTermos(){}
+// funções reais definidas abaixo
 async function salvarDados(){
   var d=getDados();
   var agora=Date.now();

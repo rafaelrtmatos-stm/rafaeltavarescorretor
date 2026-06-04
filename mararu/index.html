@@ -74,6 +74,9 @@
     .galeria-item video,.galeria-item img{width:100%;height:100%;object-fit:cover}
     footer{padding:40px 24px;text-align:center;border-top:1px solid var(--border);font-size:12px;color:var(--text3)}
     @media(max-width:640px){
+      [style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr!important}
+      [style*="display:flex;align-items:center;gap:32px"]{flex-direction:column!important;text-align:center!important}
+
       .stats-band-inner,.planos-grid,.galeria-grid{grid-template-columns:1fr}
       .nav-btn-outline{display:none}
     }
@@ -181,17 +184,95 @@
   </div>
 </section>
 
-<section id="sec-cta" style="background:var(--bg2);text-align:center">
-  <div style="max-width:540px;margin:0 auto">
-    <div class="section-tag" style="text-align:center">Fale agora com o corretor</div>
-    <h2 class="section-title" style="text-align:center">Falar com <em>Rafael</em></h2>
-    <p class="section-sub" style="text-align:center;margin-bottom:32px">Tire suas duvidas, veja os planos e garanta seu lote com atendimento personalizado.</p>
-    <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
-      <a href="https://wa.me/5593992332012?text=Ola%20Rafael!%20Vi%20o%20Bairro%20Mararu%20no%20site%20e%20quero%20saber%20mais." target="_blank" class="btn-wpp" style="font-size:14px;padding:16px 36px">Falar com Rafael</a>
-      <a href="reserva/" class="btn-gold">Garantir Minha Pre-Reserva</a>
+
+<!-- DIFERENCIAIS / FIDELIZAÇÃO -->
+<section style="background:var(--bg);border-bottom:1px solid var(--border)">
+  <div class="section-inner">
+    <div class="section-tag">Por que escolher o Bairro Mararu</div>
+    <h2 class="section-title">Seu <em>Futuro</em> começa aqui</h2>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px">
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px;text-align:center">
+        <div style="font-size:32px;margin-bottom:12px">📍</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;margin-bottom:8px">Localizacao Privilegiada</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.6">Proximo a escolas, comercio e hospitais em Santarem, PA</div>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:24px;text-align:center">
+        <div style="font-size:32px;margin-bottom:12px">📄</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;margin-bottom:8px">Documentacao Regularizada</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.6">Lote escriturado com toda documentacao em ordem</div>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px;text-align:center">
+        <div style="font-size:32px;margin-bottom:12px">📈</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;margin-bottom:8px">Alto Potencial</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.6">Regiao em expansao com forte valorizacao nos proximos anos</div>
+      </div>
     </div>
   </div>
 </section>
+
+<!-- SOBRE O CORRETOR -->
+<section style="background:var(--bg2);border-bottom:1px solid var(--border)">
+  <div class="section-inner">
+    <div style="display:flex;align-items:center;gap:32px;flex-wrap:wrap">
+      <div style="width:120px;height:120px;border-radius:50%;overflow:hidden;border:3px solid var(--gold);flex-shrink:0;background:var(--bg3)">
+        <img src="/imagens/rafael-foto.jpg" alt="Rafael Tavares" style="width:100%;height:100%;object-fit:cover">
+      </div>
+      <div style="flex:1;min-width:220px">
+        <div class="section-tag">Seu corretor de confianca</div>
+        <h2 class="section-title" style="font-size:clamp(24px,3vw,40px)">Rafael <em>Tavares</em></h2>
+        <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:12px">CRECI 13919 - Especialista em loteamentos em Santarem, PA. Atendimento personalizado do primeiro contato ate a entrega das chaves.</p>
+        <div style="display:flex;gap:16px;flex-wrap:wrap">
+          <div style="font-size:12px;color:var(--gold);font-weight:600">✓ +5 anos de experiencia</div>
+          <div style="font-size:12px;color:var(--gold);font-weight:600">✓ Centenas de clientes atendidos</div>
+          <div style="font-size:12px;color:var(--gold);font-weight:600">✓ CRECI ativo e regularizado</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FALAR COM CORRETOR -->
+<section id="sec-cta" style="background:var(--bg2);text-align:center">
+  <div style="max-width:580px;margin:0 auto">
+    <div class="section-tag" style="text-align:center">Atendimento personalizado</div>
+    <h2 class="section-title" style="text-align:center">Pronto para <em>realizar</em> seu sonho?</h2>
+    <p class="section-sub" style="text-align:center;margin-bottom:32px">Converse diretamente com Rafael Tavares e tire todas as suas duvidas. Sem pressao, sem compromisso.</p>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+      <button onclick="abrirModalCorretor()" class="btn-wpp" style="font-size:14px;padding:16px 36px;cursor:pointer;border:1.5px solid rgba(37,211,102,0.3)">
+        Falar com o Corretor
+      </button>
+      <a href="https://chat.whatsapp.com/Eo6QSIOw7GS6bNWujn5oNu" target="_blank" style="font-size:13px;color:var(--text2);display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border:1px solid var(--border);border-radius:8px;transition:border-color .2s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border)'">
+        Entrar no Grupo VIP do WhatsApp
+      </a>
+      <a href="reserva/" class="btn-gold" style="margin-top:4px">Garantir Minha Pre-Reserva</a>
+    </div>
+  </div>
+</section>
+
+<!-- MODAL CORRETOR -->
+<div id="modal-corretor" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:1000;align-items:center;justify-content:center;padding:20px" onclick="if(event.target===this)fecharModalCorretor()">
+  <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:20px;padding:32px;max-width:420px;width:100%;position:relative">
+    <button onclick="fecharModalCorretor()" style="position:absolute;top:16px;right:16px;background:transparent;border:none;color:var(--text3);font-size:20px;cursor:pointer;line-height:1">x</button>
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="width:72px;height:72px;border-radius:50%;overflow:hidden;border:2px solid var(--gold);margin:0 auto 12px;background:var(--bg3)">
+        <img src="/imagens/rafael-foto.jpg" alt="Rafael" style="width:100%;height:100%;object-fit:cover">
+      </div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700">Rafael Tavares</div>
+      <div style="font-size:11px;color:var(--gold);letter-spacing:2px;margin-top:4px">CRECI 13919 - Corretor Especialista</div>
+    </div>
+    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:20px;font-size:13px;color:var(--text2);line-height:1.7;text-align:center">
+      O atendimento e feito diretamente com Rafael. Ele ira apresentar os planos, tirar suas duvidas e conduzir sua compra com seguranca e transparencia. <strong style="color:var(--text)">Nao compartilhe dados com terceiros.</strong>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <a href="https://wa.me/5593992332012?text=Ola%20Rafael!%20Vi%20o%20Bairro%20Mararu%20no%20site%20e%20quero%20saber%20mais%20sobre%20os%20lotes." target="_blank" class="btn-wpp" style="font-size:13px;padding:14px;width:100%;box-sizing:border-box">
+        Abrir WhatsApp com Rafael
+      </a>
+      <a href="https://chat.whatsapp.com/Eo6QSIOw7GS6bNWujn5oNu" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--text2);font-weight:500">
+        Entrar no Grupo VIP
+      </a>
+    </div>
+  </div>
+</div>
 
 <footer>
   <div style="margin-bottom:8px;font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--gold)">Rafael Tavares - CRECI 13919</div>
@@ -293,6 +374,17 @@ fetch('/site_data.json?_='+Date.now())
     document.body.appendChild(banner);
   }catch(e){}
 })();
+
+function abrirModalCorretor(){
+  var m=document.getElementById('modal-corretor');
+  if(m)m.style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function fecharModalCorretor(){
+  var m=document.getElementById('modal-corretor');
+  if(m)m.style.display='none';
+  document.body.style.overflow='';
+}
 </script>
 </body>
 </html>
