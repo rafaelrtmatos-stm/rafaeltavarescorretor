@@ -221,65 +221,18 @@ fetch('/site_data.json?_='+Date.now())
     <div class="step-circle active" id="sc1">1</div>
     <div class="step-line" id="sl1"></div>
     <div class="step-circle pending" id="sc2">2</div>
-    <div class="step-line" id="sl2"></div>
-    <div class="step-circle pending" id="sc3">3</div>
   </div>
   <div class="step-labels">
-    <span class="active" id="sl-1">Lote</span>
-    <span id="sl-2">Dados</span>
-    <span id="sl-3">Confirmação</span>
+    <span class="active" id="sl-1">Dados</span>
+    <span id="sl-2">Confirmação</span>
   </div>
 </div>
 
 <div class="wrap">
   <div id="toast" class="toast"></div>
 
-  <!-- ══════════ ETAPA 1 — MAPA CLICÁVEL ══════════ -->
-  <div class="etapa on" id="etapa1">
-    <div class="card">
-      <div class="card-title"><span>🗺️</span> Escolha seu Lote</div>
-      <div class="card-sub">Toque em um lote verde (disponível) para selecioná-lo</div>
-
-      <!-- MAPA INTERATIVO COM BLUR -->
-      <div style="position:relative;border-radius:12px;overflow:hidden;margin-bottom:12px">
-        <div id="res-mapa-wrap" style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;min-height:280px;display:flex;align-items:center;justify-content:center">
-          <div style="text-align:center;color:var(--text3);font-size:13px">⏳ Carregando mapa...</div>
-        </div>
-        <!-- OVERLAY BLUR -->
-        <div id="res-blur-overlay" style="display:flex;position:absolute;inset:0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);background:rgba(0,0,0,0.55);flex-direction:column;align-items:center;justify-content:center;gap:10px;z-index:10">
-          <div id="res-blur-txt" style="font-family:'Cormorant Garamond',serif;font-size:clamp(28px,6vw,56px);font-weight:700;color:#fff;letter-spacing:4px;text-transform:uppercase;text-shadow:0 4px 24px rgba(0,0,0,0.7)">Em Breve</div>
-          <div style="font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:2px;text-transform:uppercase">Lançamento em breve</div>
-          <button onclick="irEtapa2()" style="margin-top:12px;background:var(--gold);color:#000;border:none;padding:13px 28px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:.3px">
-            Avançar → Preencher Cadastro
-          </button>
-        </div>
-      </div>
-
-      <!-- LEGENDA -->
-      <div style="display:flex;gap:14px;flex-wrap:wrap;padding:8px 0;margin-bottom:12px">
-        <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)"><div style="width:10px;height:10px;border-radius:50%;background:#22c55e"></div>Disponível</div>
-        <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)"><div style="width:10px;height:10px;border-radius:50%;background:#eab308"></div>Reservado</div>
-        <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)"><div style="width:10px;height:10px;border-radius:50%;background:#f87171"></div>Vendido</div>
-      </div>
-
-      <!-- INFO LOTE SELECIONADO -->
-      <div id="info-lote-sel" style="display:none;background:rgba(201,168,76,0.08);border:1px solid var(--border2);border-radius:10px;padding:14px;margin-bottom:14px">
-        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;font-weight:600">✅ Lote Selecionado</div>
-        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--text3)">Localização</span><span id="sel-loc" style="color:var(--text);font-weight:600">—</span></div>
-        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--text3)">Valor</span><span id="sel-preco" style="color:var(--gold);font-weight:700;font-family:'Cormorant Garamond',serif;font-size:16px">—</span></div>
-        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--text3)">Entrada</span><span id="sel-entrada" style="color:var(--text);font-weight:600">—</span></div>
-        <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:13px"><span style="color:var(--text3)">Parcelas</span><span id="sel-parcelas" style="color:var(--text)">—</span></div>
-      </div>
-
-    </div>
-    <button class="btn-primary" id="btn-ir-etapa2" onclick="irEtapa2()" disabled>
-      Continuar com este lote
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-    </button>
-  </div>
-
   <!-- ══════════ ETAPA 2 — DADOS DO CLIENTE ══════════ -->
-<div class="etapa" id="etapa2-dados">
+<div class="etapa on" id="etapa2-dados">
     <div class="card">
       <!-- INFO NO TOPO -->
       <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:18px;margin-bottom:22px;text-align:justify;font-size:12px;color:rgba(242,237,228,0.7);line-height:1.85">
@@ -573,16 +526,14 @@ function mascaraTel(el){
 
 // ── CONTROLE ETAPAS ──
 function setStep(n){
-  [1,2,3].forEach(function(i){
+  [1,2].forEach(function(i){
     var sc=document.getElementById('sc'+i);
     var sl=document.getElementById('sl-'+i);
     if(sc)sc.className='step-circle '+(i<n?'done':i===n?'active':'pending');
     if(sl)sl.className=i<n?'done':i===n?'active':'';
   });
-  [1,2].forEach(function(i){
-    var line=document.getElementById('sl'+i);
-    if(line)line.className='step-line'+(i<n?' done':'');
-  });
+  var line=document.getElementById('sl1');
+  if(line)line.className='step-line'+(n>1?' done':'');
 }
 function showEtapa(id){
   document.querySelectorAll('.etapa').forEach(function(e){e.classList.remove('on');});
