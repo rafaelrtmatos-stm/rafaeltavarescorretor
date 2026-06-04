@@ -1065,6 +1065,131 @@ function validarVencimento(){
 function validarCampo(el,tipo){
   if(el.value.trim().length>=2){el.className='ok';}else if(el.value.length>0){el.className='err';}
 }
+
+// ── FLUXO DE DOCUMENTOS ──
+function handleFrentePrincipal(input){
+  var file=input.files[0];if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    _fotosBase64.frente=e.target.result;
+    _docEstado.frente=e.target.result;
+    var txt=document.getElementById('txt-frente');
+    var ico=document.getElementById('ico-frente');
+    var prev=document.getElementById('prev-frente');
+    var img=document.getElementById('img-frente');
+    if(file.type==='application/pdf'){if(txt)txt.textContent='PDF: '+file.name;}
+    else{if(img){img.src=e.target.result;img.style.display='block';}if(txt)txt.textContent='OK: '+file.name;}
+    if(ico)ico.textContent='OK';
+    if(prev)prev.style.display='block';
+    var tipoDoc=_docEstado.tipoDoc||'rg';
+    if(tipoDoc==='rg'){
+      var bpv=document.getElementById('bloco-pergunta-verso');
+      if(bpv)bpv.style.display='block';
+    } else {
+      habilitarContinuar();
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+function respostaVerso(sim){
+  var bpv=document.getElementById('bloco-pergunta-verso');
+  if(bpv)bpv.style.display='none';
+  if(sim){
+    var bv=document.getElementById('bloco-verso');
+    if(bv)bv.style.display='block';
+  } else {
+    _docEstado.versoRespondido=true;
+    var bpc=document.getElementById('bloco-pergunta-cpf');
+    if(bpc)bpc.style.display='block';
+    habilitarContinuar();
+  }
+}
+
+function handleDocVerso(input){
+  var file=input.files[0];if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    _fotosBase64.verso=e.target.result;
+    _docEstado.verso=e.target.result;
+    var txt=document.getElementById('txt-verso');
+    if(txt)txt.textContent='OK: '+file.name;
+    var prev=document.getElementById('prev-verso');
+    var img=document.getElementById('img-verso');
+    if(img&&file.type!=='application/pdf'){img.src=e.target.result;img.style.display='block';}
+    if(prev)prev.style.display='block';
+    _docEstado.versoRespondido=true;
+    var tipoDoc=_docEstado.tipoDoc||'rg';
+    if(tipoDoc==='rg'){
+      var bpc=document.getElementById('bloco-pergunta-cpf');
+      if(bpc)bpc.style.display='block';
+    }
+    habilitarContinuar();
+  };
+  reader.readAsDataURL(file);
+}
+
+function respostaCPF(sim){
+  var bpc=document.getElementById('bloco-pergunta-cpf');
+  if(bpc)bpc.style.display='none';
+  _docEstado.cpfRespondido=true;
+  if(sim){
+    var bc=document.getElementById('bloco-cpf');
+    if(bc)bc.style.display='block';
+  }
+  habilitarContinuar();
+}
+
+function handleDocCPF(input){
+  var file=input.files[0];if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    _fotosBase64.cpf=e.target.result;
+    _docEstado.cpfDoc=e.target.result;
+    var txt=document.getElementById('txt-cpf-doc');
+    if(txt)txt.textContent='OK: '+file.name;
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeDoc(tipo){
+  if(tipo==='frente'){
+    _fotosBase64.frente=null;_docEstado.frente=null;
+    var prev=document.getElementById('prev-frente');
+    if(prev)prev.style.display='none';
+    ['bloco-pergunta-verso','bloco-verso','bloco-pergunta-cpf','bloco-cpf'].forEach(function(id){
+      var el=document.getElementById(id);if(el)el.style.display='none';
+    });
+    var bn=document.getElementById('btn-continuar');if(bn)bn.disabled=true;
+  }
+  if(tipo==='verso'){
+    _fotosBase64.verso=null;_docEstado.verso=null;
+    var pv=document.getElementById('prev-verso');if(pv)pv.style.display='none';
+  }
+}
+
+function habilitarContinuar(){
+  var concordou=typeof _concordou!=='undefined'?_concordou:false;
+  var venc=document.getElementById('f-vencimento');
+  var vencOk=venc&&venc.value&&venc.className!=='inp err';
+  var bn=document.getElementById('btn-continuar');
+  if(bn)bn.disabled=!(concordou&&vencOk);
+}
+
+function selecionarDoc(tipo){
+  if(!tipo)return;
+  if(typeof _docEstado!=='undefined')_docEstado.tipoDoc=tipo;
+  var tf=document.getElementById('txt-frente');if(tf)tf.textContent='Toque para enviar foto ou PDF';
+  var ic=document.getElementById('ico-frente');if(ic)ic.textContent='foto';
+  var pf=document.getElementById('prev-frente');if(pf)pf.style.display='none';
+  var inp=document.getElementById('inp-frente');if(inp)inp.value='';
+  var lf=document.getElementById('label-frente');if(lf)lf.textContent=tipo==='rg'?'Frente do RG *':'CNH *';
+  var bu=document.getElementById('bloco-upload-frente');if(bu)bu.style.display='block';
+  ['bloco-pergunta-verso','bloco-verso','bloco-pergunta-cpf','bloco-cpf'].forEach(function(id){
+    var el=document.getElementById(id);if(el)el.style.display='none';
+  });
+  if(_fotosBase64){_fotosBase64.frente=null;_fotosBase64.verso=null;_fotosBase64.cpf=null;}
+}
 </script>
 <!-- ═══ FIM MENU ═══ -->
 
