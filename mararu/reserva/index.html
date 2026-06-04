@@ -785,6 +785,31 @@ async function salvarDados(){
       })
     });
   }catch(e){console.warn('Rumo ao Milhão:',e);}
+
+  // Upload documentos para Supabase Storage
+  var docUrls=[];
+  var docsList=[
+    {b64:_fotosBase64.frente,nome:'frente'},
+    {b64:_fotosBase64.verso,nome:'verso'},
+    {b64:_fotosBase64.cpf,nome:'cpf'}
+  ];
+  for(var di=0;di<docsList.length;di++){
+    var doc=docsList[di];
+    if(!doc.b64)continue;
+    try{
+      var arr=doc.b64.split(',');
+      var mime=arr[0].match(/:(.*?);/)[1];
+      var bstr=atob(arr[1]);
+      var u8=new Uint8Array(bstr.length);
+      for(var bi=0;bi<bstr.length;bi++)u8[bi]=bstr.charCodeAt(bi);
+      var fd=new FormData();
+      fd.append('arquivo',new Blob([u8],{type:mime}),dados.nome.replace(/ /g,'_')+'_'+doc.nome+'.'+(mime.includes('pdf')?'pdf':'jpg'));
+      fd.append('clienteNome',dados.nome);
+      var rr=await fetch('https://rumoaomilhao.imb.br/api/publico/upload-doc',{method:'POST',body:fd});
+      if(rr.ok){var rd=await rr.json();if(rd.url)docUrls.push(rd.url);}
+    }catch(eu){console.warn('Upload doc '+doc.nome+':',eu);}
+  }
+
   // Google Sheets
   try{await fetch(SHEET,{method:'POST',body:JSON.stringify(d)});}catch(e){}
 }
@@ -820,7 +845,6 @@ function mostrarComprovante(){
   else{setTimeout(function(){window.open(wppUrl,'_blank');},3000);}
   window.scrollTo({top:0,behavior:'smooth'});
 }
-
 async function finalizarSemPagamento(){
 }
 function irEtapa2Old(){}
@@ -967,6 +991,80 @@ function aplicarEstadoMapaReserva(borrado){
 
 
 // estado do mapa carregado inline
+
+// ── VARIÁVEIS GLOBAIS ──
+var _fotosBase64={frente:null,verso:null,cpf:null};
+var _docEstado={frente:null,verso:null,cpfDoc:null,tipoDoc:'rg'};
+
+// ── MÁSCARAS ──
+function mascaraCPF(el){
+  var v=el.value.replace(/\D/g,'').substring(0,11);
+  v=v.replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2');
+  el.value=v;
+}
+function mascaraCEP(el){
+  var v=el.value.replace(/\D/g,'').substring(0,8);
+  el.value=v.replace(/(\d{5})(\d)/,'$1-$2');
+}
+
+// ── VALIDAÇÕES COM VERDE/VERMELHO ──
+function validarCPF(){
+  var el=document.getElementById('f-cpf');
+  var h=document.getElementById('h-cpf');
+  if(!el)return;
+  var ok=cpfValido(el.value);
+  el.className=ok?'ok':'err';
+  if(h){h.textContent=ok?'✓ CPF válido':'CPF inválido';h.className=ok?'hint ok':'hint err';}
+}
+function validarTel(fieldId,hintId){
+  var el=document.getElementById(fieldId);
+  var h=document.getElementById(hintId);
+  if(!el)return;
+  var v=el.value.replace(/\D/g,'');
+  var outro=document.getElementById(fieldId==='f-wpp'?'f-tel2':'f-wpp');
+  if(v.length>=10){
+    if(outro&&outro.value.replace(/\D/g,'')===v&&v.length>=10){
+      el.className='err';
+      if(h){h.textContent='Igual ao outro telefone';h.className='hint err';}
+      return;
+    }
+    el.className='ok';
+    if(h){h.textContent='✓ Válido';h.className='hint ok';}
+  } else if(v.length>0){
+    el.className='err';
+    if(h){h.textContent='Telefone inválido';h.className='hint err';}
+  }
+}
+function validarNasc(){
+  var el=document.getElementById('f-nasc');
+  if(!el)return;
+  if(el.value){el.className='ok';}else{el.className='err';}
+}
+function validarVencimento(){
+  var el=document.getElementById('f-vencimento');
+  var h=document.getElementById('h-vencimento');
+  var av=document.getElementById('aviso-vencimento');
+  var bn=document.getElementById('btn-continuar');
+  if(!el||!el.value)return;
+  var hoje=new Date();hoje.setHours(0,0,0,0);
+  var escolhida=new Date(el.value+'T00:00:00');
+  var diff=Math.round((escolhida-hoje)/(1000*60*60*24));
+  if(diff<1){
+    el.className='inp err';
+    if(h){h.textContent='Data inválida';h.className='hint err';}
+    if(bn)bn.disabled=true;
+    return;
+  }
+  el.className='inp ok';
+  if(h){h.textContent='✓ '+diff+' dias corridos';h.className='hint ok';}
+  if(av)av.style.display=diff>40?'block':'none';
+  window._vencimentoExcedido=diff>40;
+  var concordou=typeof _concordou!=='undefined'?_concordou:false;
+  if(bn)bn.disabled=!concordou;
+}
+function validarCampo(el,tipo){
+  if(el.value.trim().length>=2){el.className='ok';}else if(el.value.length>0){el.className='err';}
+}
 </script>
 <!-- ═══ FIM MENU ═══ -->
 
