@@ -1,5 +1,43 @@
 # AGENTS.md — REGRAS OBRIGATÓRIAS
 
+## 📦 REPOSITÓRIO
+
+```
+https://github.com/rafaelrtmatos-stm/rafaeltavarescorretor
+```
+
+Clone inicial:
+```bash
+git clone https://github.com/rafaelrtmatos-stm/rafaeltavarescorretor.git
+cd rafaeltavarescorretor
+```
+
+---
+
+## 🔧 CONFIGURAÇÃO DO GIT
+
+Execute uma vez após clonar:
+```bash
+git config user.name "rafaelrtmatos-stm"
+git config user.email "rafaelrtmatos@gmail.com"
+git remote set-url origin https://SEU_TOKEN@github.com/rafaelrtmatos-stm/rafaeltavarescorretor.git
+```
+
+Sincronizar com o GitHub (quando estiver desatualizado):
+```bash
+git fetch origin
+git reset --hard origin/main
+```
+
+Enviar alterações:
+```bash
+git add .
+git commit -m "descrição do que foi alterado"
+git push origin main
+```
+
+---
+
 > Leia este arquivo antes de qualquer ação. Siga à risca.
 
 ---
