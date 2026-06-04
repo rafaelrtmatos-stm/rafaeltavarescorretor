@@ -156,11 +156,44 @@
       <div class="mapa-stat"><div class="mapa-stat-num" style="color:#ef4444" id="stat-vend">0</div><div class="mapa-stat-lbl">Vendidos</div></div>
     </div>
     <div class="mapa-wrap">
+      <!-- MAPA REAL POR BAIXO -->
       <div id="mapa-vis"><div style="text-align:center;color:var(--text3);font-size:13px">Carregando mapa...</div></div>
+
+      <!-- OVERLAY BLUR COM COUNTDOWN -->
       <div class="mapa-blur" id="mapa-blur-overlay">
-        <div class="mapa-blur-txt" id="mapa-blur-txt">Em Breve</div>
-        <div class="mapa-blur-sub">Lancamento em breve</div>
-        <a href="reserva/" style="margin-top:16px;display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#000;padding:12px 24px;border-radius:8px;font-size:12px;font-weight:700">Garantir minha vaga</a>
+        <div style="text-align:center">
+          <!-- Titulo Em Breve -->
+          <div class="mapa-blur-txt" id="mapa-blur-txt" style="margin-bottom:6px">Em Breve</div>
+          <div class="mapa-blur-sub" style="margin-bottom:20px">Lancamento — 6 de junho de 2026</div>
+
+          <!-- Cronômetro -->
+          <div style="display:flex;align-items:flex-start;justify-content:center;gap:12px;flex-wrap:wrap">
+            <div style="text-align:center;min-width:52px">
+              <div id="mb-dias" style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,6vw,52px);font-weight:700;color:var(--gold);line-height:1">00</div>
+              <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-top:4px">Dias</div>
+            </div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(28px,5vw,44px);font-weight:300;color:rgba(201,168,76,0.5);line-height:1;padding-top:4px">:</div>
+            <div style="text-align:center;min-width:52px">
+              <div id="mb-horas" style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,6vw,52px);font-weight:700;color:var(--gold);line-height:1">00</div>
+              <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-top:4px">Horas</div>
+            </div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(28px,5vw,44px);font-weight:300;color:rgba(201,168,76,0.5);line-height:1;padding-top:4px">:</div>
+            <div style="text-align:center;min-width:52px">
+              <div id="mb-min" style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,6vw,52px);font-weight:700;color:var(--gold);line-height:1">00</div>
+              <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-top:4px">Min</div>
+            </div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(28px,5vw,44px);font-weight:300;color:rgba(201,168,76,0.5);line-height:1;padding-top:4px">:</div>
+            <div style="text-align:center;min-width:52px">
+              <div id="mb-seg" style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,6vw,52px);font-weight:700;color:var(--gold);line-height:1">00</div>
+              <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-top:4px">Seg</div>
+            </div>
+          </div>
+
+          <!-- Botão -->
+          <a href="reserva/" style="margin-top:24px;display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#000;padding:13px 28px;border-radius:9px;font-size:12px;font-weight:700;letter-spacing:.5px">
+            🔥 Garantir minha vaga
+          </a>
+        </div>
       </div>
     </div>
     <div class="mapa-legenda" id="mapa-legenda" style="display:none">
@@ -414,7 +447,29 @@ fetch('/site_data.json?_='+Date.now())
       }
       return '<div style="'+cardStyle+';aspect-ratio:16/9" '+hover+'><img src="'+url+'" alt="Bairro Mararu" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></div>';
     }).join('');
-  }).catch// COUNTDOWN
+  }).catch// COUNTDOWN MAPA BLUR
+(function(){
+  var target=new Date('2026-06-06T11:00:00.000Z').getTime();
+  function tickMapa(){
+    var diff=target-Date.now();
+    if(diff<=0){
+      var ov=document.getElementById('mapa-blur-overlay');
+      if(ov)ov.style.display='none';
+      return;
+    }
+    var d=Math.floor(diff/86400000);
+    var h=Math.floor((diff%86400000)/3600000);
+    var m=Math.floor((diff%3600000)/60000);
+    var s=Math.floor((diff%60000)/1000);
+    var md=document.getElementById('mb-dias');if(md)md.textContent=String(d).padStart(2,'0');
+    var mh=document.getElementById('mb-horas');if(mh)mh.textContent=String(h).padStart(2,'0');
+    var mm=document.getElementById('mb-min');if(mm)mm.textContent=String(m).padStart(2,'0');
+    var ms=document.getElementById('mb-seg');if(ms)ms.textContent=String(s).padStart(2,'0');
+  }
+  tickMapa();setInterval(tickMapa,1000);
+})();
+
+// COUNTDOWN SECAO
 (function(){
   var target=new Date('2026-06-06T11:00:00.000Z').getTime();
   function tick(){
