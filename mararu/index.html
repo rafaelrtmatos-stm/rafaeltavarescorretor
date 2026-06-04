@@ -28,7 +28,7 @@
     .hero{position:relative;height:100vh;min-height:600px;display:flex;align-items:center;justify-content:center;overflow:hidden}
     .hero-bg{position:absolute;inset:0;z-index:0}
     .hero-bg img{width:100%;height:100%;object-fit:contain;object-position:center bottom;background:#000}
-    .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.75) 0%,rgba(0,0,0,0.3) 40%,rgba(0,0,0,0.15) 60%,rgba(0,0,0,0.7) 85%,rgba(0,0,0,1) 100%)}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,10,0,0.65) 0%,rgba(180,100,0,0.08) 35%,rgba(200,140,0,0.05) 55%,rgba(10,5,0,0.75) 85%,rgba(0,0,0,1) 100%)}
     .hero-content{position:relative;z-index:2;text-align:center;padding:0 24px;max-width:700px}
     .hero-tag{font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;font-weight:600;text-shadow:0 2px 12px rgba(0,0,0,0.9)}
     .hero-title{font-family:"Cormorant Garamond",serif;font-size:clamp(44px,7vw,80px);font-weight:700;line-height:.9;letter-spacing:-3px;margin-bottom:20px;text-shadow:0 4px 20px rgba(0,0,0,0.95)}
@@ -216,16 +216,19 @@
     <h2 class="section-title">Galeria <em>Mararu</em></h2>
     <p class="section-sub">Veja as areas, ruas e estrutura do Bairro Mararu em Santarem, PA.</p>
 
-    <!-- Hero photo do mararu -->
-    <div style="border-radius:16px;overflow:hidden;margin-top:28px;margin-bottom:12px;border:1px solid var(--border);position:relative;box-shadow:0 8px 40px rgba(0,0,0,0.5)">
-      <img src="/imagens/mararu-hero.png" alt="Bairro Mararu" style="width:100%;display:block;max-height:420px;object-fit:cover">
-      <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.5) 0%,transparent 50%)"></div>
-      <div style="position:absolute;bottom:20px;left:24px;font-family:Cormorant Garamond,serif;font-size:20px;font-weight:700;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,0.8)">Bairro Mararu — Santarem, PA</div>
+    <!-- Foto hero no topo -->
+    <div style="border-radius:16px;overflow:hidden;margin-top:28px;margin-bottom:14px;position:relative;box-shadow:0 8px 40px rgba(201,168,76,0.15),0 2px 8px rgba(0,0,0,0.6);border:1px solid rgba(201,168,76,0.2)">
+      <img src="/imagens/mararu-hero.png" alt="Bairro Mararu" style="width:100%;display:block;max-height:440px;object-fit:cover;filter:sepia(10%) saturate(1.1) brightness(0.95)">
+      <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.6) 0%,rgba(180,100,0,0.05) 40%,transparent 70%)"></div>
+      <div style="position:absolute;bottom:20px;left:24px">
+        <div style="font-family:Cormorant Garamond,serif;font-size:22px;font-weight:700;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,0.9)">Bairro Mararu</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.6);letter-spacing:2px;text-transform:uppercase;margin-top:3px">Santarem, Para</div>
+      </div>
     </div>
 
-    <!-- Grid de midias -->
-    <div id="galeria-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">
-      <div style="padding:40px;color:var(--text3);font-size:13px;text-align:center;grid-column:1/-1">Carregando midias...</div>
+    <!-- Videos -->
+    <div id="galeria-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px">
+      <div style="padding:40px;color:var(--text3);font-size:13px;text-align:center;grid-column:1/-1">Carregando videos...</div>
     </div>
   </div>
 </section>
@@ -393,48 +396,23 @@ fetch('/site_data.json?_='+Date.now())
     if(overlay)overlay.style.display=borrado?'flex':'none';
     if(txt&&d&&d.lancamento&&d.lancamento.marcaDaguaTxt)txt.textContent=d.lancamento.marcaDaguaTxt;
 
-    // Montar galeria com fotos das regioes + galeria do mararu
     var galeria=(d.mararu&&d.mararu.galeria)||[];
-    var regioes=d.regioes||[];
     var grid=document.getElementById('galeria-grid');
     if(!grid)return;
 
-    var itens=[];
-
-    // Adicionar fotos das regioes (apenas publicas/GitHub)
-    regioes.forEach(function(r){
-      if(r.foto&&r.foto.indexOf('supabase.co')<0){
-        itens.push({url:r.foto,nome:r.nome||r.id,tipo:'foto'});
-      }
-    });
-
-    // Adicionar galeria do Mararu
-    galeria.forEach(function(url){
-      var tipo=url.indexOf('.mp4')>=0||url.indexOf('.webm')>=0||url.indexOf('.mov')>=0?'video':'foto';
-      // So inclui se for publica (GitHub ou URL publica)
-      var isSupabase=url.indexOf('supabase.co')>=0;
-      itens.push({url:url,nome:'Mararu',tipo:tipo,privado:isSupabase});
-    });
-
-    if(!itens.length){
-      grid.innerHTML='<div style="padding:40px;color:var(--text3);font-size:13px;text-align:center;grid-column:1/-1">Fotos em breve</div>';
+    if(!galeria.length){
+      grid.innerHTML='<div style="padding:40px;color:var(--text3);font-size:13px;text-align:center;grid-column:1/-1">Videos em breve</div>';
       return;
     }
 
-    grid.innerHTML=itens.map(function(item){
-      var estilo='border-radius:12px;overflow:hidden;border:1px solid var(--border);background:var(--bg3);position:relative;box-shadow:0 4px 20px rgba(0,0,0,0.4);transition:transform .2s';
-      var hover=' onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='none'"';
-      if(item.privado){
-        // Video do Supabase privado — tentar carregar mesmo assim
-        if(item.tipo==='video'){
-          return '<div style="'+estilo+'">'+hover+'><video src="'+item.url+'" controls muted playsinline preload="metadata" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block" onerror="this.parentElement.innerHTML='<div style=padding:40px;text-align:center;color:var(--text3);font-size:12px;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center>🎬 Video em atualizacao</div>'"></video></div>';
-        }
-        return '<div style="'+estilo+';aspect-ratio:16/9;display:flex;align-items:center;justify-content:center">'+hover+'><img src="'+item.url+'" alt="'+item.nome+'" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.parentElement.style.display='none'"></div>';
+    var cardStyle='border-radius:14px;overflow:hidden;border:1px solid rgba(201,168,76,0.15);background:var(--bg3);position:relative;box-shadow:0 6px 24px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.04);transition:transform .25s,box-shadow .25s';
+    grid.innerHTML=galeria.map(function(url){
+      var isVideo=url.indexOf('.mp4')>=0||url.indexOf('.webm')>=0||url.indexOf('.mov')>=0;
+      var hover='onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 40px rgba(0,0,0,0.6),0 0 0 1px rgba(201,168,76,0.2)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 6px 24px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.04)'"';
+      if(isVideo){
+        return '<div style="'+cardStyle+'" '+hover+'><video src="'+url+'" controls muted playsinline preload="metadata" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block"></video></div>';
       }
-      if(item.tipo==='video'){
-        return '<div style="'+estilo+'">'+hover+'><video src="'+item.url+'" controls muted playsinline preload="metadata" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block"></video></div>';
-      }
-      return '<div style="'+estilo+';aspect-ratio:16/9">'+hover+'><img src="'+item.url+'" alt="'+item.nome+'" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></div>';
+      return '<div style="'+cardStyle+';aspect-ratio:16/9" '+hover+'><img src="'+url+'" alt="Bairro Mararu" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></div>';
     }).join('');
   }).catch// COUNTDOWN
 (function(){
