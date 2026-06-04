@@ -447,7 +447,10 @@ fetch('/site_data.json?_='+Date.now())
       }
       return '<div style="'+cardStyle+';aspect-ratio:16/9" '+hover+'><img src="'+url+'" alt="Bairro Mararu" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></div>';
     }).join('');
-  }).catch// COUNTDOWN MAPA BLUR
+  }).catch(function(){});
+});
+
+// COUNTDOWN MAPA BLUR
 (function(){
   var target=new Date('2026-06-06T11:00:00.000Z').getTime();
   function tickMapa(){
