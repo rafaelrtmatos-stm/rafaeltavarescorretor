@@ -734,7 +734,29 @@ function showToast(msg){
 })();
 
 // ── STUB PARA COMPATIBILIDADE (funções do script antigo remanescentes no HTML não usado) ──
-function buscarCEP(){}
+function buscarCEP(){
+  var elCep=document.getElementById('f-cep');
+  if(!elCep)return;
+  var cep=elCep.value.replace(/\D/g,'');
+  if(cep.length!==8)return;
+  fetch('https://viacep.com.br/ws/'+cep+'/json/')
+    .then(function(r){return r.json();})
+    .then(function(data){
+      if(!data.erro){
+        var r=document.getElementById('f-rua');
+        var b=document.getElementById('f-bairro');
+        var c=document.getElementById('f-cidade');
+        var e=document.getElementById('f-estado');
+        if(r)r.value=data.logradouro||'';
+        if(b)b.value=data.bairro||'';
+        if(c)c.value=data.localidade||'';
+        if(e)e.value=data.uf||'PA';
+        elCep.className='ok';
+      } else {
+        elCep.className='err';
+      }
+    }).catch(function(){});
+}
 function cpfValido(cpf){
   var n=cpf.replace(/\D/g,'');
   if(n.length!==11||/^(\d)+$/.test(n))return false;

@@ -411,8 +411,9 @@
   },
   "mararu": {
     "galeria": [
-      "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/mararu/galeria-1780431164365-0.mp4",
-      "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/mararu/galeria-1780431174730-0.mp4"
+      "/imagens/mararu-foto1.jpg",
+      "/imagens/mararu-video1.mov",
+      "/imagens/mararu-video2.mov"
     ],
     "fotoPrincipal": "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/mararu/principal-1780429240306.png"
   }
