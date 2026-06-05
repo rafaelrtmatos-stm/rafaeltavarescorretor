@@ -1118,13 +1118,16 @@ function validarVencimento(){
   var h=document.getElementById('h-vencimento');
   var av=document.getElementById('aviso-vencimento');
   var bn=document.getElementById('btn-continuar');
-  if(!el||!el.value)return;
+  if(!el||!el.value){
+    if(bn)bn.disabled=true;
+    return;
+  }
   var hoje=new Date();hoje.setHours(0,0,0,0);
   var escolhida=new Date(el.value+'T00:00:00');
   var diff=Math.round((escolhida-hoje)/(1000*60*60*24));
   if(diff<1){
     el.className='inp err';
-    if(h){h.textContent='Data inválida';h.className='hint err';}
+    if(h){h.textContent='Data inválida — escolha uma data futura';h.className='hint err';}
     if(bn)bn.disabled=true;
     return;
   }
