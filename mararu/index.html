@@ -115,36 +115,6 @@
   </div>
 </div>
 
-<!-- COUNTDOWN LANÇAMENTO -->
-<div id="sec-countdown" style="background:var(--bg2);border-bottom:1px solid var(--border);padding:32px 24px;text-align:center;display:none">
-  <div style="max-width:600px;margin:0 auto">
-    <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:600">Lançamento oficial</div>
-    <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(16px,2.5vw,22px);color:var(--text);margin-bottom:20px;font-weight:600">6 DE JUNHO DE 2026</div>
-    <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap">
-      <div style="text-align:center">
-        <div id="cd-dias" style="font-family:'Cormorant Garamond',serif;font-size:clamp(36px,6vw,64px);font-weight:700;color:var(--gold);line-height:1">00</div>
-        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-top:4px">Dias</div>
-      </div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(36px,6vw,64px);font-weight:700;color:var(--border2);line-height:1;align-self:flex-start;padding-top:4px">:</div>
-      <div style="text-align:center">
-        <div id="cd-horas" style="font-family:'Cormorant Garamond',serif;font-size:clamp(36px,6vw,64px);font-weight:700;color:var(--gold);line-height:1">00</div>
-        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-top:4px">Horas</div>
-      </div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(36px,6vw,64px);font-weight:700;color:var(--border2);line-height:1;align-self:flex-start;padding-top:4px">:</div>
-      <div style="text-align:center">
-        <div id="cd-min" style="font-family:'Cormorant Garamond',serif;font-size:clamp(36px,6vw,64px);font-weight:700;color:var(--gold);line-height:1">00</div>
-        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-top:4px">Min</div>
-      </div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(36px,6vw,64px);font-weight:700;color:var(--border2);line-height:1;align-self:flex-start;padding-top:4px">:</div>
-      <div style="text-align:center">
-        <div id="cd-seg" style="font-family:'Cormorant Garamond',serif;font-size:clamp(36px,6vw,64px);font-weight:700;color:var(--gold);line-height:1">00</div>
-        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-top:4px">Seg</div>
-      </div>
-    </div>
-    <div style="font-size:13px;color:var(--text2);margin-top:16px">Precos revelados no dia do lancamento</div>
-  </div>
-</div>
-
 <section id="sec-mapa" style="background:var(--bg);border-bottom:1px solid var(--border)">
   <div class="section-inner">
     <div class="section-tag">Disponibilidade em tempo real</div>
@@ -159,43 +129,12 @@
       <!-- MAPA REAL POR BAIXO -->
       <div id="mapa-vis"><div style="text-align:center;color:var(--text3);font-size:13px">Carregando mapa...</div></div>
 
-      <!-- OVERLAY BLUR COM COUNTDOWN -->
+      <!-- OVERLAY BLUR -->
       <div class="mapa-blur" id="mapa-blur-overlay" style="display:none">
-        <div style="text-align:center">
-          <!-- Titulo Em Breve -->
-          <div class="mapa-blur-txt" id="mapa-blur-txt" style="margin-bottom:6px">Em Breve</div>
-          <div class="mapa-blur-sub" style="margin-bottom:20px">Lancamento — 6 de junho de 2026</div>
-
-          <!-- Cronômetro -->
-          <div style="display:flex;align-items:flex-start;justify-content:center;gap:12px;flex-wrap:wrap">
-            <div style="text-align:center;min-width:52px">
-              <div id="mb-dias" style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,6vw,52px);font-weight:700;color:var(--gold);line-height:1">00</div>
-              <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-top:4px">Dias</div>
-            </div>
-            <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(28px,5vw,44px);font-weight:300;color:rgba(201,168,76,0.5);line-height:1;padding-top:4px">:</div>
-            <div style="text-align:center;min-width:52px">
-              <div id="mb-horas" style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,6vw,52px);font-weight:700;color:var(--gold);line-height:1">00</div>
-              <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-top:4px">Horas</div>
-            </div>
-            <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(28px,5vw,44px);font-weight:300;color:rgba(201,168,76,0.5);line-height:1;padding-top:4px">:</div>
-            <div style="text-align:center;min-width:52px">
-              <div id="mb-min" style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,6vw,52px);font-weight:700;color:var(--gold);line-height:1">00</div>
-              <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-top:4px">Min</div>
-            </div>
-            <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(28px,5vw,44px);font-weight:300;color:rgba(201,168,76,0.5);line-height:1;padding-top:4px">:</div>
-            <div style="text-align:center;min-width:52px">
-              <div id="mb-seg" style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,6vw,52px);font-weight:700;color:var(--gold);line-height:1">00</div>
-              <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-top:4px">Seg</div>
-            </div>
-          </div>
-
-          <!-- Botão -->
-          <a href="reserva/" style="margin-top:24px;display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#000;padding:13px 28px;border-radius:9px;font-size:12px;font-weight:700;letter-spacing:.5px">
-            🔥 Garantir minha vaga
-          </a>
-        </div>
+        <div class="mapa-blur-txt" id="mapa-blur-txt">Em Breve</div>
+        <div class="mapa-blur-sub">Lançamento em breve</div>
+        <a href="reserva/" style="margin-top:16px;display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#000;padding:12px 24px;border-radius:8px;font-size:12px;font-weight:700">Garantir minha vaga</a>
       </div>
-    </div>
     <div class="mapa-legenda" id="mapa-legenda" style="display:none">
       <div class="mapa-leg-item"><div class="mapa-leg-dot" style="background:#3b82f6"></div>Disponivel</div>
       <div class="mapa-leg-item"><div class="mapa-leg-dot" style="background:#eab308"></div>Reservado</div>
@@ -573,48 +512,7 @@ fetch('/site_data.json?_='+Date.now())
     }).join('');
   }).catch(function(){});
 
-// COUNTDOWN MAPA BLUR
-(function(){
-  var target=new Date('2026-06-06T11:00:00.000Z').getTime();
-  function tickMapa(){
-    var diff=target-Date.now();
-    if(diff<=0){
-      var ov=document.getElementById('mapa-blur-overlay');
-      if(ov)ov.style.display='none';
-      return;
-    }
-    var d=Math.floor(diff/86400000);
-    var h=Math.floor((diff%86400000)/3600000);
-    var m=Math.floor((diff%3600000)/60000);
-    var s=Math.floor((diff%60000)/1000);
-    var md=document.getElementById('mb-dias');if(md)md.textContent=String(d).padStart(2,'0');
-    var mh=document.getElementById('mb-horas');if(mh)mh.textContent=String(h).padStart(2,'0');
-    var mm=document.getElementById('mb-min');if(mm)mm.textContent=String(m).padStart(2,'0');
-    var ms=document.getElementById('mb-seg');if(ms)ms.textContent=String(s).padStart(2,'0');
-  }
-  tickMapa();setInterval(tickMapa,1000);
-})();
 
-// COUNTDOWN SECAO
-(function(){
-  var target=new Date('2026-06-06T11:00:00.000Z').getTime();
-  function tick(){
-    var now=Date.now();
-    var diff=target-now;
-    var sec=document.getElementById('sec-countdown');
-    if(diff<=0){if(sec)sec.style.display='none';return;}
-    if(sec)sec.style.display='block';
-    var d=Math.floor(diff/86400000);
-    var h=Math.floor((diff%86400000)/3600000);
-    var m=Math.floor((diff%3600000)/60000);
-    var s=Math.floor((diff%60000)/1000);
-    var cd=document.getElementById('cd-dias');if(cd)cd.textContent=String(d).padStart(2,'0');
-    var ch=document.getElementById('cd-horas');if(ch)ch.textContent=String(h).padStart(2,'0');
-    var cm=document.getElementById('cd-min');if(cm)cm.textContent=String(m).padStart(2,'0');
-    var cs=document.getElementById('cd-seg');if(cs)cs.textContent=String(s).padStart(2,'0');
-  }
-  tick();setInterval(tick,1000);
-})();
 
 (function(){});
 
