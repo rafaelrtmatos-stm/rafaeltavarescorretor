@@ -441,14 +441,12 @@ fetch('/site_data.json?_='+Date.now())
     var cardStyle='border-radius:14px;overflow:hidden;border:1px solid rgba(201,168,76,0.15);background:var(--bg3);position:relative;box-shadow:0 6px 24px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.04);transition:transform .25s,box-shadow .25s';
     grid.innerHTML=galeria.map(function(url){
       var isVideo=url.indexOf('.mp4')>=0||url.indexOf('.webm')>=0||url.indexOf('.mov')>=0;
-      var hover='onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 40px rgba(0,0,0,0.6),0 0 0 1px rgba(201,168,76,0.2)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 6px 24px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.04)'"';
       if(isVideo){
-        return '<div style="'+cardStyle+'" '+hover+'><video src="'+url+'" controls muted playsinline preload="metadata" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block"></video></div>';
+        return '<div style="'+cardStyle+'"><video src="'+url+'" controls muted playsinline preload="metadata" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block"></video></div>';
       }
-      return '<div style="'+cardStyle+';aspect-ratio:16/9" '+hover+'><img src="'+url+'" alt="Bairro Mararu" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></div>';
+      return '<div style="'+cardStyle+';aspect-ratio:16/9"><img src="'+url+'" alt="Bairro Mararu" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></div>';
     }).join('');
   }).catch(function(){});
-});
 
 // COUNTDOWN MAPA BLUR
 (function(){
