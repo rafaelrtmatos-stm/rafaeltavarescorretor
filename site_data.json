@@ -279,7 +279,8 @@
         "Condições especiais de lançamento",
         "Fácil acesso a Santarém",
         "Alto potencial de valorização"
-      ]
+      ],
+      "cidade": "Santarém"
     },
     {
       "id": "pajucara",
@@ -298,7 +299,8 @@
         "Fácil acesso ao centro de Santarém",
         "Transporte público disponível",
         "Alta demanda por imóveis na região"
-      ]
+      ],
+      "cidade": "Santarém"
     },
     {
       "id": "santa-maria",
@@ -317,7 +319,8 @@
         "Região tranquila e estruturada",
         "Qualidade de vida",
         "Fácil acesso"
-      ]
+      ],
+      "cidade": "Santarém"
     },
     {
       "id": "cucuruna",
@@ -336,7 +339,8 @@
         "Novos loteamentos",
         "Boa localização",
         "Infraestrutura em crescimento"
-      ]
+      ],
+      "cidade": "Santarém"
     },
     {
       "id": "ponta-pedras",
@@ -355,7 +359,8 @@
         "Alto potencial turístico",
         "Região valorizada",
         "Natureza preservada"
-      ]
+      ],
+      "cidade": "Santarém"
     },
     {
       "id": "alter",
@@ -374,7 +379,8 @@
         "Região com valorização consistente",
         "Ativo raro e exclusivo no mercado",
         "\"Caribe do Brasil\" — destino mundial"
-      ]
+      ],
+      "cidade": "Santarém"
     },
     {
       "id": "espirito-santo",
@@ -393,7 +399,31 @@
       "foto": "",
       "lat": -2.478306,
       "lng": -54.753889,
-      "wpp": "Olá Rafael! Tenho interesse em lotes na região do Espírito Santo em Santarém."
+      "wpp": "Olá Rafael! Tenho interesse em lotes na região do Espírito Santo em Santarém.",
+      "cidade": "Santarém"
+    },
+    {
+      "id": "alenquer",
+      "nome": "Alenquer",
+      "cidade": "Alenquer",
+      "estado": "PA",
+      "lat": -1.94623,
+      "lng": -54.7384,
+      "foto": "",
+      "descricao": "Novo lançamento em Alenquer, PA.",
+      "lancamento": true,
+      "dataLancamento": "2026-06-10"
+    },
+    {
+      "id": "monte-alegre",
+      "nome": "Monte Alegre",
+      "cidade": "Monte Alegre",
+      "estado": "PA",
+      "lat": -2.0069,
+      "lng": -54.0724,
+      "foto": "",
+      "descricao": "Em breve em Monte Alegre, PA.",
+      "lancamento": false
     }
   ],
   "pinSize": 30,
@@ -416,5 +446,10 @@
     ],
     "fotoPrincipal": "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/mararu/principal-1780429240306.png"
   },
-  "_ts": 1780595055
+  "_ts": 1780595055,
+  "alenquer": {
+    "galeria": [],
+    "empId": "",
+    "dataLancamento": "2026-06-10T11:00:00.000Z"
+  }
 }

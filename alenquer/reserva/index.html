@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pré-Reserva Online — Bairro Mararu</title>
+<title>Pré-Reserva Online — Alenquer</title>
 <link rel="icon" type="image/x-icon" href="../../favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
 <meta name="theme-color" content="#000000">
@@ -246,7 +246,7 @@ fetch('/site_data.json?_='+Date.now())
   <img src="../../logo-rt.png" alt="RT">
   <div>
     <div class="header-title">Pré-Reserva Online</div>
-    <div class="header-sub">Bairro Mararu · Rafael Tavares</div>
+    <div class="header-sub">Alenquer · Rafael Tavares</div>
   </div>
   <a href="../" style="display:inline-flex;align-items:center;gap:6px;color:var(--text3);font-size:12px;text-decoration:none;padding:6px 12px;border:1px solid var(--border);border-radius:8px;transition:color .2s" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text3)'">
     🏠 Início
@@ -486,7 +486,7 @@ fetch('/site_data.json?_='+Date.now())
       <div class="card-sub">Revise os dados antes de enviar</div>
 
       <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:18px">
-        <div style="display:flex;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--text3)">Empreendimento</span><span style="color:var(--text);font-weight:600">Bairro Mararu</span></div>
+        <div style="display:flex;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--text3)">Empreendimento</span><span style="color:var(--text);font-weight:600">Alenquer</span></div>
         <div style="display:flex;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--text3)">Lote</span><span id="rev-lote" style="color:var(--gold);font-weight:700">—</span></div>
         <div style="display:flex;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--text3)">Nome</span><span id="rev-nome" style="color:var(--text);font-weight:600">—</span></div>
         <div style="display:flex;justify-content:space-between;padding:12px 16px;font-size:13px"><span style="color:var(--text3)">Telefone</span><span id="rev-tel" style="color:var(--text);font-weight:600">—</span></div>
@@ -543,7 +543,7 @@ fetch('/site_data.json?_='+Date.now())
 // ══════════════════════════════════════
 var SUPABASE_URL='https://uftxcwcryqpkfdfxzlno.supabase.co';
 var SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI';
-var MARARU_EMP_ID='1780067816277';
+var ALENQUER_EMP_ID='';
 var WPP='5593992332012';
 
 var _lotesSel=null;
@@ -638,7 +638,7 @@ function renderMapaClicavel(lotesInfo,pontos,imgUrl){
 
   if(imgUrl&&pontos&&pontos.length){
     var html='<div style="position:relative;width:100%;border-radius:10px;overflow:hidden">';
-    html+='<img src="'+imgUrl+'" style="width:100%;display:block;border-radius:10px" alt="Mapa Bairro Mararu">';
+    html+='<img src="'+imgUrl+'" style="width:100%;display:block;border-radius:10px" alt="Mapa Alenquer">';
     html+='<div style="position:absolute;inset:0">';
     pontos.forEach(function(p){
       var key=p.quadra+'-'+p.lote;
@@ -723,8 +723,8 @@ async function confirmarReserva(){
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
-        empreendimentoId:MARARU_EMP_ID,
-        empreendimentoNome:'MARARU',
+        empreendimentoId:ALENQUER_EMP_ID,
+        empreendimentoNome:'ALENQUER',
         quadra:quadra,numeroLote:lote,
         valorLote:0,valorEntrada:0,quantidadeParcelas:0,valorParcela:0,
         clienteNome:nome,
@@ -752,7 +752,7 @@ async function confirmarReserva(){
         dataNascimento:nasc,telefone:tel,telefone2:tel2,
         cep:cep,rua:rua,numero:num,bairro:bairro,cidade:cidade,estado:estado,
         vencimento:venc,quadra:quadra,lote:lote,
-        empreendimento:'Bairro Mararu',
+        empreendimento:'Alenquer',
         corretor:'Rafael Tavares — CRECI 13919',
         dataCadastro:new Date().toISOString(),origem:'Site Mararu'
       }})
@@ -796,10 +796,10 @@ function mostrarSucesso(nome,tel,quadra,lote){
     var comp=document.getElementById('etapa-comp');if(comp)comp.classList.add('on');
     if(ov)ov.style.display='none';
     var cd=document.getElementById('comp-data');
-    if(cd)cd.innerHTML='<div style="font-size:13px;color:var(--text2);line-height:1.8"><strong style="color:var(--gold)">'+nome+'</strong><br>'+tel+'<br>Quadra '+_lotesSel.quadra+' — Lote '+_lotesSel.lote+'<br><span style="color:var(--text3)">Bairro Mararu</span></div>';
+    if(cd)cd.innerHTML='<div style="font-size:13px;color:var(--text2);line-height:1.8"><strong style="color:var(--gold)">'+nome+'</strong><br>'+tel+'<br>Quadra '+_lotesSel.quadra+' — Lote '+_lotesSel.lote+'<br><span style="color:var(--text3)">Alenquer</span></div>';
     var wppBtn=document.getElementById('btn-wpp-comp');
     if(wppBtn){
-      var msg=encodeURIComponent('Olá Rafael! Fiz minha pré-reserva online pelo site.'+(quadra?'\n\nLote: Q'+quadra+' L'+lote:'')+'\n\nNome: '+nome+'\nTelefone: '+tel+'\nEmpreendimento: Bairro Mararu');
+      var msg=encodeURIComponent('Olá Rafael! Fiz minha pré-reserva online pelo site.'+(quadra?'\n\nLote: Q'+quadra+' L'+lote:'')+'\n\nNome: '+nome+'\nTelefone: '+tel+'\nEmpreendimento: Alenquer');
       wppBtn.href='https://wa.me/55'+WPP+'?text='+msg;
     }
     window.scrollTo({top:0,behavior:'smooth'});
@@ -814,7 +814,7 @@ function showToast(msg){
 
 // ── INICIALIZAÇÃO ──
 (function(){
-  fetch(SUPABASE_URL+'/rest/v1/empreendimentos?id=eq.'+MARARU_EMP_ID+'&select=data',{
+  fetch(SUPABASE_URL+'/rest/v1/empreendimentos?id=eq.'+ALENQUER_EMP_ID+'&select=data',{
     headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}
   })
   .then(function(r){return r.json();})
@@ -881,7 +881,7 @@ async function salvarDados(){
         telefone:d.wpp,telefone2:d.tel2,
         cep:d.cep,rua:d.rua,numero:d.numero,
         bairro:d.bairro,cidade:d.cidade,estado:d.estado,
-        vencimento:d.vencimento,empreendimento:'Bairro Mararu',
+        vencimento:d.vencimento,empreendimento:'Alenquer',
         corretor:'Rafael Tavares — CRECI 13919',
         dataCadastro:new Date().toISOString(),origem:'Site Mararu'
       }})
@@ -893,8 +893,8 @@ async function salvarDados(){
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
-        empreendimentoId:'1780067816277',
-        empreendimentoNome:'MARARU',
+        empreendimentoId:'',
+        empreendimentoNome:'ALENQUER',
         quadra:d.quadra||'',numeroLote:d.lote||'',
         valorLote:0,valorEntrada:0,quantidadeParcelas:0,valorParcela:0,
         clienteNome:d.nome,clienteCpf:(d.cpf||'').replace(/\D/g,''),
@@ -947,13 +947,13 @@ function mostrarComprovante(){
   if(cd){
     cd.innerHTML=[
       ['Cliente',d.nome],['CPF',d.cpf],
-      ['Empreendimento','Bairro Mararu'],
+      ['Empreendimento','Alenquer'],
       ['Lote',d.quadra?('Q'+d.quadra+' / L'+d.lote):'A definir no lançamento'],
       ['Vencimento',d.vencimento||'—'],
       ['Status','✅ Aguardando confirmação']
     ].map(function(r){return '<div class="comp-row"><span class="l">'+r[0]+'</span><span class="r">'+r[1]+'</span></div>';}).join('');
   }
-  var msg='Olá Rafael! 😊 Confirmei minha pré-reserva no Bairro Mararu.'
+  var msg='Olá Rafael! 😊 Confirmei minha pré-reserva no Alenquer.'
     +(d.quadra?'\n\n📍 Lote: Q'+d.quadra+' / L'+d.lote:'')
     +'\n👤 Nome: '+d.nome+'\n📱 WhatsApp: '+d.wpp+'\n📋 CPF: '+d.cpf
     +(window._vencimentoExcedido?'\n\n⚠️ Vencimento acima de 40 dias — sujeito à confirmação presencial.':'')
@@ -1010,7 +1010,7 @@ function corLoteR(s){
 function carregarMapaReserva(){
   var wrap=document.getElementById('mapa-reserva-wrap');
   if(!wrap)return;
-  fetch('https://uftxcwcryqpkfdfxzlno.supabase.co/rest/v1/empreendimentos?id=eq.'+MARARU_EMP_ID+'&select=data',{
+  fetch('https://uftxcwcryqpkfdfxzlno.supabase.co/rest/v1/empreendimentos?id=eq.'+ALENQUER_EMP_ID+'&select=data',{
     headers:{'apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI','Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI'}
   }).then(function(r){return r.json();}).then(function(rows){
     if(!rows||!rows.length)return;
