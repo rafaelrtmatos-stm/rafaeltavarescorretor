@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Jussaramia — Loteamento em Santarém, PA</title>
+  <meta name="description" content="Realize o sonho da casa própria no Jussaramia. Lotes a partir de R$600 de entrada e parcelas a partir de R$257. Santarém, PA.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --gold:#C9A84C;--gold2:rgba(201,168,76,0.15);--gold3:rgba(201,168,76,0.08);
+      --bg:#0a0a0a;--bg2:#111;--bg3:#1a1a1a;
+      --text:#F2EDE4;--text2:rgba(242,237,228,0.6);--text3:rgba(242,237,228,0.35);
+      --border:rgba(255,255,255,0.08);--border2:rgba(201,168,76,0.25);
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--text);font-family:"Inter",sans-serif;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(0,0,0,0.35);backdrop-filter:blur(4px);border-bottom:1px solid rgba(255,255,255,0.06);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+    .nav-logo{font-family:"Cormorant Garamond",serif;font-size:18px;font-weight:700;color:var(--gold);letter-spacing:1px}
+    .nav-btns{display:flex;gap:10px}
+    .nav-btn{padding:8px 18px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:"Inter",sans-serif;letter-spacing:.3px;text-decoration:none;transition:all .2s}
+    .nav-btn-outline{border:1px solid var(--border2);color:var(--gold);background:transparent}
+    .nav-btn-gold{background:var(--gold);color:#000;border:none}
+    .hero{position:relative;height:100vh;min-height:600px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-top:0;padding-top:0}
+    .hero-bg{position:absolute;inset:0;z-index:0}
+    .hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center top}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.3) 0%,rgba(120,70,0,0.06) 30%,rgba(180,110,0,0.04) 55%,rgba(0,0,0,0.7) 82%,rgba(0,0,0,1) 100%)}
+    .hero-content{position:relative;z-index:2;text-align:center;padding:0 24px;max-width:700px}
+    .hero-tag{font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;font-weight:600;text-shadow:0 2px 12px rgba(0,0,0,0.9)}
+    .hero-title{font-family:"Cormorant Garamond",serif;font-size:clamp(44px,7vw,80px);font-weight:700;line-height:.9;letter-spacing:-3px;margin-bottom:20px;text-shadow:0 4px 20px rgba(0,0,0,0.95)}
+    .hero-title em{font-style:italic;color:var(--gold)}
+    .hero-sub{font-size:15px;color:var(--text2);line-height:1.7;max-width:480px;margin:0 auto 32px;font-weight:300;text-shadow:0 2px 12px rgba(0,0,0,0.9)}
+    .hero-btns{display:flex;flex-direction:column;align-items:center;gap:10px}
+    .btn-gold{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(90deg,#C9A84C,#E8C96A);color:#000;padding:16px 32px;border-radius:10px;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;transition:opacity .2s;cursor:pointer;border:none;font-family:"Inter",sans-serif}
+    .btn-wpp{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:rgba(37,211,102,0.1);border:1.5px solid rgba(37,211,102,0.3);color:#25d366;padding:13px 28px;border-radius:10px;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;transition:opacity .2s}
+    .stats-band{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:28px 24px}
+    .stats-band-inner{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;text-align:center}
+    .stat-num{font-family:"Cormorant Garamond",serif;font-size:clamp(32px,4vw,48px);font-weight:700;color:var(--gold);line-height:1}
+    .stat-label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:2px;margin-top:4px}
+    section{padding:80px 24px}
+    .section-inner{max-width:900px;margin:0 auto}
+    .section-tag{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:600}
+    .section-title{font-family:"Cormorant Garamond",serif;font-size:clamp(32px,4vw,52px);font-weight:700;line-height:.95;letter-spacing:-2px;margin-bottom:16px}
+    .section-title em{font-style:italic;color:var(--gold)}
+    .section-sub{font-size:14px;color:var(--text2);line-height:1.7;font-weight:300}
+    .mapa-wrap{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--border);margin-top:28px}
+    #mapa-vis{min-height:320px;background:var(--bg3);display:flex;align-items:center;justify-content:center}
+    .mapa-blur{position:absolute;inset:0;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);background:rgba(0,0,0,0.55);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;z-index:10}
+    .mapa-blur-txt{font-family:"Cormorant Garamond",serif;font-size:clamp(28px,6vw,64px);font-weight:700;color:#fff;letter-spacing:4px;text-transform:uppercase;text-shadow:0 4px 24px rgba(0,0,0,0.7)}
+    .mapa-blur-sub{font-size:11px;color:rgba(255,255,255,0.45);letter-spacing:3px;text-transform:uppercase}
+    .mapa-stats{display:none;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+    .mapa-stat{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center}
+    .mapa-stat-num{font-family:"Cormorant Garamond",serif;font-size:28px;font-weight:700;line-height:1}
+    .mapa-stat-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;margin-top:3px}
+    .mapa-legenda{display:flex;gap:20px;margin-top:12px;flex-wrap:wrap}
+    .mapa-leg-item{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text3)}
+    .mapa-leg-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+    .planos-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px}
+    .plano-card{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:28px}
+    .plano-card.destaque{border-color:var(--border2);background:linear-gradient(135deg,rgba(201,168,76,0.06),var(--bg3))}
+    .plano-badge{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:12px}
+    .plano-nome{font-family:"Cormorant Garamond",serif;font-size:24px;font-weight:700;margin-bottom:16px;line-height:1}
+    .plano-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-size:13px;color:var(--text2)}
+    .plano-check{color:var(--gold);font-size:15px;flex-shrink:0}
+    .plano-entrada{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;margin-top:20px;margin-bottom:4px}
+    .plano-valor{font-family:"Cormorant Garamond",serif;font-size:36px;font-weight:700;color:var(--gold)}
+    .plano-parcela{font-size:12px;color:var(--text2);margin-top:4px}
+    .galeria-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:28px}
+    .galeria-item{border-radius:12px;overflow:hidden;aspect-ratio:16/9;background:var(--bg3);border:1px solid var(--border)}
+    .galeria-item video,.galeria-item img{width:100%;height:100%;object-fit:cover}
+    footer{padding:40px 24px;text-align:center;border-top:1px solid var(--border);font-size:12px;color:var(--text3)}
+    @media(max-width:640px){
+      [style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr!important}
+      [style*="display:flex;align-items:center;gap:32px"]{flex-direction:column!important;text-align:center!important}
+
+      .stats-band-inner,.planos-grid,.galeria-grid{grid-template-columns:1fr}
+      .nav-btn-outline{display:none}
+    }
+  </style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo">RT</div>
+  <div class="nav-btns">
+    <a href="../" class="nav-btn nav-btn-outline">Inicio</a>
+    <a href="reserva/" class="nav-btn nav-btn-gold">Garantir Vaga</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg">
+    <img src="/imagens/jussaramia-hero.png" alt="Familia Jussaramia" loading="eager">
+    <div class="hero-overlay"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-tag" style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.4);padding:6px 18px;border-radius:100px;display:inline-block;margin-bottom:20px">🔥 Lançamento — Monte Alegre, PA</div>
+    <h1 class="hero-title">Jussaramia <em>PA</em></h1>
+    <p class="hero-sub">Lotes disponíveis agora em Monte Alegre, PA. Garanta o seu com entrada acessível.</p>
+    <div class="hero-btns">
+      <a href="reserva/" class="btn-gold" style="font-size:14px;padding:18px 36px;letter-spacing:1px;box-shadow:0 4px 24px rgba(201,168,76,0.35)">
+        🏡 Garantir Meu Lote Agora
+      </a>
+      <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Vi%20o%20Bairro%20Jussaramia%20no%20site%20e%20quero%20garantir%20meu%20lote." target="_blank" class="btn-wpp" style="font-size:13px;padding:14px 28px">
+        💬 Falar com o Corretor
+      </a>
+      <a href="https://chat.whatsapp.com/Eo6QSIOw7GS6bNWujn5oNu" target="_blank" style="font-size:11px;color:rgba(255,255,255,0.45);letter-spacing:1.5px;margin-top:4px;text-decoration:underline;text-underline-offset:3px">
+        Entrar no Grupo VIP
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="stats-band">
+  <div class="stats-band-inner">
+    <div><div class="stat-num">376</div><div class="stat-label">Lotes disponiveis</div></div>
+    <div><div class="stat-num">R$600</div><div class="stat-label">Entrada a partir de</div></div>
+    <div><div class="stat-num">R$257</div><div class="stat-label">Parcelas a partir de</div></div>
+  </div>
+</div>
+
+<section id="sec-mapa" style="background:var(--bg);border-bottom:1px solid var(--border)">
+  <div class="section-inner">
+    <div class="section-tag">Disponibilidade em tempo real</div>
+    <h2 class="section-title">Mapa de <em>Lotes</em></h2>
+    <p class="section-sub">Veja quais lotes ainda estao disponiveis. Atualizado automaticamente conforme as reservas sao feitas.</p>
+    <div class="mapa-stats" id="mapa-stats">
+      <div class="mapa-stat"><div class="mapa-stat-num" style="color:#3b82f6" id="stat-disp">0</div><div class="mapa-stat-lbl">Disponiveis</div></div>
+      <div class="mapa-stat"><div class="mapa-stat-num" style="color:#eab308" id="stat-res">0</div><div class="mapa-stat-lbl">Reservados</div></div>
+      <div class="mapa-stat"><div class="mapa-stat-num" style="color:#ef4444" id="stat-vend">0</div><div class="mapa-stat-lbl">Vendidos</div></div>
+    </div>
+    <div class="mapa-wrap">
+      <!-- MAPA REAL POR BAIXO -->
+      <div id="mapa-vis"><div style="text-align:center;color:var(--text3);font-size:13px">Carregando mapa...</div></div>
+
+      <!-- OVERLAY BLUR -->
+      <div class="mapa-blur" id="mapa-blur-overlay" style="display:none">
+        <div class="mapa-blur-txt" id="mapa-blur-txt">Em Breve</div>
+        <div class="mapa-blur-sub">Lançamento em breve</div>
+        <a href="reserva/" style="margin-top:16px;display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#000;padding:12px 24px;border-radius:8px;font-size:12px;font-weight:700">Garantir minha vaga</a>
+      </div>
+    <div class="mapa-legenda" id="mapa-legenda" style="display:none">
+      <div class="mapa-leg-item"><div class="mapa-leg-dot" style="background:#3b82f6"></div>Disponivel</div>
+      <div class="mapa-leg-item"><div class="mapa-leg-dot" style="background:#eab308"></div>Reservado</div>
+      <div class="mapa-leg-item"><div class="mapa-leg-dot" style="background:#ef4444"></div>Vendido</div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- TABELA DE PREÇOS -->
+<section id="sec-tabela" style="background:var(--bg);border-bottom:1px solid var(--border);padding:80px 24px">
+  <div class="section-inner">
+    <div class="section-tag">Condições de pagamento</div>
+    <h2 class="section-title">Tabela de <em>Preços</em></h2>
+    <p class="section-sub" style="margin-bottom:28px">Entrada de R$ 600 para todos os planos. Escolha o que melhor se encaixa no seu bolso.</p>
+
+    <div style="display:flex;justify-content:center;gap:10px;margin-bottom:28px;flex-wrap:wrap">
+      <button onclick="mostrarSeg('principal',this)" id="tab-principal" style="padding:10px 22px;border-radius:100px;border:2px solid var(--gold);background:var(--gold);color:#000;font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;letter-spacing:.5px">Lotes acima de 200m²</button>
+      <button onclick="mostrarSeg('centro',this)" id="tab-centro" style="padding:10px 22px;border-radius:100px;border:2px solid var(--border2);background:transparent;color:var(--gold);font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;letter-spacing:.5px">Lotes até 200m²</button>
+    </div>
+
+    <!-- LOTES ACIMA DE 200m² -->
+    <div id="seg-principal" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
+
+      <!-- 36 MESES DESTAQUE -->
+      <div style="background:var(--bg2);border:2px solid var(--gold);border-radius:18px;overflow:hidden;position:relative">
+        <div style="position:absolute;top:14px;right:14px;background:var(--gold);color:#000;font-size:9px;font-weight:700;letter-spacing:1.5px;padding:4px 10px;border-radius:100px;text-transform:uppercase">💎 Melhor Economia</div>
+        <div style="background:#1a3d28;padding:24px 24px 18px">
+          <div style="font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:6px">Plano</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#fff">3 Anos</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:3px">36 parcelas • Sem reajuste</div>
+        </div>
+        <div style="padding:20px 24px 8px;border-bottom:1px solid var(--border)">
+          <div style="font-size:10px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:4px">Parcela fixa de</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;color:var(--gold);line-height:1">R$ 1.388<span style="font-size:20px">,88</span></div>
+          <div style="font-size:11px;color:var(--text3);margin:4px 0 16px">Parcela fixa — sem surpresas</div>
+        </div>
+        <div style="padding:16px 24px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Valor do lote</span><span style="font-weight:600">R$ 50.600</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Entrada</span><span style="font-weight:600">R$ 600</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Total pago</span><span style="font-weight:600;color:var(--gold)">R$ 50.600</span></div>
+          <div style="background:rgba(201,168,76,0.1);border-radius:8px;padding:8px 12px;font-size:12px;color:var(--gold);margin-top:4px;font-weight:600">✅ Paga o valor real do lote</div>
+        </div>
+      </div>
+
+      <!-- 120 MESES -->
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:18px;overflow:hidden">
+        <div style="background:#1e3a2a;padding:24px 24px 18px">
+          <div style="font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:6px">Plano</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#fff">10 Anos</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:3px">120 parcelas • Reajuste anual</div>
+        </div>
+        <div style="padding:20px 24px 8px;border-bottom:1px solid var(--border)">
+          <div style="font-size:10px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:4px">1ª parcela a partir de</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;color:var(--gold);line-height:1">R$ 416<span style="font-size:20px">,66</span></div>
+          <div style="font-size:11px;color:var(--text3);margin:4px 0 16px">Reajuste anual fixo</div>
+        </div>
+        <div style="padding:16px 24px;display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Entrada</span><span style="font-weight:600">R$ 600</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Total pago</span><span style="font-weight:600">R$ 71.229</span></div>
+          <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:4px">
+            <div style="font-size:10px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Evolução da parcela</div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>1º Ano</span><span>R$ 416,66</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>5º Ano</span><span>R$ 546,16</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>10º Ano</span><span>R$ 766,01</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 180 MESES -->
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:18px;overflow:hidden">
+        <div style="background:#1e3a2a;padding:24px 24px 18px">
+          <div style="font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:6px">Plano</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#fff">15 Anos</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:3px">180 parcelas • Reajuste anual</div>
+        </div>
+        <div style="padding:20px 24px 8px;border-bottom:1px solid var(--border)">
+          <div style="font-size:10px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:4px">1ª parcela a partir de</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;color:var(--gold);line-height:1">R$ 277<span style="font-size:20px">,77</span></div>
+          <div style="font-size:11px;color:var(--text3);margin:4px 0 16px">Reajuste anual fixo</div>
+        </div>
+        <div style="padding:16px 24px;display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Entrada</span><span style="font-weight:600">R$ 600</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Total pago</span><span style="font-weight:600">R$ 91.104</span></div>
+          <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:4px">
+            <div style="font-size:10px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Evolução da parcela</div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>1º Ano</span><span>R$ 277,77</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>5º Ano</span><span>R$ 377,90</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>10º Ano</span><span>R$ 555,26</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>15º Ano</span><span>R$ 815,86</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOTES ATÉ 200m² -->
+    <div id="seg-centro" style="display:none;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
+
+      <!-- 36 MESES DESTAQUE -->
+      <div style="background:var(--bg2);border:2px solid var(--gold);border-radius:18px;overflow:hidden;position:relative">
+        <div style="position:absolute;top:14px;right:14px;background:var(--gold);color:#000;font-size:9px;font-weight:700;letter-spacing:1.5px;padding:4px 10px;border-radius:100px;text-transform:uppercase">💎 Melhor Economia</div>
+        <div style="background:#1a3d28;padding:24px 24px 18px">
+          <div style="font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:6px">Plano</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#fff">3 Anos</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:3px">36 parcelas • Sem reajuste</div>
+        </div>
+        <div style="padding:20px 24px 8px;border-bottom:1px solid var(--border)">
+          <div style="font-size:10px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:4px">Parcela fixa de</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;color:var(--gold);line-height:1">R$ 1.277<span style="font-size:20px">,78</span></div>
+          <div style="font-size:11px;color:var(--text3);margin:4px 0 16px">Parcela fixa — sem surpresas</div>
+        </div>
+        <div style="padding:16px 24px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Valor do lote</span><span style="font-weight:600">R$ 46.600</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Entrada</span><span style="font-weight:600">R$ 600</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Total pago</span><span style="font-weight:600;color:var(--gold)">R$ 46.600</span></div>
+          <div style="background:rgba(201,168,76,0.1);border-radius:8px;padding:8px 12px;font-size:12px;color:var(--gold);margin-top:4px;font-weight:600">✅ Paga o valor real do lote</div>
+        </div>
+      </div>
+
+      <!-- 120 MESES -->
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:18px;overflow:hidden">
+        <div style="background:#1e3a2a;padding:24px 24px 18px">
+          <div style="font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:6px">Plano</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#fff">10 Anos</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:3px">120 parcelas • Reajuste anual</div>
+        </div>
+        <div style="padding:20px 24px 8px;border-bottom:1px solid var(--border)">
+          <div style="font-size:10px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:4px">1ª parcela a partir de</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;color:var(--gold);line-height:1">R$ 383<span style="font-size:20px">,33</span></div>
+          <div style="font-size:11px;color:var(--text3);margin:4px 0 16px">Reajuste anual fixo</div>
+        </div>
+        <div style="padding:16px 24px;display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Entrada</span><span style="font-weight:600">R$ 600</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Total pago</span><span style="font-weight:600">R$ 65.383</span></div>
+          <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:4px">
+            <div style="font-size:10px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Evolução da parcela</div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>1º Ano</span><span>R$ 383,33</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>5º Ano</span><span>R$ 502,47</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>10º Ano</span><span>R$ 704,74</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 180 MESES -->
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:18px;overflow:hidden">
+        <div style="background:#1e3a2a;padding:24px 24px 18px">
+          <div style="font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:6px">Plano</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#fff">15 Anos</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:3px">180 parcelas • Reajuste anual</div>
+        </div>
+        <div style="padding:20px 24px 8px;border-bottom:1px solid var(--border)">
+          <div style="font-size:10px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:4px">1ª parcela a partir de</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;color:var(--gold);line-height:1">R$ 255<span style="font-size:20px">,56</span></div>
+          <div style="font-size:11px;color:var(--text3);margin:4px 0 16px">Reajuste anual fixo</div>
+        </div>
+        <div style="padding:16px 24px;display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Entrada</span><span style="font-weight:600">R$ 600</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Total pago</span><span style="font-weight:600">R$ 83.590</span></div>
+          <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:4px">
+            <div style="font-size:10px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Evolução da parcela</div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>1º Ano</span><span>R$ 255,56</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>5º Ano</span><span>R$ 347,69</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>10º Ano</span><span>R$ 510,87</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>15º Ano</span><span>R$ 750,63</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:20px;font-size:12px;color:var(--text3)">* Condições sujeitas a alteração. Consulte o corretor.</div>
+  </div>
+</section>
+
+<script>
+function mostrarSeg(id, btn) {
+  document.getElementById('seg-principal').style.display = 'none';
+  document.getElementById('seg-centro').style.display = 'none';
+  document.getElementById('seg-' + id).style.display = 'grid';
+  document.getElementById('tab-principal').style.background = 'transparent';
+  document.getElementById('tab-principal').style.color = 'var(--gold)';
+  document.getElementById('tab-centro').style.background = 'transparent';
+  document.getElementById('tab-centro').style.color = 'var(--gold)';
+  btn.style.background = 'var(--gold)';
+  btn.style.color = '#000';
+}
+</script>
+
+<script>
+function mostrarSeg(id, btn) {
+  document.getElementById('seg-principal').style.display = 'none';
+  document.getElementById('seg-centro').style.display = 'none';
+  document.getElementById('seg-' + id).style.display = 'grid';
+  document.getElementById('tab-principal').style.background = 'transparent';
+  document.getElementById('tab-principal').style.color = 'var(--gold)';
+  document.getElementById('tab-centro').style.background = 'transparent';
+  document.getElementById('tab-centro').style.color = 'var(--gold)';
+  btn.style.background = 'var(--gold)';
+  btn.style.color = '#000';
+}
+</script>
+
+<section id="sec-galeria" style="background:var(--bg);border-bottom:1px solid var(--border)">
+  <div class="section-inner">
+    <div class="section-tag">Conheca o Empreendimento</div>
+    <h2 class="section-title">Galeria <em>Jussaramia</em></h2>
+    <p class="section-sub">Veja as areas, ruas e estrutura do Jussaramia em Santarem, PA.</p>
+
+    <!-- Foto hero no topo -->
+    <div style="border-radius:16px;overflow:hidden;margin-top:28px;margin-bottom:14px;position:relative;box-shadow:0 8px 40px rgba(201,168,76,0.15),0 2px 8px rgba(0,0,0,0.6);border:1px solid rgba(201,168,76,0.2)">
+      <img src="/imagens/jussaramia-hero.png" alt="Jussaramia" style="width:100%;display:block;max-height:440px;object-fit:cover;filter:sepia(10%) saturate(1.1) brightness(0.95)">
+      <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.6) 0%,rgba(180,100,0,0.05) 40%,transparent 70%)"></div>
+      <div style="position:absolute;bottom:20px;left:24px">
+        <div style="font-family:Cormorant Garamond,serif;font-size:22px;font-weight:700;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,0.9)">Jussaramia</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.6);letter-spacing:2px;text-transform:uppercase;margin-top:3px">Santarem, Para</div>
+      </div>
+    </div>
+
+    <!-- Videos -->
+    <div id="galeria-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px">
+      <div style="padding:40px;color:var(--text3);font-size:13px;text-align:center;grid-column:1/-1">Carregando videos...</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- DIFERENCIAIS / FIDELIZAÇÃO -->
+<section style="background:var(--bg);border-bottom:1px solid var(--border)">
+  <div class="section-inner">
+    <div class="section-tag">Por que escolher o Jussaramia</div>
+    <h2 class="section-title">Seu <em>Futuro</em> começa aqui</h2>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px">
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px;text-align:center">
+        <div style="font-size:32px;margin-bottom:12px">📍</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;margin-bottom:8px">Localizacao Privilegiada</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.6">Proximo a escolas, comercio e hospitais em Santarem, PA</div>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:24px;text-align:center">
+        <div style="font-size:32px;margin-bottom:12px">📄</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;margin-bottom:8px">Documentacao Regularizada</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.6">Lote escriturado com toda documentacao em ordem</div>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px;text-align:center">
+        <div style="font-size:32px;margin-bottom:12px">📈</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;margin-bottom:8px">Alto Potencial</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.6">Regiao em expansao com forte valorizacao nos proximos anos</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE O CORRETOR -->
+<section style="background:var(--bg2);border-bottom:1px solid var(--border)">
+  <div class="section-inner">
+    <div style="display:flex;align-items:center;gap:32px;flex-wrap:wrap">
+      <div style="width:120px;height:120px;border-radius:50%;overflow:hidden;border:3px solid var(--gold);flex-shrink:0;background:var(--bg3)">
+        <img src="/imagens/rafael-foto.jpg" alt="Rafael Tavares" style="width:100%;height:100%;object-fit:cover">
+      </div>
+      <div style="flex:1;min-width:220px">
+        <div class="section-tag">Seu corretor de confianca</div>
+        <h2 class="section-title" style="font-size:clamp(24px,3vw,40px)">Rafael <em>Tavares</em></h2>
+        <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:12px">CRECI 13919 - Especialista em loteamentos em Santarem, PA. Atendimento personalizado do primeiro contato ate a entrega das chaves.</p>
+        <div style="display:flex;gap:16px;flex-wrap:wrap">
+          <div style="font-size:12px;color:var(--gold);font-weight:600">✓ +5 anos de experiencia</div>
+          <div style="font-size:12px;color:var(--gold);font-weight:600">✓ Centenas de clientes atendidos</div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FALAR COM CORRETOR -->
+<section id="sec-cta" style="background:var(--bg2);text-align:center">
+  <div style="max-width:580px;margin:0 auto">
+    <div class="section-tag" style="text-align:center">Atendimento personalizado</div>
+    <h2 class="section-title" style="text-align:center">Pronto para <em>realizar</em> seu sonho?</h2>
+    <p class="section-sub" style="text-align:center;margin-bottom:32px">Converse diretamente com Rafael Tavares e tire todas as suas duvidas. Sem pressao, sem compromisso.</p>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+      <button onclick="abrirModalCorretor()" class="btn-wpp" style="font-size:14px;padding:16px 36px;cursor:pointer;border:1.5px solid rgba(37,211,102,0.3)">
+        Falar com o Corretor
+      </button>
+      <a href="https://chat.whatsapp.com/Eo6QSIOw7GS6bNWujn5oNu" target="_blank" style="font-size:13px;color:var(--text2);display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border:1px solid var(--border);border-radius:8px;transition:border-color .2s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border)'">
+        Entrar no Grupo VIP do WhatsApp
+      </a>
+      <a href="reserva/" class="btn-gold" style="margin-top:4px">Garantir Minha Pre-Reserva</a>
+    </div>
+  </div>
+</section>
+
+<!-- MODAL CORRETOR -->
+<div id="modal-corretor" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:1000;align-items:center;justify-content:center;padding:20px" onclick="if(event.target===this)fecharModalCorretor()">
+  <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:20px;padding:32px;max-width:420px;width:100%;position:relative">
+    <button onclick="fecharModalCorretor()" style="position:absolute;top:16px;right:16px;background:transparent;border:none;color:var(--text3);font-size:20px;cursor:pointer;line-height:1">x</button>
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="width:72px;height:72px;border-radius:50%;overflow:hidden;border:2px solid var(--gold);margin:0 auto 12px;background:var(--bg3)">
+        <img src="/imagens/rafael-foto.jpg" alt="Rafael" style="width:100%;height:100%;object-fit:cover">
+      </div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700">Rafael Tavares</div>
+      <div style="font-size:11px;color:var(--gold);letter-spacing:2px;margin-top:4px">CRECI 13919 - Corretor Especialista</div>
+    </div>
+    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:20px;font-size:13px;color:var(--text2);line-height:1.7;text-align:center">
+      O atendimento e feito diretamente com Rafael. Ele ira apresentar os planos, tirar suas duvidas e conduzir sua compra com seguranca e transparencia. <strong style="color:var(--text)">Nao compartilhe dados com terceiros.</strong>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <a href="https://wa.me/5593992332012?text=Ola%20Rafael!%20Vi%20o%20Bairro%20Jussaramia%20no%20site%20e%20quero%20saber%20mais%20sobre%20os%20lotes." target="_blank" class="btn-wpp" style="font-size:13px;padding:14px;width:100%;box-sizing:border-box">
+        Abrir WhatsApp com Rafael
+      </a>
+      <a href="https://chat.whatsapp.com/Eo6QSIOw7GS6bNWujn5oNu" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--text2);font-weight:500">
+        Entrar no Grupo VIP
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div style="margin-bottom:8px;font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--gold)">Rafael Tavares - CRECI 13919</div>
+  <div>Santarem, PA - (93) 99233-2012</div>
+</footer>
+
+<script>
+var SUPABASE_URL='https://uftxcwcryqpkfdfxzlno.supabase.co';
+var SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI';
+var JUSSARAMIA_ID='';
+
+function corLote(s){
+  if(s==='disponivel')return'#3b82f6';
+  if(s==='reservado'||s==='pre-reserva')return'#eab308';
+  return'#ef4444';
+}
+
+function renderMapaVisual(lotesInfo,pontos,imgUrl){
+  var wrap=document.getElementById('mapa-vis');
+  if(!wrap)return;
+  if(!imgUrl||!pontos||!pontos.length){
+    wrap.innerHTML='<div style="padding:40px;color:var(--text3);text-align:center;font-size:13px">Mapa em preparacao</div>';
+    return;
+  }
+  var disp=0,res=0,vend=0;
+  Object.values(lotesInfo).forEach(function(l){
+    var s=l.status||'disponivel';
+    if(s==='disponivel')disp++;
+    else if(s==='reservado'||s==='pre-reserva')res++;
+    else vend++;
+  });
+  var st=document.getElementById('mapa-stats');
+  if(st){st.style.display='grid';}
+  var sd=document.getElementById('stat-disp');if(sd)sd.textContent=disp;
+  var sr=document.getElementById('stat-res');if(sr)sr.textContent=res;
+  var sv=document.getElementById('stat-vend');if(sv)sv.textContent=vend;
+
+  var imgW=wrap.offsetWidth||320;
+  var sz=Math.max(6,Math.min(14,Math.round(imgW*0.011)));
+  var h='<div style="position:relative;width:100%">';
+  h+='<img src="'+imgUrl+'" style="width:100%;display:block" alt="Mapa Jussaramia">';
+  h+='<div style="position:absolute;inset:0">';
+  pontos.forEach(function(p){
+    var key=p.quadra+'-'+p.lote;
+    var info=lotesInfo[key]||{};
+    var cor=corLote(info.status||p.status||'disponivel');
+    h+='<div style="position:absolute;left:'+p.xPercent+'%;top:'+p.yPercent+'%;transform:translate(-50%,-50%);width:'+sz+'px;height:'+sz+'px;pointer-events:none">';
+    h+='<div style="width:100%;height:100%;border-radius:50%;background:'+cor+';border:1.5px solid rgba(255,255,255,0.8);box-shadow:0 1px 4px rgba(0,0,0,0.4)"></div>';
+    h+='</div>';
+  });
+  h+='</div></div>';
+  wrap.innerHTML=h;
+  var leg=document.getElementById('mapa-legenda');
+  if(leg)leg.style.display='flex';
+}
+
+fetch(SUPABASE_URL+'/rest/v1/empreendimentos?id=eq.'+JUSSARAMIA_ID+'&select=data',{
+  headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}
+}).then(function(r){return r.json();})
+  .then(function(rows){
+    if(!rows||!rows.length)return;
+    var data=rows[0].data;
+    renderMapaVisual(data.lotesInfo||{},data.mapaPontos||[],data.mapaImagemUrl||'');
+  }).catch(function(e){console.warn('Mapa:',e);});
+
+fetch('/site_data.json?_='+Date.now())
+  .then(function(r){return r.json();})
+  .then(function(d){
+    var borrado=!d||!d.lancamento||d.lancamento.marcaDagua!==false;
+    var overlay=document.getElementById('mapa-blur-overlay');
+    var txt=document.getElementById('mapa-blur-txt');
+    if(overlay)overlay.style.display=borrado?'flex':'none';
+    if(txt&&d&&d.lancamento&&d.lancamento.marcaDaguaTxt)txt.textContent=d.lancamento.marcaDaguaTxt;
+
+    var galeria=(d.jussaramia&&d.jussaramia.galeria)||[];
+    var grid=document.getElementById('galeria-grid');
+    if(!grid)return;
+
+    if(!galeria.length){
+      grid.innerHTML='<div style="padding:40px;color:var(--text3);font-size:13px;text-align:center;grid-column:1/-1">Videos em breve</div>';
+      return;
+    }
+
+    var cardStyle='border-radius:14px;overflow:hidden;border:1px solid rgba(201,168,76,0.15);background:var(--bg3);position:relative;box-shadow:0 6px 24px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.04);transition:transform .25s,box-shadow .25s';
+    grid.innerHTML=galeria.map(function(url){
+      var isVideo=url.indexOf('.mp4')>=0||url.indexOf('.webm')>=0||url.indexOf('.mov')>=0;
+      if(isVideo){
+        return '<div style="'+cardStyle+'"><video src="'+url+'" controls muted playsinline preload="metadata" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block"></video></div>';
+      }
+      return '<div style="'+cardStyle+';aspect-ratio:16/9"><img src="'+url+'" alt="Jussaramia" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></div>';
+    }).join('');
+  }).catch(function(){});
+
+
+
+(function(){});
+
+(function(){
+  try{
+    var res=JSON.parse(localStorage.getItem('jussaramia_reserva')||'null');
+    if(!res||Date.now()-res.ts>30*24*60*60*1000){localStorage.removeItem('jussaramia_reserva');return;}
+    var banner=document.createElement('div');
+    banner.style.cssText='position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(201,168,76,0.95);color:#000;padding:10px 20px;border-radius:10px;font-size:12px;font-weight:700;z-index:999;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,0.4);cursor:pointer';
+    var lote=res.quadra?(' Q'+res.quadra+' L'+res.lote):'';
+    banner.textContent='Sua pre-reserva'+lote+' - Aguardando confirmacao';
+    banner.onclick=function(){banner.remove();};
+    document.body.appendChild(banner);
+  }catch(e){}
+})();
+
+function abrirModalCorretor(){
+  var m=document.getElementById('modal-corretor');
+  if(m)m.style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function fecharModalCorretor(){
+  var m=document.getElementById('modal-corretor');
+  if(m)m.style.display='none';
+  document.body.style.overflow='';
+}
+</script>
+</body>
+</html>

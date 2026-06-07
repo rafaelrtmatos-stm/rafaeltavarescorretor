@@ -416,14 +416,15 @@
     },
     {
       "id": "monte-alegre",
-      "nome": "Monte Alegre",
+      "nome": "Jussaramia",
       "cidade": "Monte Alegre",
       "estado": "PA",
-      "lat": -2.0069,
-      "lng": -54.0724,
+      "lat": -1.9998,
+      "lng": -54.0726,
       "foto": "",
-      "descricao": "Em breve em Monte Alegre, PA.",
-      "lancamento": false
+      "descricao": "Loteamento Jussaramia — Monte Alegre, PA. Vendas abertas!",
+      "lancamento": true,
+      "lancado": true
     }
   ],
   "pinSize": 30,
@@ -451,5 +452,10 @@
     "galeria": [],
     "empId": "",
     "dataLancamento": "2026-06-10T11:00:00.000Z"
+  },
+  "monte-alegre": {
+    "galeria": [],
+    "empId": "",
+    "nome": "Jussaramia"
   }
 }

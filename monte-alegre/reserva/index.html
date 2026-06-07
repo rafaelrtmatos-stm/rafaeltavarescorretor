@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pré-Reserva Online — Jussaramia</title>
+<link rel="icon" type="image/x-icon" href="../../favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<meta name="theme-color" content="#000000">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#000;--bg2:#0A0A0A;--bg3:#111;
+  --gold:#C9A84C;--gold2:#E8C96A;
+  --text:#F2EDE4;--text2:rgba(242,237,228,0.65);--text3:rgba(242,237,228,0.35);
+  --border:rgba(201,168,76,0.15);--border2:rgba(201,168,76,0.3);
+  --green:#25d366;--red:#f87171;--r:12px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* HEADER */
+.header{position:sticky;top:0;z-index:50;background:rgba(0,0,0,0.95);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;gap:12px;backdrop-filter:blur(12px)}
+.header img{width:40px;height:40px;object-fit:contain}
+.header-title{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold)}
+.header-sub{font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-top:2px}
+
+/* PROGRESS BAR */
+.progress-wrap{padding:20px 20px 0;max-width:600px;margin:0 auto}
+.progress-bar{display:flex;align-items:center;gap:0;margin-bottom:8px}
+.step-circle{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;transition:all .3s;border:2px solid var(--border)}
+.step-circle.active{background:var(--gold);color:#000;border-color:var(--gold)}
+.step-circle.done{background:rgba(37,211,102,0.15);color:var(--green);border-color:var(--green)}
+.step-circle.pending{background:var(--bg3);color:var(--text3)}
+.step-line{flex:1;height:2px;background:var(--border);transition:background .3s}
+.step-line.done{background:var(--green)}
+.step-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--text3);letter-spacing:.5px}
+.step-labels span.active{color:var(--gold);font-weight:600}
+.step-labels span.done{color:var(--green)}
+
+/* CONTAINER */
+.wrap{max-width:600px;margin:0 auto;padding:20px}
+
+/* ETAPAS */
+.etapa{display:none}
+.etapa.on{display:block}
+
+/* CARD */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:16px}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--text);margin-bottom:4px}
+.card-sub{font-size:12px;color:var(--text3);margin-bottom:18px;line-height:1.5}
+
+/* FORM */
+.f{margin-bottom:14px}
+.f label{display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);font-weight:600;margin-bottom:6px}
+.f input,.f select{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 14px;font-size:14px;color:var(--text);font-family:inherit;outline:none;transition:border-color .2s}
+.f input:focus,.f select:focus{border-color:var(--gold)}
+.f input.ok{border-color:var(--green)}
+.f input.err{border-color:var(--red)}
+.f .hint{font-size:11px;margin-top:5px;line-height:1.4}
+.f .hint.err{color:var(--red)}
+.f .hint.ok{color:var(--green)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:480px){.g2{grid-template-columns:1fr}}
+
+/* UPLOAD */
+.upload-area{border:2px dashed var(--border);border-radius:10px;padding:20px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg3);position:relative;margin-bottom:10px}
+.upload-area:hover{border-color:var(--gold)}
+.upload-area input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.upload-area .ico{font-size:24px;margin-bottom:6px;color:var(--gold)}
+.upload-area p{font-size:12px;color:var(--text3)}
+.upload-area h4{font-size:13px;color:var(--text2);margin-bottom:4px}
+.preview-box{display:none;position:relative;border-radius:8px;overflow:hidden;margin-bottom:10px}
+.preview-box img{width:100%;max-height:180px;object-fit:cover;border-radius:8px}
+.preview-box button{position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.7);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
+
+/* TERMOS */
+.termo-box{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:14px;max-height:160px;overflow-y:auto;font-size:11px;color:var(--text3);line-height:1.7}
+.check-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;cursor:pointer}
+.check-row input[type=checkbox]{display:none}
+.check-box{width:20px;height:20px;border-radius:5px;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:1px}
+.check-box.checked{background:var(--gold);border-color:var(--gold)}
+.check-box.checked::after{content:'✓';font-size:12px;color:#000;font-weight:700}
+.check-row span{font-size:12px;color:var(--text2);line-height:1.5}
+
+/* VISTA TOGGLE */
+.vista-toggle{display:flex;gap:6px;margin-bottom:14px}
+.vista-btn{flex:1;padding:9px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text3);font-size:12px;font-family:inherit;cursor:pointer;transition:all .2s;font-weight:500;letter-spacing:.3px}
+.vista-btn.on{background:var(--gold3);border-color:var(--border2);color:var(--gold)}
+.vista-btn:hover:not(.on){border-color:var(--border2);color:var(--text2)}
+
+/* MAPA DE LOTES */
+.mapa-lotes{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px}
+.mapa-quadra{margin-bottom:16px}
+.mapa-quadra:last-child{margin-bottom:4px}
+.mapa-q-label{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--text3);margin-bottom:8px;font-weight:600;padding-left:2px}
+.mapa-q-row{display:flex;flex-wrap:wrap;gap:8px}
+.mc{width:54px;height:54px;border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px solid transparent;position:relative;flex-shrink:0;transition:all .18s}
+.mc.disp{background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.28);cursor:pointer}
+.mc.disp:hover{background:rgba(34,197,94,0.2);border-color:rgba(34,197,94,0.65);transform:scale(1.1)}
+.mc.ocup{background:rgba(248,113,113,0.06);border-color:rgba(248,113,113,0.18);cursor:default;opacity:.45}
+.mc.sel{background:rgba(201,168,76,0.18);border-color:var(--gold);box-shadow:0 0 14px rgba(201,168,76,0.25);transform:scale(1.08)}
+.mc-num{font-size:14px;font-weight:800;color:var(--text);line-height:1;font-family:'DM Sans',sans-serif}
+.mc.sel .mc-num{color:var(--gold)}
+.mc-dot{width:6px;height:6px;border-radius:50%;margin-top:5px}
+.mc.disp .mc-dot{background:#22c55e}
+.mc.ocup .mc-dot{background:#f87171}
+.mc.sel .mc-dot{background:var(--gold)}
+.mapa-legenda{display:flex;gap:16px;margin-top:12px;padding-top:10px;border-top:1px solid var(--border)}
+.mapa-leg-item{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--text3);letter-spacing:.3px}
+.mapa-leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* LOTE */
+.lote-info{background:rgba(201,168,76,0.06);border:1px solid var(--border2);border-radius:12px;padding:16px;margin-bottom:14px}
+.lote-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)}
+.lote-row:last-child{border-bottom:none}
+.lote-lbl{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
+.lote-val{font-size:14px;font-weight:600;color:var(--text)}
+.lote-val.gold{color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:18px}
+
+/* PIX */
+.pix-box{background:var(--bg3);border:1px solid var(--border2);border-radius:12px;padding:18px;text-align:center;margin-bottom:14px}
+.pix-qr{width:180px;height:180px;border-radius:8px;margin:0 auto 12px;border:1px solid var(--border)}
+.pix-copy{background:rgba(201,168,76,0.08);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:11px;font-family:monospace;color:var(--gold);word-break:break-all;cursor:pointer;text-align:left;margin-bottom:10px}
+.empresa-info{font-size:11px;color:var(--text3);line-height:1.8;text-align:left}
+
+/* BOTÕES */
+.btn-primary{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--gold);color:#000;padding:15px 24px;border-radius:10px;font-size:14px;font-weight:700;border:none;cursor:pointer;width:100%;font-family:inherit;transition:all .2s;letter-spacing:.3px}
+.btn-primary:hover{background:var(--gold2)}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed}
+.btn-secondary{display:flex;align-items:center;justify-content:center;gap:8px;background:transparent;color:var(--text2);padding:14px 24px;border-radius:10px;font-size:14px;font-weight:500;border:1px solid var(--border);cursor:pointer;width:100%;font-family:inherit;transition:all .2s;margin-bottom:10px}
+.btn-secondary:hover{border-color:var(--border2);color:var(--text)}
+.btn-wpp{background:var(--green);color:#000}
+.btn-wpp:hover{background:#20b858}
+.btn-pix{background:rgba(201,168,76,0.1);border:1px solid var(--border2);color:var(--gold)}
+.btn-pix:hover{background:rgba(201,168,76,0.18)}
+.btn-row{display:flex;flex-direction:column;gap:10px}
+
+/* PAGAMENTO OPÇÕES */
+.pay-opts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.pay-opt{border:2px solid var(--border);border-radius:12px;padding:16px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg3)}
+.pay-opt:hover{border-color:var(--border2)}
+.pay-opt.selected{border-color:var(--gold);background:rgba(201,168,76,0.06)}
+.pay-opt .ico{font-size:28px;margin-bottom:8px}
+.pay-opt h4{font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px}
+.pay-opt p{font-size:11px;color:var(--text3);line-height:1.4}
+
+/* TOAST */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--bg2);border:1px solid var(--border2);color:var(--text);padding:12px 20px;border-radius:100px;font-size:13px;font-weight:500;opacity:0;transition:all .3s;z-index:999;white-space:nowrap;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* COMPROVANTE */
+.comp-box{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:24px;text-align:center}
+.comp-icon{font-size:48px;margin-bottom:12px}
+.comp-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--gold);margin-bottom:8px}
+.comp-sub{font-size:13px;color:var(--text2);margin-bottom:20px;line-height:1.6}
+.comp-data{background:var(--bg3);border-radius:10px;padding:16px;text-align:left;margin-bottom:16px}
+.comp-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px}
+.comp-row:last-child{border-bottom:none}
+.comp-row .l{color:var(--text3)}
+.comp-row .r{color:var(--text);font-weight:500}
+</style>
+<style>
+/* Esconder botão FAB Kommo durante reserva */
+#kommo-chat-widget,
+.kommo-chat-widget,
+[class*="kommo"],
+[id*="kommo"],
+[class*="crm_plugin"],
+[id*="crm_plugin"],
+iframe[src*="kommo"],
+iframe[src*="gso.kommo"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+</style>
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Rafael Tavares">
+  <meta name="theme-color" content="#C9A84C">
+</head>
+<body>
+<script>
+// Inicializar botoes de vencimento
+(function(){
+  var hoje=new Date();hoje.setHours(0,0,0,0);
+  [5,10,15,20].forEach(function(dias){
+    var alvo=new Date(hoje);alvo.setDate(alvo.getDate()+dias);
+    var diff=Math.round((alvo-hoje)/(1000*60*60*24));
+    var b=document.getElementById('btn-v'+dias);
+    if(b&&diff>30){
+      b.style.opacity='.35';
+      b.style.cursor='not-allowed';
+      b.title='Passa de 30 dias — indisponível';
+    }
+  });
+  // Selecionar o primeiro disponível
+  [5,10,15,20].some(function(dias){
+    var alvo=new Date(hoje);alvo.setDate(alvo.getDate()+dias);
+    var diff=Math.round((alvo-hoje)/(1000*60*60*24));
+    if(diff<=30){
+      var b=document.getElementById('btn-v'+dias);
+      if(b)selecionarVencimento(dias,b);
+      return true;
+    }
+  });
+})();
+
+// Inicializar data de vencimento
+(function(){
+  var fv=document.getElementById('f-vencimento');
+  if(fv&&!fv.value){
+    var hoje=new Date();
+    var min=new Date(hoje);min.setDate(min.getDate()+1);
+    var def=new Date(hoje);def.setDate(def.getDate()+30);
+    var fmt=function(d){return d.toISOString().split('T')[0];};
+    fv.min=fmt(min);
+    fv.value=fmt(def);
+  }
+})();
+
+// Verificar estado do mapa imediatamente
+fetch('/site_data.json?_='+Date.now())
+  .then(function(r){return r.json();})
+  .then(function(d){
+    var borrado=!d||!d.lancamento||d.lancamento.marcaDagua!==false;
+    var overlay=document.getElementById('res-blur-overlay');
+    var txt=document.getElementById('res-blur-txt');
+    if(overlay)overlay.style.display=borrado?'flex':'none';
+    if(txt&&d&&d.lancamento&&d.lancamento.marcaDaguaTxt)txt.textContent=d.lancamento.marcaDaguaTxt;
+    if(!borrado&&typeof carregarMapaReserva==='function')carregarMapaReserva();
+  }).catch(function(){
+    var overlay=document.getElementById('res-blur-overlay');
+    if(overlay)overlay.style.display='flex';
+  });
+</script>
+
+<!-- HEADER -->
+<div class="header">
+  <img src="../../logo-rt.png" alt="RT">
+  <div>
+    <div class="header-title">Pré-Reserva Online</div>
+    <div class="header-sub">Jussaramia · Rafael Tavares</div>
+  </div>
+  <a href="../" style="display:inline-flex;align-items:center;gap:6px;color:var(--text3);font-size:12px;text-decoration:none;padding:6px 12px;border:1px solid var(--border);border-radius:8px;transition:color .2s" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text3)'">
+    🏠 Início
+  </a>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-wrap">
+  <div class="progress-bar">
+    <div class="step-circle active" id="sc1">1</div>
+    <div class="step-line" id="sl1"></div>
+    <div class="step-circle pending" id="sc2">2</div>
+  </div>
+  <div class="step-labels">
+    <span class="active" id="sl-1">Dados</span>
+    <span id="sl-2">Confirmação</span>
+  </div>
+</div>
+
+<div class="wrap">
+  <div id="toast" class="toast"></div>
+
+  <!-- ══════════ ETAPA 2 — DADOS DO CLIENTE ══════════ -->
+<div class="etapa on" id="etapa2-dados">
+    <div class="card">
+      <!-- INFO NO TOPO -->
+      <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:18px;margin-bottom:22px;text-align:justify;font-size:12px;color:rgba(242,237,228,0.7);line-height:1.85">
+        <div style="font-size:14px;font-weight:700;color:#C9A84C;margin-bottom:12px;font-family:'Cormorant Garamond',serif;text-align:left">Como funciona a Pré-Reserva</div>
+        <p style="margin-bottom:10px"><strong style="color:rgba(242,237,228,0.9)">1. Pré-Reserva.</strong> O preenchimento deste formulário constitui uma manifestação de interesse e não gera obrigação contratual entre as partes. Serve para agilizar o atendimento e garantir prioridade na fila de negociação.</p>
+        <p style="margin-bottom:10px"><strong style="color:rgba(242,237,228,0.9)">2. Envio dos Dados.</strong> O envio dos dados pessoais e documentos demonstra intenção de compra e garante atendimento prioritário. A disponibilidade do lote está sujeita à confirmação pelo corretor responsável.</p>
+        <p style="margin-bottom:10px"><strong style="color:rgba(242,237,228,0.9)">3. Confirmação da Reserva.</strong> A reserva do lote será confirmada somente após: envio completo dos dados e documentos; pagamento da entrada devidamente comprovado; e confirmação expressa por Rafael Tavares, CRECI 13919.</p>
+        <p style="margin-bottom:10px"><strong style="color:rgba(242,237,228,0.9)">4. Pagamento.</strong> O pagamento da entrada deverá ser realizado via PIX e o comprovante encaminhado a Rafael Tavares pelo WhatsApp (93) 99233-2012. A confirmação ocorrerá em até 24 horas úteis. O PIX deve ser enviado exclusivamente para a conta da imobiliária: Nome Fantasia: Geoflorestal Imobiliária. Razão Social: D Souza de Andrade Imóveis. CNPJ: 60.659.875/0001-21. Banco: Santander. Agência: 4375. Conta Corrente: 13.005479-0. Chave PIX: 60.659.875/0001-21 (CNPJ).</p>
+        <p style="margin-bottom:10px"><strong style="color:rgba(242,237,228,0.9)">5. Instrumento Contratual.</strong> Após a confirmação da reserva, o contrato de compra e venda será formalizado em até 48 horas — presencialmente no escritório ou por assinatura digital via aplicativo Gov.br, ambos com validade jurídica nos termos da Lei nº 14.063/2020.</p>
+        <p><strong style="color:rgba(242,237,228,0.9)">6. Proteção de Dados.</strong> Os dados coletados serão utilizados exclusivamente para fins desta negociação, sendo tratados em conformidade com a Lei Geral de Proteção de Dados — LGPD (Lei nº 13.709/2018).</p>
+      </div>
+
+      <!-- CHECKBOX LI E CONCORDO -->
+      <label id="bloco-concordo" style="display:flex;align-items:center;gap:12px;background:rgba(201,168,76,0.06);border:1.5px solid rgba(201,168,76,0.28);border-radius:10px;padding:14px 16px;margin-bottom:20px;cursor:pointer;transition:border-color .2s" onclick="toggleConcordo()">
+        <div id="chk-box-concordo" style="width:22px;height:22px;border-radius:6px;border:2px solid rgba(201,168,76,0.5);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;background:transparent"></div>
+        <span style="font-size:13px;color:rgba(242,237,228,0.85);line-height:1.45;font-weight:500">Li e concordo com os <strong style="color:#C9A84C">Termos e Condições</strong> da pré-reserva acima</span>
+      </label>
+
+      <div id="form-bloqueado" style="position:relative">
+        <!-- Overlay de bloqueio -->
+        <div id="overlay-lock" style="position:absolute;inset:-4px;z-index:10;border-radius:10px;background:rgba(5,5,3,0.55);backdrop-filter:blur(2px);display:flex;align-items:center;justify-content:center;cursor:not-allowed">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,76,0.6)" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="11" width="16" height="11" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/><circle cx="12" cy="16.5" r="1.5" fill="rgba(201,168,76,0.6)" stroke="none"/></svg>
+            <span style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,0.6);font-weight:700">Aceite os termos para preencher</span>
+          </div>
+        </div>
+
+      <div style="margin-bottom:18px">
+        <div class="card-title" style="margin-bottom:2px">Dados do Cliente</div>
+        <div class="card-sub">Todos os campos marcados com * são obrigatórios</div>
+      </div>
+
+      <div class="g2">
+        <div class="f" style="grid-column:1/-1">
+          <label>Nome Completo *</label>
+          <input type="text" id="f-nome" placeholder="Seu nome completo" oninput="validarCampo(this,'nome')">
+          <div class="hint" id="h-nome"></div>
+        </div>
+        <div class="f">
+          <label>CPF *</label>
+          <input type="text" id="f-cpf" placeholder="000.000.000-00" maxlength="14" oninput="mascaraCPF(this)" onblur="validarCPF()">
+          <div class="hint" id="h-cpf"></div>
+        </div>
+        <div class="f">
+          <label>RG *</label>
+          <input type="text" id="f-rg" placeholder="0000000-0" oninput="validarCampo(this,'rg')">
+          <div class="hint" id="h-rg"></div>
+        </div>
+        <div class="f">
+          <label>Data de Nascimento *</label>
+          <input type="date" id="f-nasc" onblur="validarNasc()">
+          <div class="hint" id="h-nasc"></div>
+        </div>
+        <div class="f">
+          <label>Telefone para Contato 01 *</label>
+          <input type="tel" id="f-wpp" placeholder="(93) 99999-9999" maxlength="15" oninput="mascaraTel(this)" onblur="validarTel('f-wpp','h-wpp')">
+          <div class="hint" id="h-wpp"></div>
+        </div>
+
+        <div class="f">
+          <label>Telefone para Contato 02</label>
+          <input type="tel" id="f-tel2" placeholder="(93) 99999-9999" maxlength="15" oninput="mascaraTel(this)" onblur="validarTel('f-tel2','h-tel2')">
+          <div class="hint" id="h-tel2"></div>
+        </div>
+
+        
+        <div class="f" style="grid-column:1/-1">
+          <label>CEP *</label>
+          <input type="text" id="f-cep" placeholder="00000-000" maxlength="9" oninput="mascaraCEP(this)" onblur="buscarCEP()">
+          <div class="hint" id="h-cep"></div>
+        </div>
+        <div class="f" style="grid-column:1/-1">
+          <label>Endereço *</label>
+          <input type="text" id="f-rua" placeholder="Rua, Avenida...">
+        </div>
+        <div class="f">
+          <label>Número *</label>
+          <input type="text" id="f-num" placeholder="123">
+        </div>
+        <div class="f">
+          <label>Bairro *</label>
+          <input type="text" id="f-bairro" placeholder="Bairro">
+        </div>
+        <div class="f">
+          <label>Cidade *</label>
+          <input type="text" id="f-cidade" placeholder="Santarém">
+        </div>
+        <div class="f">
+          <label>Estado</label>
+          <select id="f-estado">
+            <option value="PA" selected>PA</option>
+            <option value="AC">AC</option><option value="AL">AL</option><option value="AM">AM</option>
+            <option value="AP">AP</option><option value="BA">BA</option><option value="CE">CE</option>
+            <option value="DF">DF</option><option value="ES">ES</option><option value="GO">GO</option>
+            <option value="MA">MA</option><option value="MG">MG</option><option value="MS">MS</option>
+            <option value="MT">MT</option><option value="PB">PB</option><option value="PE">PE</option>
+            <option value="PI">PI</option><option value="PR">PR</option><option value="RJ">RJ</option>
+            <option value="RN">RN</option><option value="RO">RO</option><option value="RR">RR</option>
+            <option value="RS">RS</option><option value="SC">SC</option><option value="SE">SE</option>
+            <option value="SP">SP</option><option value="TO">TO</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- DOCUMENTOS -->
+      <div class="card-title" style="font-size:16px;margin-top:8px;margin-bottom:4px">📎 Documentos</div>
+      <div class="card-sub" style="margin-bottom:14px">Envie seu documento de identificação</div>
+
+      <!-- Tipo de documento -->
+      <div class="f" style="margin-bottom:16px">
+        <label>Tipo de documento *</label>
+        <select id="tipo-doc" onchange="selecionarDoc(this.value)"
+          style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 14px;font-size:13px;color:var(--text);font-family:inherit;outline:none;width:100%;margin-top:6px;cursor:pointer;appearance:auto">
+          <option value="">— Selecione o documento —</option>
+          <option value="rg">🪪 RG (Registro Geral)</option>
+          <option value="cnh">🚗 CNH (Carteira de Habilitação)</option>
+        </select>
+      </div>
+
+      <!-- Upload principal (frente) — aparece só após escolher tipo -->
+      <div class="f" id="bloco-upload-frente" style="display:none;margin-bottom:14px">
+        <label id="label-frente">Frente do RG *</label>
+        <label style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:2px dashed var(--border);border-radius:12px;padding:24px;cursor:pointer;transition:border .2s;margin-top:6px;text-align:center" id="area-frente">
+          <input type="file" id="inp-frente" accept="image/*,application/pdf" style="display:none" onchange="handleFrentePrincipal(this)">
+          <div style="font-size:28px" id="ico-frente">📎</div>
+          <div id="txt-frente" style="font-size:13px;color:var(--text2)">Toque para enviar foto ou PDF</div>
+        </label>
+        <div class="preview-box" id="prev-frente" style="display:none;margin-top:8px">
+          <img id="img-frente" src="" style="max-height:120px;border-radius:8px;width:100%;object-fit:cover">
+          <button onclick="removeDoc('frente')" style="position:absolute;top:6px;right:6px;background:rgba(248,113,113,0.85);border:none;color:#fff;width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:14px;font-weight:700">×</button>
+        </div>
+      </div>
+
+      <!-- Pergunta verso (só aparece após enviar frente do RG) -->
+      <div id="bloco-pergunta-verso" style="display:none;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:14px;margin-bottom:14px">
+        <div style="font-size:13px;color:var(--text);margin-bottom:12px;font-weight:500">✅ Frente enviada! O RG tem verso?</div>
+        <div style="display:flex;gap:10px">
+          <button type="button" onclick="respostaVerso(true)" style="flex:1;padding:10px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);color:#22c55e">
+            ✓ Sim, vou enviar
+          </button>
+          <button type="button" onclick="respostaVerso(false)" style="flex:1;padding:10px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);color:#f87171">
+            ✗ Não tem verso
+          </button>
+        </div>
+      </div>
+
+      <!-- Upload verso -->
+      <div id="bloco-verso" style="display:none" class="f" style="margin-bottom:14px">
+        <label style="margin-bottom:6px;display:block">Verso do RG *</label>
+        <label style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:2px dashed var(--border);border-radius:12px;padding:24px;cursor:pointer;transition:border .2s;text-align:center">
+          <input type="file" id="inp-verso" accept="image/*,application/pdf" style="display:none" onchange="handleVerso(this)">
+          <div style="font-size:28px">📎</div>
+          <div id="txt-verso" style="font-size:13px;color:var(--text2)">Toque para enviar o verso</div>
+        </label>
+        <div class="preview-box" id="prev-verso" style="display:none;margin-top:8px;position:relative">
+          <img id="img-verso" src="" style="max-height:120px;border-radius:8px;width:100%;object-fit:cover">
+          <button onclick="removeDoc('verso')" style="position:absolute;top:6px;right:6px;background:rgba(248,113,113,0.85);border:none;color:#fff;width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:14px;font-weight:700">×</button>
+        </div>
+      </div>
+
+      <!-- Pergunta CPF -->
+      <div id="bloco-pergunta-cpf" style="display:none;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:14px;margin-bottom:14px;margin-top:14px">
+        <div style="font-size:13px;color:var(--text);margin-bottom:4px;font-weight:500">A foto do seu RG já tem o CPF?</div>
+        <div style="font-size:11px;color:var(--text2);margin-bottom:12px">Se o número do CPF aparece no seu documento, não precisa enviar separado.</div>
+        <div style="display:flex;gap:10px">
+          <button type="button" onclick="respostaCPF(false)" style="flex:1;padding:10px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);color:#22c55e">
+            ✓ Sim, já está no RG
+          </button>
+          <button type="button" onclick="respostaCPF(true)" style="flex:1;padding:10px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);color:#f87171">
+            ✗ Não, vou enviar
+          </button>
+        </div>
+      </div>
+
+      <!-- Upload CPF -->
+      <div id="bloco-cpf" style="display:none" class="f">
+        <label style="margin-bottom:6px;display:block">Foto/PDF do CPF</label>
+        <label style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:2px dashed var(--border);border-radius:12px;padding:24px;cursor:pointer;transition:border .2s;text-align:center">
+          <input type="file" id="inp-cpf-doc" accept="image/*,application/pdf" style="display:none" onchange="handleCPFDoc(this)">
+          <div style="font-size:28px">📋</div>
+          <div id="txt-cpf-doc" style="font-size:13px;color:var(--text2)">Toque para enviar o CPF</div>
+        </label>
+      </div>
+
+      </div><!-- /form-bloqueado -->
+    </div>
+
+    <!-- DATA DE VENCIMENTO -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title" style="font-size:15px;margin-bottom:4px">📅 Data de Vencimento</div>
+      <div class="card-sub" style="margin-bottom:12px">Escolha quantos dias para vencer a pré-reserva</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px">
+        <button type="button" id="btn-v5" onclick="selecionarVencimento(5,this)" style="padding:12px 6px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg3);color:var(--text2);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s">+5 dias</button>
+        <button type="button" id="btn-v10" onclick="selecionarVencimento(10,this)" style="padding:12px 6px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg3);color:var(--text2);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s">+10 dias</button>
+        <button type="button" id="btn-v15" onclick="selecionarVencimento(15,this)" style="padding:12px 6px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg3);color:var(--text2);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s">+15 dias</button>
+        <button type="button" id="btn-v20" onclick="selecionarVencimento(20,this)" style="padding:12px 6px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg3);color:var(--text2);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s">+20 dias</button>
+      </div>
+      <div id="venc-info" style="font-size:12px;color:var(--text3);text-align:center;min-height:18px"></div>
+      <input type="hidden" id="f-vencimento">
+    </div>
+
+    <button class="btn-primary" id="btn-continuar" onclick="irEtapa3()" disabled>
+      Continuar
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+
+
+  <!-- ══════════ ETAPA 3 — REVISÃO E CONFIRMAÇÃO ══════════ -->
+  <div class="etapa" id="etapa3">
+    <div class="card">
+      <div class="card-title"><span>✅</span> Confirme sua Pré-Reserva</div>
+      <div class="card-sub">Revise os dados antes de enviar</div>
+
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:18px">
+        <div style="display:flex;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--text3)">Empreendimento</span><span style="color:var(--text);font-weight:600">Jussaramia</span></div>
+        <div style="display:flex;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--text3)">Lote</span><span id="rev-lote" style="color:var(--gold);font-weight:700">—</span></div>
+        <div style="display:flex;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--text3)">Nome</span><span id="rev-nome" style="color:var(--text);font-weight:600">—</span></div>
+        <div style="display:flex;justify-content:space-between;padding:12px 16px;font-size:13px"><span style="color:var(--text3)">Telefone</span><span id="rev-tel" style="color:var(--text);font-weight:600">—</span></div>
+      </div>
+
+      <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px 16px;font-size:11px;color:rgba(242,237,228,0.65);line-height:1.8;margin-bottom:18px">
+        Ao confirmar, Rafael Tavares entrará em contato via WhatsApp para finalizar a reserva. Os dados serão tratados conforme a LGPD.
+      </div>
+
+      <button class="btn-primary" id="btn-confirmar-final" onclick="confirmarReserva()">
+        ✅ Confirmar Pré-Reserva
+      </button>
+      <button class="btn-secondary" onclick="irEtapa2()" style="margin-top:10px">← Editar dados</button>
+    </div>
+  </div>
+
+  <!-- ══════════ COMPROVANTE ══════════ -->
+  <div id="overlay-sucesso" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;flex-direction:column;gap:16px;text-align:center;padding:24px">
+    <div style="font-size:56px">🎉</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(24px,4vw,36px);font-weight:700;color:#fff;line-height:1.2">Pré-reserva confirmada!</div>
+    <div style="font-size:14px;color:rgba(255,255,255,0.7);max-width:320px;line-height:1.6">Aguarde nossa confirmação.<br>Em instantes você será redirecionado para o WhatsApp.</div>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <div style="width:8px;height:8px;border-radius:50%;background:var(--gold);animation:pulse 1s infinite"></div>
+      <div style="width:8px;height:8px;border-radius:50%;background:var(--gold);animation:pulse 1s .3s infinite"></div>
+      <div style="width:8px;height:8px;border-radius:50%;background:var(--gold);animation:pulse 1s .6s infinite"></div>
+    </div>
+  </div>
+
+  <div class="etapa" id="etapa-comp">
+    <div class="comp-box">
+      <div class="comp-icon">🎉</div>
+      <div class="comp-title">Pré-Reserva Enviada!</div>
+      <div class="comp-sub">Rafael entrará em contato para finalizar. Verifique seu WhatsApp.</div>
+      <div class="comp-data" id="comp-data"></div>
+      <a href="https://wa.me/5593992332012" target="_blank" class="btn-primary btn-wpp" id="btn-wpp-comp" style="text-decoration:none;margin-top:4px">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Falar com Rafael
+      </a>
+      <a href="https://chat.whatsapp.com/Eo6QSIOw7GS6bNWujn5oNu" target="_blank" style="text-decoration:none;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:10px;background:rgba(37,211,102,0.08);border:1.5px solid rgba(37,211,102,0.25);color:#25d366;padding:15px;border-radius:12px;font-size:14px;font-weight:600">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#25d366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Entrar no Grupo VIP
+      </a>
+      <a href="../" class="btn-secondary" style="text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px">
+        🏠 Voltar ao início
+      </a>
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+
+<script>
+// ══════════════════════════════════════
+// NOVO FLUXO SIMPLIFICADO: MAPA → DADOS → CONFIRMAÇÃO
+// ══════════════════════════════════════
+var SUPABASE_URL='https://uftxcwcryqpkfdfxzlno.supabase.co';
+var SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI';
+var JUSSARAMIA_EMP_ID='';
+var WPP='5593992332012';
+
+var _lotesSel=null;
+var _lotesInfo={};
+var _mapaPontos=[];
+var _mapaImagemUrl='';
+
+// ── FORMATAÇÃO ──
+function fmt(n){return n?'R$ '+Number(n).toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0}):'A consultar';}
+
+// ── MÁSCARA TELEFONE ──
+function mascaraTel(el){
+  var v=el.value.replace(/\D/g,'');
+  if(v.length<=10)v=v.replace(/^(\d{2})(\d{4})(\d{0,4}).*/,'($1) $2-$3');
+  else v=v.replace(/^(\d{2})(\d{5})(\d{0,4}).*/,'($1) $2-$3');
+  el.value=v;
+}
+
+// ── CONTROLE ETAPAS ──
+function setStep(n){
+  [1,2].forEach(function(i){
+    var sc=document.getElementById('sc'+i);
+    var sl=document.getElementById('sl-'+i);
+    if(sc)sc.className='step-circle '+(i<n?'done':i===n?'active':'pending');
+    if(sl)sl.className=i<n?'done':i===n?'active':'';
+  });
+  var line=document.getElementById('sl1');
+  if(line)line.className='step-line'+(n>1?' done':'');
+}
+function showEtapa(id){
+  document.querySelectorAll('.etapa').forEach(function(e){e.classList.remove('on');});
+  var el=document.getElementById(id);if(el)el.classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function irEtapa1(){showEtapa('etapa1');setStep(1);}
+function irEtapa2(){
+  // Se mapa borrado, avança sem lote
+  var borrado=document.getElementById('res-blur-overlay')&&document.getElementById('res-blur-overlay').style.display!=='none';
+  if(!_lotesSel&&!borrado){showToast('Selecione um lote primeiro');return;}
+  var txt=document.getElementById('resumo-lote-txt');
+  if(txt)txt.textContent=_lotesSel?('Q'+_lotesSel.quadra+' — Lote '+_lotesSel.lote):'A definir no lançamento';
+  showEtapa('etapa2-dados');setStep(2);
+}
+function irEtapa3(){
+  // Inicializar campo de vencimento se ainda não foi definido
+  var fv=document.getElementById('f-vencimento');
+  if(fv&&!fv.value){
+    var hoje=new Date();
+    var min=new Date(hoje);min.setDate(min.getDate()+1);
+    var def=new Date(hoje);def.setDate(def.getDate()+30);
+    var fmt=function(d){return d.toISOString().split('T')[0];};
+    fv.min=fmt(min);
+    fv.value=fmt(def);
+    validarVencimento();
+  }
+  var nome=document.getElementById('f-nome').value.trim();
+  var tel=document.getElementById('f-wpp').value.trim();
+  if(nome.split(' ').filter(Boolean).length<2){showToast('Informe nome e sobrenome');return;}
+  if(tel.replace(/\D/g,'').length<10){showToast('Informe um telefone válido');return;}
+  var rl=document.getElementById('rev-lote');var rn=document.getElementById('rev-nome');var rt=document.getElementById('rev-tel');
+  if(rl)rl.textContent=_lotesSel?('Quadra '+_lotesSel.quadra+' — Lote '+_lotesSel.lote):'A definir no lançamento';
+  if(rn)rn.textContent=nome;
+  if(rt)rt.textContent=tel;
+  showEtapa('etapa3');setStep(3);
+}
+
+// ── MAPA CLICÁVEL ──
+function corLote(status){
+  if(status==='disponivel')return'#22c55e';
+  if(status==='reservado'||status==='pre-reserva')return'#eab308';
+  return'#f87171';
+}
+function selecionarLoteUI(key,info){
+  _lotesSel={quadra:key.split('-')[0],lote:key.split('-')[1],key:key,info:info};
+  document.querySelectorAll('[data-lote-key]').forEach(function(el){
+    el.style.transform=el.dataset.loteKey===key?'scale(1.35)':'scale(1)';
+    el.style.zIndex=el.dataset.loteKey===key?'5':'1';
+    el.style.boxShadow=el.dataset.loteKey===key?'0 0 0 3px #fff, 0 0 12px rgba(201,168,76,0.8)':'';
+  });
+  var box=document.getElementById('info-lote-sel');if(box)box.style.display='block';
+  var sl=document.getElementById('sel-loc');if(sl)sl.textContent='Quadra '+_lotesSel.quadra+' — Lote '+_lotesSel.lote;
+  var sp=document.getElementById('sel-preco');if(sp)sp.textContent=fmt(info.valor||info.preco||info.valorAvista||null);
+  var se=document.getElementById('sel-entrada');if(se)se.textContent=fmt(info.entrada||null);
+  var spa=document.getElementById('sel-parcelas');
+  if(spa)spa.textContent=info.parcelas?info.parcelas+'x de '+fmt(info.valorParcela||null):'A consultar';
+  var btn=document.getElementById('btn-ir-etapa2');if(btn)btn.disabled=false;
+}
+
+function renderMapaClicavel(lotesInfo,pontos,imgUrl){
+  var wrap=document.getElementById('res-mapa-wrap');
+  if(!wrap)return;
+
+  if(imgUrl&&pontos&&pontos.length){
+    var html='<div style="position:relative;width:100%;border-radius:10px;overflow:hidden">';
+    html+='<img src="'+imgUrl+'" style="width:100%;display:block;border-radius:10px" alt="Mapa Jussaramia">';
+    html+='<div style="position:absolute;inset:0">';
+    pontos.forEach(function(p){
+      var key=p.quadra+'-'+p.lote;
+      var info=lotesInfo[key]||{};
+      var status=info.status||'disponivel';
+      var cor=corLote(status);
+      var isDisp=status==='disponivel';
+      var sz=Math.max(12,Math.round((wrap.offsetWidth||300)*0.042));
+      var cursor=isDisp?'pointer':'not-allowed';
+      var opacity=isDisp?'1':'0.55';
+      html+='<div data-lote-key="'+key+'" title="Q'+p.quadra+' L'+p.lote+(isDisp?'':(' — '+status))+'"';
+      html+=' style="position:absolute;left:'+p.xPercent+'%;top:'+p.yPercent+'%;transform:translate(-50%,-50%);width:'+sz+'px;height:'+sz+'px;cursor:'+cursor+';opacity:'+opacity+';transition:transform .18s,box-shadow .18s;border-radius:50%;z-index:1"';
+      if(isDisp)html+=' onclick="selecionarLoteUI(\''+key+'\','+JSON.stringify(info)+')"';
+      html+='>';
+      html+='<div style="width:100%;height:100%;border-radius:50%;background:'+cor+';border:2px solid rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:'+Math.max(5,Math.round(sz*0.44))+'px;font-weight:800;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.45)">'+p.lote+'</div>';
+      html+='</div>';
+    });
+    html+='</div></div>';
+    wrap.innerHTML=html;
+    wrap.style.padding='0';
+    wrap.style.minHeight='auto';
+  } else {
+    var grupos={};
+    Object.keys(lotesInfo).sort().forEach(function(k){
+      var pts=k.split('-');if(pts.length<2)return;
+      var q=pts[0];
+      if(!grupos[q])grupos[q]=[];
+      grupos[q].push({key:k,lote:pts[1],info:lotesInfo[k]});
+    });
+    var html2='<div style="width:100%;padding:8px">';
+    Object.keys(grupos).sort(function(a,b){return+a-+b;}).forEach(function(q){
+      html2+='<div style="margin-bottom:16px"><div style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--text3);margin-bottom:8px;font-weight:600;padding-left:2px">Quadra '+q+'</div>';
+      html2+='<div style="display:flex;flex-wrap:wrap;gap:8px">';
+      grupos[q].sort(function(a,b){return+a.lote-+b.lote;}).forEach(function(l){
+        var status=l.info.status||'disponivel';
+        var cor=corLote(status);
+        var isDisp=status==='disponivel';
+        var cursor=isDisp?'pointer':'default';
+        var border=cor.replace(')',',0.4)').replace('rgb','rgba');
+        var bg=cor.replace(')',',0.12)').replace('rgb','rgba');
+        html2+='<div data-lote-key="'+l.key+'" title="Q'+q+' L'+l.lote+'" style="width:52px;height:52px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px solid '+border+';background:'+bg+';cursor:'+cursor+';transition:transform .18s,box-shadow .18s;opacity:'+(isDisp?'1':'0.55')+'"';
+        if(isDisp)html2+=' onclick="selecionarLoteUI(\''+l.key+'\','+JSON.stringify(l.info)+')"';
+        html2+='>';
+        html2+='<div style="font-size:15px;font-weight:800;color:var(--text)">'+l.lote+'</div>';
+        html2+='<div style="width:7px;height:7px;border-radius:50%;margin-top:3px;background:'+cor+'"></div>';
+        html2+='</div>';
+      });
+      html2+='</div></div>';
+    });
+    html2+='</div>';
+    wrap.innerHTML=html2;
+    wrap.style.minHeight='auto';
+  }
+}
+
+// ── SALVAR NO SUPABASE ──
+async function confirmarReserva(){
+  var nome=document.getElementById('f-nome').value.trim();
+  var tel=document.getElementById('f-wpp').value.trim();
+  var tel2=document.getElementById('f-tel2')?document.getElementById('f-tel2').value.trim():'';
+  var btn=document.getElementById('btn-confirmar-final');
+  if(!nome||!tel){showToast('Dados incompletos');return;}
+  if(btn){btn.disabled=true;btn.textContent='Enviando...';}
+
+  // Coletar todos os dados
+  var cpf=document.getElementById('f-cpf')?document.getElementById('f-cpf').value:'';
+  var rg=document.getElementById('f-rg')?document.getElementById('f-rg').value:'';
+  var nasc=document.getElementById('f-nasc')?document.getElementById('f-nasc').value:'';
+  var cep=document.getElementById('f-cep')?document.getElementById('f-cep').value:'';
+  var rua=document.getElementById('f-rua')?document.getElementById('f-rua').value:'';
+  var num=document.getElementById('f-num')?document.getElementById('f-num').value:'';
+  var bairro=document.getElementById('f-bairro')?document.getElementById('f-bairro').value:'';
+  var cidade=document.getElementById('f-cidade')?document.getElementById('f-cidade').value:'';
+  var estado=document.getElementById('f-estado')?document.getElementById('f-estado').value:'PA';
+  var venc=document.getElementById('f-vencimento')?document.getElementById('f-vencimento').value:'';
+  var quadra=_lotesSel?_lotesSel.quadra:'';
+  var lote=_lotesSel?_lotesSel.lote:'';
+
+  // 1. Rumo ao Milhão
+  try{
+    await fetch('https://rumoaomilhao.imb.br/api/publico/pre-reserva',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        empreendimentoId:JUSSARAMIA_EMP_ID,
+        empreendimentoNome:'JUSSARAMIA',
+        quadra:quadra,numeroLote:lote,
+        valorLote:0,valorEntrada:0,quantidadeParcelas:0,valorParcela:0,
+        clienteNome:nome,
+        clienteCpf:cpf.replace(/\D/g,''),
+        clienteTelefone:tel,
+        clienteWhatsapp:tel2||tel,
+        clienteDataNascimento:nasc,
+        clienteEndereco:rua+(num?', '+num:''),
+        clienteCep:cep,clienteBairro:bairro,
+        clienteCidade:cidade,clienteEstado:estado||'PA',
+        status:'rascunho',origemReserva:'site_publico',documentos:[]
+      })
+    });
+    console.log('Rumo ao Milhao: OK');
+  }catch(e){console.warn('Rumo ao Milhao:',e);}
+
+  // 2. Supabase clientes
+  try{
+    var clienteId='MAR-'+Date.now();
+    await fetch(SUPABASE_URL+'/rest/v1/clientes',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Prefer':'return=minimal'},
+      body:JSON.stringify({id:clienteId,user_id:'shared',data:{
+        nome:nome,cpf:cpf.replace(/\D/g,''),rg:rg,
+        dataNascimento:nasc,telefone:tel,telefone2:tel2,
+        cep:cep,rua:rua,numero:num,bairro:bairro,cidade:cidade,estado:estado,
+        vencimento:venc,quadra:quadra,lote:lote,
+        empreendimento:'Jussaramia',
+        corretor:'Rafael Tavares — CRECI 13919',
+        dataCadastro:new Date().toISOString(),origem:'Site Jussaramia'
+      }})
+    });
+    console.log('Supabase clientes: OK');
+  }catch(e){console.warn('Supabase:',e);}
+
+  // 3. Upload documentos
+  var docsList=[
+    {b64:_fotosBase64.frente,nome:'frente'},
+    {b64:_fotosBase64.verso,nome:'verso'},
+    {b64:_fotosBase64.cpf,nome:'cpf'}
+  ];
+  for(var di=0;di<docsList.length;di++){
+    var doc=docsList[di];
+    if(!doc.b64)continue;
+    try{
+      var arr=doc.b64.split(',');
+      var mime=arr[0].match(/:(.*?);/)[1];
+      var bstr=atob(arr[1]);
+      var u8=new Uint8Array(bstr.length);
+      for(var bi=0;bi<bstr.length;bi++)u8[bi]=bstr.charCodeAt(bi);
+      var fd=new FormData();
+      fd.append('arquivo',new Blob([u8],{type:mime}),nome.replace(/ /g,'_')+'_'+doc.nome+'.'+(mime.includes('pdf')?'pdf':'jpg'));
+      fd.append('clienteNome',nome);
+      await fetch('https://rumoaomilhao.imb.br/api/publico/upload-doc',{method:'POST',body:fd});
+      console.log('Upload '+doc.nome+': OK');
+    }catch(eu){console.warn('Upload doc '+doc.nome+':',eu);}
+  }
+
+  // 4. Mostrar sucesso
+  mostrarSucesso(nome,tel,quadra,lote);
+}
+
+function mostrarSucesso(nome,tel,quadra,lote){
+  quadra=quadra||'';lote=lote||'';
+  var ov=document.getElementById('overlay-sucesso');
+  if(ov){ov.style.display='flex';}
+  setTimeout(function(){
+    document.querySelectorAll('.etapa').forEach(function(e){e.classList.remove('on');});
+    var comp=document.getElementById('etapa-comp');if(comp)comp.classList.add('on');
+    if(ov)ov.style.display='none';
+    var cd=document.getElementById('comp-data');
+    if(cd)cd.innerHTML='<div style="font-size:13px;color:var(--text2);line-height:1.8"><strong style="color:var(--gold)">'+nome+'</strong><br>'+tel+'<br>Quadra '+_lotesSel.quadra+' — Lote '+_lotesSel.lote+'<br><span style="color:var(--text3)">Jussaramia</span></div>';
+    var wppBtn=document.getElementById('btn-wpp-comp');
+    if(wppBtn){
+      var msg=encodeURIComponent('Olá Rafael! Fiz minha pré-reserva online pelo site.'+(quadra?'\n\nLote: Q'+quadra+' L'+lote:'')+'\n\nNome: '+nome+'\nTelefone: '+tel+'\nEmpreendimento: Jussaramia');
+      wppBtn.href='https://wa.me/55'+WPP+'?text='+msg;
+    }
+    window.scrollTo({top:0,behavior:'smooth'});
+  },2600);
+}
+
+function showToast(msg){
+  var t=document.getElementById('toast');if(!t)return;
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');},3000);
+}
+
+// ── INICIALIZAÇÃO ──
+(function(){
+  fetch(SUPABASE_URL+'/rest/v1/empreendimentos?id=eq.'+JUSSARAMIA_EMP_ID+'&select=data',{
+    headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}
+  })
+  .then(function(r){return r.json();})
+  .then(function(rows){
+    if(!rows||!rows.length)throw new Error('vazio');
+    var data=rows[0].data;
+    _lotesInfo=data.lotesInfo||{};
+    _mapaPontos=data.mapaPontos||[];
+    _mapaImagemUrl=data.mapaImagemUrl||'';
+    renderMapaClicavel(_lotesInfo,_mapaPontos,_mapaImagemUrl);
+  })
+  .catch(function(){
+    var wrap=document.getElementById('res-mapa-wrap');
+    if(wrap)wrap.innerHTML='<div style="text-align:center;padding:32px;color:var(--text3);font-size:13px">Não foi possível carregar o mapa.<br>Verifique sua conexão e recarregue a página.</div>';
+  });
+  setStep(1);
+})();
+
+// ── STUB PARA COMPATIBILIDADE (funções do script antigo remanescentes no HTML não usado) ──
+function buscarCEP(){
+  var elCep=document.getElementById('f-cep');
+  if(!elCep)return;
+  var cep=elCep.value.replace(/\D/g,'');
+  if(cep.length!==8)return;
+  fetch('https://viacep.com.br/ws/'+cep+'/json/')
+    .then(function(r){return r.json();})
+    .then(function(data){
+      if(!data.erro){
+        var r=document.getElementById('f-rua');
+        var b=document.getElementById('f-bairro');
+        var c=document.getElementById('f-cidade');
+        var e=document.getElementById('f-estado');
+        if(r)r.value=data.logradouro||'';
+        if(b)b.value=data.bairro||'';
+        if(c)c.value=data.localidade||'';
+        if(e)e.value=data.uf||'PA';
+        elCep.className='ok';
+      } else {
+        elCep.className='err';
+      }
+    }).catch(function(){});
+}
+function cpfValido(cpf){
+  var n=cpf.replace(/\D/g,'');
+  if(n.length!==11||/^(\d)+$/.test(n))return false;
+  var s=0;for(var i=0;i<9;i++)s+=parseInt(n[i])*(10-i);
+  var r=(s*10)%11;if(r===10||r===11)r=0;if(r!==parseInt(n[9]))return false;
+  s=0;for(var i=0;i<10;i++)s+=parseInt(n[i])*(11-i);
+  r=(s*10)%11;if(r===10||r===11)r=0;return r===parseInt(n[10]);
+}
+// funções reais definidas abaixo
+async function salvarDados(){
+  var d=getDados();
+  var agora=Date.now();
+  var clienteId='MAR-'+agora;
+  // Supabase clientes
+  try{
+    await fetch('https://uftxcwcryqpkfdfxzlno.supabase.co/rest/v1/clientes',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI','Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI','Prefer':'return=minimal'},
+      body:JSON.stringify({id:clienteId,user_id:'shared',data:{
+        id:clienteId,nome:d.nome,cpf:(d.cpf||'').replace(/\D/g,''),
+        rg:d.rg,dataNascimento:d.nascimento,
+        telefone:d.wpp,telefone2:d.tel2,
+        cep:d.cep,rua:d.rua,numero:d.numero,
+        bairro:d.bairro,cidade:d.cidade,estado:d.estado,
+        vencimento:d.vencimento,empreendimento:'Jussaramia',
+        corretor:'Rafael Tavares — CRECI 13919',
+        dataCadastro:new Date().toISOString(),origem:'Site Jussaramia'
+      }})
+    });
+  }catch(e){console.warn('Supabase:',e);}
+  // Rumo ao Milhão
+  try{
+    await fetch('https://rumoaomilhao.imb.br/api/publico/pre-reserva',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        empreendimentoId:'',
+        empreendimentoNome:'JUSSARAMIA',
+        quadra:d.quadra||'',numeroLote:d.lote||'',
+        valorLote:0,valorEntrada:0,quantidadeParcelas:0,valorParcela:0,
+        clienteNome:d.nome,clienteCpf:(d.cpf||'').replace(/\D/g,''),
+        clienteTelefone:d.wpp,clienteWhatsapp:d.tel2||d.wpp,
+        clienteDataNascimento:d.nascimento,
+        clienteEndereco:(d.rua||'')+', '+(d.numero||''),
+        clienteCep:d.cep,clienteBairro:d.bairro,
+        clienteCidade:d.cidade,clienteEstado:d.estado||'PA',
+        status:'rascunho',origemReserva:'site_publico',documentos:[]
+      })
+    });
+  }catch(e){console.warn('Rumo ao Milhão:',e);}
+
+  // Upload documentos para Supabase Storage
+  var docUrls=[];
+  var docsList=[
+    {b64:_fotosBase64.frente,nome:'frente'},
+    {b64:_fotosBase64.verso,nome:'verso'},
+    {b64:_fotosBase64.cpf,nome:'cpf'}
+  ];
+  for(var di=0;di<docsList.length;di++){
+    var doc=docsList[di];
+    if(!doc.b64)continue;
+    try{
+      var arr=doc.b64.split(',');
+      var mime=arr[0].match(/:(.*?);/)[1];
+      var bstr=atob(arr[1]);
+      var u8=new Uint8Array(bstr.length);
+      for(var bi=0;bi<bstr.length;bi++)u8[bi]=bstr.charCodeAt(bi);
+      var fd=new FormData();
+      fd.append('arquivo',new Blob([u8],{type:mime}),dados.nome.replace(/ /g,'_')+'_'+doc.nome+'.'+(mime.includes('pdf')?'pdf':'jpg'));
+      fd.append('clienteNome',dados.nome);
+      var rr=await fetch('https://rumoaomilhao.imb.br/api/publico/upload-doc',{method:'POST',body:fd});
+      if(rr.ok){var rd=await rr.json();if(rd.url)docUrls.push(rd.url);}
+    }catch(eu){console.warn('Upload doc '+doc.nome+':',eu);}
+  }
+
+  // Google Sheets
+  try{await fetch(SHEET,{method:'POST',body:JSON.stringify(d)});}catch(e){}
+}
+
+function mostrarComprovante(){
+  var d=getDados();
+  try{
+    localStorage.setItem('jussaramia_reserva',JSON.stringify({
+      quadra:d.quadra||'',lote:d.lote||'',nome:d.nome,ts:Date.now()
+    }));
+  }catch(e){}
+  var cd=document.getElementById('comp-data');
+  if(cd){
+    cd.innerHTML=[
+      ['Cliente',d.nome],['CPF',d.cpf],
+      ['Empreendimento','Jussaramia'],
+      ['Lote',d.quadra?('Q'+d.quadra+' / L'+d.lote):'A definir no lançamento'],
+      ['Vencimento',d.vencimento||'—'],
+      ['Status','✅ Aguardando confirmação']
+    ].map(function(r){return '<div class="comp-row"><span class="l">'+r[0]+'</span><span class="r">'+r[1]+'</span></div>';}).join('');
+  }
+  var msg='Olá Rafael! 😊 Confirmei minha pré-reserva no Jussaramia.'
+    +(d.quadra?'\n\n📍 Lote: Q'+d.quadra+' / L'+d.lote:'')
+    +'\n👤 Nome: '+d.nome+'\n📱 WhatsApp: '+d.wpp+'\n📋 CPF: '+d.cpf
+    +(window._vencimentoExcedido?'\n\n⚠️ Vencimento acima de 40 dias — sujeito à confirmação presencial.':'')
+    +'\n\nAguardo confirmação! 🙏';
+  var wppUrl='https://wa.me/5593992332012?text='+encodeURIComponent(msg);
+  var wb=document.getElementById('btn-wpp-comp');if(wb)wb.href=wppUrl;
+  document.querySelectorAll('.etapa').forEach(function(e){e.classList.remove('on');});
+  var ec=document.getElementById('etapa-comp');if(ec)ec.classList.add('on');
+  var ov=document.getElementById('overlay-sucesso');
+  if(ov){ov.style.display='flex';setTimeout(function(){ov.style.display='none';window.open(wppUrl,'_blank');},3000);}
+  else{setTimeout(function(){window.open(wppUrl,'_blank');},3000);}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+async function finalizarSemPagamento(){
+}
+function irEtapa2Old(){}
+
+var _concordou=false;
+function toggleConcordo(){
+  _concordou=!_concordou;
+  var box=document.getElementById('chk-box-concordo');
+  var bloco=document.getElementById('bloco-concordo');
+  var overlay=document.getElementById('overlay-lock');
+  var btn=document.getElementById('btn-continuar');
+  if(_concordou){
+    if(box){box.style.background='#C9A84C';box.style.borderColor='#C9A84C';box.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';}
+    if(bloco){bloco.style.borderColor='rgba(201,168,76,0.7)';bloco.style.background='rgba(201,168,76,0.1)';}
+    if(overlay)overlay.style.display='none';
+    // Habilitar só se vencimento ok
+    var vEl=document.getElementById('f-vencimento');
+    var vOk=!vEl||!vEl.value||vEl.className!=='inp err';
+    if(btn)btn.disabled=!vOk;
+  }else{
+    if(box){box.style.background='transparent';box.style.borderColor='rgba(201,168,76,0.5)';box.innerHTML='';}
+    if(bloco){bloco.style.borderColor='rgba(201,168,76,0.28)';bloco.style.background='rgba(201,168,76,0.06)';}
+    if(overlay)overlay.style.display='flex';
+    if(btn)btn.disabled=true;
+  }
+}
+
+// ──── SUPABASE_USER_ID e SHEET podem existir em código remanescente ────
+var SUPABASE_USER_ID='a02e9603-a770-4be6-8f9b-b1c48b631969';
+var PIX_KEY='60.659.875/0001-21';
+
+var _mapaReservaData=null;
+var _mapaBorrado=true;
+
+function corLoteR(s){
+  if(s==='disponivel')return'#3b82f6';
+  if(s==='reservado'||s==='pre-reserva')return'#eab308';
+  return'#ef4444';
+}
+
+function carregarMapaReserva(){
+  var wrap=document.getElementById('mapa-reserva-wrap');
+  if(!wrap)return;
+  fetch('https://uftxcwcryqpkfdfxzlno.supabase.co/rest/v1/empreendimentos?id=eq.'+JUSSARAMIA_EMP_ID+'&select=data',{
+    headers:{'apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI','Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI'}
+  }).then(function(r){return r.json();}).then(function(rows){
+    if(!rows||!rows.length)return;
+    _mapaReservaData=rows[0].data;
+    renderMapaClicavel(_mapaReservaData.lotesInfo||{},_mapaReservaData.mapaPontos||[],_mapaReservaData.mapaImagemUrl||'');
+  }).catch(function(e){console.warn('Mapa:',e);});
+}
+
+function renderMapaClicavel(lotesInfo,pontos,imgUrl){
+  var wrap=document.getElementById('mapa-reserva-wrap');
+  if(!wrap||!imgUrl||!pontos.length){if(wrap)wrap.innerHTML='<div style="padding:40px;color:var(--text3);text-align:center;font-size:13px">📍 Mapa em preparação</div>';return;}
+  var imgW=wrap.offsetWidth||320;
+  var sz=Math.max(14,Math.min(40,Math.round(imgW*0.028)));
+  var h='<div style="position:relative;width:100%;border-radius:10px;overflow:hidden">';
+  h+='<img src="'+imgUrl+'" style="width:100%;display:block;border-radius:10px">';
+  h+='<div style="position:absolute;inset:0">';
+  pontos.forEach(function(p){
+    var key=p.quadra+'-'+p.lote;
+    var info=lotesInfo[key]||{};
+    var status=info.status||p.status||'disponivel';
+    var disp=status==='disponivel';
+    var cor=corLoteR(status);
+    var oc=disp?('onclick="selecionarLoteReserva(\'' + key + '\')"'):'';
+    h+='<div id="rp-pt-'+key+'" '+oc+' style="position:absolute;left:'+p.xPercent+'%;top:'+p.yPercent+'%;transform:translate(-50%,-50%);width:'+sz+'px;height:'+sz+'px;cursor:'+(disp?'pointer':'not-allowed')+';z-index:10">';
+    h+='<div id="rp-pi-'+key+'" style="width:100%;height:100%;border-radius:50%;background:'+cor+';border:2px solid rgba(255,255,255,0.9);box-shadow:0 2px 8px rgba(0,0,0,0.45)"></div>';
+    h+='</div>';
+  });
+  h+='</div></div>';
+  h+='<div style="display:flex;gap:14px;margin-top:10px;flex-wrap:wrap">';
+  h+='<div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)"><div style="width:11px;height:11px;border-radius:50%;background:#3b82f6"></div>Disponível</div>';
+  h+='<div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)"><div style="width:11px;height:11px;border-radius:50%;background:#eab308"></div>Reservado</div>';
+  h+='<div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)"><div style="width:11px;height:11px;border-radius:50%;background:#ef4444"></div>Vendido</div>';
+  h+='</div>';
+  wrap.innerHTML=h;
+}
+
+function selecionarLoteReserva(id){
+  if(!_mapaReservaData)return;
+  var lotesInfo=_mapaReservaData.lotesInfo||{};
+  var pontos=_mapaReservaData.mapaPontos||[];
+  var info=lotesInfo[id]||{};
+  var parts=id.split('-');
+  var quadra=parts[0];
+  var lote=parts.slice(1).join('-');
+  var preco=info.preco||0,entrada=info.entrada||0,parcelas=info.parcelas||0;
+  var vparcela=preco&&entrada&&parcelas?(preco-entrada)/parcelas:0;
+  _loteSel={
+    id:id,quadra:quadra,lote:lote,area:info.area||'—',
+    avista:preco?'R$ '+Number(preco).toLocaleString('pt-BR'):'A consultar',
+    entrada:entrada?'R$ '+Number(entrada).toLocaleString('pt-BR'):'A consultar',
+    parcelas:parcelas,
+    vparcela:vparcela?'R$ '+Number(vparcela).toLocaleString('pt-BR',{minimumFractionDigits:2}):'A consultar',
+    _precoNum:preco,_entradaNum:entrada,_vparcelaNum:vparcela
+  };
+  // Destacar bolinha
+  pontos.forEach(function(p){
+    var key=p.quadra+'-'+p.lote;
+    var s=lotesInfo[key]?lotesInfo[key].status||'disponivel':'disponivel';
+    var pi=document.getElementById('rp-pi-'+key);
+    var pt=document.getElementById('rp-pt-'+key);
+    if(pi)pi.style.background=key===id?'var(--gold)':corLoteR(s);
+    if(pt)pt.style.transform=key===id?'translate(-50%,-50%) scale(1.3)':'translate(-50%,-50%)';
+  });
+  // Preencher info
+  var q=document.getElementById('l-quadra');if(q)q.textContent='Quadra '+quadra;
+  var l=document.getElementById('l-lote');if(l)l.textContent='Lote '+lote;
+  var a=document.getElementById('l-area');if(a)a.textContent=_loteSel.area;
+  var av=document.getElementById('l-avista');if(av)av.textContent=_loteSel.avista;
+  var en=document.getElementById('l-entrada');if(en)en.textContent=_loteSel.entrada;
+  var vp=document.getElementById('l-vparcela');if(vp)vp.textContent=_loteSel.vparcela;
+  var pa=document.getElementById('l-parcelas');if(pa)pa.textContent=_loteSel.parcelas+'x';
+  var ls=document.getElementById('lote-selecionado');if(ls)ls.style.display='block';
+  var br=document.getElementById('btn-reservar');if(br)br.disabled=false;
+  setTimeout(function(){var el=document.getElementById('lote-selecionado');if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'});},200);
+}
+
+function aplicarEstadoMapaReserva(borrado){
+  _mapaBorrado=borrado;
+  var overlay=document.getElementById('overlay-em-breve');
+  var msgBorrado=document.getElementById('msg-mapa-borrado');
+  var secPag=document.getElementById('secao-pagamento');
+  var btnFinalizar=document.getElementById('btn-finalizar-sem-pag');
+  var btnConfirmar=document.getElementById('btn-confirmar');
+  var btnReservar=document.getElementById('btn-reservar');
+  var wrap=document.getElementById('mapa-reserva-wrap');
+  if(overlay)overlay.style.display=borrado?'flex':'none';
+  if(msgBorrado)msgBorrado.style.display=borrado?'block':'none';
+  if(secPag)secPag.style.display=borrado?'none':'block';
+  if(btnFinalizar)btnFinalizar.style.display=borrado?'block':'none';
+  if(btnConfirmar)btnConfirmar.style.display=borrado?'none':'block';
+  if(borrado){
+    // Mapa borrado: ocultar loading, mostrar fundo escuro
+    if(wrap)wrap.innerHTML='<div style="width:100%;height:280px;background:var(--bg3);border-radius:10px"></div>';
+    if(btnReservar)btnReservar.disabled=false;
+  } else {
+    // Mapa liberado: carregar bolinhas
+    carregarMapaReserva();
+  }
+}
+
+
+// estado do mapa carregado inline
+
+// ── VARIÁVEIS GLOBAIS ──
+var _fotosBase64={frente:null,verso:null,cpf:null};
+var _docEstado={frente:null,verso:null,cpfDoc:null,tipoDoc:'rg'};
+
+// ── MÁSCARAS ──
+function mascaraCPF(el){
+  var v=el.value.replace(/\D/g,'').substring(0,11);
+  v=v.replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2');
+  el.value=v;
+}
+function mascaraCEP(el){
+  var v=el.value.replace(/\D/g,'').substring(0,8);
+  el.value=v.replace(/(\d{5})(\d)/,'$1-$2');
+}
+
+// ── VALIDAÇÕES COM VERDE/VERMELHO ──
+function validarCPF(){
+  var el=document.getElementById('f-cpf');
+  var h=document.getElementById('h-cpf');
+  if(!el)return;
+  var ok=cpfValido(el.value);
+  el.className=ok?'ok':'err';
+  if(h){h.textContent=ok?'✓ CPF válido':'CPF inválido';h.className=ok?'hint ok':'hint err';}
+}
+function validarTel(fieldId,hintId){
+  var el=document.getElementById(fieldId);
+  var h=document.getElementById(hintId);
+  if(!el)return;
+  var v=el.value.replace(/\D/g,'');
+  var outro=document.getElementById(fieldId==='f-wpp'?'f-tel2':'f-wpp');
+  if(v.length>=10){
+    if(outro&&outro.value.replace(/\D/g,'')===v&&v.length>=10){
+      el.className='err';
+      if(h){h.textContent='Igual ao outro telefone';h.className='hint err';}
+      return;
+    }
+    el.className='ok';
+    if(h){h.textContent='✓ Válido';h.className='hint ok';}
+  } else if(v.length>0){
+    el.className='err';
+    if(h){h.textContent='Telefone inválido';h.className='hint err';}
+  }
+}
+function validarNasc(){
+  var el=document.getElementById('f-nasc');
+  if(!el)return;
+  if(el.value){el.className='ok';}else{el.className='err';}
+}
+function selecionarVencimento(dias, btn){
+  var hoje=new Date();hoje.setHours(0,0,0,0);
+  var alvo=new Date(hoje);alvo.setDate(alvo.getDate()+dias);
+  var diffTotal=Math.round((alvo-hoje)/(1000*60*60*24));
+
+  // Bloquear se passar de 30 dias a partir de hoje
+  if(diffTotal>30){
+    if(btn){btn.style.opacity='.4';btn.style.cursor='not-allowed';}
+    return;
+  }
+
+  // Formatar data
+  var fmt=alvo.toISOString().split('T')[0];
+  var fv=document.getElementById('f-vencimento');
+  if(fv)fv.value=fmt;
+
+  // Visual — destacar botão selecionado
+  [5,10,15,20].forEach(function(d){
+    var b=document.getElementById('btn-v'+d);
+    if(b){
+      b.style.background='var(--bg3)';
+      b.style.borderColor='var(--border)';
+      b.style.color='var(--text2)';
+    }
+  });
+  if(btn){
+    btn.style.background='var(--gold)';
+    btn.style.borderColor='var(--gold)';
+    btn.style.color='#000';
+  }
+
+  // Info
+  var info=document.getElementById('venc-info');
+  var opts={day:'2-digit',month:'2-digit',year:'numeric'};
+  if(info)info.textContent='Vencimento: '+alvo.toLocaleDateString('pt-BR',opts)+' ('+dias+' dias)';
+
+  window._vencimentoExcedido=false;
+  var concordou=typeof _concordou!=='undefined'?_concordou:false;
+  var bn=document.getElementById('btn-continuar');
+  if(bn)bn.disabled=!concordou;
+}
+
+function validarVencimento(){
+  var el=document.getElementById('f-vencimento');
+  var h=document.getElementById('h-vencimento');
+  var av=document.getElementById('aviso-vencimento');
+  var bn=document.getElementById('btn-continuar');
+  if(!el||!el.value){
+    if(bn)bn.disabled=true;
+    return;
+  }
+  var hoje=new Date();hoje.setHours(0,0,0,0);
+  var escolhida=new Date(el.value+'T00:00:00');
+  var diff=Math.round((escolhida-hoje)/(1000*60*60*24));
+  if(diff<1){
+    el.className='inp err';
+    if(h){h.textContent='Data inválida — escolha uma data futura';h.className='hint err';}
+    if(bn)bn.disabled=true;
+    return;
+  }
+  el.className='inp ok';
+  if(h){h.textContent='✓ '+diff+' dias corridos';h.className='hint ok';}
+  if(av)av.style.display=diff>40?'block':'none';
+  window._vencimentoExcedido=diff>40;
+  var concordou=typeof _concordou!=='undefined'?_concordou:false;
+  if(bn)bn.disabled=!concordou;
+}
+function validarCampo(el,tipo){
+  if(el.value.trim().length>=2){el.className='ok';}else if(el.value.length>0){el.className='err';}
+}
+
+// ── FLUXO DE DOCUMENTOS ──
+function handleFrentePrincipal(input){
+  var file=input.files[0];if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    _fotosBase64.frente=e.target.result;
+    _docEstado.frente=e.target.result;
+    var txt=document.getElementById('txt-frente');
+    var ico=document.getElementById('ico-frente');
+    var prev=document.getElementById('prev-frente');
+    var img=document.getElementById('img-frente');
+    if(file.type==='application/pdf'){if(txt)txt.textContent='PDF: '+file.name;}
+    else{if(img){img.src=e.target.result;img.style.display='block';}if(txt)txt.textContent='OK: '+file.name;}
+    if(ico)ico.textContent='OK';
+    if(prev)prev.style.display='block';
+    var tipoDoc=_docEstado.tipoDoc||'rg';
+    if(tipoDoc==='rg'){
+      var bpv=document.getElementById('bloco-pergunta-verso');
+      if(bpv)bpv.style.display='block';
+    } else {
+      habilitarContinuar();
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+function respostaVerso(sim){
+  var bpv=document.getElementById('bloco-pergunta-verso');
+  if(bpv)bpv.style.display='none';
+  if(sim){
+    var bv=document.getElementById('bloco-verso');
+    if(bv)bv.style.display='block';
+  } else {
+    _docEstado.versoRespondido=true;
+    var bpc=document.getElementById('bloco-pergunta-cpf');
+    if(bpc)bpc.style.display='block';
+    habilitarContinuar();
+  }
+}
+
+function handleDocVerso(input){
+  var file=input.files[0];if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    _fotosBase64.verso=e.target.result;
+    _docEstado.verso=e.target.result;
+    var txt=document.getElementById('txt-verso');
+    if(txt)txt.textContent='OK: '+file.name;
+    var prev=document.getElementById('prev-verso');
+    var img=document.getElementById('img-verso');
+    if(img&&file.type!=='application/pdf'){img.src=e.target.result;img.style.display='block';}
+    if(prev)prev.style.display='block';
+    _docEstado.versoRespondido=true;
+    var tipoDoc=_docEstado.tipoDoc||'rg';
+    if(tipoDoc==='rg'){
+      var bpc=document.getElementById('bloco-pergunta-cpf');
+      if(bpc)bpc.style.display='block';
+    }
+    habilitarContinuar();
+  };
+  reader.readAsDataURL(file);
+}
+
+function respostaCPF(sim){
+  var bpc=document.getElementById('bloco-pergunta-cpf');
+  if(bpc)bpc.style.display='none';
+  _docEstado.cpfRespondido=true;
+  if(sim){
+    var bc=document.getElementById('bloco-cpf');
+    if(bc)bc.style.display='block';
+  }
+  habilitarContinuar();
+}
+
+function handleDocCPF(input){
+  var file=input.files[0];if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    _fotosBase64.cpf=e.target.result;
+    _docEstado.cpfDoc=e.target.result;
+    var txt=document.getElementById('txt-cpf-doc');
+    if(txt)txt.textContent='OK: '+file.name;
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeDoc(tipo){
+  if(tipo==='frente'){
+    _fotosBase64.frente=null;_docEstado.frente=null;
+    var prev=document.getElementById('prev-frente');
+    if(prev)prev.style.display='none';
+    ['bloco-pergunta-verso','bloco-verso','bloco-pergunta-cpf','bloco-cpf'].forEach(function(id){
+      var el=document.getElementById(id);if(el)el.style.display='none';
+    });
+    var bn=document.getElementById('btn-continuar');if(bn)bn.disabled=true;
+  }
+  if(tipo==='verso'){
+    _fotosBase64.verso=null;_docEstado.verso=null;
+    var pv=document.getElementById('prev-verso');if(pv)pv.style.display='none';
+  }
+}
+
+function habilitarContinuar(){
+  var concordou=typeof _concordou!=='undefined'?_concordou:false;
+  var venc=document.getElementById('f-vencimento');
+  var vencOk=venc&&venc.value&&venc.className!=='inp err';
+  var bn=document.getElementById('btn-continuar');
+  if(bn)bn.disabled=!(concordou&&vencOk);
+}
+
+function selecionarDoc(tipo){
+  if(!tipo)return;
+  if(typeof _docEstado!=='undefined')_docEstado.tipoDoc=tipo;
+  var tf=document.getElementById('txt-frente');if(tf)tf.textContent='Toque para enviar foto ou PDF';
+  var ic=document.getElementById('ico-frente');if(ic)ic.textContent='foto';
+  var pf=document.getElementById('prev-frente');if(pf)pf.style.display='none';
+  var inp=document.getElementById('inp-frente');if(inp)inp.value='';
+  var lf=document.getElementById('label-frente');if(lf)lf.textContent=tipo==='rg'?'Frente do RG *':'CNH *';
+  var bu=document.getElementById('bloco-upload-frente');if(bu)bu.style.display='block';
+  ['bloco-pergunta-verso','bloco-verso','bloco-pergunta-cpf','bloco-cpf'].forEach(function(id){
+    var el=document.getElementById(id);if(el)el.style.display='none';
+  });
+  if(_fotosBase64){_fotosBase64.frente=null;_fotosBase64.verso=null;_fotosBase64.cpf=null;}
+}
+</script>
+<!-- ═══ FIM MENU ═══ -->
+
