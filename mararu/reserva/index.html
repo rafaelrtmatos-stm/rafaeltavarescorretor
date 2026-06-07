@@ -187,6 +187,19 @@ iframe[src*="gso.kommo"] {
 </head>
 <body>
 <script>
+// Inicializar data de vencimento
+(function(){
+  var fv=document.getElementById('f-vencimento');
+  if(fv&&!fv.value){
+    var hoje=new Date();
+    var min=new Date(hoje);min.setDate(min.getDate()+1);
+    var def=new Date(hoje);def.setDate(def.getDate()+30);
+    var fmt=function(d){return d.toISOString().split('T')[0];};
+    fv.min=fmt(min);
+    fv.value=fmt(def);
+  }
+})();
+
 // Verificar estado do mapa imediatamente
 fetch('/site_data.json?_='+Date.now())
   .then(function(r){return r.json();})
@@ -550,6 +563,17 @@ function irEtapa2(){
   showEtapa('etapa2-dados');setStep(2);
 }
 function irEtapa3(){
+  // Inicializar campo de vencimento se ainda não foi definido
+  var fv=document.getElementById('f-vencimento');
+  if(fv&&!fv.value){
+    var hoje=new Date();
+    var min=new Date(hoje);min.setDate(min.getDate()+1);
+    var def=new Date(hoje);def.setDate(def.getDate()+30);
+    var fmt=function(d){return d.toISOString().split('T')[0];};
+    fv.min=fmt(min);
+    fv.value=fmt(def);
+    validarVencimento();
+  }
   var nome=document.getElementById('f-nome').value.trim();
   var tel=document.getElementById('f-wpp').value.trim();
   if(nome.split(' ').filter(Boolean).length<2){showToast('Informe nome e sobrenome');return;}
