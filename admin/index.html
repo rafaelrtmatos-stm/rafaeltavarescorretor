@@ -327,6 +327,8 @@ function salvarTokenModal(){
         <div class="sidebar-title">🏘️ Imóveis</div>
         <button class="sitem" onclick="goPage('regioes',this)"><span class="icon">🗺️</span><span>Regiões</span></button>
         <button class="sitem" onclick="goPage('lancamento',this)"><span class="icon">🔥</span><span>Mararu</span></button>
+        <button class="sitem" onclick="goPage('alenquer',this)"><span class="icon">🏙️</span><span>Alenquer</span></button>
+        <button class="sitem" onclick="goPage('monte-alegre',this)"><span class="icon">🌿</span><span>Monte Alegre</span></button>
         <div class="sidebar-title">📱 Marketing</div>
         <button class="sitem" onclick="goPage('redes',this)"><span class="icon">📱</span><span>Redes Sociais</span></button>
         <button class="sitem" onclick="goPage('vip',this)"><span class="icon">💬</span><span>Grupo VIP</span></button>
@@ -620,6 +622,57 @@ function salvarTokenModal(){
       </div>
 
       <!-- REGIÕES -->
+      <!-- ABA ALENQUER -->
+      <div class="page" id="page-alenquer">
+        <div class="page-header">
+          <div class="page-title">🏙️ Alenquer</div>
+          <div class="page-sub">Gerencie fotos e configurações do empreendimento em Alenquer</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>🖼️</span> Galeria de Fotos e Vídeos</div>
+          <p style="font-size:12px;color:var(--text3);margin-bottom:12px">Arquivos salvos diretamente no GitHub — 100% públicos e rápidos.</p>
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+            <label class="btn-upload" style="cursor:pointer">
+              📁 Adicionar Fotos/Vídeos
+              <input type="file" accept="image/*,video/mp4,video/webm,video/quicktime" multiple style="display:none" onchange="uploadGaleriaEmp('alenquer',this.files)">
+            </label>
+            <span id="gal-alenquer-prog" style="display:none;font-size:12px;color:var(--gold)">⏳ Enviando...</span>
+          </div>
+          <div id="gal-alenquer-preview" style="margin-top:14px;display:flex;flex-wrap:wrap;gap:8px"></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>⚙️</span> Configurações</div>
+          <div class="f"><label>ID do Empreendimento (Rumo ao Milhão)</label><input type="text" id="alenquer-emp-id" placeholder="Ex: 1780067816278"></div>
+          <div class="f" style="margin-top:10px"><label>Data do Lançamento</label><input type="datetime-local" id="alenquer-data-lanc"></div>
+          <button class="btn-save" onclick="salvarConfigEmp('alenquer')" style="margin-top:14px">💾 Salvar</button>
+        </div>
+      </div>
+
+      <!-- ABA MONTE ALEGRE -->
+      <div class="page" id="page-monte-alegre">
+        <div class="page-header">
+          <div class="page-title">🌿 Monte Alegre — Jussaramia</div>
+          <div class="page-sub">Gerencie fotos e configurações do empreendimento em Monte Alegre</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>🖼️</span> Galeria de Fotos e Vídeos</div>
+          <p style="font-size:12px;color:var(--text3);margin-bottom:12px">Arquivos salvos diretamente no GitHub — 100% públicos e rápidos.</p>
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+            <label class="btn-upload" style="cursor:pointer">
+              📁 Adicionar Fotos/Vídeos
+              <input type="file" accept="image/*,video/mp4,video/webm,video/quicktime" multiple style="display:none" onchange="uploadGaleriaEmp('monte-alegre',this.files)">
+            </label>
+            <span id="gal-monte-alegre-prog" style="display:none;font-size:12px;color:var(--gold)">⏳ Enviando...</span>
+          </div>
+          <div id="gal-monte-alegre-preview" style="margin-top:14px;display:flex;flex-wrap:wrap;gap:8px"></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>⚙️</span> Configurações</div>
+          <div class="f"><label>ID do Empreendimento (Rumo ao Milhão)</label><input type="text" id="monte-alegre-emp-id" placeholder="Ex: 1780067816279"></div>
+          <button class="btn-save" onclick="salvarConfigEmp('monte-alegre')" style="margin-top:14px">💾 Salvar</button>
+        </div>
+      </div>
+
       <div class="page" id="page-regioes">
         <div class="page-header" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px">
           <div>
@@ -2006,23 +2059,71 @@ async function uploadGaleriaMararu(files){
   if(prog)prog.style.display='inline';
   for(var i=0;i<files.length;i++){
     var file=files[i];
-    var ext=file.name.split('.').pop().toLowerCase();
-    var nomeArq='mararu/galeria-'+Date.now()+'-'+i+'.'+ext;
-    try{
-      var r=await fetch('https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/fotos-site/'+nomeArq,{
-        method:'POST',
-        headers:{'apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI','Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI','Content-Type':file.type,'x-upsert':'true'},
-        body:file
-      });
-      if(r.ok){
-        _galeriaMararu.push('https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/'+nomeArq);
-        renderGaleriaMararuPreview();
-      }
-    }catch(e){console.warn('Upload galeria:',e);}
+    var url=await uploadFotoGitHub(file,'imagens/mararu-galeria-'+Date.now()+'-'+i+'.'+file.name.split('.').pop().toLowerCase());
+    if(url){_galeriaMararu.push(url);renderGaleriaMararuPreview();}
   }
   if(prog)prog.style.display='none';
-  // Auto-salvar após upload
   await salvarLancamento();
+}
+
+async function uploadGaleriaEmp(emp,files){
+  var prog=document.getElementById('gal-'+emp+'-prog');
+  if(prog)prog.style.display='inline';
+  var d=await loadSiteData()||{};
+  if(!d[emp])d[emp]={galeria:[]};
+  if(!d[emp].galeria)d[emp].galeria=[];
+  for(var i=0;i<files.length;i++){
+    var file=files[i];
+    var url=await uploadFotoGitHub(file,'imagens/'+emp+'-galeria-'+Date.now()+'-'+i+'.'+file.name.split('.').pop().toLowerCase());
+    if(url)d[emp].galeria.push(url);
+  }
+  await saveSiteData(d);
+  if(prog)prog.style.display='none';
+  renderGaleriaEmpPreview(emp,d[emp].galeria);
+  showToast('✅ Fotos salvas no GitHub!');
+}
+
+function renderGaleriaEmpPreview(emp,galeria){
+  var wrap=document.getElementById('gal-'+emp+'-preview');
+  if(!wrap)return;
+  if(!galeria||!galeria.length){wrap.innerHTML='<div style="color:var(--text3);font-size:12px">Nenhuma foto ainda</div>';return;}
+  wrap.innerHTML=galeria.map(function(url,i){
+    var isVideo=url.indexOf('.mp4')>=0||url.indexOf('.mov')>=0||url.indexOf('.webm')>=0;
+    return '<div style="position:relative;display:inline-block;margin:4px">'
+      +(isVideo?'<video src="'+url+'" style="width:80px;height:60px;object-fit:cover;border-radius:6px;border:1px solid var(--border)"></video>'
+      :'<img src="'+url+'" style="width:80px;height:60px;object-fit:cover;border-radius:6px;border:1px solid var(--border)">')
+      +'<button onclick="removerFotoEmp(\''+emp+'\','+i+')" style="position:absolute;top:-4px;right:-4px;background:#ef4444;color:#fff;border:none;border-radius:50%;width:16px;height:16px;font-size:10px;cursor:pointer;line-height:1">×</button>'
+      +'</div>';
+  }).join('');
+}
+
+async function salvarConfigEmp(emp){
+  var d=await loadSiteData()||{};
+  if(!d[emp])d[emp]={};
+  var idEl=document.getElementById(emp+'-emp-id');
+  var dtEl=document.getElementById(emp+'-data-lanc');
+  if(idEl)d[emp].empId=idEl.value;
+  if(dtEl)d[emp].dataLancamento=dtEl.value?new Date(dtEl.value).toISOString():'';
+  await saveSiteData(d);
+  showToast('✅ Configurações salvas!');
+}
+
+async function carregarConfigEmp(emp){
+  var d=await loadSiteData()||{};
+  var cfg=d[emp]||{};
+  var idEl=document.getElementById(emp+'-emp-id');
+  var dtEl=document.getElementById(emp+'-data-lanc');
+  if(idEl)idEl.value=cfg.empId||'';
+  if(dtEl&&cfg.dataLancamento)dtEl.value=cfg.dataLancamento.replace('Z','').substring(0,16);
+  renderGaleriaEmpPreview(emp,cfg.galeria||[]);
+}
+
+async function removerFotoEmp(emp,idx){
+  var d=await loadSiteData()||{};
+  if(!d[emp]||!d[emp].galeria)return;
+  d[emp].galeria.splice(idx,1);
+  await saveSiteData(d);
+  renderGaleriaEmpPreview(emp,d[emp].galeria);
 }
 
 async function carregarLancamento(){
@@ -2724,3 +2825,6 @@ function goPageM(id){
 
 </body>
 </html>
+  // Carregar dados ao entrar nas abas específicas
+  if(id==='alenquer')carregarConfigEmp('alenquer');
+  if(id==='monte-alegre')carregarConfigEmp('monte-alegre');
