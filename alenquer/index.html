@@ -110,9 +110,63 @@
       <a href="https://chat.whatsapp.com/Eo6QSIOw7GS6bNWujn5oNu" target="_blank" style="font-size:11px;color:rgba(255,255,255,0.45);letter-spacing:1.5px;margin-top:4px;text-decoration:underline;text-underline-offset:3px">
         Entrar no Grupo VIP
       </a>
+
+      <!-- CONTAGEM REGRESSIVA QUARTA DIA 10 -->
+      <div id="al-countdown" style="margin-top:20px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <div style="text-align:center;background:rgba(0,0,0,0.5);border:1px solid rgba(201,168,76,0.3);border-radius:10px;padding:10px 16px;min-width:64px">
+          <div id="al-cd-dias" style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--gold);line-height:1">--</div>
+          <div style="font-size:9px;letter-spacing:2px;color:rgba(255,255,255,0.4);text-transform:uppercase;margin-top:2px">Dias</div>
+        </div>
+        <div style="text-align:center;background:rgba(0,0,0,0.5);border:1px solid rgba(201,168,76,0.3);border-radius:10px;padding:10px 16px;min-width:64px">
+          <div id="al-cd-horas" style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--gold);line-height:1">--</div>
+          <div style="font-size:9px;letter-spacing:2px;color:rgba(255,255,255,0.4);text-transform:uppercase;margin-top:2px">Horas</div>
+        </div>
+        <div style="text-align:center;background:rgba(0,0,0,0.5);border:1px solid rgba(201,168,76,0.3);border-radius:10px;padding:10px 16px;min-width:64px">
+          <div id="al-cd-min" style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--gold);line-height:1">--</div>
+          <div style="font-size:9px;letter-spacing:2px;color:rgba(255,255,255,0.4);text-transform:uppercase;margin-top:2px">Min</div>
+        </div>
+        <div style="text-align:center;background:rgba(0,0,0,0.5);border:1px solid rgba(201,168,76,0.3);border-radius:10px;padding:10px 16px;min-width:64px">
+          <div id="al-cd-seg" style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--gold);line-height:1">--</div>
+          <div style="font-size:9px;letter-spacing:2px;color:rgba(255,255,255,0.4);text-transform:uppercase;margin-top:2px">Seg</div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:8px;letter-spacing:1px">🗓 Lançamento: Quarta-feira, dia 10</div>
     </div>
   </div>
 </section>
+<script>
+(function(){
+  var target=new Date('2026-06-10T11:00:00-03:00').getTime();
+  function tick(){
+    var now=Date.now();
+    var diff=target-now;
+    var dias=document.getElementById('al-cd-dias');
+    var horas=document.getElementById('al-cd-horas');
+    var min=document.getElementById('al-cd-min');
+    var seg=document.getElementById('al-cd-seg');
+    if(!dias)return;
+    if(diff<=0){
+      if(dias)dias.textContent='00';
+      if(horas)horas.textContent='00';
+      if(min)min.textContent='00';
+      if(seg)seg.textContent='00';
+      var el=document.getElementById('al-countdown');
+      if(el)el.style.display='none';
+      return;
+    }
+    var d=Math.floor(diff/86400000);
+    var h=Math.floor((diff%86400000)/3600000);
+    var m=Math.floor((diff%3600000)/60000);
+    var s=Math.floor((diff%60000)/1000);
+    if(dias)dias.textContent=d<10?'0'+d:d;
+    if(horas)horas.textContent=h<10?'0'+h:h;
+    if(min)min.textContent=m<10?'0'+m:m;
+    if(seg)seg.textContent=s<10?'0'+s:s;
+  }
+  tick();
+  setInterval(tick,1000);
+})();
+</script>
 
 <div class="stats-band">
   <div class="stats-band-inner">

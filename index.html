@@ -731,10 +731,16 @@ section#hero{z-index:0;overflow:hidden!important}
 <section id="mapa" style="background:#000;padding:0;position:relative;overflow:hidden;z-index:2">
 
   <!-- HEADER -->
-  <div style="text-align:center;padding:48px 24px 32px">
+  <div style="text-align:center;padding:48px 24px 24px">
     <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#C9A84C;margin-bottom:12px;font-weight:600">Explore</div>
-    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,52px);font-weight:700;color:#F2EDE4;line-height:.95;letter-spacing:-2px;margin-bottom:12px">Empreendimentos em<br><em style="font-style:italic;color:#C9A84C">Santarém</em></h2>
-    <p style="font-size:14px;color:rgba(242,237,228,0.6);max-width:400px;margin:0 auto;line-height:1.7">Clique em um pino para ver o empreendimento.</p>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,52px);font-weight:700;color:#F2EDE4;line-height:.95;letter-spacing:-2px;margin-bottom:12px">Empreendimentos em<br><em id="mapa-cidade-titulo" style="font-style:italic;color:#C9A84C">Santarém</em></h2>
+    <p style="font-size:14px;color:rgba(242,237,228,0.6);max-width:400px;margin:0 auto 20px;line-height:1.7">Clique em um pino para ver o empreendimento.</p>
+    <!-- Botões de cidade -->
+    <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:8px">
+      <button onclick="trocarCidade('santarem',this)" id="btn-cidade-santarem" style="padding:8px 18px;border-radius:100px;border:1.5px solid var(--gold);background:var(--gold);color:#000;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:.5px;transition:all .2s">📍 Santarém</button>
+      <button onclick="trocarCidade('alenquer',this)" id="btn-cidade-alenquer" style="padding:8px 18px;border-radius:100px;border:1.5px solid rgba(201,168,76,0.3);background:transparent;color:var(--gold);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:.5px;transition:all .2s">📍 Alenquer <span style="font-size:9px;background:#f87171;color:#000;border-radius:4px;padding:1px 5px;margin-left:4px;font-weight:800">NOVO</span></button>
+      <button onclick="trocarCidade('monte-alegre',this)" id="btn-cidade-monte-alegre" style="padding:8px 18px;border-radius:100px;border:1.5px solid rgba(201,168,76,0.3);background:transparent;color:var(--gold);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:.5px;transition:all .2s">📍 Monte Alegre</button>
+    </div>
   </div>
 
   <!-- MAPA -->
@@ -753,7 +759,7 @@ section#hero{z-index:0;overflow:hidden!important}
       <div style="position:absolute;top:-13px;left:48px;z-index:12;pointer-events:none;display:flex;align-items:center;gap:5px">
         <div style="background:rgba(0,0,0,0.95);border:1px solid rgba(201,168,76,0.4);border-radius:4px;padding:2px 10px;display:flex;align-items:center;gap:5px">
           <div style="width:5px;height:5px;border-radius:50%;background:#C9A84C;animation:pulse 2s infinite;flex-shrink:0"></div>
-          <span style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#C9A84C;font-weight:700">Santarém · PA</span>
+          <span id="mapa-label-cidade" style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#C9A84C;font-weight:700">Santarém · PA</span>
         </div>
       </div>
 
@@ -881,12 +887,104 @@ function irParaCatalogoPino(p){
 }
 
 var _mapStarted=false;
+var _mapInstance=null;
+var _cidadeAtual='santarem';
+
+// Pinos por cidade
+var _pinosCidades={
+  'santarem': null, // usa _pinosDefault
+  'alenquer': [
+    {nome:'Alenquer',lat:-1.94623,lng:-54.7384,cor:'#f87171',desc:'🔥 Lançamento! Novo empreendimento em Alenquer.',msg:'Olá Rafael! Tenho interesse no lançamento em Alenquer!',link:'/alenquer/'}
+  ],
+  'monte-alegre': [
+    {nome:'Jussaramia',lat:-1.9998,lng:-54.0726,cor:'#C9A84C',desc:'Loteamento Jussaramia em Monte Alegre. Vendas abertas!',msg:'Olá Rafael! Tenho interesse no Jussaramia em Monte Alegre!',link:'/monte-alegre/'}
+  ]
+};
+
+// Centros e zooms por cidade
+var _cidadeCentros={
+  'santarem':  {lat:-2.47, lng:-54.79, zoom:12},
+  'alenquer':  {lat:-1.946,lng:-54.74, zoom:13},
+  'monte-alegre': {lat:-2.00, lng:-54.07, zoom:13}
+};
+
+var _cidadeLabels={
+  'santarem': 'Santarém · PA',
+  'alenquer': 'Alenquer · PA',
+  'monte-alegre': 'Monte Alegre · PA'
+};
+
+var _cidadeTitulos={
+  'santarem': 'Santarém',
+  'alenquer': 'Alenquer',
+  'monte-alegre': 'Monte Alegre'
+};
+
+function trocarCidade(cidade, btn){
+  _cidadeAtual = cidade;
+
+  // Atualizar botões
+  ['santarem','alenquer','monte-alegre'].forEach(function(c){
+    var b = document.getElementById('btn-cidade-'+c);
+    if(!b) return;
+    if(c===cidade){
+      b.style.background='var(--gold)';
+      b.style.color='#000';
+      b.style.borderColor='var(--gold)';
+    } else {
+      b.style.background='transparent';
+      b.style.color='var(--gold)';
+      b.style.borderColor='rgba(201,168,76,0.3)';
+    }
+  });
+
+  // Atualizar título e label
+  var titulo = document.getElementById('mapa-cidade-titulo');
+  if(titulo) titulo.textContent = _cidadeTitulos[cidade]||cidade;
+  var label = document.getElementById('mapa-label-cidade');
+  if(label) label.textContent = _cidadeLabels[cidade]||cidade;
+
+  // Se mapa já iniciado, voar para a cidade e recolocar pinos
+  if(_mapInstance){
+    var centro = _cidadeCentros[cidade];
+    if(centro) _mapInstance.flyTo([centro.lat,centro.lng], centro.zoom, {duration:1.2});
+
+    // Remover marcadores antigos
+    _mapInstance.eachLayer(function(layer){
+      if(layer instanceof L.Marker) _mapInstance.removeLayer(layer);
+    });
+
+    // Adicionar novos pinos
+    var pinos = (cidade==='santarem') ? _pinosDefault : (_pinosCidades[cidade]||[]);
+    pinos.forEach(function(p){
+      adicionarPinoMapa(_mapInstance, p);
+    });
+  } else {
+    // Mapa ainda não iniciado, forçar início
+    startMap();
+  }
+}
+
+function adicionarPinoMapa(map, p){
+  var cor=p.cor;
+  var isRed=cor==='#f87171';
+  var sz=isRed?28:22;
+  var pinoHtml='<div style="display:flex;flex-direction:column;align-items:center;cursor:pointer;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.7))">'    +'<svg width="'+sz+'" height="'+(sz*1.3)+'" viewBox="0 0 36 46" fill="none" xmlns="http://www.w3.org/2000/svg">'    +'<defs>'    +'<radialGradient id="pg'+(isRed?'r2':'g2')+'" cx="40%" cy="30%" r="60%"><stop offset="0%" stop-color="'+(isRed?'#ff9d9d':'#e8c96a')+'"/><stop offset="100%" stop-color="'+(isRed?'#f87171':'#C9A84C')+'"/></radialGradient>'    +'</defs>'    +'<path d="M18 0C8.06 0 0 8.06 0 18C0 31.5 18 46 18 46C18 46 36 31.5 36 18C36 8.06 27.94 0 18 0Z" fill="url(#pg'+(isRed?'r2':'g2')+')"/>'    +'<circle cx="18" cy="18" r="9" fill="rgba(0,0,0,0.55)"/>'    +(isRed?'<circle cx="18" cy="18" r="5" fill="rgba(255,255,255,0.9)"/><circle cx="18" cy="18" r="2.5" fill="#f87171"/>':'<circle cx="18" cy="18" r="4.5" fill="rgba(201,168,76,0.3)"/><circle cx="18" cy="18" r="2" fill="#E8C96A"/>')    +'</svg>'    +'<div style="background:linear-gradient(135deg,rgba(8,8,8,0.97),rgba(20,16,8,0.97));border:1px solid '+(isRed?'rgba(248,113,113,0.6)':'rgba(201,168,76,0.55)')+';color:'+(isRed?'#f87171':'#E8C96A')+(isRed?';animation:pulse 1.5s infinite':'')+'f;font-size:9.5px;font-weight:700;padding:3px 10px;border-radius:5px;white-space:nowrap;margin-top:2px;letter-spacing:.6px;text-transform:uppercase;box-shadow:0 2px 8px rgba(0,0,0,0.5)">'+p.nome+'</div>'    +'</div>';
+  var icon=L.divIcon({className:'',html:pinoHtml,iconSize:[sz*3,Math.round(sz*1.8)],iconAnchor:[Math.round(sz*1.5),Math.round(sz*1.4)]});
+  var marker=L.marker([p.lat,p.lng],{icon:icon});
+  marker.on('click',function(){
+    if(p.link){window.location.href=p.link;}
+    else{irParaCatalogoPino(p);}
+  });
+  marker.addTo(map);
+}
+
 function startMap(){
   if(_mapStarted)return;
   if(typeof L==='undefined'){setTimeout(startMap,150);return;}
   _mapStarted=true;
 
-  var map=L.map('leaflet-map',{
+  _mapInstance=L.map('leaflet-map',{
     zoomControl:false,
     attributionControl:false,
     scrollWheelZoom:false,
@@ -935,6 +1033,7 @@ function startMap(){
   });
 
   // Centralizar mostrando todos os pinos
+  _mapInstance=map;
   if(bounds.length>0){
     map.fitBounds(bounds,{padding:[60,60],maxZoom:13});
   }
