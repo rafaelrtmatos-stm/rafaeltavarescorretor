@@ -1091,9 +1091,9 @@ function startMap(){
   });
   _mapInstance=map; // FIX erro 4: salvar referência imediatamente
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
     maxZoom:19,
-    subdomains:['a','b','c','d']
+    
   }).addTo(map); // FIX erro 9: URL agora usa {s}
 
   // FIX erro 3: startMap usa adicionarPinoMapa (função unificada)
