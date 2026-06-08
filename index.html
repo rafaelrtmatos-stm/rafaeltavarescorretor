@@ -996,155 +996,117 @@ var _mapStarted=false;
 var _mapInstance=null;
 var _cidadeAtual='santarem';
 
+// Pinos Santarém (padrão)
+var _pinosDefault=[
+  {nome:'Alter do Chão',   lat:-2.502556,lng:-54.931083,cor:'#C9A84C',desc:'Paraíso do Tapajós. Alto valor de investimento.',msg:'Olá Rafael! Tenho interesse em Alter do Chão.'},
+  {nome:'Ponta de Pedras', lat:-2.467861,lng:-54.909028,cor:'#C9A84C',desc:'Área ribeirinha com vista para o Tapajós.',msg:'Olá Rafael! Tenho interesse em Ponta de Pedras.'},
+  {nome:'Pajuçara',        lat:-2.466194,lng:-54.788583,cor:'#C9A84C',desc:'Bairro em expansão com fácil acesso.',msg:'Olá Rafael! Tenho interesse em Pajuçara.'},
+  {nome:'Santa Maria',     lat:-2.432000,lng:-54.720000,cor:'#C9A84C',desc:'Ambiente tranquilo, documentação completa.',msg:'Olá Rafael! Tenho interesse em Santa Maria.'},
+  {nome:'Cucurunã',        lat:-2.476000,lng:-54.760000,cor:'#C9A84C',desc:'Região estratégica em expansão.',msg:'Olá Rafael! Tenho interesse em Cucurunã.'},
+  {nome:'Mararu',          lat:-2.492528,lng:-54.686639,cor:'#f87171',desc:'Loteamento Bairro Mararu — lotes a partir de R$600 entrada.',msg:'Olá Rafael! Tenho interesse no Loteamento Mararu!',link:'/mararu/'},
+  {nome:'Espírito Santo',  lat:-2.510000,lng:-54.650000,cor:'#C9A84C',desc:'Nova região em valorização.',msg:'Olá Rafael! Tenho interesse em Espírito Santo.'}
+];
+
 // Pinos por cidade
 var _pinosCidades={
-  'santarem': null, // usa _pinosDefault
+  'santarem': _pinosDefault,
   'alenquer': [
     {nome:'Alenquer',lat:-1.94623,lng:-54.7384,cor:'#f87171',desc:'🔥 Lançamento! Novo empreendimento em Alenquer.',msg:'Olá Rafael! Tenho interesse no lançamento em Alenquer!',link:'/alenquer/'}
   ],
   'monte-alegre': [
-    {nome:'Jussaramia',lat:-1.9998,lng:-54.0726,cor:'#C9A84C',desc:'Loteamento Jussaramia em Monte Alegre. Vendas abertas!',msg:'Olá Rafael! Tenho interesse no Jussaramia em Monte Alegre!',link:'/monte-alegre/'}
+    {nome:'Jussaramia',lat:-1.9998,lng:-54.0726,cor:'#C9A84C',desc:'Loteamento Jussaramia em Monte Alegre.',msg:'Olá Rafael! Tenho interesse no Jussaramia em Monte Alegre!',link:'/monte-alegre/'}
   ]
 };
 
 // Centros e zooms por cidade
 var _cidadeCentros={
-  'santarem':  {lat:-2.47, lng:-54.79, zoom:12},
-  'alenquer':  {lat:-1.946,lng:-54.74, zoom:13},
+  'santarem':     {lat:-2.47, lng:-54.79, zoom:12},
+  'alenquer':     {lat:-1.946,lng:-54.74, zoom:13},
   'monte-alegre': {lat:-2.00, lng:-54.07, zoom:13}
 };
 
 var _cidadeLabels={
-  'santarem': 'Santarém · PA',
-  'alenquer': 'Alenquer · PA',
-  'monte-alegre': 'Monte Alegre · PA'
+  'santarem':'Santarém · PA',
+  'alenquer':'Alenquer · PA',
+  'monte-alegre':'Monte Alegre · PA'
 };
 
 var _cidadeTitulos={
-  'santarem': 'Santarém',
-  'alenquer': 'Alenquer',
-  'monte-alegre': 'Monte Alegre'
+  'santarem':'Santarém',
+  'alenquer':'Alenquer',
+  'monte-alegre':'Monte Alegre'
 };
 
-function trocarCidade(cidade, btn){
-  _cidadeAtual = cidade;
-
-  // Atualizar botões
-  ['santarem','alenquer','monte-alegre'].forEach(function(c){
-    var b = document.getElementById('btn-cidade-'+c);
-    if(!b) return;
-    if(c===cidade){
-      b.style.background='var(--gold)';
-      b.style.color='#000';
-      b.style.borderColor='var(--gold)';
-    } else {
-      b.style.background='transparent';
-      b.style.color='var(--gold)';
-      b.style.borderColor='rgba(201,168,76,0.3)';
-    }
-  });
-
-  // Atualizar título e label
-  var titulo = document.getElementById('mapa-cidade-titulo');
-  if(titulo) titulo.textContent = _cidadeTitulos[cidade]||cidade;
-  var label = document.getElementById('mapa-label-cidade');
-  if(label) label.textContent = _cidadeLabels[cidade]||cidade;
-
-  // Se mapa já iniciado, voar para a cidade e recolocar pinos
-  if(_mapInstance){
-    var centro = _cidadeCentros[cidade];
-    if(centro) _mapInstance.flyTo([centro.lat,centro.lng], centro.zoom, {duration:1.2});
-
-    // Remover marcadores antigos
-    _mapInstance.eachLayer(function(layer){
-      if(layer instanceof L.Marker) _mapInstance.removeLayer(layer);
-    });
-
-    // Adicionar novos pinos
-    var pinos = (cidade==='santarem') ? _pinosDefault : (_pinosCidades[cidade]||[]);
-    pinos.forEach(function(p){
-      adicionarPinoMapa(_mapInstance, p);
-    });
-  } else {
-    // Mapa ainda não iniciado, forçar início
-    startMap();
-  }
-}
-
+// Adicionar um pino ao mapa (FIX erro 2: IDs SVG únicos por índice)
+var _pinoIdx=0;
 function adicionarPinoMapa(map, p){
+  var uid=_pinoIdx++;
   var cor=p.cor;
   var isRed=cor==='#f87171';
-  var sz=isRed?28:22;
-  var pinoHtml='<div style="display:flex;flex-direction:column;align-items:center;cursor:pointer;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.7))">'    +'<svg width="'+sz+'" height="'+(sz*1.3)+'" viewBox="0 0 36 46" fill="none" xmlns="http://www.w3.org/2000/svg">'    +'<defs>'    +'<radialGradient id="pg'+(isRed?'r2':'g2')+'" cx="40%" cy="30%" r="60%"><stop offset="0%" stop-color="'+(isRed?'#ff9d9d':'#e8c96a')+'"/><stop offset="100%" stop-color="'+(isRed?'#f87171':'#C9A84C')+'"/></radialGradient>'    +'</defs>'    +'<path d="M18 0C8.06 0 0 8.06 0 18C0 31.5 18 46 18 46C18 46 36 31.5 36 18C36 8.06 27.94 0 18 0Z" fill="url(#pg'+(isRed?'r2':'g2')+')"/>'    +'<circle cx="18" cy="18" r="9" fill="rgba(0,0,0,0.55)"/>'    +(isRed?'<circle cx="18" cy="18" r="5" fill="rgba(255,255,255,0.9)"/><circle cx="18" cy="18" r="2.5" fill="#f87171"/>':'<circle cx="18" cy="18" r="4.5" fill="rgba(201,168,76,0.3)"/><circle cx="18" cy="18" r="2" fill="#E8C96A"/>')    +'</svg>'    +'<div style="background:linear-gradient(135deg,rgba(8,8,8,0.97),rgba(20,16,8,0.97));border:1px solid '+(isRed?'rgba(248,113,113,0.6)':'rgba(201,168,76,0.55)')+';color:'+(isRed?'#f87171':'#E8C96A')+(isRed?';animation:pulse 1.5s infinite':'')+'f;font-size:9.5px;font-weight:700;padding:3px 10px;border-radius:5px;white-space:nowrap;margin-top:2px;letter-spacing:.6px;text-transform:uppercase;box-shadow:0 2px 8px rgba(0,0,0,0.5)">'+p.nome+'</div>'    +'</div>';
+  var mapaContainer=document.getElementById('leaflet-map')||document.querySelector('.leaflet-container');
+  var containerW=mapaContainer?mapaContainer.offsetWidth:window.innerWidth;
+  var pct=0.02;
+  var sz=Math.round(containerW*pct);
+  sz=Math.max(isRed?16:12,Math.min(isRed?48:40,sz));
+
+  var pinoHtml='<div style="display:flex;flex-direction:column;align-items:center;cursor:pointer;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.7))">'
+    +'<svg width="'+sz+'" height="'+Math.round(sz*1.3)+'" viewBox="0 0 36 46" fill="none" xmlns="http://www.w3.org/2000/svg">'
+    +'<defs>'
+    +'<radialGradient id="pg'+uid+'" cx="40%" cy="30%" r="60%"><stop offset="0%" stop-color="'+(isRed?'#ff9d9d':'#e8c96a')+'"/><stop offset="100%" stop-color="'+(isRed?'#f87171':'#C9A84C')+'"/></radialGradient>'
+    +'<filter id="pglow'+uid+'"><feGaussianBlur stdDeviation="1.5" result="blur"/><feComposite in="SourceGraphic" in2="blur" operator="over"/></filter>'
+    +'</defs>'
+    +'<path d="M18 0C8.06 0 0 8.06 0 18C0 31.5 18 46 18 46C18 46 36 31.5 36 18C36 8.06 27.94 0 18 0Z" fill="url(#pg'+uid+')" filter="url(#pglow'+uid+')"/>'
+    +'<circle cx="18" cy="18" r="9" fill="rgba(0,0,0,0.55)" stroke="rgba(255,255,255,0.12)" stroke-width="0.5"/>'
+    +(isRed
+      ?'<circle cx="18" cy="18" r="5" fill="rgba(255,255,255,0.9)"/><circle cx="18" cy="18" r="2.5" fill="#f87171"/>'
+      :'<circle cx="18" cy="18" r="4.5" fill="rgba(201,168,76,0.3)"/><circle cx="18" cy="18" r="2" fill="#E8C96A"/>'
+    )
+    +'</svg>'
+    +'<div style="background:linear-gradient(135deg,rgba(8,8,8,0.97),rgba(20,16,8,0.97));border:1px solid '+(isRed?'rgba(248,113,113,0.6)':'rgba(201,168,76,0.55)')+';color:'+(isRed?'#f87171':'#E8C96A')+';font-size:9.5px;font-weight:700;padding:3px 10px;border-radius:5px;white-space:nowrap;margin-top:2px;letter-spacing:.6px;text-transform:uppercase;box-shadow:0 2px 8px rgba(0,0,0,0.5)">'+p.nome+'</div>'
+    +'</div>';
+
   var icon=L.divIcon({className:'',html:pinoHtml,iconSize:[sz*3,Math.round(sz*1.8)],iconAnchor:[Math.round(sz*1.5),Math.round(sz*1.4)]});
   var marker=L.marker([p.lat,p.lng],{icon:icon});
   marker.on('click',function(){
     if(p.link){window.location.href=p.link;}
-    else{irParaCatalogoPino(p);}
+    else if(typeof irParaCatalogoPino==='function'){irParaCatalogoPino(p);}
   });
   marker.addTo(map);
+  return marker;
 }
 
+// FIX erro 1+4: var map declarado corretamente; _mapInstance salvo imediatamente
 function startMap(){
   if(_mapStarted)return;
   if(typeof L==='undefined'){setTimeout(startMap,150);return;}
   _mapStarted=true;
 
-  _mapInstance=L.map('leaflet-map',{
+  // FIX erro 1: declarar var map E salvar em _mapInstance logo de início
+  var map=L.map('leaflet-map',{
     zoomControl:false,
     attributionControl:false,
     scrollWheelZoom:false,
     dragging:true,
     touchZoom:true
   });
+  _mapInstance=map; // FIX erro 4: salvar referência imediatamente
 
-  // Tile dourado — CartoDB Positron (fundo claro) + filtro CSS sepia/contraste
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
     maxZoom:19,
     subdomains:['a','b','c','d']
-  }).addTo(map);
+  }).addTo(map); // FIX erro 9: URL agora usa {s}
 
-
-  // Adicionar pinos e coletar bounds
+  // FIX erro 3: startMap usa adicionarPinoMapa (função unificada)
   var bounds=[];
   _pinosDefault.forEach(function(p){
-    var cor=p.cor;
-    var isRed=cor==='#f87171';
-    // Tamanho responsivo: % da largura do container (igual ao Rumo ao Milhão)
-    var mapaContainer=document.getElementById('map-container')||document.querySelector('#mapa .leaflet-container')||document.querySelector('.leaflet-container');
-    var containerW=mapaContainer?mapaContainer.offsetWidth:window.innerWidth;
-    var pct=(_pinScale||1)*0.02; // 2% da largura = padrão proporcional
-    var sz=Math.round(containerW*pct);
-    sz=Math.max(isRed?16:12,Math.min(isRed?48:40,sz));
-    var pinoHtml='<div style="display:flex;flex-direction:column;align-items:center;cursor:pointer;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.7))">'
-      +'<svg width="'+sz+'" height="'+(sz*1.3)+'" viewBox="0 0 36 46" fill="none" xmlns="http://www.w3.org/2000/svg">'
-      +'<defs>'
-      +'<radialGradient id="pg'+(isRed?'r':'g')+'" cx="40%" cy="30%" r="60%"><stop offset="0%" stop-color="'+(isRed?'#ff9d9d':'#e8c96a')+'"/><stop offset="100%" stop-color="'+(isRed?'#f87171':'#C9A84C')+'"/></radialGradient>'
-      +'<filter id="pglow"><feGaussianBlur stdDeviation="1.5" result="blur"/><feComposite in="SourceGraphic" in2="blur" operator="over"/></filter>'
-      +'</defs>'
-      +'<path d="M18 0C8.06 0 0 8.06 0 18C0 31.5 18 46 18 46C18 46 36 31.5 36 18C36 8.06 27.94 0 18 0Z" fill="url(#pg'+(isRed?'r':'g')+')" filter="url(#pglow)"/>'
-      +'<circle cx="18" cy="18" r="9" fill="rgba(0,0,0,0.55)" stroke="rgba(255,255,255,0.12)" stroke-width="0.5"/>'
-      +(isRed
-        ?'<circle cx="18" cy="18" r="5" fill="rgba(255,255,255,0.9)"/><circle cx="18" cy="18" r="2.5" fill="#f87171"/>'
-        :'<circle cx="18" cy="18" r="4.5" fill="rgba(201,168,76,0.3)"/><circle cx="18" cy="18" r="2" fill="#E8C96A"/>'
-      )
-      +'</svg>'
-      +'<div style="background:linear-gradient(135deg,rgba(8,8,8,0.97),rgba(20,16,8,0.97));border:1px solid '+(isRed?'rgba(248,113,113,0.6)':'rgba(201,168,76,0.55)')+';color:'+(isRed?'#f87171':'#E8C96A')+';font-size:9.5px;font-weight:700;padding:3px 10px;border-radius:5px;white-space:nowrap;margin-top:2px;letter-spacing:.6px;text-transform:uppercase;box-shadow:0 2px 8px rgba(0,0,0,0.5)">'+p.nome+'</div>'
-      +'</div>';
-    var icon=L.divIcon({className:'',html:pinoHtml,iconSize:[sz*3,Math.round(sz*1.8)],iconAnchor:[Math.round(sz*1.5),Math.round(sz*1.4)]});
-    var marker=L.marker([p.lat,p.lng],{icon:icon});
-    marker.on('click',function(){irParaCatalogoPino(p);});
-    marker.addTo(map);
+    adicionarPinoMapa(map,p);
     bounds.push([p.lat,p.lng]);
   });
 
-  // Centralizar mostrando todos os pinos
-  _mapInstance=map;
   if(bounds.length>0){
     map.fitBounds(bounds,{padding:[60,60],maxZoom:13});
   }
 
-  // invalidateSize com retry até container ter tamanho real
   function retryInvalidate(attempts){
     var el=document.getElementById('leaflet-map');
     if(!el)return;
@@ -1158,6 +1120,46 @@ function startMap(){
   }
   setTimeout(function(){retryInvalidate(10);},100);
 }
+
+// FIX erro 5: trocarCidade com guard para _mapInstance null
+// FIX erro 7: eachLayer com instanceof L.Marker (já estava certo, mantido)
+function trocarCidade(cidade,btn){
+  _cidadeAtual=cidade;
+
+  // Atualizar botões
+  ['santarem','alenquer','monte-alegre'].forEach(function(c){
+    var b=document.getElementById('btn-cidade-'+c);
+    if(!b)return;
+    if(c===cidade){
+      b.style.background='var(--gold)';b.style.color='#000';b.style.borderColor='var(--gold)';
+    } else {
+      b.style.background='transparent';b.style.color='var(--gold)';b.style.borderColor='rgba(201,168,76,0.3)';
+    }
+  });
+
+  // Atualizar título e label
+  var titulo=document.getElementById('mapa-cidade-titulo');
+  if(titulo)titulo.textContent=_cidadeTitulos[cidade]||cidade;
+  var label=document.getElementById('mapa-label-cidade');
+  if(label)label.textContent=_cidadeLabels[cidade]||cidade;
+
+  // FIX erro 5: guard — se mapa não iniciou ainda, inicia
+  if(!_mapInstance){startMap();return;}
+
+  // Voar para a cidade
+  var centro=_cidadeCentros[cidade];
+  if(centro)_mapInstance.flyTo([centro.lat,centro.lng],centro.zoom,{duration:1.2});
+
+  // FIX erro 7: remover apenas markers (não tiles)
+  _mapInstance.eachLayer(function(layer){
+    if(layer instanceof L.Marker)_mapInstance.removeLayer(layer);
+  });
+
+  // FIX erro 3: usar adicionarPinoMapa para todos os pinos
+  var pinos=_pinosCidades[cidade]||[];
+  pinos.forEach(function(p){adicionarPinoMapa(_mapInstance,p);});
+}
+
 
 // Iniciar quando a seção ficar visível
 (function(){
