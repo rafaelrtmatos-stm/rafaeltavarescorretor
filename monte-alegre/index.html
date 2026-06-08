@@ -134,7 +134,16 @@
     </div>
     <div class="mapa-wrap">
       <!-- MAPA REAL POR BAIXO -->
-      <div id="mapa-vis"><div style="text-align:center;color:var(--text3);font-size:13px">Carregando mapa...</div></div>
+      <div id="mapa-vis" style="width:100%;border-radius:12px;overflow:hidden;min-height:500px">
+        <iframe
+          id="iframe-mapa-lotes"
+          src="https://rumoaomilhao.imb.br/mapa?empreendimentoId=1780936340931&userId=shared"
+          style="width:100%;height:500px;border:none;display:block"
+          loading="lazy"
+          allowfullscreen
+          title="Mapa de Lotes Jussaramia">
+        </iframe>
+      </div>
 
       <!-- OVERLAY BLUR -->
       <div class="mapa-blur" id="mapa-blur-overlay" style="display:none">
