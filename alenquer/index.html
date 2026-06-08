@@ -137,34 +137,26 @@
 <script>
 (function(){
   var target=new Date('2026-06-10T11:00:00-03:00').getTime();
+  var iv=null;
   function tick(){
-    var now=Date.now();
-    var diff=target-now;
+    var diff=target-Date.now();
     var dias=document.getElementById('al-cd-dias');
     var horas=document.getElementById('al-cd-horas');
     var min=document.getElementById('al-cd-min');
     var seg=document.getElementById('al-cd-seg');
     if(!dias)return;
     if(diff<=0){
-      if(dias)dias.textContent='00';
-      if(horas)horas.textContent='00';
-      if(min)min.textContent='00';
-      if(seg)seg.textContent='00';
-      var el=document.getElementById('al-countdown');
-      if(el)el.style.display='none';
+      clearInterval(iv);
+      dias.textContent='00';horas.textContent='00';min.textContent='00';seg.textContent='00';
       return;
     }
-    var d=Math.floor(diff/86400000);
-    var h=Math.floor((diff%86400000)/3600000);
-    var m=Math.floor((diff%3600000)/60000);
-    var s=Math.floor((diff%60000)/1000);
-    if(dias)dias.textContent=d<10?'0'+d:d;
-    if(horas)horas.textContent=h<10?'0'+h:h;
-    if(min)min.textContent=m<10?'0'+m:m;
-    if(seg)seg.textContent=s<10?'0'+s:s;
+    dias.textContent=String(Math.floor(diff/86400000)).padStart(2,'0');
+    horas.textContent=String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
+    min.textContent=String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+    seg.textContent=String(Math.floor((diff%60000)/1000)).padStart(2,'0');
   }
   tick();
-  setInterval(tick,1000);
+  iv=setInterval(tick,1000);
 })();
 </script>
 
@@ -212,162 +204,48 @@
   <div class="section-inner">
     <div class="section-tag">Condições de pagamento</div>
     <h2 class="section-title">Tabela de <em>Preços</em></h2>
-    <p class="section-sub" style="margin-bottom:28px">Entrada de R$ 600 para todos os planos. Escolha o que melhor se encaixa no seu bolso.</p>
+    <p class="section-sub" style="margin-bottom:36px">Entrada a partir de R$ 500. Parcelas que cabem no seu bolso — valores completos revelados no dia do lançamento, dia 10 de junho.</p>
 
-    <div style="display:flex;justify-content:center;gap:10px;margin-bottom:28px;flex-wrap:wrap">
-      <button onclick="mostrarSeg('principal',this)" id="tab-principal" style="padding:10px 22px;border-radius:100px;border:2px solid var(--gold);background:var(--gold);color:#000;font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;letter-spacing:.5px">Lotes acima de 200m²</button>
-      <button onclick="mostrarSeg('centro',this)" id="tab-centro" style="padding:10px 22px;border-radius:100px;border:2px solid var(--border2);background:transparent;color:var(--gold);font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;letter-spacing:.5px">Lotes até 200m²</button>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;max-width:800px;margin:0 auto">
+
+      <!-- CARD ENTRADA -->
+      <div style="background:var(--bg2);border:2px solid var(--gold);border-radius:18px;overflow:hidden;position:relative;text-align:center;padding:36px 24px">
+        <div style="position:absolute;top:14px;right:14px;background:var(--gold);color:#000;font-size:9px;font-weight:700;letter-spacing:1.5px;padding:4px 10px;border-radius:100px">✅ Confirmado</div>
+        <div style="font-size:11px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:8px">Entrada a partir de</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:700;color:var(--gold);line-height:1">R$ 500</div>
+        <div style="font-size:13px;color:var(--text2);margin-top:8px">Valor confirmado para o lançamento</div>
+      </div>
+
+      <!-- CARD PARCELAS MISTÉRIO -->
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:18px;overflow:hidden;text-align:center;padding:36px 24px;position:relative">
+        <div style="font-size:11px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:8px">Parcelas mensais</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:700;color:var(--text2);line-height:1;filter:blur(8px);user-select:none">R$ ???</div>
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
+          <div style="font-size:28px">🔒</div>
+          <div style="font-size:13px;font-weight:700;color:var(--gold)">Revelado no lançamento</div>
+          <div style="font-size:11px;color:var(--text3)">Quarta-feira, dia 10 de junho</div>
+        </div>
+      </div>
+
+      <!-- CARD À VISTA -->
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:18px;overflow:hidden;text-align:center;padding:36px 24px;position:relative">
+        <div style="font-size:11px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:8px">À vista</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:700;color:var(--text2);line-height:1;filter:blur(8px);user-select:none">R$ ???</div>
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
+          <div style="font-size:28px">🔒</div>
+          <div style="font-size:13px;font-weight:700;color:var(--gold)">Revelado no lançamento</div>
+          <div style="font-size:11px;color:var(--text3)">Desconto especial para à vista</div>
+        </div>
+      </div>
+
     </div>
 
-    <!-- LOTES ACIMA DE 200m² -->
-    <div id="seg-principal" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
-
-      <!-- 36 MESES DESTAQUE -->
-      <div style="background:var(--bg2);border:2px solid var(--gold);border-radius:18px;overflow:hidden;position:relative">
-        <div style="position:absolute;top:14px;right:14px;background:var(--gold);color:#000;font-size:9px;font-weight:700;letter-spacing:1.5px;padding:4px 10px;border-radius:100px;text-transform:uppercase">💎 Melhor Economia</div>
-        <div style="background:#1a3d28;padding:24px 24px 18px">
-          <div style="font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:6px">Plano</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#fff">3 Anos</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:3px">36 parcelas • Sem reajuste</div>
-        </div>
-        <div style="padding:20px 24px 8px;border-bottom:1px solid var(--border)">
-          <div style="font-size:10px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:4px">Parcela fixa de</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;color:var(--gold);line-height:1">R$ 1.388<span style="font-size:20px">,88</span></div>
-          <div style="font-size:11px;color:var(--text3);margin:4px 0 16px">Parcela fixa — sem surpresas</div>
-        </div>
-        <div style="padding:16px 24px;display:flex;flex-direction:column;gap:10px">
-          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Valor do lote</span><span style="font-weight:600">R$ 50.600</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Entrada</span><span style="font-weight:600">R$ 600</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Total pago</span><span style="font-weight:600;color:var(--gold)">R$ 50.600</span></div>
-          <div style="background:rgba(201,168,76,0.1);border-radius:8px;padding:8px 12px;font-size:12px;color:var(--gold);margin-top:4px;font-weight:600">✅ Paga o valor real do lote</div>
-        </div>
-      </div>
-
-      <!-- 120 MESES -->
-      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:18px;overflow:hidden">
-        <div style="background:#1e3a2a;padding:24px 24px 18px">
-          <div style="font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:6px">Plano</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#fff">10 Anos</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:3px">120 parcelas • Reajuste anual</div>
-        </div>
-        <div style="padding:20px 24px 8px;border-bottom:1px solid var(--border)">
-          <div style="font-size:10px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:4px">1ª parcela a partir de</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;color:var(--gold);line-height:1">R$ 416<span style="font-size:20px">,66</span></div>
-          <div style="font-size:11px;color:var(--text3);margin:4px 0 16px">Reajuste anual fixo</div>
-        </div>
-        <div style="padding:16px 24px;display:flex;flex-direction:column;gap:8px">
-          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Entrada</span><span style="font-weight:600">R$ 600</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Total pago</span><span style="font-weight:600">R$ 71.229</span></div>
-          <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:4px">
-            <div style="font-size:10px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Evolução da parcela</div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>1º Ano</span><span>R$ 416,66</span></div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>5º Ano</span><span>R$ 546,16</span></div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>10º Ano</span><span>R$ 766,01</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 180 MESES -->
-      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:18px;overflow:hidden">
-        <div style="background:#1e3a2a;padding:24px 24px 18px">
-          <div style="font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:6px">Plano</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#fff">15 Anos</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:3px">180 parcelas • Reajuste anual</div>
-        </div>
-        <div style="padding:20px 24px 8px;border-bottom:1px solid var(--border)">
-          <div style="font-size:10px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:4px">1ª parcela a partir de</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;color:var(--gold);line-height:1">R$ 277<span style="font-size:20px">,77</span></div>
-          <div style="font-size:11px;color:var(--text3);margin:4px 0 16px">Reajuste anual fixo</div>
-        </div>
-        <div style="padding:16px 24px;display:flex;flex-direction:column;gap:8px">
-          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Entrada</span><span style="font-weight:600">R$ 600</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Total pago</span><span style="font-weight:600">R$ 91.104</span></div>
-          <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:4px">
-            <div style="font-size:10px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Evolução da parcela</div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>1º Ano</span><span>R$ 277,77</span></div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>5º Ano</span><span>R$ 377,90</span></div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>10º Ano</span><span>R$ 555,26</span></div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>15º Ano</span><span>R$ 815,86</span></div>
-          </div>
-        </div>
-      </div>
+    <div style="text-align:center;margin-top:32px">
+      <a href="https://chat.whatsapp.com/EZhQz7p90YXHTBH1G1eSiB?mode=gi_t" target="_blank"
+        style="display:inline-flex;align-items:center;gap:8px;background:rgba(37,211,102,0.12);border:1.5px solid rgba(37,211,102,0.4);color:#25D366;padding:12px 24px;border-radius:100px;font-size:12px;font-weight:700;text-decoration:none;letter-spacing:.5px">
+        💬 Entre no Grupo VIP e saiba primeiro
+      </a>
     </div>
-
-    <!-- LOTES ATÉ 200m² -->
-    <div id="seg-centro" style="display:none;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
-
-      <!-- 36 MESES DESTAQUE -->
-      <div style="background:var(--bg2);border:2px solid var(--gold);border-radius:18px;overflow:hidden;position:relative">
-        <div style="position:absolute;top:14px;right:14px;background:var(--gold);color:#000;font-size:9px;font-weight:700;letter-spacing:1.5px;padding:4px 10px;border-radius:100px;text-transform:uppercase">💎 Melhor Economia</div>
-        <div style="background:#1a3d28;padding:24px 24px 18px">
-          <div style="font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:6px">Plano</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#fff">3 Anos</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:3px">36 parcelas • Sem reajuste</div>
-        </div>
-        <div style="padding:20px 24px 8px;border-bottom:1px solid var(--border)">
-          <div style="font-size:10px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:4px">Parcela fixa de</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;color:var(--gold);line-height:1">R$ 1.277<span style="font-size:20px">,78</span></div>
-          <div style="font-size:11px;color:var(--text3);margin:4px 0 16px">Parcela fixa — sem surpresas</div>
-        </div>
-        <div style="padding:16px 24px;display:flex;flex-direction:column;gap:10px">
-          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Valor do lote</span><span style="font-weight:600">R$ 46.600</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Entrada</span><span style="font-weight:600">R$ 600</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Total pago</span><span style="font-weight:600;color:var(--gold)">R$ 46.600</span></div>
-          <div style="background:rgba(201,168,76,0.1);border-radius:8px;padding:8px 12px;font-size:12px;color:var(--gold);margin-top:4px;font-weight:600">✅ Paga o valor real do lote</div>
-        </div>
-      </div>
-
-      <!-- 120 MESES -->
-      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:18px;overflow:hidden">
-        <div style="background:#1e3a2a;padding:24px 24px 18px">
-          <div style="font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:6px">Plano</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#fff">10 Anos</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:3px">120 parcelas • Reajuste anual</div>
-        </div>
-        <div style="padding:20px 24px 8px;border-bottom:1px solid var(--border)">
-          <div style="font-size:10px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:4px">1ª parcela a partir de</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;color:var(--gold);line-height:1">R$ 383<span style="font-size:20px">,33</span></div>
-          <div style="font-size:11px;color:var(--text3);margin:4px 0 16px">Reajuste anual fixo</div>
-        </div>
-        <div style="padding:16px 24px;display:flex;flex-direction:column;gap:8px">
-          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Entrada</span><span style="font-weight:600">R$ 600</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Total pago</span><span style="font-weight:600">R$ 65.383</span></div>
-          <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:4px">
-            <div style="font-size:10px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Evolução da parcela</div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>1º Ano</span><span>R$ 383,33</span></div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>5º Ano</span><span>R$ 502,47</span></div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>10º Ano</span><span>R$ 704,74</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 180 MESES -->
-      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:18px;overflow:hidden">
-        <div style="background:#1e3a2a;padding:24px 24px 18px">
-          <div style="font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:6px">Plano</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#fff">15 Anos</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:3px">180 parcelas • Reajuste anual</div>
-        </div>
-        <div style="padding:20px 24px 8px;border-bottom:1px solid var(--border)">
-          <div style="font-size:10px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:4px">1ª parcela a partir de</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;color:var(--gold);line-height:1">R$ 255<span style="font-size:20px">,56</span></div>
-          <div style="font-size:11px;color:var(--text3);margin:4px 0 16px">Reajuste anual fixo</div>
-        </div>
-        <div style="padding:16px 24px;display:flex;flex-direction:column;gap:8px">
-          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Entrada</span><span style="font-weight:600">R$ 600</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Total pago</span><span style="font-weight:600">R$ 83.590</span></div>
-          <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:4px">
-            <div style="font-size:10px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Evolução da parcela</div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>1º Ano</span><span>R$ 255,56</span></div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>5º Ano</span><span>R$ 347,69</span></div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>10º Ano</span><span>R$ 510,87</span></div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>15º Ano</span><span>R$ 750,63</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div style="text-align:center;margin-top:20px;font-size:12px;color:var(--text3)">* Condições sujeitas a alteração. Consulte o corretor.</div>
   </div>
 </section>
 
