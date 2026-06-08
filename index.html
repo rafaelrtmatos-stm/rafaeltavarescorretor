@@ -465,6 +465,12 @@ section#hero{z-index:0;overflow:hidden!important}
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Rafael Tavares">
   <meta name="theme-color" content="#C9A84C">
+<link rel="preload" as="image" href="https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-0-1780364307268.jpeg">
+<link rel="preload" as="image" href="https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-1-1780364341875.jpeg">
+<link rel="preload" as="image" href="https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-2-1780364588826.png">
+<link rel="preload" as="image" href="https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-3-1780365626321.jpeg">
+<link rel="preload" as="image" href="https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-4-1780364714914.jpeg">
+<link rel="preload" as="image" href="https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-5-1780365599905.png">
 </head>
 <body>
 
@@ -1503,9 +1509,25 @@ function startMap(){
     'breve-azul':'background:rgba(96,165,250,0.18);border-color:rgba(96,165,250,0.45);color:#60a5fa',
     'premium':'background:rgba(167,139,250,0.18);border-color:rgba(167,139,250,0.45);color:#c4b5fd'
   };
-  fetch('/site_data.json?_='+Date.now())
-    .then(function(r){return r.json();})
-    .then(function(d){
+  // Dados das fotos já embutidos para carregamento instantâneo
+(function(){
+  var FOTOS_INLINE = {"mararu": "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-0-1780364307268.jpeg", "pajucara": "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-1-1780364341875.jpeg", "santa-maria": "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-2-1780364588826.png", "cucuruna": "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-3-1780365626321.jpeg", "ponta-pedras": "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-4-1780364714914.jpeg", "alter": "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-5-1780365599905.png"};
+  var cards2=document.querySelectorAll('.rc2-card');
+  var nameMap2={'Mararu':'mararu','Pajuçara':'pajucara','Santa Maria':'santa-maria','Cucurunã':'cucuruna','Ponta de Pedras':'ponta-pedras','Alter do Chão':'alter','Espírito Santo':'espirito-santo'};
+  cards2.forEach(function(card){
+    var nomeEl=card.querySelector('.rc2-nome-over');
+    if(!nomeEl)return;
+    var id=nameMap2[nomeEl.textContent.trim()];
+    if(!id||!FOTOS_INLINE[id])return;
+    var img=card.querySelector('.rc2-img');
+    if(img){
+      img.style.backgroundImage='url("'+FOTOS_INLINE[id]+'")';
+      img.style.backgroundSize='cover';
+      img.style.backgroundPosition='center';
+    }
+  });
+})();
+fetch('/site_data.json').then(function(r){return r.json();}).then(function(d){
       if(!d||!d.regioes||!d.regioes.length)return;
       var map={};
       d.regioes.forEach(function(r){
