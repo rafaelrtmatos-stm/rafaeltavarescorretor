@@ -434,7 +434,7 @@ function renderMapaVisual(lotesInfo,pontos,imgUrl){
   var wrap=document.getElementById('mapa-vis');
   if(!wrap)return;
   if(!imgUrl||!pontos||!pontos.length){
-    wrap.innerHTML='<div style="padding:40px;color:var(--text3);text-align:center;font-size:13px">Mapa em preparacao</div>';
+    // Sem dados de pontos — manter iframe que já está no HTML
     return;
   }
   var disp=0,res=0,vend=0;
