@@ -111,61 +111,8 @@
         Entrar no Grupo VIP
       </a>
 
-      <!-- CONTAGEM REGRESSIVA QUARTA DIA 10 -->
-      <div style="margin-top:24px;background:rgba(0,0,0,0.65);border:1px solid rgba(201,168,76,0.25);border-radius:16px;padding:20px 24px;max-width:340px;margin-left:auto;margin-right:auto">
-        <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;font-weight:600">⏱ Lançamento em</div>
-        <div id="al-countdown" style="display:flex;gap:8px;justify-content:center">
-          <div style="text-align:center;flex:1">
-            <div id="al-cd-dias" style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;color:#fff;line-height:1">--</div>
-            <div style="font-size:8px;letter-spacing:2px;color:rgba(255,255,255,0.35);text-transform:uppercase;margin-top:4px">DIAS</div>
-          </div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:rgba(201,168,76,0.4);line-height:1.2">:</div>
-          <div style="text-align:center;flex:1">
-            <div id="al-cd-horas" style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;color:#fff;line-height:1">--</div>
-            <div style="font-size:8px;letter-spacing:2px;color:rgba(255,255,255,0.35);text-transform:uppercase;margin-top:4px">HRS</div>
-          </div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:rgba(201,168,76,0.4);line-height:1.2">:</div>
-          <div style="text-align:center;flex:1">
-            <div id="al-cd-min" style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;color:#fff;line-height:1">--</div>
-            <div style="font-size:8px;letter-spacing:2px;color:rgba(255,255,255,0.35);text-transform:uppercase;margin-top:4px">MIN</div>
-          </div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:rgba(201,168,76,0.4);line-height:1.2">:</div>
-          <div style="text-align:center;flex:1">
-            <div id="al-cd-seg" style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;color:#fff;line-height:1">--</div>
-            <div style="font-size:8px;letter-spacing:2px;color:rgba(255,255,255,0.35);text-transform:uppercase;margin-top:4px">SEG</div>
-          </div>
-        </div>
-        <div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(201,168,76,0.15);display:flex;align-items:center;justify-content:center;gap:8px">
-          <div style="width:6px;height:6px;border-radius:50%;background:#f87171;animation:pulse 1s infinite;flex-shrink:0"></div>
-          <div style="font-size:10px;color:rgba(255,255,255,0.5);letter-spacing:1px">🗓 Quarta-feira · 10 de junho · 11h</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+      
 
-
-<script>
-(function(){
-  var target=new Date('2026-06-10T11:00:00-03:00').getTime();
-  var iv=null;
-  function pad(n){return String(n).padStart(2,'0');}
-  function tick(){
-    var diff=target-Date.now();
-    var d=document.getElementById('al-cd-dias');
-    var h=document.getElementById('al-cd-horas');
-    var m=document.getElementById('al-cd-min');
-    var s=document.getElementById('al-cd-seg');
-    if(!d)return;
-    if(diff<=0){clearInterval(iv);d.textContent='00';h.textContent='00';m.textContent='00';s.textContent='00';return;}
-    d.textContent=pad(Math.floor(diff/86400000));
-    h.textContent=pad(Math.floor((diff%86400000)/3600000));
-    m.textContent=pad(Math.floor((diff%3600000)/60000));
-    s.textContent=pad(Math.floor((diff%60000)/1000));
-  }
-  tick();iv=setInterval(tick,1000);
-})();
-</script>
 <!-- CARD LANÇAMENTO ALENQUER -->
 <div style="display:flex;justify-content:center;padding:32px 20px 0;background:var(--bg)">
   <div id="card-alenquer-page" style="width:100%;max-width:400px;background:rgba(0,0,0,0.88);border:1px solid rgba(201,168,76,0.4);border-radius:14px;overflow:hidden;margin-bottom:18px;box-shadow:0 8px 32px rgba(0,0,0,0.7),0 0 40px rgba(201,168,76,0.05)">
