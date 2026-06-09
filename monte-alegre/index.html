@@ -135,8 +135,13 @@
     </div>
     <div class="mapa-wrap">
       <!-- MAPA REAL POR BAIXO -->
-      <div id="mapa-vis" style="width:100%;border-radius:12px;overflow:hidden;min-height:500px;background:var(--bg3);display:flex;align-items:center;justify-content:center">
-        <div style="color:var(--text3);font-size:13px">Carregando mapa...</div>
+      <div id="mapa-vis" style="width:100%;border-radius:12px;overflow:hidden;min-height:500px">
+        <iframe
+          src="https://rumoaomilhao.imb.br/mapa/1780936340931"
+          style="width:100%;height:600px;border:none;border-radius:12px;display:block"
+          width="100%" height="600" frameborder="0"
+          title="Mapa de Lotes Jussaramia">
+        </iframe>
       </div>
 
       <!-- OVERLAY BLUR -->
@@ -471,18 +476,14 @@ fetch(SUPABASE_URL+'/rest/v1/empreendimentos?id=eq.'+EMP_ID+'&select=data',{
 }).then(function(r){return r.json();})
   .then(function(rows){
     if(!rows||!rows.length){
-      // Sem dados ainda — mostrar iframe do Rumo ao Milhão
-      var wrap=document.getElementById('mapa-vis');
-      if(wrap)wrap.innerHTML='<iframe src="https://rumoaomilhao.imb.br/mapa/'+EMP_ID+'" style="width:100%;height:600px;border:none;border-radius:12px;display:block" frameborder="0" title="Mapa '+EMP_NOME+'"></iframe>';
+      // Sem dados no Supabase — iframe já está no HTML, não fazer nada
       return;
     }
     var data=rows[0].data;
     renderMapaVisual(data.lotesInfo||{},data.mapaPontos||[],data.mapaImagemUrl||'');
   }).catch(function(e){
     console.warn('Mapa:',e);
-    // Fallback: iframe
-    var wrap=document.getElementById('mapa-vis');
-    if(wrap)wrap.innerHTML='<iframe src="https://rumoaomilhao.imb.br/mapa/'+EMP_ID+'" style="width:100%;height:600px;border:none;border-radius:12px;display:block" frameborder="0" title="Mapa '+EMP_NOME+'"></iframe>';
+    // iframe já está no HTML como fallback
   });
 </script>
 </body>
