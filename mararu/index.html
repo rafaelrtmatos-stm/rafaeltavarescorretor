@@ -506,6 +506,7 @@ function renderMapaVisual(lotesInfo,pontos,imgUrl){
   var sd=document.getElementById('stat-disp');if(sd)sd.textContent=disp;
   var sr=document.getElementById('stat-res');if(sr)sr.textContent=res;
   var sv=document.getElementById('stat-vend');if(sv)sv.textContent=vend;
+  var stotal=document.getElementById('stat-total');if(stotal)stotal.textContent=disp+res+vend;
 
   var imgW=wrap.offsetWidth||320;
   var sz=Math.max(6,Math.min(14,Math.round(imgW*0.011)));

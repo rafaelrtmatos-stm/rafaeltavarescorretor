@@ -420,10 +420,13 @@ function mostrarSeg(id, btn) {
   <div>Santarem, PA - (93) 99233-2012</div>
 </footer>
 
+<
 <script>
 var SUPABASE_URL='https://uftxcwcryqpkfdfxzlno.supabase.co';
 var SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI';
-var JUSSARAMIA_ID='';
+var EMP_ID='1780936340931';
+var EMP_NOME='Jussaramia';
+var EMP_TOTAL=547;
 
 function corLote(s){
   if(s==='disponivel')return'#3b82f6';
@@ -450,11 +453,13 @@ function renderMapaVisual(lotesInfo,pontos,imgUrl){
   var sd=document.getElementById('stat-disp');if(sd)sd.textContent=disp;
   var sr=document.getElementById('stat-res');if(sr)sr.textContent=res;
   var sv=document.getElementById('stat-vend');if(sv)sv.textContent=vend;
+  var stotal=document.getElementById('stat-total');
+  if(stotal&&EMP_TOTAL>0)stotal.textContent=EMP_TOTAL;
 
   var imgW=wrap.offsetWidth||320;
   var sz=Math.max(6,Math.min(14,Math.round(imgW*0.011)));
   var h='<div style="position:relative;width:100%">';
-  h+='<img src="'+imgUrl+'" style="width:100%;display:block" alt="Mapa Jussaramia">';
+  h+='<img src="'+imgUrl+'" style="width:100%;display:block" alt="Mapa '+EMP_NOME+'">';
   h+='<div style="position:absolute;inset:0">';
   pontos.forEach(function(p){
     var key=p.quadra+'-'+p.lote;
@@ -470,70 +475,24 @@ function renderMapaVisual(lotesInfo,pontos,imgUrl){
   if(leg)leg.style.display='flex';
 }
 
-fetch(SUPABASE_URL+'/rest/v1/empreendimentos?id=eq.'+JUSSARAMIA_ID+'&select=data',{
+fetch(SUPABASE_URL+'/rest/v1/empreendimentos?id=eq.'+EMP_ID+'&select=data',{
   headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}
 }).then(function(r){return r.json();})
   .then(function(rows){
-    if(!rows||!rows.length)return;
-    var data=rows[0].data;
-    renderMapaVisual(data.lotesInfo||{},data.mapaPontos||[],data.mapaImagemUrl||'');
-  }).catch(function(e){console.warn('Mapa:',e);});
-
-fetch('/site_data.json?_='+Date.now())
-  .then(function(r){return r.json();})
-  .then(function(d){
-    var borrado=!d||!d.lancamento||d.lancamento.marcaDagua!==false;
-    var overlay=document.getElementById('mapa-blur-overlay');
-    var txt=document.getElementById('mapa-blur-txt');
-    if(overlay)overlay.style.display=borrado?'flex':'none';
-    if(txt&&d&&d.lancamento&&d.lancamento.marcaDaguaTxt)txt.textContent=d.lancamento.marcaDaguaTxt;
-
-    var galeria=(d.jussaramia&&d.jussaramia.galeria)||[];
-    var grid=document.getElementById('galeria-grid');
-    if(!grid)return;
-
-    if(!galeria.length){
-      grid.innerHTML='<div style="padding:40px;color:var(--text3);font-size:13px;text-align:center;grid-column:1/-1">Videos em breve</div>';
+    if(!rows||!rows.length){
+      // Sem dados ainda — mostrar iframe do Rumo ao Milhão
+      var wrap=document.getElementById('mapa-vis');
+      if(wrap)wrap.innerHTML='<iframe src="https://rumoaomilhao.imb.br/mapa/'+EMP_ID+'" style="width:100%;height:600px;border:none;border-radius:12px;display:block" frameborder="0" title="Mapa '+EMP_NOME+'"></iframe>';
       return;
     }
-
-    var cardStyle='border-radius:14px;overflow:hidden;border:1px solid rgba(201,168,76,0.15);background:var(--bg3);position:relative;box-shadow:0 6px 24px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.04);transition:transform .25s,box-shadow .25s';
-    grid.innerHTML=galeria.map(function(url){
-      var isVideo=url.indexOf('.mp4')>=0||url.indexOf('.webm')>=0||url.indexOf('.mov')>=0;
-      if(isVideo){
-        return '<div style="'+cardStyle+'"><video src="'+url+'" controls muted playsinline preload="metadata" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block"></video></div>';
-      }
-      return '<div style="'+cardStyle+';aspect-ratio:16/9"><img src="'+url+'" alt="Jussaramia" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></div>';
-    }).join('');
-  }).catch(function(){});
-
-
-
-(function(){});
-
-(function(){
-  try{
-    var res=JSON.parse(localStorage.getItem('jussaramia_reserva')||'null');
-    if(!res||Date.now()-res.ts>30*24*60*60*1000){localStorage.removeItem('jussaramia_reserva');return;}
-    var banner=document.createElement('div');
-    banner.style.cssText='position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(201,168,76,0.95);color:#000;padding:10px 20px;border-radius:10px;font-size:12px;font-weight:700;z-index:999;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,0.4);cursor:pointer';
-    var lote=res.quadra?(' Q'+res.quadra+' L'+res.lote):'';
-    banner.textContent='Sua pre-reserva'+lote+' - Aguardando confirmacao';
-    banner.onclick=function(){banner.remove();};
-    document.body.appendChild(banner);
-  }catch(e){}
-})();
-
-function abrirModalCorretor(){
-  var m=document.getElementById('modal-corretor');
-  if(m)m.style.display='flex';
-  document.body.style.overflow='hidden';
-}
-function fecharModalCorretor(){
-  var m=document.getElementById('modal-corretor');
-  if(m)m.style.display='none';
-  document.body.style.overflow='';
-}
+    var data=rows[0].data;
+    renderMapaVisual(data.lotesInfo||{},data.mapaPontos||[],data.mapaImagemUrl||'');
+  }).catch(function(e){
+    console.warn('Mapa:',e);
+    // Fallback: iframe
+    var wrap=document.getElementById('mapa-vis');
+    if(wrap)wrap.innerHTML='<iframe src="https://rumoaomilhao.imb.br/mapa/'+EMP_ID+'" style="width:100%;height:600px;border:none;border-radius:12px;display:block" frameborder="0" title="Mapa '+EMP_NOME+'"></iframe>';
+  });
 </script>
 </body>
 </html>
