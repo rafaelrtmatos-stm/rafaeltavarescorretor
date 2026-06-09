@@ -455,7 +455,9 @@
       "https://raw.githubusercontent.com/rafaelrtmatos-stm/rafaeltavarescorretor/main/imagens/alenquer-obra-3.jpeg"
     ],
     "empId": "1780939976772",
-    "dataLancamento": "2026-06-10T11:00:00.000Z"
+    "dataLancamento": "2026-06-10T11:00:00.000Z",
+    "marcaDagua": true,
+    "marcaDaguaTxt": "Lançamento dia 10"
   },
   "monte-alegre": {
     "galeria": [],
