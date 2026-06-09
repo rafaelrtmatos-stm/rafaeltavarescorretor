@@ -127,7 +127,7 @@
     <div class="section-tag">Disponibilidade em tempo real</div>
     <h2 class="section-title">Mapa de <em>Lotes</em></h2>
     <p class="section-sub">Veja quais lotes ainda estao disponiveis. Atualizado automaticamente conforme as reservas sao feitas.</p>
-    <div class="mapa-stats" id="mapa-stats">
+    <div class="mapa-stats" id="mapa-stats" style="display:grid">
       <div class="mapa-stat"><div class="mapa-stat-num" style="color:#3b82f6" id="stat-disp">0</div><div class="mapa-stat-lbl">Disponíveis</div></div>
       <div class="mapa-stat"><div class="mapa-stat-num" style="color:#eab308" id="stat-res">0</div><div class="mapa-stat-lbl">Reservados</div></div>
       <div class="mapa-stat"><div class="mapa-stat-num" style="color:#ef4444" id="stat-vend">0</div><div class="mapa-stat-lbl">Vendidos</div></div>
@@ -135,16 +135,8 @@
     </div>
     <div class="mapa-wrap">
       <!-- MAPA REAL POR BAIXO -->
-      <div id="mapa-vis" style="width:100%;border-radius:12px;overflow:hidden;min-height:500px">
-        <iframe
-          id="iframe-mapa-lotes"
-          src="https://rumoaomilhao.imb.br/mapa/1780936340931"
-          style="width:100%;height:600px;border:none;border-radius:12px;display:block"
-          width="100%"
-          height="600"
-          frameborder="0"
-          title="Mapa de Lotes Jussaramia">
-        </iframe>
+      <div id="mapa-vis" style="width:100%;border-radius:12px;overflow:hidden;min-height:500px;background:var(--bg3);display:flex;align-items:center;justify-content:center">
+        <div style="color:var(--text3);font-size:13px">Carregando mapa...</div>
       </div>
 
       <!-- OVERLAY BLUR -->
@@ -420,7 +412,6 @@ function mostrarSeg(id, btn) {
   <div>Santarem, PA - (93) 99233-2012</div>
 </footer>
 
-<
 <script>
 var SUPABASE_URL='https://uftxcwcryqpkfdfxzlno.supabase.co';
 var SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI';
