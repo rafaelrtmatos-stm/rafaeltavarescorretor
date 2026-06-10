@@ -409,7 +409,7 @@
       "estado": "PA",
       "lat": -1.94623,
       "lng": -54.7384,
-      "foto": "",
+      "foto": "https://raw.githubusercontent.com/rafaelrtmatos-stm/rafaeltavarescorretor/main/imagens/regiao-alenquer.jpeg",
       "descricao": "Novo lançamento em Alenquer, PA.",
       "lancamento": true,
       "dataLancamento": "2026-06-10"
