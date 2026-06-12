@@ -409,7 +409,7 @@
       "estado": "PA",
       "lat": -1.9632448,
       "lng": -54.7075062,
-      "foto": "https://raw.githubusercontent.com/rafaelrtmatos-stm/rafaeltavarescorretor/main/imagens/regiao-alenquer.jpeg",
+      "foto": "https://raw.githubusercontent.com/rafaelrtmatos-stm/rafaeltavarescorretor/main/imagens/alenquer-obra-7.jpeg",
       "descricao": "Novo lançamento em Alenquer, PA.",
       "lancamento": true,
       "dataLancamento": "2026-06-10"
@@ -457,7 +457,8 @@
       "https://raw.githubusercontent.com/rafaelrtmatos-stm/rafaeltavarescorretor/main/imagens/alenquer-obra-5.jpeg",
       "https://raw.githubusercontent.com/rafaelrtmatos-stm/rafaeltavarescorretor/main/imagens/alenquer-obra-6.jpeg",
       "https://raw.githubusercontent.com/rafaelrtmatos-stm/rafaeltavarescorretor/main/imagens/alenquer-video-1.mov",
-      "https://raw.githubusercontent.com/rafaelrtmatos-stm/rafaeltavarescorretor/main/imagens/alenquer-video-2.mov"
+      "https://raw.githubusercontent.com/rafaelrtmatos-stm/rafaeltavarescorretor/main/imagens/alenquer-video-2.mov",
+      "https://raw.githubusercontent.com/rafaelrtmatos-stm/rafaeltavarescorretor/main/imagens/alenquer-obra-7.jpeg"
     ],
     "empId": "1780939976772",
     "dataLancamento": "2026-06-10T11:00:00.000Z",
