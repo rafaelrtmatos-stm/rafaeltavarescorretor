@@ -79,6 +79,16 @@
 
       .stats-band-inner,.planos-grid,.galeria-grid{grid-template-columns:1fr}
       .nav-btn-outline{display:none}
+      /* SEÇÃO SOBRE - empilha em mobile */
+      #sobre > div > div[style*="grid-template-columns:1fr 1.3fr"]{
+        display:flex!important;flex-direction:column!important;gap:32px!important
+      }
+      #sobre > div > div > div:first-child img{max-height:340px;border-radius:12px}
+      #sobre .sobre-stats{gap:16px}
+      /* RODAPÉ - empilha em mobile */
+      footer > div > div[style*="grid-template-columns:2fr 1fr 1fr 1fr"]{
+        display:flex!important;flex-direction:column!important;gap:28px!important
+      }
     }
   </style>
 </head>
