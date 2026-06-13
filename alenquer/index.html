@@ -57,6 +57,16 @@
     .dbg.red{background:rgba(248,113,113,0.15);color:#f87171;border:1px solid rgba(248,113,113,0.3)}
     @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
     @media(max-width:768px){.mapa-stats{grid-template-columns:repeat(2,1fr)};#menu-btn{top:72px;right:14px;width:40px;height:40px}}
+    @media(max-width:640px){
+      #sobre > div > div[style*="grid-template-columns:1fr 1.3fr"]{
+        display:flex!important;flex-direction:column!important;gap:32px!important
+      }
+      #sobre > div > div > div:first-child img{max-height:340px;border-radius:12px}
+      #sobre .sobre-stats{gap:16px}
+      footer > div > div[style*="grid-template-columns:2fr 1fr 1fr 1fr"]{
+        display:flex!important;flex-direction:column!important;gap:28px!important
+      }
+    }
   </style>
 </head>
 <body>
