@@ -112,14 +112,15 @@
       "wppMsg": ""
     },
     {
-      "nome": "Bom Sossego",
-      "local": "Santa Maria",
+      "nome": "Santa Maria",
+      "local": "Santa Maria, PA",
       "emoji": "🌿",
       "status": "disponivel",
-      "desc": "Loteamento em Santa Maria com terrenos documentados.",
-      "tags": "📍 Santa Maria,Documentado",
+      "desc": "Lotes 10x30 em Santa Maria. Energia próxima, moradores próximos, documentação completa, georreferenciamento e memorial descritivo.",
+      "tags": "📍 Santa Maria,⚡ Energia próxima,🏠 Moradores próximos,📄 Documentado,📍 Georreferenciado",
       "link": "",
-      "wppMsg": "Olá Rafael! Tenho interesse no Bom Sossego."
+      "wppMsg": "Olá Rafael! Tenho interesse no loteamento Santa Maria.",
+      "precoTexto": "A partir de R$500 entrada + 50x R$300 · Lote principal R$2.000 entrada + 100x R$400"
     },
     {
       "nome": "Céu Azul 1",
