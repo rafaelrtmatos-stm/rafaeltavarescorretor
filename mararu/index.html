@@ -394,33 +394,39 @@
     const parcelaFinal = p.evo[p.evo.length - 1][1];
     const totalParcelas = parseInt(precoPlan, 10);
 
-    let parcelasEliminadas, valorFuturo, economiaTotal, novoPrazo;
+    let parcelasEliminadas, parcelasEliminadasInt, valorFuturo, economiaTotal, novoPrazo;
 
     if (p.fixa) {
       // Plano fixo: parcela não varia, então amortizar apenas reduz prazo, sem ganho de reajuste
-      parcelasEliminadas = Math.min(totalParcelas, Math.floor(val / p.parcela));
-      valorFuturo = parcelasEliminadas * p.parcela;
+      parcelasEliminadas = Math.min(totalParcelas, val / p.parcela);
+      parcelasEliminadasInt = Math.min(totalParcelas, Math.round(parcelasEliminadas));
+      valorFuturo = parcelasEliminadasInt * p.parcela;
       economiaTotal = 0;
-      novoPrazo = totalParcelas - parcelasEliminadas;
+      novoPrazo = totalParcelas - parcelasEliminadasInt;
     } else {
-      parcelasEliminadas = Math.min(totalParcelas, Math.floor(val / parcelaFinal));
+      // Usa a parcela ATUAL como unidade de referência do valor amortizado
+      // (mais realista para valores pequenos/médios de amortização)
+      parcelasEliminadas = Math.min(totalParcelas, val / p.parcela);
+      parcelasEliminadasInt = Math.min(totalParcelas, Math.round(parcelasEliminadas));
+      // O valor que essas parcelas custariam no futuro usa a parcela FINAL (mais cara)
       valorFuturo = parcelasEliminadas * parcelaFinal;
       economiaTotal = Math.max(0, valorFuturo - val);
-      novoPrazo = totalParcelas - parcelasEliminadas;
+      novoPrazo = totalParcelas - parcelasEliminadasInt;
     }
 
     result.style.display = "block";
     document.getElementById("amortValInformado").textContent = brl(val);
-    document.getElementById("amortParcelasElim").textContent = parcelasEliminadas + (parcelasEliminadas === 1 ? " parcela" : " parcelas");
+    document.getElementById("amortParcelasElim").textContent = parcelasEliminadas.toFixed(1).replace(".0","").replace(".",",") + (parcelasEliminadasInt === 1 ? " parcela" : " parcelas");
     document.getElementById("amortValFuturo").textContent = brl(valorFuturo);
     document.getElementById("amortEconomiaTotal").textContent = brl(economiaTotal);
     document.getElementById("amortNovoPrazo").textContent = novoPrazo + " meses";
 
     const explicacao = document.getElementById("amortExplicacao");
+    const parcelasTxt = parcelasEliminadas.toFixed(1).replace(".0","").replace(".",",");
     if (p.fixa) {
-      explicacao.innerHTML = `Amortizando <b style="color:var(--gold)">${brl(val)}</b>, você elimina <b style="color:var(--gold)">${parcelasEliminadas}</b> parcela(s) do final do contrato e reduz seu prazo para <b style="color:var(--gold)">${novoPrazo} meses</b>. Como esse plano já tem parcela fixa, a economia vem da redução do prazo.`;
+      explicacao.innerHTML = `Amortizando <b style="color:var(--gold)">${brl(val)}</b>, você elimina o equivalente a <b style="color:var(--gold)">${parcelasTxt} parcela(s)</b> e reduz seu prazo para aproximadamente <b style="color:var(--gold)">${novoPrazo} meses</b>. Como esse plano já tem parcela fixa, a economia vem diretamente da redução do prazo.`;
     } else {
-      explicacao.innerHTML = `Amortizando <b style="color:var(--gold)">${brl(val)}</b> hoje, você elimina <b style="color:var(--gold)">${parcelasEliminadas}</b> parcela(s) do final do contrato — que custariam <b style="color:var(--gold)">${brl(valorFuturo)}</b> no futuro — gerando uma economia de <b style="color:var(--gold)">${brl(economiaTotal)}</b> e reduzindo seu prazo para <b style="color:var(--gold)">${novoPrazo} meses</b>.`;
+      explicacao.innerHTML = `Amortizando <b style="color:var(--gold)">${brl(val)}</b> hoje, você elimina o equivalente a <b style="color:var(--gold)">${parcelasTxt} parcela(s)</b> do final do contrato — que custariam <b style="color:var(--gold)">${brl(valorFuturo)}</b> no futuro — gerando uma economia estimada de <b style="color:var(--gold)">${brl(economiaTotal)}</b> e reduzindo seu prazo para aproximadamente <b style="color:var(--gold)">${novoPrazo} meses</b>.`;
     }
   }
 
