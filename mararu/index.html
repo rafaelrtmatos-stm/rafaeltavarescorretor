@@ -275,6 +275,10 @@
           </div>
         </div>
         <div id="amortExplicacao" style="margin-top:14px;background:rgba(0,0,0,0.25);border-radius:10px;padding:14px 16px;font-size:14px;color:var(--text2);line-height:1.5"></div>
+        <div id="amortDicaTotal" style="display:none;margin-top:16px;background:rgba(201,168,76,0.12);border-left:4px solid var(--gold);border-radius:10px;padding:16px;font-size:13px;color:var(--text2);line-height:1.6">
+          <div style="color:var(--gold);font-weight:700;margin-bottom:8px">💡 Dica: Pagar o valor total agora?</div>
+          <div id="amortDicaTotalText"></div>
+        </div>
       </div>
 
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:22px">
@@ -457,6 +461,24 @@
       explicacao.innerHTML = `Amortizando <b style="color:var(--gold)">${brl(val)}</b>, você elimina o equivalente a <b style="color:var(--gold)">${parcelasTxt} parcela(s)</b> e reduz seu prazo para aproximadamente <b style="color:var(--gold)">${novoPrazo} meses</b>. Como esse plano já tem parcela fixa, a economia vem diretamente da redução do prazo.`;
     } else {
       explicacao.innerHTML = `Amortizando <b style="color:var(--gold)">${brl(val)}</b> hoje, você elimina o equivalente a <b style="color:var(--gold)">${parcelasTxt} parcela(s)</b> do final do contrato — que custariam <b style="color:var(--gold)">${brl(valorFuturo)}</b> no futuro — gerando uma economia estimada de <b style="color:var(--gold)">${brl(economiaTotal)}</b> e reduzindo seu prazo para aproximadamente <b style="color:var(--gold)">${novoPrazo} meses</b>.`;
+    }
+
+    // Dica educativa: quanto precisa pagar pra adiantar todas as parcelas do plano
+    const dicaDiv = document.getElementById("amortDicaTotal");
+    const dicaText = document.getElementById("amortDicaTotalText");
+    const valorParaAdiantarTodas = totalParcelas * p.parcela;
+    const entrada = 600;
+    const totalLote = p.total;
+    const valorMenosEntrada = totalLote - entrada;
+    
+    if (dicaDiv && dicaText) {
+      if (valorMenosEntrada > 0) {
+        const parcelasAdelantadas = Math.round(valorMenosEntrada / p.parcela);
+        dicaDiv.style.display = "block";
+        dicaText.innerHTML = `Se você pagar <b style="color:var(--gold)">${brl(valorMenosEntrada)}</b> de amortização (valor total do lote menos a entrada), você adiantaria exatamente <b style="color:var(--gold)">${parcelasAdelantadas} parcelas</b> — liquidando todo o seu contrato de <b style="color:var(--gold)">${totalParcelas} meses</b> na hora!`;
+      } else {
+        dicaDiv.style.display = "none";
+      }
     }
   }
 
