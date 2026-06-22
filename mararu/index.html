@@ -244,7 +244,7 @@
       </div>
 
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
-        <input type="number" id="precoAmortInput" placeholder="Digite o valor que você quer amortizar (R$)" style="flex:1;min-width:200px;background:var(--bg2);border:2px solid var(--border2);color:var(--text);padding:14px 16px;border-radius:10px;font-size:16px;font-family:'Inter',sans-serif">
+        <input type="number" id="precoAmortInput" placeholder="Digite o valor que você quer amortizar (R$)" class="preco-amort-input" style="flex:1;min-width:200px;background:var(--bg2);border:2px solid var(--border2);color:var(--text);padding:14px 16px;border-radius:10px;font-size:16px;font-family:'Inter',sans-serif;transition:border-color .2s,box-shadow .2s">
       </div>
 
       <div id="precoAmortResult" style="display:none">
@@ -268,6 +268,10 @@
           <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:14px;text-align:center">
             <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Novo prazo estimado</div>
             <div id="amortNovoPrazo" style="font-size:16px;font-weight:700;color:var(--text)">—</div>
+          </div>
+          <div style="background:rgba(201,168,76,0.15);border:1px solid var(--gold);border-radius:10px;padding:14px;text-align:center;grid-column:1/-1">
+            <div style="font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Valor total do lote com amortização</div>
+            <div id="amortValorTotalLote" style="font-size:20px;font-weight:700;color:#fff">—</div>
           </div>
         </div>
         <div id="amortExplicacao" style="margin-top:14px;background:rgba(0,0,0,0.25);border-radius:10px;padding:14px 16px;font-size:14px;color:var(--text2);line-height:1.5"></div>
@@ -296,6 +300,12 @@
   .preco-evo-track{flex:1;background:rgba(255,255,255,0.08);border-radius:6px;height:20px;overflow:hidden}
   .preco-evo-fill{height:100%;background:linear-gradient(90deg,#B8902A,#E8C96A);border-radius:6px;width:0;transition:width .6s ease}
   .preco-evo-val{width:78px;text-align:right;font-size:12px;color:var(--gold);font-weight:600;flex-shrink:0}
+  .preco-amort-input.digitando{border-color:#e11d2e!important;box-shadow:0 0 0 3px rgba(225,29,46,0.25);animation:precoPulse 1s ease-in-out infinite}
+  @keyframes precoPulse{
+    0%{box-shadow:0 0 0 0 rgba(225,29,46,0.45)}
+    70%{box-shadow:0 0 0 10px rgba(225,29,46,0)}
+    100%{box-shadow:0 0 0 0 rgba(225,29,46,0)}
+  }
   @media(max-width:560px){
     #precoPlanSelector{grid-template-columns:1fr}
   }
@@ -438,6 +448,8 @@
       totalWrap.style.display = "block";
       totalAmortizadoEl.textContent = brl(novoTotal);
     }
+    const amortValorTotalLoteEl = document.getElementById("amortValorTotalLote");
+    if (amortValorTotalLoteEl) amortValorTotalLoteEl.textContent = brl(novoTotal);
 
     const explicacao = document.getElementById("amortExplicacao");
     const parcelasTxt = parcelasEliminadas.toFixed(1).replace(".0","").replace(".",",");
@@ -463,7 +475,19 @@
     };
   });
 
-  document.getElementById("precoAmortInput").addEventListener("input", precoUpdateAmortResult);
+  let precoDigitandoTimeout;
+  const precoAmortInputEl = document.getElementById("precoAmortInput");
+  precoAmortInputEl.addEventListener("input", () => {
+    precoAmortInputEl.classList.add("digitando");
+    clearTimeout(precoDigitandoTimeout);
+    precoDigitandoTimeout = setTimeout(() => {
+      precoAmortInputEl.classList.remove("digitando");
+    }, 1200);
+    precoUpdateAmortResult();
+  });
+  precoAmortInputEl.addEventListener("blur", () => {
+    precoAmortInputEl.classList.remove("digitando");
+  });
 
   precoRender();
 })();
@@ -577,6 +601,17 @@
       </a>
     </div>
   </div>
+</div>
+
+<!-- LIGHTBOX GALERIA -->
+<div id="galeria-lightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.96);z-index:2000;align-items:center;justify-content:center;touch-action:none">
+  <button onclick="fecharGaleriaLightbox()" aria-label="Fechar" style="position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;color:#fff;font-size:20px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center">✕</button>
+  <div id="galeria-lightbox-counter" style="position:absolute;top:22px;left:20px;color:rgba(255,255,255,0.7);font-size:13px;font-weight:600;z-index:10"></div>
+
+  <button onclick="galeriaLightboxNav(-1)" aria-label="Anterior" style="position:absolute;left:8px;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;color:#fff;font-size:22px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center">‹</button>
+  <button onclick="galeriaLightboxNav(1)" aria-label="Próxima" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;color:#fff;font-size:22px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center">›</button>
+
+  <div id="galeria-lightbox-track" style="display:flex;width:100%;height:100%;will-change:transform"></div>
 </div>
 
 <section id="sobre" style="background:var(--bg);padding:96px 24px 0;border-bottom:1px solid var(--border)">
@@ -774,13 +809,14 @@ fetch('/site_data.json?_='+Date.now())
       return;
     }
 
-    var cardStyle='border-radius:14px;overflow:hidden;border:1px solid rgba(201,168,76,0.15);background:var(--bg3);position:relative;box-shadow:0 6px 24px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.04);transition:transform .25s,box-shadow .25s';
-    grid.innerHTML=galeria.map(function(url){
+    window.mararuGaleria = galeria;
+    var cardStyle='border-radius:14px;overflow:hidden;border:1px solid rgba(201,168,76,0.15);background:var(--bg3);position:relative;box-shadow:0 6px 24px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.04);transition:transform .25s,box-shadow .25s;cursor:pointer';
+    grid.innerHTML=galeria.map(function(url,idx){
       var isVideo=url.indexOf('.mp4')>=0||url.indexOf('.webm')>=0||url.indexOf('.mov')>=0;
       if(isVideo){
-        return '<div style="'+cardStyle+'"><video src="'+url+'" controls muted playsinline preload="metadata" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block"></video></div>';
+        return '<div style="'+cardStyle+'" onclick="abrirGaleriaLightbox('+idx+')"><video src="'+url+'" muted playsinline preload="metadata" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block;pointer-events:none"></video><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none"><div style="width:46px;height:46px;border-radius:50%;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center"><div style="width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-left:13px solid #fff;margin-left:3px"></div></div></div></div>';
       }
-      return '<div style="'+cardStyle+';aspect-ratio:16/9"><img src="'+url+'" alt="Bairro Mararu" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></div>';
+      return '<div style="'+cardStyle+';aspect-ratio:16/9" onclick="abrirGaleriaLightbox('+idx+')"><img src="'+url+'" alt="Bairro Mararu" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></div>';
     }).join('');
   }).catch(function(){});
 
@@ -811,6 +847,126 @@ function fecharModalCorretor(){
   if(m)m.style.display='none';
   document.body.style.overflow='';
 }
+
+// ===== LIGHTBOX DA GALERIA (tela cheia, arrastar para o lado) =====
+var glbIndex=0;
+var glbDragStartX=0;
+var glbDragCurrentX=0;
+var glbDragging=false;
+var glbWidth=0;
+
+function glbIsVideo(url){
+  return url.indexOf('.mp4')>=0||url.indexOf('.webm')>=0||url.indexOf('.mov')>=0;
+}
+
+function abrirGaleriaLightbox(idx){
+  var galeria=window.mararuGaleria||[];
+  if(!galeria.length)return;
+  glbIndex=idx;
+  var track=document.getElementById('galeria-lightbox-track');
+  track.innerHTML=galeria.map(function(url){
+    if(glbIsVideo(url)){
+      return '<div style="min-width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><video src="'+url+'" controls playsinline style="max-width:100%;max-height:100%;width:auto;height:auto"></video></div>';
+    }
+    return '<div style="min-width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="'+url+'" style="max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain" alt="Bairro Mararu"></div>';
+  }).join('');
+  document.getElementById('galeria-lightbox').style.display='flex';
+  document.body.style.overflow='hidden';
+  glbWidth=window.innerWidth;
+  glbGoToIndex(glbIndex,false);
+
+  var lb=document.getElementById('galeria-lightbox');
+  lb.addEventListener('touchstart',glbTouchStart,{passive:true});
+  lb.addEventListener('touchmove',glbTouchMove,{passive:true});
+  lb.addEventListener('touchend',glbTouchEnd);
+  lb.addEventListener('mousedown',glbMouseDown);
+}
+
+function fecharGaleriaLightbox(){
+  // Pausa qualquer video em reprodução
+  document.querySelectorAll('#galeria-lightbox-track video').forEach(function(v){v.pause();});
+  document.getElementById('galeria-lightbox').style.display='none';
+  document.body.style.overflow='';
+}
+
+function glbGoToIndex(idx,animate){
+  var galeria=window.mararuGaleria||[];
+  if(idx<0)idx=0;
+  if(idx>galeria.length-1)idx=galeria.length-1;
+  glbIndex=idx;
+  var track=document.getElementById('galeria-lightbox-track');
+  track.style.transition=animate===false?'none':'transform .3s ease';
+  track.style.transform='translateX(-'+(glbIndex*100)+'%)';
+  var counter=document.getElementById('galeria-lightbox-counter');
+  if(counter)counter.textContent=(glbIndex+1)+' / '+galeria.length;
+  // Pausa videos que nao estao visiveis
+  document.querySelectorAll('#galeria-lightbox-track video').forEach(function(v,i){
+    if(i!==glbIndex)v.pause();
+  });
+}
+
+function galeriaLightboxNav(dir){
+  glbGoToIndex(glbIndex+dir,true);
+}
+
+function glbTouchStart(e){
+  glbDragging=true;
+  glbDragStartX=e.touches[0].clientX;
+  glbDragCurrentX=glbDragStartX;
+  document.getElementById('galeria-lightbox-track').style.transition='none';
+}
+function glbTouchMove(e){
+  if(!glbDragging)return;
+  glbDragCurrentX=e.touches[0].clientX;
+  var delta=glbDragCurrentX-glbDragStartX;
+  var track=document.getElementById('galeria-lightbox-track');
+  track.style.transform='translateX(calc(-'+(glbIndex*100)+'% + '+delta+'px))';
+}
+function glbTouchEnd(){
+  if(!glbDragging)return;
+  glbDragging=false;
+  var delta=glbDragCurrentX-glbDragStartX;
+  if(Math.abs(delta)>glbWidth*0.18){
+    glbGoToIndex(glbIndex+(delta<0?1:-1),true);
+  }else{
+    glbGoToIndex(glbIndex,true);
+  }
+}
+function glbMouseDown(e){
+  glbDragging=true;
+  glbDragStartX=e.clientX;
+  glbDragCurrentX=glbDragStartX;
+  document.getElementById('galeria-lightbox-track').style.transition='none';
+  function onMove(ev){
+    if(!glbDragging)return;
+    glbDragCurrentX=ev.clientX;
+    var delta=glbDragCurrentX-glbDragStartX;
+    var track=document.getElementById('galeria-lightbox-track');
+    track.style.transform='translateX(calc(-'+(glbIndex*100)+'% + '+delta+'px))';
+  }
+  function onUp(){
+    if(!glbDragging)return;
+    glbDragging=false;
+    var delta=glbDragCurrentX-glbDragStartX;
+    if(Math.abs(delta)>glbWidth*0.18){
+      glbGoToIndex(glbIndex+(delta<0?1:-1),true);
+    }else{
+      glbGoToIndex(glbIndex,true);
+    }
+    document.removeEventListener('mousemove',onMove);
+    document.removeEventListener('mouseup',onUp);
+  }
+  document.addEventListener('mousemove',onMove);
+  document.addEventListener('mouseup',onUp);
+}
+document.addEventListener('keydown',function(e){
+  var lb=document.getElementById('galeria-lightbox');
+  if(!lb||lb.style.display==='none'||!lb.style.display)return;
+  if(e.key==='Escape')fecharGaleriaLightbox();
+  if(e.key==='ArrowLeft')galeriaLightboxNav(-1);
+  if(e.key==='ArrowRight')galeriaLightboxNav(1);
+});
+
 </script>
 
 
