@@ -413,31 +413,50 @@
       return;
     }
 
-    // Parcela final = último ponto da evolução (parcela mais cara, do fim do contrato)
-    const parcelaFinal = p.evo[p.evo.length - 1][1];
     const totalParcelas = parseInt(precoPlan, 10);
+    const parcelaAtual = p.parcela; // Parcela vigente (1º ano)
 
     let parcelasEliminadas, parcelasEliminadasInt, valorFuturo, economiaTotal, novoPrazo;
 
     if (p.fixa) {
       // Plano fixo: parcela não varia, então amortizar apenas reduz prazo, sem ganho de reajuste
-      parcelasEliminadas = Math.min(totalParcelas, val / p.parcela);
+      parcelasEliminadas = Math.min(totalParcelas, val / parcelaAtual);
       parcelasEliminadasInt = Math.min(totalParcelas, Math.round(parcelasEliminadas));
-      valorFuturo = parcelasEliminadasInt * p.parcela;
+      valorFuturo = parcelasEliminadasInt * parcelaAtual;
       economiaTotal = 0;
       novoPrazo = totalParcelas - parcelasEliminadasInt;
     } else {
-      // Usa a parcela ATUAL como unidade de referência do valor amortizado
-      parcelasEliminadas = Math.min(totalParcelas, val / p.parcela);
+      // Plano variável: gera tabela de parcelas e elimina do final
+      // Reajuste anual de aproximadamente 8%
+      const REAJUSTE_ANUAL = 1.08;
+      let tabelaParcelas = [];
+      
+      // Gera tabela de parcelas (1 a totalParcelas)
+      for (let mes = 1; mes <= totalParcelas; mes++) {
+        const ano = Math.floor((mes - 1) / 12) + 1; // Qual ano (1, 2, 3...)
+        const parcelaNoAno = parcelaAtual * Math.pow(REAJUSTE_ANUAL, ano - 1);
+        tabelaParcelas.push(parcelaNoAno);
+      }
+      
+      // Calcula quantas parcelas inteiras pode eliminar
+      parcelasEliminadas = Math.min(totalParcelas, val / parcelaAtual);
       parcelasEliminadasInt = Math.min(totalParcelas, Math.round(parcelasEliminadas));
       
-      // Calcula economia baseada no valor TOTAL do plano com reajustes
-      // O cliente economiza saindo do plano de longo prazo (com reajustes) pagando tudo agora
-      const entrada = 600;
-      const parcelasTotaisComReajuste = p.total - entrada;
-      const proporcao = parcelasEliminadas / totalParcelas;
-      valorFuturo = parcelasTotaisComReajuste * proporcao;
-      economiaTotal = Math.max(0, valorFuturo - val);
+      // Elimina as parcelas mais caras (do final para o começo)
+      economiaTotal = 0;
+      for (let i = 0; i < parcelasEliminadasInt; i++) {
+        const indiceParcelaEliminada = totalParcelas - 1 - i; // Do final para trás
+        const parcelaEliminada = tabelaParcelas[indiceParcelaEliminada];
+        economiaTotal += (parcelaEliminada - parcelaAtual);
+      }
+      
+      // Valor futuro = soma das parcelas eliminadas
+      valorFuturo = 0;
+      for (let i = 0; i < parcelasEliminadasInt; i++) {
+        valorFuturo += tabelaParcelas[totalParcelas - 1 - i];
+      }
+      
+      economiaTotal = Math.max(0, economiaTotal);
       novoPrazo = totalParcelas - parcelasEliminadasInt;
     }
 
@@ -464,20 +483,19 @@
     if (p.fixa) {
       explicacao.innerHTML = `Amortizando <b style="color:var(--gold)">${brl(val)}</b>, você elimina o equivalente a <b style="color:var(--gold)">${parcelasTxt} parcela(s)</b> e reduz seu prazo para aproximadamente <b style="color:var(--gold)">${novoPrazo} meses</b>. Como esse plano já tem parcela fixa, a economia vem diretamente da redução do prazo.`;
     } else {
-      explicacao.innerHTML = `Amortizando <b style="color:var(--gold)">${brl(val)}</b> hoje, você elimina o equivalente a <b style="color:var(--gold)">${parcelasTxt} parcela(s)</b> do final do contrato — que custariam <b style="color:var(--gold)">${brl(valorFuturo)}</b> no futuro — gerando uma economia estimada de <b style="color:var(--gold)">${brl(economiaTotal)}</b> e reduzindo seu prazo para aproximadamente <b style="color:var(--gold)">${novoPrazo} meses</b>.`;
+      explicacao.innerHTML = `Amortizando <b style="color:var(--gold)">${brl(val)}</b> hoje, você elimina <b style="color:var(--gold)">${parcelasTxt} parcela(s)</b> das mais caras do final do contrato — que custariam <b style="color:var(--gold)">${brl(valorFuturo)}</b> — gerando uma economia de <b style="color:var(--gold)">${brl(economiaTotal)}</b> e reduzindo seu prazo para aproximadamente <b style="color:var(--gold)">${novoPrazo} meses</b>.`;
     }
 
-    // Dica educativa: quanto precisa pagar pra adiantar todas as parcelas do plano
+    // Dica educativa
     const dicaDiv = document.getElementById("amortDicaTotal");
     const dicaText = document.getElementById("amortDicaTotalText");
-    const valorParaAdiantarTodas = totalParcelas * p.parcela;
     const entrada = 600;
     const totalLote = p.total;
     const valorMenosEntrada = totalLote - entrada;
     
     if (dicaDiv && dicaText) {
       if (valorMenosEntrada > 0) {
-        const parcelasAdelantadas = Math.round(valorMenosEntrada / p.parcela);
+        const parcelasAdelantadas = Math.round(valorMenosEntrada / parcelaAtual);
         dicaDiv.style.display = "block";
         dicaText.innerHTML = `Se você pagar <b style="color:var(--gold)">${brl(valorMenosEntrada)}</b> de amortização (valor total do lote menos a entrada), você adiantaria exatamente <b style="color:var(--gold)">${parcelasAdelantadas} parcelas</b> — liquidando todo o seu contrato de <b style="color:var(--gold)">${totalParcelas} meses</b> na hora!`;
       } else {
