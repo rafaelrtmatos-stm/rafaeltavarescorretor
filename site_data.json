@@ -444,7 +444,11 @@
   "mararu": {
     "galeria": [
       "/imagens/mararu-video1.mov",
-      "/imagens/mararu-video2.mov"
+      "/imagens/mararu-video2.mov",
+      "/imagens/mararu-foto2.jpeg",
+      "/imagens/mararu-foto3.png",
+      "/imagens/mararu-video3.mov",
+      "/imagens/mararu-video4.mov"
     ],
     "fotoPrincipal": "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/mararu/principal-1780429240306.png"
   },
