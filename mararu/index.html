@@ -181,191 +181,176 @@
   <div class="section-inner">
     <div class="section-tag">Condições de pagamento</div>
     <h2 class="section-title">Tabela de <em>Preços</em></h2>
-    <p class="section-sub" style="margin-bottom:28px">Entrada de R$ 600 para todos os planos. Escolha o que melhor se encaixa no seu bolso.</p>
+    <p class="section-sub" style="margin-bottom:28px">Escolha o tipo de lote e o prazo. Os valores e a economia são atualizados automaticamente.</p>
 
-    <div style="display:flex;justify-content:center;gap:10px;margin-bottom:28px;flex-wrap:wrap">
-      <button onclick="mostrarSeg('principal',this)" id="tab-principal" style="padding:10px 22px;border-radius:100px;border:2px solid var(--gold);background:var(--gold);color:#000;font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;letter-spacing:.5px">Lotes acima de 200m²</button>
-      <button onclick="mostrarSeg('centro',this)" id="tab-centro" style="padding:10px 22px;border-radius:100px;border:2px solid var(--border2);background:transparent;color:var(--gold);font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;letter-spacing:.5px">Lotes até 200m²</button>
+    <div style="display:flex;justify-content:center;gap:10px;margin-bottom:24px;flex-wrap:wrap" id="precoCatToggle">
+      <button class="preco-cat-btn active" data-cat="200" style="padding:10px 22px;border-radius:100px;border:2px solid var(--gold);background:var(--gold);color:#000;font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;letter-spacing:.5px">Lotes até 200m²</button>
+      <button class="preco-cat-btn" data-cat="acima" style="padding:10px 22px;border-radius:100px;border:2px solid var(--border2);background:transparent;color:var(--gold);font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;letter-spacing:.5px">Lotes acima de 200m²</button>
     </div>
 
-    <!-- LOTES ACIMA DE 200m² -->
-    <div id="seg-principal" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
+    <div style="text-align:center;font-size:14px;color:var(--text3);margin-bottom:24px">Valor total do lote: <b id="precoValorTotalLbl" style="color:var(--gold)">R$ 46.600,00</b> · Entrada: <b style="color:var(--gold)">R$ 600,00</b></div>
 
-      <!-- 36 MESES DESTAQUE -->
-      <div style="background:var(--bg2);border:2px solid var(--gold);border-radius:18px;overflow:hidden;position:relative">
-        <div style="position:absolute;top:14px;right:14px;background:var(--gold);color:#000;font-size:9px;font-weight:700;letter-spacing:1.5px;padding:4px 10px;border-radius:100px;text-transform:uppercase">💎 Melhor Economia</div>
-        <div style="background:#1a3d28;padding:24px 24px 18px">
-          <div style="font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:6px">Plano</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#fff">3 Anos</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:3px">36 parcelas • Sem reajuste</div>
+    <div id="precoPlanSelector" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px"></div>
+
+    <div style="background:linear-gradient(135deg,#1a3d28,#1e3a2a);border:1px solid var(--border2);border-radius:18px;padding:26px;margin-bottom:22px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px;margin-bottom:18px">
+        <div>
+          <div id="precoDetailBadge" style="display:inline-block;font-size:11px;font-weight:700;letter-spacing:.5px;color:#000;background:var(--gold);padding:4px 12px;border-radius:20px;margin-bottom:8px">💎 Melhor economia</div>
+          <div id="precoDetailParcLbl" style="font-size:12px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:.5px">Parcelas fixas de</div>
+          <div id="precoDetailParcVal" style="font-size:34px;font-weight:700;color:#fff;font-family:'Cormorant Garamond',serif">R$ 1.277,78</div>
         </div>
-        <div style="padding:20px 24px 8px;border-bottom:1px solid var(--border)">
-          <div style="font-size:10px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:4px">Parcela fixa de</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;color:var(--gold);line-height:1">R$ 1.388<span style="font-size:20px">,88</span></div>
-          <div style="font-size:11px;color:var(--text3);margin:4px 0 16px">Parcela fixa — sem surpresas</div>
-        </div>
-        <div style="padding:16px 24px;display:flex;flex-direction:column;gap:10px">
-          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Valor do lote</span><span style="font-weight:600">R$ 50.600</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Entrada</span><span style="font-weight:600">R$ 600</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Total pago</span><span style="font-weight:600;color:var(--gold)">R$ 50.600</span></div>
-          <div style="background:rgba(201,168,76,0.1);border-radius:8px;padding:8px 12px;font-size:12px;color:var(--gold);margin-top:4px;font-weight:600">✅ Paga o valor real do lote</div>
+        <div style="text-align:right">
+          <div style="font-size:11px;color:rgba(255,255,255,0.6);text-transform:uppercase">Total pago</div>
+          <div id="precoDetailTotalVal" style="font-size:19px;font-weight:700;color:var(--gold)">R$ 46.600,00</div>
         </div>
       </div>
+      <div id="precoEconomiaLine" style="background:rgba(0,0,0,0.25);border-radius:10px;padding:10px 16px;font-size:13px;color:var(--gold);text-align:center;font-weight:600"></div>
 
-      <!-- 120 MESES -->
-      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:18px;overflow:hidden">
-        <div style="background:#1e3a2a;padding:24px 24px 18px">
-          <div style="font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:6px">Plano</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#fff">10 Anos</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:3px">120 parcelas • Reajuste anual</div>
-        </div>
-        <div style="padding:20px 24px 8px;border-bottom:1px solid var(--border)">
-          <div style="font-size:10px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:4px">1ª parcela a partir de</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;color:var(--gold);line-height:1">R$ 416<span style="font-size:20px">,66</span></div>
-          <div style="font-size:11px;color:var(--text3);margin:4px 0 16px">Reajuste anual fixo</div>
-        </div>
-        <div style="padding:16px 24px;display:flex;flex-direction:column;gap:8px">
-          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Entrada</span><span style="font-weight:600">R$ 600</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Total pago</span><span style="font-weight:600">R$ 71.229</span></div>
-          <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:4px">
-            <div style="font-size:10px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Evolução da parcela</div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>1º Ano</span><span>R$ 416,66</span></div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>5º Ano</span><span>R$ 546,16</span></div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>10º Ano</span><span>R$ 766,01</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 180 MESES -->
-      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:18px;overflow:hidden">
-        <div style="background:#1e3a2a;padding:24px 24px 18px">
-          <div style="font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:6px">Plano</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#fff">15 Anos</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:3px">180 parcelas • Reajuste anual</div>
-        </div>
-        <div style="padding:20px 24px 8px;border-bottom:1px solid var(--border)">
-          <div style="font-size:10px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:4px">1ª parcela a partir de</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;color:var(--gold);line-height:1">R$ 277<span style="font-size:20px">,77</span></div>
-          <div style="font-size:11px;color:var(--text3);margin:4px 0 16px">Reajuste anual fixo</div>
-        </div>
-        <div style="padding:16px 24px;display:flex;flex-direction:column;gap:8px">
-          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Entrada</span><span style="font-weight:600">R$ 600</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Total pago</span><span style="font-weight:600">R$ 91.104</span></div>
-          <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:4px">
-            <div style="font-size:10px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Evolução da parcela</div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>1º Ano</span><span>R$ 277,77</span></div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>5º Ano</span><span>R$ 377,90</span></div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>10º Ano</span><span>R$ 555,26</span></div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>15º Ano</span><span>R$ 815,86</span></div>
-          </div>
-        </div>
-      </div>
+      <div id="precoEvoWrap" style="margin-top:20px"></div>
     </div>
 
-    <!-- LOTES ATÉ 200m² -->
-    <div id="seg-centro" style="display:none;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
-
-      <!-- 36 MESES DESTAQUE -->
-      <div style="background:var(--bg2);border:2px solid var(--gold);border-radius:18px;overflow:hidden;position:relative">
-        <div style="position:absolute;top:14px;right:14px;background:var(--gold);color:#000;font-size:9px;font-weight:700;letter-spacing:1.5px;padding:4px 10px;border-radius:100px;text-transform:uppercase">💎 Melhor Economia</div>
-        <div style="background:#1a3d28;padding:24px 24px 18px">
-          <div style="font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:6px">Plano</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#fff">3 Anos</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:3px">36 parcelas • Sem reajuste</div>
-        </div>
-        <div style="padding:20px 24px 8px;border-bottom:1px solid var(--border)">
-          <div style="font-size:10px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:4px">Parcela fixa de</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;color:var(--gold);line-height:1">R$ 1.277<span style="font-size:20px">,78</span></div>
-          <div style="font-size:11px;color:var(--text3);margin:4px 0 16px">Parcela fixa — sem surpresas</div>
-        </div>
-        <div style="padding:16px 24px;display:flex;flex-direction:column;gap:10px">
-          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Valor do lote</span><span style="font-weight:600">R$ 46.600</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Entrada</span><span style="font-weight:600">R$ 600</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Total pago</span><span style="font-weight:600;color:var(--gold)">R$ 46.600</span></div>
-          <div style="background:rgba(201,168,76,0.1);border-radius:8px;padding:8px 12px;font-size:12px;color:var(--gold);margin-top:4px;font-weight:600">✅ Paga o valor real do lote</div>
-        </div>
+    <div style="background:rgba(201,168,76,0.07);border:1px solid var(--border2);border-radius:18px;padding:24px">
+      <div style="color:var(--gold);font-weight:700;font-size:15px;margin-bottom:6px;display:flex;align-items:center;gap:8px">💡 Simulador de amortização</div>
+      <div style="color:var(--text2);font-size:13px;line-height:1.5;margin-bottom:16px">Como não há juros, qualquer valor extra que você pagar antecipadamente abate parcelas pelo valor vigente — sem reajuste futuro. Veja quantas parcelas você adiantaria:</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <input type="number" id="precoAmortInput" placeholder="Valor que você quer amortizar (R$)" style="flex:1;min-width:160px;background:var(--bg2);border:1px solid var(--border2);color:var(--text);padding:12px 14px;border-radius:10px;font-size:15px;font-family:'Inter',sans-serif">
       </div>
-
-      <!-- 120 MESES -->
-      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:18px;overflow:hidden">
-        <div style="background:#1e3a2a;padding:24px 24px 18px">
-          <div style="font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:6px">Plano</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#fff">10 Anos</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:3px">120 parcelas • Reajuste anual</div>
-        </div>
-        <div style="padding:20px 24px 8px;border-bottom:1px solid var(--border)">
-          <div style="font-size:10px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:4px">1ª parcela a partir de</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;color:var(--gold);line-height:1">R$ 383<span style="font-size:20px">,33</span></div>
-          <div style="font-size:11px;color:var(--text3);margin:4px 0 16px">Reajuste anual fixo</div>
-        </div>
-        <div style="padding:16px 24px;display:flex;flex-direction:column;gap:8px">
-          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Entrada</span><span style="font-weight:600">R$ 600</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Total pago</span><span style="font-weight:600">R$ 65.383</span></div>
-          <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:4px">
-            <div style="font-size:10px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Evolução da parcela</div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>1º Ano</span><span>R$ 383,33</span></div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>5º Ano</span><span>R$ 502,47</span></div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>10º Ano</span><span>R$ 704,74</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 180 MESES -->
-      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:18px;overflow:hidden">
-        <div style="background:#1e3a2a;padding:24px 24px 18px">
-          <div style="font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:6px">Plano</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#fff">15 Anos</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:3px">180 parcelas • Reajuste anual</div>
-        </div>
-        <div style="padding:20px 24px 8px;border-bottom:1px solid var(--border)">
-          <div style="font-size:10px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:4px">1ª parcela a partir de</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;color:var(--gold);line-height:1">R$ 255<span style="font-size:20px">,56</span></div>
-          <div style="font-size:11px;color:var(--text3);margin:4px 0 16px">Reajuste anual fixo</div>
-        </div>
-        <div style="padding:16px 24px;display:flex;flex-direction:column;gap:8px">
-          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Entrada</span><span style="font-weight:600">R$ 600</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Total pago</span><span style="font-weight:600">R$ 83.590</span></div>
-          <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:4px">
-            <div style="font-size:10px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Evolução da parcela</div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>1º Ano</span><span>R$ 255,56</span></div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>5º Ano</span><span>R$ 347,69</span></div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>10º Ano</span><span>R$ 510,87</span></div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2)"><span>15º Ano</span><span>R$ 750,63</span></div>
-          </div>
-        </div>
-      </div>
+      <div id="precoAmortResult" style="margin-top:14px;background:rgba(0,0,0,0.25);border-radius:10px;padding:14px 16px;font-size:14px;color:var(--text);display:none"></div>
     </div>
 
     <div style="text-align:center;margin-top:20px;font-size:12px;color:var(--text3)">* Condições sujeitas a alteração. Consulte o corretor.</div>
   </div>
 </section>
 
-<script>
-function mostrarSeg(id, btn) {
-  document.getElementById('seg-principal').style.display = 'none';
-  document.getElementById('seg-centro').style.display = 'none';
-  document.getElementById('seg-' + id).style.display = 'grid';
-  document.getElementById('tab-principal').style.background = 'transparent';
-  document.getElementById('tab-principal').style.color = 'var(--gold)';
-  document.getElementById('tab-centro').style.background = 'transparent';
-  document.getElementById('tab-centro').style.color = 'var(--gold)';
-  btn.style.background = 'var(--gold)';
-  btn.style.color = '#000';
-}
-</script>
+<style>
+  .preco-cat-btn.active{background:var(--gold)!important;color:#000!important;border-color:var(--gold)!important}
+  .preco-cat-btn:not(.active){background:transparent!important;color:var(--gold)!important;border-color:var(--border2)!important}
+  .preco-plan-btn{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px 8px;text-align:center;cursor:pointer;transition:.25s}
+  .preco-plan-btn:hover{border-color:var(--border2)}
+  .preco-plan-btn.active{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 6px 18px rgba(201,168,76,0.15);background:#161a12}
+  .preco-plan-btn-months{font-size:13px;font-weight:700;color:var(--text)}
+  .preco-plan-btn-parc{font-size:11px;color:var(--text3);margin-top:2px}
+  .preco-evo-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .preco-evo-lbl{width:48px;font-size:12px;color:rgba(255,255,255,0.6);flex-shrink:0}
+  .preco-evo-track{flex:1;background:rgba(255,255,255,0.08);border-radius:6px;height:20px;overflow:hidden}
+  .preco-evo-fill{height:100%;background:linear-gradient(90deg,#B8902A,#E8C96A);border-radius:6px;width:0;transition:width .6s ease}
+  .preco-evo-val{width:78px;text-align:right;font-size:12px;color:var(--gold);font-weight:600;flex-shrink:0}
+  @media(max-width:560px){
+    #precoPlanSelector{grid-template-columns:1fr}
+  }
+</style>
 
 <script>
-function mostrarSeg(id, btn) {
-  document.getElementById('seg-principal').style.display = 'none';
-  document.getElementById('seg-centro').style.display = 'none';
-  document.getElementById('seg-' + id).style.display = 'grid';
-  document.getElementById('tab-principal').style.background = 'transparent';
-  document.getElementById('tab-principal').style.color = 'var(--gold)';
-  document.getElementById('tab-centro').style.background = 'transparent';
-  document.getElementById('tab-centro').style.color = 'var(--gold)';
-  btn.style.background = 'var(--gold)';
-  btn.style.color = '#000';
-}
+(function(){
+  const precoData = {
+    "200": {
+      total: 46600,
+      plans: {
+        36:  { parcela: 1277.78, total: 46600.00, fixa: true,  tag: "💎 Melhor Economia", evo: [["1º ano",1277.78],["Fixa até o fim",1277.78]] },
+        120: { parcela: 383.33,  total: 65383.00, fixa: false, tag: "⚖️ Equilíbrio entre prazo e valor", evo: [["1º ano",383.33],["5º ano",502.47],["10º ano",704.74]] },
+        180: { parcela: 255.56,  total: 83590.00, fixa: false, tag: "🕐 Menor parcela, maior prazo", evo: [["1º ano",255.56],["5º ano",347.69],["10º ano",510.87],["15º ano",750.63]] }
+      }
+    },
+    "acima": {
+      total: 50600,
+      plans: {
+        36:  { parcela: 1388.88, total: 50600.00, fixa: true,  tag: "💎 Melhor Economia", evo: [["1º ano",1388.88],["Fixa até o fim",1388.88]] },
+        120: { parcela: 416.66,  total: 71229.00, fixa: false, tag: "⚖️ Equilíbrio entre prazo e valor", evo: [["1º ano",416.66],["5º ano",546.16],["10º ano",766.01]] },
+        180: { parcela: 277.77,  total: 91104.00, fixa: false, tag: "🕐 Menor parcela, maior prazo", evo: [["1º ano",277.77],["5º ano",377.90],["10º ano",555.26],["15º ano",815.86]] }
+      }
+    }
+  };
+
+  let precoCat = "200";
+  let precoPlan = "36";
+
+  function brl(v){
+    return "R$ " + v.toLocaleString("pt-BR", {minimumFractionDigits:2, maximumFractionDigits:2});
+  }
+
+  function precoRenderPlanSelector(){
+    const cat = precoData[precoCat];
+    const sel = document.getElementById("precoPlanSelector");
+    sel.innerHTML = "";
+    Object.keys(cat.plans).forEach(months => {
+      const p = cat.plans[months];
+      const btn = document.createElement("div");
+      btn.className = "preco-plan-btn" + (months === precoPlan ? " active" : "");
+      btn.innerHTML = `<div class="preco-plan-btn-months">${months} meses</div><div class="preco-plan-btn-parc">a partir de ${brl(p.parcela)}</div>`;
+      btn.onclick = () => { precoPlan = months; precoRender(); };
+      sel.appendChild(btn);
+    });
+  }
+
+  function precoRenderDetail(){
+    const cat = precoData[precoCat];
+    const p = cat.plans[precoPlan];
+    document.getElementById("precoValorTotalLbl").textContent = brl(cat.total);
+    document.getElementById("precoDetailBadge").textContent = p.tag;
+    document.getElementById("precoDetailParcLbl").textContent = p.fixa ? "Parcelas fixas de" : "Parcelas a partir de";
+    document.getElementById("precoDetailParcVal").textContent = brl(p.parcela);
+    document.getElementById("precoDetailTotalVal").textContent = brl(p.total);
+
+    const maiorPrazoTotal = Math.max(...Object.values(cat.plans).map(x => x.total));
+    const economia = maiorPrazoTotal - p.total;
+    const economiaLine = document.getElementById("precoEconomiaLine");
+    if (economia > 0) {
+      economiaLine.style.display = "block";
+      economiaLine.innerHTML = `Você economiza <b>${brl(economia)}</b> escolhendo este plano em vez do de maior prazo`;
+    } else {
+      economiaLine.style.display = "none";
+    }
+
+    const evoWrap = document.getElementById("precoEvoWrap");
+    evoWrap.innerHTML = `<div style="font-size:12px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">Evolução da parcela ao longo do tempo</div>`;
+    const maxVal = Math.max(...p.evo.map(e => e[1]));
+    p.evo.forEach(([label, val]) => {
+      const pct = Math.max(8, (val / maxVal) * 100);
+      const row = document.createElement("div");
+      row.className = "preco-evo-row";
+      row.innerHTML = `
+        <div class="preco-evo-lbl">${label}</div>
+        <div class="preco-evo-track"><div class="preco-evo-fill" style="width:0"></div></div>
+        <div class="preco-evo-val">${brl(val)}</div>
+      `;
+      evoWrap.appendChild(row);
+      requestAnimationFrame(() => { row.querySelector(".preco-evo-fill").style.width = pct + "%"; });
+    });
+
+    precoUpdateAmortResult();
+  }
+
+  function precoUpdateAmortResult(){
+    const input = document.getElementById("precoAmortInput");
+    const result = document.getElementById("precoAmortResult");
+    const val = parseFloat(input.value);
+    const cat = precoData[precoCat];
+    const p = cat.plans[precoPlan];
+    if (!val || val <= 0) { result.style.display = "none"; return; }
+    const parcelas = val / p.parcela;
+    result.style.display = "block";
+    result.innerHTML = `Amortizando <b style="color:var(--gold)">${brl(val)}</b> no plano de <b style="color:var(--gold)">${precoPlan} meses</b>, você adianta o equivalente a <b style="color:var(--gold)">${parcelas.toFixed(1)} parcelas</b> (considerando o valor atual de ${brl(p.parcela)}).`;
+  }
+
+  function precoRender(){
+    precoRenderPlanSelector();
+    precoRenderDetail();
+  }
+
+  document.querySelectorAll(".preco-cat-btn").forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll(".preco-cat-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      precoCat = btn.dataset.cat;
+      precoPlan = "36";
+      precoRender();
+    };
+  });
+
+  document.getElementById("precoAmortInput").addEventListener("input", precoUpdateAmortResult);
+
+  precoRender();
+})();
 </script>
 
 <section id="sec-galeria" style="background:var(--bg);border-bottom:1px solid var(--border)">
