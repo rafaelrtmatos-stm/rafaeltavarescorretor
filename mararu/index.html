@@ -431,10 +431,12 @@
       parcelasEliminadas = Math.min(totalParcelas, val / p.parcela);
       parcelasEliminadasInt = Math.min(totalParcelas, Math.round(parcelasEliminadas));
       
-      // Calcula o valor médio das parcelas para estimar a economia real
-      // (porque as parcelas aumentam ao longo do tempo)
-      const parcelaMedia = (p.parcela + parcelaFinal) / 2;
-      valorFuturo = parcelasEliminadas * parcelaMedia;
+      // Calcula economia baseada no valor TOTAL do plano com reajustes
+      // O cliente economiza saindo do plano de longo prazo (com reajustes) pagando tudo agora
+      const entrada = 600;
+      const parcelasTotaisComReajuste = p.total - entrada;
+      const proporcao = parcelasEliminadas / totalParcelas;
+      valorFuturo = parcelasTotaisComReajuste * proporcao;
       economiaTotal = Math.max(0, valorFuturo - val);
       novoPrazo = totalParcelas - parcelasEliminadasInt;
     }
