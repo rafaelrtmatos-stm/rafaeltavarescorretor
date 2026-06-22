@@ -202,6 +202,10 @@
         <div style="text-align:right">
           <div style="font-size:11px;color:rgba(255,255,255,0.6);text-transform:uppercase">Total pago</div>
           <div id="precoDetailTotalVal" style="font-size:19px;font-weight:700;color:var(--gold)">R$ 83.590,00</div>
+          <div id="precoDetailTotalAmortizadoWrap" style="display:none;margin-top:6px">
+            <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px">Com amortização</div>
+            <div id="precoDetailTotalAmortizado" style="font-size:17px;font-weight:700;color:#fff">—</div>
+          </div>
         </div>
       </div>
       <div id="precoDetailCta" style="font-size:13px;color:var(--gold);font-weight:600;margin-bottom:18px">Amortize quando quiser e elimine as parcelas mais caras do final do contrato.</div>
@@ -388,7 +392,12 @@
     const cat = precoData[precoCat];
     const p = cat.plans[precoPlan];
 
-    if (!val || val <= 0) { result.style.display = "none"; return; }
+    if (!val || val <= 0) {
+      result.style.display = "none";
+      const wrap = document.getElementById("precoDetailTotalAmortizadoWrap");
+      if (wrap) wrap.style.display = "none";
+      return;
+    }
 
     // Parcela final = último ponto da evolução (parcela mais cara, do fim do contrato)
     const parcelaFinal = p.evo[p.evo.length - 1][1];
@@ -420,6 +429,15 @@
     document.getElementById("amortValFuturo").textContent = brl(valorFuturo);
     document.getElementById("amortEconomiaTotal").textContent = brl(economiaTotal);
     document.getElementById("amortNovoPrazo").textContent = novoPrazo + " meses";
+
+    // Atualiza o "Total pago" no painel principal de preços com base na amortização
+    const novoTotal = Math.max(0, p.total - economiaTotal);
+    const totalWrap = document.getElementById("precoDetailTotalAmortizadoWrap");
+    const totalAmortizadoEl = document.getElementById("precoDetailTotalAmortizado");
+    if (totalWrap && totalAmortizadoEl) {
+      totalWrap.style.display = "block";
+      totalAmortizadoEl.textContent = brl(novoTotal);
+    }
 
     const explicacao = document.getElementById("amortExplicacao");
     const parcelasTxt = parcelasEliminadas.toFixed(1).replace(".0","").replace(".",",");
