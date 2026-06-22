@@ -181,7 +181,7 @@
   <div class="section-inner">
     <div class="section-tag">Condições de pagamento</div>
     <h2 class="section-title">Tabela de <em>Preços</em></h2>
-    <p class="section-sub" style="margin-bottom:28px">Escolha o tipo de lote e o prazo. Os valores e a economia são atualizados automaticamente.</p>
+    <p class="section-sub" style="margin-bottom:28px">Escolha o tipo de lote e o prazo. Comece com a parcela mais baixa e amortize quando quiser.</p>
 
     <div style="display:flex;justify-content:center;gap:10px;margin-bottom:24px;flex-wrap:wrap" id="precoCatToggle">
       <button class="preco-cat-btn active" data-cat="200" style="padding:10px 22px;border-radius:100px;border:2px solid var(--gold);background:var(--gold);color:#000;font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;letter-spacing:.5px">Lotes até 200m²</button>
@@ -192,30 +192,87 @@
 
     <div id="precoPlanSelector" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px"></div>
 
-    <div style="background:linear-gradient(135deg,#1a3d28,#1e3a2a);border:1px solid var(--border2);border-radius:18px;padding:26px;margin-bottom:22px">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px;margin-bottom:18px">
+    <div id="precoDetailPanel" style="background:linear-gradient(135deg,#1a3d28,#1e3a2a);border:2px solid var(--gold);border-radius:18px;padding:28px;margin-bottom:22px;box-shadow:0 8px 28px rgba(201,168,76,0.18)">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px;margin-bottom:10px">
         <div>
-          <div id="precoDetailBadge" style="display:inline-block;font-size:11px;font-weight:700;letter-spacing:.5px;color:#000;background:var(--gold);padding:4px 12px;border-radius:20px;margin-bottom:8px">💎 Melhor economia</div>
-          <div id="precoDetailParcLbl" style="font-size:12px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:.5px">Parcelas fixas de</div>
-          <div id="precoDetailParcVal" style="font-size:34px;font-weight:700;color:#fff;font-family:'Cormorant Garamond',serif">R$ 1.277,78</div>
+          <div id="precoDetailBadge" style="display:inline-block;font-size:11px;font-weight:700;letter-spacing:.5px;color:#000;background:var(--gold);padding:4px 12px;border-radius:20px;margin-bottom:8px">🟢 Comece com a menor parcela</div>
+          <div id="precoDetailParcLbl" style="font-size:12px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:.5px">Parcelas a partir de</div>
+          <div id="precoDetailParcVal" style="font-size:38px;font-weight:700;color:#fff;font-family:'Cormorant Garamond',serif;line-height:1">R$ 255,56</div>
         </div>
         <div style="text-align:right">
           <div style="font-size:11px;color:rgba(255,255,255,0.6);text-transform:uppercase">Total pago</div>
-          <div id="precoDetailTotalVal" style="font-size:19px;font-weight:700;color:var(--gold)">R$ 46.600,00</div>
+          <div id="precoDetailTotalVal" style="font-size:19px;font-weight:700;color:var(--gold)">R$ 83.590,00</div>
         </div>
       </div>
+      <div id="precoDetailCta" style="font-size:13px;color:var(--gold);font-weight:600;margin-bottom:18px">Amortize quando quiser e elimine as parcelas mais caras do final do contrato.</div>
+
       <div id="precoEconomiaLine" style="background:rgba(0,0,0,0.25);border-radius:10px;padding:10px 16px;font-size:13px;color:var(--gold);text-align:center;font-weight:600"></div>
 
       <div id="precoEvoWrap" style="margin-top:20px"></div>
     </div>
 
-    <div style="background:rgba(201,168,76,0.07);border:1px solid var(--border2);border-radius:18px;padding:24px">
-      <div style="color:var(--gold);font-weight:700;font-size:15px;margin-bottom:6px;display:flex;align-items:center;gap:8px">💡 Simulador de amortização</div>
-      <div style="color:var(--text2);font-size:13px;line-height:1.5;margin-bottom:16px">Como não há juros, qualquer valor extra que você pagar antecipadamente abate parcelas pelo valor vigente — sem reajuste futuro. Veja quantas parcelas você adiantaria:</div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap">
-        <input type="number" id="precoAmortInput" placeholder="Valor que você quer amortizar (R$)" style="flex:1;min-width:160px;background:var(--bg2);border:1px solid var(--border2);color:var(--text);padding:12px 14px;border-radius:10px;font-size:15px;font-family:'Inter',sans-serif">
+    <!-- CALCULADORA DE AMORTIZAÇÃO — DESTAQUE -->
+    <div style="background:linear-gradient(135deg,rgba(201,168,76,0.14),rgba(201,168,76,0.05));border:2px solid var(--gold);border-radius:20px;padding:30px;box-shadow:0 10px 32px rgba(201,168,76,0.15)">
+
+      <div style="text-align:center;margin-bottom:20px">
+        <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px">Vantagem exclusiva</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--text)">Calculadora de <em style="color:var(--gold);font-style:italic">Amortização</em></div>
       </div>
-      <div id="precoAmortResult" style="margin-top:14px;background:rgba(0,0,0,0.25);border-radius:10px;padding:14px 16px;font-size:14px;color:var(--text);display:none"></div>
+
+      <div style="background:rgba(0,0,0,0.25);border-radius:12px;padding:16px 20px;margin-bottom:22px;font-size:14px;color:var(--text2);line-height:1.6;text-align:center">
+        Toda amortização elimina parcelas do final do contrato, onde os valores são mais altos. Isso significa que você pode economizar centenas de reais antecipando parcelas hoje.
+      </div>
+
+      <!-- Exemplos reais -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:24px">
+        <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:18px">
+          <div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:10px">Exemplo · Lotes até 200m²</div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span style="color:var(--text2)">Parcela atual</span><span style="font-weight:700;color:var(--text)">R$ 255,56</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span style="color:var(--text2)">Parcela final</span><span style="font-weight:700;color:var(--text)">R$ 750,63</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;border-top:1px solid var(--border);padding-top:8px;margin-top:4px"><span style="color:var(--gold);font-weight:600">Economia por parcela amortizada</span><span style="font-weight:700;color:var(--gold)">R$ 495,07</span></div>
+        </div>
+        <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:18px">
+          <div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:10px">Exemplo · Lotes acima de 200m²</div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span style="color:var(--text2)">Parcela atual</span><span style="font-weight:700;color:var(--text)">R$ 277,77</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span style="color:var(--text2)">Parcela final</span><span style="font-weight:700;color:var(--text)">R$ 815,86</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;border-top:1px solid var(--border);padding-top:8px;margin-top:4px"><span style="color:var(--gold);font-weight:600">Economia por parcela amortizada</span><span style="font-weight:700;color:var(--gold)">R$ 538,09</span></div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+        <input type="number" id="precoAmortInput" placeholder="Digite o valor que você quer amortizar (R$)" style="flex:1;min-width:200px;background:var(--bg2);border:2px solid var(--border2);color:var(--text);padding:14px 16px;border-radius:10px;font-size:16px;font-family:'Inter',sans-serif">
+      </div>
+
+      <div id="precoAmortResult" style="display:none">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:6px">
+          <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:14px;text-align:center">
+            <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Valor informado</div>
+            <div id="amortValInformado" style="font-size:16px;font-weight:700;color:var(--text)">—</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:14px;text-align:center">
+            <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Parcelas eliminadas</div>
+            <div id="amortParcelasElim" style="font-size:16px;font-weight:700;color:var(--text)">—</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:14px;text-align:center">
+            <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Valor pago no futuro</div>
+            <div id="amortValFuturo" style="font-size:16px;font-weight:700;color:var(--text)">—</div>
+          </div>
+          <div style="background:rgba(201,168,76,0.15);border:1px solid var(--gold);border-radius:10px;padding:14px;text-align:center">
+            <div style="font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Economia total</div>
+            <div id="amortEconomiaTotal" style="font-size:18px;font-weight:700;color:var(--gold)">—</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:14px;text-align:center">
+            <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Novo prazo estimado</div>
+            <div id="amortNovoPrazo" style="font-size:16px;font-weight:700;color:var(--text)">—</div>
+          </div>
+        </div>
+        <div id="amortExplicacao" style="margin-top:14px;background:rgba(0,0,0,0.25);border-radius:10px;padding:14px 16px;font-size:14px;color:var(--text2);line-height:1.5"></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:22px">
+        <div style="background:rgba(201,168,76,0.12);border-left:3px solid var(--gold);border-radius:8px;padding:14px 16px;font-size:14px;color:var(--gold);font-weight:600">⏱️ Quanto mais cedo você amortiza, maior é sua economia.</div>
+        <div style="background:rgba(201,168,76,0.12);border-left:3px solid var(--gold);border-radius:8px;padding:14px 16px;font-size:14px;color:var(--gold);font-weight:600">💰 Antecipe parcelas e economize até centenas de reais em cada parcela amortizada.</div>
+      </div>
     </div>
 
     <div style="text-align:center;margin-top:20px;font-size:12px;color:var(--text3)">* Condições sujeitas a alteração. Consulte o corretor.</div>
@@ -242,27 +299,30 @@
 
 <script>
 (function(){
+  // Ordem de exibição: 180 (menor parcela) -> 120 (equilíbrio) -> 36 (melhor economia)
+  const precoOrdem = ["180","120","36"];
+
   const precoData = {
     "200": {
       total: 46600,
       plans: {
-        36:  { parcela: 1277.78, total: 46600.00, fixa: true,  tag: "💎 Melhor Economia", evo: [["1º ano",1277.78],["Fixa até o fim",1277.78]] },
-        120: { parcela: 383.33,  total: 65383.00, fixa: false, tag: "⚖️ Equilíbrio entre prazo e valor", evo: [["1º ano",383.33],["5º ano",502.47],["10º ano",704.74]] },
-        180: { parcela: 255.56,  total: 83590.00, fixa: false, tag: "🕐 Menor parcela, maior prazo", evo: [["1º ano",255.56],["5º ano",347.69],["10º ano",510.87],["15º ano",750.63]] }
+        36:  { parcela: 1277.78, total: 46600.00, fixa: true,  tag: "💎 Melhor Economia",            cta: "Parcela fixa, sem reajuste — a opção de maior economia total.", evo: [["1º ano",1277.78],["Fixa até o fim",1277.78]] },
+        120: { parcela: 383.33,  total: 65383.00, fixa: false, tag: "⚖️ Equilíbrio entre prazo e valor", cta: "Amortize quando quiser e elimine as parcelas mais caras do final do contrato.", evo: [["1º ano",383.33],["5º ano",502.47],["10º ano",704.74]] },
+        180: { parcela: 255.56,  total: 83590.00, fixa: false, tag: "🟢 Comece com a menor parcela",  cta: "Amortize quando quiser e elimine as parcelas mais caras do final do contrato.", evo: [["1º ano",255.56],["5º ano",347.69],["10º ano",510.87],["15º ano",750.63]] }
       }
     },
     "acima": {
       total: 50600,
       plans: {
-        36:  { parcela: 1388.88, total: 50600.00, fixa: true,  tag: "💎 Melhor Economia", evo: [["1º ano",1388.88],["Fixa até o fim",1388.88]] },
-        120: { parcela: 416.66,  total: 71229.00, fixa: false, tag: "⚖️ Equilíbrio entre prazo e valor", evo: [["1º ano",416.66],["5º ano",546.16],["10º ano",766.01]] },
-        180: { parcela: 277.77,  total: 91104.00, fixa: false, tag: "🕐 Menor parcela, maior prazo", evo: [["1º ano",277.77],["5º ano",377.90],["10º ano",555.26],["15º ano",815.86]] }
+        36:  { parcela: 1388.88, total: 50600.00, fixa: true,  tag: "💎 Melhor Economia",            cta: "Parcela fixa, sem reajuste — a opção de maior economia total.", evo: [["1º ano",1388.88],["Fixa até o fim",1388.88]] },
+        120: { parcela: 416.66,  total: 71229.00, fixa: false, tag: "⚖️ Equilíbrio entre prazo e valor", cta: "Amortize quando quiser e elimine as parcelas mais caras do final do contrato.", evo: [["1º ano",416.66],["5º ano",546.16],["10º ano",766.01]] },
+        180: { parcela: 277.77,  total: 91104.00, fixa: false, tag: "🟢 Comece com a menor parcela",  cta: "Amortize quando quiser e elimine as parcelas mais caras do final do contrato.", evo: [["1º ano",277.77],["5º ano",377.90],["10º ano",555.26],["15º ano",815.86]] }
       }
     }
   };
 
   let precoCat = "200";
-  let precoPlan = "36";
+  let precoPlan = "180"; // plano padrão ao carregar a página
 
   function brl(v){
     return "R$ " + v.toLocaleString("pt-BR", {minimumFractionDigits:2, maximumFractionDigits:2});
@@ -272,7 +332,7 @@
     const cat = precoData[precoCat];
     const sel = document.getElementById("precoPlanSelector");
     sel.innerHTML = "";
-    Object.keys(cat.plans).forEach(months => {
+    precoOrdem.forEach(months => {
       const p = cat.plans[months];
       const btn = document.createElement("div");
       btn.className = "preco-plan-btn" + (months === precoPlan ? " active" : "");
@@ -290,6 +350,7 @@
     document.getElementById("precoDetailParcLbl").textContent = p.fixa ? "Parcelas fixas de" : "Parcelas a partir de";
     document.getElementById("precoDetailParcVal").textContent = brl(p.parcela);
     document.getElementById("precoDetailTotalVal").textContent = brl(p.total);
+    document.getElementById("precoDetailCta").textContent = p.cta;
 
     const maiorPrazoTotal = Math.max(...Object.values(cat.plans).map(x => x.total));
     const economia = maiorPrazoTotal - p.total;
@@ -326,10 +387,41 @@
     const val = parseFloat(input.value);
     const cat = precoData[precoCat];
     const p = cat.plans[precoPlan];
+
     if (!val || val <= 0) { result.style.display = "none"; return; }
-    const parcelas = val / p.parcela;
+
+    // Parcela final = último ponto da evolução (parcela mais cara, do fim do contrato)
+    const parcelaFinal = p.evo[p.evo.length - 1][1];
+    const totalParcelas = parseInt(precoPlan, 10);
+
+    let parcelasEliminadas, valorFuturo, economiaTotal, novoPrazo;
+
+    if (p.fixa) {
+      // Plano fixo: parcela não varia, então amortizar apenas reduz prazo, sem ganho de reajuste
+      parcelasEliminadas = Math.min(totalParcelas, Math.floor(val / p.parcela));
+      valorFuturo = parcelasEliminadas * p.parcela;
+      economiaTotal = 0;
+      novoPrazo = totalParcelas - parcelasEliminadas;
+    } else {
+      parcelasEliminadas = Math.min(totalParcelas, Math.floor(val / parcelaFinal));
+      valorFuturo = parcelasEliminadas * parcelaFinal;
+      economiaTotal = Math.max(0, valorFuturo - val);
+      novoPrazo = totalParcelas - parcelasEliminadas;
+    }
+
     result.style.display = "block";
-    result.innerHTML = `Amortizando <b style="color:var(--gold)">${brl(val)}</b> no plano de <b style="color:var(--gold)">${precoPlan} meses</b>, você adianta o equivalente a <b style="color:var(--gold)">${parcelas.toFixed(1)} parcelas</b> (considerando o valor atual de ${brl(p.parcela)}).`;
+    document.getElementById("amortValInformado").textContent = brl(val);
+    document.getElementById("amortParcelasElim").textContent = parcelasEliminadas + (parcelasEliminadas === 1 ? " parcela" : " parcelas");
+    document.getElementById("amortValFuturo").textContent = brl(valorFuturo);
+    document.getElementById("amortEconomiaTotal").textContent = brl(economiaTotal);
+    document.getElementById("amortNovoPrazo").textContent = novoPrazo + " meses";
+
+    const explicacao = document.getElementById("amortExplicacao");
+    if (p.fixa) {
+      explicacao.innerHTML = `Amortizando <b style="color:var(--gold)">${brl(val)}</b>, você elimina <b style="color:var(--gold)">${parcelasEliminadas}</b> parcela(s) do final do contrato e reduz seu prazo para <b style="color:var(--gold)">${novoPrazo} meses</b>. Como esse plano já tem parcela fixa, a economia vem da redução do prazo.`;
+    } else {
+      explicacao.innerHTML = `Amortizando <b style="color:var(--gold)">${brl(val)}</b> hoje, você elimina <b style="color:var(--gold)">${parcelasEliminadas}</b> parcela(s) do final do contrato — que custariam <b style="color:var(--gold)">${brl(valorFuturo)}</b> no futuro — gerando uma economia de <b style="color:var(--gold)">${brl(economiaTotal)}</b> e reduzindo seu prazo para <b style="color:var(--gold)">${novoPrazo} meses</b>.`;
+    }
   }
 
   function precoRender(){
@@ -342,7 +434,7 @@
       document.querySelectorAll(".preco-cat-btn").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
       precoCat = btn.dataset.cat;
-      precoPlan = "36";
+      precoPlan = "180";
       precoRender();
     };
   });
@@ -352,7 +444,6 @@
   precoRender();
 })();
 </script>
-
 <section id="sec-galeria" style="background:var(--bg);border-bottom:1px solid var(--border)">
   <div class="section-inner">
     <div class="section-tag">Conheca o Empreendimento</div>
