@@ -428,11 +428,13 @@
       novoPrazo = totalParcelas - parcelasEliminadasInt;
     } else {
       // Usa a parcela ATUAL como unidade de referência do valor amortizado
-      // (mais realista para valores pequenos/médios de amortização)
       parcelasEliminadas = Math.min(totalParcelas, val / p.parcela);
       parcelasEliminadasInt = Math.min(totalParcelas, Math.round(parcelasEliminadas));
-      // O valor que essas parcelas custariam no futuro usa a parcela FINAL (mais cara)
-      valorFuturo = parcelasEliminadas * parcelaFinal;
+      
+      // Calcula o valor médio das parcelas para estimar a economia real
+      // (porque as parcelas aumentam ao longo do tempo)
+      const parcelaMedia = (p.parcela + parcelaFinal) / 2;
+      valorFuturo = parcelasEliminadas * parcelaMedia;
       economiaTotal = Math.max(0, valorFuturo - val);
       novoPrazo = totalParcelas - parcelasEliminadasInt;
     }
