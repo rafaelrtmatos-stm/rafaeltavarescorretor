@@ -415,9 +415,11 @@
     const val = parseFloat(input.value);
     const cat = precoData[precoCat];
     const p = cat.plans[precoPlan];
+    const entrada = 600;
+    const totalParcelas = parseInt(precoPlan, 10);
+    const parcelaAtual = p.parcela;
 
     // Calcula o máximo permitido (total do lote - entrada)
-    const entrada = 600;
     const maximoAmortizacao = p.total - entrada;
 
     // Valida se o valor excede o máximo
@@ -438,9 +440,6 @@
       if (wrap) wrap.style.display = "none";
       return;
     }
-
-    const totalParcelas = parseInt(precoPlan, 10);
-    const parcelaAtual = p.parcela; // Parcela vigente (1º ano)
 
     let parcelasEliminadas, parcelasEliminadasInt, valorFuturo, economiaTotal, novoPrazo;
 
@@ -515,7 +514,6 @@
     // Dica educativa
     const dicaDiv = document.getElementById("amortDicaTotal");
     const dicaText = document.getElementById("amortDicaTotalText");
-    const entrada = 600;
     const totalLote = p.total;
     const valorMenosEntrada = totalLote - entrada;
     
