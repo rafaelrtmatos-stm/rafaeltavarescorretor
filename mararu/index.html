@@ -847,7 +847,7 @@ fetch('/site_data.json?_='+Date.now())
     grid.innerHTML=galeria.map(function(url,idx){
       var isVideo=url.indexOf('.mp4')>=0||url.indexOf('.webm')>=0||url.indexOf('.mov')>=0;
       if(isVideo){
-        return '<div style="'+cardStyle+'" onclick="abrirGaleriaLightbox('+idx+')"><video src="'+url+'" muted playsinline preload="metadata" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block;pointer-events:none"></video><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none"><div style="width:46px;height:46px;border-radius:50%;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center"><div style="width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-left:13px solid #fff;margin-left:3px"></div></div></div></div>';
+        return '<div style="'+cardStyle+'" onclick="abrirGaleriaLightbox('+idx+')"><video src="'+url+'" muted playsinline preload="metadata" poster="'+url+'" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block;pointer-events:none"></video><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none"><div style="width:46px;height:46px;border-radius:50%;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center"><div style="width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-left:13px solid #fff;margin-left:3px"></div></div></div></div>';
       }
       return '<div style="'+cardStyle+';aspect-ratio:16/9" onclick="abrirGaleriaLightbox('+idx+')"><img src="'+url+'" alt="Bairro Mararu" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></div>';
     }).join('');
@@ -899,7 +899,7 @@ function abrirGaleriaLightbox(idx){
   var track=document.getElementById('galeria-lightbox-track');
   track.innerHTML=galeria.map(function(url){
     if(glbIsVideo(url)){
-      return '<div style="min-width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><video src="'+url+'" controls playsinline style="max-width:100%;max-height:100%;width:auto;height:auto"></video></div>';
+      return '<div style="min-width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><video src="'+url+'" controls playsinline poster="'+url+'" style="max-width:100%;max-height:100%;width:auto;height:auto"></video></div>';
     }
     return '<div style="min-width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="'+url+'" style="max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain" alt="Bairro Mararu"></div>';
   }).join('');
@@ -910,8 +910,6 @@ function abrirGaleriaLightbox(idx){
 
   var lb=document.getElementById('galeria-lightbox');
   lb.addEventListener('touchstart',glbTouchStart,{passive:true});
-  lb.addEventListener('touchmove',glbTouchMove,{passive:true});
-  lb.addEventListener('touchend',glbTouchEnd);
   lb.addEventListener('mousedown',glbMouseDown);
 }
 
@@ -946,14 +944,40 @@ function glbTouchStart(e){
   glbDragging=true;
   glbDragStartX=e.touches[0].clientX;
   glbDragCurrentX=glbDragStartX;
-  document.getElementById('galeria-lightbox-track').style.transition='none';
+  var track=document.getElementById('galeria-lightbox-track');
+  track.style.transition='none';
+  var animFrameId=null;
+  function updateTransform(){
+    if(glbDragging){
+      var delta=glbDragCurrentX-glbDragStartX;
+      track.style.transform='translateX(calc(-'+(glbIndex*100)+'% + '+delta+'px))';
+      animFrameId=requestAnimationFrame(updateTransform);
+    }
+  }
+  function onMove(ev){
+    if(!glbDragging)return;
+    glbDragCurrentX=ev.touches[0].clientX;
+    if(!animFrameId)animFrameId=requestAnimationFrame(updateTransform);
+  }
+  function onEnd(){
+    if(!glbDragging)return;
+    glbDragging=false;
+    if(animFrameId)cancelAnimationFrame(animFrameId);
+    var delta=glbDragCurrentX-glbDragStartX;
+    if(Math.abs(delta)>glbWidth*0.18){
+      glbGoToIndex(glbIndex+(delta<0?1:-1),true);
+    }else{
+      glbGoToIndex(glbIndex,true);
+    }
+    document.removeEventListener('touchmove',onMove);
+    document.removeEventListener('touchend',onEnd);
+  }
+  document.addEventListener('touchmove',onMove,{passive:true});
+  document.addEventListener('touchend',onEnd);
 }
 function glbTouchMove(e){
   if(!glbDragging)return;
   glbDragCurrentX=e.touches[0].clientX;
-  var delta=glbDragCurrentX-glbDragStartX;
-  var track=document.getElementById('galeria-lightbox-track');
-  track.style.transform='translateX(calc(-'+(glbIndex*100)+'% + '+delta+'px))';
 }
 function glbTouchEnd(){
   if(!glbDragging)return;
@@ -969,17 +993,25 @@ function glbMouseDown(e){
   glbDragging=true;
   glbDragStartX=e.clientX;
   glbDragCurrentX=glbDragStartX;
-  document.getElementById('galeria-lightbox-track').style.transition='none';
+  var track=document.getElementById('galeria-lightbox-track');
+  track.style.transition='none';
+  var animFrameId=null;
+  function updateTransform(){
+    if(glbDragging){
+      var delta=glbDragCurrentX-glbDragStartX;
+      track.style.transform='translateX(calc(-'+(glbIndex*100)+'% + '+delta+'px))';
+      animFrameId=requestAnimationFrame(updateTransform);
+    }
+  }
   function onMove(ev){
     if(!glbDragging)return;
     glbDragCurrentX=ev.clientX;
-    var delta=glbDragCurrentX-glbDragStartX;
-    var track=document.getElementById('galeria-lightbox-track');
-    track.style.transform='translateX(calc(-'+(glbIndex*100)+'% + '+delta+'px))';
+    if(!animFrameId)animFrameId=requestAnimationFrame(updateTransform);
   }
   function onUp(){
     if(!glbDragging)return;
     glbDragging=false;
+    if(animFrameId)cancelAnimationFrame(animFrameId);
     var delta=glbDragCurrentX-glbDragStartX;
     if(Math.abs(delta)>glbWidth*0.18){
       glbGoToIndex(glbIndex+(delta<0?1:-1),true);
