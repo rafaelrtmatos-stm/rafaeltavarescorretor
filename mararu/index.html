@@ -246,6 +246,9 @@
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
         <input type="number" id="precoAmortInput" placeholder="Digite o valor que você quer amortizar (R$)" class="preco-amort-input" style="flex:1;min-width:200px;background:var(--bg2);border:2px solid var(--border2);color:var(--text);padding:14px 16px;border-radius:10px;font-size:16px;font-family:'Inter',sans-serif;transition:border-color .2s,box-shadow .2s">
       </div>
+      <div id="precoAmortAviso" style="display:none;background:rgba(225,29,46,0.15);border-left:4px solid #e11d2e;border-radius:8px;padding:12px;margin-bottom:14px;font-size:13px;color:#ff6b6b">
+        ⚠️ <strong>Valor máximo:</strong> <span id="precoAmortAvisoMax"></span>
+      </div>
 
       <div id="precoAmortResult" style="display:none">
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:6px">
@@ -408,9 +411,26 @@
   function precoUpdateAmortResult(){
     const input = document.getElementById("precoAmortInput");
     const result = document.getElementById("precoAmortResult");
+    const avisoDiv = document.getElementById("precoAmortAviso");
     const val = parseFloat(input.value);
     const cat = precoData[precoCat];
     const p = cat.plans[precoPlan];
+
+    // Calcula o máximo permitido (total do lote - entrada)
+    const entrada = 600;
+    const maximoAmortizacao = p.total - entrada;
+
+    // Valida se o valor excede o máximo
+    if (val && val > maximoAmortizacao) {
+      avisoDiv.style.display = "block";
+      document.getElementById("precoAmortAvisoMax").textContent = "R$ " + brl(maximoAmortizacao);
+      result.style.display = "none";
+      const wrap = document.getElementById("precoDetailTotalAmortizadoWrap");
+      if (wrap) wrap.style.display = "none";
+      return;
+    }
+
+    avisoDiv.style.display = "none";
 
     if (!val || val <= 0) {
       result.style.display = "none";
