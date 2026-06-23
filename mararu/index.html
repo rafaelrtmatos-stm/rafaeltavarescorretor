@@ -304,12 +304,18 @@
   .preco-evo-track{flex:1;background:rgba(255,255,255,0.08);border-radius:6px;height:20px;overflow:hidden}
   .preco-evo-fill{height:100%;background:linear-gradient(90deg,#B8902A,#E8C96A);border-radius:6px;width:0;transition:width .6s ease}
   .preco-evo-val{width:78px;text-align:right;font-size:12px;color:var(--gold);font-weight:600;flex-shrink:0}
-  .preco-amort-input.digitando{border-color:#e11d2e!important;box-shadow:0 0 0 3px rgba(225,29,46,0.25);animation:precoPulse 1s ease-in-out infinite}
+  .preco-amort-input.digitando{border-color:#e11d2e!important;background:linear-gradient(90deg,rgba(225,29,46,0.08),rgba(225,29,46,0.15),rgba(225,29,46,0.08))!important;box-shadow:0 0 0 2px rgba(225,29,46,0.4),0 0 15px rgba(225,29,46,0.5),inset 0 0 10px rgba(225,29,46,0.1);animation:precoPulse 1.2s ease-in-out infinite,precoShimmer 2.5s ease-in-out infinite}
   @keyframes precoPulse{
-    0%{box-shadow:0 0 0 0 rgba(225,29,46,0.45)}
-    70%{box-shadow:0 0 0 10px rgba(225,29,46,0)}
-    100%{box-shadow:0 0 0 0 rgba(225,29,46,0)}
+    0%{box-shadow:0 0 0 2px rgba(225,29,46,0.4),0 0 8px rgba(225,29,46,0.3),inset 0 0 10px rgba(225,29,46,0.1)}
+    50%{box-shadow:0 0 0 6px rgba(225,29,46,0.2),0 0 25px rgba(225,29,46,0.7),inset 0 0 15px rgba(225,29,46,0.15)}
+    100%{box-shadow:0 0 0 2px rgba(225,29,46,0.4),0 0 8px rgba(225,29,46,0.3),inset 0 0 10px rgba(225,29,46,0.1)}
   }
+  @keyframes precoShimmer{
+    0%{background-position:0% center}
+    50%{background-position:100% center}
+    100%{background-position:0% center}
+  }
+
   @media(max-width:560px){
     #precoPlanSelector{grid-template-columns:1fr}
   }
