@@ -67,6 +67,17 @@
     .btn-next { right: 20px; top: 50%; transform: translateY(-50%); }
     .btn-close { top: 20px; right: 20px; }
 
+
+    .galeria-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 28px; }
+    .galeria-item { border-radius: 12px; overflow: hidden; aspect-ratio: 16/9; background: var(--bg3); border: 1px solid var(--border); }
+    .galeria-item video, .galeria-item img { width: 100%; height: 100%; object-fit: cover; }
+    .galeria-lightbox { will-change: transform; }
+    .galeria-nav-btn { width: 46px; height: 46px; border-radius: 50%; background: rgba(0,0,0,0.55); border: none; color: #fff; font-size: 18px; cursor: pointer; position: absolute; top: 50%; transform: translateY(-50%); z-index: 101; }
+    .galeria-nav-prev { left: 20px; }
+    .galeria-nav-next { right: 20px; }
+    .galeria-close { position: absolute; top: 20px; right: 20px; width: 40px; height: 40px; border-radius: 50%; background: rgba(0,0,0,0.55); border: none; color: #fff; font-size: 16px; cursor: pointer; }
+
+
     @media (max-width: 768px) {
       .btns-cat { flex-direction: column; }
       .btn-cat { width: 100%; }
@@ -125,10 +136,21 @@
     </div>
   </section>
 
+  
+
+  
   <section style="padding: 60px 20px; max-width: 1200px; margin: 0 auto;">
     <h2 style="text-align: center; font-size: 32px; margin-bottom: 40px; font-family: 'Cormorant Garamond', serif;">Conheça <em style="color: var(--gold); font-style: italic;">Pajuçara</em></h2>
-    <div class="galeria-grid" id="galeria"></div>
+    <div class="galeria-grid" id="galeria-grid"></div>
   </section>
+
+  <div id="galeria-lightbox" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000; backdrop-filter: blur(8px);">
+    <div id="galeria-lightbox-track" style="width: 100%; height: 100%; display: flex; overflow: hidden;"></div>
+    <button class="galeria-nav-btn galeria-nav-prev" onclick="galeriaNav(-1)">❮</button>
+    <button class="galeria-nav-btn galeria-nav-next" onclick="galeriaNav(1)">❯</button>
+    <button class="galeria-close" onclick="fecharGaleria()">✕</button>
+  </div>
+
 
   <footer>
     <p>© 2024 Pajuçara — Santarém, PA | CRECI 13919 — Rafael Tavares</p>
@@ -236,6 +258,79 @@
       lb.onclick = e => { if (e.target === lb) lb.remove(); };
       document.body.appendChild(lb);
     }
-  </script>
+  
+
+  // ===== GALERIA MARARU STYLE =====
+  var glbIndex = 0;
+  
+  function glbIsVideo(url) {
+    return url.indexOf('.mp4') >= 0 || url.indexOf('.webm') >= 0 || url.indexOf('.mov') >= 0;
+  }
+
+  function carregarGaleriaPajuca() {
+    fetch('/site_data.json')
+      .then(r => r.json())
+      .then(data => {
+        if (!data.pajuca || !data.pajuca.galeria) return;
+        
+        var galeria = data.pajuca.galeria;
+        window.mararuGaleria = galeria;
+        var grid = document.getElementById('galeria-grid');
+        if (!grid) return;
+        
+        if (!galeria.length) {
+          grid.innerHTML = '<div style="padding:40px;color:var(--text3);font-size:13px;text-align:center;grid-column:1/-1">Videos em breve</div>';
+          return;
+        }
+        
+        var cardStyle = 'border-radius:14px;overflow:hidden;border:1px solid rgba(201,168,76,0.15);background:var(--bg3);position:relative;box-shadow:0 6px 24px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.04);transition:transform .25s,box-shadow .25s;cursor:pointer';
+        
+        grid.innerHTML = galeria.map(function(url, idx) {
+          var isVideo = glbIsVideo(url);
+          if (isVideo) {
+            return '<div style="' + cardStyle + '" onclick="abrirGaleriaLightbox(' + idx + ')"><video src="' + url + '" muted playsinline preload="metadata" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block;pointer-events:none" autoplay muted loop></video><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none"><div style="width:46px;height:46px;border-radius:50%;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center"><div style="width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-left:13px solid #fff;margin-left:3px"></div></div></div></div>';
+          }
+          return '<div style="' + cardStyle + '" onclick="abrirGaleriaLightbox(' + idx + ')"><img src="' + url + '" alt="Pajuçara ' + (idx + 1) + '" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block"></div>';
+        }).join('');
+      });
+  }
+
+  function abrirGaleriaLightbox(idx) {
+    var galeria = window.mararuGaleria || [];
+    if (!galeria.length) return;
+    glbIndex = idx;
+    var track = document.getElementById('galeria-lightbox-track');
+    track.innerHTML = galeria.map(function(url) {
+      if (glbIsVideo(url)) {
+        return '<div style="min-width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><video src="' + url + '" controls playsinline style="max-width:100%;max-height:100%;width:auto;height:auto" autoplay muted loop></video></div>';
+      }
+      return '<div style="min-width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="' + url + '" style="max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain" alt="Pajuçara"></div>';
+    }).join('');
+    document.getElementById('galeria-lightbox').style.display = 'flex';
+    atualizarPosicaoGaleria();
+  }
+
+  function fecharGaleria() {
+    document.getElementById('galeria-lightbox').style.display = 'none';
+  }
+
+  function galeriaNav(direcao) {
+    glbIndex += direcao;
+    var galeria = window.mararuGaleria || [];
+    if (glbIndex < 0) glbIndex = galeria.length - 1;
+    if (glbIndex >= galeria.length) glbIndex = 0;
+    atualizarPosicaoGaleria();
+  }
+
+  function atualizarPosicaoGaleria() {
+    var track = document.getElementById('galeria-lightbox-track');
+    track.style.transform = 'translateX(' + (-glbIndex * 100) + '%)';
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    carregarGaleriaPajuca();
+  });
+
+</script>
 </body>
 </html>
