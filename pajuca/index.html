@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   
   <style>
-    :root { --gold: #C9A84C; --bg: #0a0a0a; --text: #F2EDE4; --text2: rgba(242,237,228,0.6); --border: rgba(255,255,255,0.08); }
+    :root { --gold: #C9A84C; --bg: #0a0a0a; --bg2: #111; --bg3: #1a1a1a; --text: #F2EDE4; --text2: rgba(242,237,228,0.6); --text3: rgba(242,237,228,0.35); --border: rgba(255,255,255,0.08); }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { height: 100%; }
     body { background: var(--bg); color: var(--text); font-family: "Inter", sans-serif; overflow-x: hidden; }
@@ -27,60 +27,37 @@
     .hero-title { font-family: "Cormorant Garamond", serif; font-size: clamp(44px, 7vw, 80px); font-weight: 700; line-height: 0.9; letter-spacing: -3px; margin-bottom: 20px; text-shadow: 0 4px 20px rgba(0,0,0,0.95); }
     .hero-title em { font-style: italic; color: var(--gold); }
     .hero-sub { font-size: 15px; color: #fff; line-height: 1.7; margin: 0 auto 32px; background: rgba(0,0,0,0.35); padding: 20px 28px; border-radius: 14px; border: 1.5px solid rgba(201,168,76,0.25); backdrop-filter: blur(8px); }
+    
     .hero-btns { display: flex; flex-direction: column; align-items: center; gap: 10px; }
-    .btn-gold, .btn-wpp { display: inline-flex; align-items: center; gap: 10px; padding: 18px 36px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; text-decoration: none; transition: all 0.3s; font-size: 14px; letter-spacing: 1px; }
-    .btn-gold { background: var(--gold); color: #000; }
-    .btn-gold:hover { transform: translateY(-2px); }
-    .btn-wpp { background: #25d366; color: #fff; font-size: 13px; padding: 14px 28px; }
-    .btn-wpp:hover { background: #1fa855; }
+    .btn-gold { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: linear-gradient(135deg, #B8902A, #E8C96A, #B8902A); background-size: 200% 100%; background-position: left; color: #000; padding: 16px 32px; border-radius: 100px; font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; transition: all 0.35s; cursor: pointer; border: none; font-family: "Inter", sans-serif; box-shadow: 0 4px 20px rgba(201,168,76,0.25); text-decoration: none; }
+    .btn-gold:hover { background-position: right; box-shadow: 0 6px 30px rgba(201,168,76,0.4); }
+    
+    .btn-wpp { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: transparent; border: 1.5px solid rgba(37,211,102,0.45); color: #25d366; padding: 14px 28px; border-radius: 100px; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; transition: all 0.3s; cursor: pointer; text-decoration: none; }
+    .btn-wpp:hover { border-color: #25d366; background: rgba(37,211,102,0.08); }
+
+    .section-title { font-family: "Cormorant Garamond", serif; font-size: 28px; font-weight: 700; text-align: center; margin-bottom: 12px; }
+    .section-title em { color: var(--gold); font-style: italic; }
+    .section-sub { text-align: center; color: var(--text2); font-size: 13px; margin-bottom: 24px; }
 
     .sec-precos { padding: 60px 20px; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); border-top: 1px solid rgba(201,168,76,0.15); }
-    .sec-precos h2 { text-align: center; margin-bottom: 40px; font-size: 32px; font-family: "Cormorant Garamond", serif; }
-    .sec-precos em { font-style: italic; color: var(--gold); }
-    .btns-cat { display: flex; gap: 16px; justify-content: center; margin-bottom: 40px; flex-wrap: wrap; }
-    .btn-cat { padding: 14px 28px; border: 2px solid var(--gold); background: var(--gold); color: #000; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 14px; transition: all 0.3s; }
-    .btn-cat.inactive { background: transparent; color: var(--gold); }
-    .box-precos { background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.2); border-radius: 12px; padding: 40px; margin-bottom: 32px; }
-    .grid-preco { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 32px; }
-    .item-preco p:first-child { color: var(--text2); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
-    .item-preco p:last-child { color: var(--gold); font-size: 28px; font-weight: 700; }
-    .calc-desc { background: rgba(201,168,76,0.05); border: 1px solid rgba(201,168,76,0.15); border-radius: 12px; padding: 28px; }
-    .inputs-calc { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 16px; }
-    .inputs-calc label { display: block; color: var(--text2); font-size: 12px; margin-bottom: 8px; }
-    .inputs-calc input { width: 100%; padding: 12px; background: #1a1a1a; border: 1px solid rgba(201,168,76,0.3); border-radius: 6px; color: var(--text); font-size: 14px; }
-    .resultado-desc { display: none; margin-top: 24px; padding-top: 24px; border-top: 1px solid rgba(201,168,76,0.2); }
-    .resultado-desc.show { display: block; }
-    .resultado-desc p { color: #4ade80; margin-bottom: 8px; }
-    .resultado-desc .valor { color: #4ade80; font-size: 32px; font-weight: 700; margin-bottom: 8px; }
-
-    .galeria-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-bottom: 40px; }
-    .galeria-grid > div { position: relative; overflow: hidden; border-radius: 8px; cursor: pointer; aspect-ratio: 1; }
-    .galeria-grid img, .galeria-grid video { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-    footer { background: #111; border-top: 1px solid rgba(201,168,76,0.15); padding: 40px 20px; text-align: center; font-size: 12px; color: var(--text2); }
-
-    .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 999; backdrop-filter: blur(8px); }
-    .lightbox-content { position: relative; max-width: 90vw; max-height: 90vh; display: flex; align-items: center; justify-content: center; }
-    .lightbox img, .lightbox video { max-width: 100%; max-height: 100%; object-fit: contain; }
-    .lightbox-btn { position: absolute; background: rgba(201,168,76,0.8); color: #000; border: none; width: 50px; height: 50px; border-radius: 50%; font-size: 20px; cursor: pointer; z-index: 1000; }
-    .btn-prev { left: 20px; top: 50%; transform: translateY(-50%); }
-    .btn-next { right: 20px; top: 50%; transform: translateY(-50%); }
-    .btn-close { top: 20px; right: 20px; }
-
+    .preco-cat-btn { padding: 10px 22px; border-radius: 100px; border: 2px solid var(--gold); background: transparent; color: var(--gold); font-weight: 700; font-size: 12px; cursor: pointer; font-family: inherit; letter-spacing: 0.5px; transition: all 0.3s; }
+    .preco-cat-btn.active { background: var(--gold); color: #000; }
 
     .galeria-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 28px; }
     .galeria-item { border-radius: 12px; overflow: hidden; aspect-ratio: 16/9; background: var(--bg3); border: 1px solid var(--border); }
     .galeria-item video, .galeria-item img { width: 100%; height: 100%; object-fit: cover; }
-    .galeria-lightbox { will-change: transform; }
-    .galeria-nav-btn { width: 46px; height: 46px; border-radius: 50%; background: rgba(0,0,0,0.55); border: none; color: #fff; font-size: 18px; cursor: pointer; position: absolute; top: 50%; transform: translateY(-50%); z-index: 101; }
+
+    footer { background: var(--bg2); border-top: 1px solid rgba(201,168,76,0.15); padding: 40px 20px; text-align: center; font-size: 12px; color: var(--text2); }
+
+    .galeria-lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000; backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; }
+    #galeria-lightbox-track { width: 100%; height: 100%; display: flex; overflow: hidden; }
+    .galeria-nav-btn { position: absolute; width: 46px; height: 46px; border-radius: 50%; background: rgba(0,0,0,0.55); border: none; color: #fff; font-size: 18px; cursor: pointer; top: 50%; transform: translateY(-50%); z-index: 101; }
     .galeria-nav-prev { left: 20px; }
     .galeria-nav-next { right: 20px; }
     .galeria-close { position: absolute; top: 20px; right: 20px; width: 40px; height: 40px; border-radius: 50%; background: rgba(0,0,0,0.55); border: none; color: #fff; font-size: 16px; cursor: pointer; }
 
-
     @media (max-width: 768px) {
-      .btns-cat { flex-direction: column; }
-      .btn-cat { width: 100%; }
+      .galeria-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -108,39 +85,63 @@
   </section>
 
   <section class="sec-precos">
-    <div style="max-width: 1000px; margin: 0 auto;">
-      <h2>Tabela de <em>Preços</em></h2>
-      <div class="btns-cat">
-        <button class="btn-cat" onclick="mudaCat('ate')">Até 300m²</button>
-        <button class="btn-cat inactive" onclick="mudaCat('acima')">Acima de 300m²</button>
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <h2 class="section-title">Tabela de <em>Preços</em></h2>
+      <p class="section-sub">Escolha o tipo de lote e o prazo. Comece com a parcela mais baixa e amortize quando quiser.</p>
+
+      <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 24px; flex-wrap: wrap;" id="precoCatToggle">
+        <button class="preco-cat-btn active" data-cat="ate" onclick="precoRenderPlanSelector()">Até 300m²</button>
+        <button class="preco-cat-btn" data-cat="acima" onclick="precoRenderPlanSelector()">Acima de 300m²</button>
       </div>
-      <div class="box-precos">
-        <div class="grid-preco">
-          <div class="item-preco"><p>Entrada</p><p id="entrada">R$ 500,00</p></div>
-          <div class="item-preco"><p>Parcelas</p><p id="parcelas">48x R$ 312,50</p></div>
-          <div class="item-preco"><p>Total</p><p id="total">R$ 15.500,00</p></div>
+
+      <div id="precoDetail" style="background: rgba(201,168,76,0.05); border: 1px solid rgba(201,168,76,0.2); border-radius: 14px; padding: 24px; margin-bottom: 28px;">
+        <div style="display: flex; justify-content: space-between; text-align: center;">
+          <div>
+            <div style="font-size: 11px; color: rgba(255,255,255,0.6); text-transform: uppercase;">Parcelas a partir de</div>
+            <div id="precoDetailParcVal" style="font-size: 38px; font-weight: 700; color: #fff; font-family: 'Cormorant Garamond', serif; line-height: 1;">R$ 312,50</div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 11px; color: rgba(255,255,255,0.6); text-transform: uppercase;">Total pago</div>
+            <div id="precoDetailTotalVal" style="font-size: 19px; font-weight: 700; color: var(--gold);">R$ 15.500,00</div>
+            <div id="precoDetailTotalAmortizadoWrap" style="display: none; margin-top: 6px;">
+              <div style="font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px;">Com amortização</div>
+              <div id="precoDetailTotalAmortizado" style="font-size: 17px; font-weight: 700; color: #fff;">—</div>
+            </div>
+          </div>
         </div>
+        <div id="precoDetailCta" style="font-size: 13px; color: var(--gold); font-weight: 600; margin-top: 16px; text-align: center;">Amortize quando quiser e elimine as parcelas mais caras do final do contrato.</div>
+        <div id="precoEconomiaLine" style="background: rgba(0,0,0,0.25); border-radius: 10px; padding: 10px 16px; font-size: 13px; color: var(--gold); text-align: center; font-weight: 600; margin-top: 12px; display: none;"></div>
       </div>
-      <div class="calc-desc">
-        <p>💰 Antecipe 7+ parcelas e ganhe <strong style="color: var(--gold);">20% de desconto!</strong></p>
-        <div class="inputs-calc">
-          <div><label>Parcelas a adiantar</label><input type="number" id="inp-parc" placeholder="Ex: 7" oninput="calcDesc()"></div>
-          <div><label>Ou valor (R$)</label><input type="text" id="inp-valor" placeholder="Ex: 2.188,50" oninput="calcDesc()"></div>
+
+      <!-- CALCULADORA DE AMORTIZAÇÃO -->
+      <div style="background: linear-gradient(135deg, rgba(201,168,76,0.14), rgba(201,168,76,0.05)); border: 2px solid var(--gold); border-radius: 20px; padding: 30px; box-shadow: 0 10px 32px rgba(201,168,76,0.15);">
+        <div style="text-align: center; margin-bottom: 20px;">
+          <div style="font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 8px;">Vantagem exclusiva</div>
+          <div style="font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 700; color: var(--text);">Calculadora de <em style="color: var(--gold); font-style: italic;">Amortização</em></div>
         </div>
-        <div class="resultado-desc" id="resultado">
-          <p>✅ 20% DE DESCONTO APLICADO!</p>
-          <div class="valor" id="valor-desc">R$ 12.400,00</div>
-          <p>Você economiza: <strong id="economia">R$ 3.100,00</strong></p>
+
+        <div style="background: rgba(0,0,0,0.25); border-radius: 12px; padding: 16px 20px; margin-bottom: 22px; font-size: 14px; color: var(--text2); line-height: 1.6; text-align: center;">
+          Toda amortização elimina parcelas do final do contrato, onde os valores são mais altos. Isso significa que você pode economizar centenas de reais antecipando parcelas hoje.
         </div>
+
+        <div style="display: flex; gap: 14px; margin-bottom: 20px; align-items: center;">
+          <div style="flex: 1;">
+            <label style="display: block; font-size: 11px; color: var(--text2); margin-bottom: 8px; text-transform: uppercase;">Quantas parcelas você quer amortizar?</label>
+            <input type="number" id="precoAmortInput" placeholder="Ex: 12" style="width: 100%; padding: 12px; background: rgba(0,0,0,0.3); border: 1px solid rgba(201,168,76,0.3); border-radius: 8px; color: var(--text); font-size: 14px;" oninput="precoUpdateAmortResult()">
+          </div>
+        </div>
+
+        <div id="precoAmortAvisoMax" style="background: rgba(220,53,69,0.15); border: 1px solid rgba(220,53,69,0.3); border-radius: 8px; padding: 12px; font-size: 12px; color: #ff8a8a; margin-bottom: 16px; display: none; text-align: center;">
+          ⚠️ Máximo de parcelas para amortizar
+        </div>
+
+        <div id="precoAmortAviso" style="display: none; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3); border-radius: 8px; padding: 14px; font-size: 13px; color: var(--gold); text-align: center; font-weight: 600;"></div>
       </div>
     </div>
   </section>
 
-  
-
-  
   <section style="padding: 60px 20px; max-width: 1200px; margin: 0 auto;">
-    <h2 style="text-align: center; font-size: 32px; margin-bottom: 40px; font-family: 'Cormorant Garamond', serif;">Conheça <em style="color: var(--gold); font-style: italic;">Pajuçara</em></h2>
+    <h2 class="section-title">Conheça <em>Pajuçara</em></h2>
     <div class="galeria-grid" id="galeria-grid"></div>
   </section>
 
@@ -151,186 +152,158 @@
     <button class="galeria-close" onclick="fecharGaleria()">✕</button>
   </div>
 
-
   <footer>
     <p>© 2024 Pajuçara — Santarém, PA | CRECI 13919 — Rafael Tavares</p>
   </footer>
 
   <script>
-    const precos = {
-      ate: { total: 15500, entrada: 500, qty: 48, valor: 312.50 },
-      acima: { total: 18000, entrada: 500, qty: 50, valor: 350 }
-    };
-    let catAtual = 'ate';
-
-    function mudaCat(cat) {
-      catAtual = cat;
-      const preco = precos[cat];
-      document.querySelectorAll('.btn-cat').forEach((b, i) => {
-        if ((cat === 'ate' && i === 0) || (cat === 'acima' && i === 1)) {
-          b.classList.remove('inactive');
-        } else {
-          b.classList.add('inactive');
+    // ===== DADOS DE PREÇOS PAJUÇARA =====
+    const precoData = {
+      ate: {
+        plans: {
+          48: { parcela: 312.50, total: 15500, entrada: 500, qty: 48 }
         }
+      },
+      acima: {
+        plans: {
+          50: { parcela: 350, total: 18000, entrada: 500, qty: 50 }
+        }
+      }
+    };
+
+    let precoAtual = 'ate';
+    let planoAtual = 48;
+
+    function precoRenderPlanSelector() {
+      document.querySelectorAll('.preco-cat-btn').forEach(btn => {
+        if (btn.dataset.cat === precoAtual) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+        btn.addEventListener('click', function() {
+          precoAtual = this.dataset.cat;
+          precoRenderPlanSelector();
+          precoRenderDetail();
+        });
       });
-      document.getElementById('entrada').textContent = 'R$ ' + preco.entrada.toLocaleString('pt-BR', {minimumFractionDigits: 2});
-      document.getElementById('parcelas').textContent = preco.qty + 'x R$ ' + preco.valor.toLocaleString('pt-BR', {minimumFractionDigits: 2});
-      document.getElementById('total').textContent = 'R$ ' + preco.total.toLocaleString('pt-BR', {minimumFractionDigits: 2});
-      document.getElementById('inp-parc').value = '';
-      document.getElementById('inp-valor').value = '';
-      document.getElementById('resultado').classList.remove('show');
+      precoRenderDetail();
     }
 
-    function calcDesc() {
-      const preco = precos[catAtual];
-      const parc = parseInt(document.getElementById('inp-parc').value) || 0;
-      const valor = (document.getElementById('inp-valor').value || '').replace(/[^0-9,.]/g, '').replace(',', '.');
-      const valorNum = parseFloat(valor) || 0;
-      let temDesc = parc >= 7 || (valorNum > 0 && Math.ceil(valorNum / preco.valor) >= 7);
-      if (temDesc) {
-        const desc = preco.total * 0.8;
-        const econ = preco.total - desc;
-        document.getElementById('valor-desc').textContent = 'R$ ' + desc.toLocaleString('pt-BR', {minimumFractionDigits: 2});
-        document.getElementById('economia').textContent = 'R$ ' + econ.toLocaleString('pt-BR', {minimumFractionDigits: 2});
-        document.getElementById('resultado').classList.add('show');
-      } else {
-        document.getElementById('resultado').classList.remove('show');
+    function precoRenderDetail() {
+      const plans = precoData[precoAtual].plans;
+      const plano = plans[Object.keys(plans)[0]];
+      planoAtual = Object.keys(plans)[0];
+      
+      document.getElementById('precoDetailParcVal').textContent = 'R$ ' + plano.parcela.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+      document.getElementById('precoDetailTotalVal').textContent = 'R$ ' + plano.total.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+      document.getElementById('precoDetailCta').textContent = 'Amortize quando quiser e elimine as parcelas mais caras do final do contrato.';
+      document.getElementById('precoDetailTotalAmortizadoWrap').style.display = 'none';
+      document.getElementById('precoAmortInput').value = '';
+      document.getElementById('precoAmortInput').max = plano.qty;
+      document.getElementById('precoAmortAviso').style.display = 'none';
+      document.getElementById('precoEconomiaLine').style.display = 'none';
+      document.getElementById('precoAmortAvisoMax').style.display = 'none';
+    }
+
+    function precoUpdateAmortResult() {
+      const plano = precoData[precoAtual].plans[planoAtual];
+      const qtdAmort = parseInt(document.getElementById('precoAmortInput').value) || 0;
+      
+      if (qtdAmort > plano.qty) {
+        document.getElementById('precoAmortAvisoMax').style.display = 'block';
+        document.getElementById('precoAmortAviso').style.display = 'none';
+        document.getElementById('precoEconomiaLine').style.display = 'none';
+        document.getElementById('precoDetailTotalAmortizadoWrap').style.display = 'none';
+        return;
       }
+
+      if (qtdAmort > 0) {
+        const valorAmortizado = plano.parcela * qtdAmort;
+        const novoTotal = plano.total - valorAmortizado;
+        const economia = valorAmortizado;
+        
+        document.getElementById('precoAmortAviso').innerHTML = `<strong>Economia ao amortizar:</strong> R$ ${economia.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+        document.getElementById('precoAmortAviso').style.display = 'block';
+        document.getElementById('precoDetailTotalAmortizado').textContent = 'R$ ' + novoTotal.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+        document.getElementById('precoDetailTotalAmortizadoWrap').style.display = 'block';
+        document.getElementById('precoEconomiaLine').style.display = 'block';
+        document.getElementById('precoEconomiaLine').textContent = `⏱️ Quanto mais cedo você amortiza, maior é sua economia. 💰`;
+      } else {
+        document.getElementById('precoAmortAviso').style.display = 'none';
+        document.getElementById('precoEconomiaLine').style.display = 'none';
+        document.getElementById('precoDetailTotalAmortizadoWrap').style.display = 'none';
+      }
+      document.getElementById('precoAmortAvisoMax').style.display = 'none';
+    }
+
+    // ===== GALERIA =====
+    var glbIndex = 0;
+    
+    function glbIsVideo(url) {
+      return url.indexOf('.mp4') >= 0 || url.indexOf('.webm') >= 0 || url.indexOf('.mov') >= 0;
+    }
+
+    function carregarGaleriaPajuca() {
+      fetch('/site_data.json')
+        .then(r => r.json())
+        .then(data => {
+          if (!data.pajuca || !data.pajuca.galeria) return;
+          
+          var galeria = data.pajuca.galeria;
+          window.mararuGaleria = galeria;
+          var grid = document.getElementById('galeria-grid');
+          if (!grid) return;
+          
+          var cardStyle = 'border-radius:14px;overflow:hidden;border:1px solid rgba(201,168,76,0.15);background:var(--bg3);position:relative;box-shadow:0 6px 24px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.04);transition:transform .25s,box-shadow .25s;cursor:pointer';
+          
+          grid.innerHTML = galeria.map(function(url, idx) {
+            var isVideo = glbIsVideo(url);
+            if (isVideo) {
+              return '<div style="' + cardStyle + '" onclick="abrirGaleriaLightbox(' + idx + ')"><video src="' + url + '" muted playsinline preload="metadata" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block;pointer-events:none" autoplay muted loop></video><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none"><div style="width:46px;height:46px;border-radius:50%;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center"><div style="width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-left:13px solid #fff;margin-left:3px"></div></div></div></div>';
+            }
+            return '<div style="' + cardStyle + '" onclick="abrirGaleriaLightbox(' + idx + ')"><img src="' + url + '" alt="Pajuçara ' + (idx + 1) + '" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block"></div>';
+          }).join('');
+        });
+    }
+
+    function abrirGaleriaLightbox(idx) {
+      var galeria = window.mararuGaleria || [];
+      if (!galeria.length) return;
+      glbIndex = idx;
+      var track = document.getElementById('galeria-lightbox-track');
+      track.innerHTML = galeria.map(function(url) {
+        if (glbIsVideo(url)) {
+          return '<div style="min-width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><video src="' + url + '" controls playsinline style="max-width:100%;max-height:100%;width:auto;height:auto" autoplay muted loop></video></div>';
+        }
+        return '<div style="min-width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="' + url + '" style="max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain" alt="Pajuçara"></div>';
+      }).join('');
+      document.getElementById('galeria-lightbox').style.display = 'flex';
+      atualizarPosicaoGaleria();
+    }
+
+    function fecharGaleria() {
+      document.getElementById('galeria-lightbox').style.display = 'none';
+    }
+
+    function galeriaNav(direcao) {
+      glbIndex += direcao;
+      var galeria = window.mararuGaleria || [];
+      if (glbIndex < 0) glbIndex = galeria.length - 1;
+      if (glbIndex >= galeria.length) glbIndex = 0;
+      atualizarPosicaoGaleria();
+    }
+
+    function atualizarPosicaoGaleria() {
+      var track = document.getElementById('galeria-lightbox-track');
+      track.style.transform = 'translateX(' + (-glbIndex * 100) + '%)';
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-      mudaCat('ate');
-      fetch('/site_data.json').then(r => r.json()).then(data => {
-        if (data.pajuca && data.pajuca.galeria && document.getElementById('galeria')) {
-          const gal = document.getElementById('galeria');
-          data.pajuca.galeria.forEach((url, idx) => {
-            const div = document.createElement('div');
-            if (url.includes('.mov') || url.includes('.mp4')) {
-              const vid = document.createElement('video');
-              vid.src = url;
-              vid.autoplay = true;
-              vid.muted = true;
-              vid.loop = true;
-              div.appendChild(vid);
-            } else {
-              const img = document.createElement('img');
-              img.src = url;
-              img.alt = 'Pajuçara ' + (idx + 1);
-              img.loading = 'lazy';
-              div.appendChild(img);
-            }
-            div.onclick = () => abreLightbox(url, idx, data.pajuca.galeria);
-            gal.appendChild(div);
-          });
-        }
-      });
+      precoRenderPlanSelector();
+      carregarGaleriaPajuca();
     });
+  </script>
 
-    function abreLightbox(url, idx, galeria) {
-      const lb = document.createElement('div');
-      lb.className = 'lightbox';
-      const cont = document.createElement('div');
-      cont.className = 'lightbox-content';
-      let elem = url.includes('.mov') || url.includes('.mp4') ? document.createElement('video') : document.createElement('img');
-      elem.src = url;
-      if (elem.tagName === 'VIDEO') { elem.autoplay = true; elem.controls = true; elem.muted = true; }
-      cont.appendChild(elem);
-      
-      const btnPrev = document.createElement('button');
-      btnPrev.className = 'lightbox-btn btn-prev';
-      btnPrev.innerHTML = '❮';
-      btnPrev.onclick = () => { lb.remove(); const newIdx = idx - 1 < 0 ? galeria.length - 1 : idx - 1; abreLightbox(galeria[newIdx], newIdx, galeria); };
-      cont.appendChild(btnPrev);
-      
-      const btnNext = document.createElement('button');
-      btnNext.className = 'lightbox-btn btn-next';
-      btnNext.innerHTML = '❯';
-      btnNext.onclick = () => { lb.remove(); const newIdx = idx + 1 >= galeria.length ? 0 : idx + 1; abreLightbox(galeria[newIdx], newIdx, galeria); };
-      cont.appendChild(btnNext);
-      
-      const btnClose = document.createElement('button');
-      btnClose.className = 'lightbox-btn btn-close';
-      btnClose.innerHTML = '✕';
-      btnClose.onclick = () => lb.remove();
-      cont.appendChild(btnClose);
-      
-      lb.appendChild(cont);
-      lb.onclick = e => { if (e.target === lb) lb.remove(); };
-      document.body.appendChild(lb);
-    }
-  
-
-  // ===== GALERIA MARARU STYLE =====
-  var glbIndex = 0;
-  
-  function glbIsVideo(url) {
-    return url.indexOf('.mp4') >= 0 || url.indexOf('.webm') >= 0 || url.indexOf('.mov') >= 0;
-  }
-
-  function carregarGaleriaPajuca() {
-    fetch('/site_data.json')
-      .then(r => r.json())
-      .then(data => {
-        if (!data.pajuca || !data.pajuca.galeria) return;
-        
-        var galeria = data.pajuca.galeria;
-        window.mararuGaleria = galeria;
-        var grid = document.getElementById('galeria-grid');
-        if (!grid) return;
-        
-        if (!galeria.length) {
-          grid.innerHTML = '<div style="padding:40px;color:var(--text3);font-size:13px;text-align:center;grid-column:1/-1">Videos em breve</div>';
-          return;
-        }
-        
-        var cardStyle = 'border-radius:14px;overflow:hidden;border:1px solid rgba(201,168,76,0.15);background:var(--bg3);position:relative;box-shadow:0 6px 24px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.04);transition:transform .25s,box-shadow .25s;cursor:pointer';
-        
-        grid.innerHTML = galeria.map(function(url, idx) {
-          var isVideo = glbIsVideo(url);
-          if (isVideo) {
-            return '<div style="' + cardStyle + '" onclick="abrirGaleriaLightbox(' + idx + ')"><video src="' + url + '" muted playsinline preload="metadata" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block;pointer-events:none" autoplay muted loop></video><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none"><div style="width:46px;height:46px;border-radius:50%;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center"><div style="width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-left:13px solid #fff;margin-left:3px"></div></div></div></div>';
-          }
-          return '<div style="' + cardStyle + '" onclick="abrirGaleriaLightbox(' + idx + ')"><img src="' + url + '" alt="Pajuçara ' + (idx + 1) + '" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block"></div>';
-        }).join('');
-      });
-  }
-
-  function abrirGaleriaLightbox(idx) {
-    var galeria = window.mararuGaleria || [];
-    if (!galeria.length) return;
-    glbIndex = idx;
-    var track = document.getElementById('galeria-lightbox-track');
-    track.innerHTML = galeria.map(function(url) {
-      if (glbIsVideo(url)) {
-        return '<div style="min-width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><video src="' + url + '" controls playsinline style="max-width:100%;max-height:100%;width:auto;height:auto" autoplay muted loop></video></div>';
-      }
-      return '<div style="min-width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="' + url + '" style="max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain" alt="Pajuçara"></div>';
-    }).join('');
-    document.getElementById('galeria-lightbox').style.display = 'flex';
-    atualizarPosicaoGaleria();
-  }
-
-  function fecharGaleria() {
-    document.getElementById('galeria-lightbox').style.display = 'none';
-  }
-
-  function galeriaNav(direcao) {
-    glbIndex += direcao;
-    var galeria = window.mararuGaleria || [];
-    if (glbIndex < 0) glbIndex = galeria.length - 1;
-    if (glbIndex >= galeria.length) glbIndex = 0;
-    atualizarPosicaoGaleria();
-  }
-
-  function atualizarPosicaoGaleria() {
-    var track = document.getElementById('galeria-lightbox-track');
-    track.style.transform = 'translateX(' + (-glbIndex * 100) + '%)';
-  }
-
-  document.addEventListener('DOMContentLoaded', function() {
-    carregarGaleriaPajuca();
-  });
-
-</script>
 </body>
 </html>
