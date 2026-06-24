@@ -90,7 +90,20 @@
         display:flex!important;flex-direction:column!important;gap:28px!important
       }
     }
-  </style>
+  
+    /* Galeria otimizada */
+    .galeria-lightbox { will-change: transform; }
+    .galeria-lightbox img, .galeria-lightbox video { 
+      max-width: 90vw; 
+      max-height: 90vh; 
+      object-fit: contain;
+      loading: lazy;
+    }
+    .galeria-grid img, .galeria-grid video {
+      loading: lazy;
+      will-change: contents;
+    }
+</style>
 </head>
 <body>
 <nav>
@@ -99,7 +112,7 @@
 
 <section class="hero">
   <div class="hero-bg">
-    <img src="/imagens/santa-maria-hero-rafael.jpg" alt="Rafael Tavares no Bairro Santa Maria" loading="eager">
+    <img src="/imagens/santa-maria-hero-rafael.jpg" alt="Rafael Tavares no Bairro Santa Maria" loading="lazy" loading="eager">
     <div class="hero-overlay"></div>
   </div>
   <div class="hero-content">
@@ -322,6 +335,19 @@
   @media(max-width:560px){
     #precoPlanSelector{grid-template-columns:1fr}
   }
+
+    /* Galeria otimizada */
+    .galeria-lightbox { will-change: transform; }
+    .galeria-lightbox img, .galeria-lightbox video { 
+      max-width: 90vw; 
+      max-height: 90vh; 
+      object-fit: contain;
+      loading: lazy;
+    }
+    .galeria-grid img, .galeria-grid video {
+      loading: lazy;
+      will-change: contents;
+    }
 </style>
 
 <script>
@@ -627,7 +653,7 @@
     <button onclick="fecharModalCorretor()" style="position:absolute;top:16px;right:16px;background:transparent;border:none;color:var(--text3);font-size:20px;cursor:pointer;line-height:1">x</button>
     <div style="text-align:center;margin-bottom:20px">
       <div style="width:72px;height:72px;border-radius:50%;overflow:hidden;border:2px solid var(--gold);margin:0 auto 12px;background:var(--bg3)">
-        <img src="/imagens/rafael-foto.jpg" alt="Rafael" style="width:100%;height:100%;object-fit:cover">
+        <img src="/imagens/rafael-foto.jpg" alt="Rafael" loading="lazy" style="width:100%;height:100%;object-fit:cover">
       </div>
       <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700">Rafael Tavares</div>
       <div style="font-size:11px;color:var(--gold);letter-spacing:2px;margin-top:4px">CRECI 13919 - Corretor Especialista</div>
@@ -857,7 +883,7 @@ fetch('/site_data.json?_='+Date.now())
     grid.innerHTML=galeria.map(function(url,idx){
       var isVideo=url.indexOf('.mp4')>=0||url.indexOf('.webm')>=0||url.indexOf('.mov')>=0;
       if(isVideo){
-        return '<div style="'+cardStyle+'" onclick="abrirGaleriaLightbox('+idx+')"><video src="'+url+'" muted playsinline preload="metadata" poster="'+url+'" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block;pointer-events:none"></video><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none"><div style="width:46px;height:46px;border-radius:50%;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center"><div style="width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-left:13px solid #fff;margin-left:3px"></div></div></div></div>';
+        return '<div style="'+cardStyle+'" onclick="abrirGaleriaLightbox('+idx+')"><video src="'+url+'" muted playsinline preload="metadata" poster="'+url+'" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block;pointer-events:none" autoplay muted loop></video><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none"><div style="width:46px;height:46px;border-radius:50%;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center"><div style="width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-left:13px solid #fff;margin-left:3px"></div></div></div></div>';
       }
       return '<div style="'+cardStyle+';aspect-ratio:16/9" onclick="abrirGaleriaLightbox('+idx+')"><img src="'+url+'" alt="Bairro Santa Maria" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></div>';
     }).join('');
@@ -909,7 +935,7 @@ function abrirGaleriaLightbox(idx){
   var track=document.getElementById('galeria-lightbox-track');
   track.innerHTML=galeria.map(function(url){
     if(glbIsVideo(url)){
-      return '<div style="min-width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><video src="'+url+'" controls playsinline poster="'+url+'" style="max-width:100%;max-height:100%;width:auto;height:auto"></video></div>';
+      return '<div style="min-width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><video src="'+url+'" controls playsinline poster="'+url+'" style="max-width:100%;max-height:100%;width:auto;height:auto" autoplay muted loop></video></div>';
     }
     return '<div style="min-width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="'+url+'" style="max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain" alt="Bairro Santa Maria"></div>';
   }).join('');
@@ -1120,6 +1146,19 @@ document.addEventListener('keydown',function(e){
 .dbg{font-size:9px;padding:2px 8px;border-radius:100px;font-style:normal;font-weight:700;letter-spacing:.5px}
 .dbg.red{background:rgba(248,113,113,0.15);color:#f87171;border:1px solid rgba(248,113,113,0.3)}
 @media(max-width:768px){#menu-btn{top:14px;right:14px;width:40px;height:40px}}
+
+    /* Galeria otimizada */
+    .galeria-lightbox { will-change: transform; }
+    .galeria-lightbox img, .galeria-lightbox video { 
+      max-width: 90vw; 
+      max-height: 90vh; 
+      object-fit: contain;
+      loading: lazy;
+    }
+    .galeria-grid img, .galeria-grid video {
+      loading: lazy;
+      will-change: contents;
+    }
 </style>
 
 <script>
