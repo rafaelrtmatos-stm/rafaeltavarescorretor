@@ -341,8 +341,110 @@
       });
     }
 
-    atualizaCat('ate');
+atualizaCat('ate');
   });
+  
+  // CARREGAR GALERIA DO site_data.json
+  fetch('/site_data.json')
+    .then(response => response.json())
+    .then(data => {
+      if (data.pajuca && data.pajuca.galeria) {
+        const galeria = document.getElementById('galeria');
+        if (galeria) {
+          data.pajuca.galeria.forEach((url, idx) => {
+            const div = document.createElement('div');
+            div.className = 'galeria-item';
+            div.style.cursor = 'pointer';
+            
+            if (url.endsWith('.mov') || url.endsWith('.mp4') || url.endsWith('.webm')) {
+              // Vídeo
+              div.innerHTML = `<video autoplay muted loop style="width:100%;height:100%;object-fit:cover"></video>`;
+              const video = div.querySelector('video');
+              video.src = url;
+            } else {
+              // Imagem
+              div.innerHTML = `<img src="${url}" alt="Foto Pajuçara ${idx + 1}" loading="lazy" style="width:100%;height:100%;object-fit:cover">`;
+            }
+            
+            div.addEventListener('click', () => abrirLightbox(url, idx));
+            galeria.appendChild(div);
+          });
+        }
+      }
+    })
+    .catch(err => console.log('Erro ao carregar galeria:', err));
+
+  // LIGHTBOX
+  function abrirLightbox(url, idx) {
+    const lightbox = document.createElement('div');
+    lightbox.id = 'galeria-lightbox';
+    lightbox.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.95);display:flex;align-items:center;justify-content:center;z-index:999;backdrop-filter:blur(8px)';
+    
+    const container = document.createElement('div');
+    container.style.cssText = 'position:relative;max-width:90vw;max-height:90vh;display:flex;align-items:center;justify-content:center';
+    
+    let elemento;
+    if (url.endsWith('.mov') || url.endsWith('.mp4') || url.endsWith('.webm')) {
+      elemento = document.createElement('video');
+      elemento.src = url;
+      elemento.autoplay = true;
+      elemento.controls = true;
+      elemento.muted = true;
+      elemento.style.cssText = 'max-width:100%;max-height:100%;object-fit:contain';
+    } else {
+      elemento = document.createElement('img');
+      elemento.src = url;
+      elemento.style.cssText = 'max-width:100%;max-height:100%;object-fit:contain';
+    }
+    
+    // Botões navegação
+    const btnAnterior = document.createElement('button');
+    btnAnterior.innerHTML = '❮';
+    btnAnterior.style.cssText = 'position:absolute;left:20px;top:50%;transform:translateY(-50%);background:rgba(201,168,76,0.8);color:#000;border:none;width:50px;height:50px;border-radius:50%;font-size:20px;cursor:pointer;z-index:1000';
+    btnAnterior.onclick = () => fecharAbrirProxima(-1, idx);
+    
+    const btnProxima = document.createElement('button');
+    btnProxima.innerHTML = '❯';
+    btnProxima.style.cssText = 'position:absolute;right:20px;top:50%;transform:translateY(-50%);background:rgba(201,168,76,0.8);color:#000;border:none;width:50px;height:50px;border-radius:50%;font-size:20px;cursor:pointer;z-index:1000';
+    btnProxima.onclick = () => fecharAbrirProxima(1, idx);
+    
+    const btnFechar = document.createElement('button');
+    btnFechar.innerHTML = '✕';
+    btnFechar.style.cssText = 'position:absolute;top:20px;right:20px;background:rgba(201,168,76,0.8);color:#000;border:none;width:40px;height:40px;border-radius:50%;font-size:18px;cursor:pointer;z-index:1000';
+    btnFechar.onclick = () => lightbox.remove();
+    
+    container.appendChild(elemento);
+    container.appendChild(btnAnterior);
+    container.appendChild(btnProxima);
+    container.appendChild(btnFechar);
+    
+    lightbox.appendChild(container);
+    lightbox.onclick = (e) => {
+      if (e.target === lightbox) lightbox.remove();
+    };
+    
+    document.body.appendChild(lightbox);
+  }
+
+  function fecharAbrirProxima(direcao, idxAtual) {
+    const galeria = document.getElementById('galeria');
+    const items = galeria.querySelectorAll('.galeria-item');
+    let novoIdx = idxAtual + direcao;
+    
+    if (novoIdx < 0) novoIdx = items.length - 1;
+    if (novoIdx >= items.length) novoIdx = 0;
+    
+    const item = items[novoIdx];
+    const img = item.querySelector('img') || item.querySelector('video');
+    const url = img ? (img.src || img.innerHTML) : '';
+    
+    document.getElementById('galeria-lightbox')?.remove();
+    
+    if (url) {
+      abrirLightbox(url, novoIdx);
+    }
+  }
+
 </script>
 
 </body>
