@@ -111,34 +111,40 @@
   <div class="nav-logo">RT</div>
 </nav>
 
-<section class="hero">
-  <div class="hero-bg">
-    <img src="/imagens/mararu-hero-rafael.jpg" alt="Rafael Tavares no Bairro Pajuçara" loading="lazy" loading="eager">
-    <div class="hero-overlay"></div>
+<button id="menu-btn" onclick="toggleMenu()" style="position:fixed;top:18px;right:18px;z-index:300;width:44px;height:44px;border-radius:10px;background:rgba(0,0,0,0.92);border:1px solid rgba(201,168,76,0.3);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;backdrop-filter:blur(12px)">
+  <span class="hbl"></span><span class="hbl"></span><span class="hbl"></span>
+</button>
+
+<div id="menu-overlay" onclick="fecharMenu()" style="position:fixed;inset:0;z-index:250;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);display:none;opacity:0;transition:opacity .3s"></div>
+
+<div id="menu-drawer" style="position:fixed;top:0;right:-320px;bottom:0;z-index:260;width:290px;background:#000;border-left:1px solid rgba(201,168,76,0.2);transition:right .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;overflow-y:auto">
+  <div style="padding:22px 20px 14px;border-bottom:1px solid rgba(201,168,76,0.12);flex-shrink:0">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:700;color:#C9A84C;letter-spacing:2px">Rafael Tavares</div>
+    <div style="font-size:9px;letter-spacing:2px;color:rgba(242,237,228,0.28);text-transform:uppercase;margin-top:3px">Corretor · CRECI 13919</div>
   </div>
-  <div class="hero-content">
-    <div class="hero-tag" style="background:linear-gradient(135deg,#E8C96A 0%,#C9A84C 100%);border:3px solid #9D7E2C;padding:12px 32px;border-radius:100px;display:inline-block;margin-bottom:20px;box-shadow:0 8px 30px rgba(201,168,76,0.5),0 0 20px rgba(201,168,76,0.3),inset 0 1px 0 rgba(255,255,255,0.3);font-weight:700;color:#0A1209;letter-spacing:2px;font-size:11px;text-shadow:0 1px 2px rgba(0,0,0,0.1)" style="background:linear-gradient(135deg,#E8C96A 0%,#C9A84C 100%);border:3px solid #9D7E2C;padding:12px 32px;border-radius:100px;display:inline-block;margin-bottom:20px;box-shadow:0 8px 30px rgba(201,168,76,0.5),0 0 20px rgba(201,168,76,0.3),inset 0 1px 0 rgba(255,255,255,0.3);font-weight:700;color:#0A1209;letter-spacing:2px;font-size:11px;text-shadow:0 1px 2px rgba(0,0,0,0.1)">🔥 LANÇAMENTO OFICIAL — SANTARÉM, PA</div>
-    <h1 class="hero-title">Bairro <em>Pajuçara</em></h1>
-    <p class="hero-sub">Lotes disponíveis agora. Entrada de R$ 600 e parcelas que cabem no seu bolso.</p>
-    <div class="hero-btns">
-      <a href="reserva/" class="btn-gold" style="font-size:14px;padding:18px 36px;letter-spacing:1px;box-shadow:0 4px 24px rgba(201,168,76,0.35)">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Garantir Meu Lote
-      </a>
-      <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Vi%20o%20Bairro%20Pajuçara%20no%20site%20e%20quero%20garantir%20meu%20lote." target="_blank" class="btn-wpp" style="font-size:13px;padding:14px 28px">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Falar com Rafael
-      </a>
-      <a href="https://chat.whatsapp.com/GcVmmuRJ6FKBGnePTdAGAg?s=cl&p=i&mlu=3" target="_blank"
-        style="display:inline-flex;align-items:center;gap:8px;margin-top:8px;background:rgba(37,211,102,0.12);border:1.5px solid rgba(37,211,102,0.45);color:#25D366;padding:12px 22px;border-radius:100px;font-size:12px;font-weight:700;letter-spacing:.5px;text-decoration:none;transition:all .2s"
-        onmouseover="this.style.background='rgba(37,211,102,0.22)';this.style.borderColor='rgba(37,211,102,0.8)'"
-        onmouseout="this.style.background='rgba(37,211,102,0.12)';this.style.borderColor='rgba(37,211,102,0.45)'">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg> Entrar no Grupo VIP
-      </a>
+
+  <!-- HERO PAJUÇARA -->
+  <section class="hero">
+    <div class="hero-bg">
+      <img src="/imagens/pajuca-hero-rafael.jpg" alt="Pajuçara - Santarém" loading="eager">
+      <div class="hero-overlay"></div>
     </div>
-  </div>
-</section>
+    <div class="hero-content">
+      <div class="hero-tag" style="background:linear-gradient(135deg,#E8C96A 0%,#C9A84C 100%);border:3px solid #9D7E2C;padding:12px 32px;border-radius:100px;display:inline-block;margin-bottom:20px;box-shadow:0 8px 30px rgba(201,168,76,0.5),0 0 20px rgba(201,168,76,0.3),inset 0 1px 0 rgba(255,255,255,0.3);font-weight:700;color:#0A1209;letter-spacing:2px;font-size:11px;text-shadow:0 1px 2px rgba(0,0,0,0.1)">🏡 Investimento · Perto da Praia</div>
+      <h1 class="hero-title"><em>Pajuçara</em></h1>
+      <p class="hero-sub">Entrada a partir de R$ 500. Parcelas acessíveis que cabem no seu bolso.</p>
+      <div class="hero-btns">
+        <a href="reserva/" class="btn-gold" style="font-size:14px;padding:18px 36px;letter-spacing:1px;box-shadow:0 4px 24px rgba(201,168,76,0.35)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Garantir Meu Lote
+        </a>
+        <a href="https://wa.me/5593992332012?text=Olá%20Rafael!%20Vi%20o%20Bairro%20Pajuçára%20no%20site%20e%20quero%20garantir%20meu%20lote." target="_blank" class="btn-wpp" style="font-size:13px;padding:14px 28px">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg> Falar com Rafael
+        </a>
+      </div>
+    </div>
+  </section>
 
-
+  <!-- TABELA DE PREÇOS COM CALCULADORA -->
   <section style="background:var(--bg);border-bottom:1px solid var(--border);padding:48px 20px">
     <div class="section-inner">
       <div class="section-tag">Condições de pagamento</div>
@@ -200,249 +206,42 @@
     </div>
   </section>
 
-
-<section class="hero">
-  <div class="hero-bg">
-    <img src="/imagens/mararu-hero-rafael.jpg" alt="Rafael Tavares no Bairro Mararu" loading="lazy" loading="eager">
-    <div class="hero-overlay"></div>
-  </div>
-  <div class="hero-content">
-    <div class="hero-tag" style="background:linear-gradient(135deg,#E8C96A 0%,#C9A84C 100%);border:3px solid #9D7E2C;padding:12px 32px;border-radius:100px;display:inline-block;margin-bottom:20px;box-shadow:0 8px 30px rgba(201,168,76,0.5),0 0 20px rgba(201,168,76,0.3),inset 0 1px 0 rgba(255,255,255,0.3);font-weight:700;color:#0A1209;letter-spacing:2px;font-size:11px;text-shadow:0 1px 2px rgba(0,0,0,0.1)">🔥 LANÇAMENTO OFICIAL — SANTARÉM, PA</div>
-    <h1 class="hero-title">Bairro <em>Mararu</em></h1>
-    <p class="hero-sub">Lotes disponíveis agora. Entrada de R$ 600 e parcelas que cabem no seu bolso.</p>
-    <div class="hero-btns">
-      <a href="reserva/" class="btn-gold" style="font-size:14px;padding:18px 36px;letter-spacing:1px;box-shadow:0 4px 24px rgba(201,168,76,0.35)">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Garantir Meu Lote
-      </a>
-      <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Vi%20o%20Bairro%20Mararu%20no%20site%20e%20quero%20garantir%20meu%20lote." target="_blank" class="btn-wpp" style="font-size:13px;padding:14px 28px">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Falar com Rafael
-      </a>
-      <a href="https://chat.whatsapp.com/GcVmmuRJ6FKBGnePTdAGAg?s=cl&p=i&mlu=3" target="_blank"
-        style="display:inline-flex;align-items:center;gap:8px;margin-top:8px;background:rgba(37,211,102,0.12);border:1.5px solid rgba(37,211,102,0.45);color:#25D366;padding:12px 22px;border-radius:100px;font-size:12px;font-weight:700;letter-spacing:.5px;text-decoration:none;transition:all .2s"
-        onmouseover="this.style.background='rgba(37,211,102,0.22)';this.style.borderColor='rgba(37,211,102,0.8)'"
-        onmouseout="this.style.background='rgba(37,211,102,0.12)';this.style.borderColor='rgba(37,211,102,0.45)'">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg> Entrar no Grupo VIP
-      </a>
+  <!-- GALERIA -->
+  <section style="background:var(--bg);border-bottom:1px solid var(--border);padding:48px 20px">
+    <div class="section-inner">
+      <h2 class="section-title">Galeria de <em>Fotos</em></h2>
+      <div class="galeria-grid" id="galeria" style="margin-top:28px"></div>
     </div>
-  </div>
-</section>
+  </section>
 
-<div class="stats-band">
-  <div class="stats-band-inner">
-    <div><div class="stat-num">376</div><div class="stat-label">Lotes disponiveis</div></div>
-    <div><div class="stat-num">R$600</div><div class="stat-label">Entrada a partir de</div></div>
-    <div><div class="stat-num">R$257</div><div class="stat-label">Parcelas a partir de</div></div>
-  </div>
-</div>
-
-<section id="sec-mapa" style="background:var(--bg);border-bottom:1px solid var(--border)">
-  <div class="section-inner">
-    <div class="section-tag">Disponibilidade em tempo real</div>
-    <h2 class="section-title">Mapa de <em>Lotes</em></h2>
-    <p class="section-sub">Veja quais lotes ainda estao disponiveis. Atualizado automaticamente conforme as reservas sao feitas.</p>
-    <div class="mapa-stats" id="mapa-stats">
-      <div class="mapa-stat"><div class="mapa-stat-num" style="color:#3b82f6" id="stat-disp">0</div><div class="mapa-stat-lbl">Disponíveis</div></div>
-      <div class="mapa-stat"><div class="mapa-stat-num" style="color:#eab308" id="stat-res">0</div><div class="mapa-stat-lbl">Reservados</div></div>
-      <div class="mapa-stat"><div class="mapa-stat-num" style="color:#ef4444" id="stat-vend">0</div><div class="mapa-stat-lbl">Vendidos</div></div>
-      <div class="mapa-stat"><div class="mapa-stat-num" style="color:#C9A84C" id="stat-total">376</div><div class="mapa-stat-lbl">Total de Lotes</div></div>
-    </div>
-    <div class="mapa-wrap">
-      <!-- MAPA REAL POR BAIXO -->
-      <div id="mapa-vis" style="width:100%;border-radius:12px;overflow:hidden;min-height:500px">
-        <iframe
-          id="iframe-mapa-lotes"
-          src="https://rumoaomilhao.imb.br/mapa/1780067816277"
-          style="width:100%;height:700px;border:none;border-radius:12px;display:block"
-          width="100%"
-          height="700"
-          frameborder="0"
-          scrolling="yes"
-          allowfullscreen
-          title="Mapa de Lotes Mararu">
-        </iframe>
-      </div>
-
-      <!-- OVERLAY BLUR -->
-      <div class="mapa-blur" id="mapa-blur-overlay" style="display:none">
-        <div class="mapa-blur-txt" id="mapa-blur-txt">Em Breve</div>
-        <div class="mapa-blur-sub">Lançamento em breve</div>
-        <a href="reserva/" style="margin-top:16px;display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#000;padding:12px 24px;border-radius:8px;font-size:12px;font-weight:700">Garantir minha vaga</a>
-      </div>
-    <div class="mapa-legenda" id="mapa-legenda" style="display:none">
-      <div class="mapa-leg-item"><div class="mapa-leg-dot" style="background:#3b82f6"></div>Disponivel</div>
-      <div class="mapa-leg-item"><div class="mapa-leg-dot" style="background:#eab308"></div>Reservado</div>
-      <div class="mapa-leg-item"><div class="mapa-leg-dot" style="background:#ef4444"></div>Vendido</div>
-    </div>
-  </div>
-</section>
-
-
-
-
-<!-- TABELA DE PREÇOS -->
-<section id="sec-tabela" style="background:var(--bg);border-bottom:1px solid var(--border);padding:80px 24px">
-  <div class="section-inner">
-    <div class="section-tag">Condições de pagamento</div>
-    <h2 class="section-title">Tabela de <em>Preços</em></h2>
-    <p class="section-sub" style="margin-bottom:28px">Escolha o tipo de lote e o prazo. Comece com a parcela mais baixa e amortize quando quiser.</p>
-
-    <div style="display:flex;justify-content:center;gap:10px;margin-bottom:24px;flex-wrap:wrap" id="precoCatToggle">
-      <button class="preco-cat-btn active" data-cat="200" style="padding:10px 22px;border-radius:100px;border:2px solid var(--gold);background:var(--gold);color:#000;font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;letter-spacing:.5px">Lotes até 200m²</button>
-      <button class="preco-cat-btn" data-cat="acima" style="padding:10px 22px;border-radius:100px;border:2px solid var(--border2);background:transparent;color:var(--gold);font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;letter-spacing:.5px">Lotes acima de 200m²</button>
-    </div>
-
-    <div style="text-align:center;font-size:14px;color:var(--text3);margin-bottom:24px">Valor total do lote: <b id="precoValorTotalLbl" style="color:var(--gold)">R$ 46.600,00</b> · Entrada: <b style="color:var(--gold)">R$ 600,00</b></div>
-
-    <div id="precoPlanSelector" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px"></div>
-
-    <div id="precoDetailPanel" style="background:linear-gradient(135deg,#1a3d28,#1e3a2a);border:2px solid var(--gold);border-radius:18px;padding:28px;margin-bottom:22px;box-shadow:0 8px 28px rgba(201,168,76,0.18)">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px;margin-bottom:10px">
-        <div>
-          <div id="precoDetailBadge" style="display:inline-block;font-size:11px;font-weight:700;letter-spacing:.5px;color:#000;background:var(--gold);padding:4px 12px;border-radius:20px;margin-bottom:8px">🟢 Comece com a menor parcela</div>
-          <div id="precoDetailParcLbl" style="font-size:12px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:.5px">Parcelas a partir de</div>
-          <div id="precoDetailParcVal" style="font-size:38px;font-weight:700;color:#fff;font-family:'Cormorant Garamond',serif;line-height:1">R$ 255,56</div>
-        </div>
-        <div style="text-align:right">
-          <div style="font-size:11px;color:rgba(255,255,255,0.6);text-transform:uppercase">Total pago</div>
-          <div id="precoDetailTotalVal" style="font-size:19px;font-weight:700;color:var(--gold)">R$ 83.590,00</div>
-          <div id="precoDetailTotalAmortizadoWrap" style="display:none;margin-top:6px">
-            <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px">Com amortização</div>
-            <div id="precoDetailTotalAmortizado" style="font-size:17px;font-weight:700;color:#fff">—</div>
-          </div>
-        </div>
-      </div>
-      <div id="precoDetailCta" style="font-size:13px;color:var(--gold);font-weight:600;margin-bottom:18px">Amortize quando quiser e elimine as parcelas mais caras do final do contrato.</div>
-
-      <div id="precoEconomiaLine" style="background:rgba(0,0,0,0.25);border-radius:10px;padding:10px 16px;font-size:13px;color:var(--gold);text-align:center;font-weight:600"></div>
-
-      <div id="precoEvoWrap" style="margin-top:20px"></div>
-    </div>
-
-    <!-- CALCULADORA DE AMORTIZAÇÃO — DESTAQUE -->
-    <div style="background:linear-gradient(135deg,rgba(201,168,76,0.14),rgba(201,168,76,0.05));border:2px solid var(--gold);border-radius:20px;padding:30px;box-shadow:0 10px 32px rgba(201,168,76,0.15)">
-
-      <div style="text-align:center;margin-bottom:20px">
-        <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px">Vantagem exclusiva</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--text)">Calculadora de <em style="color:var(--gold);font-style:italic">Amortização</em></div>
-      </div>
-
-      <div style="background:rgba(0,0,0,0.25);border-radius:12px;padding:16px 20px;margin-bottom:22px;font-size:14px;color:var(--text2);line-height:1.6;text-align:center">
-        Toda amortização elimina parcelas do final do contrato, onde os valores são mais altos. Isso significa que você pode economizar centenas de reais antecipando parcelas hoje.
-      </div>
-
-      <!-- Exemplos reais -->
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:24px">
-        <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:18px">
-          <div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:10px">Exemplo · Lotes até 200m²</div>
-          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span style="color:var(--text2)">Parcela atual</span><span style="font-weight:700;color:var(--text)">R$ 255,56</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span style="color:var(--text2)">Parcela final</span><span style="font-weight:700;color:var(--text)">R$ 750,63</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:13px;border-top:1px solid var(--border);padding-top:8px;margin-top:4px"><span style="color:var(--gold);font-weight:600">Economia por parcela amortizada</span><span style="font-weight:700;color:var(--gold)">R$ 495,07</span></div>
-        </div>
-        <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:18px">
-          <div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:10px">Exemplo · Lotes acima de 200m²</div>
-          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span style="color:var(--text2)">Parcela atual</span><span style="font-weight:700;color:var(--text)">R$ 277,77</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span style="color:var(--text2)">Parcela final</span><span style="font-weight:700;color:var(--text)">R$ 815,86</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:13px;border-top:1px solid var(--border);padding-top:8px;margin-top:4px"><span style="color:var(--gold);font-weight:600">Economia por parcela amortizada</span><span style="font-weight:700;color:var(--gold)">R$ 538,09</span></div>
-        </div>
-      </div>
-
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
-        <input type="number" id="precoAmortInput" placeholder="Digite o valor que você quer amortizar (R$)" class="preco-amort-input" style="flex:1;min-width:200px;background:var(--bg2);border:2px solid var(--border2);color:var(--text);padding:14px 16px;border-radius:10px;font-size:16px;font-family:'Inter',sans-serif;transition:border-color .2s,box-shadow .2s">
-      </div>
-      <div id="precoAmortAviso" style="display:none;background:rgba(225,29,46,0.15);border-left:4px solid #e11d2e;border-radius:8px;padding:12px;margin-bottom:14px;font-size:13px;color:#ff6b6b">
-        ⚠️ <strong>Valor máximo:</strong> <span id="precoAmortAvisoMax"></span>
-      </div>
-
-      <div id="precoAmortResult" style="display:none">
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:6px">
-          <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:14px;text-align:center">
-            <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Valor informado</div>
-            <div id="amortValInformado" style="font-size:16px;font-weight:700;color:var(--text)">—</div>
-          </div>
-          <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:14px;text-align:center">
-            <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Parcelas eliminadas</div>
-            <div id="amortParcelasElim" style="font-size:16px;font-weight:700;color:var(--text)">—</div>
-          </div>
-          <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:14px;text-align:center">
-            <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Valor pago no futuro</div>
-            <div id="amortValFuturo" style="font-size:16px;font-weight:700;color:var(--text)">—</div>
-          </div>
-          <div style="background:rgba(201,168,76,0.15);border:1px solid var(--gold);border-radius:10px;padding:14px;text-align:center">
-            <div style="font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Economia total</div>
-            <div id="amortEconomiaTotal" style="font-size:18px;font-weight:700;color:var(--gold)">—</div>
-          </div>
-          <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:14px;text-align:center">
-            <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Novo prazo estimado</div>
-            <div id="amortNovoPrazo" style="font-size:16px;font-weight:700;color:var(--text)">—</div>
-          </div>
-          <div style="background:rgba(201,168,76,0.15);border:1px solid var(--gold);border-radius:10px;padding:14px;text-align:center;grid-column:1/-1">
-            <div style="font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Valor total do lote com amortização</div>
-            <div id="amortValorTotalLote" style="font-size:20px;font-weight:700;color:#fff">—</div>
-          </div>
-        </div>
-        <div id="amortExplicacao" style="margin-top:14px;background:rgba(0,0,0,0.25);border-radius:10px;padding:14px 16px;font-size:14px;color:var(--text2);line-height:1.5"></div>
-        <div id="amortDicaTotal" style="display:none;margin-top:16px;background:rgba(201,168,76,0.12);border-left:4px solid var(--gold);border-radius:10px;padding:16px;font-size:13px;color:var(--text2);line-height:1.6">
-          <div style="color:var(--gold);font-weight:700;margin-bottom:8px">💡 Dica: Pagar o valor total agora?</div>
-          <div id="amortDicaTotalText"></div>
-        </div>
-      </div>
-
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:22px">
-        <div style="background:rgba(201,168,76,0.12);border-left:3px solid var(--gold);border-radius:8px;padding:14px 16px;font-size:14px;color:var(--gold);font-weight:600">⏱️ Quanto mais cedo você amortiza, maior é sua economia.</div>
-        <div style="background:rgba(201,168,76,0.12);border-left:3px solid var(--gold);border-radius:8px;padding:14px 16px;font-size:14px;color:var(--gold);font-weight:600">💰 Antecipe parcelas e economize até centenas de reais em cada parcela amortizada.</div>
+  <!-- CTA FINAL -->
+  <section style="background:var(--bg2);border-bottom:1px solid var(--border);padding:64px 20px;text-align:center">
+    <div class="section-inner">
+      <h2 class="section-title" style="text-align:center">Pronto para <em>investir</em>?</h2>
+      <p class="section-sub" style="margin-bottom:40px;text-align:center">Seu futuro em Pajuçara começa aqui. Fale com Rafael!</p>
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+        <a href="reserva/" class="btn-gold">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Garantir Meu Lote
+        </a>
+        <a href="https://wa.me/5593992332012" target="_blank" class="btn-wpp">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg> Falar no WhatsApp
+        </a>
       </div>
     </div>
+  </section>
 
-    <div style="text-align:center;margin-top:20px;font-size:12px;color:var(--text3)">* Condições sujeitas a alteração. Consulte o corretor.</div>
-  </div>
-</section>
-
-<style>
-  .preco-cat-btn.active{background:var(--gold)!important;color:#000!important;border-color:var(--gold)!important}
-  .preco-cat-btn:not(.active){background:transparent!important;color:var(--gold)!important;border-color:var(--border2)!important}
-  .preco-plan-btn{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px 8px;text-align:center;cursor:pointer;transition:.25s}
-  .preco-plan-btn:hover{border-color:var(--border2)}
-  .preco-plan-btn.active{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 6px 18px rgba(201,168,76,0.15);background:#161a12}
-  .preco-plan-btn-months{font-size:13px;font-weight:700;color:var(--text)}
-  .preco-plan-btn-parc{font-size:11px;color:var(--text3);margin-top:2px}
-  .preco-evo-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-  .preco-evo-lbl{width:48px;font-size:12px;color:rgba(255,255,255,0.6);flex-shrink:0}
-  .preco-evo-track{flex:1;background:rgba(255,255,255,0.08);border-radius:6px;height:20px;overflow:hidden}
-  .preco-evo-fill{height:100%;background:linear-gradient(90deg,#B8902A,#E8C96A);border-radius:6px;width:0;transition:width .6s ease}
-  .preco-evo-val{width:78px;text-align:right;font-size:12px;color:var(--gold);font-weight:600;flex-shrink:0}
-  .preco-amort-input{border-color:#e11d2e!important;background:linear-gradient(90deg,rgba(225,29,46,0.08),rgba(225,29,46,0.15),rgba(225,29,46,0.08))!important;box-shadow:0 0 0 2px rgba(225,29,46,0.4),0 0 15px rgba(225,29,46,0.5),inset 0 0 10px rgba(225,29,46,0.1)!important;animation:precoPulse 1.2s ease-in-out infinite,precoShimmer 2.5s ease-in-out infinite!important}
-  @keyframes precoPulse{
-    0%{box-shadow:0 0 0 2px rgba(225,29,46,0.4),0 0 8px rgba(225,29,46,0.3),inset 0 0 10px rgba(225,29,46,0.1)!important}
-    50%{box-shadow:0 0 0 6px rgba(225,29,46,0.2),0 0 25px rgba(225,29,46,0.7),inset 0 0 15px rgba(225,29,46,0.15)!important}
-    100%{box-shadow:0 0 0 2px rgba(225,29,46,0.4),0 0 8px rgba(225,29,46,0.3),inset 0 0 10px rgba(225,29,46,0.1)!important}
-  }
-  @keyframes precoShimmer{
-    0%{background-position:0% center}
-    50%{background-position:100% center}
-    100%{background-position:0% center}
-  }
-
-  @media(max-width:560px){
-    #precoPlanSelector{grid-template-columns:1fr}
-  }
-
-    /* Galeria otimizada */
-    .galeria-lightbox { will-change: transform; }
-    .galeria-lightbox img, .galeria-lightbox video { 
-      max-width: 90vw; 
-      max-height: 90vh; 
-      object-fit: contain;
-      loading: lazy;
-    }
-    .galeria-grid img, .galeria-grid video {
-      loading: lazy;
-      will-change: contents;
-    }
-</style>
-
-
-
+  <!-- FOOTER -->
+  <footer style="background:var(--bg2);border-top:1px solid var(--border);padding:40px 24px;text-align:center;font-size:12px;color:var(--text3)">
+    <div style="max-width:900px;margin:0 auto">
+      <div style="margin-bottom:20px">
+        <p style="margin:0">© 2025 Rafael Tavares - CRECI 13919 | Pajuçara, Santarém — PA</p>
+      </div>
+      <div style="border-top:1px solid var(--border);padding-top:16px">
+        <a href="https://wa.me/5593992332012" target="_blank" style="color:var(--gold);text-decoration:none;margin:0 12px">WhatsApp</a>
+        <a href="https://instagram.com/rafaeltavarescorretorstm" target="_blank" style="color:var(--gold);text-decoration:none;margin:0 12px">Instagram</a>
+      </div>
+    </div>
+  </footer>
 
 <script>
   // Preços de Pajuçara
@@ -453,23 +252,19 @@
   
   let categoriaAtual = 'ate';
 
-  // Formata número como moeda brasileira
   function formataMoeda(valor) {
     return 'R$ ' + valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
 
-  // Limpa formatação de moeda
   function limpaFormatacao(valor) {
     if (!valor) return 0;
     return parseFloat(valor.toString().replace(/[^0-9,.]/g, '').replace(',', '.')) || 0;
   }
 
-  // Atualiza a categoria e mostra preços
   function atualizaCat(cat) {
     categoriaAtual = cat;
     const preco = precos[cat];
     
-    // Muda cor dos botões
     document.querySelectorAll('.desc-cat-btn').forEach(btn => {
       if (btn.dataset.cat === cat) {
         btn.style.background = 'var(--gold)';
@@ -480,47 +275,34 @@
       }
     });
     
-    // Atualiza valores
     document.getElementById('descValorTotal').textContent = formataMoeda(preco.total);
     document.getElementById('descEntrada').textContent = formataMoeda(preco.entrada);
     document.getElementById('descParcelas').textContent = preco.parcelasQty + 'x ' + formataMoeda(preco.parcelaValor);
     document.getElementById('descValorFinal').textContent = formataMoeda(preco.total);
     
-    // Limpa calculadora
     document.getElementById('descParcAntecipadas').value = '';
     document.getElementById('descValorAntecipado').value = '';
     document.getElementById('descDescontoWrap').style.display = 'none';
   }
 
-  // FUNÇÃO PRINCIPAL: Calcula desconto EM TEMPO REAL
   function atualizaDesconto() {
     const preco = precos[categoriaAtual];
     const parcAntec = parseInt(document.getElementById('descParcAntecipadas').value) || 0;
     const valorAntec = limpaFormatacao(document.getElementById('descValorAntecipado').value);
 
     let temDesconto = false;
-    let parcAntecipadas = 0;
     
-    // Verifica se tem desconto por parcelas
     if (parcAntec >= 7) {
       temDesconto = true;
-      parcAntecipadas = parcAntec;
-    } 
-    // Verifica se tem desconto por valor em reais
-    else if (valorAntec > 0) {
-      parcAntecipadas = Math.ceil(valorAntec / preco.parcelaValor);
-      if (parcAntecipadas >= 7) {
-        temDesconto = true;
-      }
+    } else if (valorAntec > 0) {
+      const parcAntecipadas = Math.ceil(valorAntec / preco.parcelaValor);
+      if (parcAntecipadas >= 7) temDesconto = true;
     }
 
-    // Calcula valores
-    const valComDesc = preco.total * 0.8; // 20% desconto
+    const valComDesc = preco.total * 0.8;
     const economia = preco.total - valComDesc;
 
-    // Atualiza resultado
     if (temDesconto) {
-      // Mostra desconto
       document.getElementById('descDescontoWrap').style.display = 'block';
       document.getElementById('descValorFinal').style.color = 'var(--text2)';
       document.getElementById('descValorFinal').style.textDecoration = 'line-through';
@@ -529,7 +311,6 @@
       document.getElementById('descValorComDesconto').textContent = formataMoeda(valComDesc);
       document.getElementById('descEconomia').textContent = formataMoeda(economia);
     } else {
-      // Sem desconto
       document.getElementById('descDescontoWrap').style.display = 'none';
       document.getElementById('descValorFinal').style.color = 'var(--gold)';
       document.getElementById('descValorFinal').style.textDecoration = 'none';
@@ -537,38 +318,29 @@
     }
   }
 
-  // EVENT LISTENERS - Ativa calculadora quando digita
   document.addEventListener('DOMContentLoaded', function() {
-    // Botões de categoria
     document.querySelectorAll('.desc-cat-btn').forEach(btn => {
       btn.addEventListener('click', function() {
         atualizaCat(this.dataset.cat);
       });
     });
 
-    // Input de parcelas
     const inputParc = document.getElementById('descParcAntecipadas');
     if (inputParc) {
       inputParc.addEventListener('input', function() {
-        // Limpa campo de valor
         document.getElementById('descValorAntecipado').value = '';
-        // Calcula desconto
         atualizaDesconto();
       });
     }
 
-    // Input de valor em reais
     const inputValor = document.getElementById('descValorAntecipado');
     if (inputValor) {
       inputValor.addEventListener('input', function() {
-        // Limpa campo de parcelas
         document.getElementById('descParcAntecipadas').value = '';
-        // Calcula desconto
         atualizaDesconto();
       });
     }
 
-    // Inicializa
     atualizaCat('ate');
   });
 </script>
