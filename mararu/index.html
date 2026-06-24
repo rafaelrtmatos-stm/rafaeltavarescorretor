@@ -1088,42 +1088,55 @@ document.addEventListener('keydown',function(e){
       <svg class="dico" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       <span>Início</span>
     </div>
-    <div class="dmi" onclick="ir('#sec-mapa')">
+    <div class="dmi" onclick="ir('#mapa')">
       <svg class="dico" viewBox="0 0 24 24"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
-      <span>Mapa de Lotes</span>
+      <span>Mapa de Regiões</span>
     </div>
-    <div class="dmi" onclick="ir('#sec-tabela')">
-      <svg class="dico" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-      <span>Preços</span>
+    <div class="dmi" onclick="ir('#lancamento')">
+      <svg class="dico" viewBox="0 0 24 24"><path d="M12 2C12 2 8 8 8 13a4 4 0 008 0c0-2-1-4-1-4s2 1 2 4a6 6 0 01-12 0C5 7 12 2 12 2z"/></svg>
+      <span>Lançamento</span>
+      <em class="dbg red">NOVO</em>
     </div>
-    <div class="dmi" onclick="ir('#sec-galeria')">
+    <div class="dmi" onclick="ir('#regioes')">
+      <svg class="dico" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <span>Regiões</span>
+    </div>
+    <div class="dmi" onclick="ir('#grupos')">
+      <svg class="dico" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <span>Grupo VIP</span>
+    </div>
+        <div class="dmi" onclick="ir('#galeria')">
       <svg class="dico" viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
       <span>Galeria</span>
+    </div>
+    <div class="dmi" onclick="ir('#depoimentos')">
+      <svg class="dico" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      <span>Depoimentos</span>
+    </div>
+    <div class="dmi" onclick="ir('#sobre')">
+      <svg class="dico" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span>Sobre & Contato</span>
     </div>
     <div class="dmi" onclick="ir('/onde-estamos/santarem/')">
       <svg class="dico" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
       <span>Onde Estamos</span>
     </div>
     <div style="height:1px;background:rgba(201,168,76,0.1);margin:6px 18px"></div>
+    <div class="dmi" onclick="ir('mararu/')">
+      <svg class="dico" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+      <span>Bairro Mararu</span>
+      <em class="dbg red">🔥</em>
+    </div>
     <div class="dmi" onclick="ir('/alenquer/')">
       <svg class="dico" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      <span>Jardim Alenquer</span>
+      <span>Alenquer</span>
       <em class="dbg red">🔥 NOVO</em>
     </div>
     <div class="dmi" onclick="ir('/monte-alegre/')">
       <svg class="dico" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
       <span>Monte Alegre</span>
     </div>
-    <div style="height:1px;background:rgba(201,168,76,0.1);margin:6px 18px"></div>
-    <div class="dmi" onclick="ir('https://chat.whatsapp.com/GcVmmuRJ6FKBGnePTdAGAg?s=cl&p=i&mlu=3')">
-      <svg class="dico" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-      <span>Grupo VIP Mararu</span>
-    </div>
-    <div class="dmi" onclick="ir('reserva/')">
-      <svg class="dico" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      <span>Garantir Meu Lote</span>
-      <em class="dbg red">🏡</em>
-    </div>
+
   </nav>
   <div style="padding:14px 18px;border-top:1px solid rgba(201,168,76,0.12);flex-shrink:0">
     <a href="https://wa.me/5593992332012?text=Ol%C3%A1+Rafael!+Vi+o+Mararu+e+quero+saber+mais!" target="_blank" onclick="fecharMenu()" style="display:flex;align-items:center;justify-content:center;gap:9px;background:#25d366;color:#000;padding:13px;border-radius:10px;font-size:13px;font-weight:700;text-decoration:none">
