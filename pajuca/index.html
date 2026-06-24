@@ -113,29 +113,30 @@
         <div id="precoEconomiaLine" style="background: rgba(0,0,0,0.25); border-radius: 10px; padding: 10px 16px; font-size: 13px; color: var(--gold); text-align: center; font-weight: 600; margin-top: 12px; display: none;"></div>
       </div>
 
-      <!-- CALCULADORA DE AMORTIZAÇÃO -->
+            <!-- CALCULADORA DE DESCONTO POR ANTECIPAÇÃO -->
       <div style="background: linear-gradient(135deg, rgba(201,168,76,0.14), rgba(201,168,76,0.05)); border: 2px solid var(--gold); border-radius: 20px; padding: 30px; box-shadow: 0 10px 32px rgba(201,168,76,0.15);">
         <div style="text-align: center; margin-bottom: 20px;">
           <div style="font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 8px;">Vantagem exclusiva</div>
-          <div style="font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 700; color: var(--text);">Calculadora de <em style="color: var(--gold); font-style: italic;">Amortização</em></div>
+          <div style="font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 700; color: var(--text);">20% de <em style="color: var(--gold); font-style: italic;">Desconto</em></div>
         </div>
 
         <div style="background: rgba(0,0,0,0.25); border-radius: 12px; padding: 16px 20px; margin-bottom: 22px; font-size: 14px; color: var(--text2); line-height: 1.6; text-align: center;">
-          Toda amortização elimina parcelas do final do contrato, onde os valores são mais altos. Isso significa que você pode economizar centenas de reais antecipando parcelas hoje.
+          💰 Antecipe 7 ou mais parcelas e receba <strong>20% de desconto</strong> no valor total do seu lote!
         </div>
 
         <div style="display: flex; gap: 14px; margin-bottom: 20px; align-items: center;">
           <div style="flex: 1;">
-            <label style="display: block; font-size: 11px; color: var(--text2); margin-bottom: 8px; text-transform: uppercase;">Quantas parcelas você quer amortizar?</label>
-            <input type="number" id="precoAmortInput" placeholder="Ex: 12" style="width: 100%; padding: 12px; background: rgba(0,0,0,0.3); border: 1px solid rgba(201,168,76,0.3); border-radius: 8px; color: var(--text); font-size: 14px;" oninput="precoUpdateAmortResult()">
+            <label style="display: block; font-size: 11px; color: var(--text2); margin-bottom: 8px; text-transform: uppercase;">Quantas parcelas você vai adiantar?</label>
+            <input type="number" id="precoAmortInput" placeholder="Ex: 7" min="0" style="width: 100%; padding: 12px; background: rgba(0,0,0,0.3); border: 1px solid rgba(201,168,76,0.3); border-radius: 8px; color: var(--text); font-size: 14px;" oninput="precoUpdateAmortResult()">
           </div>
         </div>
 
-        <div id="precoAmortAvisoMax" style="background: rgba(220,53,69,0.15); border: 1px solid rgba(220,53,69,0.3); border-radius: 8px; padding: 12px; font-size: 12px; color: #ff8a8a; margin-bottom: 16px; display: none; text-align: center;">
-          ⚠️ Máximo de parcelas para amortizar
+        <div id="precoAmortAviso" style="display: none; background: rgba(74,222,128,0.15); border: 1px solid rgba(74,222,128,0.4); border-radius: 8px; padding: 16px; font-size: 13px; color: #4ade80; text-align: center; font-weight: 600;">
+          <div style="margin-bottom: 8px;">✅ Você recebeu 20% de desconto!</div>
+          <div style="font-size: 11px; color: var(--text2);">Valor original: <span id="precoOriginal" style="color: var(--text3); text-decoration: line-through;">R$ 15.500,00</span></div>
+          <div style="font-size: 24px; font-weight: 700; margin-top: 8px; color: #4ade80;">R$ <span id="precoComDesc">12.400,00</span></div>
+          <div style="font-size: 11px; margin-top: 8px;">Você economiza: <strong id="precoEconomia">R$ 3.100,00</strong></div>
         </div>
-
-        <div id="precoAmortAviso" style="display: none; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3); border-radius: 8px; padding: 14px; font-size: 13px; color: var(--gold); text-align: center; font-weight: 600;"></div>
       </div>
     </div>
   </section>
@@ -208,33 +209,24 @@
 
     function precoUpdateAmortResult() {
       const plano = precoData[precoAtual].plans[planoAtual];
-      const qtdAmort = parseInt(document.getElementById('precoAmortInput').value) || 0;
+      const qtdAdiant = parseInt(document.getElementById('precoAmortInput').value) || 0;
       
-      if (qtdAmort > plano.qty) {
-        document.getElementById('precoAmortAvisoMax').style.display = 'block';
-        document.getElementById('precoAmortAviso').style.display = 'none';
-        document.getElementById('precoEconomiaLine').style.display = 'none';
-        document.getElementById('precoDetailTotalAmortizadoWrap').style.display = 'none';
-        return;
+      let temDesc = false;
+      if (qtdAdiant >= 7) {
+        temDesc = true;
       }
 
-      if (qtdAmort > 0) {
-        const valorAmortizado = plano.parcela * qtdAmort;
-        const novoTotal = plano.total - valorAmortizado;
-        const economia = valorAmortizado;
+      if (temDesc) {
+        const valComDesc = plano.total * 0.8;
+        const economia = plano.total - valComDesc;
         
-        document.getElementById('precoAmortAviso').innerHTML = `<strong>Economia ao amortizar:</strong> R$ ${economia.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+        document.getElementById('precoOriginal').textContent = 'R$ ' + plano.total.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+        document.getElementById('precoComDesc').textContent = valComDesc.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+        document.getElementById('precoEconomia').textContent = 'R$ ' + economia.toLocaleString('pt-BR', {minimumFractionDigits: 2});
         document.getElementById('precoAmortAviso').style.display = 'block';
-        document.getElementById('precoDetailTotalAmortizado').textContent = 'R$ ' + novoTotal.toLocaleString('pt-BR', {minimumFractionDigits: 2});
-        document.getElementById('precoDetailTotalAmortizadoWrap').style.display = 'block';
-        document.getElementById('precoEconomiaLine').style.display = 'block';
-        document.getElementById('precoEconomiaLine').textContent = `⏱️ Quanto mais cedo você amortiza, maior é sua economia. 💰`;
       } else {
         document.getElementById('precoAmortAviso').style.display = 'none';
-        document.getElementById('precoEconomiaLine').style.display = 'none';
-        document.getElementById('precoDetailTotalAmortizadoWrap').style.display = 'none';
       }
-      document.getElementById('precoAmortAvisoMax').style.display = 'none';
     }
 
     // ===== GALERIA =====
