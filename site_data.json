@@ -474,5 +474,13 @@
     "galeria": [],
     "empId": "1780936340931",
     "nome": "Jussaramia"
+  },
+  "pajuca": {
+    "galeria": [
+      "/imagens/pajuca-foto1.jpeg",
+      "/imagens/pajuca-foto2.jpeg",
+      "/imagens/pajuca-foto3.jpeg",
+      "/imagens/pajuca-video1.mov"
+    ]
   }
 }
