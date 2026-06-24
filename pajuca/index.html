@@ -135,36 +135,153 @@
       </a>
     </div>
   </div>
-</section>
+  <section style="background:var(--bg);border-bottom:1px solid var(--border);padding:48px 20px">
+    <div class="section-inner">
+      <div class="section-tag">Condições de pagamento</div>
+      <h2 class="section-title">Tabela de <em>Preços</em></h2>
+      <p class="section-sub" style="margin-bottom:28px">Escolha o tipo de lote e simule seu investimento.</p>
 
-<div class="stats-band">
-  <div class="stats-band-inner">
-    <div><div class="stat-num">376</div><div class="stat-label">Lotes disponiveis</div></div>
-    <div><div class="stat-num">R$600</div><div class="stat-label">Entrada a partir de</div></div>
-    <div><div class="stat-num">R$257</div><div class="stat-label">Parcelas a partir de</div></div>
-  </div>
-</div>
-
-
-
-
-
-
-<!-- TABELA DE PREÇOS -->
-<section id="sec-tabela" style="background:var(--bg);border-bottom:1px solid var(--border);padding:80px 24px">
-  <div class="section-inner">
-    <div class="section-tag">Condições de pagamento</div>
-    <h2 class="section-title">Tabela de <em>Preços</em></h2>
-    <p class="section-sub" style="margin-bottom:28px">Escolha o tipo de lote e o prazo. Comece com a parcela mais baixa e amortize quando quiser.</p>
-
-    <div style="display:flex;justify-content:center;gap:10px;margin-bottom:24px;flex-wrap:wrap" id="precoCat = "200" style="padding:10px 22px;border-radius:100px;border:2px solid var(--gold);background:var(--gold);color:#000;font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;letter-spacing:.5px">Lotes até 300m²</button>
-      <button class="preco-cat-btn" data-cat="acima" style="padding:10px 22px;border-radius:100px;border:2px solid var(--border2);background:transparent;color:var(--gold);font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;letter-spacing:.5px">Lotes acima de 300m²</button>
-    </div>
-
-    
+      <!-- Botões de tamanho -->
+      <div style="display:flex;justify-content:center;gap:10px;margin-bottom:24px;flex-wrap:wrap">
+        <button class="desc-cat-btn" data-cat="ate" style="padding:10px 22px;border-radius:100px;border:2px solid var(--gold);background:var(--gold);color:#000;font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;letter-spacing:.5px;transition:all .2s">Lotes até 300m²</button>
+        <button class="desc-cat-btn" data-cat="acima" style="padding:10px 22px;border-radius:100px;border:2px solid var(--border2);background:transparent;color:var(--gold);font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;letter-spacing:.5px;transition:all .2s">Lotes acima de 300m²</button>
       </div>
 
-      <!-- TEXTO -->
+      <!-- Resumo do lote -->
+      <div style="text-align:center;font-size:14px;color:var(--text3);margin-bottom:32px;padding:16px;background:var(--bg3);border-radius:12px;border:1px solid var(--border)">
+        <div style="margin-bottom:8px">Valor total do lote:</div>
+        <div id="descValorTotal" style="font-size:28px;color:var(--gold);font-weight:700;font-family:'Cormorant Garamond',serif">R$ 15.500,00</div>
+        <div style="margin-top:8px;font-size:12px;color:var(--text3)">
+          <span id="descEntrada" style="color:var(--gold);font-weight:600">R$ 500</span> entrada + 
+          <span id="descParcelas" style="color:var(--gold);font-weight:600">48x R$ 312,50</span>
+        </div>
+      </div>
+
+      <!-- Calculadora de Desconto -->
+      <div style="background:linear-gradient(135deg,rgba(201,168,76,0.08),rgba(82,196,122,0.04));border:2px solid var(--gold);border-radius:16px;padding:28px;margin-bottom:24px">
+        <h3 style="font-size:16px;color:var(--gold);margin-bottom:20px;text-align:center;font-weight:600">💰 Calcule Seu Desconto</h3>
+        
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+          <div>
+            <label style="display:block;font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Parcelas a antecipar</label>
+            <input type="number" id="descParcAntecipadas" placeholder="Ex: 7" min="1" max="100" style="width:100%;padding:12px;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;color:var(--gold);font-weight:600;font-size:14px;box-sizing:border-box;text-align:center">
+          </div>
+          <div>
+            <label style="display:block;font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">OU Valor em R$</label>
+            <input type="text" id="descValorAntecipado" placeholder="Ex: 2.187,50" style="width:100%;padding:12px;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;color:var(--gold);font-weight:600;font-size:14px;box-sizing:border-box;text-align:center">
+          </div>
+        </div>
+
+        <!-- Resultado -->
+        <div id="descResultado" style="background:var(--bg);border-radius:12px;padding:20px;text-align:center">
+          <div style="font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Valor total do contrato</div>
+          <div id="descValorFinal" style="font-size:32px;font-weight:700;color:var(--gold);font-family:'Cormorant Garamond',serif;margin-bottom:12px">R$ 15.500,00</div>
+          
+          <div id="descDescontoWrap" style="display:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">
+            <div style="font-size:12px;color:#52c47a;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;font-weight:600">🎉 Com 20% de desconto!</div>
+            <div id="descValorComDesconto" style="font-size:28px;font-weight:700;color:#52c47a;font-family:'Cormorant Garamond',serif;margin-bottom:8px">R$ 12.400,00</div>
+            <div style="font-size:11px;color:var(--text2)">
+              Você economiza <span id="descEconomia" style="color:#52c47a;font-weight:700">R$ 3.100,00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nota sobre desconto -->
+      <div style="background:rgba(82,196,122,0.08);border-left:4px solid #52c47a;padding:16px;border-radius:8px;text-align:center;margin-bottom:28px">
+        <p style="font-size:13px;color:var(--text2);margin:0">
+          Adiantando <strong>7 parcelas ou mais</strong>, você ganha <strong style="color:#52c47a">20% de desconto</strong> no valor total do contrato!
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const precos = {
+      ate: { total: 15500, entrada: 500, parcelasQty: 48, parcelaValor: 312.50 },
+      acima: { total: 18000, entrada: 500, parcelasQty: 50, parcelaValor: 350 }
+    };
+    let categoriaAtual = 'ate';
+
+    function formataMoeda(valor) {
+      return 'R$ ' + valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function limpaFormatacao(valor) {
+      return parseFloat(valor.toString().replace(/[^0-9,.]/g, '').replace(',', '.')) || 0;
+    }
+
+    function atualizaCat(cat) {
+      categoriaAtual = cat;
+      const preco = precos[cat];
+      document.querySelectorAll('.desc-cat-btn').forEach(btn => {
+        if (btn.dataset.cat === cat) {
+          btn.style.background = 'var(--gold)';
+          btn.style.color = '#000';
+        } else {
+          btn.style.background = 'transparent';
+          btn.style.color = 'var(--gold)';
+        }
+      });
+      document.getElementById('descValorTotal').textContent = formataMoeda(preco.total);
+      document.getElementById('descEntrada').textContent = formataMoeda(preco.entrada);
+      document.getElementById('descParcelas').textContent = preco.parcelasQty + 'x ' + formataMoeda(preco.parcelaValor);
+      document.getElementById('descValorFinal').textContent = formataMoeda(preco.total);
+      document.getElementById('descDescontoWrap').style.display = 'none';
+      document.getElementById('descParcAntecipadas').value = '';
+      document.getElementById('descValorAntecipado').value = '';
+    }
+
+    function atualizaDesconto() {
+      const preco = precos[categoriaAtual];
+      const parcAntec = parseInt(document.getElementById('descParcAntecipadas').value) || 0;
+      const valorAntec = limpaFormatacao(document.getElementById('descValorAntecipado').value);
+
+      let temDesconto = false;
+      
+      if (parcAntec >= 7) {
+        temDesconto = true;
+      } else if (valorAntec > 0) {
+        const minParc = Math.ceil(valorAntec / preco.parcelaValor);
+        if (minParc >= 7) temDesconto = true;
+      }
+
+      const valComDesc = preco.total * 0.8;
+      const economia = preco.total - valComDesc;
+
+      document.getElementById('descValorFinal').textContent = formataMoeda(preco.total);
+      
+      if (temDesconto) {
+        document.getElementById('descDescontoWrap').style.display = 'block';
+        document.getElementById('descValorComDesconto').textContent = formataMoeda(valComDesc);
+        document.getElementById('descEconomia').textContent = formataMoeda(economia);
+        document.getElementById('descValorFinal').style.color = 'var(--text2)';
+        document.getElementById('descValorFinal').style.textDecoration = 'line-through';
+      } else {
+        document.getElementById('descDescontoWrap').style.display = 'none';
+        document.getElementById('descValorFinal').style.color = 'var(--gold)';
+        document.getElementById('descValorFinal').style.textDecoration = 'none';
+      }
+    }
+
+    document.querySelectorAll('.desc-cat-btn').forEach(btn => {
+      btn.addEventListener('click', () => atualizaCat(btn.dataset.cat));
+    });
+
+    document.getElementById('descParcAntecipadas').addEventListener('input', () => {
+      document.getElementById('descValorAntecipado').value = '';
+      atualizaDesconto();
+    });
+
+    document.getElementById('descValorAntecipado').addEventListener('input', () => {
+      document.getElementById('descParcAntecipadas').value = '';
+      atualizaDesconto();
+    });
+
+    atualizaCat('ate');
+  </script>
+
+        <!-- TEXTO -->
       <div>
         <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;font-weight:600">Sobre o corretor</div>
         <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(40px,4vw,58px);font-weight:700;color:var(--text);line-height:.9;letter-spacing:-2px;margin-bottom:6px">Rafael<br><em style="font-style:italic;color:var(--gold)">Tavares</em></h2>
