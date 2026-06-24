@@ -104,7 +104,7 @@
   </div>
   <div class="hero-content">
     <div class="hero-tag" style="background:linear-gradient(135deg,#E8C96A 0%,#C9A84C 100%);border:3px solid #9D7E2C;padding:12px 32px;border-radius:100px;display:inline-block;margin-bottom:20px;box-shadow:0 8px 30px rgba(201,168,76,0.5),0 0 20px rgba(201,168,76,0.3),inset 0 1px 0 rgba(255,255,255,0.3);font-weight:700;color:#0A1209;letter-spacing:2px;font-size:11px;text-shadow:0 1px 2px rgba(0,0,0,0.1)">🔥 LANÇAMENTO OFICIAL — SANTARÉM, PA</div>
-    <h1 class="hero-title">Bairro <em>Pajuçá</em></h1>
+    <h1 class="hero-title"><em>Pajuçá</em></h1>
     <p class="hero-sub">Lotes disponíveis agora. Entrada de R$ 600 e parcelas que cabem no seu bolso.</p>
     <div class="hero-btns">
       <a href="reserva/" class="btn-gold" style="font-size:14px;padding:18px 36px;letter-spacing:1px;box-shadow:0 4px 24px rgba(201,168,76,0.35)">
@@ -132,46 +132,7 @@
   </div>
 </div>
 
-<section id="sec-mapa" style="background:var(--bg);border-bottom:1px solid var(--border)">
-  <div class="section-inner">
-    <div class="section-tag">Disponibilidade em tempo real</div>
-    <h2 class="section-title">Mapa de <em>Lotes</em></h2>
-    <p class="section-sub">Veja quais lotes ainda estao disponiveis. Atualizado automaticamente conforme as reservas sao feitas.</p>
-    <div class="mapa-stats" id="mapa-stats">
-      <div class="mapa-stat"><div class="mapa-stat-num" style="color:#3b82f6" id="stat-disp">0</div><div class="mapa-stat-lbl">Disponíveis</div></div>
-      <div class="mapa-stat"><div class="mapa-stat-num" style="color:#eab308" id="stat-res">0</div><div class="mapa-stat-lbl">Reservados</div></div>
-      <div class="mapa-stat"><div class="mapa-stat-num" style="color:#ef4444" id="stat-vend">0</div><div class="mapa-stat-lbl">Vendidos</div></div>
-      <div class="mapa-stat"><div class="mapa-stat-num" style="color:#C9A84C" id="stat-total">376</div><div class="mapa-stat-lbl">Total de Lotes</div></div>
-    </div>
-    <div class="mapa-wrap">
-      <!-- MAPA REAL POR BAIXO -->
-      <div id="mapa-vis" style="width:100%;border-radius:12px;overflow:hidden;min-height:500px">
-        <iframe
-          id="iframe-mapa-lotes"
-          src="https://rumoaomilhao.imb.br/mapa/1780067816277"
-          style="width:100%;height:700px;border:none;border-radius:12px;display:block"
-          width="100%"
-          height="700"
-          frameborder="0"
-          scrolling="yes"
-          allowfullscreen
-          title="Mapa de Lotes Pajuçá">
-        </iframe>
-      </div>
 
-      <!-- OVERLAY BLUR -->
-      <div class="mapa-blur" id="mapa-blur-overlay" style="display:none">
-        <div class="mapa-blur-txt" id="mapa-blur-txt">Em Breve</div>
-        <div class="mapa-blur-sub">Lançamento em breve</div>
-        <a href="reserva/" style="margin-top:16px;display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#000;padding:12px 24px;border-radius:8px;font-size:12px;font-weight:700">Garantir minha vaga</a>
-      </div>
-    <div class="mapa-legenda" id="mapa-legenda" style="display:none">
-      <div class="mapa-leg-item"><div class="mapa-leg-dot" style="background:#3b82f6"></div>Disponivel</div>
-      <div class="mapa-leg-item"><div class="mapa-leg-dot" style="background:#eab308"></div>Reservado</div>
-      <div class="mapa-leg-item"><div class="mapa-leg-dot" style="background:#ef4444"></div>Vendido</div>
-    </div>
-  </div>
-</section>
 
 
 
@@ -184,7 +145,7 @@
     <p class="section-sub" style="margin-bottom:28px">Escolha o tipo de lote e o prazo. Comece com a parcela mais baixa e amortize quando quiser.</p>
 
     <div style="display:flex;justify-content:center;gap:10px;margin-bottom:24px;flex-wrap:wrap" id="precoCatToggle">
-      <button class="preco-cat-btn active" data-cat="200" style="padding:10px 22px;border-radius:100px;border:2px solid var(--gold);background:var(--gold);color:#000;font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;letter-spacing:.5px">Lotes até 200m²</button>
+      <button class="preco-cat-btn active" data-cat="200" style="padding:10px 22px;border-radius:100px;border:2px solid var(--gold);background:var(--gold);color:#000;font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;letter-spacing:.5px">Lotes até 300m²</button>
       <button class="preco-cat-btn" data-cat="acima" style="padding:10px 22px;border-radius:100px;border:2px solid var(--border2);background:transparent;color:var(--gold);font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;letter-spacing:.5px">Lotes acima de 200m²</button>
     </div>
 
@@ -230,7 +191,7 @@
       <!-- Exemplos reais -->
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:24px">
         <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:18px">
-          <div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:10px">Exemplo · Lotes até 200m²</div>
+          <div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:10px">Exemplo · Lotes até 300m²</div>
           <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span style="color:var(--text2)">Parcela atual</span><span style="font-weight:700;color:var(--text)">R$ 255,56</span></div>
           <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span style="color:var(--text2)">Parcela final</span><span style="font-weight:700;color:var(--text)">R$ 750,63</span></div>
           <div style="display:flex;justify-content:space-between;font-size:13px;border-top:1px solid var(--border);padding-top:8px;margin-top:4px"><span style="color:var(--gold);font-weight:600">Economia por parcela amortizada</span><span style="font-weight:700;color:var(--gold)">R$ 495,07</span></div>
