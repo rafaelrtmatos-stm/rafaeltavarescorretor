@@ -56,6 +56,18 @@
     .galeria-nav-next { right: 20px; }
     .galeria-close { position: absolute; top: 20px; right: 20px; width: 40px; height: 40px; border-radius: 50%; background: rgba(0,0,0,0.55); border: none; color: #fff; font-size: 16px; cursor: pointer; }
 
+
+    #menu-btn.active .hbl:nth-child(1) { transform: rotate(45deg) translate(8px, 8px); }
+    #menu-btn.active .hbl:nth-child(2) { opacity: 0; }
+    #menu-btn.active .hbl:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
+    #menu-drawer { position: fixed; top: 0; right: -320px; bottom: 0; z-index: 260; width: 290px; background: #000; border-left: 1px solid rgba(201,168,76,0.2); transition: right 0.35s cubic-bezier(0.4,0,0.2,1); display: flex; flex-direction: column; overflow-y: auto; }
+    #menu-overlay { position: fixed; inset: 0; z-index: 250; background: rgba(0,0,0,0.5); opacity: 0; pointer-events: none; transition: opacity 0.35s; }
+    #menu-overlay.open { opacity: 1; pointer-events: auto; }
+    #menu-drawer.open { right: 0; }
+    .menu-item { padding: 16px 20px; border-bottom: 1px solid rgba(201,168,76,0.12); color: #F2EDE4; text-decoration: none; display: block; transition: background 0.2s; }
+    .menu-item:hover { background: rgba(201,168,76,0.1); }
+    .menu-item strong { color: #C9A84C; }
+
     @media (max-width: 768px) {
       .galeria-grid { grid-template-columns: 1fr; }
     }
@@ -65,7 +77,11 @@
 
   <nav>
     <div class="nav-logo"><em>Pajuçara</em></div>
-    <button class="nav-hamburger" onclick="alert('Menu')">☰</button>
+    <button id="menu-btn" onclick="toggleMenu()" style="position:relative;width:40px;height:40px;border-radius:10px;background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;backdrop-filter:blur(12px)">
+      <span class="hbl" style="width:18px;height:2px;background:#C9A84C;transition:all .3s"></span>
+      <span class="hbl" style="width:18px;height:2px;background:#C9A84C;transition:all .3s"></span>
+      <span class="hbl" style="width:18px;height:2px;background:#C9A84C;transition:all .3s"></span>
+    </button>
   </nav>
 
   <section class="hero">
@@ -296,6 +312,26 @@
       carregarGaleriaPajuca();
     });
   </script>
+
+
+  <div id="menu-overlay" onclick="toggleMenu()"></div>
+  
+  <div id="menu-drawer">
+    <div style="padding: 22px 20px 14px; border-bottom: 1px solid rgba(201,168,76,0.12); flex-shrink: 0;">
+      <div style="font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 700; color: #C9A84C; letter-spacing: 2px;">Pajuçara</div>
+      <div style="font-size: 11px; color: rgba(242,237,228,0.5); margin-top: 4px;">Loteamento em Santarém, PA</div>
+    </div>
+    <nav style="flex: 1; padding: 8px 0;">
+      <a href="/" class="menu-item">🏠 <strong>Voltar ao Início</strong></a>
+      <a href="/pajuca/" class="menu-item">🏡 <strong>Pajuçara</strong></a>
+      <a href="/pajuca/reserva/" class="menu-item">📋 Garantir Meu Lote</a>
+      <a href="https://wa.me/5593992332012" class="menu-item" target="_blank">💬 Falar com Rafael</a>
+    </nav>
+    <div style="padding: 16px 20px; border-top: 1px solid rgba(201,168,76,0.12); font-size: 11px; color: rgba(242,237,228,0.5); text-align: center;">
+      <p>CRECI 13919 · Rafael Tavares</p>
+      <p style="margin-top: 8px;">© 2024 Santarém, PA</p>
+    </div>
+  </div>
 
 </body>
 </html>
