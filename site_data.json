@@ -482,5 +482,12 @@
       "/imagens/pajuca-foto3.jpeg",
       "/imagens/pajuca-video1.mov"
     ]
+  },
+  "santa-maria": {
+    "galeria": [
+      "/imagens/santa-maria-obra-1.jpeg",
+      "/imagens/santa-maria-obra-2.jpeg",
+      "/imagens/santa-maria-obra-3.jpeg"
+    ]
   }
 }
