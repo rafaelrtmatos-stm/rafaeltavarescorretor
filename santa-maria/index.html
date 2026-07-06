@@ -758,7 +758,7 @@ fetch('/site_data.json?_='+Date.now())
     if(overlay)overlay.style.display=borrado?'flex':'none';
     if(txt&&d&&d.lancamento&&d.lancamento.marcaDaguaTxt)txt.textContent=d.lancamento.marcaDaguaTxt;
 
-    var galeria=(d.santa-maria&&d.santa-maria.galeria)||[];
+    var galeria=(d['santa-maria']&&d['santa-maria'].galeria)||[];
     var grid=document.getElementById('galeria-grid');
     if(!grid)return;
 
@@ -767,7 +767,7 @@ fetch('/site_data.json?_='+Date.now())
       return;
     }
 
-    window.santa-mariaGaleria = galeria;
+    window.santaMariaGaleria = galeria;
     var cardStyle='border-radius:14px;overflow:hidden;border:1px solid rgba(201,168,76,0.15);background:var(--bg3);position:relative;box-shadow:0 6px 24px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.04);transition:transform .25s,box-shadow .25s;cursor:pointer';
     grid.innerHTML=galeria.map(function(url,idx){
       var isVideo=url.indexOf('.mp4')>=0||url.indexOf('.webm')>=0||url.indexOf('.mov')>=0;
@@ -818,7 +818,7 @@ function glbIsVideo(url){
 }
 
 function abrirGaleriaLightbox(idx){
-  var galeria=window.santa-mariaGaleria||[];
+  var galeria=window.santaMariaGaleria||[];
   if(!galeria.length)return;
   glbIndex=idx;
   var track=document.getElementById('galeria-lightbox-track');
@@ -846,7 +846,7 @@ function fecharGaleriaLightbox(){
 }
 
 function glbGoToIndex(idx,animate){
-  var galeria=window.santa-mariaGaleria||[];
+  var galeria=window.santaMariaGaleria||[];
   if(idx<0)idx=0;
   if(idx>galeria.length-1)idx=galeria.length-1;
   glbIndex=idx;
