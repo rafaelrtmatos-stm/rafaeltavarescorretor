@@ -359,19 +359,19 @@
     'tipo1': {  // PREÇO 01 - R$ 42.000
       plans: {
         '36':  { parcela: 1166.67, total: 42000, fixa: true },
-        '80':  { parcela: 525.00,  total: 42000, fixa: false, evo: [1º:525.00, 5º:689.67, 10º:966.80] }
+        '80':  { parcela: 525.00,  total: 42000, fixa: false, evo: [['1º',525.00],['5º',689.67],['10º',966.80]] }
       }
     },
     'tipo2': {  // PREÇO 02 - R$ 37.000
       plans: {
         '36':  { parcela: 1027.78, total: 37000, fixa: true },
-        '80':  { parcela: 462.50,   total: 37000, fixa: false, evo: [1º:462.50, 5º:608.62, 10º:854.68] }
+        '80':  { parcela: 462.50,   total: 37000, fixa: false, evo: [['1º',462.50],['5º',608.62],['10º',854.68]] }
       }
     },
     'tipo3': {  // PREÇO 03 - R$ 27.000
       plans: {
         '36':  { parcela: 750.00,  total: 27000, fixa: true },
-        '80':  { parcela: 337.50,  total: 27000, fixa: false, evo: [1º:337.50, 5º:444.41, 10º:623.88] }
+        '80':  { parcela: 337.50,  total: 27000, fixa: false, evo: [['1º',337.50],['5º',444.41],['10º',623.88]] }
       }
     }
   };
@@ -805,7 +805,7 @@
 <script>
 var SUPABASE_URL='https://uftxcwcryqpkfdfxzlno.supabase.co';
 var SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI';
-var ESPÍRITO SANTO_ID='1780067816277';
+var ESPIRITO_SANTO_ID='1780067816277';
 
 function corLote(s){
   if(s==='disponivel')return'#3b82f6';
@@ -853,7 +853,7 @@ function renderMapaVisual(lotesInfo,pontos,imgUrl){
   if(leg)leg.style.display='flex';
 }
 
-fetch(SUPABASE_URL+'/rest/v1/empreendimentos?id=eq.'+ESPÍRITO SANTO_ID+'&select=data',{
+fetch(SUPABASE_URL+'/rest/v1/empreendimentos?id=eq.'+ESPIRITO_SANTO_ID+'&select=data',{
   headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}
 }).then(function(r){return r.json();})
   .then(function(rows){
@@ -871,7 +871,7 @@ fetch('/site_data.json?_='+Date.now())
     if(overlay)overlay.style.display=borrado?'flex':'none';
     if(txt&&d&&d.lancamento&&d.lancamento.marcaDaguaTxt)txt.textContent=d.lancamento.marcaDaguaTxt;
 
-    var galeria=(d.espirito-santo&&d.espirito-santo.galeria)||[];
+    var galeria=(d['espirito-santo']&&d['espirito-santo'].galeria)||[];
     var grid=document.getElementById('galeria-grid');
     if(!grid)return;
 
@@ -880,7 +880,7 @@ fetch('/site_data.json?_='+Date.now())
       return;
     }
 
-    window.espirito-santoGaleria = galeria;
+    window.espiritoSantoGaleria = galeria;
     var cardStyle='border-radius:14px;overflow:hidden;border:1px solid rgba(201,168,76,0.15);background:var(--bg3);position:relative;box-shadow:0 6px 24px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.04);transition:transform .25s,box-shadow .25s;cursor:pointer';
     grid.innerHTML=galeria.map(function(url,idx){
       var isVideo=url.indexOf('.mp4')>=0||url.indexOf('.webm')>=0||url.indexOf('.mov')>=0;
@@ -931,7 +931,7 @@ function glbIsVideo(url){
 }
 
 function abrirGaleriaLightbox(idx){
-  var galeria=window.espirito-santoGaleria||[];
+  var galeria=window.espiritoSantoGaleria||[];
   if(!galeria.length)return;
   glbIndex=idx;
   var track=document.getElementById('galeria-lightbox-track');
@@ -959,7 +959,7 @@ function fecharGaleriaLightbox(){
 }
 
 function glbGoToIndex(idx,animate){
-  var galeria=window.espirito-santoGaleria||[];
+  var galeria=window.espiritoSantoGaleria||[];
   if(idx<0)idx=0;
   if(idx>galeria.length-1)idx=galeria.length-1;
   glbIndex=idx;
@@ -1119,13 +1119,7 @@ document.addEventListener('keydown',function(e){
       <svg class="dico" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
       <span>Onde Estamos</span>
     </div>
-    <div style="height:1px;background:rgba(201,168,76,0.1);margin:6px 18px"></div>
-    <div class="dmi" onclick="ir('mararu/')">
-      <svg class="dico" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
-      <span>Bairro Mararu</span>
-      <em class="dbg red">🔥</em>
-    </div>
-    <div class="dmi" onclick="ir('/alenquer/')">
+    <div style="height:1px;background:rgba(201,168,76,0.1);margin:6px 18px"></div>    <div class="dmi" onclick="ir('/alenquer/')">
       <svg class="dico" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
       <span>Alenquer</span>
       <em class="dbg red">🔥 NOVO</em>
