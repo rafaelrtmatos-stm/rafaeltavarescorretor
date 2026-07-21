@@ -172,15 +172,55 @@ select.input option{background:#111;color:#F2EDE4}
         <button type="button" id="btn-nao-sei-cep" onclick="toggleBuscaRua()" style="margin-top:8px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.4);color:var(--gold);font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:1px;padding:9px 16px;border-radius:8px;width:100%;transition:all .2s;text-transform:uppercase" onmouseover="this.style.background='rgba(201,168,76,0.2)'" onmouseout="this.style.background='rgba(201,168,76,0.1)'">🔍 Não sei o CEP — buscar por rua</button>
       </div>
 
-      <div class="field" id="busca-rua-wrap" style="display:none;background:rgba(201,168,76,0.05);border:1px solid var(--border);border-radius:12px;padding:14px;gap:10px" style="background:rgba(201,168,76,0.05);border:1px solid var(--border);border-radius:12px;padding:14px;gap:10px">
-        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:4px">🔍 Buscar CEP por rua</div>
-        <div style="display:grid;grid-template-columns:1fr 80px;gap:8px">
-          <input class="input" id="busca-rua" type="text" placeholder="Nome da rua ou avenida" autocomplete="off" style="font-size:13px">
-          <input class="input" id="busca-uf-rua" type="text" placeholder="UF" maxlength="2" autocomplete="off" style="font-size:13px;text-transform:uppercase">
+      <div id="busca-rua-wrap" style="display:none;background:rgba(201,168,76,0.05);border:1px solid var(--border);border-radius:12px;padding:16px;flex-direction:column;gap:12px">
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700">🔍 Buscar CEP — passo a passo</div>
+
+        <!-- Passo 1: Estado -->
+        <div id="busca-step1">
+          <label class="label" style="margin-bottom:6px;display:block">1. Selecione o Estado</label>
+          <select class="input" id="busca-uf" style="font-size:13px" onchange="buscarCidades()">
+            <option value="">— Selecione o estado —</option>
+            <option value="AC">AC — Acre</option><option value="AL">AL — Alagoas</option><option value="AP">AP — Amapá</option>
+            <option value="AM">AM — Amazonas</option><option value="BA">BA — Bahia</option><option value="CE">CE — Ceará</option>
+            <option value="DF">DF — Distrito Federal</option><option value="ES">ES — Espírito Santo</option><option value="GO">GO — Goiás</option>
+            <option value="MA">MA — Maranhão</option><option value="MT">MT — Mato Grosso</option><option value="MS">MS — Mato Grosso do Sul</option>
+            <option value="MG">MG — Minas Gerais</option><option value="PA">PA — Pará</option><option value="PB">PB — Paraíba</option>
+            <option value="PR">PR — Paraná</option><option value="PE">PE — Pernambuco</option><option value="PI">PI — Piauí</option>
+            <option value="RJ">RJ — Rio de Janeiro</option><option value="RN">RN — Rio Grande do Norte</option><option value="RS">RS — Rio Grande do Sul</option>
+            <option value="RO">RO — Rondônia</option><option value="RR">RR — Roraima</option><option value="SC">SC — Santa Catarina</option>
+            <option value="SP">SP — São Paulo</option><option value="SE">SE — Sergipe</option><option value="TO">TO — Tocantins</option>
+          </select>
         </div>
-        <input class="input" id="busca-cidade-rua" type="text" placeholder="Cidade (obrigatório)" autocomplete="off" style="font-size:13px">
-        <button type="button" onclick="buscarPorRua()" style="background:rgba(201,168,76,0.15);border:1px solid var(--border2);border-radius:10px;padding:10px 16px;font-size:12px;font-weight:700;color:var(--gold);cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:.5px;transition:all .2s;width:100%" onmouseover="this.style.background='rgba(201,168,76,0.25)'" onmouseout="this.style.background='rgba(201,168,76,0.15)'">Buscar CEP</button>
-        <div id="busca-resultados" style="display:none;max-height:200px;overflow-y:auto;border:1px solid var(--border);border-radius:10px;background:var(--bg3)"></div>
+
+        <!-- Passo 2: Cidade -->
+        <div id="busca-step2" style="display:none">
+          <label class="label" style="margin-bottom:6px;display:block">2. Digite a Cidade</label>
+          <div style="display:flex;gap:8px">
+            <input class="input" id="busca-cidade" type="text" placeholder="Nome da cidade" style="font-size:13px;flex:1" autocomplete="off" onkeydown="if(event.key==='Enter')avancarParaRua()">
+            <button type="button" onclick="avancarParaRua()" style="background:rgba(201,168,76,0.2);border:1px solid var(--border2);border-radius:10px;padding:10px 14px;font-size:12px;font-weight:700;color:var(--gold);cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all .2s">Próximo →</button>
+          </div>
+        </div>
+
+        <!-- Passo 3: Rua -->
+        <div id="busca-step3" style="display:none">
+          <div style="font-size:11px;color:var(--text3);margin-bottom:8px" id="busca-step3-info"></div>
+          <label class="label" style="margin-bottom:6px;display:block">3. Digite o nome da rua (pode ser parcial)</label>
+          <div style="display:flex;gap:8px">
+            <input class="input" id="busca-rua" type="text" placeholder="Ex: Av Brasil, Rua das Flores..." style="font-size:13px;flex:1" autocomplete="off" onkeydown="if(event.key==='Enter')buscarPorRua()">
+            <button type="button" onclick="buscarPorRua()" style="background:rgba(201,168,76,0.2);border:1px solid var(--border2);border-radius:10px;padding:10px 14px;font-size:12px;font-weight:700;color:var(--gold);cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all .2s">🔍 Buscar</button>
+          </div>
+          <div style="margin-top:6px">
+            <button type="button" onclick="voltarStep(2)" style="background:transparent;border:none;color:var(--text3);font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;padding:0">← Mudar cidade</button>
+          </div>
+        </div>
+
+        <!-- Resultados -->
+        <div id="busca-resultados" style="display:none;border:1px solid var(--border);border-radius:10px;background:var(--bg3);overflow:hidden">
+          <div style="padding:8px 14px;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border)" id="busca-res-label"></div>
+          <div id="busca-res-lista" style="max-height:240px;overflow-y:auto"></div>
+        </div>
+
+        <div id="busca-spinner" style="display:none;text-align:center;padding:10px;font-size:12px;color:var(--text3)">⏳ Buscando...</div>
       </div>
 
       <div class="grid-2">
@@ -349,54 +389,132 @@ function toggleBuscaRua(){
   btn.style.background=aberto?'rgba(201,168,76,0.1)':'rgba(248,113,113,0.1)';
   btn.style.borderColor=aberto?'rgba(201,168,76,0.4)':'rgba(248,113,113,0.4)';
   btn.style.color=aberto?'var(--gold)':'rgba(248,113,113,0.9)';
+  if(!aberto){
+    // Resetar para o passo 1 ao abrir
+    voltarStep(1);
+    // Pré-selecionar PA por padrão
+    const sel=document.getElementById('busca-uf');
+    if(!sel.value) sel.value='PA';
+    buscarCidades();
+  }
+}
+
+function voltarStep(step){
+  document.getElementById('busca-step1').style.display=step<=1?'block':'none';
+  document.getElementById('busca-step2').style.display=step===2?'block':'none';
+  document.getElementById('busca-step3').style.display=step===3?'block':'none';
+  document.getElementById('busca-resultados').style.display='none';
+  document.getElementById('busca-spinner').style.display='none';
+}
+
+function buscarCidades(){
+  // Só avança para step 2 quando UF selecionada
+  const uf=document.getElementById('busca-uf').value;
+  if(!uf) return;
+  document.getElementById('busca-step2').style.display='block';
+  document.getElementById('busca-cidade').value='';
+  document.getElementById('busca-cidade').focus();
+}
+
+function avancarParaRua(){
+  const cidade=document.getElementById('busca-cidade').value.trim();
+  if(!cidade){document.getElementById('busca-cidade').classList.add('erro');return;}
+  document.getElementById('busca-cidade').classList.remove('erro');
+  const uf=document.getElementById('busca-uf').value;
+  document.getElementById('busca-step3-info').textContent='Estado: '+uf+' · Cidade: '+cidade;
+  document.getElementById('busca-step3').style.display='block';
+  document.getElementById('busca-rua').value='';
+  document.getElementById('busca-resultados').style.display='none';
+  document.getElementById('busca-rua').focus();
 }
 
 function buscarPorRua(){
   const rua=document.getElementById('busca-rua').value.trim();
-  const cidade=document.getElementById('busca-cidade-rua').value.trim();
-  const uf=(document.getElementById('busca-uf-rua').value.trim()||'PA').toUpperCase();
+  const cidade=document.getElementById('busca-cidade').value.trim();
+  const uf=document.getElementById('busca-uf').value;
+  if(!rua){document.getElementById('busca-rua').classList.add('erro');return;}
+  document.getElementById('busca-rua').classList.remove('erro');
+
   const res=document.getElementById('busca-resultados');
-  if(!rua||!cidade){alert('Preencha pelo menos o nome da rua e a cidade.');return;}
-  res.style.display='none';res.innerHTML='';
-  const h=document.getElementById('h-cep');
-  h.className='hint';h.textContent='Buscando...';
+  const lista=document.getElementById('busca-res-lista');
+  const spinner=document.getElementById('busca-spinner');
+  res.style.display='none'; lista.innerHTML='';
+  spinner.style.display='block';
+
+  // Busca com o termo exato e também com termo reduzido para mais resultados
   const url='https://viacep.com.br/ws/'+encodeURIComponent(uf)+'/'+encodeURIComponent(cidade)+'/'+encodeURIComponent(rua)+'/json/';
   fetch(url)
     .then(r=>r.json())
-    .then(data=>{
+    .then(function(data){
+      spinner.style.display='none';
       if(!Array.isArray(data)||data.length===0){
-        h.className='hint erro-txt';h.textContent='Nenhum resultado. Tente com menos palavras.';return;
+        // Tenta buscar com primeira palavra da rua para ampliar resultado
+        const primeiraPalavra=rua.split(' ').filter(w=>w.length>3)[0]||rua;
+        if(primeiraPalavra!==rua){
+          const url2='https://viacep.com.br/ws/'+encodeURIComponent(uf)+'/'+encodeURIComponent(cidade)+'/'+encodeURIComponent(primeiraPalavra)+'/json/';
+          spinner.style.display='block';
+          return fetch(url2).then(r=>r.json()).then(function(d2){
+            spinner.style.display='none';
+            renderResultados(d2, true);
+          });
+        }
+        renderResultados([], false);
+        return;
       }
-      h.className='hint ok-txt';h.textContent=data.length+' resultado(s) encontrado(s). Clique para selecionar:';
-      res.style.display='block';
-      data.slice(0,10).forEach(function(item){
-        const div=document.createElement('div');
-        div.style.cssText='padding:10px 14px;cursor:pointer;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.05);color:#F2EDE4;transition:background .15s';
-        div.onmouseover=function(){this.style.background='rgba(201,168,76,0.1)';}
-        div.onmouseout=function(){this.style.background='transparent';}
-        div.innerHTML='<strong style="color:#C9A84C">'+item.cep+'</strong> — '+item.logradouro+', '+item.bairro+', '+item.localidade+'/'+item.uf;
-        div.onclick=function(){
-          // Aplicar CEP e endereço
-          const cepNum=item.cep.replace(/\D/g,'');
-          document.getElementById('cep').value=item.cep;
-          document.getElementById('cep').classList.add('ok');
-          document.getElementById('endereco').value=item.logradouro||'';
-          document.getElementById('bairro').value=item.bairro||'';
-          document.getElementById('cidade').value=item.localidade||'';
-          document.getElementById('uf').value=item.uf||'';
-          h.className='hint ok-txt';h.textContent='CEP selecionado!';
-          res.style.display='none';
-          document.getElementById('busca-rua-wrap').style.display='none';
-          document.getElementById('btn-nao-sei-cep').textContent='🔍 Não sei o CEP — buscar por rua';
-          document.getElementById('btn-nao-sei-cep').style.background='rgba(201,168,76,0.1)';
-          document.getElementById('btn-nao-sei-cep').style.borderColor='rgba(201,168,76,0.4)';
-          document.getElementById('btn-nao-sei-cep').style.color='var(--gold)';
-          document.getElementById('numero').focus();
-        };
-        res.appendChild(div);
-      });
+      renderResultados(data, false);
     })
-    .catch(function(){h.className='hint erro-txt';h.textContent='Erro na busca. Tente novamente.';});
+    .catch(function(){spinner.style.display='none';renderResultados(null,false);});
+}
+
+function renderResultados(data, ampliado){
+  const res=document.getElementById('busca-resultados');
+  const lista=document.getElementById('busca-res-lista');
+  const label=document.getElementById('busca-res-label');
+  lista.innerHTML='';
+
+  if(!data||!Array.isArray(data)||data.length===0){
+    res.style.display='block';
+    label.textContent='Nenhum resultado encontrado. Tente um termo diferente.';
+    label.style.color='rgba(248,113,113,0.8)';
+    return;
+  }
+
+  res.style.display='block';
+  const total=data.length;
+  label.style.color='rgba(37,211,102,0.8)';
+  label.textContent=(ampliado?'Busca ampliada — ':'')+total+' CEP'+(total>1?'s':'')+' encontrado'+(total>1?'s':'')+'. Clique para selecionar:';
+
+  data.forEach(function(item){
+    const div=document.createElement('div');
+    div.style.cssText='padding:12px 14px;cursor:pointer;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.05);color:#F2EDE4;transition:background .15s;line-height:1.5';
+    div.onmouseover=function(){this.style.background='rgba(201,168,76,0.12)';}
+    div.onmouseout=function(){this.style.background='transparent';}
+    div.innerHTML=
+      '<div style="display:flex;align-items:center;gap:8px">'
+      +'<span style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);color:#C9A84C;font-weight:700;font-size:13px;padding:2px 8px;border-radius:6px;white-space:nowrap">'+item.cep+'</span>'
+      +'<span style="color:#F2EDE4;font-weight:600">'+item.logradouro+'</span>'
+      +'</div>'
+      +'<div style="font-size:11px;color:rgba(242,237,228,0.5);margin-top:3px;padding-left:2px">'+item.bairro+' · '+item.localidade+'/'+item.uf+'</div>';
+    div.onclick=function(){
+      document.getElementById('cep').value=item.cep;
+      document.getElementById('cep').classList.add('ok');
+      document.getElementById('cep').classList.remove('erro');
+      document.getElementById('endereco').value=item.logradouro||'';
+      document.getElementById('bairro').value=item.bairro||'';
+      document.getElementById('cidade').value=item.localidade||'';
+      document.getElementById('uf').value=item.uf||'';
+      const h=document.getElementById('h-cep');
+      h.className='hint ok-txt';h.textContent='✅ CEP '+item.cep+' selecionado!';
+      document.getElementById('busca-rua-wrap').style.display='none';
+      const btn=document.getElementById('btn-nao-sei-cep');
+      btn.textContent='🔍 Não sei o CEP — buscar por rua';
+      btn.style.background='rgba(201,168,76,0.1)';
+      btn.style.borderColor='rgba(201,168,76,0.4)';
+      btn.style.color='var(--gold)';
+      document.getElementById('numero').focus();
+    };
+    lista.appendChild(div);
+  });
 }
 
 function buscarCEP(cep){
