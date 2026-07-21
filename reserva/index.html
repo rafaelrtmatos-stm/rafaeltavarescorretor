@@ -194,10 +194,13 @@ select.input option{background:#111;color:#F2EDE4}
 
         <!-- Passo 2: Cidade -->
         <div id="busca-step2" style="display:none">
-          <label class="label" style="margin-bottom:6px;display:block">2. Digite a Cidade</label>
-          <div style="display:flex;gap:8px">
-            <input class="input" id="busca-cidade" type="text" placeholder="Nome da cidade" style="font-size:13px;flex:1" autocomplete="off" onkeydown="if(event.key==='Enter')avancarParaRua()">
-            <button type="button" onclick="avancarParaRua()" style="background:rgba(201,168,76,0.2);border:1px solid var(--border2);border-radius:10px;padding:10px 14px;font-size:12px;font-weight:700;color:var(--gold);cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all .2s">Próximo →</button>
+          <label class="label" style="margin-bottom:6px;display:block">2. Selecione a Cidade</label>
+          <div id="busca-cidade-spinner" style="font-size:11px;color:var(--text3);padding:4px 0">⏳ Carregando cidades...</div>
+          <select class="input" id="busca-cidade" style="font-size:13px;display:none" onchange="avancarParaRua()">
+            <option value="">— Selecione a cidade —</option>
+          </select>
+          <div style="margin-top:6px">
+            <button type="button" onclick="voltarStep(1)" style="background:transparent;border:none;color:var(--text3);font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;padding:0">← Mudar estado</button>
           </div>
         </div>
 
@@ -386,12 +389,12 @@ function toggleBuscaRua(){
   btn.style.borderColor=aberto?'rgba(201,168,76,0.4)':'rgba(248,113,113,0.4)';
   btn.style.color=aberto?'var(--gold)':'rgba(248,113,113,0.9)';
   if(!aberto){
-    // Resetar para o passo 1 ao abrir
     voltarStep(1);
-    // Pré-selecionar PA por padrão
     const sel=document.getElementById('busca-uf');
-    if(!sel.value) sel.value='PA';
-    buscarCidades();
+    if(!sel.value){
+      sel.value='PA';
+      buscarCidades();
+    }
   }
 }
 
@@ -401,23 +404,51 @@ function voltarStep(step){
   document.getElementById('busca-step3').style.display=step===3?'block':'none';
   document.getElementById('busca-resultados').style.display='none';
   document.getElementById('busca-spinner').style.display='none';
+  if(step===1){
+    // Resetar cidade e rua
+    document.getElementById('busca-cidade').innerHTML='<option value="">— Selecione a cidade —</option>';
+    document.getElementById('busca-cidade').style.display='none';
+    document.getElementById('busca-cidade-spinner').style.display='none';
+  }
 }
 
 function buscarCidades(){
-  // Só avança para step 2 quando UF selecionada
   const uf=document.getElementById('busca-uf').value;
   if(!uf) return;
   document.getElementById('busca-step2').style.display='block';
-  document.getElementById('busca-cidade').value='';
-  document.getElementById('busca-cidade').focus();
+  document.getElementById('busca-step3').style.display='none';
+  document.getElementById('busca-resultados').style.display='none';
+  const sel=document.getElementById('busca-cidade');
+  const spinner=document.getElementById('busca-cidade-spinner');
+  sel.style.display='none';
+  spinner.style.display='block';
+  sel.innerHTML='<option value="">— Selecione a cidade —</option>';
+
+  fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados/'+uf+'/municipios?orderBy=nome')
+    .then(r=>r.json())
+    .then(function(data){
+      spinner.style.display='none';
+      sel.style.display='block';
+      data.forEach(function(m){
+        const opt=document.createElement('option');
+        opt.value=m.nome;
+        opt.textContent=m.nome;
+        sel.appendChild(opt);
+      });
+    })
+    .catch(function(){
+      spinner.style.display='none';
+      spinner.textContent='Erro ao carregar cidades. Tente novamente.';
+      spinner.style.color='rgba(248,113,113,0.8)';
+      spinner.style.display='block';
+    });
 }
 
 function avancarParaRua(){
-  const cidade=document.getElementById('busca-cidade').value.trim();
-  if(!cidade){document.getElementById('busca-cidade').classList.add('erro');return;}
-  document.getElementById('busca-cidade').classList.remove('erro');
+  const cidade=document.getElementById('busca-cidade').value;
+  if(!cidade){return;}
   const uf=document.getElementById('busca-uf').value;
-  document.getElementById('busca-step3-info').textContent='Estado: '+uf+' · Cidade: '+cidade;
+  document.getElementById('busca-step3-info').textContent='📍 '+cidade+' / '+uf;
   document.getElementById('busca-step3').style.display='block';
   document.getElementById('busca-rua').value='';
   document.getElementById('busca-resultados').style.display='none';
