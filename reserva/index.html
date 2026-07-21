@@ -237,10 +237,6 @@ select.input option{background:#111;color:#F2EDE4}
           <span class="hint" id="h-num"></span>
         </div>
         <div class="field">
-          <label class="label">Complemento</label>
-          <input class="input" id="complemento" type="text" placeholder="Apto, bloco..." autocomplete="off">
-        </div>
-        <div class="field">
           <label class="label">Bairro *</label>
           <input class="input" id="bairro" type="text" placeholder="Bairro" autocomplete="off">
         </div>
@@ -643,10 +639,9 @@ function enviar(){
   if(nasc){const[y,m,d]=nasc.split('-');nasc=`${d}/${m}/${y}`;}
 
   const c2=document.getElementById('contato2').value.trim();
-  const comp=document.getElementById('complemento').value.trim();
   const end=document.getElementById('endereco').value.trim();
   const num=document.getElementById('numero').value.trim();
-  const endCompleto=end+(comp?', '+comp:'')+', '+num;
+  const endCompleto=end+', '+num;
 
   let msg='*CADASTRO DO COMPRADOR*\n\n';
   msg+=`*NOME:* ${document.getElementById('nome').value.trim()}\n`;
