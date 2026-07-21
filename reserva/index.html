@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulário de Reserva — Rafael Tavares Corretor</title>
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<meta name="theme-color" content="#000000">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#000;--bg2:#0A0A0A;--bg3:#111;
+  --gold:#C9A84C;--gold2:#E8C96A;
+  --text:#F2EDE4;--text2:rgba(242,237,228,0.65);--text3:rgba(242,237,228,0.35);
+  --border:rgba(201,168,76,0.15);--border2:rgba(201,168,76,0.3);
+  --green:#25d366;--red:#f87171;--r:12px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh}
+
+.header{background:rgba(0,0,0,0.95);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+.header-brand{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--gold);text-decoration:none;display:block}
+.header-sub{font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-top:2px}
+.btn-voltar{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);text-decoration:none;border:1px solid var(--border);padding:8px 14px;border-radius:8px;transition:all .2s;white-space:nowrap}
+.btn-voltar:hover{color:var(--gold);border-color:var(--border2)}
+
+.hero{padding:48px 24px 36px;text-align:center;border-bottom:1px solid var(--border)}
+.hero-tag{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,7vw,50px);font-weight:700;line-height:1.1;margin-bottom:10px}
+.hero-title em{color:var(--gold);font-style:italic}
+.hero-sub{font-size:13px;color:var(--text2);max-width:480px;margin:0 auto}
+
+.form-wrap{max-width:640px;margin:0 auto;padding:36px 20px 80px}
+
+.section-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:20px}
+.section-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+@media(max-width:520px){
+  .grid-2,.grid-3{grid-template-columns:1fr}
+}
+
+.field{display:flex;flex-direction:column;gap:5px;position:relative}
+.col2{grid-column:span 2}
+@media(max-width:520px){.col2{grid-column:span 1}}
+
+.label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);font-weight:600}
+.input{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;font-size:14px;color:var(--text);font-family:'DM Sans',sans-serif;transition:border-color .2s;outline:none;width:100%}
+.input:focus{border-color:var(--gold)}
+.input::placeholder{color:var(--text3)}
+.input.ok{border-color:rgba(37,211,102,0.5)}
+.input.erro{border-color:rgba(248,113,113,0.7)}
+select.input{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23C9A84C' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+select.input option{background:#111;color:#F2EDE4}
+
+.hint{font-size:10px;color:var(--text3);margin-top:2px}
+.hint.erro-txt{color:rgba(248,113,113,0.85)!important}
+.hint.ok-txt{color:rgba(37,211,102,0.8)!important}
+
+.cep-wrap{position:relative}
+.cep-spinner{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:16px;height:16px;border:2px solid var(--border2);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;display:none}
+@keyframes spin{to{transform:translateY(-50%) rotate(360deg)}}
+
+.vendedor-fixo{background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:var(--r);padding:12px 14px;font-size:14px;color:var(--gold);font-weight:600}
+
+.venc-aviso{font-size:11px;color:rgba(248,113,113,0.8);margin-top:6px;display:none}
+
+.btn-enviar{width:100%;display:flex;align-items:center;justify-content:center;gap:12px;background:#25d366;color:#000;padding:18px 24px;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all .2s;letter-spacing:.3px;margin-top:8px}
+.btn-enviar:hover{background:#20b858;transform:translateY(-2px);box-shadow:0 12px 32px rgba(37,211,102,0.3)}
+.btn-enviar:active{transform:none}
+
+.nota{text-align:center;font-size:11px;color:var(--text3);margin-top:14px;line-height:1.7}
+.footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-size:11px;color:var(--text3)}
+.footer a{color:var(--gold);text-decoration:none}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="../" class="header-brand">
+    Rafael Tavares
+    <div class="header-sub">Corretor de Imóveis · CRECI 13919</div>
+  </a>
+  <a href="../" class="btn-voltar">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Voltar
+  </a>
+</header>
+
+<section class="hero">
+  <div class="hero-tag">Reserva de Lote</div>
+  <h1 class="hero-title">Formulário de <em>Reserva</em></h1>
+  <p class="hero-sub">Preencha os dados abaixo. Ao enviar, todos os dados são enviados diretamente ao corretor pelo WhatsApp.</p>
+</section>
+
+<div class="form-wrap">
+
+  <!-- DADOS PESSOAIS -->
+  <div class="section-card">
+    <div class="section-label">Dados do Comprador</div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+
+      <div class="field">
+        <label class="label">Nome completo *</label>
+        <input class="input" id="nome" type="text" placeholder="Nome completo do comprador" autocomplete="off">
+        <span class="hint" id="h-nome"></span>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label class="label">RG *</label>
+          <input class="input" id="rg" type="text" placeholder="0000000" maxlength="12" autocomplete="off">
+          <span class="hint" id="h-rg"></span>
+        </div>
+        <div class="field">
+          <label class="label">CPF *</label>
+          <input class="input" id="cpf" type="text" placeholder="000.000.000-00" maxlength="14" autocomplete="off">
+          <span class="hint" id="h-cpf"></span>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label class="label">Data de Nascimento *</label>
+          <input class="input" id="nascimento" type="date" autocomplete="off">
+          <span class="hint" id="h-nasc"></span>
+        </div>
+        <div class="field">
+          <label class="label">Estado Civil *</label>
+          <select class="input" id="estado-civil">
+            <option value="">Selecione</option>
+            <option>Solteiro(a)</option>
+            <option>Casado(a)</option>
+            <option>Divorciado(a)</option>
+            <option>Viúvo(a)</option>
+            <option>União Estável</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label class="label">Contato / WhatsApp *</label>
+          <input class="input" id="contato1" type="tel" placeholder="(93) 99999-9999" maxlength="15" autocomplete="off">
+          <span class="hint" id="h-c1"></span>
+        </div>
+        <div class="field">
+          <label class="label">Contato 2 *</label>
+          <input class="input" id="contato2" type="tel" placeholder="(93) 99999-9999" maxlength="15" autocomplete="off">
+          <span class="hint" id="h-c2"></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ENDEREÇO -->
+  <div class="section-card">
+    <div class="section-label">Endereço</div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+
+      <div class="field">
+        <label class="label">CEP *</label>
+        <div class="cep-wrap">
+          <input class="input" id="cep" type="text" placeholder="00000-000" maxlength="9" autocomplete="off">
+          <div class="cep-spinner" id="cep-spinner"></div>
+        </div>
+        <span class="hint" id="h-cep">Digite o CEP para preencher automaticamente</span>
+        <button type="button" id="btn-nao-sei-cep" onclick="toggleBuscaRua()" style="margin-top:8px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.4);color:var(--gold);font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:1px;padding:9px 16px;border-radius:8px;width:100%;transition:all .2s;text-transform:uppercase" onmouseover="this.style.background='rgba(201,168,76,0.2)'" onmouseout="this.style.background='rgba(201,168,76,0.1)'">🔍 Não sei o CEP — buscar por rua</button>
+      </div>
+
+      <div class="field" id="busca-rua-wrap" style="display:none;background:rgba(201,168,76,0.05);border:1px solid var(--border);border-radius:12px;padding:14px;gap:10px" style="background:rgba(201,168,76,0.05);border:1px solid var(--border);border-radius:12px;padding:14px;gap:10px">
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:4px">🔍 Buscar CEP por rua</div>
+        <div style="display:grid;grid-template-columns:1fr 80px;gap:8px">
+          <input class="input" id="busca-rua" type="text" placeholder="Nome da rua ou avenida" autocomplete="off" style="font-size:13px">
+          <input class="input" id="busca-uf-rua" type="text" placeholder="UF" maxlength="2" autocomplete="off" style="font-size:13px;text-transform:uppercase">
+        </div>
+        <input class="input" id="busca-cidade-rua" type="text" placeholder="Cidade (obrigatório)" autocomplete="off" style="font-size:13px">
+        <button type="button" onclick="buscarPorRua()" style="background:rgba(201,168,76,0.15);border:1px solid var(--border2);border-radius:10px;padding:10px 16px;font-size:12px;font-weight:700;color:var(--gold);cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:.5px;transition:all .2s;width:100%" onmouseover="this.style.background='rgba(201,168,76,0.25)'" onmouseout="this.style.background='rgba(201,168,76,0.15)'">Buscar CEP</button>
+        <div id="busca-resultados" style="display:none;max-height:200px;overflow-y:auto;border:1px solid var(--border);border-radius:10px;background:var(--bg3)"></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="field col2">
+          <label class="label">Endereço (Rua / Avenida) *</label>
+          <input class="input" id="endereco" type="text" placeholder="Rua / Avenida" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <div class="field">
+          <label class="label">Número *</label>
+          <input class="input" id="numero" type="text" placeholder="Nº" autocomplete="off">
+          <span class="hint" id="h-num"></span>
+        </div>
+        <div class="field">
+          <label class="label">Complemento</label>
+          <input class="input" id="complemento" type="text" placeholder="Apto, bloco..." autocomplete="off">
+        </div>
+        <div class="field">
+          <label class="label">Bairro *</label>
+          <input class="input" id="bairro" type="text" placeholder="Bairro" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label class="label">Cidade *</label>
+          <input class="input" id="cidade" type="text" placeholder="Cidade" autocomplete="off">
+        </div>
+        <div class="field">
+          <label class="label">UF *</label>
+          <input class="input" id="uf" type="text" placeholder="PA" maxlength="2" autocomplete="off">
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+
+  <!-- VENDEDOR -->
+  <div class="section-card">
+    <div class="section-label">Responsável</div>
+    <div class="field">
+      <label class="label">Vendedor</label>
+      <div class="vendedor-fixo">Rafael Tavares</div>
+    </div>
+  </div>
+
+  <button class="btn-enviar" onclick="enviar()">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.555 4.122 1.524 5.855L0 24l6.341-1.494A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 01-4.989-1.366l-.357-.212-3.766.887.937-3.667-.233-.376A9.818 9.818 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182c5.421 0 9.818 4.398 9.818 9.818 0 5.421-4.397 9.818-9.818 9.818z"/></svg>
+    Enviar reserva pelo WhatsApp
+  </button>
+  <p class="nota">Ao clicar você será redirecionado ao WhatsApp com todos os dados preenchidos.<br>Nenhuma informação é armazenada neste site.</p>
+
+</div>
+
+<footer class="footer">
+  <a href="../">rafaeltavarescorretor.com.br</a> · Rafael Tavares Corretor · CRECI 13919
+</footer>
+
+<script>
+// ── CPF validação ──────────────────────────────────────
+function validarCPF(c){
+  c=c.replace(/\D/g,'');
+  if(c.length!==11||/^(\d)\1+$/.test(c))return false;
+  let s=0,r;
+  for(let i=0;i<9;i++)s+=+c[i]*(10-i);
+  r=s%11<2?0:11-s%11;
+  if(r!==+c[9])return false;
+  s=0;
+  for(let i=0;i<10;i++)s+=+c[i]*(11-i);
+  r=s%11<2?0:11-s%11;
+  return r===+c[10];
+}
+
+// ── Máscaras ───────────────────────────────────────────
+function maskCPF(v){
+  v=v.replace(/\D/g,'').slice(0,11);
+  if(v.length>9)v=v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/,'$1.$2.$3-$4');
+  else if(v.length>6)v=v.replace(/(\d{3})(\d{3})(\d{1,3})/,'$1.$2.$3');
+  else if(v.length>3)v=v.replace(/(\d{3})(\d{1,3})/,'$1.$2');
+  return v;
+}
+function maskTel(v){
+  v=v.replace(/\D/g,'').slice(0,11);
+  if(v.length>10)v=v.replace(/(\d{2})(\d{5})(\d{4})/,'($1) $2-$3');
+  else if(v.length>6)v=v.replace(/(\d{2})(\d{4,5})(\d{0,4})/,'($1) $2-$3');
+  else if(v.length>2)v=v.replace(/(\d{2})(\d*)/,'($1) $2');
+  return v;
+}
+function maskCEP(v){
+  v=v.replace(/\D/g,'').slice(0,8);
+  if(v.length>5)v=v.replace(/(\d{5})(\d{1,3})/,'$1-$2');
+  return v;
+}
+
+// ── Eventos de máscara ─────────────────────────────────
+document.getElementById('cpf').addEventListener('input',function(){
+  this.value=maskCPF(this.value);
+  const ok=validarCPF(this.value);
+  const h=document.getElementById('h-cpf');
+  if(this.value.replace(/\D/g,'').length===11){
+    this.classList.toggle('ok',ok);
+    this.classList.toggle('erro',!ok);
+    h.className='hint '+(ok?'ok-txt':'erro-txt');
+    h.textContent=ok?'CPF válido':'CPF inválido';
+  } else {
+    this.className='input';
+    h.className='hint';h.textContent='';
+  }
+});
+
+document.getElementById('rg').addEventListener('input',function(){
+  this.value=this.value.replace(/[^0-9Xx\-\.]/g,'');
+  const d=this.value.replace(/\D/g,'');
+  const h=document.getElementById('h-rg');
+  if(d.length>=5&&d.length<=10){
+    this.classList.add('ok');this.classList.remove('erro');
+    h.className='hint ok-txt';h.textContent='RG válido';
+  } else if(d.length>0){
+    this.classList.add('erro');this.classList.remove('ok');
+    h.className='hint erro-txt';h.textContent='RG inválido (5 a 10 dígitos)';
+  } else {
+    this.className='input';h.className='hint';h.textContent='';
+  }
+});
+
+document.getElementById('contato1').addEventListener('input',function(){
+  this.value=maskTel(this.value);
+  const d=this.value.replace(/\D/g,'');
+  const h=document.getElementById('h-c1');
+  if(d.length===11){this.classList.add('ok');this.classList.remove('erro');h.className='hint ok-txt';h.textContent='Número válido';}
+  else if(d.length>0){this.classList.add('erro');this.classList.remove('ok');h.className='hint erro-txt';h.textContent='Número inválido';}
+  else{this.className='input';h.className='hint';h.textContent='';}
+});
+document.getElementById('contato2').addEventListener('input',function(){
+  this.value=maskTel(this.value);
+  const d=this.value.replace(/\D/g,'');
+  const h=document.getElementById('h-c2');
+  const c1=document.getElementById('contato1').value.replace(/\D/g,'');
+  if(d.length===0){this.classList.remove('ok','erro');h.className='hint';h.textContent='';return;}
+  if(d===c1&&d.length===11){
+    this.classList.add('erro');this.classList.remove('ok');
+    h.className='hint erro-txt';h.textContent='Número igual ao Contato 1';
+    return;
+  }
+  if(d.length===11){this.classList.add('ok');this.classList.remove('erro');h.className='hint ok-txt';h.textContent='Número válido';}
+  else{this.classList.add('erro');this.classList.remove('ok');h.className='hint erro-txt';h.textContent='Número inválido';}
+});
+
+// ── CEP + busca ViaCEP ─────────────────────────────────
+document.getElementById('cep').addEventListener('input',function(){
+  this.value=maskCEP(this.value);
+  const d=this.value.replace(/\D/g,'');
+  if(d.length===8)buscarCEP(d);
+});
+
+function toggleBuscaRua(){
+  const wrap=document.getElementById('busca-rua-wrap');
+  const btn=document.getElementById('btn-nao-sei-cep');
+  const aberto=wrap.style.display!=='none';
+  wrap.style.display=aberto?'none':'flex';
+  btn.textContent=aberto?'🔍 Não sei o CEP — buscar por rua':'✕ Fechar busca por rua';
+  btn.style.background=aberto?'rgba(201,168,76,0.1)':'rgba(248,113,113,0.1)';
+  btn.style.borderColor=aberto?'rgba(201,168,76,0.4)':'rgba(248,113,113,0.4)';
+  btn.style.color=aberto?'var(--gold)':'rgba(248,113,113,0.9)';
+}
+
+function buscarPorRua(){
+  const rua=document.getElementById('busca-rua').value.trim();
+  const cidade=document.getElementById('busca-cidade-rua').value.trim();
+  const uf=(document.getElementById('busca-uf-rua').value.trim()||'PA').toUpperCase();
+  const res=document.getElementById('busca-resultados');
+  if(!rua||!cidade){alert('Preencha pelo menos o nome da rua e a cidade.');return;}
+  res.style.display='none';res.innerHTML='';
+  const h=document.getElementById('h-cep');
+  h.className='hint';h.textContent='Buscando...';
+  const url='https://viacep.com.br/ws/'+encodeURIComponent(uf)+'/'+encodeURIComponent(cidade)+'/'+encodeURIComponent(rua)+'/json/';
+  fetch(url)
+    .then(r=>r.json())
+    .then(data=>{
+      if(!Array.isArray(data)||data.length===0){
+        h.className='hint erro-txt';h.textContent='Nenhum resultado. Tente com menos palavras.';return;
+      }
+      h.className='hint ok-txt';h.textContent=data.length+' resultado(s) encontrado(s). Clique para selecionar:';
+      res.style.display='block';
+      data.slice(0,10).forEach(function(item){
+        const div=document.createElement('div');
+        div.style.cssText='padding:10px 14px;cursor:pointer;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.05);color:#F2EDE4;transition:background .15s';
+        div.onmouseover=function(){this.style.background='rgba(201,168,76,0.1)';}
+        div.onmouseout=function(){this.style.background='transparent';}
+        div.innerHTML='<strong style="color:#C9A84C">'+item.cep+'</strong> — '+item.logradouro+', '+item.bairro+', '+item.localidade+'/'+item.uf;
+        div.onclick=function(){
+          // Aplicar CEP e endereço
+          const cepNum=item.cep.replace(/\D/g,'');
+          document.getElementById('cep').value=item.cep;
+          document.getElementById('cep').classList.add('ok');
+          document.getElementById('endereco').value=item.logradouro||'';
+          document.getElementById('bairro').value=item.bairro||'';
+          document.getElementById('cidade').value=item.localidade||'';
+          document.getElementById('uf').value=item.uf||'';
+          h.className='hint ok-txt';h.textContent='CEP selecionado!';
+          res.style.display='none';
+          document.getElementById('busca-rua-wrap').style.display='none';
+          document.getElementById('btn-nao-sei-cep').textContent='🔍 Não sei o CEP — buscar por rua';
+          document.getElementById('btn-nao-sei-cep').style.background='rgba(201,168,76,0.1)';
+          document.getElementById('btn-nao-sei-cep').style.borderColor='rgba(201,168,76,0.4)';
+          document.getElementById('btn-nao-sei-cep').style.color='var(--gold)';
+          document.getElementById('numero').focus();
+        };
+        res.appendChild(div);
+      });
+    })
+    .catch(function(){h.className='hint erro-txt';h.textContent='Erro na busca. Tente novamente.';});
+}
+
+function buscarCEP(cep){
+  const spinner=document.getElementById('cep-spinner');
+  const h=document.getElementById('h-cep');
+  spinner.style.display='block';
+  h.className='hint';h.textContent='Buscando endereço...';
+  fetch('https://viacep.com.br/ws/'+cep+'/json/')
+    .then(r=>r.json())
+    .then(d=>{
+      spinner.style.display='none';
+      if(d.erro){
+        h.className='hint erro-txt';h.textContent='CEP não encontrado. Preencha o endereço manualmente.';
+        document.getElementById('cep').classList.add('erro');
+      } else {
+        document.getElementById('endereco').value=d.logradouro||'';
+        document.getElementById('bairro').value=d.bairro||'';
+        document.getElementById('cidade').value=d.localidade||'';
+        document.getElementById('uf').value=d.uf||'';
+        document.getElementById('cep').classList.remove('erro');
+        document.getElementById('cep').classList.add('ok');
+        h.className='hint ok-txt';h.textContent='Endereço encontrado!';
+        document.getElementById('numero').focus();
+      }
+    })
+    .catch(()=>{
+      spinner.style.display='none';
+      h.className='hint erro-txt';h.textContent='Erro ao buscar CEP. Preencha manualmente.';
+    });
+}
+
+// ── Data de nascimento — não aceitar futuro ou < 18 anos ──
+document.getElementById('nascimento').addEventListener('change',function(){
+  const h=document.getElementById('h-nasc');
+  const nasc=new Date(this.value+'T00:00:00');
+  const hoje=new Date();
+  const idade=hoje.getFullYear()-nasc.getFullYear()-(hoje<new Date(hoje.getFullYear(),nasc.getMonth(),nasc.getDate())?1:0);
+  if(nasc>hoje){
+    this.classList.add('erro');h.className='hint erro-txt';h.textContent='Data inválida';
+  } else if(idade<18){
+    this.classList.add('erro');h.className='hint erro-txt';h.textContent='O comprador deve ter pelo menos 18 anos';
+  } else {
+    this.classList.remove('erro');this.classList.add('ok');h.className='hint ok-txt';h.textContent='';
+  }
+});
+
+
+
+// ── Enviar WhatsApp ────────────────────────────────────
+function enviar(){
+  let ok=true;
+
+  function req(id,hid,msg){
+    const el=document.getElementById(id);
+    const h=hid?document.getElementById(hid):null;
+    if(!el.value.trim()){
+      el.classList.add('erro');el.classList.remove('ok');
+      if(h){h.className='hint erro-txt';h.textContent=msg||'Campo obrigatório';}
+      ok=false;
+    }
+  }
+
+  req('nome','h-nome','Preencha o nome');
+  req('rg','h-rg','Preencha o RG');
+  req('cpf','h-cpf','Preencha o CPF');
+  req('nascimento','h-nasc','Preencha a data de nascimento');
+  req('estado-civil',null,'');
+  req('contato1','h-c1','Preencha o contato');
+  req('contato2','h-c2','Preencha o contato 2');
+  req('cep','h-cep','Preencha o CEP');
+  req('endereco',null,'');
+  req('numero','h-num','Preencha o número');
+  req('bairro',null,'');
+  req('cidade',null,'');
+
+  // CPF válido
+  if(!validarCPF(document.getElementById('cpf').value)){
+    document.getElementById('cpf').classList.add('erro');
+    document.getElementById('h-cpf').className='hint erro-txt';
+    document.getElementById('h-cpf').textContent='CPF inválido';
+    ok=false;
+  }
+
+  // RG dígitos
+  const rgd=document.getElementById('rg').value.replace(/\D/g,'');
+  if(rgd.length<5||rgd.length>10){
+    document.getElementById('rg').classList.add('erro');
+    document.getElementById('h-rg').className='hint erro-txt';
+    document.getElementById('h-rg').textContent='RG inválido';
+    ok=false;
+  }
+
+  // Telefone 1
+  if(document.getElementById('contato1').value.replace(/\D/g,'').length!==11){
+    document.getElementById('contato1').classList.add('erro');
+    document.getElementById('h-c1').className='hint erro-txt';
+    document.getElementById('h-c1').textContent='Número inválido';
+    ok=false;
+  }
+  // Telefone 2
+  const c2d=document.getElementById('contato2').value.replace(/\D/g,'');
+  if(c2d.length!==11){
+    document.getElementById('contato2').classList.add('erro');
+    document.getElementById('h-c2').className='hint erro-txt';
+    document.getElementById('h-c2').textContent='Número inválido';
+    ok=false;
+  } else {
+    const c1d=document.getElementById('contato1').value.replace(/\D/g,'');
+    if(c2d===c1d){
+      document.getElementById('contato2').classList.add('erro');
+      document.getElementById('h-c2').className='hint erro-txt';
+      document.getElementById('h-c2').textContent='Número igual ao Contato 1';
+      ok=false;
+    }
+  }
+
+
+
+  if(!ok){
+    document.querySelector('.input.erro')?.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+
+  // Formatar nascimento
+  let nasc=document.getElementById('nascimento').value;
+  if(nasc){const[y,m,d]=nasc.split('-');nasc=`${d}/${m}/${y}`;}
+
+  const c2=document.getElementById('contato2').value.trim();
+  const comp=document.getElementById('complemento').value.trim();
+  const end=document.getElementById('endereco').value.trim();
+  const num=document.getElementById('numero').value.trim();
+  const endCompleto=end+(comp?', '+comp:'')+', '+num;
+
+  let msg='*CADASTRO DO COMPRADOR*\n\n';
+  msg+=`*NOME:* ${document.getElementById('nome').value.trim()}\n`;
+  msg+=`*RG:* ${document.getElementById('rg').value.trim()}\n`;
+  msg+=`*CPF:* ${document.getElementById('cpf').value.trim()}\n`;
+  msg+=`*DATA DE NASCIMENTO:* ${nasc}\n`;
+  msg+=`*ESTADO CIVIL:* ${document.getElementById('estado-civil').value}\n`;
+  msg+=`*ENDEREÇO:* ${endCompleto}\n`;
+  msg+=`*BAIRRO:* ${document.getElementById('bairro').value.trim()}\n`;
+  msg+=`*CIDADE/UF:* ${document.getElementById('cidade').value.trim()} — ${document.getElementById('uf').value.trim().toUpperCase()}\n`;
+  msg+=`*CEP:* ${document.getElementById('cep').value.trim()}\n`;
+  msg+=`*CONTATO (1):* ${document.getElementById('contato1').value.trim()}\n`;
+  msg+=`*CONTATO (2):* ${document.getElementById('contato2').value.trim()}\n`;
+
+  msg+=`\n*VENDEDOR:* Rafael Tavares`;
+
+  window.open('https://wa.me/5593992332012?text='+encodeURIComponent(msg),'_blank');
+}
+</script>
+</body>
+</html>
