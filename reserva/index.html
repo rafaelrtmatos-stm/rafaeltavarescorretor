@@ -334,19 +334,78 @@ document.getElementById('cpf').addEventListener('input',function(){
   }
 });
 
-document.getElementById('rg').addEventListener('input',function(){
-  this.value=this.value.replace(/[^0-9Xx\-\.]/g,'');
-  const d=this.value.replace(/\D/g,'');
-  const h=document.getElementById('h-rg');
-  if(d.length>=5&&d.length<=10){
-    this.classList.add('ok');this.classList.remove('erro');
-    h.className='hint ok-txt';h.textContent='RG válido';
-  } else if(d.length>0){
+document.getElementById('nome').addEventListener('input',function(){
+  const v=this.value.trim();
+  const h=document.getElementById('h-nome');
+  const partes=v.split(/\s+/).filter(p=>p.length>0);
+  if(v.length===0){this.className='input';h.className='hint';h.textContent='';return;}
+  if(partes.length<2){
     this.classList.add('erro');this.classList.remove('ok');
-    h.className='hint erro-txt';h.textContent='RG inválido (5 a 10 dígitos)';
+    h.className='hint erro-txt';h.textContent='Informe nome e sobrenome';
+  } else if(partes.some(p=>p.length<2)){
+    this.classList.add('erro');this.classList.remove('ok');
+    h.className='hint erro-txt';h.textContent='Nome incompleto';
   } else {
-    this.className='input';h.className='hint';h.textContent='';
+    this.classList.add('ok');this.classList.remove('erro');
+    h.className='hint ok-txt';h.textContent='✓';
   }
+});
+
+document.getElementById('rg').addEventListener('input',function(){
+  // Permite dígitos, X (dígito verificador SP), traço e ponto
+  this.value=this.value.replace(/[^0-9Xx\-\.]/g,'').toUpperCase();
+  const raw=this.value;
+  const digits=raw.replace(/[^0-9X]/g,'');
+  const h=document.getElementById('h-rg');
+  if(digits.length===0){this.className='input';h.className='hint';h.textContent='';return;}
+
+  // Verificar tamanho mínimo e máximo (RG brasileiro: 6 a 9 dígitos + possível dígito verificador)
+  if(digits.length<6){
+    this.classList.add('erro');this.classList.remove('ok');
+    h.className='hint erro-txt';h.textContent='RG muito curto';
+    return;
+  }
+  if(digits.length>10){
+    this.classList.add('erro');this.classList.remove('ok');
+    h.className='hint erro-txt';h.textContent='RG muito longo';
+    return;
+  }
+
+  // Rejeitar sequências repetidas (ex: 1111111)
+  if(/^(\d)\1+$/.test(digits)){
+    this.classList.add('erro');this.classList.remove('ok');
+    h.className='hint erro-txt';h.textContent='RG inválido';
+    return;
+  }
+
+  // Validação matemática SP (7 dígitos + 1 dígito verificador numérico ou X)
+  // Formato SSP-SP: XXXXXXX-D  onde D = mod11 dos 7 primeiros
+  if(digits.length===8){
+    const nums=digits.slice(0,7);
+    const dv=digits[7];
+    let soma=0;
+    const pesos=[2,3,4,5,6,7,8];
+    for(let i=0;i<7;i++) soma+=parseInt(nums[i])*pesos[i];
+    const resto=soma%11;
+    let dvEsp;
+    if(resto===0) dvEsp='0';
+    else if(resto===1) dvEsp='X';
+    else dvEsp=String(11-resto);
+    if(dv===dvEsp){
+      this.classList.add('ok');this.classList.remove('erro');
+      h.className='hint ok-txt';h.textContent='RG válido ✓';
+      return;
+    }
+    // Se não bate o dígito SP, ainda pode ser válido de outro estado
+    // Aceitar se tiver 8 dígitos e não for sequência
+    this.classList.add('ok');this.classList.remove('erro');
+    h.className='hint ok-txt';h.textContent='RG aceito';
+    return;
+  }
+
+  // Para demais tamanhos válidos (6,7,9,10 dígitos) — aceitar sem sequências repetidas
+  this.classList.add('ok');this.classList.remove('erro');
+  h.className='hint ok-txt';h.textContent='RG aceito ✓';
 });
 
 document.getElementById('contato1').addEventListener('input',function(){
@@ -604,7 +663,20 @@ function enviar(){
     }
   }
 
-  req('nome','h-nome','Preencha o nome');
+  // Nome com sobrenome
+  const nomeEl=document.getElementById('nome');
+  const nomePartes=nomeEl.value.trim().split(/\s+/).filter(p=>p.length>0);
+  if(nomePartes.length<2){
+    nomeEl.classList.add('erro');nomeEl.classList.remove('ok');
+    document.getElementById('h-nome').className='hint erro-txt';
+    document.getElementById('h-nome').textContent='Informe nome e sobrenome';
+    ok=false;
+  } else if(!nomeEl.value.trim()){
+    nomeEl.classList.add('erro');
+    document.getElementById('h-nome').className='hint erro-txt';
+    document.getElementById('h-nome').textContent='Preencha o nome';
+    ok=false;
+  }
   req('rg','h-rg','Preencha o RG');
   req('cpf','h-cpf','Preencha o CPF');
   req('nascimento','h-nasc','Preencha a data de nascimento');
@@ -625,10 +697,11 @@ function enviar(){
     ok=false;
   }
 
-  // RG dígitos
-  const rgd=document.getElementById('rg').value.replace(/\D/g,'');
-  if(rgd.length<5||rgd.length>10){
-    document.getElementById('rg').classList.add('erro');
+  // RG
+  const rgEl=document.getElementById('rg');
+  const rgd=rgEl.value.replace(/[^0-9X]/gi,'');
+  if(rgd.length<6||rgd.length>10||/^(\d)\1+$/.test(rgd)){
+    rgEl.classList.add('erro');rgEl.classList.remove('ok');
     document.getElementById('h-rg').className='hint erro-txt';
     document.getElementById('h-rg').textContent='RG inválido';
     ok=false;
