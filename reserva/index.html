@@ -67,6 +67,13 @@ select.input option{background:#111;color:#F2EDE4}
 .vendedor-fixo{background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:var(--r);padding:12px 14px;font-size:14px;color:var(--gold);font-weight:600}
 
 .venc-aviso{font-size:11px;color:rgba(248,113,113,0.8);margin-top:6px;display:none}
+.comprador-extra{background:var(--bg3);border:1px solid rgba(201,168,76,0.2);border-radius:14px;padding:20px;margin-top:16px;position:relative}
+.comprador-extra-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
+.btn-remover-comprador{background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.25);color:#f87171;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.btn-remover-comprador:hover{background:rgba(248,113,113,0.2)}
+.btn-add-comprador{width:100%;background:rgba(201,168,76,0.06);border:1px dashed rgba(201,168,76,0.3);border-radius:12px;padding:14px;font-size:13px;font-weight:700;color:var(--gold);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;margin-top:16px;letter-spacing:.3px}
+.btn-add-comprador:hover{background:rgba(201,168,76,0.12);border-color:rgba(201,168,76,0.5)}
+.venc-aviso-40{background:rgba(248,183,0,0.1);border:1px solid rgba(248,183,0,0.3);border-radius:10px;padding:12px 14px;font-size:12px;color:#f8b700;margin-top:8px;line-height:1.6;display:none}
 
 .btn-enviar{width:100%;display:flex;align-items:center;justify-content:center;gap:12px;background:#25d366;color:#000;padding:18px 24px;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all .2s;letter-spacing:.3px;margin-top:8px}
 .btn-enviar:hover{background:#20b858;transform:translateY(-2px);box-shadow:0 12px 32px rgba(37,211,102,0.3)}
@@ -101,7 +108,7 @@ select.input option{background:#111;color:#F2EDE4}
   <!-- DADOS PESSOAIS -->
   <div class="section-card">
     <div class="section-label">Dados do Comprador</div>
-    <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;flex-direction:column;gap:14px" id="comprador-1-wrap">
 
       <div class="field">
         <label class="label">Nome completo *</label>
@@ -155,6 +162,13 @@ select.input option{background:#111;color:#F2EDE4}
       </div>
 
     </div>
+
+    <!-- Compradores extras injetados aqui -->
+    <div id="compradores-extras"></div>
+
+    <button type="button" class="btn-add-comprador" onclick="adicionarComprador()">
+      + Adicionar outro comprador
+    </button>
   </div>
 
   <!-- ENDEREÇO -->
@@ -261,7 +275,20 @@ select.input option{background:#111;color:#F2EDE4}
 
 
 
-  <!-- VENDEDOR -->
+  <!-- DATA VENCIMENTO + VENDEDOR -->
+  <div class="section-card">
+    <div class="section-label">Data de Vencimento</div>
+    <div class="field">
+      <label class="label">Data de vencimento da 1ª parcela *</label>
+      <input class="input" id="vencimento" type="date" autocomplete="off" onchange="validarVencimento()">
+      <div class="venc-aviso-40" id="aviso-40">
+        ⚠️ <strong>Atenção:</strong> A data escolhida é superior a 40 dias após hoje. Para prazos acima de 40 dias é necessário verificar disponibilidade com o escritório antes de confirmar a reserva.<br>
+        <strong>Você pode continuar o envio</strong>, mas o prazo precisará ser confirmado pelo corretor.
+      </div>
+      <span class="hint" id="h-venc"></span>
+    </div>
+  </div>
+
   <div class="section-card">
     <div class="section-label">Responsável</div>
     <div class="field">
@@ -283,6 +310,127 @@ select.input option{background:#111;color:#F2EDE4}
 </footer>
 
 <script>
+// ── Múltiplos compradores ─────────────────────────────
+let numCompradores = 1;
+
+function adicionarComprador(){
+  numCompradores++;
+  const n = numCompradores;
+  const wrap = document.getElementById('compradores-extras');
+  const div = document.createElement('div');
+  div.className = 'comprador-extra';
+  div.id = 'comprador-extra-'+n;
+  div.innerHTML = `
+    <div class="comprador-extra-label">
+      <span>Comprador ${n}</span>
+      <button type="button" class="btn-remover-comprador" onclick="removerComprador(${n})">Remover</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="field">
+        <label class="label">Nome completo *</label>
+        <input class="input" id="nome-${n}" type="text" placeholder="Nome completo" autocomplete="off" oninput="validarNomeExtra(${n})">
+        <span class="hint" id="h-nome-${n}"></span>
+      </div>
+      <div class="grid-2">
+        <div class="field">
+          <label class="label">RG *</label>
+          <input class="input" id="rg-${n}" type="text" placeholder="0000000" maxlength="12" autocomplete="off" oninput="validarRgExtra(${n})">
+          <span class="hint" id="h-rg-${n}"></span>
+        </div>
+        <div class="field">
+          <label class="label">CPF *</label>
+          <input class="input" id="cpf-${n}" type="text" placeholder="000.000.000-00" maxlength="14" autocomplete="off" oninput="this.value=maskCPF(this.value);validarCpfExtra(${n})">
+          <span class="hint" id="h-cpf-${n}"></span>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="field">
+          <label class="label">Data de Nascimento *</label>
+          <input class="input" id="nasc-${n}" type="date" autocomplete="off">
+        </div>
+        <div class="field">
+          <label class="label">Estado Civil *</label>
+          <select class="input" id="ec-${n}">
+            <option value="">Selecione</option>
+            <option>Solteiro(a)</option>
+            <option>Casado(a)</option>
+            <option>Divorciado(a)</option>
+            <option>Viúvo(a)</option>
+            <option>União Estável</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="field">
+          <label class="label">Contato / WhatsApp *</label>
+          <input class="input" id="tel1-${n}" type="tel" placeholder="(93) 99999-9999" maxlength="15" autocomplete="off" oninput="this.value=maskTel(this.value)">
+        </div>
+        <div class="field">
+          <label class="label">Contato 2 *</label>
+          <input class="input" id="tel2-${n}" type="tel" placeholder="(93) 99999-9999" maxlength="15" autocomplete="off" oninput="this.value=maskTel(this.value)">
+        </div>
+      </div>
+    </div>`;
+  wrap.appendChild(div);
+}
+
+function removerComprador(n){
+  const el = document.getElementById('comprador-extra-'+n);
+  if(el) el.remove();
+}
+
+function validarNomeExtra(n){
+  const el=document.getElementById('nome-'+n);
+  const h=document.getElementById('h-nome-'+n);
+  const partes=el.value.trim().split(/\s+/).filter(p=>p.length>0);
+  if(!el.value.trim()){el.className='input';h.className='hint';h.textContent='';return;}
+  if(partes.length<2){el.classList.add('erro');el.classList.remove('ok');h.className='hint erro-txt';h.textContent='Informe nome e sobrenome';}
+  else{el.classList.add('ok');el.classList.remove('erro');h.className='hint ok-txt';h.textContent='✓';}
+}
+
+function validarRgExtra(n){
+  const el=document.getElementById('rg-'+n);
+  const h=document.getElementById('h-rg-'+n);
+  el.value=el.value.replace(/[^0-9Xx\-\.]/g,'').toUpperCase();
+  const d=el.value.replace(/[^0-9X]/gi,'');
+  if(!d.length){el.className='input';h.className='hint';h.textContent='';return;}
+  if(d.length<6||d.length>10||/^(\d)+$/.test(d)){el.classList.add('erro');el.classList.remove('ok');h.className='hint erro-txt';h.textContent='RG inválido';}
+  else{el.classList.add('ok');el.classList.remove('erro');h.className='hint ok-txt';h.textContent='✓';}
+}
+
+function validarCpfExtra(n){
+  const el=document.getElementById('cpf-'+n);
+  const h=document.getElementById('h-cpf-'+n);
+  const ok=validarCPF(el.value);
+  if(el.value.replace(/\D/g,'').length===11){
+    el.classList.toggle('ok',ok);el.classList.toggle('erro',!ok);
+    h.className='hint '+(ok?'ok-txt':'erro-txt');h.textContent=ok?'CPF válido':'CPF inválido';
+  }else{el.className='input';h.className='hint';h.textContent='';}
+}
+
+// ── Data de vencimento com aviso 40 dias ───────────────
+function validarVencimento(){
+  const el=document.getElementById('vencimento');
+  const aviso=document.getElementById('aviso-40');
+  const h=document.getElementById('h-venc');
+  if(!el.value){aviso.style.display='none';h.textContent='';return;}
+  const hoje=new Date();hoje.setHours(0,0,0,0);
+  const sel=new Date(el.value+'T00:00:00');
+  const diff=Math.round((sel-hoje)/(1000*60*60*24));
+  if(diff<0){
+    el.classList.add('erro');h.className='hint erro-txt';h.textContent='Data inválida — anterior a hoje';
+    aviso.style.display='none';
+  } else if(diff>40){
+    el.classList.remove('erro');el.classList.add('ok');
+    h.className='hint';h.textContent='';
+    aviso.style.display='block';
+  } else {
+    el.classList.remove('erro');el.classList.add('ok');
+    h.className='hint ok-txt';h.textContent='✓ '+diff+' dia(s) após hoje';
+    aviso.style.display='none';
+  }
+}
+
 // ── CPF validação ──────────────────────────────────────
 function validarCPF(c){
   c=c.replace(/\D/g,'');
@@ -760,7 +908,33 @@ function enviar(){
   msg+=`*CONTATO (1):* ${document.getElementById('contato1').value.trim()}\n`;
   msg+=`*CONTATO (2):* ${document.getElementById('contato2').value.trim()}\n`;
 
-  msg+=`\n*VENDEDOR:* Rafael Tavares`;
+  // Compradores extras
+  document.querySelectorAll('.comprador-extra').forEach(function(div,i){
+    const n=div.id.replace('comprador-extra-','');
+    const nomeX=document.getElementById('nome-'+n)?.value.trim()||'';
+    if(!nomeX)return;
+    let nascX=document.getElementById('nasc-'+n)?.value||'';
+    if(nascX){const[y,m,d]=nascX.split('-');nascX=d+'/'+m+'/'+y;}
+    msg+='\n\n*── COMPRADOR '+(i+2)+' ──*\n';
+    msg+='*NOME:* '+nomeX+'\n';
+    msg+='*RG:* '+(document.getElementById('rg-'+n)?.value.trim()||'—')+'\n';
+    msg+='*CPF:* '+(document.getElementById('cpf-'+n)?.value.trim()||'—')+'\n';
+    msg+='*DATA DE NASCIMENTO:* '+(nascX||'—')+'\n';
+    msg+='*ESTADO CIVIL:* '+(document.getElementById('ec-'+n)?.value||'—')+'\n';
+    msg+='*CONTATO (1):* '+(document.getElementById('tel1-'+n)?.value.trim()||'—')+'\n';
+    msg+='*CONTATO (2):* '+(document.getElementById('tel2-'+n)?.value.trim()||'—');
+  });
+
+  // Vencimento
+  const vencVal=document.getElementById('vencimento').value;
+  let vencFmt='Não informado';
+  if(vencVal){const[vy,vm,vd]=vencVal.split('-');vencFmt=vd+'/'+vm+'/'+vy;}
+  const hoje2=new Date();hoje2.setHours(0,0,0,0);
+  const selV=vencVal?new Date(vencVal+'T00:00:00'):null;
+  const diffV=selV?Math.round((selV-hoje2)/(1000*60*60*24)):0;
+  msg+='\n\n*DATA DE VENCIMENTO:* '+vencFmt+(diffV>40?' ⚠️ (acima de 40 dias — verificar com escritório)':'');
+
+  msg+=`\n\n*VENDEDOR:* Rafael Tavares`;
 
   window.open('https://wa.me/5593992332012?text='+encodeURIComponent(msg),'_blank');
 }
