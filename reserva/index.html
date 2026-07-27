@@ -409,6 +409,16 @@ function validarCpfExtra(n){
 }
 
 // ── Data de vencimento com aviso 40 dias ───────────────
+// Pré-preencher vencimento com hoje + 30 dias
+(function(){
+  const el=document.getElementById('vencimento');
+  const d=new Date();d.setDate(d.getDate()+30);
+  const iso=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  el.value=iso;
+  // Disparar validação para exibir feedback
+  setTimeout(function(){validarVencimento();},0);
+})();
+
 function validarVencimento(){
   const el=document.getElementById('vencimento');
   const aviso=document.getElementById('aviso-40');
