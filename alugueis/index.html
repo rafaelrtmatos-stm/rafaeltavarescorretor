@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aluguéis — Rafael Tavares Corretor</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#000;--bg2:#0A0A0A;--bg3:#111;
+  --gold:#C9A84C;--gold2:#E8C96A;
+  --text:#F2EDE4;--text2:rgba(242,237,228,0.65);--text3:rgba(242,237,228,0.35);
+  --border:rgba(201,168,76,0.14);--border2:rgba(201,168,76,0.28);
+  --r:14px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+
+/* NAV */
+.nav{background:rgba(0,0,0,0.96);border-bottom:1px solid var(--border);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(16px)}
+.nav-brand{display:flex;flex-direction:column;text-decoration:none}
+.nav-brand-name{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:700;color:var(--gold);letter-spacing:1.5px}
+.nav-brand-sub{font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-top:2px}
+.nav-links{display:flex;gap:24px;align-items:center}
+.nav-links a{font-size:13px;color:var(--text2);text-decoration:none;transition:color .2s;letter-spacing:.3px}
+.nav-links a:hover,.nav-links a.ativo{color:var(--gold)}
+.nav-links a.ativo{font-weight:600;border-bottom:1px solid var(--gold);padding-bottom:1px}
+.btn-wpp{background:var(--gold);color:#000;padding:9px 16px;border-radius:8px;font-size:12px;font-weight:700;text-decoration:none;letter-spacing:.5px;white-space:nowrap;transition:all .2s}
+.btn-wpp:hover{background:var(--gold2);transform:translateY(-1px)}
+@media(max-width:640px){.nav-links{display:none}}
+
+/* HERO */
+.hero{padding:72px 24px 56px;text-align:center;border-bottom:1px solid var(--border);background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(201,168,76,0.07) 0%,transparent 70%)}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);padding:6px 14px;border-radius:20px;margin-bottom:24px}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,8vw,64px);font-weight:700;line-height:1.05;margin-bottom:16px}
+.hero-title em{color:var(--gold);font-style:italic}
+.hero-sub{font-size:15px;color:var(--text2);max-width:520px;margin:0 auto 32px;line-height:1.7}
+.hero-stats{display:flex;justify-content:center;gap:40px;flex-wrap:wrap}
+.hero-stat{text-align:center}
+.hero-stat-num{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--gold)}
+.hero-stat-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-top:2px}
+
+/* FILTROS */
+.filtros{padding:24px;border-bottom:1px solid var(--border);background:var(--bg2)}
+.filtros-inner{max-width:900px;margin:0 auto;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.filtro-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-right:4px}
+.filtro-btn{background:transparent;border:1px solid var(--border);border-radius:20px;padding:7px 16px;font-size:12px;color:var(--text2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;white-space:nowrap}
+.filtro-btn:hover,.filtro-btn.ativo{background:rgba(201,168,76,0.1);border-color:rgba(201,168,76,0.4);color:var(--gold)}
+.filtro-sep{width:1px;height:24px;background:var(--border);margin:0 4px}
+
+/* GRID DE CASAS */
+.casas-wrap{max-width:960px;margin:0 auto;padding:48px 24px 80px}
+.casas-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}
+.casas-titulo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700}
+.casas-count{font-size:12px;color:var(--text3)}
+.casas-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+
+/* CARD */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:all .3s;cursor:pointer}
+.card:hover{border-color:rgba(201,168,76,0.4);transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,0.5)}
+.card-foto{position:relative;height:180px;background:var(--bg3);overflow:hidden}
+.card-foto img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.card:hover .card-foto img{transform:scale(1.04)}
+.card-badge{position:absolute;top:12px;left:12px;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);border:1px solid rgba(201,168,76,0.3);color:var(--gold);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:6px}
+.card-badge.disponivel{background:rgba(37,211,102,0.15);border-color:rgba(37,211,102,0.3);color:#25d366}
+.card-badge.alugado{background:rgba(248,113,113,0.15);border-color:rgba(248,113,113,0.3);color:#f87171}
+.card-foto-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:var(--text3)}
+.card-foto-placeholder svg{opacity:.3}
+.card-foto-placeholder span{font-size:11px;opacity:.5}
+.card-body{padding:18px}
+.card-bairro{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.card-titulo{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;margin-bottom:10px;line-height:1.2}
+.card-specs{display:flex;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.card-spec{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text2)}
+.card-spec svg{opacity:.6;flex-shrink:0}
+.card-preco{display:flex;align-items:baseline;gap:6px;margin-bottom:14px}
+.card-preco-val{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--gold)}
+.card-preco-label{font-size:11px;color:var(--text3)}
+.card-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.card-btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;text-decoration:none;transition:all .2s;border:none;font-family:'DM Sans',sans-serif;letter-spacing:.3px}
+.card-btn-wpp{background:#25d366;color:#000}
+.card-btn-wpp:hover{background:#20b858}
+.card-btn-maps{background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);color:var(--gold)}
+.card-btn-maps:hover{background:rgba(201,168,76,0.2)}
+
+/* EMPTY STATE */
+.empty{text-align:center;padding:64px 24px;color:var(--text3)}
+.empty svg{margin-bottom:16px;opacity:.3}
+.empty p{font-size:14px}
+
+/* NOTA ADMIN */
+.nota-admin{max-width:960px;margin:0 auto 0;padding:0 24px 40px}
+.nota-admin-card{background:rgba(201,168,76,0.05);border:1px dashed rgba(201,168,76,0.2);border-radius:12px;padding:16px 20px;font-size:12px;color:var(--text3);line-height:1.7;text-align:center}
+.nota-admin-card strong{color:var(--gold)}
+
+/* FOOTER */
+.footer{border-top:1px solid var(--border);padding:28px 24px;text-align:center;font-size:11px;color:var(--text3)}
+.footer a{color:var(--gold);text-decoration:none}
+
+/* MENU INICIAL — badge destaque */
+.nav-aluguel-badge{background:linear-gradient(90deg,rgba(201,168,76,0.15),rgba(201,168,76,0.05));border:1px solid rgba(201,168,76,0.3);border-radius:6px;padding:5px 10px;color:var(--gold);font-size:11px;font-weight:700;letter-spacing:.5px;display:flex;align-items:center;gap:5px}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="../" class="nav-brand">
+    <div class="nav-brand-name">Rafael Tavares</div>
+    <div class="nav-brand-sub">Corretor de Imóveis · CRECI 13919</div>
+  </a>
+  <div class="nav-links">
+    <a href="../">Início</a>
+    <a href="../mararu/">Mararu</a>
+    <a href="../reserva/">Reserva</a>
+    <a href="./" class="ativo">🏠 Aluguéis</a>
+  </div>
+  <a href="https://wa.me/5593992332012" class="btn-wpp" target="_blank">WhatsApp</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Imóveis para Alugar
+  </div>
+  <h1 class="hero-title">Casas e Imóveis<br>para <em>Alugar</em></h1>
+  <p class="hero-sub">Encontre o imóvel ideal em Santarém e região. Localizações verificadas, contato direto com o corretor.</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-num" id="count-disp">—</div>
+      <div class="hero-stat-label">Disponíveis</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">Santarém</div>
+      <div class="hero-stat-label">Região</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">CRECI 13919</div>
+      <div class="hero-stat-label">Registro</div>
+    </div>
+  </div>
+</section>
+
+<!-- FILTROS -->
+<div class="filtros">
+  <div class="filtros-inner">
+    <span class="filtro-label">Filtrar:</span>
+    <button class="filtro-btn ativo" onclick="filtrar('todos',this)">Todos</button>
+    <button class="filtro-btn" onclick="filtrar('casa',this)">🏠 Casa</button>
+    <button class="filtro-btn" onclick="filtrar('apto',this)">🏢 Apartamento</button>
+    <button class="filtro-btn" onclick="filtrar('comercial',this)">🏪 Comercial</button>
+    <div class="filtro-sep"></div>
+    <button class="filtro-btn" onclick="filtrar('disponivel',this)">✅ Disponíveis</button>
+  </div>
+</div>
+
+<!-- GRID -->
+<div class="casas-wrap">
+  <div class="casas-header">
+    <div class="casas-titulo">Imóveis disponíveis</div>
+    <div class="casas-count" id="casas-count">3 imóveis</div>
+  </div>
+  <div class="casas-grid" id="casas-grid">
+
+    <!-- CARD EXEMPLO 1 — disponível -->
+    <div class="card" data-tipo="casa" data-status="disponivel">
+      <div class="card-foto">
+        <div class="card-foto-placeholder">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Foto em breve</span>
+        </div>
+        <div class="card-badge disponivel">● Disponível</div>
+      </div>
+      <div class="card-body">
+        <div class="card-bairro">Santarém · Centro</div>
+        <div class="card-titulo">Casa 3 quartos — Rua Exemplo</div>
+        <div class="card-specs">
+          <div class="card-spec">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+            3 quartos
+          </div>
+          <div class="card-spec">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12H3a2 2 0 000 4h18a2 2 0 000-4h-2M7 12V6a2 2 0 012-2h6a2 2 0 012 2v6"/></svg>
+            2 banheiros
+          </div>
+          <div class="card-spec">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+            120 m²
+          </div>
+        </div>
+        <div class="card-preco">
+          <span class="card-preco-val">R$ 1.200</span>
+          <span class="card-preco-label">/mês</span>
+        </div>
+        <div class="card-btns">
+          <a href="https://wa.me/5593992332012?text=Olá%20Rafael,%20tenho%20interesse%20no%20aluguel%20da%20casa%20no%20Centro." class="card-btn card-btn-wpp" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.555 4.122 1.524 5.855L0 24l6.341-1.494A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 01-4.989-1.366l-.357-.212-3.766.887.937-3.667-.233-.376A9.818 9.818 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182c5.421 0 9.818 4.398 9.818 9.818 0 5.421-4.397 9.818-9.818 9.818z"/></svg>
+            Tenho interesse
+          </a>
+          <a href="https://maps.google.com/?q=-2.4449,-54.7097" class="card-btn card-btn-maps" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Ver no mapa
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD EXEMPLO 2 — disponível -->
+    <div class="card" data-tipo="casa" data-status="disponivel">
+      <div class="card-foto">
+        <div class="card-foto-placeholder">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Foto em breve</span>
+        </div>
+        <div class="card-badge disponivel">● Disponível</div>
+      </div>
+      <div class="card-body">
+        <div class="card-bairro">Santarém · Aldeia</div>
+        <div class="card-titulo">Casa 2 quartos — Bairro Aldeia</div>
+        <div class="card-specs">
+          <div class="card-spec">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+            2 quartos
+          </div>
+          <div class="card-spec">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12H3a2 2 0 000 4h18a2 2 0 000-4h-2M7 12V6a2 2 0 012-2h6a2 2 0 012 2v6"/></svg>
+            1 banheiro
+          </div>
+          <div class="card-spec">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+            80 m²
+          </div>
+        </div>
+        <div class="card-preco">
+          <span class="card-preco-val">R$ 900</span>
+          <span class="card-preco-label">/mês</span>
+        </div>
+        <div class="card-btns">
+          <a href="https://wa.me/5593992332012?text=Olá%20Rafael,%20tenho%20interesse%20no%20aluguel%20da%20casa%20na%20Aldeia." class="card-btn card-btn-wpp" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.555 4.122 1.524 5.855L0 24l6.341-1.494A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 01-4.989-1.366l-.357-.212-3.766.887.937-3.667-.233-.376A9.818 9.818 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182c5.421 0 9.818 4.398 9.818 9.818 0 5.421-4.397 9.818-9.818 9.818z"/></svg>
+            Tenho interesse
+          </a>
+          <a href="https://maps.google.com/?q=-2.4449,-54.7097" class="card-btn card-btn-maps" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Ver no mapa
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD EXEMPLO 3 — alugado -->
+    <div class="card" data-tipo="comercial" data-status="alugado">
+      <div class="card-foto">
+        <div class="card-foto-placeholder">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Foto em breve</span>
+        </div>
+        <div class="card-badge alugado">● Alugado</div>
+      </div>
+      <div class="card-body">
+        <div class="card-bairro">Santarém · Caranazal</div>
+        <div class="card-titulo">Ponto comercial — Av. Cuiabá</div>
+        <div class="card-specs">
+          <div class="card-spec">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+            200 m²
+          </div>
+          <div class="card-spec">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/></svg>
+            Comercial
+          </div>
+        </div>
+        <div class="card-preco">
+          <span class="card-preco-val" style="color:var(--text3)">R$ 2.500</span>
+          <span class="card-preco-label">/mês</span>
+        </div>
+        <div class="card-btns">
+          <a href="https://wa.me/5593992332012?text=Olá%20Rafael,%20tenho%20interesse%20em%20imóveis%20comerciais%20semelhantes." class="card-btn card-btn-wpp" target="_blank" style="opacity:.6;grid-column:span 2">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.555 4.122 1.524 5.855L0 24l6.341-1.494A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 01-4.989-1.366l-.357-.212-3.766.887.937-3.667-.233-.376A9.818 9.818 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182c5.421 0 9.818 4.398 9.818 9.818 0 5.421-4.397 9.818-9.818 9.818z"/></svg>
+            Avisar se disponível
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- NOTA ADMIN -->
+<div class="nota-admin">
+  <div class="nota-admin-card">
+    <strong>Para adicionar imóveis:</strong> cada card novo é um bloco de código simples com nome, bairro, quartos, preço e link do Google Maps. Me manda as informações que adiciono para você.
+  </div>
+</div>
+
+<footer class="footer">
+  <a href="../">rafaeltavarescorretor.com.br</a> · Rafael Tavares Corretor · CRECI 13919
+</footer>
+
+<script>
+// Contar disponíveis
+const disponiveis = document.querySelectorAll('[data-status="disponivel"]').length;
+document.getElementById('count-disp').textContent = disponiveis;
+document.getElementById('casas-count').textContent = document.querySelectorAll('.card').length + ' imóveis';
+
+function filtrar(tipo, btn){
+  document.querySelectorAll('.filtro-btn').forEach(b=>b.classList.remove('ativo'));
+  btn.classList.add('ativo');
+  const cards = document.querySelectorAll('.card');
+  let visíveis = 0;
+  cards.forEach(c=>{
+    const show = tipo==='todos' || c.dataset.tipo===tipo || c.dataset.status===tipo;
+    c.style.display = show ? 'block' : 'none';
+    if(show) visíveis++;
+  });
+  document.getElementById('casas-count').textContent = visíveis + ' imóveis';
+}
+</script>
+</body>
+</html>
