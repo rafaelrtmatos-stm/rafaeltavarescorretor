@@ -740,7 +740,9 @@ var _pinosDefault=[
   {nome:'Santa Maria',     lat:-2.448417,lng:-54.806361,cor:'#C9A84C',desc:'Loteamento Bom Sossego documentado.',msg:'Olá Rafael! Tenho interesse em Santa Maria.'},
   {nome:'Cucurunã',        lat:-2.463222,lng:-54.791694,cor:'#C9A84C',desc:'Região estratégica em expansão.',msg:'Olá Rafael! Tenho interesse em Cucurunã.'},
   {nome:'Espírito Santo',  lat:-2.478306,lng:-54.753889,cor:'#C9A84C',desc:'Em desenvolvimento. Entre em contato.',msg:'Olá Rafael! Tenho interesse em Espírito Santo.'},
-  {nome:'Mararu',          lat:-2.492528,lng:-54.686639,cor:'#f87171',desc:'🔥 Lançamento exclusivo! Terrenos residenciais.',msg:'Olá Rafael! Tenho interesse no Bairro Mararu!'}
+  {nome:'Mararu',          lat:-2.492528,lng:-54.686639,cor:'#f87171',desc:'🔥 Lançamento exclusivo! Terrenos residenciais.',msg:'Olá Rafael! Tenho interesse no Bairro Mararu!'},
+  {nome:'Mararu Ville',    lat:-2.493500,lng:-54.688000,cor:'#f87171',desc:'Novo empreendimento Mararu Ville.',msg:'Olá Rafael! Tenho interesse no Mararu Ville!',link:'/mararu/'},
+  {nome:'Bela Vista do Mararu', lat:-2.491500,lng:-54.685000,cor:'#f87171',desc:'Novo empreendimento Bela Vista do Mararu.',msg:'Olá Rafael! Tenho interesse no Bela Vista do Mararu!',link:'/bela-vista-mararu/'}
 ];
 // Tamanho dos pinos — lido do site_data.json (campo pinSize, padrão 100%)
 var _pinScale=1;
@@ -838,6 +840,8 @@ var _pinosDefault=[
   {nome:'Santa Maria',     lat:-2.432000,lng:-54.720000,cor:'#C9A84C',desc:'Ambiente tranquilo, documentação completa.',msg:'Olá Rafael! Tenho interesse em Santa Maria.'},
   {nome:'Cucurunã',        lat:-2.476000,lng:-54.760000,cor:'#C9A84C',desc:'Região estratégica em expansão.',msg:'Olá Rafael! Tenho interesse em Cucurunã.'},
   {nome:'Mararu',          lat:-2.492528,lng:-54.686639,cor:'#f87171',desc:'Loteamento Bairro Mararu — lotes a partir de R$600 entrada.',msg:'Olá Rafael! Tenho interesse no Loteamento Mararu!',link:'/mararu/'},
+  {nome:'Mararu Ville',    lat:-2.493500,lng:-54.688000,cor:'#f87171',desc:'Novo empreendimento Mararu Ville.',msg:'Olá Rafael! Tenho interesse no Mararu Ville!',link:'/mararu/'},
+  {nome:'Bela Vista do Mararu', lat:-2.491500,lng:-54.685000,cor:'#f87171',desc:'Novo empreendimento Bela Vista do Mararu.',msg:'Olá Rafael! Tenho interesse no Bela Vista do Mararu!',link:'/bela-vista-mararu/'},
   {nome:'Espírito Santo',  lat:-2.510000,lng:-54.650000,cor:'#C9A84C',desc:'Nova região em valorização.',msg:'Olá Rafael! Tenho interesse em Espírito Santo.'}
 ];
 
@@ -1167,6 +1171,40 @@ function trocarCidade(cidade,btn){
             <div class="rc2-loc">📍 Zona Sul · Santarém</div>
             <div class="rc2-desc2">Loteamento Bairro Mararu. Lotes com entrada a partir de R$ 600 e parcelas acessíveis.</div>
             <button class="rc2-btn" onclick="event.stopPropagation();window.location.href='/mararu/'">Ver empreendimento</button>
+          </div>
+        </div>
+
+        <!-- MARARU VILLE -->
+        <div class="rc2-card rc2-lancamento" onclick="window.location.href='/mararu/'">
+          <div class="rc2-foto">
+            <div class="rc2-img" style="background:linear-gradient(160deg,#0a0a1a 0%,#1a1a3d 30%,#2d2d7c 60%,#4040c9 85%,#6060e8 100%)">
+              <div style="position:absolute;inset:0;background:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22><defs><filter id=%22n%22><feTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/><feColorMatrix type=%22saturate%22 values=%220%22/></filter></defs><rect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22 opacity=%220.08%22/></svg>') repeat;opacity:.5"></div>
+            </div>
+            <div class="rc2-scrim"></div>
+            <div class="rc2-top-badge" style="background:rgba(248,113,113,0.18);border-color:rgba(248,113,113,0.45);color:#f87171"><span style="width:5px;height:5px;border-radius:50%;background:#f87171;animation:pulse 1.2s infinite;flex-shrink:0;display:inline-block"></span> Lançamento</div>
+            <div class="rc2-nome-over">Mararu Ville</div>
+          </div>
+          <div class="rc2-body">
+            <div class="rc2-loc">📍 Zona Sul · Santarém</div>
+            <div class="rc2-desc2">Loteamento Mararu Ville. Lotes com entrada a partir de R$ 600 e parcelas acessíveis.</div>
+            <button class="rc2-btn" onclick="event.stopPropagation();window.location.href='/mararu/'">Ver empreendimento</button>
+          </div>
+        </div>
+
+        <!-- BELA VISTA DO MARARU -->
+        <div class="rc2-card rc2-lancamento" onclick="window.location.href='/bela-vista-mararu/'">
+          <div class="rc2-foto">
+            <div class="rc2-img" style="background:linear-gradient(160deg,#001a00 0%,#003d00 30%,#007c00 60%,#00a000 85%,#00c840 100%)">
+              <div style="position:absolute;inset:0;background:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22><defs><filter id=%22n%22><feTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/><feColorMatrix type=%22saturate%22 values=%220%22/></filter></defs><rect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22 opacity=%220.08%22/></svg>') repeat;opacity:.5"></div>
+            </div>
+            <div class="rc2-scrim"></div>
+            <div class="rc2-top-badge" style="background:rgba(248,113,113,0.18);border-color:rgba(248,113,113,0.45);color:#f87171"><span style="width:5px;height:5px;border-radius:50%;background:#f87171;animation:pulse 1.2s infinite;flex-shrink:0;display:inline-block"></span> Lançamento</div>
+            <div class="rc2-nome-over">Bela Vista do Mararu</div>
+          </div>
+          <div class="rc2-body">
+            <div class="rc2-loc">📍 Zona Sul · Santarém</div>
+            <div class="rc2-desc2">Loteamento Bela Vista do Mararu. Entrada a partir de R$ 600 e parcelas a partir de R$ 194,45.</div>
+            <button class="rc2-btn" onclick="event.stopPropagation();window.location.href='/bela-vista-mararu/'">Ver empreendimento</button>
           </div>
         </div>
 
