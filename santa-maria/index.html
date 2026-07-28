@@ -963,7 +963,7 @@ document.addEventListener('keydown',function(e){
 <!-- ═══ MENU HAMBÚRGUER ═══ -->
 
 <!-- ═══ MENU HAMBÚRGUER PADRÃO ═══ -->
-<button id="menu-btn" onclick="toggleMenu()" style="position:fixed;top:80px;right:18px;z-index:300;width:44px;height:44px;border-radius:10px;background:rgba(0,0,0,0.92);border:1px solid rgba(201,168,76,0.3);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;backdrop-filter:blur(12px)">
+<button id="menu-btn" onclick="toggleMenu()" style="position:fixed;top:16px;right:18px;z-index:300;width:44px;height:44px;border-radius:10px;background:rgba(0,0,0,0.92);border:1px solid rgba(201,168,76,0.3);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;backdrop-filter:blur(12px)">
   <span class="hbl"></span><span class="hbl"></span><span class="hbl"></span>
 </button>
 
@@ -981,42 +981,58 @@ document.addEventListener('keydown',function(e){
       <svg class="dico" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       <span>Início</span>
     </div>
-
-    <div class="dmi" onclick="ir('#regioes')">
+    <div class="dmi" onclick="ir('/#regioes')">
       <svg class="dico" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
       <span>Regiões</span>
     </div>
-    <div class="dmi" onclick="ir('#grupos')">
+    <div class="dmi" onclick="ir('/#grupos')">
       <svg class="dico" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
       <span>Grupo VIP</span>
     </div>
-        <div class="dmi" onclick="ir('#galeria')">
-      <svg class="dico" viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
-      <span>Galeria</span>
-    </div>
-    <div class="dmi" onclick="ir('#depoimentos')">
+    <div class="dmi" onclick="ir('/#depoimentos')">
       <svg class="dico" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
       <span>Depoimentos</span>
     </div>
-    <div class="dmi" onclick="ir('#sobre')">
+    <div class="dmi" onclick="ir('/#sobre')">
       <svg class="dico" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      <span>Sobre & Contato</span>
-    </div>
-    <div class="dmi" onclick="ir('/onde-estamos/santarem/')">
-      <svg class="dico" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      <span>Onde Estamos</span>
+      <span>Sobre &amp; Contato</span>
     </div>
     <div style="height:1px;background:rgba(201,168,76,0.1);margin:6px 18px"></div>
+    <div class="dmi" onclick="ir('/mararu/')">
+      <svg class="dico" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <span>Mararu Ville</span>
+    </div>
+    <div class="dmi" onclick="ir('/bela-vista-mararu/')">
+      <svg class="dico" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <span>Bela Vista do Mararu</span>
+    </div>
     <div class="dmi" onclick="ir('/alenquer/')">
       <svg class="dico" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
       <span>Alenquer</span>
-      <em class="dbg red">🔥 NOVO</em>
     </div>
     <div class="dmi" onclick="ir('/monte-alegre/')">
       <svg class="dico" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
       <span>Monte Alegre</span>
     </div>
-
+    <div class="dmi" onclick="ir('/santa-maria/')">
+      <svg class="dico" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <span>Santa Maria</span>
+    </div>
+    <div class="dmi" onclick="ir('/espirito-santo/')">
+      <svg class="dico" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <span>Espírito Santo</span>
+    </div>
+    <div style="height:1px;background:rgba(201,168,76,0.1);margin:6px 18px"></div>
+    <div class="dmi" onclick="ir('/reserva/')">
+      <svg class="dico" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      <span>Formulário de Reserva</span>
+      <em class="dbg" style="background:rgba(201,168,76,0.15);color:#C9A84C;border:1px solid rgba(201,168,76,0.3)">RESERVAR</em>
+    </div>
+    <div class="dmi" onclick="ir('/alugueis/')">
+      <svg class="dico" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>Imóveis para Alugar</span>
+      <em class="dbg" style="background:rgba(37,211,102,0.12);color:#25d366;border:1px solid rgba(37,211,102,0.25)">NOVO</em>
+    </div>
   </nav>
   <!-- RODAPÉ -->
   <div style="padding:14px 18px;border-top:1px solid rgba(201,168,76,0.12);flex-shrink:0">

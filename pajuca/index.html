@@ -73,77 +73,9 @@ footer { background: var(--bg2); border-top: 1px solid rgba(201,168,76,0.15); pa
 
 <nav>
   <img src="logo-rt.png" alt="RT Corretor" style="width:52px;height:52px;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5))">
-  <button id="menu-btn" onclick="toggleMenu()" style="position:fixed;top:80px;right:18px;z-index:300;width:44px;height:44px;border-radius:10px;background:rgba(0,0,0,0.92);border:1px solid rgba(201,168,76,0.3);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;backdrop-filter:blur(12px)">
-    <span class="hbl"></span><span class="hbl"></span><span class="hbl"></span>
-  </button>
-</nav>
-
-<section class="hero">
-  <div class="hero-bg">
-    <img src="/imagens/pajuca-foto1.jpeg" alt="Pajuçara - Santarém" loading="eager">
-    <div class="hero-overlay"></div>
-  </div>
-  <div class="hero-content">
-    <div class="hero-tag">🏡 Investimento · Perto da Praia</div>
-    <h1 class="hero-title"><em>Pajuçara</em></h1>
-    <p class="hero-sub">Oportunidade para investir próximo à praia de Pajuçara. Apenas 6 minutos de distância!</p>
-    <div class="hero-btns">
-      <a href="/reserva/" class="btn-gold">Garantir Meu Lote</a>
-      <a href="https://wa.me/5593992332012" target="_blank" class="btn-wpp">Falar com Rafael</a>
-    </div>
-  </div>
-</section>
-
-<section class="sec-precos">
-  <div style="max-width: 1200px; margin: 0 auto;">
-    <h2 class="section-title">Tabela de <em>Preços</em></h2>
-    <p class="section-sub">Escolha o tipo de lote. Antecipe 7+ parcelas e ganhe 20% de desconto!</p>
-
-    <div style="background: rgba(201,168,76,0.05); border: 1px solid rgba(201,168,76,0.2); border-radius: 14px; padding: 24px; margin-bottom: 28px;">
-      <div style="display: flex; justify-content: space-between; text-align: center;">
-        <div>
-          <div style="font-size: 11px; color: rgba(255,255,255,0.6); text-transform: uppercase;">Até 300m²</div>
-          <div style="font-size: 18px; font-weight: 700; color: var(--gold); margin-top: 8px;">R$ 15.500</div>
-          <div style="font-size: 12px; color: var(--text2); margin-top: 4px;">48x R$ 312,50</div>
-        </div>
-        <div style="border-left: 1px solid rgba(201,168,76,0.2);"></div>
-        <div>
-          <div style="font-size: 11px; color: rgba(255,255,255,0.6); text-transform: uppercase;">Acima de 300m²</div>
-          <div style="font-size: 18px; font-weight: 700; color: var(--gold); margin-top: 8px;">R$ 18.000</div>
-          <div style="font-size: 12px; color: var(--text2); margin-top: 4px;">50x R$ 350,00</div>
-        </div>
-      </div>
-    </div>
-
-    <div style="background: linear-gradient(135deg, rgba(201,168,76,0.14), rgba(201,168,76,0.05)); border: 2px solid var(--gold); border-radius: 20px; padding: 30px; box-shadow: 0 10px 32px rgba(201,168,76,0.15);">
-      <div style="text-align: center; margin-bottom: 20px;">
-        <div style="font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 8px;">💰 20% de Desconto</div>
-        <div style="font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 700; color: var(--text);">Antecipe 7+ <em style="color: var(--gold); font-style: italic;">Parcelas</em></div>
-      </div>
-      <div style="background: rgba(0,0,0,0.25); border-radius: 12px; padding: 16px 20px; margin-bottom: 22px; font-size: 14px; color: var(--text2); line-height: 1.6; text-align: center;">
-        Quanto antes você pagar, maior é sua economia. Até 20% de desconto no valor total do lote!
-      </div>
-      <div style="background: rgba(220,53,69,0.12); border: 1px solid rgba(220,53,69,0.3); border-radius: 12px; padding: 14px; font-size: 12px; color: #ff9a9a; text-align: center;">
-        💳 <strong>Pagamento:</strong> Realizado direto com a Imobiliária. Consulte as formas de pagamento disponíveis.
-      </div>
-    </div>
-  </div>
-</section>
-
-<section style="padding: 60px 20px; max-width: 1200px; margin: 0 auto;">
-  <h2 class="section-title">Conheça <em>Pajuçara</em></h2>
-  <div id="galeria-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px">
-    <div style="padding:40px;color:var(--text3);font-size:13px;text-align:center;grid-column:1/-1">Carregando fotos...</div>
-  </div>
-</section>
-
-<div id="galeria-lightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.96);z-index:2000;align-items:center;justify-content:center;touch-action:none">
-  <button onclick="fecharGaleriaLightbox()" aria-label="Fechar" style="position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;color:#fff;font-size:20px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center">✕</button>
-  <div id="galeria-lightbox-counter" style="position:absolute;top:22px;left:20px;color:rgba(255,255,255,0.7);font-size:13px;font-weight:600;z-index:10"></div>
-  <button onclick="galeriaLightboxNav(-1)" aria-label="Anterior" style="position:absolute;left:8px;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;color:#fff;font-size:22px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center">‹</button>
-  <button onclick="galeriaLightboxNav(1)" aria-label="Próxima" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;color:#fff;font-size:22px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center">›</button>
-  <div id="galeria-lightbox-track" style="display:flex;width:100%;height:100%;will-change:transform"></div>
-</div>
+  <button id="menu-btn" onclick="toggleMenu()" style="position:fixed;top:16px;right:18px;z-index:300;width:44px;height:44px;border-radius:10px;background:rgba(0,0,0,0.92);border:1px solid rgba(201,168,76,0.3);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;backdrop-filter:blur(12px)">
+  <span class="hbl"></span><span class="hbl"></span><span class="hbl"></span>
+</button>
 
 <div id="menu-overlay" onclick="fecharMenu()" style="position:fixed;inset:0;z-index:250;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);display:none;opacity:0;transition:opacity .3s"></div>
 
@@ -159,42 +91,60 @@ footer { background: var(--bg2); border-top: 1px solid rgba(201,168,76,0.15); pa
       <svg class="dico" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       <span>Início</span>
     </div>
-
-    <div class="dmi" onclick="ir('#regioes')">
+    <div class="dmi" onclick="ir('/#regioes')">
       <svg class="dico" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
       <span>Regiões</span>
     </div>
-    <div class="dmi" onclick="ir('#grupos')">
+    <div class="dmi" onclick="ir('/#grupos')">
       <svg class="dico" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
       <span>Grupo VIP</span>
     </div>
-        <div class="dmi" onclick="ir('#galeria')">
-      <svg class="dico" viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
-      <span>Galeria</span>
-    </div>
-    <div class="dmi" onclick="ir('#depoimentos')">
+    <div class="dmi" onclick="ir('/#depoimentos')">
       <svg class="dico" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
       <span>Depoimentos</span>
     </div>
-    <div class="dmi" onclick="ir('#sobre')">
+    <div class="dmi" onclick="ir('/#sobre')">
       <svg class="dico" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      <span>Sobre & Contato</span>
+      <span>Sobre &amp; Contato</span>
     </div>
-    <div class="dmi" onclick="ir('/onde-estamos/santarem/')">
+    <div style="height:1px;background:rgba(201,168,76,0.1);margin:6px 18px"></div>
+    <div class="dmi" onclick="ir('/mararu/')">
       <svg class="dico" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      <span>Onde Estamos</span>
+      <span>Mararu Ville</span>
     </div>
-    <div style="height:1px;background:rgba(201,168,76,0.1);margin:6px 18px"></div>    <div class="dmi" onclick="ir('/alenquer/')">
+    <div class="dmi" onclick="ir('/bela-vista-mararu/')">
+      <svg class="dico" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <span>Bela Vista do Mararu</span>
+    </div>
+    <div class="dmi" onclick="ir('/alenquer/')">
       <svg class="dico" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
       <span>Alenquer</span>
-      <em class="dbg red">🔥 NOVO</em>
     </div>
     <div class="dmi" onclick="ir('/monte-alegre/')">
       <svg class="dico" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
       <span>Monte Alegre</span>
     </div>
-
+    <div class="dmi" onclick="ir('/santa-maria/')">
+      <svg class="dico" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <span>Santa Maria</span>
+    </div>
+    <div class="dmi" onclick="ir('/espirito-santo/')">
+      <svg class="dico" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <span>Espírito Santo</span>
+    </div>
+    <div style="height:1px;background:rgba(201,168,76,0.1);margin:6px 18px"></div>
+    <div class="dmi" onclick="ir('/reserva/')">
+      <svg class="dico" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      <span>Formulário de Reserva</span>
+      <em class="dbg" style="background:rgba(201,168,76,0.15);color:#C9A84C;border:1px solid rgba(201,168,76,0.3)">RESERVAR</em>
+    </div>
+    <div class="dmi" onclick="ir('/alugueis/')">
+      <svg class="dico" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>Imóveis para Alugar</span>
+      <em class="dbg" style="background:rgba(37,211,102,0.12);color:#25d366;border:1px solid rgba(37,211,102,0.25)">NOVO</em>
+    </div>
   </nav>
+  <!-- RODAPÉ -->
   <div style="padding:14px 18px;border-top:1px solid rgba(201,168,76,0.12);flex-shrink:0">
     <a href="https://wa.me/5593992332012?text=Olá+Rafael!+Vim+pelo+site+e+gostaria+de+saber+mais!" target="_blank" onclick="fecharMenu()" style="display:flex;align-items:center;justify-content:center;gap:9px;background:#25d366;color:#000;padding:13px;border-radius:10px;font-size:13px;font-weight:700;text-decoration:none">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
