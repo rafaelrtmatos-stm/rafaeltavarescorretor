@@ -1877,13 +1877,14 @@ fetch('/site_data.json').then(function(r){return r.json();}).then(function(d){
     <!-- FOTOS -->
     <div id="gal-fotos" class="gal-panel on">
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
-        <div class="gal-item">📸<br><span>Foto 01</span></div>
-        <div class="gal-item" style="grid-row:span 2;font-size:40px">📸<br><span>Foto 02</span></div>
-        <div class="gal-item">📸<br><span>Foto 03</span></div>
-        <div class="gal-item">📸<br><span>Foto 04</span></div>
-        <div class="gal-item">📸<br><span>Foto 05</span></div>
+        <div class="gal-foto-item" onclick="window.location.href='/mararu/'" style="background-image:url('/imagens/mararu-ville-capa.jpg')"><span>Mararu Ville</span></div>
+        <div class="gal-foto-item" onclick="window.location.href='/bela-vista-mararu/'" style="background-image:url('/imagens/bela-vista-mararu-capa.jpg')"><span>Bela Vista do Mararu</span></div>
+        <div class="gal-foto-item" onclick="window.location.href='/alenquer/'" style="background-image:url('/imagens/alenquer-hero.png')"><span>Alenquer</span></div>
+        <div class="gal-item" onclick="window.location.href='/monte-alegre/'" style="cursor:pointer">🏞️<br><span>Monte Alegre</span></div>
+        <div class="gal-foto-item" onclick="window.location.href='/santa-maria/'" style="background-image:url('/imagens/santa-maria-obra-3.jpeg')"><span>Santa Maria</span></div>
+        <div class="gal-item" onclick="window.location.href='/espirito-santo/'" style="cursor:pointer">🏞️<br><span>Espírito Santo</span></div>
       </div>
-      <p style="text-align:center;font-size:12px;color:var(--text3);margin-top:20px">Em breve · Fotos dos terrenos e área</p>
+      <p style="text-align:center;font-size:12px;color:var(--text3);margin-top:20px">Foto de Monte Alegre e Espírito Santo em breve</p>
     </div>
     <!-- VÍDEOS -->
     <div id="gal-videos" class="gal-panel">
@@ -1923,6 +1924,10 @@ fetch('/site_data.json').then(function(r){return r.json();}).then(function(d){
 .gal-item{background:var(--bg);border:1px solid var(--border);border-radius:12px;height:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-size:28px;color:var(--text3);transition:all .2s;cursor:pointer}
 .gal-item span{font-size:11px;letter-spacing:1px}
 .gal-item:hover{border-color:var(--border2)}
+.gal-foto-item{position:relative;border-radius:12px;overflow:hidden;height:140px;background-size:cover;background-position:center;cursor:pointer;display:flex;align-items:flex-end;transition:transform .25s,box-shadow .25s;border:1px solid var(--border)}
+.gal-foto-item::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,0.8) 100%)}
+.gal-foto-item span{position:relative;z-index:1;padding:12px;font-size:12px;font-weight:600;color:#fff;letter-spacing:.3px}
+.gal-foto-item:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,0.35)}
 </style>
 <script>
 function galTab(el,panel){
