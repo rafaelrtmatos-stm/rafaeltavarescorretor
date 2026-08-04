@@ -448,13 +448,17 @@
       "/imagens/mararu-foto2.jpeg",
       "/imagens/mararu-foto3.png",
       "/imagens/mararu-video3.mov",
-      "/imagens/mararu-video4.mov",
+      "/imagens/mararu-video4.mov"
+    ],
+    "fotoPrincipal": "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/mararu/principal-1780429240306.png"
+  },
+  "belaVistaMararu": {
+    "galeria": [
       "/imagens/mararu-foto4.jpg",
       "/imagens/mararu-foto5.jpg",
       "/imagens/mararu-video5.mp4",
       "/imagens/mararu-video6.mov"
-    ],
-    "fotoPrincipal": "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/mararu/principal-1780429240306.png"
+    ]
   },
   "_ts": 1780595055,
   "alenquer": {

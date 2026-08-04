@@ -839,7 +839,7 @@ fetch('/site_data.json?_='+Date.now())
     if(overlay)overlay.style.display=borrado?'flex':'none';
     if(txt&&d&&d.lancamento&&d.lancamento.marcaDaguaTxt)txt.textContent=d.lancamento.marcaDaguaTxt;
 
-    var galeria=(d.mararu&&d.mararu.galeria)||[];
+    var galeria=(d.belaVistaMararu&&d.belaVistaMararu.galeria)||[];
     var grid=document.getElementById('galeria-grid');
     if(!grid)return;
 
