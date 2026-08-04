@@ -342,6 +342,30 @@ function mostrarSeg(id, btn) {
   </div>
 </section>
 
+<script>
+(function(){
+  fetch('/site_data.json?t='+Date.now()).then(function(r){return r.json();}).then(function(d){
+    var galeria=(d['monte-alegre']&&d['monte-alegre'].galeria)||[];
+    var grid=document.getElementById('galeria-grid');
+    if(!grid)return;
+    if(!galeria.length){
+      grid.innerHTML='<div style="padding:40px;color:var(--text3);font-size:13px;text-align:center;grid-column:1/-1">Videos em breve</div>';
+      return;
+    }
+    grid.innerHTML=galeria.map(function(url){
+      var isVideo=url.indexOf('.mp4')>=0||url.indexOf('.webm')>=0||url.indexOf('.mov')>=0;
+      if(isVideo){
+        return '<div class="galeria-item"><video src="'+url+'" muted playsinline preload="metadata" autoplay loop></video></div>';
+      }
+      return '<div class="galeria-item"><img src="'+url+'" loading="lazy" alt="Jussaramia"></div>';
+    }).join('');
+  }).catch(function(){
+    var grid=document.getElementById('galeria-grid');
+    if(grid)grid.innerHTML='<div style="padding:40px;color:var(--text3);font-size:13px;text-align:center;grid-column:1/-1">Videos em breve</div>';
+  });
+})();
+</script>
+
 
 <!-- DIFERENCIAIS / FIDELIZAÇÃO -->
 <section style="background:var(--bg);border-bottom:1px solid var(--border)">

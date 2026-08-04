@@ -479,7 +479,14 @@
     "marcaDaguaTxt": "Lançamento dia 10"
   },
   "monte-alegre": {
-    "galeria": [],
+    "galeria": [
+      "/imagens/monte-alegre-foto1.jpg",
+      "/imagens/monte-alegre-foto2.jpg",
+      "/imagens/monte-alegre-video1.mp4",
+      "/imagens/monte-alegre-video2.mp4",
+      "/imagens/monte-alegre-video3.mp4",
+      "/imagens/monte-alegre-video4.mp4"
+    ],
     "empId": "1780936340931",
     "nome": "Jussaramia"
   },
