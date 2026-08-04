@@ -86,6 +86,73 @@ footer { background: var(--bg2); border-top: 1px solid rgba(201,168,76,0.15); pa
   <span class="hbl"></span><span class="hbl"></span><span class="hbl"></span>
 </button>
 
+<section class="hero">
+  <div class="hero-bg">
+    <img src="/imagens/pajuca-foto1.jpeg" alt="Pajuçara - Santarém" loading="eager">
+    <div class="hero-overlay"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-tag">🏡 Investimento · Perto da Praia</div>
+    <h1 class="hero-title"><em>Pajuçara</em></h1>
+    <p class="hero-sub">Oportunidade para investir próximo à praia de Pajuçara. Apenas 6 minutos de distância!</p>
+    <div class="hero-btns">
+      <a href="/reserva/" class="btn-gold">Garantir Meu Lote</a>
+      <a href="https://wa.me/5593992332012" target="_blank" class="btn-wpp">Falar com Rafael</a>
+    </div>
+  </div>
+</section>
+
+<section class="sec-precos">
+  <div style="max-width: 1200px; margin: 0 auto;">
+    <h2 class="section-title">Tabela de <em>Preços</em></h2>
+    <p class="section-sub">Escolha o tipo de lote. Antecipe 7+ parcelas e ganhe 20% de desconto!</p>
+
+    <div style="background: rgba(201,168,76,0.05); border: 1px solid rgba(201,168,76,0.2); border-radius: 14px; padding: 24px; margin-bottom: 28px;">
+      <div style="display: flex; justify-content: space-between; text-align: center;">
+        <div>
+          <div style="font-size: 11px; color: rgba(255,255,255,0.6); text-transform: uppercase;">Até 300m²</div>
+          <div style="font-size: 18px; font-weight: 700; color: var(--gold); margin-top: 8px;">R$ 15.500</div>
+          <div style="font-size: 12px; color: var(--text2); margin-top: 4px;">48x R$ 312,50</div>
+        </div>
+        <div style="border-left: 1px solid rgba(201,168,76,0.2);"></div>
+        <div>
+          <div style="font-size: 11px; color: rgba(255,255,255,0.6); text-transform: uppercase;">Acima de 300m²</div>
+          <div style="font-size: 18px; font-weight: 700; color: var(--gold); margin-top: 8px;">R$ 18.000</div>
+          <div style="font-size: 12px; color: var(--text2); margin-top: 4px;">50x R$ 350,00</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background: linear-gradient(135deg, rgba(201,168,76,0.14), rgba(201,168,76,0.05)); border: 2px solid var(--gold); border-radius: 20px; padding: 30px; box-shadow: 0 10px 32px rgba(201,168,76,0.15);">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <div style="font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 8px;">💰 20% de Desconto</div>
+        <div style="font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 700; color: var(--text);">Antecipe 7+ <em style="color: var(--gold); font-style: italic;">Parcelas</em></div>
+      </div>
+      <div style="background: rgba(0,0,0,0.25); border-radius: 12px; padding: 16px 20px; margin-bottom: 22px; font-size: 14px; color: var(--text2); line-height: 1.6; text-align: center;">
+        Quanto antes você pagar, maior é sua economia. Até 20% de desconto no valor total do lote!
+      </div>
+      <div style="background: rgba(220,53,69,0.12); border: 1px solid rgba(220,53,69,0.3); border-radius: 12px; padding: 14px; font-size: 12px; color: #ff9a9a; text-align: center;">
+        💳 <strong>Pagamento:</strong> Realizado direto com a Imobiliária. Consulte as formas de pagamento disponíveis.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding: 60px 20px; max-width: 1200px; margin: 0 auto;">
+  <h2 class="section-title">Conheça <em>Pajuçara</em></h2>
+  <div id="galeria-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px">
+    <div style="padding:40px;color:var(--text3);font-size:13px;text-align:center;grid-column:1/-1">Carregando fotos...</div>
+  </div>
+</section>
+
+<div id="galeria-lightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.96);z-index:2000;align-items:center;justify-content:center;touch-action:none">
+  <button onclick="fecharGaleriaLightbox()" aria-label="Fechar" style="position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;color:#fff;font-size:20px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center">✕</button>
+  <div id="galeria-lightbox-counter" style="position:absolute;top:22px;left:20px;color:rgba(255,255,255,0.7);font-size:13px;font-weight:600;z-index:10"></div>
+  <button onclick="galeriaLightboxNav(-1)" aria-label="Anterior" style="position:absolute;left:8px;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;color:#fff;font-size:22px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center">‹</button>
+  <button onclick="galeriaLightboxNav(1)" aria-label="Próxima" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;color:#fff;font-size:22px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center">›</button>
+  <div id="galeria-lightbox-track" style="display:flex;width:100%;height:100%;will-change:transform"></div>
+</div>
+
 <div id="menu-overlay" onclick="fecharMenu()" style="position:fixed;inset:0;z-index:250;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);display:none;opacity:0;transition:opacity .3s"></div>
 
 <div id="menu-drawer" style="position:fixed;top:0;right:-320px;bottom:0;z-index:260;width:290px;background:#000;border-left:1px solid rgba(201,168,76,0.2);transition:right .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;overflow-y:auto">
