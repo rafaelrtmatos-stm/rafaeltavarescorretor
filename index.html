@@ -703,14 +703,57 @@ section#hero{z-index:0;overflow:hidden!important}
         </div>
       </div>
 
-      <div style="position:relative;width:100%;padding-bottom:56.25%;border-radius:16px">
+      <div id="mapa-wrapper" style="position:relative;width:100%;padding-bottom:56.25%;border-radius:16px">
       <div id="leaflet-map" style="position:absolute;inset:0;width:100%;height:100%;border-radius:16px;overflow:hidden;border:1px solid rgba(201,168,76,0.2);box-shadow:0 24px 80px rgba(0,0,0,0.9),0 0 0 1px rgba(201,168,76,0.08)"></div>
+      <button onclick="abrirMapaFullscreen()" id="btn-mapa-expandir" title="Tela cheia" style="position:absolute;top:14px;right:14px;z-index:20;width:38px;height:38px;border-radius:10px;background:rgba(0,0,0,0.75);border:1px solid rgba(201,168,76,0.35);color:#C9A84C;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px)">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
+      </button>
+      <button onclick="fecharMapaFullscreen()" id="btn-mapa-fechar" title="Fechar tela cheia" style="display:none;position:absolute;top:14px;right:14px;z-index:20;width:38px;height:38px;border-radius:10px;background:rgba(0,0,0,0.85);border:1px solid rgba(201,168,76,0.35);color:#C9A84C;cursor:pointer;align-items:center;justify-content:center;backdrop-filter:blur(6px);font-size:20px;line-height:1">
+        ×
+      </button>
     </div>
     </div>
   </div>
 
+  <script>
+  function abrirMapaFullscreen(){
+    var w=document.getElementById('mapa-wrapper');
+    document.body.style.overflow='hidden';
+    w.style.position='fixed';
+    w.style.inset='0';
+    w.style.top='0';w.style.left='0';w.style.right='0';w.style.bottom='0';
+    w.style.width='100vw';w.style.height='100vh';
+    w.style.paddingBottom='0';
+    w.style.zIndex='9999';
+    w.style.borderRadius='0';
+    document.getElementById('btn-mapa-expandir').style.display='none';
+    document.getElementById('btn-mapa-fechar').style.display='flex';
+    setTimeout(function(){ if(_mapInstance) _mapInstance.invalidateSize(); },250);
+  }
+  function fecharMapaFullscreen(){
+    var w=document.getElementById('mapa-wrapper');
+    document.body.style.overflow='';
+    w.style.position='relative';
+    w.style.inset='';
+    w.style.top='';w.style.left='';w.style.right='';w.style.bottom='';
+    w.style.width='100%';w.style.height='';
+    w.style.paddingBottom='56.25%';
+    w.style.zIndex='';
+    w.style.borderRadius='16px';
+    document.getElementById('btn-mapa-expandir').style.display='flex';
+    document.getElementById('btn-mapa-fechar').style.display='none';
+    setTimeout(function(){ if(_mapInstance) _mapInstance.invalidateSize(); },250);
+  }
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){
+      var btnFechar=document.getElementById('btn-mapa-fechar');
+      if(btnFechar && btnFechar.style.display==='flex') fecharMapaFullscreen();
+    }
+  });
+  </script>
+
   <!-- MODAL -->
-  <div id="mapa-modal" style="display:none;position:fixed;inset:0;z-index:999;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,0.88);backdrop-filter:blur(8px)">
+  <div id="mapa-modal" style="display:none;position:fixed;inset:0;z-index:10000;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,0.88);backdrop-filter:blur(8px)">
     <div style="background:#0A0A0A;border:1px solid rgba(201,168,76,0.3);border-radius:20px;width:100%;max-width:400px;overflow:hidden;position:relative">
       <button onclick="fecharModal()" style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.06);border:none;color:rgba(242,237,228,0.5);width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer;z-index:5;display:flex;align-items:center;justify-content:center">×</button>
       <div style="padding:24px">
