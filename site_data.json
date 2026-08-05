@@ -521,6 +521,8 @@
     ]
   },
   "sao-braz": {
-    "galeria": []
+    "galeria": [
+      "/imagens/sao-braz-hero.jpg"
+    ]
   }
 }
