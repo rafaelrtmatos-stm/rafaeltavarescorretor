@@ -149,8 +149,8 @@
 <div class="stats-band">
   <div class="stats-band-inner">
     <div><div class="stat-num">376</div><div class="stat-label">Lotes disponiveis</div></div>
-    <div><div class="stat-num">R$600</div><div class="stat-label">Entrada a partir de</div></div>
-    <div><div class="stat-num">R$257</div><div class="stat-label">Parcelas a partir de</div></div>
+    <div><div class="stat-num">R$2.000</div><div class="stat-label">Entrada a partir de</div></div>
+    <div><div class="stat-num">R$312,50</div><div class="stat-label">Parcelas a partir de</div></div>
   </div>
 </div>
 
@@ -203,392 +203,43 @@
   <div class="section-inner">
     <div class="section-tag">Condições de pagamento</div>
     <h2 class="section-title">Tabela de <em>Preços</em></h2>
-    <p class="section-sub" style="margin-bottom:28px">Escolha o tipo de lote e o prazo. Comece com a parcela mais baixa e amortize quando quiser.</p>
+    <p class="section-sub" style="margin-bottom:36px">Escolha o tipo de lote. Entrada de R$ 2.000,00 e 80 parcelas fixas — ou pague à vista com desconto.</p>
 
-    <div style="display:flex;justify-content:center;gap:10px;margin-bottom:24px;flex-wrap:wrap" id="precoCatToggle">
-      <button class="preco-cat-btn active" data-cat="200" style="padding:10px 22px;border-radius:100px;border:2px solid var(--gold);background:var(--gold);color:#000;font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;letter-spacing:.5px">Tipo 1 - R$ 42.000</button>
-      <button class="preco-cat-btn" data-cat="acima" style="padding:10px 22px;border-radius:100px;border:2px solid var(--border2);background:transparent;color:var(--gold);font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;letter-spacing:.5px">Tipo 2 - R$ 37.000</button>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;max-width:1000px;margin:0 auto">
+
+      <div style="background:linear-gradient(135deg,#1a3d28,#1e3a2a);border:2px solid var(--gold);border-radius:18px;padding:26px;box-shadow:0 8px 28px rgba(201,168,76,0.18)">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin-bottom:10px">Tipo 1</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:700;color:#fff;line-height:1;margin-bottom:18px">R$ 42.000,00</div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-top:1px solid rgba(255,255,255,0.1)"><span style="color:rgba(255,255,255,0.6)">Entrada</span><span style="font-weight:700;color:#fff">R$ 2.000,00</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-top:1px solid rgba(255,255,255,0.1)"><span style="color:rgba(255,255,255,0.6)">80x de</span><span style="font-weight:700;color:#fff">R$ 500,00</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-top:1px solid rgba(255,255,255,0.1);border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:4px"><span style="color:var(--gold);font-weight:600">À vista</span><span style="font-weight:700;color:var(--gold)">R$ 35.000,00</span></div>
+      </div>
+
+      <div style="background:linear-gradient(135deg,#1a3d28,#1e3a2a);border:2px solid var(--gold);border-radius:18px;padding:26px;box-shadow:0 8px 28px rgba(201,168,76,0.18)">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin-bottom:10px">Tipo 2</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:700;color:#fff;line-height:1;margin-bottom:18px">R$ 37.000,00</div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-top:1px solid rgba(255,255,255,0.1)"><span style="color:rgba(255,255,255,0.6)">Entrada</span><span style="font-weight:700;color:#fff">R$ 2.000,00</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-top:1px solid rgba(255,255,255,0.1)"><span style="color:rgba(255,255,255,0.6)">80x de</span><span style="font-weight:700;color:#fff">R$ 437,50</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-top:1px solid rgba(255,255,255,0.1);border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:4px"><span style="color:var(--gold);font-weight:600">À vista</span><span style="font-weight:700;color:var(--gold)">R$ 30.000,00</span></div>
+      </div>
+
+      <div style="background:linear-gradient(135deg,#1a3d28,#1e3a2a);border:2px solid var(--gold);border-radius:18px;padding:26px;box-shadow:0 8px 28px rgba(201,168,76,0.18)">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin-bottom:10px">Tipo 3</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:700;color:#fff;line-height:1;margin-bottom:18px">R$ 27.000,00</div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-top:1px solid rgba(255,255,255,0.1)"><span style="color:rgba(255,255,255,0.6)">Entrada</span><span style="font-weight:700;color:#fff">R$ 2.000,00</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-top:1px solid rgba(255,255,255,0.1)"><span style="color:rgba(255,255,255,0.6)">80x de</span><span style="font-weight:700;color:#fff">R$ 312,50</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-top:1px solid rgba(255,255,255,0.1);border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:4px"><span style="color:var(--gold);font-weight:600">À vista</span><span style="font-weight:700;color:var(--gold)">R$ 20.000,00</span></div>
+      </div>
+
     </div>
 
-    <div style="text-align:center;font-size:14px;color:var(--text3);margin-bottom:24px">Valor total do lote: <b id="precoValorTotalLbl" style="color:var(--gold)">R$ 46.600,00</b> · Entrada: <b style="color:var(--gold)">R$ 600,00</b></div>
-
-    <div id="precoPlanSelector" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px"></div>
-
-    <div id="precoDetailPanel" style="background:linear-gradient(135deg,#1a3d28,#1e3a2a);border:2px solid var(--gold);border-radius:18px;padding:28px;margin-bottom:22px;box-shadow:0 8px 28px rgba(201,168,76,0.18)">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px;margin-bottom:10px">
-        <div>
-          <div id="precoDetailBadge" style="display:inline-block;font-size:11px;font-weight:700;letter-spacing:.5px;color:#000;background:var(--gold);padding:4px 12px;border-radius:20px;margin-bottom:8px">🟢 Comece com a menor parcela</div>
-          <div id="precoDetailParcLbl" style="font-size:12px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:.5px">Parcelas a partir de</div>
-          <div id="precoDetailParcVal" style="font-size:38px;font-weight:700;color:#fff;font-family:'Cormorant Garamond',serif;line-height:1">R$ 255,56</div>
-        </div>
-        <div style="text-align:right">
-          <div style="font-size:11px;color:rgba(255,255,255,0.6);text-transform:uppercase">Total pago</div>
-          <div id="precoDetailTotalVal" style="font-size:19px;font-weight:700;color:var(--gold)">R$ 83.590,00</div>
-          <div id="precoDetailTotalAmortizadoWrap" style="display:none;margin-top:6px">
-            <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px">Com amortização</div>
-            <div id="precoDetailTotalAmortizado" style="font-size:17px;font-weight:700;color:#fff">—</div>
-          </div>
-        </div>
-      </div>
-      <div id="precoDetailCta" style="font-size:13px;color:var(--gold);font-weight:600;margin-bottom:18px">Amortize quando quiser e elimine as parcelas mais caras do final do contrato.</div>
-
-      <div id="precoEconomiaLine" style="background:rgba(0,0,0,0.25);border-radius:10px;padding:10px 16px;font-size:13px;color:var(--gold);text-align:center;font-weight:600"></div>
-
-      <div id="precoEvoWrap" style="margin-top:20px"></div>
-    </div>
-
-    <!-- CALCULADORA DE AMORTIZAÇÃO — DESTAQUE -->
-    <div style="background:linear-gradient(135deg,rgba(201,168,76,0.14),rgba(201,168,76,0.05));border:2px solid var(--gold);border-radius:20px;padding:30px;box-shadow:0 10px 32px rgba(201,168,76,0.15)">
-
-      <div style="text-align:center;margin-bottom:20px">
-        <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px">Vantagem exclusiva</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--text)">Calculadora de <em style="color:var(--gold);font-style:italic">Amortização</em></div>
-      </div>
-
-      <div style="background:rgba(0,0,0,0.25);border-radius:12px;padding:16px 20px;margin-bottom:22px;font-size:14px;color:var(--text2);line-height:1.6;text-align:center">
-        Toda amortização elimina parcelas do final do contrato, onde os valores são mais altos. Isso significa que você pode economizar centenas de reais antecipando parcelas hoje.
-      </div>
-
-      <!-- Exemplos reais -->
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:24px">
-        <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:18px">
-          <div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:10px">Exemplo · Tipo 1 - R$ 42.000</div>
-          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span style="color:var(--text2)">Parcela atual</span><span style="font-weight:700;color:var(--text)">R$ 255,56</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span style="color:var(--text2)">Parcela final</span><span style="font-weight:700;color:var(--text)">R$ 750,63</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:13px;border-top:1px solid var(--border);padding-top:8px;margin-top:4px"><span style="color:var(--gold);font-weight:600">Economia por parcela amortizada</span><span style="font-weight:700;color:var(--gold)">R$ 495,07</span></div>
-        </div>
-        <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:18px">
-          <div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:10px">Exemplo · Tipo 2 - R$ 37.000</div>
-          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span style="color:var(--text2)">Parcela atual</span><span style="font-weight:700;color:var(--text)">R$ 277,77</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span style="color:var(--text2)">Parcela final</span><span style="font-weight:700;color:var(--text)">R$ 815,86</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:13px;border-top:1px solid var(--border);padding-top:8px;margin-top:4px"><span style="color:var(--gold);font-weight:600">Economia por parcela amortizada</span><span style="font-weight:700;color:var(--gold)">R$ 538,09</span></div>
-        </div>
-      </div>
-
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
-        <input type="number" id="precoAmortInput" placeholder="Digite o valor que você quer amortizar (R$)" class="preco-amort-input" style="flex:1;min-width:200px;background:var(--bg2);border:2px solid var(--border2);color:var(--text);padding:14px 16px;border-radius:10px;font-size:16px;font-family:'Inter',sans-serif;transition:border-color .2s,box-shadow .2s">
-      </div>
-      <div id="precoAmortAviso" style="display:none;background:rgba(225,29,46,0.15);border-left:4px solid #e11d2e;border-radius:8px;padding:12px;margin-bottom:14px;font-size:13px;color:#ff6b6b">
-        ⚠️ <strong>Valor máximo:</strong> <span id="precoAmortAvisoMax"></span>
-      </div>
-
-      <div id="precoAmortResult" style="display:none">
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:6px">
-          <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:14px;text-align:center">
-            <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Valor informado</div>
-            <div id="amortValInformado" style="font-size:16px;font-weight:700;color:var(--text)">—</div>
-          </div>
-          <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:14px;text-align:center">
-            <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Parcelas eliminadas</div>
-            <div id="amortParcelasElim" style="font-size:16px;font-weight:700;color:var(--text)">—</div>
-          </div>
-          <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:14px;text-align:center">
-            <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Valor pago no futuro</div>
-            <div id="amortValFuturo" style="font-size:16px;font-weight:700;color:var(--text)">—</div>
-          </div>
-          <div style="background:rgba(201,168,76,0.15);border:1px solid var(--gold);border-radius:10px;padding:14px;text-align:center">
-            <div style="font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Economia total</div>
-            <div id="amortEconomiaTotal" style="font-size:18px;font-weight:700;color:var(--gold)">—</div>
-          </div>
-          <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:14px;text-align:center">
-            <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Novo prazo estimado</div>
-            <div id="amortNovoPrazo" style="font-size:16px;font-weight:700;color:var(--text)">—</div>
-          </div>
-          <div style="background:rgba(201,168,76,0.15);border:1px solid var(--gold);border-radius:10px;padding:14px;text-align:center;grid-column:1/-1">
-            <div style="font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Valor total do lote com amortização</div>
-            <div id="amortValorTotalLote" style="font-size:20px;font-weight:700;color:#fff">—</div>
-          </div>
-        </div>
-        <div id="amortExplicacao" style="margin-top:14px;background:rgba(0,0,0,0.25);border-radius:10px;padding:14px 16px;font-size:14px;color:var(--text2);line-height:1.5"></div>
-        <div id="amortDicaTotal" style="display:none;margin-top:16px;background:rgba(201,168,76,0.12);border-left:4px solid var(--gold);border-radius:10px;padding:16px;font-size:13px;color:var(--text2);line-height:1.6">
-          <div style="color:var(--gold);font-weight:700;margin-bottom:8px">💡 Dica: Pagar o valor total agora?</div>
-          <div id="amortDicaTotalText"></div>
-        </div>
-      </div>
-
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:22px">
-        <div style="background:rgba(201,168,76,0.12);border-left:3px solid var(--gold);border-radius:8px;padding:14px 16px;font-size:14px;color:var(--gold);font-weight:600">⏱️ Quanto mais cedo você amortiza, maior é sua economia.</div>
-        <div style="background:rgba(201,168,76,0.12);border-left:3px solid var(--gold);border-radius:8px;padding:14px 16px;font-size:14px;color:var(--gold);font-weight:600">💰 Antecipe parcelas e economize até centenas de reais em cada parcela amortizada.</div>
-      </div>
+    <div style="text-align:center;margin-top:28px">
+      <a href="/reserva/" style="display:inline-flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#B8902A,#E8C96A,#B8902A);color:#000;padding:16px 32px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;text-decoration:none;box-shadow:0 4px 20px rgba(201,168,76,0.25)">Garantir Meu Lote</a>
     </div>
 
     <div style="text-align:center;margin-top:20px;font-size:12px;color:var(--text3)">* Condições sujeitas a alteração. Consulte o corretor.</div>
   </div>
 </section>
-
-<style>
-  .preco-cat-btn.active{background:var(--gold)!important;color:#000!important;border-color:var(--gold)!important}
-  .preco-cat-btn:not(.active){background:transparent!important;color:var(--gold)!important;border-color:var(--border2)!important}
-  .preco-plan-btn{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px 8px;text-align:center;cursor:pointer;transition:.25s}
-  .preco-plan-btn:hover{border-color:var(--border2)}
-  .preco-plan-btn.active{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 6px 18px rgba(201,168,76,0.15);background:#161a12}
-  .preco-plan-btn-months{font-size:13px;font-weight:700;color:var(--text)}
-  .preco-plan-btn-parc{font-size:11px;color:var(--text3);margin-top:2px}
-  .preco-evo-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-  .preco-evo-lbl{width:48px;font-size:12px;color:rgba(255,255,255,0.6);flex-shrink:0}
-  .preco-evo-track{flex:1;background:rgba(255,255,255,0.08);border-radius:6px;height:20px;overflow:hidden}
-  .preco-evo-fill{height:100%;background:linear-gradient(90deg,#B8902A,#E8C96A);border-radius:6px;width:0;transition:width .6s ease}
-  .preco-evo-val{width:78px;text-align:right;font-size:12px;color:var(--gold);font-weight:600;flex-shrink:0}
-  .preco-amort-input{border-color:#e11d2e!important;background:linear-gradient(90deg,rgba(225,29,46,0.08),rgba(225,29,46,0.15),rgba(225,29,46,0.08))!important;box-shadow:0 0 0 2px rgba(225,29,46,0.4),0 0 15px rgba(225,29,46,0.5),inset 0 0 10px rgba(225,29,46,0.1)!important;animation:precoPulse 1.2s ease-in-out infinite,precoShimmer 2.5s ease-in-out infinite!important}
-  @keyframes precoPulse{
-    0%{box-shadow:0 0 0 2px rgba(225,29,46,0.4),0 0 8px rgba(225,29,46,0.3),inset 0 0 10px rgba(225,29,46,0.1)!important}
-    50%{box-shadow:0 0 0 6px rgba(225,29,46,0.2),0 0 25px rgba(225,29,46,0.7),inset 0 0 15px rgba(225,29,46,0.15)!important}
-    100%{box-shadow:0 0 0 2px rgba(225,29,46,0.4),0 0 8px rgba(225,29,46,0.3),inset 0 0 10px rgba(225,29,46,0.1)!important}
-  }
-  @keyframes precoShimmer{
-    0%{background-position:0% center}
-    50%{background-position:100% center}
-    100%{background-position:0% center}
-  }
-
-  @media(max-width:560px){
-    #precoPlanSelector{grid-template-columns:1fr}
-  }
-
-    /* Galeria otimizada */
-    .galeria-lightbox { will-change: transform; }
-    .galeria-lightbox img, .galeria-lightbox video { 
-      max-width: 90vw; 
-      max-height: 90vh; 
-      object-fit: contain;
-      loading: lazy;
-    }
-    .galeria-grid img, .galeria-grid video {
-      loading: lazy;
-      will-change: contents;
-    }
-</style>
-
-<script>
-(function(){
-  // Ordem de exibição: 180 (menor parcela) -> 120 (equilíbrio) -> 36 (melhor economia)
-  const precoOrdem = ["180","120","36"];
-
-  const precoData = {
-    'tipo1': {  // PREÇO 01 - R$ 42.000
-      plans: {
-        '36':  { parcela: 1166.67, total: 42000, fixa: true },
-        '80':  { parcela: 525.00,  total: 42000, fixa: false, evo: [['1º',525.00],['5º',689.67],['10º',966.80]] }
-      }
-    },
-    'tipo2': {  // PREÇO 02 - R$ 37.000
-      plans: {
-        '36':  { parcela: 1027.78, total: 37000, fixa: true },
-        '80':  { parcela: 462.50,   total: 37000, fixa: false, evo: [['1º',462.50],['5º',608.62],['10º',854.68]] }
-      }
-    },
-    'tipo3': {  // PREÇO 03 - R$ 27.000
-      plans: {
-        '36':  { parcela: 750.00,  total: 27000, fixa: true },
-        '80':  { parcela: 337.50,  total: 27000, fixa: false, evo: [['1º',337.50],['5º',444.41],['10º',623.88]] }
-      }
-    }
-  };
-
-  let precoCat = "200";
-  let precoPlan = "180"; // plano padrão ao carregar a página
-
-  function brl(v){
-    return "R$ " + v.toLocaleString("pt-BR", {minimumFractionDigits:2, maximumFractionDigits:2});
-  }
-
-  function precoRenderPlanSelector(){
-    const cat = precoData[precoCat];
-    const sel = document.getElementById("precoPlanSelector");
-    sel.innerHTML = "";
-    precoOrdem.forEach(months => {
-      const p = cat.plans[months];
-      const btn = document.createElement("div");
-      btn.className = "preco-plan-btn" + (months === precoPlan ? " active" : "");
-      btn.innerHTML = `<div class="preco-plan-btn-months">${months} meses</div><div class="preco-plan-btn-parc">a partir de ${brl(p.parcela)}</div>`;
-      btn.onclick = () => { precoPlan = months; precoRender(); };
-      sel.appendChild(btn);
-    });
-  }
-
-  function precoRenderDetail(){
-    const cat = precoData[precoCat];
-    const p = cat.plans[precoPlan];
-    document.getElementById("precoValorTotalLbl").textContent = brl(cat.total);
-    document.getElementById("precoDetailBadge").textContent = p.tag;
-    document.getElementById("precoDetailParcLbl").textContent = p.fixa ? "Parcelas fixas de" : "Parcelas a partir de";
-    document.getElementById("precoDetailParcVal").textContent = brl(p.parcela);
-    document.getElementById("precoDetailTotalVal").textContent = brl(p.total);
-    document.getElementById("precoDetailCta").textContent = p.cta;
-
-    const maiorPrazoTotal = Math.max(...Object.values(cat.plans).map(x => x.total));
-    const economia = maiorPrazoTotal - p.total;
-    const economiaLine = document.getElementById("precoEconomiaLine");
-    if (economia > 0) {
-      economiaLine.style.display = "block";
-      economiaLine.innerHTML = `Você economiza <b>${brl(economia)}</b> escolhendo este plano em vez do de maior prazo`;
-    } else {
-      economiaLine.style.display = "none";
-    }
-
-    const evoWrap = document.getElementById("precoEvoWrap");
-    evoWrap.innerHTML = `<div style="font-size:12px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">Evolução da parcela ao longo do tempo</div>`;
-    const maxVal = Math.max(...p.evo.map(e => e[1]));
-    p.evo.forEach(([label, val]) => {
-      const pct = Math.max(8, (val / maxVal) * 100);
-      const row = document.createElement("div");
-      row.className = "preco-evo-row";
-      row.innerHTML = `
-        <div class="preco-evo-lbl">${label}</div>
-        <div class="preco-evo-track"><div class="preco-evo-fill" style="width:0"></div></div>
-        <div class="preco-evo-val">${brl(val)}</div>
-      `;
-      evoWrap.appendChild(row);
-      requestAnimationFrame(() => { row.querySelector(".preco-evo-fill").style.width = pct + "%"; });
-    });
-
-    precoUpdateAmortResult();
-  }
-
-  function precoUpdateAmortResult(){
-    const input = document.getElementById("precoAmortInput");
-    const result = document.getElementById("precoAmortResult");
-    const avisoDiv = document.getElementById("precoAmortAviso");
-    const val = parseFloat(input.value);
-    const cat = precoData[precoCat];
-    const p = cat.plans[precoPlan];
-    const entrada = 600;
-    const totalParcelas = parseInt(precoPlan, 10);
-    const parcelaAtual = p.parcela;
-
-    // Calcula o máximo permitido (total do lote - entrada)
-    const maximoAmortizacao = p.total - entrada;
-
-    // Valida se o valor excede o máximo
-    if (val && val > maximoAmortizacao) {
-      avisoDiv.style.display = "block";
-      document.getElementById("precoAmortAvisoMax").textContent = "R$ " + brl(maximoAmortizacao);
-      result.style.display = "none";
-      const wrap = document.getElementById("precoDetailTotalAmortizadoWrap");
-      if (wrap) wrap.style.display = "none";
-      return;
-    }
-
-    avisoDiv.style.display = "none";
-
-    if (!val || val <= 0) {
-      result.style.display = "none";
-      const wrap = document.getElementById("precoDetailTotalAmortizadoWrap");
-      if (wrap) wrap.style.display = "none";
-      return;
-    }
-
-    let parcelasEliminadas, parcelasEliminadasInt, valorFuturo, economiaTotal, novoPrazo;
-
-    if (p.fixa) {
-      // Plano fixo: parcela não varia, então amortizar apenas reduz prazo, sem ganho de reajuste
-      parcelasEliminadas = Math.min(totalParcelas, val / parcelaAtual);
-      parcelasEliminadasInt = Math.min(totalParcelas, Math.round(parcelasEliminadas));
-      valorFuturo = parcelasEliminadasInt * parcelaAtual;
-      economiaTotal = 0;
-      novoPrazo = totalParcelas - parcelasEliminadasInt;
-    } else {
-      // Plano variável: gera tabela de parcelas e elimina do final
-      // Reajuste anual de aproximadamente 8%
-      const REAJUSTE_ANUAL = 1.08;
-      let tabelaParcelas = [];
-      
-      // Gera tabela de parcelas (1 a totalParcelas)
-      for (let mes = 1; mes <= totalParcelas; mes++) {
-        const ano = Math.floor((mes - 1) / 12) + 1; // Qual ano (1, 2, 3...)
-        const parcelaNoAno = parcelaAtual * Math.pow(REAJUSTE_ANUAL, ano - 1);
-        tabelaParcelas.push(parcelaNoAno);
-      }
-      
-      // Calcula quantas parcelas inteiras pode eliminar
-      parcelasEliminadas = Math.min(totalParcelas, val / parcelaAtual);
-      parcelasEliminadasInt = Math.min(totalParcelas, Math.round(parcelasEliminadas));
-      
-      // Elimina as parcelas mais caras (do final para o começo)
-      economiaTotal = 0;
-      for (let i = 0; i < parcelasEliminadasInt; i++) {
-        const indiceParcelaEliminada = totalParcelas - 1 - i; // Do final para trás
-        const parcelaEliminada = tabelaParcelas[indiceParcelaEliminada];
-        economiaTotal += (parcelaEliminada - parcelaAtual);
-      }
-      
-      // Valor futuro = soma das parcelas eliminadas
-      valorFuturo = 0;
-      for (let i = 0; i < parcelasEliminadasInt; i++) {
-        valorFuturo += tabelaParcelas[totalParcelas - 1 - i];
-      }
-      
-      economiaTotal = Math.max(0, economiaTotal);
-      novoPrazo = totalParcelas - parcelasEliminadasInt;
-    }
-
-    result.style.display = "block";
-    document.getElementById("amortValInformado").textContent = brl(val);
-    document.getElementById("amortParcelasElim").textContent = parcelasEliminadas.toFixed(1).replace(".0","").replace(".",",") + (parcelasEliminadasInt === 1 ? " parcela" : " parcelas");
-    document.getElementById("amortValFuturo").textContent = brl(valorFuturo);
-    document.getElementById("amortEconomiaTotal").textContent = brl(economiaTotal);
-    document.getElementById("amortNovoPrazo").textContent = novoPrazo + " meses";
-
-    // Atualiza o "Total pago" no painel principal de preços com base na amortização
-    const novoTotal = Math.max(0, p.total - economiaTotal);
-    const totalWrap = document.getElementById("precoDetailTotalAmortizadoWrap");
-    const totalAmortizadoEl = document.getElementById("precoDetailTotalAmortizado");
-    if (totalWrap && totalAmortizadoEl) {
-      totalWrap.style.display = "block";
-      totalAmortizadoEl.textContent = brl(novoTotal);
-    }
-    const amortValorTotalLoteEl = document.getElementById("amortValorTotalLote");
-    if (amortValorTotalLoteEl) amortValorTotalLoteEl.textContent = brl(novoTotal);
-
-    const explicacao = document.getElementById("amortExplicacao");
-    const parcelasTxt = parcelasEliminadas.toFixed(1).replace(".0","").replace(".",",");
-    if (p.fixa) {
-      explicacao.innerHTML = `Amortizando <b style="color:var(--gold)">${brl(val)}</b>, você elimina o equivalente a <b style="color:var(--gold)">${parcelasTxt} parcela(s)</b> e reduz seu prazo para aproximadamente <b style="color:var(--gold)">${novoPrazo} meses</b>. Como esse plano já tem parcela fixa, a economia vem diretamente da redução do prazo.`;
-    } else {
-      explicacao.innerHTML = `Amortizando <b style="color:var(--gold)">${brl(val)}</b> hoje, você elimina <b style="color:var(--gold)">${parcelasTxt} parcela(s)</b> das mais caras do final do contrato — que custariam <b style="color:var(--gold)">${brl(valorFuturo)}</b> — gerando uma economia de <b style="color:var(--gold)">${brl(economiaTotal)}</b> e reduzindo seu prazo para aproximadamente <b style="color:var(--gold)">${novoPrazo} meses</b>.`;
-    }
-
-    // Dica educativa
-    const dicaDiv = document.getElementById("amortDicaTotal");
-    const dicaText = document.getElementById("amortDicaTotalText");
-    const totalLote = p.total;
-    const valorMenosEntrada = totalLote - entrada;
-    
-    if (dicaDiv && dicaText) {
-      if (valorMenosEntrada > 0) {
-        const parcelasAdelantadas = Math.round(valorMenosEntrada / parcelaAtual);
-        dicaDiv.style.display = "block";
-        dicaText.innerHTML = `Se você pagar <b style="color:var(--gold)">${brl(valorMenosEntrada)}</b> de amortização (valor total do lote menos a entrada), você adiantaria exatamente <b style="color:var(--gold)">${parcelasAdelantadas} parcelas</b> — liquidando todo o seu contrato de <b style="color:var(--gold)">${totalParcelas} meses</b> na hora!`;
-      } else {
-        dicaDiv.style.display = "none";
-      }
-    }
-  }
-
-  function precoRender(){
-    precoRenderPlanSelector();
-    precoRenderDetail();
-  }
-
-  document.querySelectorAll(".preco-cat-btn").forEach(btn => {
-    btn.onclick = () => {
-      document.querySelectorAll(".preco-cat-btn").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      precoCat = btn.dataset.cat;
-      precoPlan = "180";
-      precoRender();
-    };
-  });
-
-  let precoDigitandoTimeout;
-  const precoAmortInputEl = document.getElementById("precoAmortInput");
-  precoAmortInputEl.addEventListener("input", () => {
-    precoUpdateAmortResult();
-  });
-
-  precoRender();
-})();
-</script>
 <section id="sec-galeria" style="background:var(--bg);border-bottom:1px solid var(--border)">
   <div class="section-inner">
     <div class="section-tag">Conheca o Empreendimento</div>
