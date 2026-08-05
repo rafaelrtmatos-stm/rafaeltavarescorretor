@@ -705,10 +705,10 @@ section#hero{z-index:0;overflow:hidden!important}
 
       <div id="mapa-wrapper" style="position:relative;width:100%;padding-bottom:56.25%;border-radius:16px">
       <div id="leaflet-map" style="position:absolute;inset:0;width:100%;height:100%;border-radius:16px;overflow:hidden;border:1px solid rgba(201,168,76,0.2);box-shadow:0 24px 80px rgba(0,0,0,0.9),0 0 0 1px rgba(201,168,76,0.08)"></div>
-      <button onclick="abrirMapaFullscreen()" id="btn-mapa-expandir" title="Tela cheia" style="position:absolute;top:14px;right:14px;z-index:20;width:38px;height:38px;border-radius:10px;background:rgba(0,0,0,0.75);border:1px solid rgba(201,168,76,0.35);color:#C9A84C;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px)">
+      <button onclick="abrirMapaFullscreen()" id="btn-mapa-expandir" title="Tela cheia" style="position:absolute;top:14px;right:14px;z-index:900;width:38px;height:38px;border-radius:10px;background:rgba(0,0,0,0.75);border:1px solid rgba(201,168,76,0.35);color:#C9A84C;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px)">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
       </button>
-      <button onclick="fecharMapaFullscreen()" id="btn-mapa-fechar" title="Fechar tela cheia" style="display:none;position:absolute;top:14px;right:14px;z-index:20;width:38px;height:38px;border-radius:10px;background:rgba(0,0,0,0.85);border:1px solid rgba(201,168,76,0.35);color:#C9A84C;cursor:pointer;align-items:center;justify-content:center;backdrop-filter:blur(6px);font-size:20px;line-height:1">
+      <button onclick="fecharMapaFullscreen()" id="btn-mapa-fechar" title="Fechar tela cheia" style="display:none;position:absolute;top:14px;right:14px;z-index:900;width:38px;height:38px;border-radius:10px;background:rgba(0,0,0,0.85);border:1px solid rgba(201,168,76,0.35);color:#C9A84C;cursor:pointer;align-items:center;justify-content:center;backdrop-filter:blur(6px);font-size:20px;line-height:1">
         ×
       </button>
     </div>
@@ -778,13 +778,13 @@ section#hero{z-index:0;overflow:hidden!important}
 // ── MAPA LEAFLET ──
 var _pinosDefault=[
   {nome:'Alter do Chão',   lat:-2.502556,lng:-54.931083,cor:'#C9A84C',desc:'Paraíso do Tapajós. Alto valor de investimento.',msg:'Olá Rafael! Tenho interesse em Alter do Chão.'},
-  {nome:'Ponta de Pedras', lat:-2.467861,lng:-54.909028,cor:'#C9A84C',desc:'Área ribeirinha com vista para o Tapajós.',msg:'Olá Rafael! Tenho interesse em Ponta de Pedras.'},
-  {nome:'Pajuçara',        lat:-2.441833,lng:-54.825861,cor:'#C9A84C',desc:'Bairro em expansão com alta valorização.',msg:'Olá Rafael! Tenho interesse em Pajuçara.'},
-  {nome:'Santa Maria',     lat:-2.448417,lng:-54.806361,cor:'#C9A84C',desc:'Loteamento Bom Sossego documentado.',msg:'Olá Rafael! Tenho interesse em Santa Maria.'},
+  {nome:'Ponta de Pedras', lat:-2.465361,lng:-54.909694,cor:'#C9A84C',desc:'Área ribeirinha com vista para o Tapajós.',msg:'Olá Rafael! Tenho interesse em Ponta de Pedras.'},
+  {nome:'Pajuçara',        lat:-2.442361,lng:-54.82825,cor:'#C9A84C',desc:'Bairro em expansão com alta valorização.',msg:'Olá Rafael! Tenho interesse em Pajuçara.'},
+  {nome:'Santa Maria',     lat:-2.448167,lng:-54.805556,cor:'#C9A84C',desc:'Loteamento Bom Sossego documentado.',msg:'Olá Rafael! Tenho interesse em Santa Maria.'},
   {nome:'Cucurunã',        lat:-2.463222,lng:-54.791694,cor:'#f87171',desc:'Empreendimento Vitória Régia em Cucurunã.',msg:'Olá Rafael! Tenho interesse no Empreendimento Vitória Régia em Cucurunã!',link:'/cucuruna/'},
-  {nome:'Espírito Santo',  lat:-2.478306,lng:-54.753889,cor:'#C9A84C',desc:'Em desenvolvimento. Entre em contato.',msg:'Olá Rafael! Tenho interesse em Espírito Santo.'},
-  {nome:'Mararu',          lat:-2.492528,lng:-54.686639,cor:'#f87171',desc:'🔥 Mararu Ville — lotes residenciais em lançamento.',msg:'Olá Rafael! Tenho interesse no Mararu Ville!',link:'/mararu/'},
-  {nome:'Bela Vista do Mararu', lat:-2.491500,lng:-54.685000,cor:'#f87171',desc:'Novo empreendimento Bela Vista do Mararu.',msg:'Olá Rafael! Tenho interesse no Bela Vista do Mararu!',link:'/bela-vista-mararu/'}
+  {nome:'Espírito Santo',  lat:-2.479222,lng:-54.7545,cor:'#C9A84C',desc:'Em desenvolvimento. Entre em contato.',msg:'Olá Rafael! Tenho interesse em Espírito Santo.'},
+  {nome:'Mararu',          lat:-2.493,lng:-54.686694,cor:'#f87171',desc:'🔥 Mararu Ville — lotes residenciais em lançamento.',msg:'Olá Rafael! Tenho interesse no Mararu Ville!',link:'/mararu/'},
+  {nome:'Bela Vista do Mararu', lat:-2.497111,lng:-54.693556,cor:'#f87171',desc:'Novo empreendimento Bela Vista do Mararu.',msg:'Olá Rafael! Tenho interesse no Bela Vista do Mararu!',link:'/bela-vista-mararu/'}
 ];
 // Tamanho dos pinos — lido do site_data.json (campo pinSize, padrão 100%)
 var _pinScale=1;
@@ -877,13 +877,13 @@ var _cidadeAtual='santarem';
 // Pinos Santarém (padrão)
 var _pinosDefault=[
   {nome:'Alter do Chão',   lat:-2.502556,lng:-54.931083,cor:'#C9A84C',desc:'Paraíso do Tapajós. Alto valor de investimento.',msg:'Olá Rafael! Tenho interesse em Alter do Chão.'},
-  {nome:'Ponta de Pedras', lat:-2.467861,lng:-54.909028,cor:'#C9A84C',desc:'Área ribeirinha com vista para o Tapajós.',msg:'Olá Rafael! Tenho interesse em Ponta de Pedras.'},
-  {nome:'Pajuçara',        lat:-2.466194,lng:-54.788583,cor:'#C9A84C',desc:'Bairro em expansão com fácil acesso.',msg:'Olá Rafael! Tenho interesse em Pajuçara.'},
-  {nome:'Santa Maria',     lat:-2.432000,lng:-54.720000,cor:'#C9A84C',desc:'Ambiente tranquilo, documentação completa.',msg:'Olá Rafael! Tenho interesse em Santa Maria.'},
+  {nome:'Ponta de Pedras', lat:-2.465361,lng:-54.909694,cor:'#C9A84C',desc:'Área ribeirinha com vista para o Tapajós.',msg:'Olá Rafael! Tenho interesse em Ponta de Pedras.'},
+  {nome:'Pajuçara',        lat:-2.442361,lng:-54.82825,cor:'#C9A84C',desc:'Bairro em expansão com fácil acesso.',msg:'Olá Rafael! Tenho interesse em Pajuçara.'},
+  {nome:'Santa Maria',     lat:-2.448167,lng:-54.805556,cor:'#C9A84C',desc:'Ambiente tranquilo, documentação completa.',msg:'Olá Rafael! Tenho interesse em Santa Maria.'},
   {nome:'Cucurunã',        lat:-2.476000,lng:-54.760000,cor:'#f87171',desc:'Empreendimento Vitória Régia em Cucurunã.',msg:'Olá Rafael! Tenho interesse no Empreendimento Vitória Régia em Cucurunã!',link:'/cucuruna/'},
-  {nome:'Mararu Ville',    lat:-2.492528,lng:-54.686639,cor:'#f87171',desc:'Mararu Ville — lotes a partir de R$600 entrada.',msg:'Olá Rafael! Tenho interesse no Mararu Ville!',link:'/mararu/'},
-  {nome:'Bela Vista do Mararu', lat:-2.491500,lng:-54.685000,cor:'#f87171',desc:'Novo empreendimento Bela Vista do Mararu.',msg:'Olá Rafael! Tenho interesse no Bela Vista do Mararu!',link:'/bela-vista-mararu/'},
-  {nome:'Espírito Santo',  lat:-2.510000,lng:-54.650000,cor:'#C9A84C',desc:'Nova região em valorização.',msg:'Olá Rafael! Tenho interesse em Espírito Santo.'}
+  {nome:'Mararu Ville',    lat:-2.493,lng:-54.686694,cor:'#f87171',desc:'Mararu Ville — lotes a partir de R$600 entrada.',msg:'Olá Rafael! Tenho interesse no Mararu Ville!',link:'/mararu/'},
+  {nome:'Bela Vista do Mararu', lat:-2.497111,lng:-54.693556,cor:'#f87171',desc:'Novo empreendimento Bela Vista do Mararu.',msg:'Olá Rafael! Tenho interesse no Bela Vista do Mararu!',link:'/bela-vista-mararu/'},
+  {nome:'Espírito Santo',  lat:-2.479222,lng:-54.7545,cor:'#C9A84C',desc:'Nova região em valorização.',msg:'Olá Rafael! Tenho interesse em Espírito Santo.'}
 ];
 
 // Pinos por cidade
