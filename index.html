@@ -788,7 +788,8 @@ var _pinosDefault=[
   {nome:'Cucurunã',        lat:-2.46325,lng:-54.793667,cor:'#f87171',desc:'Empreendimento Vitória Régia em Cucurunã.',msg:'Olá Rafael! Tenho interesse no Empreendimento Vitória Régia em Cucurunã!',link:'/cucuruna/'},
   {nome:'Espírito Santo',  lat:-2.479222,lng:-54.7545,cor:'#C9A84C',desc:'Em desenvolvimento. Entre em contato.',msg:'Olá Rafael! Tenho interesse em Espírito Santo.'},
   {nome:'Mararu',          lat:-2.493,lng:-54.686694,cor:'#f87171',desc:'🔥 Mararu Ville — lotes residenciais em lançamento.',msg:'Olá Rafael! Tenho interesse no Mararu Ville!',link:'/mararu/'},
-  {nome:'Bela Vista do Mararu', lat:-2.497111,lng:-54.693556,cor:'#f87171',desc:'Novo empreendimento Bela Vista do Mararu.',msg:'Olá Rafael! Tenho interesse no Bela Vista do Mararu!',link:'/bela-vista-mararu/'}
+  {nome:'Bela Vista do Mararu', lat:-2.497111,lng:-54.693556,cor:'#f87171',desc:'Novo empreendimento Bela Vista do Mararu.',msg:'Olá Rafael! Tenho interesse no Bela Vista do Mararu!',link:'/bela-vista-mararu/'},
+  {nome:'São Braz',       lat:-2.471,lng:-54.821611,cor:'#f87171',desc:'Loteamento São Braz — diversas opções de tamanho e pagamento.',msg:'Olá Rafael! Tenho interesse no Loteamento São Braz!',link:'/sao-braz/'},
 ];
 // Tamanho dos pinos — lido do site_data.json (campo pinSize, padrão 100%)
 var _pinScale=1;
@@ -888,7 +889,8 @@ var _pinosDefault=[
   {nome:'Cucurunã',        lat:-2.46325,lng:-54.793667,cor:'#f87171',desc:'Empreendimento Vitória Régia em Cucurunã.',msg:'Olá Rafael! Tenho interesse no Empreendimento Vitória Régia em Cucurunã!',link:'/cucuruna/'},
   {nome:'Mararu Ville',    lat:-2.493,lng:-54.686694,cor:'#f87171',desc:'Mararu Ville — lotes a partir de R$600 entrada.',msg:'Olá Rafael! Tenho interesse no Mararu Ville!',link:'/mararu/'},
   {nome:'Bela Vista do Mararu', lat:-2.497111,lng:-54.693556,cor:'#f87171',desc:'Novo empreendimento Bela Vista do Mararu.',msg:'Olá Rafael! Tenho interesse no Bela Vista do Mararu!',link:'/bela-vista-mararu/'},
-  {nome:'Espírito Santo',  lat:-2.479222,lng:-54.7545,cor:'#C9A84C',desc:'Nova região em valorização.',msg:'Olá Rafael! Tenho interesse em Espírito Santo.'}
+  {nome:'Espírito Santo',  lat:-2.479222,lng:-54.7545,cor:'#C9A84C',desc:'Nova região em valorização.',msg:'Olá Rafael! Tenho interesse em Espírito Santo.'},
+  {nome:'São Braz',       lat:-2.471,lng:-54.821611,cor:'#f87171',desc:'Loteamento São Braz — diversas opções de tamanho e pagamento.',msg:'Olá Rafael! Tenho interesse no Loteamento São Braz!',link:'/sao-braz/'},
 ];
 
 // Pinos por cidade
@@ -1296,6 +1298,23 @@ function trocarCidade(cidade,btn){
             <div class="rc2-loc">📍 Ramal dos Coelhos · Santarém</div>
             <div class="rc2-desc2">Empreendimento Vitória Régia. Entrada R$500 + 80x R$312,50.</div>
             <button class="rc2-btn" onclick="event.stopPropagation();window.location.href='/cucuruna/'">Ver empreendimento</button>
+          </div>
+        </div>
+
+        <!-- SÃO BRAZ -->
+        <div class="rc2-card" onclick="window.location.href='/sao-braz/'">
+          <div class="rc2-foto">
+            <div class="rc2-img" style="background:linear-gradient(160deg,#0a1a08 0%,#142f0c 40%,#1f4012 70%,#2d5a1a 100%)">
+              <div style="position:absolute;inset:0;background:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22><defs><filter id=%22n%22><feTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/><feColorMatrix type=%22saturate%22 values=%220%22/></filter></defs><rect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22 opacity=%220.08%22/></svg>') repeat;opacity:.5"></div>
+            </div>
+            <div class="rc2-scrim"></div>
+            <div class="rc2-top-badge" style="background:rgba(248,113,113,0.18);border-color:rgba(248,113,113,0.45);color:#f87171"><span style="width:5px;height:5px;border-radius:50%;background:#f87171;animation:pulse 1.2s infinite;flex-shrink:0;display:inline-block"></span> 🔥 Lançamento</div>
+            <div class="rc2-nome-over">São Braz</div>
+          </div>
+          <div class="rc2-body">
+            <div class="rc2-loc">📍 Santarém, PA</div>
+            <div class="rc2-desc2">Lotes de R$20 mil a R$35 mil. Entrada a partir de R$1.000.</div>
+            <button class="rc2-btn" onclick="event.stopPropagation();window.location.href='/sao-braz/'">Ver empreendimento</button>
           </div>
         </div>
 
