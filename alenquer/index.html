@@ -233,6 +233,406 @@
     </div>
   </div>
 </section>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+#leaflet-map .leaflet-tile-container{opacity:1!important}
+#leaflet-map .leaflet-layer{opacity:1!important}
+#leaflet-map .leaflet-control-attribution,#leaflet-map .leaflet-control-zoom,#leaflet-map .leaflet-bar{display:none!important}
+.leaflet-container{background:#e8d9a8}
+</style>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<section id="mapa" style="background:#000;padding:0;position:relative;overflow:hidden;z-index:2">
+
+  <!-- HEADER -->
+  <div style="text-align:center;padding:48px 24px 24px">
+    <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#C9A84C;margin-bottom:12px;font-weight:600">Explore</div>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,52px);font-weight:700;color:#F2EDE4;line-height:.95;letter-spacing:-2px;margin-bottom:12px">Empreendimentos em<br><em id="mapa-cidade-titulo" style="font-style:italic;color:#C9A84C">Santarém</em></h2>
+    <p style="font-size:14px;color:rgba(242,237,228,0.6);max-width:400px;margin:0 auto 20px;line-height:1.7">Clique em um pino para ver o empreendimento.</p>
+    <!-- Botões de cidade -->
+    <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:8px">
+      <button onclick="trocarCidade('santarem',this)" id="btn-cidade-santarem" style="padding:8px 18px;border-radius:100px;border:1.5px solid var(--gold);background:var(--gold);color:#000;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:.5px;transition:all .2s">📍 Santarém</button>
+      <button onclick="trocarCidade('alenquer',this)" id="btn-cidade-alenquer" style="padding:8px 18px;border-radius:100px;border:1.5px solid rgba(201,168,76,0.3);background:transparent;color:var(--gold);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:.5px;transition:all .2s">📍 Alenquer <span style="font-size:9px;background:#f87171;color:#000;border-radius:4px;padding:1px 5px;margin-left:4px;font-weight:800">NOVO</span></button>
+      <button onclick="trocarCidade('monte-alegre',this)" id="btn-cidade-monte-alegre" style="padding:8px 18px;border-radius:100px;border:1.5px solid rgba(201,168,76,0.3);background:transparent;color:var(--gold);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:.5px;transition:all .2s">📍 Monte Alegre</button>
+    </div>
+  </div>
+
+  <!-- MAPA -->
+  <div style="max-width:900px;margin:0 auto;padding:0 20px 72px;position:relative">
+    <div style="position:relative">
+      <!-- Bordas luxuosas completas -->
+      <div style="position:absolute;inset:-3px;border-radius:20px;border:1px solid rgba(201,168,76,0.18);pointer-events:none;z-index:10"></div>
+      <!-- Cantos dourados premium -->
+      <div style="position:absolute;top:-4px;left:-4px;width:44px;height:44px;border-top:2px solid #C9A84C;border-left:2px solid #C9A84C;border-radius:6px 0 0 0;z-index:11;pointer-events:none;box-shadow:-2px -2px 8px rgba(201,168,76,0.15)"></div>
+      <div style="position:absolute;top:-4px;right:-4px;width:44px;height:44px;border-top:2px solid #C9A84C;border-right:2px solid #C9A84C;border-radius:0 6px 0 0;z-index:11;pointer-events:none;box-shadow:2px -2px 8px rgba(201,168,76,0.15)"></div>
+      <div style="position:absolute;bottom:-4px;left:-4px;width:44px;height:44px;border-bottom:2px solid #C9A84C;border-left:2px solid #C9A84C;border-radius:0 0 0 6px;z-index:11;pointer-events:none;box-shadow:-2px 2px 8px rgba(201,168,76,0.15)"></div>
+      <div style="position:absolute;bottom:-4px;right:-4px;width:44px;height:44px;border-bottom:2px solid #C9A84C;border-right:2px solid #C9A84C;border-radius:0 0 6px 0;z-index:11;pointer-events:none;box-shadow:2px 2px 8px rgba(201,168,76,0.15)"></div>
+      <!-- Brilho dourado topo -->
+      <div style="position:absolute;top:-4px;left:20%;right:20%;height:2px;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.7),transparent);z-index:11;pointer-events:none;border-radius:2px"></div>
+      <!-- Label luxo canto superior esquerdo -->
+      <div style="position:absolute;top:-13px;left:48px;z-index:12;pointer-events:none;display:flex;align-items:center;gap:5px">
+        <div style="background:rgba(0,0,0,0.95);border:1px solid rgba(201,168,76,0.4);border-radius:4px;padding:2px 10px;display:flex;align-items:center;gap:5px">
+          <div style="width:5px;height:5px;border-radius:50%;background:#C9A84C;animation:pulse 2s infinite;flex-shrink:0"></div>
+          <span id="mapa-label-cidade" style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#C9A84C;font-weight:700">Santarém · PA</span>
+        </div>
+      </div>
+
+      <div id="mapa-wrapper" style="position:relative;width:100%;padding-bottom:56.25%;border-radius:16px">
+      <div id="leaflet-map" style="position:absolute;inset:0;width:100%;height:100%;border-radius:16px;overflow:hidden;border:1px solid rgba(201,168,76,0.2);box-shadow:0 24px 80px rgba(0,0,0,0.9),0 0 0 1px rgba(201,168,76,0.08)"></div>
+      <button onclick="abrirMapaFullscreen()" id="btn-mapa-expandir" title="Tela cheia" style="position:absolute;top:14px;right:14px;z-index:900;width:42px;height:42px;border-radius:10px;background:#000;border:2px solid #000;box-shadow:0 0 0 1.5px rgba(201,168,76,0.7),0 4px 14px rgba(0,0,0,0.6);color:#C9A84C;cursor:pointer;display:flex;align-items:center;justify-content:center">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="filter:drop-shadow(0 1px 1px rgba(0,0,0,0.9))"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
+      </button>
+      <button onclick="fecharMapaFullscreen()" id="btn-mapa-fechar" title="Fechar tela cheia" style="display:none;position:absolute;top:14px;right:14px;z-index:900;width:42px;height:42px;border-radius:10px;background:#000;border:2px solid #000;box-shadow:0 0 0 1.5px rgba(201,168,76,0.7),0 4px 14px rgba(0,0,0,0.6);color:#C9A84C;cursor:pointer;align-items:center;justify-content:center;font-size:22px;line-height:1;font-weight:700">
+        ×
+      </button>
+    </div>
+    </div>
+  </div>
+
+  <script>
+  function abrirMapaFullscreen(){
+    var w=document.getElementById('mapa-wrapper');
+    document.body.style.overflow='hidden';
+    w.style.position='fixed';
+    w.style.inset='0';
+    w.style.top='0';w.style.left='0';w.style.right='0';w.style.bottom='0';
+    w.style.width='100vw';w.style.height='100vh';
+    w.style.paddingBottom='0';
+    w.style.zIndex='9999';
+    w.style.borderRadius='0';
+    document.getElementById('btn-mapa-expandir').style.display='none';
+    document.getElementById('btn-mapa-fechar').style.display='flex';
+    setTimeout(function(){ if(_mapInstance) _mapInstance.invalidateSize(); },250);
+  }
+  function fecharMapaFullscreen(){
+    var w=document.getElementById('mapa-wrapper');
+    document.body.style.overflow='';
+    w.style.position='relative';
+    w.style.inset='';
+    w.style.top='';w.style.left='';w.style.right='';w.style.bottom='';
+    w.style.width='100%';w.style.height='';
+    w.style.paddingBottom='56.25%';
+    w.style.zIndex='';
+    w.style.borderRadius='16px';
+    document.getElementById('btn-mapa-expandir').style.display='flex';
+    document.getElementById('btn-mapa-fechar').style.display='none';
+    setTimeout(function(){ if(_mapInstance) _mapInstance.invalidateSize(); },250);
+  }
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){
+      var btnFechar=document.getElementById('btn-mapa-fechar');
+      if(btnFechar && btnFechar.style.display==='flex') fecharMapaFullscreen();
+    }
+  });
+  </script>
+
+  <!-- MODAL -->
+  <div id="mapa-modal" style="display:none;position:fixed;inset:0;z-index:10000;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,0.88);backdrop-filter:blur(8px)">
+    <div style="background:#0A0A0A;border:1px solid rgba(201,168,76,0.3);border-radius:20px;width:100%;max-width:400px;overflow:hidden;position:relative">
+      <button onclick="fecharModal()" style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.06);border:none;color:rgba(242,237,228,0.5);width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer;z-index:5;display:flex;align-items:center;justify-content:center">×</button>
+      <div style="padding:24px">
+        <div id="modal-badge" style="display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:100px;font-size:10px;font-weight:700;letter-spacing:1px;margin-bottom:10px"></div>
+        <div id="modal-regiao" style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#C9A84C;margin-bottom:4px;font-weight:600"></div>
+        <div id="modal-nome" style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:#F2EDE4;margin-bottom:8px;line-height:1.1"></div>
+        <div id="modal-desc" style="font-size:13px;color:rgba(242,237,228,0.55);line-height:1.7;margin-bottom:16px"></div>
+        <div id="modal-lotes-info" style="background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.12);border-radius:10px;padding:14px;margin-bottom:14px;font-size:12px;color:rgba(242,237,228,0.6);line-height:1.7;display:none"></div>
+        <div id="modal-fotos" style="display:flex;gap:8px;overflow-x:auto;margin-bottom:14px;padding-bottom:4px;display:none"></div>
+        <div id="modal-tags" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px"></div>
+        <a id="modal-wpp" href="#" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;background:#25d366;color:#000;padding:13px;border-radius:10px;font-size:13px;font-weight:700;text-decoration:none">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          Tenho interesse
+        </a>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<script>
+<script>
+// ── MAPA LEAFLET ──
+var _pinosDefault=[
+  {nome:'Alter do Chão',   lat:-2.502556,lng:-54.931083,cor:'#C9A84C',desc:'Paraíso do Tapajós. Alto valor de investimento.',msg:'Olá Rafael! Tenho interesse em Alter do Chão.'},
+  {nome:'Ponta de Pedras', lat:-2.465361,lng:-54.909694,cor:'#C9A84C',desc:'Área ribeirinha com vista para o Tapajós.',msg:'Olá Rafael! Tenho interesse em Ponta de Pedras.'},
+  {nome:'Pajuçara',        lat:-2.442361,lng:-54.82825,cor:'#C9A84C',desc:'Bairro em expansão com alta valorização.',msg:'Olá Rafael! Tenho interesse em Pajuçara.'},
+  {nome:'Santa Maria',     lat:-2.448167,lng:-54.805556,cor:'#C9A84C',desc:'Loteamento Bom Sossego documentado.',msg:'Olá Rafael! Tenho interesse em Santa Maria.'},
+  {nome:'Cucurunã',        lat:-2.463222,lng:-54.791694,cor:'#f87171',desc:'Empreendimento Vitória Régia em Cucurunã.',msg:'Olá Rafael! Tenho interesse no Empreendimento Vitória Régia em Cucurunã!',link:'/cucuruna/'},
+  {nome:'Espírito Santo',  lat:-2.479222,lng:-54.7545,cor:'#C9A84C',desc:'Em desenvolvimento. Entre em contato.',msg:'Olá Rafael! Tenho interesse em Espírito Santo.'},
+  {nome:'Mararu',          lat:-2.493,lng:-54.686694,cor:'#f87171',desc:'🔥 Mararu Ville — lotes residenciais em lançamento.',msg:'Olá Rafael! Tenho interesse no Mararu Ville!',link:'/mararu/'},
+  {nome:'Bela Vista do Mararu', lat:-2.497111,lng:-54.693556,cor:'#f87171',desc:'Novo empreendimento Bela Vista do Mararu.',msg:'Olá Rafael! Tenho interesse no Bela Vista do Mararu!',link:'/bela-vista-mararu/'}
+];
+// Tamanho dos pinos — lido do site_data.json (campo pinSize, padrão 100%)
+var _pinScale=1;
+fetch('/site_data.json?_='+Date.now()).then(function(r){return r.json();}).then(function(d){
+  if(d&&d.pinSize){_pinScale=d.pinSize/100;}
+  if(d&&d.pinos&&d.pinos.length){_pinosDefault=d.pinos.map(function(p){return{nome:p.nome,lat:p.lat,lng:p.lng,cor:p.cor==='red'?'#f87171':'#C9A84C',min:p.min||'—',max:p.max||'—',desc:p.desc||'',msg:p.msg||'Olá Rafael!'};});}
+}).catch(function(){});
+
+function abrirModal(p){
+  var isRed=p.cor==='#f87171';
+  var badge=document.getElementById('modal-badge');
+  badge.style.cssText='display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:100px;font-size:10px;font-weight:700;letter-spacing:1px;margin-bottom:10px;background:'+(isRed?'rgba(248,113,113,0.15)':'rgba(201,168,76,0.1)')+';border:1px solid '+(isRed?'rgba(248,113,113,0.3)':'rgba(201,168,76,0.2)')+';color:'+(isRed?'#f87171':'#C9A84C');
+  badge.textContent=isRed?'🔥 Lançamento':'✅ Disponível';
+  document.getElementById('modal-nome').textContent=p.nome;
+  document.getElementById('modal-regiao').textContent=p.nome;
+  document.getElementById('modal-desc').textContent=p.desc||'';
+  // Info de lotes
+  var lotesEl=document.getElementById('modal-lotes-info');
+  if(lotesEl){
+    if(p.lotes||p.desc){
+      lotesEl.style.display='block';
+      lotesEl.textContent=p.lotes||p.desc||'';
+    } else {
+      lotesEl.style.display='none';
+    }
+  }
+  // Fotos
+  var fotosEl=document.getElementById('modal-fotos');
+  if(fotosEl){
+    if(p.fotos&&p.fotos.length){
+      fotosEl.style.display='flex';
+      fotosEl.innerHTML=p.fotos.map(function(f){
+        return '<img src="'+f+'" style="height:80px;border-radius:8px;flex-shrink:0;object-fit:cover">';
+      }).join('');
+    } else {
+      fotosEl.style.display='none';
+    }
+  }
+  document.getElementById('modal-tags').innerHTML='';
+  document.getElementById('modal-wpp').href='https://wa.me/5593992332012?text='+encodeURIComponent(p.msg||'Olá Rafael!');
+  document.getElementById('mapa-modal').style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function fecharModal(){
+  document.getElementById('mapa-modal').style.display='none';
+  document.body.style.overflow='';
+}
+function irParaRegiao(id){
+  fecharModal();
+  var el=document.getElementById(id);
+  if(el){setTimeout(function(){el.scrollIntoView({behavior:'smooth',block:'center'});el.style.transition='box-shadow .4s';el.style.boxShadow='0 0 0 2px #C9A84C';setTimeout(function(){el.style.boxShadow='';},1500);},300);}
+}
+document.getElementById('mapa-modal').addEventListener('click',function(e){if(e.target===this)fecharModal();});
+
+// Mapeamento pino → ID do catálogo da seção "Escolha sua região"
+var _pinoNomeCatalogo={
+  'Alter do Chão':'alter',
+  'Ponta de Pedras':'ponta-pedras',
+  'Pajuçara':'pajucara',
+  'Santa Maria':'santa-maria',
+  'Cucurunã':'cucuruna',
+  'Mararu':'mararu'
+};
+function irParaCatalogoPino(p){
+  var catalogoId=_pinoNomeCatalogo[p.nome]||null;
+  var secaoRegioes=document.getElementById('regioes');
+  if(secaoRegioes){
+    secaoRegioes.scrollIntoView({behavior:'smooth',block:'start'});
+    if(catalogoId){
+      setTimeout(function(){abrirCatalogo(catalogoId);},700);
+    } else {
+      // Sem card específico: apenas destaca a seção
+      setTimeout(function(){
+        secaoRegioes.style.transition='box-shadow .4s';
+        secaoRegioes.style.boxShadow='0 0 0 2px #C9A84C';
+        setTimeout(function(){secaoRegioes.style.boxShadow='';},1500);
+      },400);
+    }
+  } else if(catalogoId){
+    abrirCatalogo(catalogoId);
+  } else {
+    abrirModal(p);
+  }
+}
+
+var _mapStarted=false;
+var _mapInstance=null;
+var _cidadeAtual='santarem';
+
+// Pinos Santarém (padrão)
+var _pinosDefault=[
+  {nome:'Alter do Chão',   lat:-2.502556,lng:-54.931083,cor:'#C9A84C',desc:'Paraíso do Tapajós. Alto valor de investimento.',msg:'Olá Rafael! Tenho interesse em Alter do Chão.'},
+  {nome:'Ponta de Pedras', lat:-2.465361,lng:-54.909694,cor:'#C9A84C',desc:'Área ribeirinha com vista para o Tapajós.',msg:'Olá Rafael! Tenho interesse em Ponta de Pedras.'},
+  {nome:'Pajuçara',        lat:-2.442361,lng:-54.82825,cor:'#C9A84C',desc:'Bairro em expansão com fácil acesso.',msg:'Olá Rafael! Tenho interesse em Pajuçara.'},
+  {nome:'Santa Maria',     lat:-2.448167,lng:-54.805556,cor:'#C9A84C',desc:'Ambiente tranquilo, documentação completa.',msg:'Olá Rafael! Tenho interesse em Santa Maria.'},
+  {nome:'Cucurunã',        lat:-2.476000,lng:-54.760000,cor:'#f87171',desc:'Empreendimento Vitória Régia em Cucurunã.',msg:'Olá Rafael! Tenho interesse no Empreendimento Vitória Régia em Cucurunã!',link:'/cucuruna/'},
+  {nome:'Mararu Ville',    lat:-2.493,lng:-54.686694,cor:'#f87171',desc:'Mararu Ville — lotes a partir de R$600 entrada.',msg:'Olá Rafael! Tenho interesse no Mararu Ville!',link:'/mararu/'},
+  {nome:'Bela Vista do Mararu', lat:-2.497111,lng:-54.693556,cor:'#f87171',desc:'Novo empreendimento Bela Vista do Mararu.',msg:'Olá Rafael! Tenho interesse no Bela Vista do Mararu!',link:'/bela-vista-mararu/'},
+  {nome:'Espírito Santo',  lat:-2.479222,lng:-54.7545,cor:'#C9A84C',desc:'Nova região em valorização.',msg:'Olá Rafael! Tenho interesse em Espírito Santo.'}
+];
+
+// Pinos por cidade
+var _pinosCidades={
+  'santarem': _pinosDefault,
+  'alenquer': [
+    {nome:'Alenquer',lat:-1.9632448,lng:-54.7075062,cor:'#f87171',desc:'🔥 Lançamento! Novo empreendimento em Alenquer.',msg:'Olá Rafael! Tenho interesse no lançamento em Alenquer!',link:'/alenquer/'}
+  ],
+  'monte-alegre': [
+    {nome:'Jussaramia',lat:-1.983333,lng:-54.047139,cor:'#C9A84C',desc:'Loteamento Jussaramia em Monte Alegre.',msg:'Olá Rafael! Tenho interesse no Jussaramia em Monte Alegre!',link:'/monte-alegre/'}
+  ]
+};
+
+// Centros e zooms por cidade
+var _cidadeCentros={
+  'santarem':     {lat:-2.47, lng:-54.79, zoom:12},
+  'alenquer':     {lat:-1.9632448,lng:-54.7075062, zoom:14},
+  'monte-alegre': {lat:-2.00, lng:-54.07, zoom:13}
+};
+
+var _cidadeLabels={
+  'santarem':'Santarém · PA',
+  'alenquer':'Alenquer · PA',
+  'monte-alegre':'Monte Alegre · PA'
+};
+
+var _cidadeTitulos={
+  'santarem':'Santarém',
+  'alenquer':'Alenquer',
+  'monte-alegre':'Monte Alegre'
+};
+
+// Adicionar um pino ao mapa (FIX erro 2: IDs SVG únicos por índice)
+var _pinoIdx=0;
+function adicionarPinoMapa(map, p){
+  var uid=_pinoIdx++;
+  var cor=p.cor;
+  var isRed=cor==='#f87171';
+  var mapaContainer=document.getElementById('leaflet-map')||document.querySelector('.leaflet-container');
+  var containerW=mapaContainer?mapaContainer.offsetWidth:window.innerWidth;
+  var pct=0.02;
+  var sz=Math.round(containerW*pct);
+  sz=Math.max(isRed?16:12,Math.min(isRed?48:40,sz));
+
+  var pinoHtml='<div style="display:flex;flex-direction:column;align-items:center;cursor:pointer;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.7))">'
+    +'<svg width="'+sz+'" height="'+Math.round(sz*1.3)+'" viewBox="0 0 36 46" fill="none" xmlns="http://www.w3.org/2000/svg">'
+    +'<defs>'
+    +'<radialGradient id="pg'+uid+'" cx="40%" cy="30%" r="60%"><stop offset="0%" stop-color="'+(isRed?'#ff9d9d':'#e8c96a')+'"/><stop offset="100%" stop-color="'+(isRed?'#f87171':'#C9A84C')+'"/></radialGradient>'
+    +'<filter id="pglow'+uid+'"><feGaussianBlur stdDeviation="1.5" result="blur"/><feComposite in="SourceGraphic" in2="blur" operator="over"/></filter>'
+    +'</defs>'
+    +'<path d="M18 0C8.06 0 0 8.06 0 18C0 31.5 18 46 18 46C18 46 36 31.5 36 18C36 8.06 27.94 0 18 0Z" fill="url(#pg'+uid+')" filter="url(#pglow'+uid+')"/>'
+    +'<circle cx="18" cy="18" r="9" fill="rgba(0,0,0,0.55)" stroke="rgba(255,255,255,0.12)" stroke-width="0.5"/>'
+    +(isRed
+      ?'<circle cx="18" cy="18" r="5" fill="rgba(255,255,255,0.9)"/><circle cx="18" cy="18" r="2.5" fill="#f87171"/>'
+      :'<circle cx="18" cy="18" r="4.5" fill="rgba(201,168,76,0.3)"/><circle cx="18" cy="18" r="2" fill="#E8C96A"/>'
+    )
+    +'</svg>'
+    +'<div style="background:linear-gradient(135deg,rgba(8,8,8,0.97),rgba(20,16,8,0.97));border:1px solid '+(isRed?'rgba(248,113,113,0.6)':'rgba(201,168,76,0.55)')+';color:'+(isRed?'#f87171':'#E8C96A')+';font-size:9.5px;font-weight:700;padding:3px 10px;border-radius:5px;white-space:nowrap;margin-top:2px;letter-spacing:.6px;text-transform:uppercase;box-shadow:0 2px 8px rgba(0,0,0,0.5)">'+p.nome+'</div>'
+    +'</div>';
+
+  var icon=L.divIcon({className:'',html:pinoHtml,iconSize:[sz*3,Math.round(sz*1.8)],iconAnchor:[Math.round(sz*1.5),Math.round(sz*1.4)]});
+  var marker=L.marker([p.lat,p.lng],{icon:icon});
+  marker.on('click',function(){
+    if(p.link){window.location.href=p.link;}
+    else if(typeof irParaCatalogoPino==='function'){irParaCatalogoPino(p);}
+  });
+  marker.addTo(map);
+  return marker;
+}
+
+// FIX erro 1+4: var map declarado corretamente; _mapInstance salvo imediatamente
+function startMap(){
+  if(_mapStarted)return;
+  if(typeof L==='undefined'){setTimeout(startMap,150);return;}
+  _mapStarted=true;
+
+  // FIX erro 1: declarar var map E salvar em _mapInstance logo de início
+  var map=L.map('leaflet-map',{
+    zoomControl:false,
+    attributionControl:false,
+    scrollWheelZoom:true,
+    dragging:true,
+    touchZoom:true
+  });
+  _mapInstance=map; // FIX erro 4: salvar referência imediatamente
+
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    maxZoom:19,
+    
+  }).addTo(map); // FIX erro 9: URL agora usa {s}
+
+  // FIX erro 3: startMap usa adicionarPinoMapa (função unificada)
+  var bounds=[];
+  _pinosDefault.forEach(function(p){
+    adicionarPinoMapa(map,p);
+    bounds.push([p.lat,p.lng]);
+  });
+
+  if(bounds.length>0){
+    map.fitBounds(bounds,{padding:[60,60],maxZoom:13});
+  }
+
+  function retryInvalidate(attempts){
+    var el=document.getElementById('leaflet-map');
+    if(!el)return;
+    var h=el.parentElement?el.parentElement.offsetHeight:el.offsetHeight;
+    if(h>0){
+      map.invalidateSize(true);
+      if(attempts>0)setTimeout(function(){map.invalidateSize(true);},500);
+    } else {
+      if(attempts>0)setTimeout(function(){retryInvalidate(attempts-1);},200);
+    }
+  }
+  setTimeout(function(){retryInvalidate(10);},100);
+}
+
+// FIX erro 5: trocarCidade com guard para _mapInstance null
+// FIX erro 7: eachLayer com instanceof L.Marker (já estava certo, mantido)
+function trocarCidade(cidade,btn){
+  _cidadeAtual=cidade;
+
+  // Atualizar botões
+  ['santarem','alenquer','monte-alegre'].forEach(function(c){
+    var b=document.getElementById('btn-cidade-'+c);
+    if(!b)return;
+    if(c===cidade){
+      b.style.background='var(--gold)';b.style.color='#000';b.style.borderColor='var(--gold)';
+    } else {
+      b.style.background='transparent';b.style.color='var(--gold)';b.style.borderColor='rgba(201,168,76,0.3)';
+    }
+  });
+
+  // Atualizar título e label
+  var titulo=document.getElementById('mapa-cidade-titulo');
+  if(titulo)titulo.textContent=_cidadeTitulos[cidade]||cidade;
+  var label=document.getElementById('mapa-label-cidade');
+  if(label)label.textContent=_cidadeLabels[cidade]||cidade;
+
+  // FIX erro 5: guard — se mapa não iniciou ainda, inicia
+  if(!_mapInstance){startMap();return;}
+
+  // Voar para a cidade
+  var centro=_cidadeCentros[cidade];
+  if(centro)_mapInstance.flyTo([centro.lat,centro.lng],centro.zoom,{duration:1.2});
+
+  // FIX erro 7: remover apenas markers (não tiles)
+  _mapInstance.eachLayer(function(layer){
+    if(layer instanceof L.Marker)_mapInstance.removeLayer(layer);
+  });
+
+  // FIX erro 3: usar adicionarPinoMapa para todos os pinos
+  var pinos=_pinosCidades[cidade]||[];
+  pinos.forEach(function(p){adicionarPinoMapa(_mapInstance,p);});
+}
+
+
+// Iniciar quando a seção ficar visível
+(function(){
+  var el=document.getElementById('mapa');
+  if(!el){startMap();return;}
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){
+      if(entries[0].isIntersecting){startMap();obs.disconnect();}
+    },{threshold:0.05});
+    obs.observe(el);
+  } else {
+    startMap();
+  }
+})();
+</script>
+</script>
+
+
 <section id="sobre" style="background:var(--bg);padding:96px 24px 0;border-bottom:1px solid var(--border)">
   <div style="max-width:900px;margin:0 auto">
     <div style="display:grid;grid-template-columns:1fr 1.3fr;gap:72px;align-items:center;margin-bottom:80px">
@@ -296,8 +696,6 @@
   </div>
 </section>
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 (function(){
   var lat=-1.9632448, lng=-54.7075062;
