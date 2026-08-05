@@ -285,6 +285,35 @@
   </div>
 </section>
 
+<section style="background:var(--bg);padding:64px 24px;border-top:1px solid var(--border)">
+  <div style="max-width:900px;margin:0 auto;text-align:center">
+    <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px">Localização</div>
+    <h2 class="section-title">Onde fica o <em>Alenquer</em></h2>
+    <p class="section-sub">Alenquer, PA</p>
+    <div style="position:relative;border-radius:16px;overflow:hidden;border:1px solid rgba(201,168,76,0.25);height:380px;margin-top:24px;box-shadow:0 20px 60px rgba(0,0,0,0.5)">
+      <div id="mini-mapa-loc" style="width:100%;height:100%"></div>
+    </div>
+  </div>
+</section>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  var lat=-1.9632448, lng=-54.7075062;
+  var map=L.map('mini-mapa-loc',{zoomControl:true,attributionControl:false,scrollWheelZoom:true,touchZoom:true}).setView([lat,lng],15);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19}).addTo(map);
+  var pinoHtml='<div style="display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.7))">'
+    +'<svg width="34" height="44" viewBox="0 0 36 46" fill="none" xmlns="http://www.w3.org/2000/svg">'
+    +'<path d="M18 0C8.06 0 0 8.06 0 18C0 31.5 18 46 18 46C18 46 36 31.5 36 18C36 8.06 27.94 0 18 0Z" fill="#C9A84C"/>'
+    +'<circle cx="18" cy="18" r="9" fill="rgba(0,0,0,0.55)"/>'
+    +'<circle cx="18" cy="18" r="4.5" fill="rgba(201,168,76,0.3)"/><circle cx="18" cy="18" r="2" fill="#E8C96A"/>'
+    +'</svg></div>';
+  var icon=L.divIcon({html:pinoHtml,className:'',iconSize:[34,44],iconAnchor:[17,44]});
+  L.marker([lat,lng],{icon:icon}).addTo(map);
+})();
+</script>
+
 <footer style="background:var(--bg2);border-top:1px solid var(--border);padding:48px 24px 24px">
   <div style="max-width:900px;margin:0 auto">
     <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px">
