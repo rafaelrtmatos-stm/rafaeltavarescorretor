@@ -3,5 +3,10 @@
   "buildCommand": "",
   "outputDirectory": ".",
   "installCommand": "",
-  "framework": null
+  "framework": null,
+  "redirects": [
+    { "source": "/pajuca", "destination": "/pajucara/", "permanent": true },
+    { "source": "/pajuca/", "destination": "/pajucara/", "permanent": true },
+    { "source": "/pajuca/:path*", "destination": "/pajucara/:path*", "permanent": true }
+  ]
 }
