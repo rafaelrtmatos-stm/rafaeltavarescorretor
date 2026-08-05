@@ -522,7 +522,11 @@
   },
   "sao-braz": {
     "galeria": [
-      "/imagens/sao-braz-hero.jpg"
+      "/imagens/sao-braz-hero.jpg",
+      "/imagens/sao-braz-video1.mp4",
+      "/imagens/sao-braz-foto2.jpg",
+      "/imagens/sao-braz-foto3.jpg",
+      "/imagens/sao-braz-foto4.jpg"
     ]
   }
 }
