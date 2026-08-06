@@ -44,6 +44,8 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
 .btn-wpp { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: transparent; border: 1.5px solid rgba(37,211,102,0.45); color: #25d366; padding: 14px 28px; border-radius: 100px; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; transition: all 0.3s; cursor: pointer; text-decoration: none; }
 .btn-wpp:hover { border-color: #25d366; background: rgba(37,211,102,0.08); }
 
+.btn-share{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:transparent;border:1.5px solid rgba(201,168,76,0.4);color:#C9A84C;padding:12px 26px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;transition:all .3s;cursor:pointer;font-family:"Inter",sans-serif}
+.btn-share:hover{border-color:#C9A84C;background:rgba(201,168,76,0.08)}
 .section-title { font-family: "Cormorant Garamond", serif; font-size: 28px; font-weight: 700; text-align: center; margin-bottom: 12px; }
 .section-title em { color: var(--gold); font-style: italic; }
 .section-sub { text-align: center; color: var(--text2); font-size: 13px; margin-bottom: 24px; }
@@ -108,7 +110,11 @@ footer { background: var(--bg2); border-top: 1px solid rgba(201,168,76,0.15); pa
     <p class="hero-sub">Oportunidade para investir próximo à praia de Pajuçara. Apenas 6 minutos de distância!</p>
     <div class="hero-btns">
       <a href="/reserva/" class="btn-gold">Garantir Meu Lote</a>
-      <a href="https://wa.me/5593992332012" target="_blank" class="btn-wpp">Falar com Rafael</a>
+            <button onclick="compartilharPagina()" class="btn-share" type="button">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        Compartilhar
+      </button>
+<a href="https://wa.me/5593992332012" target="_blank" class="btn-wpp">Falar com Rafael</a>
     </div>
   </div>
 </section>
@@ -510,9 +516,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')fecharMenu()
 })();
 </script>
 
-<button onclick="compartilharPagina()" id="btn-compartilhar" title="Compartilhar" style="position:fixed;bottom:20px;right:20px;z-index:200;width:52px;height:52px;border-radius:50%;background:#25d366;border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(37,211,102,0.45)">
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-</button>
+
 <script>
 function compartilharPagina(){
   var url=window.location.href;
@@ -524,5 +528,6 @@ function compartilharPagina(){
   }
 }
 </script>
+
 </body>
 </html>
