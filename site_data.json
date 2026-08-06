@@ -260,6 +260,38 @@
         "Documentado"
       ],
       "link": "mararu/"
+    },
+    {
+      "id": "belavista",
+      "nome": "Bela Vista do Mararu",
+      "regiao": "Mararu",
+      "lat": -2.497111,
+      "lng": -54.693556,
+      "cor": "red",
+      "min": "R$300",
+      "max": "R$800",
+      "desc": "Novo empreendimento Bela Vista do Mararu.",
+      "msg": "Olá Rafael! Tenho interesse no Bela Vista do Mararu!",
+      "tags": [
+        "Lançamento"
+      ],
+      "link": "bela-vista-mararu/"
+    },
+    {
+      "id": "saobraz",
+      "nome": "São Braz",
+      "regiao": "São Braz",
+      "lat": -2.471,
+      "lng": -54.821611,
+      "cor": "red",
+      "min": "R$20.000",
+      "max": "R$35.000",
+      "desc": "Loteamento São Braz — diversas opções de tamanho e pagamento.",
+      "msg": "Olá Rafael! Tenho interesse no Loteamento São Braz!",
+      "tags": [
+        "Lançamento"
+      ],
+      "link": "sao-braz/"
     }
   ],
   "regioes": [

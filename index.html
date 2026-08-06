@@ -805,7 +805,7 @@ var _pinosDefault=[
 var _pinScale=1;
 fetch('/site_data.json?_='+Date.now()).then(function(r){return r.json();}).then(function(d){
   if(d&&d.pinSize){_pinScale=d.pinSize/100;}
-  if(d&&d.pinos&&d.pinos.length){_pinosDefault=d.pinos.map(function(p){return{nome:p.nome,lat:p.lat,lng:p.lng,cor:p.cor==='red'?'#f87171':'#C9A84C',min:p.min||'—',max:p.max||'—',desc:p.desc||'',msg:p.msg||'Olá Rafael!'};});}
+  if(d&&d.pinos&&d.pinos.length){_pinosDefault=d.pinos.map(function(p){return{nome:p.nome,lat:p.lat,lng:p.lng,cor:p.cor==='red'?'#f87171':'#C9A84C',min:p.min||'—',max:p.max||'—',desc:p.desc||'',msg:p.msg||'Olá Rafael!',link:p.link?('/'+p.link.replace(/^\/+/,'')):undefined};});}
 }).catch(function(){});
 
 function abrirModal(p){
