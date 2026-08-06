@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>[TESTE] Novo layout — São Braz · Rafael Tavares Corretor</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --gold:#C9A84C;
+  --gold-light:#E8C96A;
+  --bg:#000;
+  --bg2:#0c0c0c;
+  --bg3:#141414;
+  --text:#F5F1E8;
+  --text2:rgba(245,241,232,0.72);
+  --text3:rgba(245,241,232,0.45);
+  --border:rgba(201,168,76,0.18);
+  --wpp:#25d366;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--text);font-family:"Inter",sans-serif;overflow-x:hidden}
+
+/* ===== AVISO DE TESTE ===== */
+.aviso-teste{background:#7a1f1f;color:#fff;text-align:center;font-size:11px;font-weight:700;letter-spacing:1px;padding:8px 12px;text-transform:uppercase}
+
+/* ===== NAV ===== */
+nav{position:sticky;top:0;left:0;right:0;z-index:100;background:rgba(0,0,0,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:10px}
+.nav-logo-badge{width:38px;height:38px;border-radius:9px;background:var(--gold);color:#000;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;letter-spacing:-.5px}
+.nav-logo-text{font-size:15px;font-weight:800;letter-spacing:.5px;line-height:1.1}
+.nav-logo-sub{font-size:8px;color:var(--text3);letter-spacing:1.5px;font-weight:600}
+.nav-actions{display:flex;align-items:center;gap:10px}
+.nav-wpp{display:flex;align-items:center;gap:7px;border:1.5px solid var(--gold);color:var(--gold);padding:9px 16px;border-radius:100px;font-size:11px;font-weight:700;text-decoration:none;letter-spacing:.3px;white-space:nowrap}
+.nav-burger{width:38px;height:38px;border-radius:9px;background:rgba(255,255,255,0.06);border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;flex-shrink:0}
+.nav-burger span{width:16px;height:1.5px;background:var(--gold)}
+
+/* ===== HERO ===== */
+.hero{position:relative;padding:36px 20px 40px}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.88) 0%,rgba(0,0,0,0.55) 30%,rgba(0,0,0,0.35) 55%,rgba(0,0,0,0.8) 85%,#000 100%)}
+.hero-inner{position:relative;z-index:2;max-width:640px}
+.hero-eyebrow{color:var(--gold-light);font-size:19px;font-weight:800;letter-spacing:.3px;margin-bottom:4px}
+.hero-loc{display:flex;align-items:center;gap:5px;color:var(--text2);font-size:12px;font-weight:600;letter-spacing:.5px;margin-bottom:18px}
+.hero-headline{font-size:clamp(26px,7vw,34px);font-weight:800;line-height:1.05;letter-spacing:-.5px;text-transform:uppercase}
+.hero-price{font-size:clamp(48px,14vw,68px);font-weight:900;line-height:1;letter-spacing:-1.5px;color:var(--gold);display:flex;align-items:baseline;gap:6px;margin:2px 0 18px}
+.hero-price small{font-size:0.45em;font-weight:800;color:var(--gold)}
+.hero-sub{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:20px;max-width:460px}
+.hero-checklist{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:26px}
+.hero-checklist li{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--text);font-weight:500}
+.check-ico{width:19px;height:19px;border-radius:50%;background:rgba(201,168,76,0.15);border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.check-ico svg{width:11px;height:11px}
+.hero-btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn-primary{display:inline-flex;align-items:center;gap:9px;background:linear-gradient(135deg,#B8902A,var(--gold-light),#B8902A);background-size:200% 100%;color:#000;padding:16px 26px;border-radius:11px;font-size:13px;font-weight:800;text-decoration:none;letter-spacing:.3px;box-shadow:0 6px 22px rgba(201,168,76,0.25);transition:.3s}
+.btn-primary:hover{background-position:right}
+.btn-outline{display:inline-flex;align-items:center;gap:9px;border:1.5px solid var(--gold);color:var(--gold);padding:15px 26px;border-radius:11px;font-size:13px;font-weight:800;text-decoration:none;letter-spacing:.3px;transition:.25s}
+.btn-outline:hover{background:rgba(201,168,76,0.1)}
+
+/* ===== DIFERENCIAIS ===== */
+.diferenciais{background:linear-gradient(160deg,#141008,#0a0805);border:1px solid var(--border);border-radius:18px;margin:0 20px;padding:30px 20px;display:grid;grid-template-columns:repeat(2,1fr);gap:26px 16px;position:relative;z-index:2;margin-top:-40px}
+.dif-item{text-align:center}
+.dif-ico{width:44px;height:44px;margin:0 auto 12px;color:var(--gold)}
+.dif-titulo{font-size:12.5px;font-weight:800;letter-spacing:.3px;margin-bottom:6px;text-transform:uppercase}
+.dif-desc{font-size:11.5px;color:var(--text3);line-height:1.5}
+
+/* ===== SECOES GERAIS ===== */
+.sec{padding:64px 20px}
+.sec-title{font-size:clamp(24px,6vw,32px);font-weight:900;text-align:center;letter-spacing:-.3px;text-transform:uppercase}
+.sec-sub{text-align:center;color:var(--text3);font-size:13px;margin-top:8px;margin-bottom:34px}
+
+/* ===== PLANOS ===== */
+.planos{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.plano-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;transition:.25s}
+.plano-card:hover{border-color:rgba(201,168,76,0.45);background:var(--bg3)}
+.plano-badge{background:var(--gold);color:#000;border-radius:10px;padding:10px 14px;text-align:center;flex-shrink:0;min-width:74px}
+.plano-badge-label{font-size:8.5px;font-weight:800;letter-spacing:.5px;display:block}
+.plano-badge-valor{font-size:15px;font-weight:900;display:block;line-height:1.1}
+.plano-dados{display:flex;flex:1;gap:22px;flex-wrap:wrap;min-width:200px}
+.plano-dado-label{font-size:8.5px;color:var(--text3);letter-spacing:.6px;text-transform:uppercase;font-weight:700;margin-bottom:3px}
+.plano-dado-valor{font-size:14px;font-weight:700;color:var(--text)}
+.btn-simular{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:#000;padding:11px 18px;border-radius:9px;font-size:11.5px;font-weight:800;text-decoration:none;letter-spacing:.3px;white-space:nowrap;flex-shrink:0;margin-left:auto}
+
+.pagamento-nota{max-width:600px;margin:26px auto 0;display:flex;align-items:center;gap:12px;justify-content:center;text-align:center;color:var(--text3);font-size:12px;flex-wrap:wrap}
+.pagamento-nota strong{color:var(--text2)}
+
+/* ===== POR QUE ESCOLHER ===== */
+.porque-grid{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(2,1fr);gap:26px 16px}
+.porque-item{text-align:center}
+.porque-ico{width:46px;height:46px;margin:0 auto 12px;border:1.5px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold)}
+.porque-titulo{font-size:12px;font-weight:800;letter-spacing:.3px;text-transform:uppercase;line-height:1.3}
+
+/* ===== BARRA FIXA INFERIOR ===== */
+.barra-fixa{position:fixed;bottom:0;left:0;right:0;z-index:90;display:flex;align-items:stretch;background:#000;border-top:1px solid var(--border)}
+.barra-fixa a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:12px 8px;text-decoration:none;font-size:10px;font-weight:800;letter-spacing:.3px;text-transform:uppercase}
+.barra-simular{color:var(--gold);background:#000}
+.barra-falar{color:#000;background:var(--gold)}
+.barra-wpp{flex:0 0 60px!important;background:var(--wpp);border-radius:50%;width:52px;height:52px;margin:8px auto;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(37,211,102,0.4)}
+.barra-wpp svg{width:24px;height:24px;color:#fff}
+
+body{padding-bottom:74px}
+
+@media(min-width:720px){
+  .diferenciais{grid-template-columns:repeat(4,1fr);max-width:1000px;margin-left:auto;margin-right:auto;margin-top:-50px}
+  .porque-grid{grid-template-columns:repeat(5,1fr)}
+  .hero{padding:56px 40px 64px}
+  .hero-inner{max-width:680px}
+}
+</style>
+</head>
+<body>
+
+<div class="aviso-teste">⚠️ Página de teste — layout em avaliação, não é a página oficial do São Braz</div>
+
+<nav>
+  <a href="/" class="nav-logo" style="text-decoration:none;color:inherit">
+    <div class="nav-logo-badge">RT</div>
+    <div>
+      <div class="nav-logo-text">RT <span style="color:var(--gold)">CORRETOR</span></div>
+      <div class="nav-logo-sub">CRECI 13919</div>
+    </div>
+  </a>
+  <div class="nav-actions">
+    <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Vi%20o%20Loteamento%20S%C3%A3o%20Braz%20no%20site%20e%20quero%20garantir%20meu%20lote." target="_blank" class="nav-wpp">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12.05 21.785h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884"/></svg>
+      FALAR COM RAFAEL
+    </a>
+    <div class="nav-burger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg">
+    <img src="/imagens/sao-braz-hero.jpg" alt="São Braz - igarapé">
+  </div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">SÃO BRAZ — IGARAPÉ</div>
+    <div class="hero-loc">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      SANTARÉM – PA
+    </div>
+    <div class="hero-headline">Terrenos a partir de</div>
+    <div class="hero-price">R$ <span>20.000</span></div>
+    <p class="hero-sub">Seu lote perto da natureza, com acesso a igarapé compartilhado.</p>
+    <ul class="hero-checklist">
+      <li><span class="check-ico"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Entrada facilitada</li>
+      <li><span class="check-ico"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Parcelamento direto com a imobiliária</li>
+      <li><span class="check-ico"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Sem burocracia</li>
+      <li><span class="check-ico"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Diversas opções de tamanho</li>
+    </ul>
+    <div class="hero-btns">
+      <a href="/reserva/" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+        QUERO GARANTIR MEU LOTE
+      </a>
+      <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Vi%20o%20Loteamento%20S%C3%A3o%20Braz%20no%20site%20e%20quero%20garantir%20meu%20lote." target="_blank" class="btn-outline">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12.05 21.785h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884"/></svg>
+        FALAR NO WHATSAPP
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="diferenciais">
+  <div class="dif-item">
+    <div class="dif-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 L4 12h4v8h8v-8h4z"/></svg></div>
+    <div class="dif-titulo">Acesso a Igarapé Compartilhado</div>
+    <div class="dif-desc">O igarapé não passa dentro do lote individual.</div>
+  </div>
+  <div class="dif-item">
+    <div class="dif-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="14 7 21 7 21 14"/></svg></div>
+    <div class="dif-titulo">Investimento Seguro</div>
+    <div class="dif-desc">Região em crescimento e valorização.</div>
+  </div>
+  <div class="dif-item">
+    <div class="dif-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c1.51 0 2.93.37 4.18 1.03"/></svg></div>
+    <div class="dif-titulo">Sem Burocracia</div>
+    <div class="dif-desc">Comprar seu lote nunca foi tão fácil!</div>
+  </div>
+  <div class="dif-item">
+    <div class="dif-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M11 21h-1a2 2 0 01-2-2v-1a2 2 0 00-2-2H4a2 2 0 01-2-2v-1a2 2 0 012-2h1a2 2 0 002-2V8a2 2 0 012-2h1"/><path d="M13 3h1a2 2 0 012 2v1a2 2 0 002 2h1a2 2 0 012 2v1a2 2 0 01-2 2h-1a2 2 0 00-2 2v1a2 2 0 01-2 2h-1"/></svg></div>
+    <div class="dif-titulo">Compra Direta</div>
+    <div class="dif-desc">Pagamento realizado direto com a imobiliária.</div>
+  </div>
+</div>
+
+<section class="sec">
+  <h2 class="sec-title">Escolha seu plano</h2>
+  <p class="sec-sub">5 opções de lotes para realizar seu sonho</p>
+
+  <div class="planos">
+    <div class="plano-card">
+      <div class="plano-badge"><span class="plano-badge-label">LOTE</span><span class="plano-badge-valor">35 MIL</span></div>
+      <div class="plano-dados">
+        <div><div class="plano-dado-label">Valor do lote</div><div class="plano-dado-valor">R$ 35.000</div></div>
+        <div><div class="plano-dado-label">Entrada</div><div class="plano-dado-valor">R$ 3.000</div></div>
+        <div><div class="plano-dado-label">Parcelamento</div><div class="plano-dado-valor">64x R$500,00</div></div>
+      </div>
+      <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Quero%20simular%20o%20lote%20de%20R%2435.000%20no%20S%C3%A3o%20Braz." target="_blank" class="btn-simular">SIMULAR →</a>
+    </div>
+    <div class="plano-card">
+      <div class="plano-badge"><span class="plano-badge-label">LOTE</span><span class="plano-badge-valor">30 MIL</span></div>
+      <div class="plano-dados">
+        <div><div class="plano-dado-label">Valor do lote</div><div class="plano-dado-valor">R$ 30.000</div></div>
+        <div><div class="plano-dado-label">Entrada</div><div class="plano-dado-valor">R$ 2.000</div></div>
+        <div><div class="plano-dado-label">Parcelamento</div><div class="plano-dado-valor">75x R$400,00</div></div>
+      </div>
+      <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Quero%20simular%20o%20lote%20de%20R%2430.000%20no%20S%C3%A3o%20Braz." target="_blank" class="btn-simular">SIMULAR →</a>
+    </div>
+    <div class="plano-card">
+      <div class="plano-badge"><span class="plano-badge-label">LOTE</span><span class="plano-badge-valor">25 MIL</span></div>
+      <div class="plano-dados">
+        <div><div class="plano-dado-label">Valor do lote</div><div class="plano-dado-valor">R$ 25.000</div></div>
+        <div><div class="plano-dado-label">Entrada</div><div class="plano-dado-valor">R$ 2.000</div></div>
+        <div><div class="plano-dado-label">Parcelamento</div><div class="plano-dado-valor">65x R$353,84</div></div>
+      </div>
+      <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Quero%20simular%20o%20lote%20de%20R%2425.000%20no%20S%C3%A3o%20Braz." target="_blank" class="btn-simular">SIMULAR →</a>
+    </div>
+    <div class="plano-card">
+      <div class="plano-badge"><span class="plano-badge-label">LOTE</span><span class="plano-badge-valor">23 MIL</span></div>
+      <div class="plano-dados">
+        <div><div class="plano-dado-label">Valor do lote</div><div class="plano-dado-valor">R$ 23.000</div></div>
+        <div><div class="plano-dado-label">Entrada</div><div class="plano-dado-valor">R$ 1.000</div></div>
+        <div><div class="plano-dado-label">Parcelamento</div><div class="plano-dado-valor">66x R$303,00</div></div>
+      </div>
+      <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Quero%20simular%20o%20lote%20de%20R%2423.000%20no%20S%C3%A3o%20Braz." target="_blank" class="btn-simular">SIMULAR →</a>
+    </div>
+    <div class="plano-card">
+      <div class="plano-badge"><span class="plano-badge-label">LOTE</span><span class="plano-badge-valor">20 MIL</span></div>
+      <div class="plano-dados">
+        <div><div class="plano-dado-label">Valor do lote</div><div class="plano-dado-valor">R$ 20.000</div></div>
+        <div><div class="plano-dado-label">Entrada</div><div class="plano-dado-valor">R$ 1.000</div></div>
+        <div><div class="plano-dado-label">Parcelamento</div><div class="plano-dado-valor">54x R$351,85</div></div>
+      </div>
+      <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Quero%20simular%20o%20lote%20de%20R%2420.000%20no%20S%C3%A3o%20Braz." target="_blank" class="btn-simular">SIMULAR →</a>
+    </div>
+  </div>
+
+  <div class="pagamento-nota">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+    <span>Pagamento realizado direto com a imobiliária. <strong>Consulte as formas de pagamento disponíveis.</strong></span>
+  </div>
+</section>
+
+<section class="sec" style="background:var(--bg2)">
+  <h2 class="sec-title">Por que escolher o São Braz?</h2>
+  <div class="porque-grid" style="margin-top:34px">
+    <div class="porque-item">
+      <div class="porque-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 L4 12h4v8h8v-8h4z"/></svg></div>
+      <div class="porque-titulo">Contato com<br>a Natureza</div>
+    </div>
+    <div class="porque-item">
+      <div class="porque-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+      <div class="porque-titulo">Região em<br>Crescimento</div>
+    </div>
+    <div class="porque-item">
+      <div class="porque-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19l6-14 4 10 3-6 3 10"/></svg></div>
+      <div class="porque-titulo">Fácil Acesso<br>à Cidade</div>
+    </div>
+    <div class="porque-item">
+      <div class="porque-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg></div>
+      <div class="porque-titulo">Acesso ao<br>Igarapé</div>
+    </div>
+    <div class="porque-item">
+      <div class="porque-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+      <div class="porque-titulo">Excelente<br>Investimento</div>
+    </div>
+  </div>
+</section>
+
+<div class="barra-fixa">
+  <a href="#" class="barra-simular" onclick="document.querySelector('.planos').scrollIntoView({behavior:'smooth'});return false;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    SIMULAR<br>PARCELAS
+  </a>
+  <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Vi%20o%20Loteamento%20S%C3%A3o%20Braz%20no%20site%20e%20quero%20garantir%20meu%20lote." target="_blank" class="barra-wpp">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12.05 21.785h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884"/></svg>
+  </a>
+  <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Vi%20o%20Loteamento%20S%C3%A3o%20Braz%20no%20site%20e%20quero%20garantir%20meu%20lote." target="_blank" class="barra-falar">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21l1.65-3.8a9 9 0 113.4 3.4z"/></svg>
+    FALAR COM<br>RAFAEL
+  </a>
+</div>
+
+</body>
+</html>
