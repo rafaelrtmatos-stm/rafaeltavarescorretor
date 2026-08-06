@@ -181,19 +181,13 @@ footer { background: var(--bg2); border-top: 1px solid rgba(201,168,76,0.15); pa
   </div>
 </section>
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<style>
-#mini-mapa-loc .leaflet-control-zoom,#mini-mapa-loc .leaflet-bar{display:none!important}
-</style>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
 <section style="background:var(--bg);padding:64px 24px;border-top:1px solid var(--border)">
   <div style="max-width:900px;margin:0 auto;text-align:center">
     <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px">Localização</div>
     <h2 class="section-title">Onde fica o <em>São Braz</em></h2>
     <p class="section-sub">São Braz, Santarém, PA</p>
     <div id="mini-mapa-wrapper" style="position:relative;border-radius:16px;overflow:hidden;border:1px solid rgba(201,168,76,0.25);height:380px;margin-top:24px;box-shadow:0 20px 60px rgba(0,0,0,0.5)">
-      <div id="mini-mapa-loc" style="width:100%;height:100%"></div>
+      <iframe src="https://maps.google.com/maps?q=-2.471,-54.821611&t=k&z=17&iwloc=&output=embed" style="width:100%;height:100%;border:0" loading="lazy" allowfullscreen title="Localização no mapa"></iframe>
       <button onclick="abrirMiniMapaFullscreen()" id="btn-minimapa-expandir" title="Tela cheia" style="position:absolute;top:14px;right:14px;z-index:900;width:42px;height:42px;border-radius:10px;background:#000;border:2px solid #000;box-shadow:0 0 0 1.5px rgba(201,168,76,0.7),0 4px 14px rgba(0,0,0,0.6);color:#C9A84C;cursor:pointer;display:flex;align-items:center;justify-content:center">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
       </button>
@@ -205,28 +199,6 @@ footer { background: var(--bg2); border-top: 1px solid rgba(201,168,76,0.15); pa
 </section>
 
 <script>
-var _miniMapInstance=null;
-(function(){
-  var lat=-2.471, lng=-54.821611;
-  var map=L.map('mini-mapa-loc',{zoomControl:true,attributionControl:false,scrollWheelZoom:true,touchZoom:true}).setView([lat,lng],15);
-  _miniMapInstance=map;
-  setTimeout(function(){ map.invalidateSize(); }, 300);
-  window.addEventListener('resize', function(){ map.invalidateSize(); });
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19}).addTo(map);
-  var pinoHtml='<div style="display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.7))">'
-    +'<svg width="34" height="44" viewBox="0 0 36 46" fill="none" xmlns="http://www.w3.org/2000/svg">'
-    +'<path d="M18 0C8.06 0 0 8.06 0 18C0 31.5 18 46 18 46C18 46 36 31.5 36 18C36 8.06 27.94 0 18 0Z" fill="#C9A84C"/>'
-    +'<circle cx="18" cy="18" r="9" fill="rgba(0,0,0,0.55)"/>'
-    +'<circle cx="18" cy="18" r="4.5" fill="rgba(201,168,76,0.3)"/><circle cx="18" cy="18" r="2" fill="#E8C96A"/>'
-    +'</svg></div>';
-  var icon=L.divIcon({html:pinoHtml,className:'',iconSize:[34,44],iconAnchor:[17,44]});
-  var marker=L.marker([lat,lng],{icon:icon}).addTo(map);
-  marker.on('click',function(){
-    window.open('https://www.google.com/maps/search/?api=1&query='+lat+','+lng,'_blank');
-  });
-  var pinEl=marker.getElement();
-  if(pinEl)pinEl.style.cursor='pointer';
-})();
 function abrirMiniMapaFullscreen(){
   var w=document.getElementById('mini-mapa-wrapper');
   document.body.style.overflow='hidden';
@@ -236,7 +208,6 @@ function abrirMiniMapaFullscreen(){
   w.style.zIndex='9999';w.style.borderRadius='0';
   document.getElementById('btn-minimapa-expandir').style.display='none';
   document.getElementById('btn-minimapa-fechar').style.display='flex';
-  setTimeout(function(){ if(_miniMapInstance) _miniMapInstance.invalidateSize(); },250);
 }
 function fecharMiniMapaFullscreen(){
   var w=document.getElementById('mini-mapa-wrapper');
@@ -247,7 +218,6 @@ function fecharMiniMapaFullscreen(){
   w.style.zIndex='';w.style.borderRadius='16px';
   document.getElementById('btn-minimapa-expandir').style.display='flex';
   document.getElementById('btn-minimapa-fechar').style.display='none';
-  setTimeout(function(){ if(_miniMapInstance) _miniMapInstance.invalidateSize(); },250);
 }
 document.addEventListener('keydown',function(e){
   if(e.key==='Escape'){
