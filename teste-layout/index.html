@@ -71,6 +71,7 @@ nav{position:sticky;top:0;left:0;right:0;z-index:100;background:rgba(0,0,0,0.92)
 .sec{padding:64px 20px}
 .sec-title{font-size:clamp(24px,6vw,32px);font-weight:900;text-align:center;letter-spacing:-.3px;text-transform:uppercase}
 .sec-sub{text-align:center;color:var(--text3);font-size:13px;margin-top:8px;margin-bottom:34px}
+.premium{font-family:"Cormorant Garamond",serif;font-style:italic;font-weight:700;color:var(--gold-light);text-transform:none;letter-spacing:0}
 
 /* ===== PLANOS ===== */
 .planos{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
@@ -117,7 +118,7 @@ body{padding-bottom:74px}
 
 <nav>
   <a href="/" class="nav-logo" style="text-decoration:none;color:inherit">
-    <div class="nav-logo-badge">RT</div>
+    <img src="/logo-rt.png" alt="RT Corretor" style="width:40px;height:40px;object-fit:contain;border-radius:9px">
     <div>
       <div class="nav-logo-text">RT <span style="color:var(--gold)">CORRETOR</span></div>
       <div class="nav-logo-sub">CRECI 13919</div>
@@ -137,7 +138,7 @@ body{padding-bottom:74px}
     <img src="/imagens/sao-braz-hero.jpg" alt="São Braz - igarapé">
   </div>
   <div class="hero-inner">
-    <div class="hero-eyebrow">SÃO BRAZ — IGARAPÉ</div>
+    <div class="hero-eyebrow"><span class="premium" style="font-size:1.15em">São Braz</span> — Igarapé</div>
     <div class="hero-loc">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
       SANTARÉM – PA
@@ -246,7 +247,7 @@ body{padding-bottom:74px}
 </section>
 
 <section class="sec" style="background:var(--bg2)">
-  <h2 class="sec-title">Por que escolher o São Braz?</h2>
+  <h2 class="sec-title">Por que escolher o <span class="premium">São Braz</span>?</h2>
   <div class="porque-grid" style="margin-top:34px">
     <div class="porque-item">
       <div class="porque-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 L4 12h4v8h8v-8h4z"/></svg></div>
@@ -271,6 +272,36 @@ body{padding-bottom:74px}
   </div>
 </section>
 
+<section class="sec">
+  <h2 class="sec-title">Conheça o <span class="premium">São Braz</span></h2>
+  <p class="sec-sub">Fotos e vídeo do local</p>
+  <div id="galeria-grid" style="max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(2,1fr);gap:14px">
+    <div style="padding:40px;color:var(--text3);font-size:13px;text-align:center;grid-column:1/-1">Carregando...</div>
+  </div>
+</section>
+
+<div id="galeria-lightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.96);z-index:2000;align-items:center;justify-content:center;touch-action:none">
+  <button onclick="fecharGaleriaLightbox()" aria-label="Fechar" style="position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;color:#fff;font-size:20px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center">✕</button>
+  <div id="galeria-lightbox-counter" style="position:absolute;top:22px;left:20px;color:rgba(255,255,255,0.7);font-size:13px;font-weight:600;z-index:10"></div>
+  <button onclick="galeriaLightboxNav(-1)" aria-label="Anterior" style="position:absolute;left:8px;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;color:#fff;font-size:22px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center">‹</button>
+  <button onclick="galeriaLightboxNav(1)" aria-label="Próxima" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;color:#fff;font-size:22px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center">›</button>
+  <div id="galeria-lightbox-track" style="display:flex;width:100%;height:100%;will-change:transform"></div>
+</div>
+
+<section class="sec" style="background:var(--bg2)">
+  <h2 class="sec-title">Onde fica o <span class="premium">São Braz</span></h2>
+  <p class="sec-sub">Santarém, PA</p>
+  <div id="mini-mapa-wrapper" style="position:relative;max-width:900px;margin:0 auto;border-radius:16px;overflow:hidden;border:1px solid var(--border);height:380px;box-shadow:0 20px 60px rgba(0,0,0,0.5)">
+    <div id="mini-mapa-loc" style="width:100%;height:100%"></div>
+    <button onclick="abrirMiniMapaFullscreen()" id="btn-minimapa-expandir" title="Tela cheia" style="position:absolute;top:14px;right:14px;z-index:900;width:42px;height:42px;border-radius:10px;background:#000;border:2px solid #000;box-shadow:0 0 0 1.5px rgba(201,168,76,0.7),0 4px 14px rgba(0,0,0,0.6);color:var(--gold);cursor:pointer;display:flex;align-items:center;justify-content:center">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
+    </button>
+    <button onclick="fecharMiniMapaFullscreen()" id="btn-minimapa-fechar" title="Fechar tela cheia" style="display:none;position:absolute;top:14px;right:14px;z-index:900;width:42px;height:42px;border-radius:10px;background:#000;border:2px solid #000;box-shadow:0 0 0 1.5px rgba(201,168,76,0.7),0 4px 14px rgba(0,0,0,0.6);color:var(--gold);cursor:pointer;align-items:center;justify-content:center;font-size:22px;line-height:1;font-weight:700">
+      ×
+    </button>
+  </div>
+</section>
+
 <div class="barra-fixa">
   <a href="#" class="barra-simular" onclick="document.querySelector('.planos').scrollIntoView({behavior:'smooth'});return false;">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -284,6 +315,123 @@ body{padding-bottom:74px}
     FALAR COM<br>RAFAEL
   </a>
 </div>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+#mini-mapa-loc .leaflet-control-zoom,#mini-mapa-loc .leaflet-bar{display:none!important}
+</style>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+// ===== GALERIA =====
+var glbIndex=0, glbDragStartX=0, glbDragging=false;
+function glbIsVideo(url){ return url.indexOf('.mp4')>=0||url.indexOf('.webm')>=0||url.indexOf('.mov')>=0; }
+
+function abrirGaleriaLightbox(idx){
+  var galeria=window.saoBrazGaleria||[];
+  if(!galeria.length)return;
+  glbIndex=idx;
+  var track=document.getElementById('galeria-lightbox-track');
+  track.innerHTML=galeria.map(function(url){
+    if(glbIsVideo(url)){
+      return '<div style="min-width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><video src="'+url+'" controls playsinline style="max-width:100%;max-height:100%;width:auto;height:auto" autoplay muted loop></video></div>';
+    }
+    return '<div style="min-width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="'+url+'" style="max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain" alt="São Braz"></div>';
+  }).join('');
+  document.getElementById('galeria-lightbox').style.display='flex';
+  document.body.style.overflow='hidden';
+  glbGoToIndex(glbIndex,false);
+}
+function fecharGaleriaLightbox(){
+  document.querySelectorAll('#galeria-lightbox-track video').forEach(function(v){v.pause();});
+  document.getElementById('galeria-lightbox').style.display='none';
+  document.body.style.overflow='';
+}
+function glbGoToIndex(idx,animate){
+  var galeria=window.saoBrazGaleria||[];
+  if(idx<0)idx=0;
+  if(idx>galeria.length-1)idx=galeria.length-1;
+  glbIndex=idx;
+  var track=document.getElementById('galeria-lightbox-track');
+  track.style.transition=animate===false?'none':'transform .3s ease';
+  track.style.transform='translateX(-'+(glbIndex*100)+'%)';
+  var counter=document.getElementById('galeria-lightbox-counter');
+  if(counter)counter.textContent=(glbIndex+1)+' / '+galeria.length;
+  document.querySelectorAll('#galeria-lightbox-track video').forEach(function(v,i){ if(i!==glbIndex)v.pause(); });
+}
+function galeriaLightboxNav(dir){ glbGoToIndex(glbIndex+dir,true); }
+
+fetch('/site_data.json?_='+Date.now()).then(function(r){return r.json();}).then(function(d){
+  var galeria=(d['sao-braz']&&d['sao-braz'].galeria)||[];
+  window.saoBrazGaleria=galeria;
+  var grid=document.getElementById('galeria-grid');
+  if(!grid)return;
+  if(!galeria.length){
+    grid.innerHTML='<div style="padding:40px;color:var(--text3);font-size:13px;text-align:center;grid-column:1/-1">Fotos em breve</div>';
+    return;
+  }
+  grid.innerHTML=galeria.map(function(url,idx){
+    var isVideo=glbIsVideo(url);
+    if(isVideo){
+      return '<div onclick="abrirGaleriaLightbox('+idx+')" style="border-radius:12px;overflow:hidden;aspect-ratio:16/9;cursor:pointer;border:1px solid var(--border)"><video src="'+url+'" muted playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover" autoplay loop></video></div>';
+    }
+    return '<div onclick="abrirGaleriaLightbox('+idx+')" style="border-radius:12px;overflow:hidden;aspect-ratio:16/9;cursor:pointer;border:1px solid var(--border)"><img src="'+url+'" loading="lazy" alt="São Braz" style="width:100%;height:100%;object-fit:cover"></div>';
+  }).join('');
+}).catch(function(){
+  var grid=document.getElementById('galeria-grid');
+  if(grid)grid.innerHTML='<div style="padding:40px;color:var(--text3);font-size:13px;text-align:center;grid-column:1/-1">Fotos em breve</div>';
+});
+
+// ===== MINI-MAPA =====
+var _miniMapInstance=null;
+(function(){
+  var lat=-2.471, lng=-54.821611;
+  var map=L.map('mini-mapa-loc',{zoomControl:true,attributionControl:false,scrollWheelZoom:true,touchZoom:true}).setView([lat,lng],15);
+  _miniMapInstance=map;
+  setTimeout(function(){ map.invalidateSize(); }, 300);
+  window.addEventListener('resize', function(){ map.invalidateSize(); });
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19}).addTo(map);
+  var pinoHtml='<div style="display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.7))">'
+    +'<svg width="34" height="44" viewBox="0 0 36 46" fill="none" xmlns="http://www.w3.org/2000/svg">'
+    +'<path d="M18 0C8.06 0 0 8.06 0 18C0 31.5 18 46 18 46C18 46 36 31.5 36 18C36 8.06 27.94 0 18 0Z" fill="#C9A84C"/>'
+    +'<circle cx="18" cy="18" r="9" fill="rgba(0,0,0,0.55)"/>'
+    +'<circle cx="18" cy="18" r="4.5" fill="rgba(201,168,76,0.3)"/><circle cx="18" cy="18" r="2" fill="#E8C96A"/>'
+    +'</svg></div>';
+  var icon=L.divIcon({html:pinoHtml,className:'',iconSize:[34,44],iconAnchor:[17,44]});
+  var marker=L.marker([lat,lng],{icon:icon}).addTo(map);
+  marker.on('click',function(){ window.open('https://www.google.com/maps/search/?api=1&query='+lat+','+lng,'_blank'); });
+  var pinEl=marker.getElement();
+  if(pinEl)pinEl.style.cursor='pointer';
+})();
+function abrirMiniMapaFullscreen(){
+  var w=document.getElementById('mini-mapa-wrapper');
+  document.body.style.overflow='hidden';
+  w.style.position='fixed';w.style.inset='0';
+  w.style.top='0';w.style.left='0';w.style.right='0';w.style.bottom='0';
+  w.style.width='100vw';w.style.height='100vh';
+  w.style.zIndex='9999';w.style.borderRadius='0';
+  document.getElementById('btn-minimapa-expandir').style.display='none';
+  document.getElementById('btn-minimapa-fechar').style.display='flex';
+  setTimeout(function(){ if(_miniMapInstance) _miniMapInstance.invalidateSize(); },250);
+}
+function fecharMiniMapaFullscreen(){
+  var w=document.getElementById('mini-mapa-wrapper');
+  document.body.style.overflow='';
+  w.style.position='relative';w.style.inset='';
+  w.style.top='';w.style.left='';w.style.right='';w.style.bottom='';
+  w.style.width='';w.style.height='380px';
+  w.style.zIndex='';w.style.borderRadius='16px';
+  document.getElementById('btn-minimapa-expandir').style.display='flex';
+  document.getElementById('btn-minimapa-fechar').style.display='none';
+  setTimeout(function(){ if(_miniMapInstance) _miniMapInstance.invalidateSize(); },250);
+}
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){
+    var b=document.getElementById('btn-minimapa-fechar');
+    if(b && b.style.display==='flex') fecharMiniMapaFullscreen();
+  }
+});
+</script>
 
 </body>
 </html>
