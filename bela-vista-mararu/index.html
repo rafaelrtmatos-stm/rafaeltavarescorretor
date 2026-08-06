@@ -1241,5 +1241,20 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')fecharMenu()
 })();
 </script>
 <!-- ═══ FIM MENU ═══ -->
+
+<button onclick="compartilharPagina()" id="btn-compartilhar" title="Compartilhar" style="position:fixed;bottom:20px;right:20px;z-index:200;width:52px;height:52px;border-radius:50%;background:#25d366;border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(37,211,102,0.45)">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+</button>
+<script>
+function compartilharPagina(){
+  var url=window.location.href;
+  var titulo=document.title;
+  if(navigator.share){
+    navigator.share({title:titulo,url:url}).catch(function(){});
+  } else {
+    window.open('https://wa.me/?text='+encodeURIComponent(titulo+' — '+url),'_blank');
+  }
+}
+</script>
 </body>
 </html>
