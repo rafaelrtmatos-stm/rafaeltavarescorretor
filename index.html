@@ -986,6 +986,13 @@ function startMap(){
     touchZoom:true
   });
   _mapInstance=map; // FIX erro 4: salvar referência imediatamente
+  // FIX: o Leaflet calcula o tamanho do mapa no momento em que é criado; se a
+  // caixa ainda não tiver o layout final (efeito comum em containers com
+  // aspect-ratio via padding-bottom), o zoom por scroll e outras interações
+  // ficam "travadas" até algo forçar um resize (como abrir em tela cheia).
+  // Isso corrige de vez, sem precisar entrar em tela cheia.
+  setTimeout(function(){ map.invalidateSize(); }, 300);
+  window.addEventListener('resize', function(){ map.invalidateSize(); });
 
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
     maxZoom:19,

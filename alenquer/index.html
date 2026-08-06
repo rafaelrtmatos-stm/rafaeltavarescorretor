@@ -279,6 +279,8 @@ var _miniMapInstance=null;
   var lat=-1.9632448, lng=-54.7075062;
   var map=L.map('mini-mapa-loc',{zoomControl:true,attributionControl:false,scrollWheelZoom:true,touchZoom:true}).setView([lat,lng],15);
   _miniMapInstance=map;
+  setTimeout(function(){ map.invalidateSize(); }, 300);
+  window.addEventListener('resize', function(){ map.invalidateSize(); });
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19}).addTo(map);
   var pinoHtml='<div style="display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.7))">'
     +'<svg width="34" height="44" viewBox="0 0 36 46" fill="none" xmlns="http://www.w3.org/2000/svg">'
