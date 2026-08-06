@@ -72,7 +72,7 @@ nav{position:sticky;top:0;left:0;right:0;z-index:100;background:rgba(0,0,0,0.92)
 /* ===== DIFERENCIAIS ===== */
 .diferenciais{background:linear-gradient(160deg,#141008,#0a0805);border:1px solid var(--border);border-radius:18px;margin:0 20px;padding:30px 20px;display:grid;grid-template-columns:repeat(2,1fr);gap:26px 16px;position:relative;z-index:2;margin-top:-40px}
 .dif-item{text-align:center}
-.dif-ico{width:44px;height:44px;margin:0 auto 12px;color:var(--gold)}
+.dif-ico{width:52px;height:52px;margin:0 auto 12px}
 .dif-titulo{font-size:12.5px;font-weight:800;letter-spacing:.3px;margin-bottom:6px;text-transform:uppercase}
 .dif-desc{font-size:11.5px;color:var(--text3);line-height:1.5}
 
@@ -83,16 +83,14 @@ nav{position:sticky;top:0;left:0;right:0;z-index:100;background:rgba(0,0,0,0.92)
 .premium{font-family:"Cormorant Garamond",serif;font-style:italic;font-weight:700;color:var(--gold-light);text-transform:none;letter-spacing:0}
 
 /* ===== PLANOS ===== */
-.planos{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
-.plano-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;transition:.25s}
-.plano-card:hover{border-color:rgba(201,168,76,0.45);background:var(--bg3)}
-.plano-badge{background:var(--gold);color:#000;border-radius:10px;padding:10px 12px;text-align:center;flex-shrink:0;min-width:88px}
-.plano-badge-label{font-size:8.5px;font-weight:800;letter-spacing:.5px;display:block}
-.plano-badge-valor{font-size:15px;font-weight:900;display:block;line-height:1.1}
-.plano-dados{display:flex;flex:1;gap:22px;flex-wrap:wrap;min-width:200px}
-.plano-dado-label{font-size:8.5px;color:var(--text3);letter-spacing:.6px;text-transform:uppercase;font-weight:700;margin-bottom:3px}
-.plano-dado-valor{font-size:14px;font-weight:700;color:var(--text)}
-.btn-simular{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:#000;padding:11px 18px;border-radius:9px;font-size:11.5px;font-weight:800;text-decoration:none;letter-spacing:.3px;white-space:nowrap;flex-shrink:0;margin-left:auto}
+.plano-badge{background:var(--gold);color:#000;border-radius:10px;padding:12px 16px;text-align:center;flex-shrink:0;min-width:100px;display:inline-block}
+.plano-badge-label{font-size:14px;font-weight:900;letter-spacing:.5px;display:block}
+.selo-diamante{background:linear-gradient(160deg,#dff3ff,#8ecdf0 55%,#4fa8d8);color:#04202e;text-shadow:0 0 10px rgba(173,230,255,0.9),0 0 2px #fff}
+.selo-ouro{background:linear-gradient(160deg,#f8e7b0,var(--gold) 55%,#9c7a25);color:#2b2005;text-shadow:0 0 10px rgba(232,201,106,0.9),0 0 2px #fff}
+.selo-prata{background:linear-gradient(160deg,#ffffff,#cfd4d8 55%,#8b9298);color:#1a1d1f;text-shadow:0 0 10px rgba(255,255,255,0.95),0 0 2px #fff}
+.selo-bronze{background:linear-gradient(160deg,#e7b58a,#b8703a 55%,#7a481f);color:#2b1607;text-shadow:0 0 10px rgba(224,150,95,0.9),0 0 2px #fff}
+.selo-standard{background:linear-gradient(160deg,#3a3a3a,#232323 55%,#141414);color:#e8e4d8;text-shadow:none;border:1px solid rgba(201,168,76,0.35)}
+.btn-simular{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--gold);color:#000;padding:12px 18px;border-radius:9px;font-size:11.5px;font-weight:800;text-decoration:none;letter-spacing:.3px;white-space:nowrap}
 
 .pagamento-nota{max-width:600px;margin:26px auto 0;display:flex;align-items:center;gap:12px;justify-content:center;text-align:center;color:var(--text3);font-size:12px;flex-wrap:wrap}
 .pagamento-nota strong{color:var(--text2)}
@@ -100,7 +98,7 @@ nav{position:sticky;top:0;left:0;right:0;z-index:100;background:rgba(0,0,0,0.92)
 /* ===== POR QUE ESCOLHER ===== */
 .porque-grid{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(2,1fr);gap:26px 16px}
 .porque-item{text-align:center}
-.porque-ico{width:46px;height:46px;margin:0 auto 12px;border:1.5px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold)}
+.porque-ico{width:54px;height:54px;margin:0 auto 12px;border:1.5px solid rgba(201,168,76,0.35);border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(201,168,76,0.06)}
 .porque-titulo{font-size:12px;font-weight:800;letter-spacing:.3px;text-transform:uppercase;line-height:1.3}
 
 /* ===== BARRA FIXA INFERIOR ===== */
@@ -225,22 +223,22 @@ nav{position:sticky;top:0;left:0;right:0;z-index:100;background:rgba(0,0,0,0.92)
 
 <div class="diferenciais">
   <div class="dif-item">
-    <div class="dif-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 L4 12h4v8h8v-8h4z"/></svg></div>
+    <div class="dif-ico"><svg viewBox="0 0 48 48"><defs><linearGradient id="gIcoUniq1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#F0D98C"/><stop offset="55%" stop-color="#C9A84C"/><stop offset="100%" stop-color="#8A6B22"/></linearGradient></defs><path d="M24 4C24 4 12 18 12 28a12 12 0 0024 0C36 18 24 4 24 4z" fill="url(#gIcoUniq1)"/><path d="M24 14c-4 6-7 12-7 15a7 7 0 0014 0c0-3-3-9-7-15z" fill="#fff" opacity="0.18"/></svg></div>
     <div class="dif-titulo">Acesso a Igarapé Compartilhado</div>
     <div class="dif-desc">O igarapé não passa dentro do lote individual.</div>
   </div>
   <div class="dif-item">
-    <div class="dif-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="14 7 21 7 21 14"/></svg></div>
+    <div class="dif-ico"><svg viewBox="0 0 48 48"><defs><linearGradient id="gIcoUniq2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#F0D98C"/><stop offset="55%" stop-color="#C9A84C"/><stop offset="100%" stop-color="#8A6B22"/></linearGradient></defs><path d="M24 4l16 6v12c0 11-7 18.5-16 22C15 40.5 8 33 8 22V10z" fill="url(#gIcoUniq2)"/><path d="M15 26l6-6 4 4 8-9" stroke="#3a2a05" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
     <div class="dif-titulo">Investimento Seguro</div>
     <div class="dif-desc">Região em crescimento e valorização.</div>
   </div>
   <div class="dif-item">
-    <div class="dif-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c1.51 0 2.93.37 4.18 1.03"/></svg></div>
+    <div class="dif-ico"><svg viewBox="0 0 48 48"><defs><linearGradient id="gIcoUniq3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#F0D98C"/><stop offset="55%" stop-color="#C9A84C"/><stop offset="100%" stop-color="#8A6B22"/></linearGradient></defs><path d="M12 4h16l8 8v28a2 2 0 01-2 2H12a2 2 0 01-2-2V6a2 2 0 012-2z" fill="url(#gIcoUniq3)"/><path d="M28 4v8h8z" fill="#8A6B22" opacity="0.5"/><path d="M15 26l5 5 11-12" stroke="#3a2a05" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
     <div class="dif-titulo">Sem Burocracia</div>
     <div class="dif-desc">Comprar seu lote nunca foi tão fácil!</div>
   </div>
   <div class="dif-item">
-    <div class="dif-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M11 21h-1a2 2 0 01-2-2v-1a2 2 0 00-2-2H4a2 2 0 01-2-2v-1a2 2 0 012-2h1a2 2 0 002-2V8a2 2 0 012-2h1"/><path d="M13 3h1a2 2 0 012 2v1a2 2 0 002 2h1a2 2 0 012 2v1a2 2 0 01-2 2h-1a2 2 0 00-2 2v1a2 2 0 01-2 2h-1"/></svg></div>
+    <div class="dif-ico"><svg viewBox="0 0 48 48"><defs><linearGradient id="gIcoUniq4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#F0D98C"/><stop offset="55%" stop-color="#C9A84C"/><stop offset="100%" stop-color="#8A6B22"/></linearGradient></defs><path d="M6 22l8-6 6 3 4-3 8 6-4 12-8-2-4 3-6-2z" fill="url(#gIcoUniq4)"/><path d="M14 16l6 3 4-3M20 25l6 4" stroke="#3a2a05" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>
     <div class="dif-titulo">Compra Direta</div>
     <div class="dif-desc">Pagamento realizado direto com a imobiliária.</div>
   </div>
@@ -250,52 +248,53 @@ nav{position:sticky;top:0;left:0;right:0;z-index:100;background:rgba(0,0,0,0.92)
   <h2 class="sec-title">Escolha seu plano</h2>
   <p class="sec-sub">5 opções de lotes para realizar seu sonho</p>
 
-  <div class="planos">
-    <div class="plano-card">
-      <div class="plano-badge"><span class="plano-badge-label">DIAMANTE</span><span class="plano-badge-valor">35 MIL</span></div>
-      <div class="plano-dados">
-        <div><div class="plano-dado-label">Valor do lote</div><div class="plano-dado-valor">R$ 35.000</div></div>
-        <div><div class="plano-dado-label">Entrada</div><div class="plano-dado-valor">R$ 3.000</div></div>
-        <div><div class="plano-dado-label">Parcelamento</div><div class="plano-dado-valor">64x R$500,00</div></div>
-      </div>
-      <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Quero%20saber%20mais%20sobre%20os%20lotes%20de%20R%2435.000%20em%20S%C3%A3o%20Braz." target="_blank" class="btn-simular">SABER MAIS →</a>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;max-width:1200px;margin:0 auto">
+
+    <div style="background:linear-gradient(135deg,rgba(201,168,76,0.14),rgba(201,168,76,0.05));border:2px solid var(--gold);border-radius:18px;padding:24px">
+      <div class="plano-badge selo-diamante"><span class="plano-badge-label">DIAMANTE</span></div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:#fff;line-height:1;margin:14px 0 16px">R$ 35.000,00</div>
+      <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 0;border-top:1px solid rgba(255,255,255,0.1)"><span style="color:rgba(255,255,255,0.6)">Entrada</span><span style="font-weight:700;color:#fff">R$ 3.000,00</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 0;border-top:1px solid rgba(255,255,255,0.1)"><span style="color:rgba(255,255,255,0.6)">64x de</span><span style="font-weight:700;color:#fff">R$ 500,00</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 0;border-top:1px solid rgba(255,255,255,0.1);border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:16px"><span style="color:var(--gold);font-weight:600">À vista</span><span style="font-weight:700;color:var(--gold)">R$ 20.000,00</span></div>
+      <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Quero%20saber%20mais%20sobre%20os%20lotes%20de%20R%2435.000%20em%20S%C3%A3o%20Braz." target="_blank" class="btn-simular" style="width:100%;display:flex">SABER MAIS →</a>
     </div>
-    <div class="plano-card">
-      <div class="plano-badge"><span class="plano-badge-label">OURO</span><span class="plano-badge-valor">30 MIL</span></div>
-      <div class="plano-dados">
-        <div><div class="plano-dado-label">Valor do lote</div><div class="plano-dado-valor">R$ 30.000</div></div>
-        <div><div class="plano-dado-label">Entrada</div><div class="plano-dado-valor">R$ 2.000</div></div>
-        <div><div class="plano-dado-label">Parcelamento</div><div class="plano-dado-valor">75x R$400,00</div></div>
-      </div>
-      <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Quero%20saber%20mais%20sobre%20os%20lotes%20de%20R%2430.000%20em%20S%C3%A3o%20Braz." target="_blank" class="btn-simular">SABER MAIS →</a>
+
+    <div style="background:linear-gradient(135deg,rgba(201,168,76,0.14),rgba(201,168,76,0.05));border:2px solid var(--gold);border-radius:18px;padding:24px">
+      <div class="plano-badge selo-ouro"><span class="plano-badge-label">OURO</span></div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:#fff;line-height:1;margin:14px 0 16px">R$ 30.000,00</div>
+      <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 0;border-top:1px solid rgba(255,255,255,0.1)"><span style="color:rgba(255,255,255,0.6)">Entrada</span><span style="font-weight:700;color:#fff">R$ 2.000,00</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 0;border-top:1px solid rgba(255,255,255,0.1)"><span style="color:rgba(255,255,255,0.6)">75x de</span><span style="font-weight:700;color:#fff">R$ 400,00</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 0;border-top:1px solid rgba(255,255,255,0.1);border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:16px"><span style="color:var(--gold);font-weight:600">À vista</span><span style="font-weight:700;color:var(--gold)">R$ 15.000,00</span></div>
+      <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Quero%20saber%20mais%20sobre%20os%20lotes%20de%20R%2430.000%20em%20S%C3%A3o%20Braz." target="_blank" class="btn-simular" style="width:100%;display:flex">SABER MAIS →</a>
     </div>
-    <div class="plano-card">
-      <div class="plano-badge"><span class="plano-badge-label">PRATA</span><span class="plano-badge-valor">25 MIL</span></div>
-      <div class="plano-dados">
-        <div><div class="plano-dado-label">Valor do lote</div><div class="plano-dado-valor">R$ 25.000</div></div>
-        <div><div class="plano-dado-label">Entrada</div><div class="plano-dado-valor">R$ 2.000</div></div>
-        <div><div class="plano-dado-label">Parcelamento</div><div class="plano-dado-valor">65x R$353,84</div></div>
-      </div>
-      <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Quero%20saber%20mais%20sobre%20os%20lotes%20de%20R%2425.000%20em%20S%C3%A3o%20Braz." target="_blank" class="btn-simular">SABER MAIS →</a>
+
+    <div style="background:linear-gradient(135deg,rgba(201,168,76,0.14),rgba(201,168,76,0.05));border:2px solid var(--gold);border-radius:18px;padding:24px">
+      <div class="plano-badge selo-prata"><span class="plano-badge-label">PRATA</span></div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:#fff;line-height:1;margin:14px 0 16px">R$ 25.000,00</div>
+      <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 0;border-top:1px solid rgba(255,255,255,0.1)"><span style="color:rgba(255,255,255,0.6)">Entrada</span><span style="font-weight:700;color:#fff">R$ 2.000,00</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 0;border-top:1px solid rgba(255,255,255,0.1)"><span style="color:rgba(255,255,255,0.6)">65x de</span><span style="font-weight:700;color:#fff">R$ 353,84</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 0;border-top:1px solid rgba(255,255,255,0.1);border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:16px"><span style="color:var(--gold);font-weight:600">À vista</span><span style="font-weight:700;color:var(--gold)">R$ 12.000,00</span></div>
+      <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Quero%20saber%20mais%20sobre%20os%20lotes%20de%20R%2425.000%20em%20S%C3%A3o%20Braz." target="_blank" class="btn-simular" style="width:100%;display:flex">SABER MAIS →</a>
     </div>
-    <div class="plano-card">
-      <div class="plano-badge"><span class="plano-badge-label">BRONZE</span><span class="plano-badge-valor">23 MIL</span></div>
-      <div class="plano-dados">
-        <div><div class="plano-dado-label">Valor do lote</div><div class="plano-dado-valor">R$ 23.000</div></div>
-        <div><div class="plano-dado-label">Entrada</div><div class="plano-dado-valor">R$ 1.000</div></div>
-        <div><div class="plano-dado-label">Parcelamento</div><div class="plano-dado-valor">66x R$303,00</div></div>
-      </div>
-      <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Quero%20saber%20mais%20sobre%20os%20lotes%20de%20R%2423.000%20em%20S%C3%A3o%20Braz." target="_blank" class="btn-simular">SABER MAIS →</a>
+
+    <div style="background:linear-gradient(135deg,rgba(201,168,76,0.14),rgba(201,168,76,0.05));border:2px solid var(--gold);border-radius:18px;padding:24px">
+      <div class="plano-badge selo-bronze"><span class="plano-badge-label">BRONZE</span></div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:#fff;line-height:1;margin:14px 0 16px">R$ 23.000,00</div>
+      <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 0;border-top:1px solid rgba(255,255,255,0.1)"><span style="color:rgba(255,255,255,0.6)">Entrada</span><span style="font-weight:700;color:#fff">R$ 1.000,00</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 0;border-top:1px solid rgba(255,255,255,0.1)"><span style="color:rgba(255,255,255,0.6)">66x de</span><span style="font-weight:700;color:#fff">R$ 303,00</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 0;border-top:1px solid rgba(255,255,255,0.1);border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:16px"><span style="color:var(--gold);font-weight:600">À vista</span><span style="font-weight:700;color:var(--gold)">R$ 12.000,00</span></div>
+      <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Quero%20saber%20mais%20sobre%20os%20lotes%20de%20R%2423.000%20em%20S%C3%A3o%20Braz." target="_blank" class="btn-simular" style="width:100%;display:flex">SABER MAIS →</a>
     </div>
-    <div class="plano-card">
-      <div class="plano-badge"><span class="plano-badge-label">STANDARD</span><span class="plano-badge-valor">20 MIL</span></div>
-      <div class="plano-dados">
-        <div><div class="plano-dado-label">Valor do lote</div><div class="plano-dado-valor">R$ 20.000</div></div>
-        <div><div class="plano-dado-label">Entrada</div><div class="plano-dado-valor">R$ 1.000</div></div>
-        <div><div class="plano-dado-label">Parcelamento</div><div class="plano-dado-valor">54x R$351,85</div></div>
-      </div>
-      <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Quero%20saber%20mais%20sobre%20os%20lotes%20de%20R%2420.000%20em%20S%C3%A3o%20Braz." target="_blank" class="btn-simular">SABER MAIS →</a>
+
+    <div style="background:linear-gradient(135deg,rgba(201,168,76,0.14),rgba(201,168,76,0.05));border:2px solid var(--gold);border-radius:18px;padding:24px">
+      <div class="plano-badge selo-standard"><span class="plano-badge-label">STANDARD</span></div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:#fff;line-height:1;margin:14px 0 16px">R$ 20.000,00</div>
+      <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 0;border-top:1px solid rgba(255,255,255,0.1)"><span style="color:rgba(255,255,255,0.6)">Entrada</span><span style="font-weight:700;color:#fff">R$ 1.000,00</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 0;border-top:1px solid rgba(255,255,255,0.1)"><span style="color:rgba(255,255,255,0.6)">54x de</span><span style="font-weight:700;color:#fff">R$ 351,85</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 0;border-top:1px solid rgba(255,255,255,0.1);border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:16px"><span style="color:var(--gold);font-weight:600">À vista</span><span style="font-weight:700;color:var(--gold)">R$ 15.000,00</span></div>
+      <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Quero%20saber%20mais%20sobre%20os%20lotes%20de%20R%2420.000%20em%20S%C3%A3o%20Braz." target="_blank" class="btn-simular" style="width:100%;display:flex">SABER MAIS →</a>
     </div>
+
   </div>
 
   <div class="pagamento-nota">
@@ -308,23 +307,23 @@ nav{position:sticky;top:0;left:0;right:0;z-index:100;background:rgba(0,0,0,0.92)
   <h2 class="sec-title">Por que escolher o <span class="premium">São Braz</span>?</h2>
   <div class="porque-grid" style="margin-top:34px">
     <div class="porque-item">
-      <div class="porque-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 L4 12h4v8h8v-8h4z"/></svg></div>
+      <div class="porque-ico"><svg width="28" height="28" viewBox="0 0 48 48"><defs><linearGradient id="gIcoUniq104" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#F0D98C"/><stop offset="55%" stop-color="#C9A84C"/><stop offset="100%" stop-color="#8A6B22"/></linearGradient></defs><path d="M24 2c5 6 9 10 9 15a9 9 0 01-18 0c0-5 4-9 9-15z" fill="url(#gIcoUniq104)"/><path d="M24 15c3 4 6 7 6 10a6 6 0 01-12 0c0-3 3-6 6-10z" fill="url(#gIcoUniq104)" transform="translate(0,10) scale(0.85)"/><rect x="22" y="26" width="4" height="14" rx="1.5" fill="#8A6B22"/></svg></div>
       <div class="porque-titulo">Contato com<br>a Natureza</div>
     </div>
     <div class="porque-item">
-      <div class="porque-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+      <div class="porque-ico"><svg width="28" height="28" viewBox="0 0 48 48"><defs><linearGradient id="gIcoUniq105" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#F0D98C"/><stop offset="55%" stop-color="#C9A84C"/><stop offset="100%" stop-color="#8A6B22"/></linearGradient></defs><rect x="6" y="28" width="7" height="14" rx="1.5" fill="url(#gIcoUniq105)"/><rect x="17" y="20" width="7" height="22" rx="1.5" fill="url(#gIcoUniq105)"/><rect x="28" y="12" width="7" height="30" rx="1.5" fill="url(#gIcoUniq105)"/><path d="M7 18l9-8 7 5 11-10" stroke="#8A6B22" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M28 5h8v8" stroke="#8A6B22" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <div class="porque-titulo">Região em<br>Crescimento</div>
     </div>
     <div class="porque-item">
-      <div class="porque-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19l6-14 4 10 3-6 3 10"/></svg></div>
+      <div class="porque-ico"><svg width="28" height="28" viewBox="0 0 48 48"><defs><linearGradient id="gIcoUniq106" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#F0D98C"/><stop offset="55%" stop-color="#C9A84C"/><stop offset="100%" stop-color="#8A6B22"/></linearGradient></defs><path d="M18 4h12l6 40H12z" fill="url(#gIcoUniq106)"/><path d="M24 10v6M24 22v6M24 34v4" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg></div>
       <div class="porque-titulo">Fácil Acesso<br>à Cidade</div>
     </div>
     <div class="porque-item">
-      <div class="porque-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg></div>
+      <div class="porque-ico"><svg width="28" height="28" viewBox="0 0 48 48"><defs><linearGradient id="gIcoUniq107" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#F0D98C"/><stop offset="55%" stop-color="#C9A84C"/><stop offset="100%" stop-color="#8A6B22"/></linearGradient></defs><path d="M4 30c4-4 8-4 12 0s8 4 12 0 8-4 12 0 8 4 8 4v10H4z" fill="url(#gIcoUniq107)"/><path d="M4 20c4-4 8-4 12 0s8 4 12 0 8-4 12 0 8 4 8 4" stroke="url(#gIcoUniq107)" stroke-width="3" fill="none" stroke-linecap="round"/></svg></div>
       <div class="porque-titulo">Acesso ao<br>Igarapé</div>
     </div>
     <div class="porque-item">
-      <div class="porque-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+      <div class="porque-ico"><svg width="28" height="28" viewBox="0 0 48 48"><defs><linearGradient id="gIcoUniq108" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#F0D98C"/><stop offset="55%" stop-color="#C9A84C"/><stop offset="100%" stop-color="#8A6B22"/></linearGradient></defs><circle cx="24" cy="24" r="20" fill="url(#gIcoUniq108)"/><circle cx="24" cy="24" r="15.5" fill="none" stroke="#fff" stroke-opacity="0.35" stroke-width="1.5"/><text x="24" y="31" font-family="Georgia,serif" font-size="20" font-weight="700" fill="#3a2a05" text-anchor="middle">R$</text></svg></div>
       <div class="porque-titulo">Excelente<br>Investimento</div>
     </div>
   </div>
