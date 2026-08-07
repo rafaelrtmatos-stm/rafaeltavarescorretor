@@ -20,11 +20,11 @@
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh}
 
-.header{background:rgba(255,255,255,0.95);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+.header{background:#14120D;border-bottom:1px solid rgba(201,168,76,0.2);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
 .header-brand{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--gold);text-decoration:none;display:block}
-.header-sub{font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-top:2px}
-.btn-voltar{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);text-decoration:none;border:1px solid var(--border);padding:8px 14px;border-radius:8px;transition:all .2s;white-space:nowrap}
-.btn-voltar:hover{color:var(--gold);border-color:var(--border2)}
+.header-sub{font-size:9px;letter-spacing:2px;color:rgba(255,255,255,0.55);text-transform:uppercase;margin-top:2px}
+.btn-voltar{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#fff;text-decoration:none;border:1px solid rgba(201,168,76,0.5);padding:9px 18px;border-radius:999px;transition:all .2s;white-space:nowrap}
+.btn-voltar:hover{color:var(--gold);border-color:var(--gold)}
 
 .hero{padding:48px 24px 36px;text-align:center;border-bottom:1px solid var(--border)}
 .hero-tag{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
@@ -75,13 +75,43 @@ select.input option{background:#FFFFFF;color:#1A1710}
 .btn-add-comprador:hover{background:rgba(169,130,47,0.12);border-color:rgba(169,130,47,0.55)}
 .venc-aviso-40{background:rgba(184,131,0,0.08);border:1px solid rgba(184,131,0,0.35);border-radius:10px;padding:12px 14px;font-size:12px;color:#8a5c00;margin-top:8px;line-height:1.6;display:none}
 
-.btn-enviar{width:100%;display:flex;align-items:center;justify-content:center;gap:12px;background:#25d366;color:#000;padding:18px 24px;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all .2s;letter-spacing:.3px;margin-top:8px}
+.btn-enviar{width:100%;display:flex;align-items:center;gap:14px;background:#25d366;color:#000;padding:14px 18px;border-radius:14px;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all .2s;margin-top:8px;text-align:left}
 .btn-enviar:hover{background:#20b858;transform:translateY(-2px);box-shadow:0 12px 32px rgba(37,211,102,0.3)}
 .btn-enviar:active{transform:none}
 
 .nota{text-align:center;font-size:11px;color:var(--text3);margin-top:14px;line-height:1.7}
 .footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-size:11px;color:var(--text3)}
 .footer a{color:var(--gold);text-decoration:none}
+
+/* ── Visual novo: header escuro, ícones, selos ── */
+.hero-icon{width:64px;height:64px;border-radius:16px;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 4px 16px rgba(26,23,16,0.08)}
+.hero-underline{width:44px;height:3px;background:var(--gold);border-radius:2px;margin:16px auto 0}
+
+.section-head{display:flex;align-items:center;gap:14px;margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.section-icon{width:46px;height:46px;border-radius:50%;background:#16130D;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.section-icon svg{color:var(--gold)}
+.section-title{font-size:15px;font-weight:700;color:var(--text)}
+.section-sub{font-size:11.5px;color:var(--text3);margin-top:2px}
+
+.input-icon{position:relative}
+.input-icon .input{padding-left:42px}
+.input-icon>svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--gold);pointer-events:none}
+
+.btn-icon-circle{width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.btn-text-wrap{display:flex;flex-direction:column;gap:1px;text-align:left}
+.btn-title{font-size:14.5px;font-weight:700;letter-spacing:.2px}
+.btn-sub{font-size:10.5px;color:rgba(0,0,0,0.6);font-weight:500}
+.btn-arrow{margin-left:auto;flex-shrink:0}
+
+.trust-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:20px}
+@media(max-width:560px){.trust-row{grid-template-columns:1fr}}
+.trust-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px;display:flex;align-items:center;gap:10px;box-shadow:0 2px 10px rgba(26,23,16,0.05)}
+.trust-icon{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.trust-icon svg{color:#16130D}
+.trust-title{font-size:11.5px;font-weight:700;color:var(--text)}
+.trust-sub{font-size:10px;color:var(--text3)}
+
+.footer-lock{display:flex;align-items:center;justify-content:center;gap:6px;font-size:11px;color:var(--text3);margin-top:14px}
 </style>
 </head>
 <body>
@@ -98,33 +128,52 @@ select.input option{background:#FFFFFF;color:#1A1710}
 </header>
 
 <section class="hero">
+  <div class="hero-icon">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M9 16l2 2 4-4"/></svg>
+  </div>
   <div class="hero-tag">Reserva de Lote</div>
   <h1 class="hero-title">Formulário de <em>Reserva</em></h1>
-  <p class="hero-sub">Preencha os dados abaixo. Ao enviar, todos os dados são enviados diretamente ao corretor pelo WhatsApp.</p>
+  <div class="hero-underline"></div>
+  <p class="hero-sub" style="margin-top:14px">Preencha os dados abaixo. Ao enviar, todos os dados são enviados diretamente ao corretor pelo WhatsApp.</p>
 </section>
 
 <div class="form-wrap">
 
   <!-- DADOS PESSOAIS -->
   <div class="section-card">
-    <div class="section-label">Dados do Comprador</div>
+    <div class="section-head">
+      <div class="section-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      <div>
+        <div class="section-title">Dados do Comprador</div>
+        <div class="section-sub">Informe seus dados para a reserva do lote</div>
+      </div>
+    </div>
     <div style="display:flex;flex-direction:column;gap:14px" id="comprador-1-wrap">
 
       <div class="field">
         <label class="label">Nome completo *</label>
-        <input class="input" id="nome" type="text" placeholder="Nome completo do comprador" autocomplete="off">
+        <div class="input-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <input class="input" id="nome" type="text" placeholder="Nome completo do comprador" autocomplete="off">
+        </div>
         <span class="hint" id="h-nome"></span>
       </div>
 
       <div class="grid-2">
         <div class="field">
           <label class="label">RG *</label>
-          <input class="input" id="rg" type="text" placeholder="0000000" maxlength="12" autocomplete="off">
+          <div class="input-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M6 12h.01M10 12h6M10 16h6"/></svg>
+            <input class="input" id="rg" type="text" placeholder="0000000" maxlength="12" autocomplete="off">
+          </div>
           <span class="hint" id="h-rg"></span>
         </div>
         <div class="field">
           <label class="label">CPF *</label>
-          <input class="input" id="cpf" type="text" placeholder="000.000.000-00" maxlength="14" autocomplete="off">
+          <div class="input-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <input class="input" id="cpf" type="text" placeholder="000.000.000-00" maxlength="14" autocomplete="off">
+          </div>
           <span class="hint" id="h-cpf"></span>
         </div>
       </div>
@@ -132,7 +181,10 @@ select.input option{background:#FFFFFF;color:#1A1710}
       <div class="grid-2">
         <div class="field">
           <label class="label">Data de Nascimento *</label>
-          <input class="input" id="nascimento" type="date" autocomplete="off">
+          <div class="input-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            <input class="input" id="nascimento" type="date" autocomplete="off">
+          </div>
           <span class="hint" id="h-nasc"></span>
         </div>
         <div class="field">
@@ -151,12 +203,18 @@ select.input option{background:#FFFFFF;color:#1A1710}
       <div class="grid-2">
         <div class="field">
           <label class="label">Contato / WhatsApp *</label>
-          <input class="input" id="contato1" type="tel" placeholder="(93) 99999-9999" maxlength="15" autocomplete="off">
+          <div class="input-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            <input class="input" id="contato1" type="tel" placeholder="(93) 99999-9999" maxlength="15" autocomplete="off">
+          </div>
           <span class="hint" id="h-c1"></span>
         </div>
         <div class="field">
           <label class="label">Contato 2 *</label>
-          <input class="input" id="contato2" type="tel" placeholder="(93) 99999-9999" maxlength="15" autocomplete="off">
+          <div class="input-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            <input class="input" id="contato2" type="tel" placeholder="(93) 99999-9999" maxlength="15" autocomplete="off">
+          </div>
           <span class="hint" id="h-c2"></span>
         </div>
       </div>
@@ -173,12 +231,19 @@ select.input option{background:#FFFFFF;color:#1A1710}
 
   <!-- ENDEREÇO -->
   <div class="section-card">
-    <div class="section-label">Endereço</div>
+    <div class="section-head">
+      <div class="section-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+      <div>
+        <div class="section-title">Endereço</div>
+        <div class="section-sub">Onde você mora atualmente</div>
+      </div>
+    </div>
     <div style="display:flex;flex-direction:column;gap:14px">
 
       <div class="field">
         <label class="label">CEP *</label>
-        <div class="cep-wrap">
+        <div class="cep-wrap input-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
           <input class="input" id="cep" type="text" placeholder="00000-000" maxlength="9" autocomplete="off">
           <div class="cep-spinner" id="cep-spinner"></div>
         </div>
@@ -243,7 +308,10 @@ select.input option{background:#FFFFFF;color:#1A1710}
       <div class="grid-2">
         <div class="field col2">
           <label class="label">Endereço (Rua / Avenida) *</label>
-          <input class="input" id="endereco" type="text" placeholder="Rua / Avenida" autocomplete="off">
+          <div class="input-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <input class="input" id="endereco" type="text" placeholder="Rua / Avenida" autocomplete="off">
+          </div>
         </div>
       </div>
 
@@ -262,7 +330,10 @@ select.input option{background:#FFFFFF;color:#1A1710}
       <div class="grid-2">
         <div class="field">
           <label class="label">Cidade *</label>
-          <input class="input" id="cidade" type="text" placeholder="Cidade" autocomplete="off">
+          <div class="input-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a1 1 0 011-1h10a1 1 0 011 1v18M6 22h12M6 22H4M18 22h2M10 6h.01M14 6h.01M10 10h.01M14 10h.01M10 14h.01M14 14h.01"/></svg>
+            <input class="input" id="cidade" type="text" placeholder="Cidade" autocomplete="off">
+          </div>
         </div>
         <div class="field">
           <label class="label">UF *</label>
@@ -277,10 +348,19 @@ select.input option{background:#FFFFFF;color:#1A1710}
 
   <!-- DATA VENCIMENTO + VENDEDOR -->
   <div class="section-card">
-    <div class="section-label">Data de Vencimento</div>
+    <div class="section-head">
+      <div class="section-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+      <div>
+        <div class="section-title">Data de Vencimento</div>
+        <div class="section-sub">Defina o prazo da primeira parcela</div>
+      </div>
+    </div>
     <div class="field">
       <label class="label">Data de vencimento da 1ª parcela *</label>
-      <input class="input" id="vencimento" type="date" autocomplete="off" onchange="validarVencimento()">
+      <div class="input-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        <input class="input" id="vencimento" type="date" autocomplete="off" onchange="validarVencimento()">
+      </div>
       <div class="venc-aviso-40" id="aviso-40">
         ⚠️ <strong>Atenção:</strong> A data escolhida é superior a 40 dias após hoje. Para prazos acima de 40 dias é necessário verificar disponibilidade com o escritório antes de confirmar a reserva.<br>
         <strong>Você pode continuar o envio</strong>, mas o prazo precisará ser confirmado pelo corretor.
@@ -290,7 +370,13 @@ select.input option{background:#FFFFFF;color:#1A1710}
   </div>
 
   <div class="section-card">
-    <div class="section-label">Responsável</div>
+    <div class="section-head">
+      <div class="section-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+      <div>
+        <div class="section-title">Responsável</div>
+        <div class="section-sub">Corretor responsável pelo atendimento</div>
+      </div>
+    </div>
     <div class="field">
       <label class="label">Vendedor</label>
       <div class="vendedor-fixo">Rafael Tavares</div>
@@ -298,10 +384,36 @@ select.input option{background:#FFFFFF;color:#1A1710}
   </div>
 
   <button class="btn-enviar" onclick="enviar()">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.555 4.122 1.524 5.855L0 24l6.341-1.494A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 01-4.989-1.366l-.357-.212-3.766.887.937-3.667-.233-.376A9.818 9.818 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182c5.421 0 9.818 4.398 9.818 9.818 0 5.421-4.397 9.818-9.818 9.818z"/></svg>
-    Enviar reserva pelo WhatsApp
+    <span class="btn-icon-circle">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#000"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.555 4.122 1.524 5.855L0 24l6.341-1.494A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 01-4.989-1.366l-.357-.212-3.766.887.937-3.667-.233-.376A9.818 9.818 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182c5.421 0 9.818 4.398 9.818 9.818 0 5.421-4.397 9.818-9.818 9.818z"/></svg>
+    </span>
+    <span class="btn-text-wrap">
+      <span class="btn-title">Enviar Reserva pelo WhatsApp</span>
+      <span class="btn-sub">Seus dados estão seguros conosco</span>
+    </span>
+    <svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
   </button>
   <p class="nota">Ao clicar você será redirecionado ao WhatsApp com todos os dados preenchidos.<br>Nenhuma informação é armazenada neste site.</p>
+
+  <div class="trust-row">
+    <div class="trust-card">
+      <div class="trust-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <div><div class="trust-title">100% Seguro</div><div class="trust-sub">Seus dados protegidos</div></div>
+    </div>
+    <div class="trust-card">
+      <div class="trust-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div>
+      <div><div class="trust-title">Envio Rápido</div><div class="trust-sub">Direto para o corretor</div></div>
+    </div>
+    <div class="trust-card">
+      <div class="trust-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg></div>
+      <div><div class="trust-title">Reserva Fácil</div><div class="trust-sub">Processo simples</div></div>
+    </div>
+  </div>
+
+  <div class="footer-lock">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+    Seus dados estão protegidos e não serão compartilhados.
+  </div>
 
 </div>
 
