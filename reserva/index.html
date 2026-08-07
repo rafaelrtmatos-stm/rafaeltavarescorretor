@@ -178,7 +178,7 @@ select.input option{background:#FFFFFF;color:#1A1710}
         </div>
       </div>
 
-      <div class="grid-2">
+      <div class="grid-3">
         <div class="field">
           <label class="label">Data de Nascimento *</label>
           <div class="input-icon">
@@ -186,6 +186,15 @@ select.input option{background:#FFFFFF;color:#1A1710}
             <input class="input" id="nascimento" type="date" autocomplete="off">
           </div>
           <span class="hint" id="h-nasc"></span>
+        </div>
+        <div class="field">
+          <label class="label">Gênero *</label>
+          <select class="input" id="genero">
+            <option value="">Selecione</option>
+            <option value="M">Masculino</option>
+            <option value="F">Feminino</option>
+          </select>
+          <span class="hint" id="h-genero">Usado apenas para o estado civil (solteiro/solteira). Não é enviado na mensagem.</span>
         </div>
         <div class="field">
           <label class="label">Estado Civil *</label>
@@ -455,10 +464,18 @@ function adicionarComprador(){
           <span class="hint" id="h-cpf-${n}"></span>
         </div>
       </div>
-      <div class="grid-2">
+      <div class="grid-3">
         <div class="field">
           <label class="label">Data de Nascimento *</label>
           <input class="input" id="nasc-${n}" type="date" autocomplete="off">
+        </div>
+        <div class="field">
+          <label class="label">Gênero *</label>
+          <select class="input" id="genero-${n}">
+            <option value="">Selecione</option>
+            <option value="M">Masculino</option>
+            <option value="F">Feminino</option>
+          </select>
         </div>
         <div class="field">
           <label class="label">Estado Civil *</label>
@@ -933,6 +950,18 @@ function enviar(){
     }
   }
 
+  // Ajusta o texto do estado civil (Solteiro/Solteira etc.) conforme o gênero — usado só internamente, nunca é enviado.
+  function generizarEstadoCivil(estadoCivil, genero){
+    const mapa={
+      'Solteiro(a)':{M:'Solteiro',F:'Solteira'},
+      'Casado(a)':{M:'Casado',F:'Casada'},
+      'Divorciado(a)':{M:'Divorciado',F:'Divorciada'},
+      'Viúvo(a)':{M:'Viúvo',F:'Viúva'}
+    };
+    if(mapa[estadoCivil]&&mapa[estadoCivil][genero])return mapa[estadoCivil][genero];
+    return estadoCivil;
+  }
+
   // Nome com sobrenome
   const nomeEl=document.getElementById('nome');
   const nomePartes=nomeEl.value.trim().split(/\s+/).filter(p=>p.length>0);
@@ -950,6 +979,7 @@ function enviar(){
   req('rg','h-rg','Preencha o RG');
   req('cpf','h-cpf','Preencha o CPF');
   req('nascimento','h-nasc','Preencha a data de nascimento');
+  req('genero','h-genero','Selecione o gênero');
   req('estado-civil',null,'');
   req('contato1','h-c1','Preencha o contato');
   req('contato2','h-c2','Preencha o contato 2');
@@ -1022,7 +1052,7 @@ function enviar(){
   msg+=`*RG:* ${document.getElementById('rg').value.trim()}\n`;
   msg+=`*CPF:* ${document.getElementById('cpf').value.trim()}\n`;
   msg+=`*DATA DE NASCIMENTO:* ${nasc}\n`;
-  msg+=`*ESTADO CIVIL:* ${document.getElementById('estado-civil').value}\n`;
+  msg+=`*ESTADO CIVIL:* ${generizarEstadoCivil(document.getElementById('estado-civil').value, document.getElementById('genero').value)}\n`;
   msg+=`*ENDEREÇO:* ${endCompleto}\n`;
   msg+=`*BAIRRO:* ${document.getElementById('bairro').value.trim()}\n`;
   msg+=`*CIDADE/UF:* ${document.getElementById('cidade').value.trim()} — ${document.getElementById('uf').value.trim().toUpperCase()}\n`;
@@ -1042,7 +1072,8 @@ function enviar(){
     msg+='*RG:* '+(document.getElementById('rg-'+n)?.value.trim()||'—')+'\n';
     msg+='*CPF:* '+(document.getElementById('cpf-'+n)?.value.trim()||'—')+'\n';
     msg+='*DATA DE NASCIMENTO:* '+(nascX||'—')+'\n';
-    msg+='*ESTADO CIVIL:* '+(document.getElementById('ec-'+n)?.value||'—')+'\n';
+    const ecX=document.getElementById('ec-'+n)?.value||'';
+    msg+='*ESTADO CIVIL:* '+(ecX?generizarEstadoCivil(ecX, document.getElementById('genero-'+n)?.value||''):'—')+'\n';
     msg+='*CONTATO (1):* '+(document.getElementById('tel1-'+n)?.value.trim()||'—')+'\n';
     msg+='*CONTATO (2):* '+(document.getElementById('tel2-'+n)?.value.trim()||'—');
   });
