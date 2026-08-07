@@ -6,21 +6,21 @@
 <title>Formulário de Reserva — Rafael Tavares Corretor</title>
 <link rel="icon" type="image/x-icon" href="../favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
-<meta name="theme-color" content="#000000">
+<meta name="theme-color" content="#F5F3EE">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#000;--bg2:#0A0A0A;--bg3:#111;
-  --gold:#C9A84C;--gold2:#E8C96A;
-  --text:#F2EDE4;--text2:rgba(242,237,228,0.65);--text3:rgba(242,237,228,0.35);
-  --border:rgba(201,168,76,0.15);--border2:rgba(201,168,76,0.3);
-  --green:#25d366;--red:#f87171;--r:12px;
+  --bg:#F5F3EE;--bg2:#FFFFFF;--bg3:#F1EDE3;
+  --gold:#A9822F;--gold2:#8C6B26;
+  --text:#1A1710;--text2:rgba(26,23,16,0.68);--text3:rgba(26,23,16,0.45);
+  --border:rgba(26,23,16,0.10);--border2:rgba(169,130,47,0.4);
+  --green:#1a9e52;--red:#d9463f;--r:12px;
 }
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh}
 
-.header{background:rgba(0,0,0,0.95);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+.header{background:rgba(255,255,255,0.95);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
 .header-brand{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--gold);text-decoration:none;display:block}
 .header-sub{font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-top:2px}
 .btn-voltar{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);text-decoration:none;border:1px solid var(--border);padding:8px 14px;border-radius:8px;transition:all .2s;white-space:nowrap}
@@ -34,7 +34,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 
 .form-wrap{max-width:640px;margin:0 auto;padding:36px 20px 80px}
 
-.section-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:20px}
+.section-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:24px;box-shadow:0 2px 14px rgba(26,23,16,0.06)}
 .section-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--border)}
 
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
@@ -53,27 +53,27 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .input::placeholder{color:var(--text3)}
 .input.ok{border-color:rgba(37,211,102,0.5)}
 .input.erro{border-color:rgba(248,113,113,0.7)}
-select.input{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23C9A84C' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
-select.input option{background:#111;color:#F2EDE4}
+select.input{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23A9822F' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+select.input option{background:#FFFFFF;color:#1A1710}
 
 .hint{font-size:10px;color:var(--text3);margin-top:2px}
-.hint.erro-txt{color:rgba(248,113,113,0.85)!important}
-.hint.ok-txt{color:rgba(37,211,102,0.8)!important}
+.hint.erro-txt{color:#c0392f!important}
+.hint.ok-txt{color:#178c48!important}
 
 .cep-wrap{position:relative}
 .cep-spinner{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:16px;height:16px;border:2px solid var(--border2);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;display:none}
 @keyframes spin{to{transform:translateY(-50%) rotate(360deg)}}
 
-.vendedor-fixo{background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:var(--r);padding:12px 14px;font-size:14px;color:var(--gold);font-weight:600}
+.vendedor-fixo{background:rgba(169,130,47,0.08);border:1px solid rgba(169,130,47,0.25);border-radius:var(--r);padding:12px 14px;font-size:14px;color:var(--gold);font-weight:600}
 
-.venc-aviso{font-size:11px;color:rgba(248,113,113,0.8);margin-top:6px;display:none}
+.venc-aviso{font-size:11px;color:#c0392f;margin-top:6px;display:none}
 .comprador-extra{background:var(--bg3);border:1px solid rgba(201,168,76,0.2);border-radius:14px;padding:20px;margin-top:16px;position:relative}
 .comprador-extra-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
-.btn-remover-comprador{background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.25);color:#f87171;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
-.btn-remover-comprador:hover{background:rgba(248,113,113,0.2)}
-.btn-add-comprador{width:100%;background:rgba(201,168,76,0.06);border:1px dashed rgba(201,168,76,0.3);border-radius:12px;padding:14px;font-size:13px;font-weight:700;color:var(--gold);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;margin-top:16px;letter-spacing:.3px}
-.btn-add-comprador:hover{background:rgba(201,168,76,0.12);border-color:rgba(201,168,76,0.5)}
-.venc-aviso-40{background:rgba(248,183,0,0.1);border:1px solid rgba(248,183,0,0.3);border-radius:10px;padding:12px 14px;font-size:12px;color:#f8b700;margin-top:8px;line-height:1.6;display:none}
+.btn-remover-comprador{background:rgba(217,70,63,0.08);border:1px solid rgba(217,70,63,0.3);color:#c0392f;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.btn-remover-comprador:hover{background:rgba(217,70,63,0.16)}
+.btn-add-comprador{width:100%;background:rgba(169,130,47,0.06);border:1px dashed rgba(169,130,47,0.35);border-radius:12px;padding:14px;font-size:13px;font-weight:700;color:var(--gold);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;margin-top:16px;letter-spacing:.3px}
+.btn-add-comprador:hover{background:rgba(169,130,47,0.12);border-color:rgba(169,130,47,0.55)}
+.venc-aviso-40{background:rgba(184,131,0,0.08);border:1px solid rgba(184,131,0,0.35);border-radius:10px;padding:12px 14px;font-size:12px;color:#8a5c00;margin-top:8px;line-height:1.6;display:none}
 
 .btn-enviar{width:100%;display:flex;align-items:center;justify-content:center;gap:12px;background:#25d366;color:#000;padding:18px 24px;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all .2s;letter-spacing:.3px;margin-top:8px}
 .btn-enviar:hover{background:#20b858;transform:translateY(-2px);box-shadow:0 12px 32px rgba(37,211,102,0.3)}
@@ -719,26 +719,26 @@ function renderResultados(data, ampliado){
   if(!data||!Array.isArray(data)||data.length===0){
     res.style.display='block';
     label.textContent='Nenhum resultado encontrado. Tente um termo diferente.';
-    label.style.color='rgba(248,113,113,0.8)';
+    label.style.color='#c0392f';
     return;
   }
 
   res.style.display='block';
   const total=data.length;
-  label.style.color='rgba(37,211,102,0.8)';
+  label.style.color='#178c48';
   label.textContent=(ampliado?'Busca ampliada — ':'')+total+' CEP'+(total>1?'s':'')+' encontrado'+(total>1?'s':'')+'. Clique para selecionar:';
 
   data.forEach(function(item){
     const div=document.createElement('div');
-    div.style.cssText='padding:12px 14px;cursor:pointer;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.05);color:#F2EDE4;transition:background .15s;line-height:1.5';
-    div.onmouseover=function(){this.style.background='rgba(201,168,76,0.12)';}
+    div.style.cssText='padding:12px 14px;cursor:pointer;font-size:13px;border-bottom:1px solid rgba(26,23,16,0.06);color:#1A1710;transition:background .15s;line-height:1.5';
+    div.onmouseover=function(){this.style.background='rgba(169,130,47,0.10)';}
     div.onmouseout=function(){this.style.background='transparent';}
     div.innerHTML=
       '<div style="display:flex;align-items:center;gap:8px">'
-      +'<span style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);color:#C9A84C;font-weight:700;font-size:13px;padding:2px 8px;border-radius:6px;white-space:nowrap">'+item.cep+'</span>'
-      +'<span style="color:#F2EDE4;font-weight:600">'+item.logradouro+'</span>'
+      +'<span style="background:rgba(169,130,47,0.12);border:1px solid rgba(169,130,47,0.3);color:#8C6B26;font-weight:700;font-size:13px;padding:2px 8px;border-radius:6px;white-space:nowrap">'+item.cep+'</span>'
+      +'<span style="color:#1A1710;font-weight:600">'+item.logradouro+'</span>'
       +'</div>'
-      +'<div style="font-size:11px;color:rgba(242,237,228,0.5);margin-top:3px;padding-left:2px">'+item.bairro+' · '+item.localidade+'/'+item.uf+'</div>';
+      +'<div style="font-size:11px;color:rgba(26,23,16,0.55);margin-top:3px;padding-left:2px">'+item.bairro+' · '+item.localidade+'/'+item.uf+'</div>';
     div.onclick=function(){
       document.getElementById('cep').value=item.cep;
       document.getElementById('cep').classList.add('ok');
