@@ -936,6 +936,48 @@ document.getElementById('nascimento').addEventListener('change',function(){
 
 
 
+// ── Gênero → Estado Civil (ajusta texto do select em tempo real) ────────────
+const MAPA_ESTADO_CIVIL={
+  'Solteiro(a)':{M:'Solteiro',F:'Solteira'},
+  'Casado(a)':{M:'Casado',F:'Casada'},
+  'Divorciado(a)':{M:'Divorciado',F:'Divorciada'},
+  'Viúvo(a)':{M:'Viúvo',F:'Viúva'}
+};
+
+function generizarEstadoCivil(estadoCivil, genero){
+  if(MAPA_ESTADO_CIVIL[estadoCivil]&&MAPA_ESTADO_CIVIL[estadoCivil][genero])return MAPA_ESTADO_CIVIL[estadoCivil][genero];
+  return estadoCivil;
+}
+
+function atualizarOpcoesEstadoCivil(generoEl, ecEl){
+  if(!ecEl)return;
+  const g=generoEl.value;
+  const valorAtual=ecEl.value;
+  Array.from(ecEl.options).forEach(function(opt){
+    let base=opt.getAttribute('data-base');
+    if(!base){
+      base=opt.value; // captura o valor original ("Solteiro(a)" etc.) antes de qualquer alteração
+      opt.setAttribute('data-base', base);
+      opt.value=base; // fixa o value, independente do texto exibido depois
+    }
+    if(MAPA_ESTADO_CIVIL[base]){
+      opt.textContent=g?MAPA_ESTADO_CIVIL[base][g]:base;
+    }
+  });
+  ecEl.value=valorAtual;
+}
+
+document.addEventListener('change', function(e){
+  const id=e.target&&e.target.id;
+  if(!id)return;
+  if(id==='genero'){
+    atualizarOpcoesEstadoCivil(e.target, document.getElementById('estado-civil'));
+  } else if(id.indexOf('genero-')===0){
+    const n=id.slice('genero-'.length);
+    atualizarOpcoesEstadoCivil(e.target, document.getElementById('ec-'+n));
+  }
+});
+
 // ── Enviar WhatsApp ────────────────────────────────────
 function enviar(){
   let ok=true;
@@ -948,18 +990,6 @@ function enviar(){
       if(h){h.className='hint erro-txt';h.textContent=msg||'Campo obrigatório';}
       ok=false;
     }
-  }
-
-  // Ajusta o texto do estado civil (Solteiro/Solteira etc.) conforme o gênero — usado só internamente, nunca é enviado.
-  function generizarEstadoCivil(estadoCivil, genero){
-    const mapa={
-      'Solteiro(a)':{M:'Solteiro',F:'Solteira'},
-      'Casado(a)':{M:'Casado',F:'Casada'},
-      'Divorciado(a)':{M:'Divorciado',F:'Divorciada'},
-      'Viúvo(a)':{M:'Viúvo',F:'Viúva'}
-    };
-    if(mapa[estadoCivil]&&mapa[estadoCivil][genero])return mapa[estadoCivil][genero];
-    return estadoCivil;
   }
 
   // Nome com sobrenome
