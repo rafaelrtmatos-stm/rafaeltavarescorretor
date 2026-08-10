@@ -214,12 +214,13 @@ body{font-family:"DM Sans",sans-serif;background:var(--bg);color:var(--text);ove
   .nav-brand-creci{font-size:8px}
 
   /* HERO */
-  .hero{height:100svh;min-height:560px}
+  .hero{height:48svh;min-height:400px}
   .hero-body{padding:0 18px 90px}
   .hero-badge{font-size:9px;padding:6px 14px;margin-bottom:18px}
   .hero-title{font-size:clamp(36px,10vw,52px);letter-spacing:-1px;margin-bottom:10px}
   .hero-sub{font-size:13px;margin-bottom:24px}
   .hero-btns{flex-direction:column;gap:10px;align-items:center}
+  .hero-foto-principal{object-position:calc(50% - 50px) top}
   .btn-primary,.btn-secondary{width:100%;max-width:300px;justify-content:center;padding:14px 20px;font-size:13px}
   .hero-stats{display:none}
   .hero-assinatura{display:none}
@@ -503,6 +504,7 @@ section#hero{z-index:0;overflow:hidden!important}
   <!-- FUNDO: foto aérea Santarém pôr do sol -->
   <div style="position:absolute;inset:0;z-index:0">
     <img src="/imagens/home-hero-v2.png" alt="Família com corretor Rafael Tavares"
+      class="hero-foto-principal"
       style="width:100%;height:100%;object-fit:cover;object-position:center top"
       loading="eager" />
     <!-- Overlay escuro topo -->
@@ -532,7 +534,7 @@ section#hero{z-index:0;overflow:hidden!important}
   </nav>
 
   <!-- CONTEÚDO HERO — alinhado com o hambúrguer -->
-  <div style="position:relative;z-index:6;display:flex;flex-direction:column;padding:0 28px 80px;margin-top:0px;flex:1;justify-content:flex-start;padding-top:18px" class="hero-conteudo-wrap">
+  <div style="position:relative;z-index:6;display:flex;flex-direction:column;padding:0 28px 48px;margin-top:0px;flex:1;justify-content:flex-start;padding-top:18px" class="hero-conteudo-wrap">
 
 
     <!-- BADGE LOTES EM SANTARÉM -->
@@ -614,8 +616,8 @@ section#hero{z-index:0;overflow:hidden!important}
 
   <!-- SCROLL -->
   <div style="position:absolute;bottom:22px;left:50%;transform:translateX(-50%);z-index:6;display:flex;flex-direction:column;align-items:center;gap:5px">
-    <div style="width:1px;height:24px;background:linear-gradient(var(--gold),transparent);opacity:.45"></div>
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2" stroke-linecap="round" opacity=".5" style="animation:float 2s ease-in-out infinite"><polyline points="6,9 12,15 18,9"/></svg>
+    <div style="width:2px;height:48px;background:linear-gradient(var(--gold),transparent);opacity:.45"></div>
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2" stroke-linecap="round" opacity=".5" style="animation:float 2s ease-in-out infinite"><polyline points="6,9 12,15 18,9"/></svg>
   </div>
 
   <!-- ASSINATURA -->
@@ -683,7 +685,7 @@ section#hero{z-index:0;overflow:hidden!important}
 <section id="mapa" style="background:#000;padding:0;position:relative;overflow:hidden;z-index:2">
 
   <!-- HEADER -->
-  <div style="text-align:center;padding:48px 24px 24px">
+  <div style="text-align:center;padding:18px 24px 24px">
     <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#C9A84C;margin-bottom:12px;font-weight:600">Explore</div>
     <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,52px);font-weight:700;color:#F2EDE4;line-height:.95;letter-spacing:-2px;margin-bottom:12px">Empreendimentos em<br><em id="mapa-cidade-titulo" style="font-style:italic;color:#C9A84C">Santarém</em></h2>
     <p style="font-size:14px;color:rgba(242,237,228,0.6);max-width:400px;margin:0 auto 20px;line-height:1.7">Clique em um pino para ver o empreendimento.</p>
