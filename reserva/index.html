@@ -7,7 +7,7 @@
 <link rel="icon" type="image/x-icon" href="../favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
 <meta name="theme-color" content="#F5F3EE">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -18,7 +18,7 @@
   --green:#1a9e52;--red:#d9463f;--r:12px;
 }
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
 
 .header{background:#14120D;border-bottom:1px solid rgba(201,168,76,0.2);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
 .header-brand{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--gold);text-decoration:none;display:block}
@@ -48,7 +48,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 @media(max-width:520px){.col2{grid-column:span 1}}
 
 .label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);font-weight:600}
-.input{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;font-size:14px;color:var(--text);font-family:'DM Sans',sans-serif;transition:border-color .2s;outline:none;width:100%}
+.input{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;font-size:14px;color:var(--text);font-family:'Inter',sans-serif;transition:border-color .2s;outline:none;width:100%}
 .input:focus{border-color:var(--gold)}
 .input::placeholder{color:var(--text3)}
 .input.ok{border-color:rgba(37,211,102,0.5)}
@@ -69,13 +69,13 @@ select.input option{background:#FFFFFF;color:#1A1710}
 .venc-aviso{font-size:11px;color:#c0392f;margin-top:6px;display:none}
 .comprador-extra{background:var(--bg3);border:1px solid rgba(201,168,76,0.2);border-radius:14px;padding:20px;margin-top:16px;position:relative}
 .comprador-extra-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
-.btn-remover-comprador{background:rgba(217,70,63,0.08);border:1px solid rgba(217,70,63,0.3);color:#c0392f;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.btn-remover-comprador{background:rgba(217,70,63,0.08);border:1px solid rgba(217,70,63,0.3);color:#c0392f;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
 .btn-remover-comprador:hover{background:rgba(217,70,63,0.16)}
-.btn-add-comprador{width:100%;background:rgba(169,130,47,0.06);border:1px dashed rgba(169,130,47,0.35);border-radius:12px;padding:14px;font-size:13px;font-weight:700;color:var(--gold);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;margin-top:16px;letter-spacing:.3px}
+.btn-add-comprador{width:100%;background:rgba(169,130,47,0.06);border:1px dashed rgba(169,130,47,0.35);border-radius:12px;padding:14px;font-size:13px;font-weight:700;color:var(--gold);cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;margin-top:16px;letter-spacing:.3px}
 .btn-add-comprador:hover{background:rgba(169,130,47,0.12);border-color:rgba(169,130,47,0.55)}
 .venc-aviso-40{background:rgba(184,131,0,0.08);border:1px solid rgba(184,131,0,0.35);border-radius:10px;padding:12px 14px;font-size:12px;color:#8a5c00;margin-top:8px;line-height:1.6;display:none}
 
-.btn-enviar{width:100%;display:flex;align-items:center;gap:14px;background:#25d366;color:#000;padding:14px 18px;border-radius:14px;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all .2s;margin-top:8px;text-align:left}
+.btn-enviar{width:100%;display:flex;align-items:center;gap:14px;background:#25d366;color:#000;padding:14px 18px;border-radius:14px;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:all .2s;margin-top:8px;text-align:left}
 .btn-enviar:hover{background:#20b858;transform:translateY(-2px);box-shadow:0 12px 32px rgba(37,211,102,0.3)}
 .btn-enviar:active{transform:none}
 
@@ -257,7 +257,7 @@ select.input option{background:#FFFFFF;color:#1A1710}
           <div class="cep-spinner" id="cep-spinner"></div>
         </div>
         <span class="hint" id="h-cep">Digite o CEP para preencher automaticamente</span>
-        <button type="button" id="btn-nao-sei-cep" onclick="toggleBuscaRua()" style="margin-top:8px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.4);color:var(--gold);font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:1px;padding:9px 16px;border-radius:8px;width:100%;transition:all .2s;text-transform:uppercase" onmouseover="this.style.background='rgba(201,168,76,0.2)'" onmouseout="this.style.background='rgba(201,168,76,0.1)'">🔍 Não sei o CEP — buscar por rua</button>
+        <button type="button" id="btn-nao-sei-cep" onclick="toggleBuscaRua()" style="margin-top:8px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.4);color:var(--gold);font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:1px;padding:9px 16px;border-radius:8px;width:100%;transition:all .2s;text-transform:uppercase" onmouseover="this.style.background='rgba(201,168,76,0.2)'" onmouseout="this.style.background='rgba(201,168,76,0.1)'">🔍 Não sei o CEP — buscar por rua</button>
       </div>
 
       <div id="busca-rua-wrap" style="display:none;background:rgba(201,168,76,0.05);border:1px solid var(--border);border-radius:12px;padding:16px;flex-direction:column;gap:12px">
@@ -288,7 +288,7 @@ select.input option{background:#FFFFFF;color:#1A1710}
             <option value="">— Selecione a cidade —</option>
           </select>
           <div style="margin-top:6px">
-            <button type="button" onclick="voltarStep(1)" style="background:transparent;border:none;color:var(--text3);font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;padding:0">← Mudar estado</button>
+            <button type="button" onclick="voltarStep(1)" style="background:transparent;border:none;color:var(--text3);font-size:11px;cursor:pointer;font-family:'Inter',sans-serif;padding:0">← Mudar estado</button>
           </div>
         </div>
 
@@ -298,10 +298,10 @@ select.input option{background:#FFFFFF;color:#1A1710}
           <label class="label" style="margin-bottom:6px;display:block">3. Digite o nome da rua (pode ser parcial)</label>
           <div style="display:flex;gap:8px">
             <input class="input" id="busca-rua" type="text" placeholder="Ex: Av Brasil, Rua das Flores..." style="font-size:13px;flex:1" autocomplete="off" onkeydown="if(event.key==='Enter')buscarPorRua()">
-            <button type="button" onclick="buscarPorRua()" style="background:rgba(201,168,76,0.2);border:1px solid var(--border2);border-radius:10px;padding:10px 14px;font-size:12px;font-weight:700;color:var(--gold);cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all .2s">🔍 Buscar</button>
+            <button type="button" onclick="buscarPorRua()" style="background:rgba(201,168,76,0.2);border:1px solid var(--border2);border-radius:10px;padding:10px 14px;font-size:12px;font-weight:700;color:var(--gold);cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap;transition:all .2s">🔍 Buscar</button>
           </div>
           <div style="margin-top:6px">
-            <button type="button" onclick="voltarStep(2)" style="background:transparent;border:none;color:var(--text3);font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;padding:0">← Mudar cidade</button>
+            <button type="button" onclick="voltarStep(2)" style="background:transparent;border:none;color:var(--text3);font-size:11px;cursor:pointer;font-family:'Inter',sans-serif;padding:0">← Mudar cidade</button>
           </div>
         </div>
 
