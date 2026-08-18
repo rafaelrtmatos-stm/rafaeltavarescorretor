@@ -33,7 +33,7 @@ html{scroll-behavior:smooth}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
 a{text-decoration:none;color:inherit}
 
-nav{position:sticky;top:0;z-index:50;background:rgba(0,0,0,0.92);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;justify-content:center}
+nav{position:sticky;top:0;z-index:50;background:rgba(0,0,0,0.92);border-bottom:1px solid var(--border);backdrop-filter:blur(12px);padding:16px 24px;display:flex;align-items:center;justify-content:center}
 .nav-logo{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:20px;color:var(--gold);letter-spacing:2px}
 
 .hero{padding:56px 24px 32px;text-align:center;max-width:720px;margin:0 auto}
@@ -85,7 +85,7 @@ footer{padding:32px 24px;text-align:center;border-top:1px solid var(--border);fo
 <body>
 
 <nav>
-  <a href="../../" style="display:inline-flex;line-height:0"><img src="/logo-rt.png" alt="RT Corretor" style="width:44px;height:44px;object-fit:contain;border-radius:10px;cursor:pointer"></a>
+  <a href="../../" style="display:inline-flex;line-height:0"><img src="/logo-rt.png" alt="RT Corretor" style="width:44px;height:44px;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5));border-radius:10px;cursor:pointer"></a>
 </nav>
 
 <section class="hero">
@@ -160,7 +160,11 @@ footer{padding:32px 24px;text-align:center;border-top:1px solid var(--border);fo
 
 
 <!-- ═══ MENU HAMBÚRGUER ═══ -->
-<button id="menu-btn" onclick="toggleMenu()" style="position:fixed;top:18px;right:18px;z-index:300;width:44px;height:44px;border-radius:10px;background:rgba(0,0,0,0.92);border:1px solid rgba(201,168,76,0.3);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;inset:0;z-index:250;background:rgba(0,0,0,0.75);display:none;opacity:0;transition:opacity .3s"></div>
+<button id="menu-btn" onclick="toggleMenu()" style="position:fixed;top:18px;right:18px;z-index:300;width:44px;height:44px;border-radius:10px;background:rgba(0,0,0,0.92);border:1px solid rgba(201,168,76,0.3);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;backdrop-filter:blur(12px)">
+  <span class="hbl"></span><span class="hbl"></span><span class="hbl"></span>
+</button>
+
+<div id="menu-overlay" onclick="fecharMenu()" style="position:fixed;inset:0;z-index:250;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);display:none;opacity:0;transition:opacity .3s"></div>
 
 <div id="menu-drawer" style="position:fixed;top:0;right:-320px;bottom:0;z-index:260;width:290px;background:#000;border-left:1px solid rgba(201,168,76,0.2);transition:right .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;overflow-y:auto">
   <div style="padding:22px 20px 14px;border-bottom:1px solid rgba(201,168,76,0.12);flex-shrink:0">
