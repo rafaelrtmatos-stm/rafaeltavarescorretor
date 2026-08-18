@@ -219,14 +219,29 @@
   <div class="section-inner">
     <div class="section-tag">Condições de pagamento</div>
     <h2 class="section-title">Tabela de <em>Preços</em></h2>
-    <p class="section-sub" style="margin-bottom:28px">Escolha o tipo de lote e o prazo. Comece com a parcela mais baixa e amortize quando quiser.</p>
+    <p class="section-sub" style="margin-bottom:28px">Comece com a parcela mais baixa e amortize quando quiser.</p>
 
-    <div style="display:flex;justify-content:center;gap:10px;margin-bottom:24px;flex-wrap:wrap" id="precoCatToggle">
-      <button class="preco-cat-btn active" data-cat="200" style="padding:10px 22px;border-radius:100px;border:2px solid var(--gold);background:var(--gold);color:#000;font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;letter-spacing:.5px">Lotes até 200m²</button>
-      <button class="preco-cat-btn" data-cat="acima" style="padding:10px 22px;border-radius:100px;border:2px solid var(--border2);background:transparent;color:var(--gold);font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;letter-spacing:.5px">Lotes acima de 200m²</button>
+    <div style="text-align:center;margin-bottom:14px">
+      <div style="font-size:14px;font-weight:800;color:var(--text);letter-spacing:.5px;text-transform:uppercase">Escolha o tamanho do lote</div>
+      <div style="font-size:12.5px;color:var(--text3);margin-top:4px">Selecione uma opção para ver os valores e condições.</div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:28px" id="precoCatToggle">
+      <button class="preco-cat-btn active" data-cat="200">
+        <span class="preco-cat-btn-title">ATÉ 200 m²</span>
+        <span class="preco-cat-btn-sub">Lote padrão</span>
+      </button>
+      <button class="preco-cat-btn" data-cat="acima">
+        <span class="preco-cat-btn-title">ACIMA DE 200 m²</span>
+        <span class="preco-cat-btn-sub">Lote maior</span>
+      </button>
     </div>
 
     <div style="text-align:center;font-size:14px;color:var(--text3);margin-bottom:24px">Valor total do lote: <b id="precoValorTotalLbl" style="color:var(--gold)">R$ 46.600,00</b> · Entrada: <b style="color:var(--gold)">R$ 600,00</b></div>
+
+    <div style="text-align:center;margin-bottom:14px">
+      <div style="font-size:14px;font-weight:800;color:var(--text);letter-spacing:.5px;text-transform:uppercase">Escolha o prazo de pagamento</div>
+    </div>
 
     <div id="precoPlanSelector" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px"></div>
 
@@ -333,8 +348,16 @@
 </section>
 
 <style>
-  .preco-cat-btn.active{background:var(--gold)!important;color:#000!important;border-color:var(--gold)!important}
-  .preco-cat-btn:not(.active){background:transparent!important;color:var(--gold)!important;border-color:var(--border2)!important}
+  .preco-cat-btn.active{background:var(--gold)!important;color:#000!important;border-color:var(--gold)!important;box-shadow:0 6px 20px rgba(201,168,76,0.25)!important;animation:none!important}
+  .preco-cat-btn:not(.active){background:#14170f!important;color:var(--gold)!important;border-color:var(--gold)!important;animation:precoBorderBreathe 1.8s ease-in-out infinite}
+  @keyframes precoBorderBreathe{
+    0%{box-shadow:0 0 0 0 rgba(201,168,76,0.35),0 0 6px rgba(201,168,76,0.25)}
+    50%{box-shadow:0 0 0 3px rgba(201,168,76,0.18),0 0 18px rgba(201,168,76,0.6)}
+    100%{box-shadow:0 0 0 0 rgba(201,168,76,0.35),0 0 6px rgba(201,168,76,0.25)}
+  }
+  .preco-cat-btn{width:100%;max-width:420px;display:flex;flex-direction:column;align-items:center;gap:2px;padding:16px 22px;border-radius:16px;border:2px solid var(--gold);cursor:pointer;font-family:inherit;transition:background .2s,color .2s}
+  .preco-cat-btn-title{font-size:15px;font-weight:800;letter-spacing:.5px}
+  .preco-cat-btn-sub{font-size:11.5px;font-weight:600;opacity:.75}
   .preco-plan-btn{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px 8px;text-align:center;cursor:pointer;transition:.25s}
   .preco-plan-btn:hover{border-color:var(--border2)}
   .preco-plan-btn.active{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 6px 18px rgba(201,168,76,0.15);background:#161a12}
