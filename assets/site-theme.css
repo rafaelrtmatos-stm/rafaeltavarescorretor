@@ -1,0 +1,117 @@
+/* ============================================================
+   RAFAEL TAVARES CORRETOR — DESIGN SYSTEM
+   Fonte única de verdade para cores, tipografia, espaçamento,
+   raios de borda e componentes reutilizáveis (nav, botões, cards,
+   badges, inputs, modais). Baseado na identidade visual do
+   Bela Vista do Mararu.
+
+   Como usar numa página:
+   <link rel="stylesheet" href="/assets/site-theme.css">
+   (carregar ANTES do <style> próprio da página, pra poder
+   sobrescrever só o que for específico daquela página)
+   ============================================================ */
+
+:root{
+  /* Cores */
+  --gold:#C9A84C;
+  --gold2:#E8C96A;
+  --bg:#000000;
+  --bg2:#0A0A0A;
+  --bg3:#111111;
+  --text:#F2EDE4;
+  --text2:rgba(242,237,228,0.65);
+  --text3:rgba(242,237,228,0.35);
+  --border:rgba(201,168,76,0.15);
+  --border2:rgba(201,168,76,0.3);
+  --green:#25d366;
+  --red:#f87171;
+
+  /* Tipografia */
+  --font-display:'Cormorant Garamond', serif;
+  --font-body:'DM Sans', sans-serif;
+
+  /* Raios de borda */
+  --r-sm:10px;
+  --r-md:14px;
+  --r-lg:20px;
+  --r-pill:100px;
+
+  /* Espaçamento (escala base 4px) */
+  --sp-1:4px;
+  --sp-2:8px;
+  --sp-3:12px;
+  --sp-4:16px;
+  --sp-5:24px;
+  --sp-6:32px;
+  --sp-7:48px;
+
+  /* Nav / header — medida única em todas as páginas */
+  --nav-padding:16px 24px;
+  --nav-logo-size:48px;
+}
+
+body{background:var(--bg);color:var(--text);font-family:var(--font-body)}
+
+/* ---------- NAV / HEADER ---------- */
+.st-nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(0,0,0,0.35);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  padding:var(--nav-padding);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.st-nav img.st-logo{
+  width:var(--nav-logo-size);height:var(--nav-logo-size);
+  object-fit:contain;border-radius:var(--r-sm);cursor:pointer;
+}
+
+/* ---------- BOTÕES ---------- */
+.st-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  font-family:var(--font-body);font-weight:700;font-size:13px;letter-spacing:.3px;
+  padding:14px 28px;border-radius:var(--r-pill);border:none;cursor:pointer;
+  transition:transform .2s, opacity .2s;
+}
+.st-btn:active{transform:scale(.97)}
+.st-btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000}
+.st-btn-secondary{background:transparent;color:var(--gold);border:1.5px solid var(--gold)}
+.st-btn-whatsapp{background:transparent;color:var(--green);border:1.5px solid var(--green)}
+
+/* ---------- CARDS ---------- */
+.st-card{
+  background:var(--bg2);
+  border:1.5px solid var(--border2);
+  border-radius:var(--r-lg);
+  padding:var(--sp-5);
+}
+
+/* ---------- BADGE / TAG ---------- */
+.st-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1.5px solid var(--border2);border-radius:var(--r-pill);
+  padding:8px 18px;font-size:12px;font-weight:700;letter-spacing:1px;
+  text-transform:uppercase;color:var(--gold);
+}
+
+/* ---------- INPUTS ---------- */
+.st-input{
+  background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);
+  padding:12px 14px;font-size:14px;color:var(--text);font-family:var(--font-body);
+  outline:none;transition:border-color .2s;width:100%;
+}
+.st-input:focus{border-color:var(--gold)}
+
+/* ---------- MODAL ---------- */
+.st-modal-overlay{
+  position:fixed;inset:0;z-index:250;background:rgba(0,0,0,0.75);
+  display:flex;align-items:center;justify-content:center;
+}
+.st-modal{
+  background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-lg);
+  padding:var(--sp-6);max-width:480px;width:90%;
+}
+
+/* ---------- STATUS ---------- */
+.st-status-ok{color:#22c55e}
+.st-status-warn{color:#f59e0b}
+.st-status-error{color:var(--red)}
