@@ -672,6 +672,14 @@ section#hero{z-index:0;overflow:hidden!important}
   #hero-stats{bottom:auto;top:auto;left:12px;bottom:20px;padding:12px 14px;gap:10px}
   .hsn{font-size:17px}.hsi{font-size:17px}
   [style*="bottom:32px;right:80px"]{display:none}
+
+  /* Etiquetas com nome do empreendimento no mapa global — rotacionadas e menores pra caber sem sobrepor */
+  .mapa-pin-label{
+    font-size:7px!important;
+    padding:2px 6px!important;
+    transform:rotate(-35deg);
+    transform-origin:center;
+  }
 }
 </style>
 
@@ -962,7 +970,7 @@ function adicionarPinoMapa(map, p){
       :'<circle cx="18" cy="18" r="4.5" fill="rgba(201,168,76,0.3)"/><circle cx="18" cy="18" r="2" fill="#E8C96A"/>'
     )
     +'</svg>'
-    +'<div style="background:linear-gradient(135deg,rgba(8,8,8,0.97),rgba(20,16,8,0.97));border:1px solid '+(isRed?'rgba(248,113,113,0.6)':'rgba(201,168,76,0.55)')+';color:'+(isRed?'#f87171':'#E8C96A')+';font-size:9.5px;font-weight:700;padding:3px 10px;border-radius:5px;white-space:nowrap;margin-top:2px;letter-spacing:.6px;text-transform:uppercase;box-shadow:0 2px 8px rgba(0,0,0,0.5)">'+p.nome+'</div>'
+    +'<div class="mapa-pin-label" style="background:linear-gradient(135deg,rgba(8,8,8,0.97),rgba(20,16,8,0.97));border:1px solid '+(isRed?'rgba(248,113,113,0.6)':'rgba(201,168,76,0.55)')+';color:'+(isRed?'#f87171':'#E8C96A')+';font-size:9.5px;font-weight:700;padding:3px 10px;border-radius:5px;white-space:nowrap;margin-top:2px;letter-spacing:.6px;text-transform:uppercase;box-shadow:0 2px 8px rgba(0,0,0,0.5)">'+p.nome+'</div>'
     +'</div>';
 
   var icon=L.divIcon({className:'',html:pinoHtml,iconSize:[sz*3,Math.round(sz*1.8)],iconAnchor:[Math.round(sz*1.5),Math.round(sz*1.4)]});
