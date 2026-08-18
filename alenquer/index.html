@@ -146,12 +146,28 @@ section{padding:80px 24px}
   <div class="section-inner">
     <div class="section-tag">Condições de pagamento</div>
     <h2 class="section-title">Tabela de <em>Preços</em></h2>
-    <p class="section-sub" style="margin-bottom:40px">Entrada única de R$ 500. Parcelas que cabem no seu bolso. Escolha seu lote!</p>
+    <p class="section-sub" style="margin-bottom:28px">Entrada única de R$ 500. Parcelas que cabem no seu bolso.</p>
+
+    <div style="text-align:center;margin-bottom:14px">
+      <div style="font-size:14px;font-weight:800;color:var(--text);letter-spacing:.5px;text-transform:uppercase">Escolha o tamanho do lote</div>
+      <div style="font-size:12.5px;color:var(--text3);margin-top:4px">Selecione uma opção para ver os valores e condições.</div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:32px" id="precoCatToggle">
+      <button class="preco-cat-btn active" data-cat="padrao">
+        <span class="preco-cat-btn-title">LOTE 10 × 30 m²</span>
+        <span class="preco-cat-btn-sub">Lote Padrão</span>
+      </button>
+      <button class="preco-cat-btn" data-cat="maior">
+        <span class="preco-cat-btn-title">LOTE DE ESQUINA</span>
+        <span class="preco-cat-btn-sub">Esquina · Principal</span>
+      </button>
+    </div>
 
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;max-width:800px;margin:0 auto">
 
       <!-- LOTE 10x30 -->
-      <div style="background:var(--bg2);border:1.5px solid rgba(201,168,76,0.35);border-radius:20px;overflow:hidden">
+      <div id="cardPadrao" style="background:var(--bg2);border:1.5px solid rgba(201,168,76,0.35);border-radius:20px;overflow:hidden">
         <div style="background:linear-gradient(135deg,rgba(201,168,76,0.15),rgba(201,168,76,0.05));padding:20px 24px 16px;border-bottom:1px solid rgba(201,168,76,0.15)">
           <div style="font-size:9px;letter-spacing:3px;color:rgba(201,168,76,0.6);text-transform:uppercase;margin-bottom:6px;font-weight:600">Lote Padrão</div>
           <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:#F2EDE4;line-height:1">10 × 30 m²</div>
@@ -181,7 +197,7 @@ section{padding:80px 24px}
       </div>
 
       <!-- LOTE ESQUINA / MAIOR -->
-      <div style="background:var(--bg2);border:1.5px solid rgba(201,168,76,0.6);border-radius:20px;overflow:hidden;position:relative">
+      <div id="cardMaior" style="background:var(--bg2);border:1.5px solid rgba(201,168,76,0.6);border-radius:20px;overflow:hidden;position:relative;display:none">
         <div style="position:absolute;top:14px;right:14px;background:var(--gold);color:#000;font-size:8px;font-weight:700;padding:3px 10px;border-radius:100px;letter-spacing:1px">⭐ DESTAQUE</div>
         <div style="background:linear-gradient(135deg,rgba(201,168,76,0.25),rgba(201,168,76,0.08));padding:20px 24px 16px;border-bottom:1px solid rgba(201,168,76,0.2)">
           <div style="font-size:9px;letter-spacing:3px;color:rgba(201,168,76,0.8);text-transform:uppercase;margin-bottom:6px;font-weight:600">Lote Esquina · Principal</div>
@@ -229,6 +245,31 @@ section{padding:80px 24px}
     </div>
   </div>
 </section>
+
+<style>
+  .preco-cat-btn.active{background:var(--gold)!important;color:#000!important;border-color:var(--gold)!important;box-shadow:0 6px 20px rgba(201,168,76,0.25)!important;animation:none!important}
+  .preco-cat-btn:not(.active){background:#14170f!important;color:var(--gold)!important;border-color:var(--gold)!important;animation:precoBorderBreathe 1.8s ease-in-out infinite}
+  @keyframes precoBorderBreathe{
+    0%{box-shadow:0 0 0 0 rgba(201,168,76,0.35),0 0 6px rgba(201,168,76,0.25)}
+    50%{box-shadow:0 0 0 3px rgba(201,168,76,0.18),0 0 18px rgba(201,168,76,0.6)}
+    100%{box-shadow:0 0 0 0 rgba(201,168,76,0.35),0 0 6px rgba(201,168,76,0.25)}
+  }
+  .preco-cat-btn{width:100%;max-width:420px;display:flex;flex-direction:column;align-items:center;gap:2px;padding:16px 22px;border-radius:16px;border:2px solid var(--gold);cursor:pointer;font-family:inherit;transition:background .2s,color .2s}
+  .preco-cat-btn-title{font-size:15px;font-weight:800;letter-spacing:.5px}
+  .preco-cat-btn-sub{font-size:11.5px;font-weight:600;opacity:.75}
+</style>
+<script>
+  document.querySelectorAll("#precoCatToggle .preco-cat-btn").forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll("#precoCatToggle .preco-cat-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      const cat = btn.dataset.cat;
+      document.getElementById("cardPadrao").style.display = cat === "padrao" ? "" : "none";
+      document.getElementById("cardMaior").style.display = cat === "maior" ? "" : "none";
+    };
+  });
+</script>
+
 <section id="sec-galeria" style="background:var(--bg);border-bottom:1px solid var(--border)">
   <div class="section-inner">
     <div class="section-tag">Conheca o Empreendimento</div>
