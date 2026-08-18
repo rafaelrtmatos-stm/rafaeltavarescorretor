@@ -23,7 +23,7 @@
 html, body { height: 100%; }
 body { background: var(--bg); color: var(--text); font-family: "Inter", sans-serif; overflow-x: hidden; }
 
-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10,10,10,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(201,168,76,0.15); padding: 0 20px; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10,10,10,0.95);  border-bottom: 1px solid rgba(201,168,76,0.15); padding: 0 20px; height: 60px; display: flex; align-items: center; justify-content: space-between; }
 .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: 2px; }
 .nav-logo em { color: var(--gold); font-style: italic; }
 
@@ -35,7 +35,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
 .hero-tag { display: inline-block; background: linear-gradient(135deg, #E8C96A 0%, #C9A84C 100%); border: 3px solid #9D7E2C; padding: 12px 32px; border-radius: 100px; margin-bottom: 20px; color: #0A1209; font-weight: 700; font-size: 11px; letter-spacing: 2px; }
 .hero-title { font-family: "Cormorant Garamond", serif; font-size: clamp(44px, 7vw, 80px); font-weight: 700; line-height: 0.9; letter-spacing: -3px; margin-bottom: 20px; text-shadow: 0 4px 20px rgba(0,0,0,0.95); }
 .hero-title em { font-style: italic; color: var(--gold); }
-.hero-sub { font-size: 15px; color: #fff; line-height: 1.7; margin: 0 auto 32px; background: rgba(0,0,0,0.35); padding: 20px 28px; border-radius: 14px; border: 1.5px solid rgba(201,168,76,0.25); backdrop-filter: blur(8px); }
+.hero-sub { font-size: 15px; color: #fff; line-height: 1.7; margin: 0 auto 32px; background: rgba(0,0,0,0.35); padding: 20px 28px; border-radius: 14px; border: 1.5px solid rgba(201,168,76,0.25);  }
 
 .hero-btns { display: flex; flex-direction: column; align-items: center; gap: 10px; }
 .btn-gold { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: linear-gradient(135deg, #B8902A, #E8C96A, #B8902A); background-size: 200% 100%; background-position: left; color: #000; padding: 16px 32px; border-radius: 100px; font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; transition: all 0.35s; cursor: pointer; border: none; font-family: "Inter", sans-serif; box-shadow: 0 4px 20px rgba(201,168,76,0.25); text-decoration: none; }
@@ -88,34 +88,8 @@ footer { background: var(--bg2); border-top: 1px solid rgba(201,168,76,0.15); pa
 <body>
 
 <nav>
-  <a href="/" style="display:inline-flex;line-height:0"><img src="/logo-rt.png" alt="RT Corretor" style="width:52px;height:52px;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5));border-radius:12px;cursor:pointer"></a>
-  <button id="menu-btn" onclick="toggleMenu()" style="position:fixed;top:16px;right:18px;z-index:300;width:44px;height:44px;border-radius:10px;background:rgba(0,0,0,0.92);border:1px solid rgba(201,168,76,0.3);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;backdrop-filter:blur(12px)">
-  <span class="hbl"></span><span class="hbl"></span><span class="hbl"></span>
-</button>
-</nav>
-
-<section class="hero">
-  <div class="hero-bg">
-    <img src="/imagens/sao-braz-hero.jpg" alt="São Braz - Igarapé, Santarém" loading="eager">
-    <div class="hero-overlay"></div>
-  </div>
-  <div class="hero-content">
-    <div class="hero-tag">🌳 Empreendimento São Braz</div>
-    <h1 class="hero-title"><em>São Braz</em></h1>
-    <p class="hero-sub">Santarém, PA · Acesso a igarapé compartilhado<br>Diversas opções de tamanho e condição de pagamento — lotes a partir de R$20.000. Garanta o seu antes que acabe!</p>
-    <div class="hero-btns">
-      <a href="/reserva/" class="btn-gold">Garantir Meu Lote</a>
-            <button onclick="compartilharPagina()" class="btn-share" type="button">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-        Compartilhar
-      </button>
-<a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Vi%20o%20Empreendimento%20S%C3%A3o%20Br%C3%A1s%20no%20site%20e%20quero%20garantir%20meu%20lote." target="_blank" class="btn-wpp">Falar com Rafael</a>
-    </div>
-  </div>
-</section>
-
-<section class="sec-precos">
-  <div style="max-width: 1200px; margin: 0 auto;">
+  <a href="/" style="display:inline-flex;line-height:0"><img src="/logo-rt.png" alt="RT Corretor" style="width:52px;height:52px;object-fit:contain;border-radius:12px;cursor:pointer"></a>
+  <button id="menu-btn" onclick="toggleMenu()" style="position:fixed;top:16px;right:18px;z-index:300;width:44px;height:44px;border-radius:10px;background:rgba(0,0,0,0.92);border:1px solid rgba(201,168,76,0.3);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer; margin: 0 auto;">
     <h2 class="section-title">Condições de <em>Pagamento</em></h2>
     <p class="section-sub">Escolha o tamanho de lote que cabe no seu bolso — 5 opções disponíveis</p>
 
@@ -232,7 +206,7 @@ document.addEventListener('keydown',function(e){
 });
 </script>
 
-<div id="menu-overlay" onclick="fecharMenu()" style="position:fixed;inset:0;z-index:250;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);display:none;opacity:0;transition:opacity .3s"></div>
+<div id="menu-overlay" onclick="fecharMenu()" style="position:fixed;inset:0;z-index:250;background:rgba(0,0,0,0.75);display:none;opacity:0;transition:opacity .3s"></div>
 
 <div id="menu-drawer" style="position:fixed;top:0;right:-320px;bottom:0;z-index:260;width:290px;background:#000;border-left:1px solid rgba(201,168,76,0.2);transition:right .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;overflow-y:auto">
   <!-- HEADER -->

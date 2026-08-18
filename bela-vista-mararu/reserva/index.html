@@ -21,8 +21,7 @@ html{scroll-behavior:smooth}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
 
 /* HEADER */
-.header{position:sticky;top:0;z-index:50;background:rgba(0,0,0,0.95);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;gap:12px;backdrop-filter:blur(12px)}
-.header img{width:40px;height:40px;object-fit:contain}
+.header{position:sticky;top:0;z-index:50;background:rgba(0,0,0,0.95);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;gap:12px;height:40px;object-fit:contain}
 .header-title{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold)}
 .header-sub{font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-top:2px}
 
@@ -316,7 +315,7 @@ fetch('/site_data.json?_='+Date.now())
 
       <div id="form-bloqueado" style="position:relative">
         <!-- Overlay de bloqueio -->
-        <div id="overlay-lock" style="position:absolute;inset:-4px;z-index:10;border-radius:10px;background:rgba(5,5,3,0.55);backdrop-filter:blur(2px);display:flex;align-items:center;justify-content:center;cursor:not-allowed">
+        <div id="overlay-lock" style="position:absolute;inset:-4px;z-index:10;border-radius:10px;background:rgba(5,5,3,0.55);display:flex;align-items:center;justify-content:center;cursor:not-allowed">
           <div style="display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,76,0.6)" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="11" width="16" height="11" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/><circle cx="12" cy="16.5" r="1.5" fill="rgba(201,168,76,0.6)" stroke="none"/></svg>
             <span style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,0.6);font-weight:700">Aceite os termos para preencher</span>
