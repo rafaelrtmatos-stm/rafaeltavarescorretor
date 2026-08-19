@@ -255,7 +255,7 @@ body{font-family:"Inter",sans-serif;background:var(--bg);color:var(--text);overf
   .regiao-destaque{flex-direction:column!important;gap:16px!important}
   .rc-right{text-align:left!important}
   .rc-price{font-size:28px}
-  .rc-nome{font-size:18px}
+  .ecard-nome{font-size:18px}
 
   /* SEÇÃO 05 VIP */
   #grupos{padding:56px 18px}
@@ -524,19 +524,19 @@ section#hero{z-index:0;overflow:hidden!important}
       </div>
     </div>
     <div style="display:flex;gap:12px;align-items:center">
-      <a href="https://wa.me/5593992332012?text=Olá+Rafael!+Quero+conhecer+os+empreendimentos+disponíveis." target="_blank" style="display:inline-flex;align-items:center;gap:6px;color:#F2EDE4;font-size:10px;font-weight:700;letter-spacing:.4px;text-decoration:none;text-shadow:0 0 12px rgba(0,0,0,1),0 0 24px rgba(0,0,0,1);white-space:nowrap" class="nav-falar-txt">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="#25d366" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.555 4.122 1.524 5.855L0 24l6.341-1.494A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 01-4.989-1.366l-.357-.212-3.766.887.937-3.667-.233-.376A9.818 9.818 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182c5.421 0 9.818 4.398 9.818 9.818 0 5.421-4.397 9.818-9.818 9.818z"/></svg>
+      <a href="https://wa.me/5593992332012?text=Olá+Rafael!+Quero+conhecer+os+empreendimentos+disponíveis." target="_blank" style="display:inline-flex;align-items:center;gap:7px;background:var(--gold);color:#000;font-size:10px;font-weight:800;letter-spacing:.4px;text-decoration:none;white-space:nowrap;padding:10px 16px;border-radius:100px" class="nav-falar-txt" onmouseover="this.style.background='#E8C96A'" onmouseout="this.style.background='var(--gold)'">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="#000" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.555 4.122 1.524 5.855L0 24l6.341-1.494A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 01-4.989-1.366l-.357-.212-3.766.887.937-3.667-.233-.376A9.818 9.818 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182c5.421 0 9.818 4.398 9.818 9.818 0 5.421-4.397 9.818-9.818 9.818z"/></svg>
         <span class="nav-falar-label">FALAR COM RAFAEL</span>
       </a>
     </div>
   </nav>
   <style>
-    @media(max-width:400px){ .nav-falar-label{display:none} }
+    @media(max-width:400px){ .nav-falar-label{display:none} .nav-falar-txt{padding:10px!important;border-radius:50%!important} }
   </style>
 
   <!-- CONTEÚDO HERO — alinhado com o hambúrguer -->
   <div style="position:relative;z-index:6;display:flex;flex-direction:column;padding:0 28px 48px;margin-top:0px;flex:1;justify-content:flex-start;padding-top:18px" class="hero-conteudo-wrap">
-
+  <div class="hero-texto-col" style="max-width:520px">
 
     <!-- BADGE LOTES EM SANTARÉM -->
     <div style="font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px;margin-bottom:14px;text-shadow:0 0 14px rgba(0,0,0,1),0 0 28px rgba(0,0,0,1),0 2px 6px rgba(0,0,0,1)">
@@ -545,15 +545,20 @@ section#hero{z-index:0;overflow:hidden!important}
     </div>
 
     <!-- TÍTULO -->
-    <h1 id="hero-titulo" style="font-family:'Inter',sans-serif;font-size:clamp(30px,8vw,52px);font-weight:700;color:#F2EDE4;line-height:1.05;letter-spacing:-0.5px;margin-bottom:12px;max-width:360px;text-shadow:0 0 20px rgba(0,0,0,1),0 0 40px rgba(0,0,0,1),0 0 60px rgba(0,0,0,0.9),2px 2px 0 rgba(0,0,0,0.8),-1px -1px 0 rgba(0,0,0,0.8)">
-      Encontre o<br>
-      <span style="color:var(--gold)">Empreendimento</span><br>
-      Ideal para Você
+    <h1 id="hero-titulo" style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,8vw,54px);font-weight:700;color:#F2EDE4;line-height:1.02;letter-spacing:-0.5px;margin-bottom:10px;max-width:520px;text-shadow:0 0 20px rgba(0,0,0,1),0 0 40px rgba(0,0,0,1),0 0 60px rgba(0,0,0,0.9),2px 2px 0 rgba(0,0,0,0.8),-1px -1px 0 rgba(0,0,0,0.8)">
+      Empreendimentos em<br>
+      <em style="font-style:italic;color:var(--gold)">Santarém</em>
     </h1>
 
+    <!-- LOCALIZAÇÃO -->
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:14px;color:rgba(242,237,228,0.75);font-size:13px;text-shadow:0 0 12px rgba(0,0,0,1),0 0 24px rgba(0,0,0,1)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      Santarém, Pará
+    </div>
+
     <!-- SUBTÍTULO -->
-    <p id="hero-subtitulo" style="font-size:13px;color:rgba(242,237,228,0.8);line-height:1.7;font-weight:300;max-width:280px;margin-bottom:24px;text-shadow:0 0 12px rgba(0,0,0,1),0 0 24px rgba(0,0,0,1),0 2px 4px rgba(0,0,0,1)">
-      Empreendimentos selecionados nas melhores regiões para você investir e viver bem.
+    <p id="hero-subtitulo" style="font-size:13px;color:rgba(242,237,228,0.8);line-height:1.7;font-weight:300;max-width:480px;margin-bottom:24px;text-shadow:0 0 12px rgba(0,0,0,1),0 0 24px rgba(0,0,0,1),0 2px 4px rgba(0,0,0,1)">
+      Loteamentos selecionados nas melhores regiões para você investir e viver bem.
     </p>
 
     <!-- CARD PREMIUM MARARU + COUNTDOWN -->
@@ -610,6 +615,7 @@ section#hero{z-index:0;overflow:hidden!important}
       </a>
     </div>
 
+  </div>
   </div>
 
   <!-- SOMBRA RODAPÉ HERO -->
@@ -678,50 +684,166 @@ section#hero{z-index:0;overflow:hidden!important}
 
 
 <!-- ════════════════════════════════════════
-     CARD DE BENEFÍCIOS — "Por que comprar comigo?"
+     CARD DE BENEFÍCIOS — lista vertical estilo hero
 ════════════════════════════════════════ -->
 <section id="por-que-comprar" style="background:var(--bg);padding:48px 24px 8px">
-  <div style="max-width:520px;margin:0 auto;background:var(--bg2);border:1px solid var(--border2);border-radius:20px;padding:32px 24px">
-    <h2 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--text);text-align:center;margin-bottom:24px">Por que comprar comigo?</h2>
-    <div class="pqc-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:20px 14px">
-      <div style="text-align:center">
-        <svg width="30" height="30" viewBox="0 0 38 38" fill="none" style="margin:0 auto 8px"><rect x="7" y="4" width="24" height="30" rx="2" stroke="#C9A84C" stroke-width="1.5" fill="rgba(201,168,76,0.07)"/><rect x="12" y="3" width="14" height="5" rx="1.5" stroke="#C9A84C" stroke-width="1.3" fill="rgba(201,168,76,0.15)"/><line x1="12" y1="16" x2="26" y2="16" stroke="#C9A84C" stroke-width="1.3" stroke-linecap="round"/><line x1="12" y1="21" x2="26" y2="21" stroke="#C9A84C" stroke-width="1.3" stroke-linecap="round"/><path d="M18 24 L20 26 L24 22" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <div style="font-size:11px;font-weight:800;letter-spacing:1px;color:var(--gold);text-transform:uppercase">Documentação</div>
-        <div style="font-size:12px;color:var(--text2);margin-top:2px">Regularizada</div>
+  <div style="max-width:520px;margin:0 auto;background:var(--bg2);border:1px solid var(--border2);border-radius:20px;padding:8px 22px">
+    <div style="display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid var(--border)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.8" style="flex-shrink:0"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+      <div>
+        <div style="font-size:14px;font-weight:700;color:var(--text)">Condições facilitadas</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:1px">Entrada que cabe no bolso</div>
       </div>
-      <div style="text-align:center">
-        <svg width="30" height="30" viewBox="0 0 38 38" fill="none" style="margin:0 auto 8px"><rect x="4" y="10" width="30" height="20" rx="3" stroke="#C9A84C" stroke-width="1.5" fill="rgba(201,168,76,0.07)"/><line x1="4" y1="16" x2="34" y2="16" stroke="#C9A84C" stroke-width="2" stroke-linecap="round"/><circle cx="27" cy="13" r="3" stroke="#C9A84C" stroke-width="1.2" fill="rgba(201,168,76,0.15)"/></svg>
-        <div style="font-size:11px;font-weight:800;letter-spacing:1px;color:var(--gold);text-transform:uppercase">Parcelamento</div>
-        <div style="font-size:12px;color:var(--text2);margin-top:2px">Facilitado</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid var(--border)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.8" style="flex-shrink:0"><path d="M20 12V8H6a2 2 0 010-4h12v4"/><path d="M4 6v12a2 2 0 002 2h14v-4"/><path d="M18 12a2 2 0 000 4h4v-4z"/></svg>
+      <div>
+        <div style="font-size:14px;font-weight:700;color:var(--text)">Financiamento próprio</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:1px">Sem burocracia</div>
       </div>
-      <div style="text-align:center">
-        <svg width="30" height="30" viewBox="0 0 38 38" fill="none" style="margin:0 auto 8px"><path d="M19 5C13.477 5 9 9.477 9 15C9 22 19 34 19 34C19 34 29 22 29 15C29 9.477 24.523 5 19 5Z" stroke="#C9A84C" stroke-width="1.5" fill="rgba(201,168,76,0.1)"/><circle cx="19" cy="15" r="4" stroke="#C9A84C" stroke-width="1.4" fill="rgba(201,168,76,0.25)"/></svg>
-        <div style="font-size:11px;font-weight:800;letter-spacing:1px;color:var(--gold);text-transform:uppercase">Localização</div>
-        <div style="font-size:12px;color:var(--text2);margin-top:2px">Estratégica</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid var(--border)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.8" style="flex-shrink:0"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+      <div>
+        <div style="font-size:14px;font-weight:700;color:var(--text)">Valorização garantida</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:1px">Região que mais cresce</div>
       </div>
-      <div style="text-align:center">
-        <svg width="30" height="30" viewBox="0 0 38 38" fill="none" style="margin:0 auto 8px"><polyline points="5,30 13,20 20,25 30,10" stroke="#C9A84C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M5 30 L13 20 L20 25 L30 10 L30 30 Z" fill="rgba(201,168,76,0.08)"/></svg>
-        <div style="font-size:11px;font-weight:800;letter-spacing:1px;color:var(--gold);text-transform:uppercase">Valorização</div>
-        <div style="font-size:12px;color:var(--text2);margin-top:2px">Potencial de crescimento</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px;padding:16px 0">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.8" style="flex-shrink:0"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      <div>
+        <div style="font-size:14px;font-weight:700;color:var(--text)">Documentação segura</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:1px">Compra 100% segura</div>
       </div>
     </div>
   </div>
-  <style>#por-que-comprar .pqc-grid{grid-template-columns:1fr 1fr!important}</style>
 </section>
 
 <!-- ════════════════════════════════════════
-     CARD "FALAR COM RAFAEL" — teaser de contato
+     FILEIRA DE 4 DIFERENCIAIS (ícone + título + subtítulo)
 ════════════════════════════════════════ -->
-<section style="background:var(--bg);padding:24px 24px 48px">
-  <div style="max-width:520px;margin:0 auto;background:linear-gradient(135deg,var(--bg2),rgba(201,168,76,0.05));border:1px solid var(--border2);border-radius:20px;padding:32px 24px;text-align:center">
-    <h2 style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--text);margin-bottom:8px">Quer encontrar o lote certo para você?</h2>
-    <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:22px">Fale diretamente com Rafael e veja as opções disponíveis.</p>
-    <a href="https://wa.me/5593992332012?text=Olá+Rafael!+Quero+encontrar+o+lote+certo+para+mim." target="_blank" style="display:inline-flex;align-items:center;justify-content:center;gap:9px;background:var(--gold);color:#000;padding:14px 28px;border-radius:8px;font-size:12px;font-weight:700;text-decoration:none;letter-spacing:.6px" onmouseover="this.style.background='#E8C96A'" onmouseout="this.style.background='var(--gold)'">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="#000"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.555 4.122 1.524 5.855L0 24l6.341-1.494A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 01-4.989-1.366l-.357-.212-3.766.887.937-3.667-.233-.376A9.818 9.818 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182c5.421 0 9.818 4.398 9.818 9.818 0 5.421-4.397 9.818-9.818 9.818z"/></svg>
-      FALAR COM RAFAEL
+<section id="fileira-diferenciais" style="background:var(--bg);padding:16px 24px 8px">
+  <div style="max-width:900px;margin:0 auto;border:1px solid var(--border);border-radius:16px;padding:24px 16px;display:grid;grid-template-columns:1fr 1fr;gap:24px 8px" class="fd-grid">
+    <div style="text-align:center">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.7" style="margin:0 auto 8px"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <div style="font-size:11.5px;font-weight:800;letter-spacing:.5px;color:var(--text);text-transform:uppercase;line-height:1.3">Localização<br>Estratégica</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:4px">Fácil acesso e infraestrutura</div>
+    </div>
+    <div style="text-align:center">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.7" style="margin:0 auto 8px"><path d="M4 19h16M4 15l4-8 4 4 4-6 4 10"/></svg>
+      <div style="font-size:11.5px;font-weight:800;letter-spacing:.5px;color:var(--text);text-transform:uppercase;line-height:1.3">Acesso Fácil</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:4px">Mobilidade e comodidade</div>
+    </div>
+    <div style="text-align:center">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.7" style="margin:0 auto 8px"><path d="M3 21V9l9-6 9 6v12"/><path d="M9 21v-6h6v6"/></svg>
+      <div style="font-size:11.5px;font-weight:800;letter-spacing:.5px;color:var(--text);text-transform:uppercase;line-height:1.3">Bairros Planejados<br>e Tranquilos</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:4px">Qualidade de vida para sua família</div>
+    </div>
+    <div style="text-align:center">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.7" style="margin:0 auto 8px"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+      <div style="font-size:11.5px;font-weight:800;letter-spacing:.5px;color:var(--text);text-transform:uppercase;line-height:1.3">Investimento<br>Seguro</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:4px">Retorno garantido a longo prazo</div>
+    </div>
+  </div>
+  <style>#fileira-diferenciais .fd-grid{grid-template-columns:1fr 1fr!important}</style>
+</section>
+
+<!-- ════════════════════════════════════════
+     ESCOLHA SUA REGIÃO IDEAL — carrossel com rolagem automática
+════════════════════════════════════════ -->
+<section id="regioes" style="background:var(--bg);padding:40px 0 32px">
+  <div style="text-align:center;padding:0 24px;margin-bottom:24px">
+    <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;font-weight:600">Empreendimentos em Santarém</div>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,44px);font-weight:700;color:var(--text)">Escolha sua <em style="font-style:italic;color:var(--gold)">região</em> ideal</h2>
+  </div>
+
+  <div id="regioes-carrossel" style="display:flex;gap:16px;overflow-x:auto;padding:4px 24px 12px;scroll-behavior:smooth" class="no-scrollbar">
+    <a href="/mararu/" class="ecard">
+      <div class="ecard-foto" style="background-image:url('/imagens/mararu-hero-rafael.jpg')"><span class="ecard-badge ecard-badge-lancamento">LANÇAMENTO</span></div>
+      <div class="ecard-corpo"><div class="ecard-nome">Mararu Ville</div><div class="ecard-preco">Entrada <b>R$ 600</b><br>Parcela a partir de <b>R$ 255,56</b></div><div class="ecard-loc">📍 Bairro Mararu</div></div>
+    </a>
+    <a href="/bela-vista-mararu/" class="ecard">
+      <div class="ecard-foto" style="background-image:url('/imagens/bela-vista-mararu-hero-v2.png')"><span class="ecard-badge ecard-badge-lancamento">LANÇAMENTO</span></div>
+      <div class="ecard-corpo"><div class="ecard-nome">Bela Vista do Mararu</div><div class="ecard-preco">Entrada <b>R$ 600</b><br>Parcela a partir de <b>R$ 194,45</b></div><div class="ecard-loc">📍 Bairro Mararu</div></div>
+    </a>
+    <a href="/alenquer/" class="ecard">
+      <div class="ecard-foto" style="background-image:url('/imagens/alenquer-hero.png')"><span class="ecard-badge ecard-badge-lancamento">LANÇAMENTO</span></div>
+      <div class="ecard-corpo"><div class="ecard-nome">Alenquer</div><div class="ecard-preco">Entrada <b>R$ 500</b><br>Parcela a partir de <b>R$ 200</b></div><div class="ecard-loc">📍 Alenquer</div></div>
+    </a>
+    <a href="/monte-alegre/" class="ecard">
+      <div class="ecard-foto" style="background-image:url('/imagens/monte-alegre-hero.jpg')"><span class="ecard-badge ecard-badge-lancamento">LANÇAMENTO</span></div>
+      <div class="ecard-corpo"><div class="ecard-nome">Monte Alegre</div><div class="ecard-preco">Entrada <b>R$ 500</b><br>Parcela a partir de <b>R$ 300</b></div><div class="ecard-loc">📍 Monte Alegre</div></div>
+    </a>
+    <a href="/cucuruna/" class="ecard">
+      <div class="ecard-foto" style="background-image:url('/imagens/cucuruna-hero.jpg')"><span class="ecard-badge ecard-badge-promocao">PROMOÇÃO</span></div>
+      <div class="ecard-corpo"><div class="ecard-nome">Cucuruanã</div><div class="ecard-preco">Entrada <b>R$ 500</b><br>Parcela a partir de <b>R$ 312,50</b></div><div class="ecard-loc">📍 Cucuruanã · Santarém</div></div>
+    </a>
+    <a href="/santa-maria/" class="ecard">
+      <div class="ecard-foto" style="background-image:url('/imagens/santa-maria-obra-1.jpeg')"><span class="ecard-badge ecard-badge-promocao">PROMOÇÃO</span></div>
+      <div class="ecard-corpo"><div class="ecard-nome">Santa Maria</div><div class="ecard-preco">Entrada <b>R$ 500</b><br>Parcela a partir de <b>R$ 300</b></div><div class="ecard-loc">📍 Santa Maria · Santarém</div></div>
+    </a>
+    <a href="/sao-braz/" class="ecard">
+      <div class="ecard-foto" style="background-image:url('/imagens/sao-braz-hero.jpg')"><span class="ecard-badge ecard-badge-lazer">LAZER</span></div>
+      <div class="ecard-corpo"><div class="ecard-nome">São Braz</div><div class="ecard-preco">Entrada <b>R$ 1.000</b><br>Parcela a partir de <b>R$ 300</b></div><div class="ecard-loc">📍 São Braz · Santarém</div></div>
+    </a>
+    <a href="/espirito-santo/" class="ecard">
+      <div class="ecard-foto" style="background-image:url('/imagens/espirito-santo-hero.jpg')"><span class="ecard-badge ecard-badge-promocao">PROMOÇÃO</span></div>
+      <div class="ecard-corpo"><div class="ecard-nome">Espírito Santo</div><div class="ecard-preco">Entrada <b>R$ 2.000</b><br>Parcela a partir de <b>R$ 400</b></div><div class="ecard-loc">📍 Espírito Santo · Santarém</div></div>
+    </a>
+    <a href="/pajucara/" class="ecard">
+      <div class="ecard-foto" style="background-image:url('/imagens/pajuca-foto1.jpeg')"><span class="ecard-badge ecard-badge-lazer">LAZER</span></div>
+      <div class="ecard-corpo"><div class="ecard-nome">Pajuçara</div><div class="ecard-preco">Entrada <b>R$ 500</b><br>Parcela a partir de <b>R$ 312,50</b></div><div class="ecard-loc">📍 Pajuçara · Santarém</div></div>
     </a>
   </div>
+
+  <div style="text-align:center;padding:0 24px">
+    <a href="#regioes-carrossel" onclick="document.getElementById('regioes-carrossel').scrollIntoView({behavior:'smooth'});return false;" style="display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--border2);color:var(--gold);padding:12px 22px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:.5px;text-decoration:none">▦ VER TODOS OS EMPREENDIMENTOS</a>
+  </div>
 </section>
+
+<style>
+  .no-scrollbar::-webkit-scrollbar{display:none}
+  .no-scrollbar{scrollbar-width:none}
+  .ecard{flex:0 0 220px;display:block;text-decoration:none;background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;scroll-snap-align:start;transition:border-color .2s}
+  .ecard:hover{border-color:var(--border2)}
+  .ecard-foto{height:130px;background-size:cover;background-position:center;position:relative}
+  .ecard-badge{position:absolute;top:10px;left:10px;font-size:9px;font-weight:800;letter-spacing:.5px;padding:5px 10px;border-radius:100px;text-transform:uppercase}
+  .ecard-badge-destaque,.ecard-badge-lancamento{background:var(--gold);color:#000}
+  .ecard-badge-novo{background:#1f9d55;color:#fff}
+  .ecard-badge-promocao{background:#d9463f;color:#fff}
+  .ecard-badge-lazer{background:#2b7fd9;color:#fff}
+  .ecard-corpo{padding:14px 16px 16px}
+  .ecard-nome{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--text)}
+  .ecard-preco{font-size:11px;color:var(--text2);margin-top:6px;line-height:1.6}
+  .ecard-preco b{color:var(--gold);font-size:12px}
+  .ecard-loc{font-size:11px;color:var(--text3);margin-top:6px}
+</style>
+
+<script>
+(function(){
+  var track = document.getElementById('regioes-carrossel');
+  if(!track) return;
+  var paused = false, resumeTimeout;
+  function pause(){ paused = true; clearTimeout(resumeTimeout); resumeTimeout = setTimeout(function(){ paused = false; }, 2500); }
+  track.addEventListener('touchstart', pause, {passive:true});
+  track.addEventListener('mousedown', pause);
+  track.addEventListener('wheel', pause, {passive:true});
+  function autoScroll(){
+    if(!paused){
+      var maxScroll = track.scrollWidth - track.clientWidth;
+      if(maxScroll > 0){
+        if(track.scrollLeft >= maxScroll - 1){
+          track.scrollLeft = 0;
+        } else {
+          track.scrollLeft += 0.6;
+        }
+      }
+    }
+    requestAnimationFrame(autoScroll);
+  }
+  requestAnimationFrame(autoScroll);
+})();
+</script>
 
 
 <!-- SEÇÕES 02–12 (em construção) -->
@@ -1233,234 +1355,64 @@ function trocarCidade(cidade,btn){
 
 
 <!-- ════════════════════════════════════════
-     SEÇÃO 04 — ESCOLHA SUA REGIÃO
+     POR QUE INVESTIR EM SANTARÉM — card claro
 ════════════════════════════════════════ -->
-<section id="regioes" style="background:var(--bg);padding:80px 24px 96px;border-bottom:1px solid var(--border);position:relative;overflow:hidden">
-
-  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 50% at 50% 100%,rgba(201,168,76,0.03) 0%,transparent 70%);pointer-events:none"></div>
-
-  <div style="max-width:1100px;margin:0 auto;position:relative;z-index:2">
-
-    <!-- HEADER -->
-    <div style="text-align:center;margin-bottom:36px">
-      <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:600">Portfólio</div>
-      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(36px,4vw,52px);font-weight:700;color:var(--text);line-height:.95;letter-spacing:-2px;margin-bottom:12px">Escolha sua <em style="font-style:italic;color:var(--gold)">Região</em></h2>
-      <p style="font-size:14px;color:var(--text2);max-width:420px;margin:0 auto;line-height:1.7;font-weight:300">Atuamos em Santarém, Alenquer e Monte Alegre.</p>
-    </div>
-
-    <!-- ABAS DE CIDADE -->
-    <div style="display:flex;justify-content:center;gap:6px;margin-bottom:28px;flex-wrap:wrap;position:relative">
-      <button onclick="mudarCidadeCards('santarem',this)" id="tab-cidade-santarem"
-        style="padding:10px 20px;border-radius:100px;border:1.5px solid var(--gold);background:var(--gold);color:#000;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:.5px;transition:all .3s;position:relative;overflow:hidden">
-        📍 Santarém
-        <span id="progress-santarem" style="position:absolute;bottom:0;left:0;height:3px;background:rgba(0,0,0,0.3);width:0%;transition:none;border-radius:0 0 100px 100px"></span>
-      </button>
-      <button onclick="mudarCidadeCards('alenquer',this)" id="tab-cidade-alenquer"
-        style="padding:10px 20px;border-radius:100px;border:1.5px solid rgba(201,168,76,0.3);background:transparent;color:var(--gold);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:.5px;transition:all .3s;position:relative;overflow:hidden">
-        📍 Alenquer <span style="font-size:9px;background:#f87171;color:#000;border-radius:4px;padding:1px 5px;margin-left:4px;font-weight:800">NOVO</span>
-        <span id="progress-alenquer" style="position:absolute;bottom:0;left:0;height:3px;background:rgba(201,168,76,0.6);width:0%;transition:none;border-radius:0 0 100px 100px"></span>
-      </button>
-      <button onclick="mudarCidadeCards('monte-alegre',this)" id="tab-cidade-monte-alegre"
-        style="padding:10px 20px;border-radius:100px;border:1.5px solid rgba(201,168,76,0.3);background:transparent;color:var(--gold);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:.5px;transition:all .3s;position:relative;overflow:hidden">
-        📍 Monte Alegre
-        <span id="progress-monte-alegre" style="position:absolute;bottom:0;left:0;height:3px;background:rgba(201,168,76,0.6);width:0%;transition:none;border-radius:0 0 100px 100px"></span>
-      </button>
-    </div>
-
-    <!-- PAINÉIS POR CIDADE -->
-
-    <!-- SANTARÉM -->
-    <div id="painel-santarem" style="opacity:1;transition:opacity .4s ease">
-      <div class="rc2-grid">
-
-        <!-- MARARU -->
-        <div class="rc2-card rc2-lancamento" onclick="window.location.href='/mararu/'">
-          <div class="rc2-foto">
-            <div class="rc2-img" style="background-image:url('/imagens/mararu-ville-capa.jpg');background-size:cover;background-position:center"></div>
-            <div class="rc2-scrim"></div>
-            <div class="rc2-top-badge" style="background:rgba(248,113,113,0.18);border-color:rgba(248,113,113,0.45);color:#f87171"><span style="width:5px;height:5px;border-radius:50%;background:#f87171;animation:pulse 1.2s infinite;flex-shrink:0;display:inline-block"></span> Lançamento</div>
-            <div class="rc2-nome-over">Mararu Ville</div>
-          </div>
-          <div class="rc2-body">
-            <div class="rc2-loc">📍 Zona Sul · Santarém</div>
-            <div class="rc2-desc2">Loteamento Mararu Ville. Lotes com entrada a partir de R$ 600 e parcelas acessíveis.</div>
-            <button class="rc2-btn" onclick="event.stopPropagation();window.location.href='/mararu/'">Ver empreendimento</button>
-          </div>
-        </div>
-
-        <!-- BELA VISTA DO MARARU -->
-        <div class="rc2-card rc2-lancamento" onclick="window.location.href='/bela-vista-mararu/'">
-          <div class="rc2-foto">
-            <div class="rc2-img" style="background-image:url('/imagens/bela-vista-mararu-capa.jpg');background-size:cover;background-position:center"></div>
-            <div class="rc2-scrim"></div>
-            <div class="rc2-top-badge" style="background:rgba(248,113,113,0.18);border-color:rgba(248,113,113,0.45);color:#f87171"><span style="width:5px;height:5px;border-radius:50%;background:#f87171;animation:pulse 1.2s infinite;flex-shrink:0;display:inline-block"></span> Lançamento</div>
-            <div class="rc2-nome-over">Bela Vista do Mararu</div>
-          </div>
-          <div class="rc2-body">
-            <div class="rc2-loc">📍 Zona Sul · Santarém</div>
-            <div class="rc2-desc2">Loteamento Bela Vista do Mararu. Entrada a partir de R$ 600 e parcelas a partir de R$ 194,45.</div>
-            <button class="rc2-btn" onclick="event.stopPropagation();window.location.href='/bela-vista-mararu/'">Ver empreendimento</button>
-          </div>
-        </div>
-
-        <!-- PAJUÇARA -->
-        <div class="rc2-card" onclick="window.location.href='/pajucara/'">
-          <div class="rc2-foto">
-            <div class="rc2-img" style="background:linear-gradient(160deg,#0a1a0f 0%,#0f2d1a 25%,#1a4a2e 55%,#2d7a4a 80%,#3d9960 100%)">
-              <div style="position:absolute;inset:0;background:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22><defs><filter id=%22n%22><feTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/><feColorMatrix type=%22saturate%22 values=%220%22/></filter></defs><rect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22 opacity=%220.08%22/></svg>') repeat;opacity:.5"></div>
-            </div>
-            <div class="rc2-scrim"></div>
-            <div class="rc2-top-badge" style="background:rgba(64,145,108,0.25);border-color:rgba(64,145,108,0.5);color:#52c47a">✅ Disponível</div>
-            <div class="rc2-nome-over">Pajuçara</div>
-          </div>
-          <div class="rc2-body">
-            <div class="rc2-loc">📍 Zona Urbana · Santarém</div>
-            <div class="rc2-desc2">Bairro em plena expansão com fácil acesso e alta valorização.</div>
-            <button class="rc2-btn" onclick="event.stopPropagation();window.location.href='/pajucara/'">Ver empreendimento</button>
-          </div>
-        </div>
-
-        <!-- SANTA MARIA -->
-        <div class="rc2-card" onclick="window.location.href='/santa-maria/'">
-          <div class="rc2-foto">
-            <div class="rc2-img" style="background:linear-gradient(160deg,#020d08 0%,#061a10 20%,#0d3320 45%,#1a5c38 70%,#26804e 100%)">
-              <div style="position:absolute;inset:0;background:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22><defs><filter id=%22n%22><feTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/><feColorMatrix type=%22saturate%22 values=%220%22/></filter></defs><rect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22 opacity=%220.08%22/></svg>') repeat;opacity:.5"></div>
-            </div>
-            <div class="rc2-scrim"></div>
-            <div class="rc2-top-badge" style="background:rgba(64,145,108,0.25);border-color:rgba(64,145,108,0.5);color:#52c47a">✅ Disponível</div>
-            <div class="rc2-nome-over">Santa Maria</div>
-          </div>
-          <div class="rc2-body">
-            <div class="rc2-loc">📍 Zona Norte · Santarém</div>
-            <div class="rc2-desc2">Empreendimento Bom Sossego — documentação completa, ambiente tranquilo.</div>
-            <button class="rc2-btn" onclick="event.stopPropagation();window.location.href='/santa-maria/'">Ver empreendimento</button>
-          </div>
-        </div>
-
-        <!-- ESPÍRITO SANTO -->
-        <div class="rc2-card" onclick="window.location.href='/espirito-santo/'">
-          <div class="rc2-foto">
-            <div class="rc2-img" style="background-image:url('/imagens/espirito-santo-hero.jpg');background-size:cover;background-position:center"></div>
-            <div class="rc2-scrim"></div>
-            <div class="rc2-top-badge" style="background:rgba(201,168,76,0.25);border-color:rgba(201,168,76,0.45);color:#C9A84C">✨ Disponível</div>
-            <div class="rc2-nome-over">Espírito Santo</div>
-          </div>
-          <div class="rc2-body">
-            <div class="rc2-loc">📍 Zona Leste · Santarém</div>
-            <div class="rc2-desc2">Região em valorização com fácil acesso. Lotes em 3 opções de preço.</div>
-            <button class="rc2-btn" onclick="event.stopPropagation();window.location.href='/espirito-santo/'">Ver empreendimento</button>
-          </div>
-        </div>
-
-        <!-- CUCURUNÃ -->
-        <div class="rc2-card" onclick="window.location.href='/cucuruna/'">
-          <div class="rc2-foto">
-            <div class="rc2-img" style="background:linear-gradient(160deg,#120c00 0%,#261900 25%,#4a3200 55%,#7d5500 80%,#a37000 100%)">
-              <div style="position:absolute;inset:0;background:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22><defs><filter id=%22n%22><feTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/><feColorMatrix type=%22saturate%22 values=%220%22/></filter></defs><rect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22 opacity=%220.08%22/></svg>') repeat;opacity:.5"></div>
-            </div>
-            <div class="rc2-scrim"></div>
-            <div class="rc2-top-badge" style="background:rgba(248,113,113,0.18);border-color:rgba(248,113,113,0.45);color:#f87171"><span style="width:5px;height:5px;border-radius:50%;background:#f87171;animation:pulse 1.2s infinite;flex-shrink:0;display:inline-block"></span> 🔥 Lançamento</div>
-            <div class="rc2-nome-over">Cucurunã</div>
-          </div>
-          <div class="rc2-body">
-            <div class="rc2-loc">📍 Ramal dos Coelhos · Santarém</div>
-            <div class="rc2-desc2">Empreendimento Vitória Régia. Entrada R$500 + 80x R$312,50.</div>
-            <button class="rc2-btn" onclick="event.stopPropagation();window.location.href='/cucuruna/'">Ver empreendimento</button>
-          </div>
-        </div>
-
-        <!-- SÃO BRAZ -->
-        <div class="rc2-card" onclick="window.location.href='/sao-braz/'">
-          <div class="rc2-foto">
-            <div class="rc2-img" style="background-image:url('/imagens/sao-braz-hero.jpg');background-size:cover;background-position:center"></div>
-            <div class="rc2-scrim"></div>
-            <div class="rc2-top-badge" style="background:rgba(248,113,113,0.18);border-color:rgba(248,113,113,0.45);color:#f87171"><span style="width:5px;height:5px;border-radius:50%;background:#f87171;animation:pulse 1.2s infinite;flex-shrink:0;display:inline-block"></span> 🔥 Lançamento</div>
-            <div class="rc2-nome-over">São Braz</div>
-          </div>
-          <div class="rc2-body">
-            <div class="rc2-loc">📍 Santarém, PA</div>
-            <div class="rc2-desc2">Lotes de R$20 mil a R$35 mil. Entrada a partir de R$1.000.</div>
-            <button class="rc2-btn" onclick="event.stopPropagation();window.location.href='/sao-braz/'">Ver empreendimento</button>
-          </div>
-        </div>
-
-        <!-- PONTA DE PEDRAS -->
-        <div class="rc2-card" onclick="abrirCatalogo('ponta-pedras')">
-          <div class="rc2-foto">
-            <div class="rc2-img" style="background:linear-gradient(160deg,#020a12 0%,#051525 25%,#0a2d4a 55%,#10558a 80%,#0f6a9e 100%)">
-              <div style="position:absolute;inset:0;background:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22><defs><filter id=%22n%22><feTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/><feColorMatrix type=%22saturate%22 values=%220%22/></filter></defs><rect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22 opacity=%220.08%22/></svg>') repeat;opacity:.5"></div>
-            </div>
-            <div class="rc2-scrim"></div>
-            <div class="rc2-top-badge" style="background:rgba(64,145,108,0.25);border-color:rgba(64,145,108,0.5);color:#52c47a">✅ Disponível</div>
-            <div class="rc2-nome-over">Ponta de Pedras</div>
-          </div>
-          <div class="rc2-body">
-            <div class="rc2-loc">📍 Área Ribeirinha · Santarém</div>
-            <div class="rc2-desc2">Vista para o Tapajós. Área ribeirinha com alto potencial turístico.</div>
-            <button class="rc2-btn" onclick="event.stopPropagation();abrirCatalogo('ponta-pedras')">Consultar</button>
-          </div>
-        </div>
-
-        <!-- ALTER DO CHÃO -->
-        <div class="rc2-card" onclick="abrirCatalogo('alter')">
-          <div class="rc2-foto">
-            <div class="rc2-img" style="background:linear-gradient(160deg,#050010 0%,#0d0028 25%,#1e0050 55%,#3d0080 78%,#5c1ab0 100%)">
-              <div style="position:absolute;inset:0;background:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22><defs><filter id=%22n%22><feTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/><feColorMatrix type=%22saturate%22 values=%220%22/></filter></defs><rect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22 opacity=%220.08%22/></svg>') repeat;opacity:.5"></div>
-            </div>
-            <div class="rc2-scrim"></div>
-            <div class="rc2-top-badge" style="background:rgba(201,168,76,0.2);border-color:rgba(201,168,76,0.45);color:#e8c84a">⭐ Premium</div>
-            <div class="rc2-nome-over">Alter do Chão</div>
-          </div>
-          <div class="rc2-body">
-            <div class="rc2-loc">📍 Paraíso do Tapajós · Santarém</div>
-            <div class="rc2-desc2">Paraíso do Tapajós. Alto valor de investimento e potencial turístico.</div>
-            <button class="rc2-btn" onclick="event.stopPropagation();abrirCatalogo('alter')">Consultar</button>
-          </div>
-        </div>
-
+<section style="background:var(--bg);padding:16px 24px 40px">
+  <div style="max-width:900px;margin:0 auto;background:#F2EDE4;border-radius:20px;padding:36px 24px;text-align:center">
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#14120D;margin-bottom:4px">Por que investir em Santarém?</h2>
+    <div style="width:40px;height:2px;background:var(--gold);margin:12px auto 28px"></div>
+    <div class="pqi-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:26px 14px">
+      <div>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#A9822F" stroke-width="1.8" style="margin:0 auto 10px"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        <div style="font-size:14px;font-weight:700;color:#14120D">Cidade em crescimento</div>
+        <div style="font-size:12px;color:#5a5346;margin-top:4px;line-height:1.5">Santarém é uma das cidades que mais cresce no Norte.</div>
+      </div>
+      <div>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#A9822F" stroke-width="1.8" style="margin:0 auto 10px"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <div style="font-size:14px;font-weight:700;color:#14120D">Localização privilegiada</div>
+        <div style="font-size:12px;color:#5a5346;margin-top:4px;line-height:1.5">Entre rios e natureza, com fácil acesso e infraestrutura.</div>
+      </div>
+      <div>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#A9822F" stroke-width="1.8" style="margin:0 auto 10px"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        <div style="font-size:14px;font-weight:700;color:#14120D">Qualidade de vida</div>
+        <div style="font-size:12px;color:#5a5346;margin-top:4px;line-height:1.5">Bairros tranquilos, perfeitos para morar ou investir.</div>
+      </div>
+      <div>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#A9822F" stroke-width="1.8" style="margin:0 auto 10px"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+        <div style="font-size:14px;font-weight:700;color:#14120D">Investimento seguro</div>
+        <div style="font-size:12px;color:#5a5346;margin-top:4px;line-height:1.5">Alta valorização e excelente retorno a longo prazo.</div>
       </div>
     </div>
+  </div>
+  <style>section .pqi-grid{grid-template-columns:1fr 1fr!important}</style>
+</section>
 
-    <!-- ALENQUER -->
-    <div id="painel-alenquer" style="opacity:0;display:none;transition:opacity .4s ease">
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;max-width:640px;margin:0 auto">
-        <div class="rc2-card rc2-lancamento" onclick="window.location.href='/alenquer/'">
-          <div class="rc2-foto">
-            <div class="rc2-img" style="background-image:url('/imagens/alenquer-hero.png');background-size:cover;background-position:center"></div>
-            <div class="rc2-scrim"></div>
-            <div class="rc2-top-badge" style="background:rgba(248,113,113,0.18);border-color:rgba(248,113,113,0.45);color:#f87171"><span style="width:5px;height:5px;border-radius:50%;background:#f87171;animation:pulse 1.2s infinite;flex-shrink:0;display:inline-block"></span> 🔥 Lançamento</div>
-            <div class="rc2-nome-over">Alenquer</div>
-          </div>
-          <div class="rc2-body">
-            <div class="rc2-loc">📍 Alenquer, PA</div>
-            <div class="rc2-desc2">Novo lançamento em Alenquer! Garanta sua vaga com entrada acessível. Lançamento quarta-feira dia 10.</div>
-            <button class="rc2-btn" onclick="event.stopPropagation();window.location.href='/alenquer/'">Ver empreendimento</button>
-          </div>
-        </div>
+<!-- ════════════════════════════════════════
+     CARD COMBINADO — Fale com Rafael + Grupo VIP
+════════════════════════════════════════ -->
+<section style="background:var(--bg);padding:0 24px 40px">
+  <div style="max-width:520px;margin:0 auto;background:var(--bg2);border:1px solid var(--border2);border-radius:20px;padding:24px">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px">
+      <img src="/imagens/home-hero-v2.png" alt="Rafael Tavares" style="width:52px;height:52px;border-radius:50%;object-fit:cover;object-position:60% 15%;border:2px solid var(--gold)">
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--text)">Fale diretamente com Rafael</div>
+        <div style="font-size:12.5px;color:var(--text2);margin-top:2px">Tire suas dúvidas e garanta o seu lote!</div>
       </div>
     </div>
-
-    <!-- MONTE ALEGRE -->
-    <div id="painel-monte-alegre" style="opacity:0;display:none;transition:opacity .4s ease">
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;max-width:640px;margin:0 auto">
-        <div class="rc2-card rc2-lancamento" onclick="window.location.href='/monte-alegre/'">
-          <div class="rc2-foto">
-            <div class="rc2-img" style="background-image:url('/imagens/monte-alegre-hero.jpg');background-size:cover;background-position:center"></div>
-            <div class="rc2-scrim"></div>
-            <div class="rc2-top-badge" style="background:rgba(34,197,94,0.15);border-color:rgba(34,197,94,0.4);color:#86efac">✅ Disponível</div>
-            <div class="rc2-nome-over">Jussaramia</div>
-          </div>
-          <div class="rc2-body">
-            <div class="rc2-loc">📍 Monte Alegre, PA</div>
-            <div class="rc2-desc2">Empreendimento Jussaramia em Monte Alegre. Vendas abertas — lotes com documentação regularizada.</div>
-            <button class="rc2-btn" onclick="event.stopPropagation();window.location.href='/monte-alegre/'">Ver empreendimento</button>
-          </div>
-        </div>
-      </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <a href="https://wa.me/5593992332012?text=Olá+Rafael!+Quero+encontrar+o+lote+certo+para+mim." target="_blank" style="display:flex;align-items:center;justify-content:center;gap:9px;background:#25d366;color:#0A1209;padding:14px 20px;border-radius:10px;font-size:12.5px;font-weight:700;text-decoration:none;letter-spacing:.3px">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="#0A1209"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.555 4.122 1.524 5.855L0 24l6.341-1.494A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 01-4.989-1.366l-.357-.212-3.766.887.937-3.667-.233-.376A9.818 9.818 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182c5.421 0 9.818 4.398 9.818 9.818 0 5.421-4.397 9.818-9.818 9.818z"/></svg>
+        FALAR NO WHATSAPP
+      </a>
+      <a href="https://wa.me/5593992332012?text=Olá!+Quero+entrar+no+Grupo+VIP+de+lançamentos." target="_blank" style="display:flex;align-items:center;justify-content:center;gap:9px;background:transparent;border:1.5px solid var(--border2);color:var(--gold);padding:13px 20px;border-radius:10px;font-size:12.5px;font-weight:700;text-decoration:none;letter-spacing:.3px">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        ENTRAR NO GRUPO VIP
+      </a>
     </div>
-
   </div>
 </section>
+
+
 
 <script>
 // Abas cidades com autoplay 5min
@@ -2994,6 +2946,38 @@ document.getElementById('regiao-modal').addEventListener('click',function(e){if(
 document.addEventListener('keydown',function(e){if(e.key==='Escape')fecharRegiao();});
 </script>
 
+
+<!-- ════════════════════════════════════════
+     MENU INFERIOR FIXO — apenas mobile
+════════════════════════════════════════ -->
+<nav id="mobile-bottom-nav" style="position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(8,7,5,0.97);border-top:1px solid var(--border);display:none;padding:8px 4px calc(8px + env(safe-area-inset-bottom));justify-content:space-around">
+  <a href="#hero" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:var(--gold);font-size:9px;font-weight:700;letter-spacing:.2px">
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Início
+  </a>
+  <a href="#regioes-carrossel" onclick="document.getElementById('regioes-carrossel').scrollIntoView({behavior:'smooth'});return false;" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:var(--text2);font-size:9px;font-weight:600;letter-spacing:.2px">
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+    Empreendimentos
+  </a>
+  <a href="#mapa" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:var(--text2);font-size:9px;font-weight:600;letter-spacing:.2px">
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4z"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+    Regiões
+  </a>
+  <a href="https://wa.me/5593992332012?text=Olá+Rafael!+Como+funciona+o+processo+de+compra?" target="_blank" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:var(--text2);font-size:9px;font-weight:600;letter-spacing:.2px">
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    Como Comprar
+  </a>
+  <a href="https://wa.me/5593992332012" target="_blank" style="display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:var(--text2);font-size:9px;font-weight:600;letter-spacing:.2px">
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+    Contato
+  </a>
+</nav>
+<style>
+  @media(max-width:768px){
+    #mobile-bottom-nav{display:flex!important}
+    body{padding-bottom:64px}
+  }
+</style>
 
 </body>
 </html>
