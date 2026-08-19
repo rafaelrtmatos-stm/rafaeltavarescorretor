@@ -497,8 +497,8 @@ select.input option{background:#FFFFFF;color:#1A1710}
     </div>
 
     <div id="popup-copiar-feedback" style="display:none;text-align:center;background:rgba(26,158,82,0.1);border:1px solid rgba(26,158,82,0.35);border-radius:10px;padding:12px 16px;margin-top:14px">
-      <div style="color:var(--green);font-weight:700;font-size:13px">✓ Mensagem copiada!</div>
-      <div style="font-size:12px;color:var(--text2);margin-top:2px">Agora cole o cadastro na conversa com o corretor.</div>
+      <div id="popup-copiar-titulo" style="color:var(--green);font-weight:700;font-size:13px">✓ Mensagem copiada!</div>
+      <div id="popup-copiar-sub" style="font-size:12px;color:var(--text2);margin-top:2px">Agora cole o cadastro na conversa com o corretor.</div>
     </div>
   </div>
 </div>
@@ -1290,7 +1290,10 @@ function copiarCadastro(){
 
 function abrirPopupConclusao(){
   if(!validarFormulario())return;
-  document.getElementById('popup-copiar-feedback').style.display='none';
+  const feedback=document.getElementById('popup-copiar-feedback');
+  feedback.style.display='none';
+  document.getElementById('popup-copiar-titulo').textContent='✓ Mensagem copiada!';
+  document.getElementById('popup-copiar-sub').textContent='Agora cole o cadastro na conversa com o corretor.';
   document.getElementById('popup-overlay').classList.add('aberto');
   document.body.style.overflow='hidden';
 }
@@ -1308,10 +1311,20 @@ function popupEnviarWhatsapp(){
 function popupCopiarDados(){
   const msg=montarMensagemCadastro();
   const feedback=document.getElementById('popup-copiar-feedback');
+  const titulo=document.getElementById('popup-copiar-titulo');
+  const sub=document.getElementById('popup-copiar-sub');
   function mostrarSucesso(){
     if(feedback){
       feedback.style.display='block';
-      setTimeout(fecharPopupConclusao,1800);
+      if(titulo)titulo.textContent='✓ Mensagem copiada!';
+      if(sub)sub.textContent='Agora cole o cadastro na conversa com o corretor.';
+      setTimeout(function(){
+        if(titulo)titulo.textContent='Redirecionando…';
+        if(sub)sub.textContent='Levando você para o site rafaeltavarescorretor.com.br';
+        setTimeout(function(){
+          window.location.href='https://rafaeltavarescorretor.com.br/';
+        },1400);
+      },1600);
     }
   }
   if(navigator.clipboard && navigator.clipboard.writeText){
