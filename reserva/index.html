@@ -115,6 +115,13 @@ select.input option{background:#FFFFFF;color:#1A1710}
 /* ── POP-UP DE CONCLUSÃO ── */
 .popup-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(10,9,6,0.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);align-items:flex-end;justify-content:center;padding:0}
 .popup-overlay.aberto{display:flex}
+.popup-confete{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:600}
+.confete-particula{position:absolute;top:50%;left:50%;opacity:0;will-change:transform,opacity;animation:confeteExplode .95s cubic-bezier(.16,.84,.32,1) forwards}
+@keyframes confeteExplode{
+  0%{transform:translate(-50%,-50%) scale(0) rotate(0deg);opacity:1}
+  12%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(20deg)}
+  100%{transform:translate(calc(-50% + var(--tx)),calc(-50% + var(--ty))) scale(.4) rotate(var(--rot));opacity:0}
+}
 .popup-box{background:var(--bg2);width:100%;max-width:460px;border-radius:24px 24px 0 0;padding:24px 24px 28px;position:relative;max-height:92vh;overflow-y:auto;animation:popupSobe .25s ease-out}
 @keyframes popupSobe{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
 @media(min-width:640px){
@@ -477,6 +484,7 @@ select.input option{background:#FFFFFF;color:#1A1710}
      POP-UP DE CONCLUSÃO — duas opções alternativas
 ════════════════════════════════════════════ -->
 <div id="popup-overlay" class="popup-overlay" onclick="if(event.target===this)fecharPopupConclusao()">
+  <div id="popup-confete" class="popup-confete" aria-hidden="true"></div>
   <div class="popup-box">
     <button class="popup-fechar" onclick="fecharPopupConclusao()" type="button" aria-label="Fechar">✕</button>
 
@@ -1288,6 +1296,34 @@ function copiarCadastro(){
   }
 }
 
+function dispararConfete(){
+  const container=document.getElementById('popup-confete');
+  if(!container)return;
+  container.innerHTML='';
+  const cores=['#D4AF37','#F0CE6B','#FFFFFF','#8A6A16','#B8860B'];
+  const total=42;
+  const frag=document.createDocumentFragment();
+  for(let i=0;i<total;i++){
+    const p=document.createElement('span');
+    p.className='confete-particula';
+    const angulo=(Math.PI*2*i/total)+(Math.random()*0.6-0.3);
+    const dist=90+Math.random()*220;
+    p.style.setProperty('--tx',(Math.cos(angulo)*dist)+'px');
+    p.style.setProperty('--ty',(Math.sin(angulo)*dist)+'px');
+    p.style.setProperty('--rot',(Math.random()*520-260)+'deg');
+    const tam=5+Math.random()*8;
+    p.style.width=tam+'px';
+    p.style.height=tam+'px';
+    p.style.background=cores[Math.floor(Math.random()*cores.length)];
+    p.style.borderRadius=Math.random()>0.45?'50%':'2px';
+    p.style.boxShadow='0 0 6px rgba(212,175,55,.5)';
+    p.style.animationDelay=(Math.random()*0.12)+'s';
+    frag.appendChild(p);
+  }
+  container.appendChild(frag);
+  setTimeout(function(){container.innerHTML='';},1500);
+}
+
 function abrirPopupConclusao(){
   if(!validarFormulario())return;
   const feedback=document.getElementById('popup-copiar-feedback');
@@ -1296,6 +1332,7 @@ function abrirPopupConclusao(){
   document.getElementById('popup-copiar-sub').textContent='Agora cole o cadastro na conversa com o corretor.';
   document.getElementById('popup-overlay').classList.add('aberto');
   document.body.style.overflow='hidden';
+  setTimeout(dispararConfete,180);
 }
 
 function fecharPopupConclusao(){
