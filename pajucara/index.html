@@ -122,21 +122,37 @@ footer { background: var(--bg2); border-top: 1px solid rgba(201,168,76,0.15); pa
 <section class="sec-precos">
   <div style="max-width: 1200px; margin: 0 auto;">
     <h2 class="section-title">Tabela de <em>Preços</em></h2>
-    <p class="section-sub">Escolha o tipo de lote. Antecipe 7+ parcelas e ganhe 20% de desconto!</p>
+    <p class="section-sub">Antecipe 7+ parcelas e ganhe 20% de desconto!</p>
 
-    <div style="background: rgba(201,168,76,0.05); border: 1px solid rgba(201,168,76,0.2); border-radius: 14px; padding: 24px; margin-bottom: 28px;">
-      <div style="display: flex; justify-content: space-between; text-align: center;">
-        <div>
-          <div style="font-size: 11px; color: rgba(255,255,255,0.6); text-transform: uppercase;">Até 300m²</div>
-          <div style="font-size: 18px; font-weight: 700; color: var(--gold); margin-top: 8px;">R$ 15.500</div>
-          <div style="font-size: 12px; color: var(--text2); margin-top: 4px;">48x R$ 312,50</div>
-        </div>
-        <div style="border-left: 1px solid rgba(201,168,76,0.2);"></div>
-        <div>
-          <div style="font-size: 11px; color: rgba(255,255,255,0.6); text-transform: uppercase;">Acima de 300m²</div>
-          <div style="font-size: 18px; font-weight: 700; color: var(--gold); margin-top: 8px;">R$ 18.000</div>
-          <div style="font-size: 12px; color: var(--text2); margin-top: 4px;">50x R$ 350,00</div>
-        </div>
+    <div style="text-align:center;margin-bottom:14px">
+      <div style="font-size:14px;font-weight:800;color:var(--text);letter-spacing:.5px;text-transform:uppercase">Escolha o tamanho do lote</div>
+      <div style="font-size:12.5px;color:var(--text3);margin-top:4px">Selecione uma opção para ver os valores e condições.</div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:28px" id="precoCatToggle">
+      <button class="preco-cat-btn active" data-cat="padrao">
+        <span class="preco-cat-btn-title">ATÉ 300 m²</span>
+        <span class="preco-cat-btn-sub">Lote Padrão</span>
+      </button>
+      <button class="preco-cat-btn" data-cat="maior">
+        <span class="preco-cat-btn-title">ACIMA DE 300 m²</span>
+        <span class="preco-cat-btn-sub">Lote Maior</span>
+      </button>
+    </div>
+
+    <div id="cardPadrao" style="background: rgba(201,168,76,0.05); border: 1px solid rgba(201,168,76,0.2); border-radius: 14px; padding: 24px; margin-bottom: 28px; max-width:400px; margin-left:auto; margin-right:auto">
+      <div style="text-align: center;">
+        <div style="font-size: 11px; color: rgba(255,255,255,0.6); text-transform: uppercase">Até 300m² · Entrada R$ 500</div>
+        <div style="font-size: 22px; font-weight: 700; color: var(--gold); margin-top: 8px;">R$ 15.500</div>
+        <div style="font-size: 13px; color: var(--text2); margin-top: 4px;">48x R$ 312,50</div>
+      </div>
+    </div>
+
+    <div id="cardMaior" style="display:none; background: rgba(201,168,76,0.05); border: 1px solid rgba(201,168,76,0.2); border-radius: 14px; padding: 24px; margin-bottom: 28px; max-width:400px; margin-left:auto; margin-right:auto">
+      <div style="text-align: center;">
+        <div style="font-size: 11px; color: rgba(255,255,255,0.6); text-transform: uppercase">Acima de 300m² · Entrada R$ 500</div>
+        <div style="font-size: 22px; font-weight: 700; color: var(--gold); margin-top: 8px;">R$ 18.000</div>
+        <div style="font-size: 13px; color: var(--text2); margin-top: 4px;">50x R$ 350,00</div>
       </div>
     </div>
 
@@ -154,6 +170,30 @@ footer { background: var(--bg2); border-top: 1px solid rgba(201,168,76,0.15); pa
     </div>
   </div>
 </section>
+
+<style>
+  .preco-cat-btn.active{background:var(--gold)!important;color:#000!important;border-color:var(--gold)!important;box-shadow:0 6px 20px rgba(201,168,76,0.25)!important;animation:none!important}
+  .preco-cat-btn:not(.active){background:#14170f!important;color:var(--gold)!important;border-color:var(--gold)!important;animation:precoBorderBreathe 1.8s ease-in-out infinite}
+  @keyframes precoBorderBreathe{
+    0%{box-shadow:0 0 0 0 rgba(201,168,76,0.35),0 0 6px rgba(201,168,76,0.25)}
+    50%{box-shadow:0 0 0 3px rgba(201,168,76,0.18),0 0 18px rgba(201,168,76,0.6)}
+    100%{box-shadow:0 0 0 0 rgba(201,168,76,0.35),0 0 6px rgba(201,168,76,0.25)}
+  }
+  .preco-cat-btn{width:100%;max-width:420px;display:flex;flex-direction:column;align-items:center;gap:2px;padding:16px 22px;border-radius:16px;border:2px solid var(--gold);cursor:pointer;font-family:inherit;transition:background .2s,color .2s}
+  .preco-cat-btn-title{font-size:15px;font-weight:800;letter-spacing:.5px}
+  .preco-cat-btn-sub{font-size:11.5px;font-weight:600;opacity:.75}
+</style>
+<script>
+  document.querySelectorAll("#precoCatToggle .preco-cat-btn").forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll("#precoCatToggle .preco-cat-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      const cat = btn.dataset.cat;
+      document.getElementById("cardPadrao").style.display = cat === "padrao" ? "" : "none";
+      document.getElementById("cardMaior").style.display = cat === "maior" ? "" : "none";
+    };
+  });
+</script>
 
 <section style="padding: 60px 20px; max-width: 1200px; margin: 0 auto;">
   <h2 class="section-title">Conheça <em>Pajuçara</em></h2>
