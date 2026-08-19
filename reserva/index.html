@@ -113,22 +113,25 @@ select.input option{background:#FFFFFF;color:#1A1710}
 .btn-copiar{width:100%;display:flex;align-items:center;gap:14px;background:var(--bg2);color:var(--text);padding:14px 18px;border-radius:14px;cursor:pointer;border:1.5px solid var(--border2);font-family:'Inter',sans-serif;transition:all .2s;margin-top:10px;text-align:left}
 
 /* ── POP-UP DE CONCLUSÃO ── */
-.popup-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(10,9,6,0.72);backdrop-filter:none;align-items:flex-end;justify-content:center;padding:0}
+.popup-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(10,9,6,0.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);align-items:flex-end;justify-content:center;padding:0}
 .popup-overlay.aberto{display:flex}
-.popup-box{background:var(--bg2);width:100%;max-width:460px;border-radius:24px 24px 0 0;padding:32px 24px 28px;position:relative;max-height:92vh;overflow-y:auto;animation:popupSobe .25s ease-out}
+.popup-box{background:var(--bg2);width:100%;max-width:460px;border-radius:24px 24px 0 0;padding:24px 24px 28px;position:relative;max-height:92vh;overflow-y:auto;animation:popupSobe .25s ease-out}
 @keyframes popupSobe{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
 @media(min-width:640px){
   .popup-overlay{align-items:center;padding:20px}
   .popup-box{border-radius:24px;animation:popupZoom .2s ease-out}
 }
 @keyframes popupZoom{from{transform:scale(0.94);opacity:0}to{transform:scale(1);opacity:1}}
-.popup-fechar{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;border:none;background:var(--bg3);color:var(--text2);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.popup-check{width:56px;height:56px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
-.popup-titulo{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--text);text-align:center}
-.popup-sub{font-size:14px;color:var(--text2);text-align:center;margin-top:4px}
-.popup-escolha{font-size:13px;font-weight:700;color:var(--text);text-align:center;margin-top:18px;margin-bottom:14px}
-.popup-ou{display:flex;align-items:center;gap:12px;margin:14px 0;color:var(--text3);font-size:11px;font-weight:700;letter-spacing:1px}
-.popup-ou::before,.popup-ou::after{content:'';flex:1;height:1px;background:var(--border)}
+.popup-fechar{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;border:none;background:var(--bg3);color:var(--text2);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}
+.popup-foto{width:100%;max-width:340px;display:block;margin:0 auto 4px;object-fit:contain}
+.popup-escolha{font-size:13px;font-weight:700;color:var(--text);text-align:center;margin-top:6px;margin-bottom:14px}
+.popup-botoes{display:flex;gap:10px}
+.btn-popup{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px 10px;border-radius:14px;text-align:center;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:all .2s}
+.btn-popup-whats{background:var(--green);color:#fff}
+.btn-popup-whats:hover{background:#178a48}
+.btn-popup-copiar{background:var(--bg3);color:var(--text);border:1.5px solid var(--border2)}
+.btn-popup-copiar:hover{border-color:var(--gold)}
+.btn-popup .btn-popup-title{font-size:12.5px;font-weight:700;line-height:1.25}
 .btn-copiar:hover{border-color:var(--gold)}
 .btn-icon-circle-copiar{background:rgba(169,130,47,0.1)}
 .btn-text-wrap{display:flex;flex-direction:column;gap:1px;text-align:left}
@@ -478,37 +481,24 @@ select.input option{background:#FFFFFF;color:#1A1710}
   <div class="popup-box">
     <button class="popup-fechar" onclick="fecharPopupConclusao()" type="button" aria-label="Fechar">✕</button>
 
-    <div class="popup-check">
-      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-    </div>
-    <h2 class="popup-titulo">Parabéns!</h2>
-    <p class="popup-sub">Seu cadastro foi preenchido com sucesso.</p>
+    <img class="popup-foto" src="../imagens/popup-cadastro-concluido.png" alt="Cadastro concluído com sucesso">
+
     <p class="popup-escolha">Agora escolha uma opção para enviar seu cadastro ao corretor:</p>
 
-    <button class="btn-enviar" style="margin-top:6px" onclick="popupEnviarWhatsapp()" type="button">
-      <span class="btn-icon-circle">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="#000"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.555 4.122 1.524 5.855L0 24l6.341-1.494A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 01-4.989-1.366l-.357-.212-3.766.887.937-3.667-.233-.376A9.818 9.818 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182c5.421 0 9.818 4.398 9.818 9.818 0 5.421-4.397 9.818-9.818 9.818z"/></svg>
-      </span>
-      <span class="btn-text-wrap">
-        <span class="btn-title">Enviar Diretamente pelo WhatsApp</span>
-        <span class="btn-sub">Abre a conversa com o corretor com os dados já preenchidos. Você só precisa conferir e enviar.</span>
-      </span>
-    </button>
+    <div class="popup-botoes">
+      <button class="btn-popup btn-popup-whats" onclick="popupEnviarWhatsapp()" type="button">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.555 4.122 1.524 5.855L0 24l6.341-1.494A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 01-4.989-1.366l-.357-.212-3.766.887.937-3.667-.233-.376A9.818 9.818 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182c5.421 0 9.818 4.398 9.818 9.818 0 5.421-4.397 9.818-9.818 9.818z"/></svg>
+        <span class="btn-popup-title">Enviar pelo<br>WhatsApp</span>
+      </button>
 
-    <div class="popup-ou"><span>OU</span></div>
+      <button class="btn-popup btn-popup-copiar" onclick="popupCopiarDados()" type="button">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        <span class="btn-popup-title">Copiar e enviar<br>manualmente</span>
+      </button>
+    </div>
 
-    <button class="btn-copiar" onclick="popupCopiarDados()" type="button">
-      <span class="btn-icon-circle btn-icon-circle-copiar">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-      </span>
-      <span class="btn-text-wrap">
-        <span class="btn-title" style="color:var(--text)">Copiar Dados e Enviar Manualmente</span>
-        <span class="btn-sub" style="color:var(--text3)">Copia o cadastro para você colar e enviar manualmente na conversa com o corretor.</span>
-      </span>
-    </button>
-
-    <div id="popup-copiar-feedback" style="display:none;text-align:center;background:rgba(26,158,82,0.1);border:1px solid rgba(26,158,82,0.35);border-radius:10px;padding:12px 16px;margin-top:10px">
-      <div style="color:var(--green);font-weight:700;font-size:13px">✓ Dados copiados!</div>
+    <div id="popup-copiar-feedback" style="display:none;text-align:center;background:rgba(26,158,82,0.1);border:1px solid rgba(26,158,82,0.35);border-radius:10px;padding:12px 16px;margin-top:14px">
+      <div style="color:var(--green);font-weight:700;font-size:13px">✓ Mensagem copiada!</div>
       <div style="font-size:12px;color:var(--text2);margin-top:2px">Agora cole o cadastro na conversa com o corretor.</div>
     </div>
   </div>
@@ -1260,7 +1250,10 @@ function popupCopiarDados(){
   const msg=montarMensagemCadastro();
   const feedback=document.getElementById('popup-copiar-feedback');
   function mostrarSucesso(){
-    if(feedback)feedback.style.display='block';
+    if(feedback){
+      feedback.style.display='block';
+      setTimeout(fecharPopupConclusao,1800);
+    }
   }
   if(navigator.clipboard && navigator.clipboard.writeText){
     navigator.clipboard.writeText(msg).then(mostrarSucesso).catch(function(){
