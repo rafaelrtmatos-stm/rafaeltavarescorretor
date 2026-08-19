@@ -758,7 +758,7 @@ section#hero{z-index:0;overflow:hidden!important}
     <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,44px);font-weight:700;color:var(--text)">Escolha sua <em style="font-style:italic;color:var(--gold)">região</em> ideal</h2>
   </div>
 
-  <div id="regioes-carrossel" style="display:flex;gap:16px;overflow-x:auto;padding:4px 24px 12px;scroll-behavior:smooth" class="no-scrollbar">
+  <div id="regioes-carrossel" style="display:flex;gap:16px;overflow-x:auto;padding:4px 24px 12px" class="no-scrollbar">
     <a href="/mararu/" class="ecard">
       <div class="ecard-foto" style="background-image:url('/imagens/mararu-hero-rafael.jpg')"><span class="ecard-badge ecard-badge-lancamento">LANÇAMENTO</span></div>
       <div class="ecard-corpo"><div class="ecard-nome">Mararu Ville</div><div class="ecard-preco">Entrada <b>R$ 600</b><br>Parcela a partir de <b>R$ 255,56</b></div><div class="ecard-loc">📍 Bairro Mararu</div></div>
@@ -824,21 +824,35 @@ section#hero{z-index:0;overflow:hidden!important}
 (function(){
   var track = document.getElementById('regioes-carrossel');
   if(!track) return;
+
+  // Duplica os cards uma vez, pra criar o efeito de loop infinito:
+  // quando o primeiro conjunto sai pela esquerda, o segundo (idêntico) já está logo atrás
+  var singleSetWidth = track.scrollWidth;
+  var cardsOriginais = Array.prototype.slice.call(track.children);
+  cardsOriginais.forEach(function(card){
+    var clone = card.cloneNode(true);
+    clone.setAttribute('aria-hidden', 'true');
+    clone.setAttribute('tabindex', '-1');
+    track.appendChild(clone);
+  });
+
   var paused = false, resumeTimeout;
-  function pause(){ paused = true; clearTimeout(resumeTimeout); resumeTimeout = setTimeout(function(){ paused = false; }, 2500); }
+  function pause(){ paused = true; clearTimeout(resumeTimeout); }
+  function agendarRetomada(){ clearTimeout(resumeTimeout); resumeTimeout = setTimeout(function(){ paused = false; }, 700); }
+
   track.addEventListener('touchstart', pause, {passive:true});
   track.addEventListener('mousedown', pause);
-  track.addEventListener('wheel', pause, {passive:true});
+  track.addEventListener('wheel', function(){ pause(); agendarRetomada(); }, {passive:true});
+  track.addEventListener('touchend', agendarRetomada, {passive:true});
+  window.addEventListener('mouseup', agendarRetomada);
+
   function autoScroll(){
     if(!paused){
-      var maxScroll = track.scrollWidth - track.clientWidth;
-      if(maxScroll > 0){
-        if(track.scrollLeft >= maxScroll - 1){
-          track.scrollLeft = 0;
-        } else {
-          track.scrollLeft += 0.6;
-        }
-      }
+      track.scrollLeft += 0.6;
+    }
+    // Loop infinito: assim que passar do primeiro conjunto de cards, volta o equivalente pra trás sem transição visível
+    if(singleSetWidth > 0 && track.scrollLeft >= singleSetWidth){
+      track.scrollLeft -= singleSetWidth;
     }
     requestAnimationFrame(autoScroll);
   }
