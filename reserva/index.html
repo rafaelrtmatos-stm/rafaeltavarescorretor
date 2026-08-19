@@ -643,9 +643,6 @@ document.getElementById('nome').addEventListener('input',function(){
   if(partes.length<2){
     this.classList.add('erro');this.classList.remove('ok');
     h.className='hint erro-txt';h.textContent='Informe nome e sobrenome';
-  } else if(partes.some(p=>p.length<2)){
-    this.classList.add('erro');this.classList.remove('ok');
-    h.className='hint erro-txt';h.textContent='Nome incompleto';
   } else {
     this.classList.add('ok');this.classList.remove('erro');
     h.className='hint ok-txt';h.textContent='✓';
