@@ -51,6 +51,9 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.data-nasc-grid{display:grid;grid-template-columns:0.7fr 1.6fr 0.9fr;gap:8px}
+.input-sel{padding:12px 8px;font-size:13px;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23A9822F' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;padding-right:22px;text-overflow:ellipsis}
+.input-sel option{background:#FFFFFF;color:#1A1710}
 @media(max-width:520px){
   .grid-2,.grid-3{grid-template-columns:1fr}
 }
@@ -114,14 +117,26 @@ select.input option{background:#FFFFFF;color:#1A1710}
 
 /* ── POP-UP DE CONCLUSÃO ── */
 .popup-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(10,9,6,0.72);align-items:flex-end;justify-content:center;padding:0}
-.popup-overlay.aberto{display:flex}
-.popup-box{background:var(--bg2);width:100%;max-width:460px;border-radius:24px 24px 0 0;padding:24px 24px 28px;position:relative;max-height:92vh;overflow-y:auto;animation:popupSobe .25s ease-out}
-@keyframes popupSobe{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+.popup-overlay.aberto{display:flex;animation:popupFundoFade .35s ease-out both}
+@keyframes popupFundoFade{from{background:rgba(10,9,6,0)}to{background:rgba(10,9,6,0.72)}}
+.popup-box{background:var(--bg2);width:100%;max-width:460px;border-radius:24px 24px 0 0;padding:24px 24px 28px;position:relative;max-height:92vh;overflow-y:auto;animation:popupBolha .6s cubic-bezier(.22,1,.36,1) both}
+@keyframes popupBolha{
+  0%{transform:translateY(36px) scale(0.86);opacity:0}
+  50%{transform:translateY(-8px) scale(1.035);opacity:1}
+  72%{transform:translateY(2px) scale(0.99)}
+  88%{transform:translateY(-1px) scale(1.006)}
+  100%{transform:translateY(0) scale(1)}
+}
+.popup-check{animation:popupCheckBrilho .6s ease-out both}
+@keyframes popupCheckBrilho{
+  0%,45%{box-shadow:0 0 0 0 rgba(169,130,47,0)}
+  62%{box-shadow:0 0 0 10px rgba(169,130,47,0.18),0 0 22px 4px rgba(169,130,47,0.45)}
+  100%{box-shadow:0 0 0 0 rgba(169,130,47,0)}
+}
 @media(min-width:640px){
   .popup-overlay{align-items:center;padding:20px}
-  .popup-box{border-radius:24px;animation:popupZoom .2s ease-out}
+  .popup-box{border-radius:24px}
 }
-@keyframes popupZoom{from{transform:scale(0.94);opacity:0}to{transform:scale(1);opacity:1}}
 .popup-fechar{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;border:none;background:var(--bg3);color:var(--text2);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}
 .popup-foto{width:100%;max-width:340px;display:block;margin:0 auto 4px;object-fit:contain}
 .popup-escolha{font-size:13px;font-weight:700;color:var(--text);text-align:center;margin-top:6px;margin-bottom:14px}
@@ -219,10 +234,30 @@ select.input option{background:#FFFFFF;color:#1A1710}
       <div class="grid-3">
         <div class="field">
           <label class="label">Data de Nascimento *</label>
-          <div class="input-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-            <input class="input" id="nascimento" type="date" autocomplete="off">
+          <div class="data-nasc-grid">
+            <select class="input input-sel" id="nasc-dia" aria-label="Dia">
+              <option value="">Dia</option>
+            </select>
+            <select class="input input-sel" id="nasc-mes" aria-label="Mês">
+              <option value="">Mês</option>
+              <option value="01">01 — Janeiro</option>
+              <option value="02">02 — Fevereiro</option>
+              <option value="03">03 — Março</option>
+              <option value="04">04 — Abril</option>
+              <option value="05">05 — Maio</option>
+              <option value="06">06 — Junho</option>
+              <option value="07">07 — Julho</option>
+              <option value="08">08 — Agosto</option>
+              <option value="09">09 — Setembro</option>
+              <option value="10">10 — Outubro</option>
+              <option value="11">11 — Novembro</option>
+              <option value="12">12 — Dezembro</option>
+            </select>
+            <select class="input input-sel" id="nasc-ano" aria-label="Ano">
+              <option value="">Ano</option>
+            </select>
           </div>
+          <input type="hidden" id="nascimento">
           <span class="hint" id="h-nasc"></span>
         </div>
         <div class="field">
@@ -990,18 +1025,81 @@ function buscarCEP(cep){
     });
 }
 
+// ── Data de nascimento — 3 seletores (dia/mês/ano) ────────────
+(function(){
+  const diaSel=document.getElementById('nasc-dia');
+  const mesSel=document.getElementById('nasc-mes');
+  const anoSel=document.getElementById('nasc-ano');
+  const hidden=document.getElementById('nascimento');
+  const h=document.getElementById('h-nasc');
+
+  // Popula o ano: do ano atual até 100 anos atras (a validação de idade, já existente, barra menores de 18)
+  const anoAtual=new Date().getFullYear();
+  for(let a=anoAtual;a>=anoAtual-100;a--){
+    const opt=document.createElement('option');
+    opt.value=a;opt.textContent=a;
+    anoSel.appendChild(opt);
+  }
+
+  function diasNoMes(mes,ano){
+    if(!mes)return 31;
+    const m=parseInt(mes,10);
+    if(!ano)return [1,3,5,7,8,10,12].includes(m)?31:(m===2?29:30);
+    const a=parseInt(ano,10);
+    const bissexto=(a%4===0&&a%100!==0)||a%400===0;
+    if(m===2)return bissexto?29:28;
+    return [1,3,5,7,8,10,12].includes(m)?31:30;
+  }
+
+  function popularDias(){
+    const diaAtual=diaSel.value;
+    const max=diasNoMes(mesSel.value,anoSel.value);
+    diaSel.innerHTML='<option value="">Dia</option>';
+    for(let d=1;d<=max;d++){
+      const opt=document.createElement('option');
+      const dd=String(d).padStart(2,'0');
+      opt.value=dd;opt.textContent=dd;
+      diaSel.appendChild(opt);
+    }
+    // Preserva o dia escolhido se ainda for válido pro novo mês/ano
+    if(diaAtual&&parseInt(diaAtual,10)<=max)diaSel.value=diaAtual;
+  }
+  popularDias();
+
+  function atualizarHidden(){
+    const d=diaSel.value,m=mesSel.value,a=anoSel.value;
+    if(d&&m&&a){
+      hidden.value=`${a}-${m}-${d}`;
+      hidden.dispatchEvent(new Event('change'));
+    } else {
+      hidden.value='';
+      diaSel.classList.remove('erro','ok');mesSel.classList.remove('erro','ok');anoSel.classList.remove('erro','ok');
+      h.className='hint';h.textContent='';
+    }
+  }
+
+  mesSel.addEventListener('change',function(){popularDias();atualizarHidden();});
+  anoSel.addEventListener('change',function(){popularDias();atualizarHidden();});
+  diaSel.addEventListener('change',atualizarHidden);
+})();
+
 // ── Data de nascimento — não aceitar futuro ou < 18 anos ──
 document.getElementById('nascimento').addEventListener('change',function(){
   const h=document.getElementById('h-nasc');
+  const diaSel=document.getElementById('nasc-dia'),mesSel=document.getElementById('nasc-mes'),anoSel=document.getElementById('nasc-ano');
   const nasc=new Date(this.value+'T00:00:00');
   const hoje=new Date();
   const idade=hoje.getFullYear()-nasc.getFullYear()-(hoje<new Date(hoje.getFullYear(),nasc.getMonth(),nasc.getDate())?1:0);
+  const marcar=(classe,texto)=>{
+    [diaSel,mesSel,anoSel].forEach(s=>{s.classList.remove('erro','ok');s.classList.add(classe);});
+    h.className='hint '+(classe==='erro'?'erro-txt':'ok-txt');h.textContent=texto;
+  };
   if(nasc>hoje){
-    this.classList.add('erro');h.className='hint erro-txt';h.textContent='Data inválida';
+    marcar('erro','Data inválida');
   } else if(idade<18){
-    this.classList.add('erro');h.className='hint erro-txt';h.textContent='O comprador deve ter pelo menos 18 anos';
+    marcar('erro','O comprador deve ter pelo menos 18 anos');
   } else {
-    this.classList.remove('erro');this.classList.add('ok');h.className='hint ok-txt';h.textContent='';
+    marcar('ok','');
   }
 });
 
@@ -1080,6 +1178,9 @@ function validarFormulario(){
   req('rg','h-rg','Preencha o RG');
   req('cpf','h-cpf','Preencha o CPF');
   req('nascimento','h-nasc','Preencha a data de nascimento');
+  if(document.getElementById('nascimento').classList.contains('erro')){
+    ['nasc-dia','nasc-mes','nasc-ano'].forEach(id=>document.getElementById(id).classList.add('erro'));
+  }
   req('genero','h-genero','Selecione o gênero');
   req('estado-civil',null,'');
   req('contato1','h-c1','Preencha o contato');
