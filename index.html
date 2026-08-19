@@ -2295,119 +2295,7 @@ function loginAdmin(){
 document.addEventListener('keydown',function(e){if(e.key==='Escape')document.getElementById('modal-admin').style.display='none';});
 </script>
 
-<!-- NAVEGAÇÃO FLUTUANTE LATERAL -->
-<div id="nav-lateral" style="display:none!important" style="position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:90;display:flex;flex-direction:column;align-items:center;gap:6px">
 
-  <!-- LINHA SUPERIOR -->
-  <div style="width:1px;height:40px;background:linear-gradient(transparent,rgba(201,168,76,0.4))"></div>
-
-  <!-- ITENS -->
-  <div class="nl-item" onclick="scrollTo(0,0)" title="Início">
-    <div class="nl-dot"></div>
-    <div class="nl-label">Início</div>
-  </div>
-  <div class="nl-item" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})" title="Mapa">
-    <div class="nl-dot"></div>
-    <div class="nl-label">Mapa</div>
-  </div>
-  <div class="nl-item" onclick="document.getElementById('lancamento').scrollIntoView({behavior:'smooth'})" title="Lançamento">
-    <div class="nl-dot nl-active"></div>
-    <div class="nl-label">Lançamento</div>
-  </div>
-  <div class="nl-item" onclick="document.getElementById('regioes').scrollIntoView({behavior:'smooth'})" title="Regiões">
-    <div class="nl-dot"></div>
-    <div class="nl-label">Regiões</div>
-  </div>
-  <div class="nl-item" onclick="document.getElementById('grupos').scrollIntoView({behavior:'smooth'})" title="VIP">
-    <div class="nl-dot"></div>
-    <div class="nl-label">VIP</div>
-  </div>
-  <div class="nl-item" onclick="document.getElementById('regioes').scrollIntoView({behavior:'smooth'})" title="Regiões">
-    <div class="nl-dot"></div>
-    <div class="nl-label">Regiões</div>
-  </div>
-  <div class="nl-item" onclick="document.getElementById('stats').scrollIntoView({behavior:'smooth'})" title="Estatísticas">
-    <div class="nl-dot"></div>
-    <div class="nl-label">Estatísticas</div>
-  </div>
-  <div class="nl-item" onclick="document.getElementById('galeria').scrollIntoView({behavior:'smooth'})" title="Galeria">
-    <div class="nl-dot"></div>
-    <div class="nl-label">Galeria</div>
-  </div>
-  <div class="nl-item" onclick="document.getElementById('depoimentos').scrollIntoView({behavior:'smooth'})" title="Depoimentos">
-    <div class="nl-dot"></div>
-    <div class="nl-label">Depoimentos</div>
-  </div>
-  <div class="nl-item" onclick="document.getElementById('sobre').scrollIntoView({behavior:'smooth'})" title="Sobre">
-    <div class="nl-dot"></div>
-    <div class="nl-label">Contato</div>
-  </div>
-
-  <!-- LINHA INFERIOR -->
-  <div style="width:1px;height:40px;background:linear-gradient(rgba(201,168,76,0.4),transparent)"></div>
-</div>
-
-<style>
-.nl-item{
-  display:flex;align-items:center;gap:0;cursor:pointer;
-  position:relative;padding:4px 0;
-}
-.nl-dot{
-  width:8px;height:8px;border-radius:50%;
-  background:rgba(201,168,76,0.25);
-  border:1px solid rgba(201,168,76,0.5);
-  transition:all .25s;flex-shrink:0;
-}
-.nl-dot.nl-active,
-.nl-item:hover .nl-dot{
-  background:var(--gold);
-  border-color:var(--gold);
-  box-shadow:0 0 8px rgba(201,168,76,0.5);
-  transform:scale(1.3);
-}
-.nl-label{
-  position:absolute;right:18px;
-  background:rgba(15,23,16,0.92);
-  border:1px solid rgba(201,168,76,0.25);
-  color:var(--gold);
-  font-size:10px;font-weight:500;
-  letter-spacing:.5px;
-  padding:5px 12px;border-radius:6px;
-  white-space:nowrap;
-  opacity:0;pointer-events:none;
-  transform:translateX(6px);
-  transition:all .2s;
-  
-}
-.nl-item:hover .nl-label{
-  opacity:1;transform:translateX(0);
-}
-@media(max-width:768px){
-  #nav-lateral{display:none}
-}
-</style>
-
-<script>
-// Atualiza ponto ativo conforme scroll
-(function(){
-  var sections=['hero','mapa','lancamento','regioes','grupos','empreendimentos','stats','galeria','depoimentos','sobre'];
-  var dots=document.querySelectorAll('.nl-dot');
-  function updateNav(){
-    var scrollY=window.scrollY+window.innerHeight/2;
-    var active=0;
-    sections.forEach(function(id,i){
-      var el=document.getElementById(id)||document.querySelector('.hero');
-      if(!el)return;
-      if(el.offsetTop<=scrollY)active=i;
-    });
-    dots.forEach(function(d,i){
-      d.classList.toggle('nl-active',i===active);
-    });
-  }
-  window.addEventListener('scroll',updateNav,{passive:true});
-  updateNav();
-})();
-</script>
 
 
 <style>
@@ -2422,8 +2310,6 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')document.get
 @media(max-width:768px){
   #fab-wpp{width:52px;height:52px;bottom:80px;right:16px}
   #fab-wpp svg{width:24px;height:24px}
-  /* mover nav lateral para não sobrepor */
-  #nav-lateral{right:72px}
 }
 </style>
 
