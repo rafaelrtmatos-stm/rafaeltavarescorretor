@@ -488,12 +488,34 @@ section#hero{z-index:0;overflow:hidden!important}
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Rafael Tavares">
   <meta name="theme-color" content="#C9A84C">
+<link rel="preload" as="image" href="/imagens/home-hero-v2.jpg" fetchpriority="high">
+<link rel="preload" as="image" href="logo-rt.png">
 <link rel="preload" as="image" href="https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-0-1780364307268.jpeg">
 <link rel="preload" as="image" href="https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-1-1780364341875.jpeg">
 <link rel="preload" as="image" href="https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-2-1780364588826.png">
 <link rel="preload" as="image" href="https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-3-1780365626321.jpeg">
 <link rel="preload" as="image" href="https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-4-1780364714914.jpeg">
 <link rel="preload" as="image" href="https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-5-1780365599905.png">
+<style>
+/* OTIMIZAÇÃO DE PERFORMANCE */
+#stats, #beneficios, #galeria, #depoimentos, #cta, #sobre, footer {
+  content-visibility: auto;
+  contain-intrinsic-size: 500px;
+}
+#regioes-carrossel {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  contain: layout paint;
+  transform: translateZ(0);
+}
+.ecard {
+  contain: paint;
+  will-change: transform;
+}
+.hero-foto-principal {
+  content-visibility: visible !important;
+}
+</style>
 </head>
 <body>
 
@@ -507,7 +529,7 @@ section#hero{z-index:0;overflow:hidden!important}
     <img src="/imagens/home-hero-v2.jpg" alt="Família com corretor Rafael Tavares"
       class="hero-foto-principal"
       style="width:100%;height:100%;object-fit:cover"
-      loading="eager" />
+      loading="eager" fetchpriority="high" decoding="async" />
     <!-- Overlay escuro topo -->
     <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.82) 0%,rgba(0,0,0,0.25) 30%,rgba(0,0,0,0.1) 50%,rgba(0,0,0,0.65) 75%,rgba(0,0,0,1) 100%)"></div>
     <!-- Overlay lateral esquerdo para contraste do texto -->
@@ -518,7 +540,7 @@ section#hero{z-index:0;overflow:hidden!important}
   <nav style="position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:20px 28px;background:linear-gradient(180deg,rgba(0,0,0,0.88) 0%,rgba(0,0,0,0.3) 70%,transparent 100%)">
     <div style="display:flex;align-items:center;gap:14px">
       <!-- Logo RT -->
-      <a href="/" id="logo-rt-link" style="display:inline-flex;line-height:0"><img src="logo-rt.png" alt="RT Corretor" style="width:52px;height:52px;object-fit:contain;border-radius:12px;cursor:pointer"></a>
+      <a href="/" id="logo-rt-link" style="display:inline-flex;line-height:0"><img src="logo-rt.png" alt="RT Corretor" style="width:52px;height:52px;object-fit:contain;border-radius:12px;cursor:pointer" loading="eager" decoding="async"></a>
       <div>
         <div style="font-size:14px;font-weight:700;color:#F2EDE4;letter-spacing:2px;line-height:1.1;text-shadow:0 0 12px rgba(0,0,0,1),0 0 24px rgba(0,0,0,1),0 2px 4px rgba(0,0,0,1)"><span style="color:#C9A84C" id="nav-nome-p1">RAFAEL</span> <span id="nav-nome-p2">TAVARES</span></div>
         <div style="font-size:8px;letter-spacing:2px;color:rgba(242,237,228,0.45);text-transform:uppercase;margin-top:2px">Corretor de Imóveis · CRECI <span id="nav-creci-val">13919</span></div>
@@ -567,37 +589,42 @@ section#hero{z-index:0;overflow:hidden!important}
     <script>
     // Countdown do card Alenquer — lançamento quarta dia 10
     (function(){
-  
-    // Carregar data do lançamento do servidor
-    fetch('/site_data.json?_='+Date.now()).then(function(r){return r.json();}).then(function(d){
-      if(d && d.lancamento && d.lancamento.data_lancamento){
-        localStorage.setItem('mararu_lancamento_data', d.lancamento.data_lancamento);
-      }
-    }).catch(function(){});
-    var KEY='alenquer_lancamento_data';
+      // Carregar data do lançamento do servidor
+      fetch('/site_data.json?_='+Date.now()).then(function(r){return r.json();}).then(function(d){
+        if(d && d.lancamento && d.lancamento.data_lancamento){
+          localStorage.setItem('mararu_lancamento_data', d.lancamento.data_lancamento);
+        }
+      }).catch(function(){});
+      var KEY='alenquer_lancamento_data';
       var DEFAULT_DATE='2026-06-10T11:00:00-03:00'; // lançamento Alenquer quarta dia 10
       function getTarget(){
         return new Date(localStorage.getItem(KEY)||DEFAULT_DATE);
       }
       function pad(n){return String(n).padStart(2,'0');}
       function tick(){
+        var elD=document.getElementById('hcd-d');
+        var elH=document.getElementById('hcd-h');
+        var elM=document.getElementById('hcd-m');
+        var elS=document.getElementById('hcd-s');
+        if(!elD || !elH || !elM || !elS) return;
+
         var now=new Date();
         var diff=getTarget()-now;
         if(diff<=0){
-          document.getElementById('hcd-d').textContent='00';
-          document.getElementById('hcd-h').textContent='00';
-          document.getElementById('hcd-m').textContent='00';
-          document.getElementById('hcd-s').textContent='00';
+          elD.textContent='00';
+          elH.textContent='00';
+          elM.textContent='00';
+          elS.textContent='00';
           return;
         }
         var d=Math.floor(diff/86400000);
         var h=Math.floor((diff%86400000)/3600000);
         var m=Math.floor((diff%3600000)/60000);
         var s=Math.floor((diff%60000)/1000);
-        document.getElementById('hcd-d').textContent=pad(d);
-        document.getElementById('hcd-h').textContent=pad(h);
-        document.getElementById('hcd-m').textContent=pad(m);
-        document.getElementById('hcd-s').textContent=pad(s);
+        elD.textContent=pad(d);
+        elH.textContent=pad(h);
+        elM.textContent=pad(m);
+        elS.textContent=pad(s);
       }
       tick();
       setInterval(tick,1000);
@@ -847,15 +874,32 @@ section#hero{z-index:0;overflow:hidden!important}
   track.addEventListener('touchend', agendarRetomada, {passive:true});
   window.addEventListener('mouseup', agendarRetomada);
 
+  var isVisible = true;
+  if('IntersectionObserver' in window){
+    var visObs = new IntersectionObserver(function(entries){
+      isVisible = entries[0].isIntersecting;
+      if(isVisible && !animating){
+        animating = true;
+        requestAnimationFrame(autoScroll);
+      }
+    }, {threshold: 0.05});
+    visObs.observe(track);
+  }
+
+  var animating = true;
   function autoScroll(){
-    if(!paused){
+    if(!paused && isVisible){
       track.scrollLeft += 0.6;
     }
     // Loop infinito: assim que passar do primeiro conjunto de cards, volta o equivalente pra trás sem transição visível
     if(singleSetWidth > 0 && track.scrollLeft >= singleSetWidth){
       track.scrollLeft -= singleSetWidth;
     }
-    requestAnimationFrame(autoScroll);
+    if(isVisible){
+      requestAnimationFrame(autoScroll);
+    } else {
+      animating = false;
+    }
   }
   requestAnimationFrame(autoScroll);
 })();
@@ -2101,7 +2145,7 @@ function galTab(el,panel){
       <!-- FOTO -->
       <div style="position:relative">
         <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:75%;height:75%;background:var(--gold3);border-radius:160px 160px 0 0;border:1px solid var(--border)"></div>
-        <img src="/imagens/rafael-sobre.jpg" alt="Rafael Tavares" style="position:relative;z-index:2;width:100%;border-radius:12px 12px 0 0;object-fit:cover;object-position:top;max-height:520px;display:block" />
+        <img src="/imagens/rafael-sobre.jpg" alt="Rafael Tavares" loading="lazy" decoding="async" style="position:relative;z-index:2;width:100%;border-radius:12px 12px 0 0;object-fit:cover;object-position:top;max-height:520px;display:block" />
         <div style="position:absolute;top:20px;right:-16px;z-index:3;background:var(--gold);color:#0A1209;border-radius:10px;padding:10px 16px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase">CRECI 13919</div>
       </div>
 

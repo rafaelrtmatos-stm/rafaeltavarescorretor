@@ -1265,6 +1265,8 @@ function goPage(id,el){
   if(id==='menu'){carregarMenuSecoes();}
   if(id==='regioes'){carregarRegioes();}
   if(id==='lancamento'){carregarLancamento();}
+  if(id==='alenquer'&&typeof carregarConfigEmp==='function'){carregarConfigEmp('alenquer');}
+  if(id==='monte-alegre'&&typeof carregarConfigEmp==='function'){carregarConfigEmp('monte-alegre');}
 }
 
 // ── CARREGAR ──
@@ -2826,6 +2828,3 @@ function goPageM(id){
 
 </body>
 </html>
-  // Carregar dados ao entrar nas abas específicas
-  if(id==='alenquer')carregarConfigEmp('alenquer');
-  if(id==='monte-alegre')carregarConfigEmp('monte-alegre');
