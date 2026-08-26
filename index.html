@@ -778,15 +778,32 @@ section#hero{z-index:0;overflow:hidden!important}
 </section>
 
 <!-- ════════════════════════════════════════
-     ESCOLHA SUA REGIÃO IDEAL — carrossel com rolagem automática
+     ESCOLHA SUA REGIÃO IDEAL — carrossel com início e fim + busca
 ════════════════════════════════════════ -->
 <section id="regioes" style="background:var(--bg);padding:40px 0 32px">
-  <div style="text-align:center;padding:0 24px;margin-bottom:24px">
+  <div style="text-align:center;padding:0 24px;margin-bottom:20px">
     <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;font-weight:600">Empreendimentos em Santarém</div>
     <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,44px);font-weight:700;color:var(--text)">Escolha sua <em style="font-style:italic;color:var(--gold)">região</em> ideal</h2>
   </div>
 
-  <div id="regioes-carrossel" style="display:flex;gap:16px;overflow-x:auto;padding:4px 24px 12px" class="no-scrollbar">
+  <!-- BARRA DE PESQUISA -->
+  <div style="max-width:480px;margin:0 auto 20px;padding:0 24px">
+    <div style="position:relative;display:flex;align-items:center">
+      <svg style="position:absolute;left:16px;width:18px;height:18px;stroke:var(--gold);fill:none;stroke-width:2" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="text" id="busca-regioes" placeholder="Buscar empreendimento, bairro ou valor..." 
+        style="width:100%;padding:12px 16px 12px 46px;background:var(--bg2);border:1px solid var(--border);border-radius:100px;color:var(--text);font-size:13px;outline:none;transition:border-color .2s, box-shadow .2s;"
+        oninput="filtrarRegioes(this.value)"
+        onfocus="this.style.borderColor='var(--gold)';this.style.boxShadow='0 0 12px rgba(201,168,76,0.2)'"
+        onblur="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+    </div>
+    <div id="busca-regioes-feedback" style="display:none;font-size:12px;color:var(--text3);text-align:center;margin-top:10px">
+      Nenhum empreendimento encontrado para esta busca.
+    </div>
+  </div>
+
+  <div id="regioes-carrossel" style="display:flex;gap:16px;overflow-x:auto;padding:4px 24px 16px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scroll-behavior:smooth" class="no-scrollbar">
     <a href="/mararu/" class="ecard">
       <div class="ecard-foto" style="background-image:url('/imagens/mararu-hero-rafael.jpg')"><span class="ecard-badge ecard-badge-lancamento">LANÇAMENTO</span></div>
       <div class="ecard-corpo"><div class="ecard-nome">Mararu Ville</div><div class="ecard-preco">Entrada <b>R$ 600</b><br>Parcela a partir de <b>R$ 255,56</b></div><div class="ecard-loc">📍 Bairro Mararu</div></div>
@@ -833,8 +850,8 @@ section#hero{z-index:0;overflow:hidden!important}
 <style>
   .no-scrollbar::-webkit-scrollbar{display:none}
   .no-scrollbar{scrollbar-width:none}
-  .ecard{flex:0 0 220px;display:block;text-decoration:none;background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;scroll-snap-align:start;transition:border-color .2s}
-  .ecard:hover{border-color:var(--border2)}
+  .ecard{flex:0 0 220px;display:block;text-decoration:none;background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;scroll-snap-align:start;transition:all .2s ease;contain:paint}
+  .ecard:hover{border-color:var(--border2);transform:translateY(-2px)}
   .ecard-foto{height:130px;background-size:cover;background-position:center;position:relative}
   .ecard-badge{position:absolute;top:10px;left:10px;font-size:9px;font-weight:800;letter-spacing:.5px;padding:5px 10px;border-radius:100px;text-transform:uppercase}
   .ecard-badge-destaque,.ecard-badge-lancamento{background:var(--gold);color:#000}
@@ -849,60 +866,28 @@ section#hero{z-index:0;overflow:hidden!important}
 </style>
 
 <script>
-(function(){
+window.filtrarRegioes = function(termo){
+  var query = (termo || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
   var track = document.getElementById('regioes-carrossel');
   if(!track) return;
+  var cards = track.querySelectorAll('.ecard');
+  var feedback = document.getElementById('busca-regioes-feedback');
+  var visiveis = 0;
 
-  // Duplica os cards uma vez, pra criar o efeito de loop infinito:
-  // quando o primeiro conjunto sai pela esquerda, o segundo (idêntico) já está logo atrás
-  var singleSetWidth = track.scrollWidth;
-  var cardsOriginais = Array.prototype.slice.call(track.children);
-  cardsOriginais.forEach(function(card){
-    var clone = card.cloneNode(true);
-    clone.setAttribute('aria-hidden', 'true');
-    clone.setAttribute('tabindex', '-1');
-    track.appendChild(clone);
+  cards.forEach(function(card){
+    var texto = (card.textContent || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    if(!query || texto.indexOf(query) !== -1){
+      card.style.display = 'block';
+      visiveis++;
+    } else {
+      card.style.display = 'none';
+    }
   });
 
-  var paused = false, resumeTimeout;
-  function pause(){ paused = true; clearTimeout(resumeTimeout); }
-  function agendarRetomada(){ clearTimeout(resumeTimeout); resumeTimeout = setTimeout(function(){ paused = false; }, 700); }
-
-  track.addEventListener('touchstart', pause, {passive:true});
-  track.addEventListener('mousedown', pause);
-  track.addEventListener('wheel', function(){ pause(); agendarRetomada(); }, {passive:true});
-  track.addEventListener('touchend', agendarRetomada, {passive:true});
-  window.addEventListener('mouseup', agendarRetomada);
-
-  var isVisible = true;
-  if('IntersectionObserver' in window){
-    var visObs = new IntersectionObserver(function(entries){
-      isVisible = entries[0].isIntersecting;
-      if(isVisible && !animating){
-        animating = true;
-        requestAnimationFrame(autoScroll);
-      }
-    }, {threshold: 0.05});
-    visObs.observe(track);
+  if(feedback){
+    feedback.style.display = (visiveis === 0) ? 'block' : 'none';
   }
-
-  var animating = true;
-  function autoScroll(){
-    if(!paused && isVisible){
-      track.scrollLeft += 0.6;
-    }
-    // Loop infinito: assim que passar do primeiro conjunto de cards, volta o equivalente pra trás sem transição visível
-    if(singleSetWidth > 0 && track.scrollLeft >= singleSetWidth){
-      track.scrollLeft -= singleSetWidth;
-    }
-    if(isVisible){
-      requestAnimationFrame(autoScroll);
-    } else {
-      animating = false;
-    }
-  }
-  requestAnimationFrame(autoScroll);
-})();
+};
 </script>
 
 
