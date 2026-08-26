@@ -1363,11 +1363,11 @@ function toggleCheck(id){
 }
 function salvarHeader(){
   var c=getCfg();
-  c.headerBg=document.getElementById('h-bg-color').value;
-  c.headerAlpha=document.getElementById('h-alpha').value;
-  c.headerLogo=document.getElementById('h-logo').checked;
-  c.headerNome=document.getElementById('h-nome').checked;
-  c.headerCreci=document.getElementById('h-creci').checked;
+  var elBg=document.getElementById('h-bg-color'); if(elBg) c.headerBg=elBg.value;
+  var elAl=document.getElementById('h-alpha'); if(elAl) c.headerAlpha=elAl.value;
+  var elLg=document.getElementById('h-logo'); if(elLg) c.headerLogo=elLg.checked;
+  var elNm=document.getElementById('h-nome'); if(elNm) c.headerNome=elNm.checked;
+  var elCr=document.getElementById('h-creci'); if(elCr) c.headerCreci=elCr.checked;
   var order=[];
   document.querySelectorAll('#order-list .order-item').forEach(function(el){order.push(el.dataset.id);});
   c.headerOrder=order;
@@ -1376,11 +1376,12 @@ function salvarHeader(){
 }
 function carregarHeader(){
   var c=getCfg();
-  if(c.headerBg)document.getElementById('h-bg-color').value=c.headerBg;
-  if(c.headerAlpha!==undefined){document.getElementById('h-alpha').value=c.headerAlpha;document.getElementById('h-alpha-val').textContent=c.headerAlpha;}
-  if(c.headerLogo!==undefined){document.getElementById('h-logo').checked=c.headerLogo;document.getElementById('tog-h-logo').classList.toggle('on',c.headerLogo);}
-  if(c.headerNome!==undefined){document.getElementById('h-nome').checked=c.headerNome;document.getElementById('tog-h-nome').classList.toggle('on',c.headerNome);}
-  if(c.headerCreci!==undefined){document.getElementById('h-creci').checked=c.headerCreci;document.getElementById('tog-h-creci').classList.toggle('on',c.headerCreci);}
+  var elBg=document.getElementById('h-bg-color'); if(elBg && c.headerBg) elBg.value=c.headerBg;
+  var elAl=document.getElementById('h-alpha'); if(elAl && c.headerAlpha!==undefined) elAl.value=c.headerAlpha;
+  var elAlVal=document.getElementById('h-alpha-val'); if(elAlVal && c.headerAlpha!==undefined) elAlVal.textContent=c.headerAlpha;
+  var elLg=document.getElementById('h-logo'); if(elLg && c.headerLogo!==undefined){ elLg.checked=c.headerLogo; var tL=document.getElementById('tog-h-logo'); if(tL) tL.classList.toggle('on',c.headerLogo); }
+  var elNm=document.getElementById('h-nome'); if(elNm && c.headerNome!==undefined){ elNm.checked=c.headerNome; var tN=document.getElementById('tog-h-nome'); if(tN) tN.classList.toggle('on',c.headerNome); }
+  var elCr=document.getElementById('h-creci'); if(elCr && c.headerCreci!==undefined){ elCr.checked=c.headerCreci; var tC=document.getElementById('tog-h-creci'); if(tC) tC.classList.toggle('on',c.headerCreci); }
 }
 
 // ── DRAG & DROP ──

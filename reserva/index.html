@@ -26,23 +26,109 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 .btn-voltar{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#fff;text-decoration:none;border:1px solid rgba(201,168,76,0.5);padding:9px 18px;border-radius:999px;transition:all .2s;white-space:nowrap}
 .btn-voltar:hover{color:var(--gold);border-color:var(--gold)}
 
-.hero{position:relative;padding:190px 24px 130px;text-align:center;overflow:hidden}
-.hero-bg-foto{position:absolute;inset:0;background-image:url('/imagens/reserva-hero-rafael-v2.png');background-size:cover;background-position:center 15%;z-index:0}
-.hero-bg-fade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,18,13,0.15) 0%,rgba(20,18,13,0.55) 55%,var(--bg) 92%);z-index:1}
+.hero{position:relative;padding:150px 24px 45px;text-align:center;overflow:hidden}
+.hero-bg-foto{position:absolute;inset:0;background-image:url('/imagens/reserva-hero-rafael-v2.png');background-size:100% auto;background-repeat:no-repeat;background-position:top center;z-index:0}
+.hero-bg-fade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,18,13,0.1) 0%,rgba(20,18,13,0.45) 50%,var(--bg) 92%);z-index:1}
 .hero>*:not(.hero-bg-foto):not(.hero-bg-fade){position:relative;z-index:2}
-.hero .hero-tag{color:var(--gold2);text-shadow:0 1px 6px rgba(0,0,0,0.6)}
-.hero .hero-title{color:#fff;text-shadow:0 2px 14px rgba(0,0,0,0.7)}
-.hero .hero-sub{color:rgba(255,255,255,0.88);text-shadow:0 1px 8px rgba(0,0,0,0.6)}
+.hero .hero-tag{color:var(--gold2);text-shadow:0 1px 6px rgba(0,0,0,0.8)}
+.hero .hero-title{color:#fff;text-shadow:0 4px 24px rgba(0,0,0,0.98),0 2px 10px rgba(0,0,0,0.95),0 0 2px #000}
+.hero .hero-title em{color:var(--gold);font-style:italic;text-shadow:0 4px 24px rgba(0,0,0,0.98),0 2px 10px rgba(0,0,0,0.95),0 0 2px #000}
+.hero .hero-sub{color:rgba(255,255,255,0.95);text-shadow:0 2px 14px rgba(0,0,0,0.95),0 1px 4px rgba(0,0,0,0.9)}
 
 @media(min-width:769px){
-  .hero{padding:230px 24px 190px}
-  .hero-bg-foto{background-position:center 25%}
-  .form-wrap{margin-top:-230px !important}
+  .hero{padding:200px 24px 60px}
+  .hero-bg-foto{background-size:cover;background-position:center 25%}
+  .form-wrap{margin-top:-30px !important}
 }
 .hero-tag{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
 .hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,7vw,50px);font-weight:700;line-height:1.1;margin-bottom:10px}
-.hero-title em{color:var(--gold);font-style:italic}
 .hero-sub{font-size:13px;color:var(--text2);max-width:480px;margin:0 auto}
+
+.hero-badge-seguro{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(15,13,9,0.75);
+  border:1px solid rgba(201,168,76,0.45);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  padding:6px 16px;border-radius:100px;margin-bottom:14px;
+  box-shadow:0 4px 16px rgba(0,0,0,0.6);
+  font-size:10.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#E8C96A;
+}
+
+.res-steps-bar{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
+  margin-bottom:24px;
+}
+.res-step-item{
+  background:var(--bg2);border:1px solid var(--border);border-radius:12px;
+  padding:10px 8px;display:flex;align-items:center;gap:8px;
+  box-shadow:0 2px 8px rgba(26,23,16,0.04);
+  cursor:pointer;transition:all .2s;
+}
+.res-step-item.active{
+  border-color:var(--gold);background:linear-gradient(135deg,#fff,#fcf9f0);
+}
+.res-step-item.completed{
+  border-color:rgba(201,168,76,0.5);
+}
+.res-step-num{
+  width:22px;height:22px;border-radius:50%;
+  background:var(--bg3);color:var(--text2);
+  font-size:11px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:all .2s;
+}
+.res-step-item.active .res-step-num{
+  background:var(--gold);color:#000;
+}
+.res-step-item.completed .res-step-num{
+  background:rgba(201,168,76,0.2);color:var(--gold);
+}
+.res-step-text{
+  font-size:11.5px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+@media(max-width:480px){
+  .res-steps-bar{gap:6px}
+  .res-step-item{padding:8px 6px;gap:6px}
+  .res-step-text{font-size:10.5px}
+  .res-step-num{width:19px;height:19px;font-size:10px}
+}
+
+.wizard-step{display:none}
+.wizard-step.active{display:block;animation:stepFadeIn .3s ease-out}
+@keyframes stepFadeIn{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.btn-wizard-nav{
+  display:flex;align-items:center;gap:12px;margin-top:16px;
+}
+.btn-wizard-next{
+  flex:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  background:linear-gradient(135deg,var(--gold2) 0%,var(--gold) 100%);
+  color:#1a1400;font-weight:700;font-size:14px;padding:16px 24px;border-radius:14px;
+  border:none;cursor:pointer;box-shadow:0 6px 20px rgba(201,168,76,0.3);
+  transition:all .2s;font-family:'Inter',sans-serif;
+}
+.btn-wizard-next:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(201,168,76,0.4)}
+.btn-wizard-prev{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  background:var(--bg2);color:var(--text2);font-weight:600;font-size:13px;padding:15px 20px;
+  border-radius:14px;border:1px solid var(--border2);cursor:pointer;transition:all .2s;
+  font-family:'Inter',sans-serif;white-space:nowrap;
+}
+.btn-wizard-prev:hover{color:var(--text);border-color:var(--gold)}
+
+.resumo-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:20px;
+}
+.resumo-item{
+  display:flex;justify-content:space-between;align-items:flex-start;padding:10px 0;
+  border-bottom:1px solid var(--border);font-size:13px;
+}
+.resumo-item:last-child{border-bottom:none}
+.resumo-label{color:var(--text2);font-weight:500;min-width:110px}
+.resumo-val{color:var(--text);font-weight:600;text-align:right;word-break:break-word}
 
 .form-wrap{max-width:640px;margin:0 auto;padding:36px 20px 80px}
 
@@ -146,7 +232,84 @@ select.input option{background:#FFFFFF;color:#1A1710}
   .popup-box{border-radius:16px}
 }
 .popup-fechar{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;border:none;background:var(--bg3);color:var(--text2);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}
-.popup-foto{width:100%;max-width:460px;border-radius:14px;display:block;margin:0 auto 14px;object-fit:contain}
+
+.popup-foto{
+  width:100%;
+  max-width:460px;
+  border-radius:14px;
+  display:block;
+  margin:0 auto 14px;
+  object-fit:contain;
+  box-shadow: 0 0 25px rgba(201, 168, 76, 0.45), 0 0 50px rgba(201, 168, 76, 0.2);
+  animation: premioPulso 2.4s ease-in-out infinite alternate;
+}
+@keyframes premioPulso {
+  0% { transform: scale(1); filter: drop-shadow(0 0 8px rgba(201,168,76,0.3)); }
+  100% { transform: scale(1.02); filter: drop-shadow(0 0 20px rgba(201,168,76,0.7)); }
+}
+
+/* Balões estilo prêmio */
+.balao-premio {
+  position: absolute;
+  bottom: -120px;
+  width: 44px;
+  height: 56px;
+  border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+  pointer-events: none;
+  z-index: 650;
+  animation: subirBalao 4.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));
+}
+.balao-premio::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 7px solid inherit;
+}
+.balao-premio::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  width: 10px;
+  height: 16px;
+  background: rgba(255,255,255,0.45);
+  border-radius: 50%;
+  transform: rotate(-30deg);
+}
+.balao-corda {
+  position: absolute;
+  bottom: -32px;
+  left: 50%;
+  width: 1.5px;
+  height: 32px;
+  background: rgba(255,255,255,0.4);
+  transform: translateX(-50%);
+}
+@keyframes subirBalao {
+  0% {
+    transform: translateY(0) rotate(0deg) translateX(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-55vh) rotate(var(--rot)) translateX(var(--drift));
+    opacity: 0.95;
+  }
+  100% {
+    transform: translateY(-115vh) rotate(calc(var(--rot) * 1.5)) translateX(calc(var(--drift) * 1.8));
+    opacity: 0;
+  }
+}
+
 .popup-escolha{font-size:13px;font-weight:700;color:var(--text);text-align:center;margin-top:6px;margin-bottom:14px}
 .popup-botoes{display:flex;align-items:stretch;gap:0}
 .btn-popup{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:9px;padding:18px 10px 14px;border-radius:16px;text-align:center;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:transform .15s ease,box-shadow .2s ease,filter .2s ease;position:relative}
@@ -238,306 +401,383 @@ select.input option{background:#FFFFFF;color:#1A1710}
 <section class="hero">
   <div class="hero-bg-foto"></div>
   <div class="hero-bg-fade"></div>
-  <div class="hero-icon">
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M9 16l2 2 4-4"/></svg>
-  </div>
   <h1 class="hero-title">Formulário de <em>Reserva</em></h1>
   <div class="hero-underline"></div>
   <p class="hero-sub" style="margin-top:14px">Preencha os dados abaixo. Ao enviar, todos os dados são enviados diretamente ao corretor pelo WhatsApp.</p>
+  <div style="margin-top:16px">
+    <div class="hero-badge-seguro" style="margin-bottom:0">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+      Reserva Direta e Segura · CRECI 13919
+    </div>
+  </div>
 </section>
 
-<div class="form-wrap" style="margin-top:-150px;position:relative;z-index:3">
+<div class="form-wrap" style="margin-top:-10px;position:relative;z-index:3">
 
-  <!-- DADOS PESSOAIS -->
-  <div class="section-card">
-    <div class="section-head">
-      <div class="section-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-      <div>
-        <div class="section-title">Dados do Comprador</div>
-        <div class="section-sub">Informe seus dados para a reserva do lote</div>
-      </div>
+  <!-- BARRA DE ETAPAS -->
+  <div class="res-steps-bar" id="steps-bar">
+    <div class="res-step-item active" id="step-tab-1" onclick="irParaStep(1)">
+      <span class="res-step-num" id="step-tab-num-1">1</span>
+      <span class="res-step-text">Seus Dados</span>
     </div>
-    <div style="display:flex;flex-direction:column;gap:14px" id="comprador-1-wrap">
+    <div class="res-step-item" id="step-tab-2" onclick="irParaStep(2)">
+      <span class="res-step-num" id="step-tab-num-2">2</span>
+      <span class="res-step-text">Endereço</span>
+    </div>
+    <div class="res-step-item" id="step-tab-3" onclick="irParaStep(3)">
+      <span class="res-step-num" id="step-tab-num-3">3</span>
+      <span class="res-step-text">WhatsApp</span>
+    </div>
+  </div>
 
-      <div class="field">
-        <label class="label">Nome completo *</label>
-        <div class="input-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          <input class="input" id="nome" type="text" placeholder="Nome completo do comprador" autocomplete="off">
+  <!-- ═══════════════════════════════════════════
+       ETAPA 1: DADOS PESSOAIS
+  ════════════════════════════════════════════ -->
+  <div class="wizard-step active" id="wizard-step-1">
+    <!-- DADOS PESSOAIS -->
+    <div class="section-card">
+      <div class="section-head">
+        <div class="section-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <div>
+          <div class="section-title">Dados do Comprador</div>
+          <div class="section-sub">Informe seus dados para a reserva do lote</div>
         </div>
-        <span class="hint" id="h-nome"></span>
       </div>
+      <div style="display:flex;flex-direction:column;gap:14px" id="comprador-1-wrap">
 
-      <div class="grid-2">
         <div class="field">
-          <label class="label">RG *</label>
-          <div class="input-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M6 12h.01M10 12h6M10 16h6"/></svg>
-            <input class="input" id="rg" type="text" placeholder="0000000" maxlength="12" autocomplete="off">
-          </div>
-          <span class="hint" id="h-rg"></span>
-        </div>
-        <div class="field">
-          <label class="label">CPF *</label>
+          <label class="label">Nome completo *</label>
           <div class="input-icon">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            <input class="input" id="cpf" type="text" placeholder="000.000.000-00" maxlength="14" autocomplete="off">
+            <input class="input" id="nome" type="text" placeholder="Nome completo do comprador" autocomplete="off">
           </div>
-          <span class="hint" id="h-cpf"></span>
+          <span class="hint" id="h-nome"></span>
         </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label class="label">RG *</label>
+            <div class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M6 12h.01M10 12h6M10 16h6"/></svg>
+              <input class="input" id="rg" type="text" placeholder="0000000" maxlength="12" autocomplete="off">
+            </div>
+            <span class="hint" id="h-rg"></span>
+          </div>
+          <div class="field">
+            <label class="label">CPF *</label>
+            <div class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <input class="input" id="cpf" type="text" placeholder="000.000.000-00" maxlength="14" autocomplete="off">
+            </div>
+            <span class="hint" id="h-cpf"></span>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="field">
+            <label class="label">Data de Nascimento *</label>
+            <div class="data-nasc-grid">
+              <select class="input input-sel" id="nasc-dia" aria-label="Dia">
+                <option value="">Dia</option>
+              </select>
+              <select class="input input-sel" id="nasc-mes" aria-label="Mês">
+                <option value="">Mês</option>
+                <option value="01">01 — Janeiro</option>
+                <option value="02">02 — Fevereiro</option>
+                <option value="03">03 — Março</option>
+                <option value="04">04 — Abril</option>
+                <option value="05">05 — Maio</option>
+                <option value="06">06 — Junho</option>
+                <option value="07">07 — Julho</option>
+                <option value="08">08 — Agosto</option>
+                <option value="09">09 — Setembro</option>
+                <option value="10">10 — Outubro</option>
+                <option value="11">11 — Novembro</option>
+                <option value="12">12 — Dezembro</option>
+              </select>
+              <select class="input input-sel" id="nasc-ano" aria-label="Ano">
+                <option value="">Ano</option>
+              </select>
+            </div>
+            <input type="hidden" id="nascimento">
+            <span class="hint" id="h-nasc"></span>
+          </div>
+          <div class="field">
+            <label class="label">Gênero *</label>
+            <select class="input" id="genero">
+              <option value="">Selecione</option>
+              <option value="M">Masculino</option>
+              <option value="F">Feminino</option>
+            </select>
+            <span class="hint" id="h-genero">Usado apenas para o estado civil (solteiro/solteira). Não é enviado na mensagem.</span>
+          </div>
+          <div class="field">
+            <label class="label">Estado Civil *</label>
+            <select class="input" id="estado-civil">
+              <option value="">Selecione</option>
+              <option>Solteiro(a)</option>
+              <option>Casado(a)</option>
+              <option>Divorciado(a)</option>
+              <option>Viúvo(a)</option>
+              <option>União Estável</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label class="label">Contato / WhatsApp *</label>
+            <div class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+              <input class="input" id="contato1" type="tel" placeholder="(93) 99999-9999" maxlength="15" autocomplete="off">
+            </div>
+            <span class="hint" id="h-c1"></span>
+          </div>
+          <div class="field">
+            <label class="label">Contato 2 *</label>
+            <div class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+              <input class="input" id="contato2" type="tel" placeholder="(93) 99999-9999" maxlength="15" autocomplete="off">
+            </div>
+            <span class="hint" id="h-c2"></span>
+          </div>
+        </div>
+
       </div>
 
-      <div class="grid-3">
-        <div class="field">
-          <label class="label">Data de Nascimento *</label>
-          <div class="data-nasc-grid">
-            <select class="input input-sel" id="nasc-dia" aria-label="Dia">
-              <option value="">Dia</option>
-            </select>
-            <select class="input input-sel" id="nasc-mes" aria-label="Mês">
-              <option value="">Mês</option>
-              <option value="01">01 — Janeiro</option>
-              <option value="02">02 — Fevereiro</option>
-              <option value="03">03 — Março</option>
-              <option value="04">04 — Abril</option>
-              <option value="05">05 — Maio</option>
-              <option value="06">06 — Junho</option>
-              <option value="07">07 — Julho</option>
-              <option value="08">08 — Agosto</option>
-              <option value="09">09 — Setembro</option>
-              <option value="10">10 — Outubro</option>
-              <option value="11">11 — Novembro</option>
-              <option value="12">12 — Dezembro</option>
-            </select>
-            <select class="input input-sel" id="nasc-ano" aria-label="Ano">
-              <option value="">Ano</option>
-            </select>
-          </div>
-          <input type="hidden" id="nascimento">
-          <span class="hint" id="h-nasc"></span>
-        </div>
-        <div class="field">
-          <label class="label">Gênero *</label>
-          <select class="input" id="genero">
-            <option value="">Selecione</option>
-            <option value="M">Masculino</option>
-            <option value="F">Feminino</option>
-          </select>
-          <span class="hint" id="h-genero">Usado apenas para o estado civil (solteiro/solteira). Não é enviado na mensagem.</span>
-        </div>
-        <div class="field">
-          <label class="label">Estado Civil *</label>
-          <select class="input" id="estado-civil">
-            <option value="">Selecione</option>
-            <option>Solteiro(a)</option>
-            <option>Casado(a)</option>
-            <option>Divorciado(a)</option>
-            <option>Viúvo(a)</option>
-            <option>União Estável</option>
-          </select>
-        </div>
-      </div>
+      <!-- Compradores extras injetados aqui -->
+      <div id="compradores-extras"></div>
 
-      <div class="grid-2">
-        <div class="field">
-          <label class="label">Contato / WhatsApp *</label>
-          <div class="input-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-            <input class="input" id="contato1" type="tel" placeholder="(93) 99999-9999" maxlength="15" autocomplete="off">
-          </div>
-          <span class="hint" id="h-c1"></span>
-        </div>
-        <div class="field">
-          <label class="label">Contato 2 *</label>
-          <div class="input-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-            <input class="input" id="contato2" type="tel" placeholder="(93) 99999-9999" maxlength="15" autocomplete="off">
-          </div>
-          <span class="hint" id="h-c2"></span>
-        </div>
-      </div>
-
+      <button type="button" class="btn-add-comprador" onclick="adicionarComprador()">
+        + Adicionar outro comprador
+      </button>
     </div>
 
-    <!-- Compradores extras injetados aqui -->
-    <div id="compradores-extras"></div>
-
-    <button type="button" class="btn-add-comprador" onclick="adicionarComprador()">
-      + Adicionar outro comprador
-    </button>
+    <!-- BOTÃO AVANÇAR ETAPA 1 -->
+    <div class="btn-wizard-nav">
+      <button class="btn-wizard-next" onclick="avancarStep(1)" type="button">
+        <span>Avançar para Endereço</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
   </div>
 
-  <!-- ENDEREÇO -->
-  <div class="section-card">
-    <div class="section-head">
-      <div class="section-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-      <div>
-        <div class="section-title">Endereço</div>
-        <div class="section-sub">Onde você mora atualmente</div>
+  <!-- ═══════════════════════════════════════════
+       ETAPA 2: ENDEREÇO & VENCIMENTO
+  ════════════════════════════════════════════ -->
+  <div class="wizard-step" id="wizard-step-2">
+    <!-- ENDEREÇO -->
+    <div class="section-card">
+      <div class="section-head">
+        <div class="section-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div>
+          <div class="section-title">Endereço</div>
+          <div class="section-sub">Onde você mora atualmente</div>
+        </div>
       </div>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;flex-direction:column;gap:14px">
 
-      <div class="field">
-        <label class="label">CEP *</label>
-        <div class="cep-wrap input-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          <input class="input" id="cep" type="text" placeholder="00000-000" maxlength="9" autocomplete="off">
-          <div class="cep-spinner" id="cep-spinner"></div>
-        </div>
-        <span class="hint" id="h-cep">Digite o CEP para preencher automaticamente</span>
-        <button type="button" id="btn-nao-sei-cep" onclick="toggleBuscaRua()" style="margin-top:8px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.4);color:var(--gold);font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:1px;padding:9px 16px;border-radius:8px;width:100%;transition:all .2s;text-transform:uppercase" onmouseover="this.style.background='rgba(201,168,76,0.2)'" onmouseout="this.style.background='rgba(201,168,76,0.1)'">🔍 Não sei o CEP — buscar por rua</button>
-      </div>
-
-      <div id="busca-rua-wrap" style="display:none;background:rgba(201,168,76,0.05);border:1px solid var(--border);border-radius:12px;padding:16px;flex-direction:column;gap:12px">
-        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700">🔍 Buscar CEP — passo a passo</div>
-
-        <!-- Passo 1: Estado -->
-        <div id="busca-step1">
-          <label class="label" style="margin-bottom:6px;display:block">1. Selecione o Estado</label>
-          <select class="input" id="busca-uf" style="font-size:13px" onchange="buscarCidades()">
-            <option value="">— Selecione o estado —</option>
-            <option value="AC">AC — Acre</option><option value="AL">AL — Alagoas</option><option value="AP">AP — Amapá</option>
-            <option value="AM">AM — Amazonas</option><option value="BA">BA — Bahia</option><option value="CE">CE — Ceará</option>
-            <option value="DF">DF — Distrito Federal</option><option value="ES">ES — Espírito Santo</option><option value="GO">GO — Goiás</option>
-            <option value="MA">MA — Maranhão</option><option value="MT">MT — Mato Grosso</option><option value="MS">MS — Mato Grosso do Sul</option>
-            <option value="MG">MG — Minas Gerais</option><option value="PA">PA — Pará</option><option value="PB">PB — Paraíba</option>
-            <option value="PR">PR — Paraná</option><option value="PE">PE — Pernambuco</option><option value="PI">PI — Piauí</option>
-            <option value="RJ">RJ — Rio de Janeiro</option><option value="RN">RN — Rio Grande do Norte</option><option value="RS">RS — Rio Grande do Sul</option>
-            <option value="RO">RO — Rondônia</option><option value="RR">RR — Roraima</option><option value="SC">SC — Santa Catarina</option>
-            <option value="SP">SP — São Paulo</option><option value="SE">SE — Sergipe</option><option value="TO">TO — Tocantins</option>
-          </select>
-        </div>
-
-        <!-- Passo 2: Cidade -->
-        <div id="busca-step2" style="display:none">
-          <label class="label" style="margin-bottom:6px;display:block">2. Selecione a Cidade</label>
-          <div id="busca-cidade-spinner" style="font-size:11px;color:var(--text3);padding:4px 0">⏳ Carregando cidades...</div>
-          <select class="input" id="busca-cidade" style="font-size:13px;display:none" onchange="avancarParaRua()">
-            <option value="">— Selecione a cidade —</option>
-          </select>
-          <div style="margin-top:6px">
-            <button type="button" onclick="voltarStep(1)" style="background:transparent;border:none;color:var(--text3);font-size:11px;cursor:pointer;font-family:'Inter',sans-serif;padding:0">← Mudar estado</button>
-          </div>
-        </div>
-
-        <!-- Passo 3: Rua -->
-        <div id="busca-step3" style="display:none">
-          <div style="font-size:11px;color:var(--text3);margin-bottom:8px" id="busca-step3-info"></div>
-          <label class="label" style="margin-bottom:6px;display:block">3. Digite o nome da rua (pode ser parcial)</label>
-          <div style="display:flex;gap:8px">
-            <input class="input" id="busca-rua" type="text" placeholder="Ex: Av Brasil, Rua das Flores..." style="font-size:13px;flex:1" autocomplete="off" onkeydown="if(event.key==='Enter')buscarPorRua()">
-            <button type="button" onclick="buscarPorRua()" style="background:rgba(201,168,76,0.2);border:1px solid var(--border2);border-radius:10px;padding:10px 14px;font-size:12px;font-weight:700;color:var(--gold);cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap;transition:all .2s">🔍 Buscar</button>
-          </div>
-          <div style="margin-top:6px">
-            <button type="button" onclick="voltarStep(2)" style="background:transparent;border:none;color:var(--text3);font-size:11px;cursor:pointer;font-family:'Inter',sans-serif;padding:0">← Mudar cidade</button>
-          </div>
-        </div>
-
-        <!-- Resultados -->
-        <div id="busca-resultados" style="display:none;border:1px solid var(--border);border-radius:10px;background:var(--bg3);overflow:hidden">
-          <div style="padding:8px 14px;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border)" id="busca-res-label"></div>
-          <div id="busca-res-lista" style="max-height:240px;overflow-y:auto"></div>
-        </div>
-
-        <div id="busca-spinner" style="display:none;text-align:center;padding:10px;font-size:12px;color:var(--text3)">⏳ Buscando...</div>
-      </div>
-
-      <div class="grid-2">
-        <div class="field col2">
-          <label class="label">Endereço (Rua / Avenida) *</label>
-          <div class="input-icon">
+        <div class="field">
+          <label class="label">CEP *</label>
+          <div class="cep-wrap input-icon">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            <input class="input" id="endereco" type="text" placeholder="Rua / Avenida" autocomplete="off">
+            <input class="input" id="cep" type="text" placeholder="00000-000" maxlength="9" autocomplete="off">
+            <div class="cep-spinner" id="cep-spinner"></div>
+          </div>
+          <span class="hint" id="h-cep">Digite o CEP para preencher automaticamente</span>
+          <button type="button" id="btn-nao-sei-cep" onclick="toggleBuscaRua()" style="margin-top:8px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.4);color:var(--gold);font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:1px;padding:9px 16px;border-radius:8px;width:100%;transition:all .2s;text-transform:uppercase" onmouseover="this.style.background='rgba(201,168,76,0.2)'" onmouseout="this.style.background='rgba(201,168,76,0.1)'">🔍 Não sei o CEP — buscar por rua</button>
+        </div>
+
+        <div id="busca-rua-wrap" style="display:none;background:rgba(201,168,76,0.05);border:1px solid var(--border);border-radius:12px;padding:16px;flex-direction:column;gap:12px">
+          <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700">🔍 Buscar CEP — passo a passo</div>
+
+          <!-- Passo 1: Estado -->
+          <div id="busca-step1">
+            <label class="label" style="margin-bottom:6px;display:block">1. Selecione o Estado</label>
+            <select class="input" id="busca-uf" style="font-size:13px" onchange="buscarCidades()">
+              <option value="">— Selecione o estado —</option>
+              <option value="AC">AC — Acre</option><option value="AL">AL — Alagoas</option><option value="AP">AP — Amapá</option>
+              <option value="AM">AM — Amazonas</option><option value="BA">BA — Bahia</option><option value="CE">CE — Ceará</option>
+              <option value="DF">DF — Distrito Federal</option><option value="ES">ES — Espírito Santo</option><option value="GO">GO — Goiás</option>
+              <option value="MA">MA — Maranhão</option><option value="MT">MT — Mato Grosso</option><option value="MS">MS — Mato Grosso do Sul</option>
+              <option value="MG">MG — Minas Gerais</option><option value="PA">PA — Pará</option><option value="PB">PB — Paraíba</option>
+              <option value="PR">PR — Paraná</option><option value="PE">PE — Pernambuco</option><option value="PI">PI — Piauí</option>
+              <option value="RJ">RJ — Rio de Janeiro</option><option value="RN">RN — Rio Grande do Norte</option><option value="RS">RS — Rio Grande do Sul</option>
+              <option value="RO">RO — Rondônia</option><option value="RR">RR — Roraima</option><option value="SC">SC — Santa Catarina</option>
+              <option value="SP">SP — São Paulo</option><option value="SE">SE — Sergipe</option><option value="TO">TO — Tocantins</option>
+            </select>
+          </div>
+
+          <!-- Passo 2: Cidade -->
+          <div id="busca-step2" style="display:none">
+            <label class="label" style="margin-bottom:6px;display:block">2. Selecione a Cidade</label>
+            <div id="busca-cidade-spinner" style="font-size:11px;color:var(--text3);padding:4px 0">⏳ Carregando cidades...</div>
+            <select class="input" id="busca-cidade" style="font-size:13px;display:none" onchange="avancarParaRua()">
+              <option value="">— Selecione a cidade —</option>
+            </select>
+            <div style="margin-top:6px">
+              <button type="button" onclick="voltarStep(1)" style="background:transparent;border:none;color:var(--text3);font-size:11px;cursor:pointer;font-family:'Inter',sans-serif;padding:0">← Mudar estado</button>
+            </div>
+          </div>
+
+          <!-- Passo 3: Rua -->
+          <div id="busca-step3" style="display:none">
+            <div style="font-size:11px;color:var(--text3);margin-bottom:8px" id="busca-step3-info"></div>
+            <label class="label" style="margin-bottom:6px;display:block">3. Digite o nome da rua (pode ser parcial)</label>
+            <div style="display:flex;gap:8px">
+              <input class="input" id="busca-rua" type="text" placeholder="Ex: Av Brasil, Rua das Flores..." style="font-size:13px;flex:1" autocomplete="off" onkeydown="if(event.key==='Enter')buscarPorRua()">
+              <button type="button" onclick="buscarPorRua()" style="background:rgba(201,168,76,0.2);border:1px solid var(--border2);border-radius:10px;padding:10px 14px;font-size:12px;font-weight:700;color:var(--gold);cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap;transition:all .2s">🔍 Buscar</button>
+            </div>
+            <div style="margin-top:6px">
+              <button type="button" onclick="voltarStep(2)" style="background:transparent;border:none;color:var(--text3);font-size:11px;cursor:pointer;font-family:'Inter',sans-serif;padding:0">← Mudar cidade</button>
+            </div>
+          </div>
+
+          <!-- Resultados -->
+          <div id="busca-resultados" style="display:none;border:1px solid var(--border);border-radius:10px;background:var(--bg3);overflow:hidden">
+            <div style="padding:8px 14px;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border)" id="busca-res-label"></div>
+            <div id="busca-res-lista" style="max-height:240px;overflow-y:auto"></div>
+          </div>
+
+          <div id="busca-spinner" style="display:none;text-align:center;padding:10px;font-size:12px;color:var(--text3)">⏳ Buscando...</div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field col2">
+            <label class="label">Endereço (Rua / Avenida) *</label>
+            <div class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <input class="input" id="endereco" type="text" placeholder="Rua / Avenida" autocomplete="off">
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="grid-3">
-        <div class="field">
-          <label class="label">Número *</label>
-          <input class="input" id="numero" type="text" placeholder="Nº" autocomplete="off">
-          <span class="hint" id="h-num"></span>
-        </div>
-        <div class="field">
-          <label class="label">Bairro *</label>
-          <input class="input" id="bairro" type="text" placeholder="Bairro" autocomplete="off">
-        </div>
-      </div>
-
-      <div class="grid-2">
-        <div class="field">
-          <label class="label">Cidade *</label>
-          <div class="input-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a1 1 0 011-1h10a1 1 0 011 1v18M6 22h12M6 22H4M18 22h2M10 6h.01M14 6h.01M10 10h.01M14 10h.01M10 14h.01M14 14h.01"/></svg>
-            <input class="input" id="cidade" type="text" placeholder="Cidade" autocomplete="off">
+        <div class="grid-3">
+          <div class="field">
+            <label class="label">Número *</label>
+            <input class="input" id="numero" type="text" placeholder="Nº" autocomplete="off">
+            <span class="hint" id="h-num"></span>
+          </div>
+          <div class="field">
+            <label class="label">Bairro *</label>
+            <input class="input" id="bairro" type="text" placeholder="Bairro" autocomplete="off">
           </div>
         </div>
-        <div class="field">
-          <label class="label">UF *</label>
-          <input class="input" id="uf" type="text" placeholder="PA" maxlength="2" autocomplete="off">
+
+        <div class="grid-2">
+          <div class="field">
+            <label class="label">Cidade *</label>
+            <div class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a1 1 0 011-1h10a1 1 0 011 1v18M6 22h12M6 22H4M18 22h2M10 6h.01M14 6h.01M10 10h.01M14 10h.01M10 14h.01M14 14h.01"/></svg>
+              <input class="input" id="cidade" type="text" placeholder="Cidade" autocomplete="off">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">UF *</label>
+            <input class="input" id="uf" type="text" placeholder="PA" maxlength="2" autocomplete="off">
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- DATA VENCIMENTO + VENDEDOR -->
+    <div class="section-card">
+      <div class="section-head">
+        <div class="section-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+        <div>
+          <div class="section-title">Data de Vencimento</div>
+          <div class="section-sub">Defina o prazo da primeira parcela</div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Data de vencimento da 1ª parcela *</label>
+        <div class="input-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          <input class="input" id="vencimento" type="date" autocomplete="off" onchange="validarVencimento()">
+        </div>
+        <div class="venc-aviso-40" id="aviso-40">
+          ⚠️ <strong>Atenção:</strong> A data escolhida é superior a 40 dias após hoje. Para prazos acima de 40 dias é necessário verificar disponibilidade com o escritório antes de confirmar a reserva.<br>
+          <strong>Você pode continuar o envio</strong>, mas o prazo precisará ser confirmado pelo corretor.
+        </div>
+        <span class="hint" id="h-venc"></span>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-head">
+        <div class="section-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+        <div>
+          <div class="section-title">Responsável</div>
+          <div class="section-sub">Corretor responsável pelo atendimento</div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Vendedor</label>
+        <div class="vendedor-fixo">Rafael Tavares</div>
+      </div>
+    </div>
+
+    <!-- BOTÕES ETAPA 2 -->
+    <div class="btn-wizard-nav">
+      <button class="btn-wizard-prev" onclick="voltarParaStep(1)" type="button">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        <span>Voltar</span>
+      </button>
+      <button class="btn-wizard-next" onclick="avancarStep(2)" type="button">
+        <span>Revisar e Enviar</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       ETAPA 3: REVISÃO & WHATSAPP
+  ════════════════════════════════════════════ -->
+  <div class="wizard-step" id="wizard-step-3">
+    <div class="section-card">
+      <div class="section-head">
+        <div class="section-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+        <div>
+          <div class="section-title">Revisão dos Dados</div>
+          <div class="section-sub">Confira as informações antes de enviar ao corretor</div>
         </div>
       </div>
 
+      <div class="resumo-card" id="resumo-conteudo">
+        <!-- Injetado dinamicamente -->
+      </div>
+
+      <div style="margin-top:10px;text-align:right">
+        <button type="button" onclick="voltarParaStep(1)" style="background:transparent;border:none;color:var(--gold);font-size:12px;cursor:pointer;font-weight:600;text-decoration:underline">✏️ Corrigir algum dado</button>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-bottom:18px">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:#fff">Tudo pronto! Envie sua reserva</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.7);margin-top:4px">Escolha como deseja enviar ao corretor Rafael Tavares:</div>
+    </div>
+
+    <button class="btn-enviar" onclick="abrirPopupConclusao()" type="button">
+      <span class="btn-icon-circle">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+      </span>
+      <span class="btn-text-wrap">
+        <span class="btn-title">Enviar pelo WhatsApp</span>
+        <span class="btn-sub">Finalizar e enviar dados ao corretor</span>
+      </span>
+      <svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+
+    <div class="btn-wizard-nav" style="margin-top:14px">
+      <button class="btn-wizard-prev" onclick="voltarParaStep(2)" type="button" style="width:100%">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        <span>Voltar para Endereço</span>
+      </button>
     </div>
   </div>
 
-
-
-  <!-- DATA VENCIMENTO + VENDEDOR -->
-  <div class="section-card">
-    <div class="section-head">
-      <div class="section-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
-      <div>
-        <div class="section-title">Data de Vencimento</div>
-        <div class="section-sub">Defina o prazo da primeira parcela</div>
-      </div>
-    </div>
-    <div class="field">
-      <label class="label">Data de vencimento da 1ª parcela *</label>
-      <div class="input-icon">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-        <input class="input" id="vencimento" type="date" autocomplete="off" onchange="validarVencimento()">
-      </div>
-      <div class="venc-aviso-40" id="aviso-40">
-        ⚠️ <strong>Atenção:</strong> A data escolhida é superior a 40 dias após hoje. Para prazos acima de 40 dias é necessário verificar disponibilidade com o escritório antes de confirmar a reserva.<br>
-        <strong>Você pode continuar o envio</strong>, mas o prazo precisará ser confirmado pelo corretor.
-      </div>
-      <span class="hint" id="h-venc"></span>
-    </div>
-  </div>
-
-  <div class="section-card">
-    <div class="section-head">
-      <div class="section-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
-      <div>
-        <div class="section-title">Responsável</div>
-        <div class="section-sub">Corretor responsável pelo atendimento</div>
-      </div>
-    </div>
-    <div class="field">
-      <label class="label">Vendedor</label>
-      <div class="vendedor-fixo">Rafael Tavares</div>
-    </div>
-  </div>
-
-  <div style="text-align:center;margin-bottom:18px">
-    <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:#fff">Revise os dados e conclua seu cadastro</div>
-    <div style="font-size:12.5px;color:rgba(255,255,255,0.55);margin-top:4px">Ao concluir, você escolhe como enviar seu cadastro ao corretor.</div>
-  </div>
-
-  <button class="btn-enviar" onclick="abrirPopupConclusao()" type="button">
-    <span class="btn-icon-circle">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-    </span>
-    <span class="btn-text-wrap">
-      <span class="btn-title">Concluir Cadastro</span>
-      <span class="btn-sub">Revisamos seus dados e mostramos como enviar</span>
-    </span>
-    <svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-  </button>
-
-  <p class="nota">Ao concluir, todos os dados são enviados diretamente ao corretor pelo WhatsApp.<br>Nenhuma informação é armazenada neste site.</p>
+  <p class="nota" style="margin-top:24px">Ao concluir, todos os dados são enviados diretamente ao corretor pelo WhatsApp.<br>Nenhuma informação é armazenada neste site.</p>
 
   <div class="trust-row">
     <div class="trust-card">
@@ -573,7 +813,7 @@ select.input option{background:#FFFFFF;color:#1A1710}
   <div class="popup-box">
     <button class="popup-fechar" onclick="fecharPopupConclusao()" type="button" aria-label="Fechar">✕</button>
 
-    <img class="popup-foto" src="../imagens/popup-cadastro-concluido-v3.png" alt="Cadastro concluído com sucesso">
+    <img class="popup-foto" src="../imagens/popup-cadastro-concluido-v2.png" alt="Cadastro concluído com sucesso">
 
     <p class="popup-escolha">Agora escolha uma opção para enviar seu cadastro ao corretor:</p>
 
@@ -1244,68 +1484,79 @@ Object.keys(CAMPOS_SEM_VALIDACAO_PROPRIA).forEach(function(id){
   });
 });
 
-// ── Enviar WhatsApp ────────────────────────────────────
-function validarFormulario(){
-  let ok=true;
+// ── NAVEGAÇÃO ENTRE ETAPAS (WIZARD) ───────────────────
+let stepAtual = 1;
 
-  function req(id,hid,msg){
-    const el=document.getElementById(id);
-    const h=hid?document.getElementById(hid):null;
-    if(!el.value.trim()){
-      el.classList.add('erro');el.classList.remove('ok');
-      if(h){h.className='hint erro-txt';h.textContent=msg||'Campo obrigatório';}
-      ok=false;
+function atualizarIndicadorSteps(step){
+  stepAtual = step;
+  for(let i=1; i<=3; i++){
+    const tab = document.getElementById('step-tab-'+i);
+    const stepEl = document.getElementById('wizard-step-'+i);
+    if(!tab || !stepEl) continue;
+    tab.classList.remove('active', 'completed');
+    stepEl.classList.remove('active');
+    
+    if(i === step){
+      tab.classList.add('active');
+      stepEl.classList.add('active');
+    } else if(i < step){
+      tab.classList.add('completed');
+    }
+  }
+}
+
+function validarStep1(){
+  let ok = true;
+  function req(id, hid, msg){
+    const el = document.getElementById(id);
+    const h = hid ? document.getElementById(hid) : null;
+    if(!el || !el.value.trim()){
+      if(el){ el.classList.add('erro'); el.classList.remove('ok'); }
+      if(h){ h.className='hint erro-txt'; h.textContent=msg||'Campo obrigatório'; }
+      ok = false;
     } else {
-      // Campo preenchido: limpa qualquer estado de erro que tenha ficado
-      // "preso" de uma tentativa de envio anterior, para não confundir o cliente
-      // mostrando um aviso de erro em um campo que já foi corrigido.
-      el.classList.remove('erro');el.classList.add('ok');
+      el.classList.remove('erro'); el.classList.add('ok');
       if(h){
-        const padrao=HINT_PADRAO[id];
+        const padrao = HINT_PADRAO[id];
         h.className='hint '+(padrao?'':'ok-txt');
         h.textContent=padrao!==undefined?padrao:'';
       }
     }
   }
 
-  // Nome com sobrenome
-  const nomeEl=document.getElementById('nome');
-  const nomePartes=nomeEl.value.trim().split(/\s+/).filter(p=>p.length>0);
-  if(nomePartes.length<2){
-    nomeEl.classList.add('erro');nomeEl.classList.remove('ok');
+  // Nome
+  const nomeEl = document.getElementById('nome');
+  const nomePartes = nomeEl.value.trim().split(/\s+/).filter(p=>p.length>0);
+  if(nomePartes.length < 2){
+    nomeEl.classList.add('erro'); nomeEl.classList.remove('ok');
     document.getElementById('h-nome').className='hint erro-txt';
     document.getElementById('h-nome').textContent='Informe nome e sobrenome';
-    ok=false;
+    ok = false;
   } else if(!nomeEl.value.trim()){
     nomeEl.classList.add('erro');
     document.getElementById('h-nome').className='hint erro-txt';
     document.getElementById('h-nome').textContent='Preencha o nome';
-    ok=false;
+    ok = false;
   }
   req('rg','h-rg','Preencha o RG');
   req('cpf','h-cpf','Preencha o CPF');
   req('nascimento','h-nasc','Preencha a data de nascimento');
 
-  // Reconfere a idade mínima aqui também (não depender só do evento "change"
-  // do campo de data), para o bloqueio de menores de 18 anos não ser burlado.
   const nascEl=document.getElementById('nascimento');
   const nascSeletores=['nasc-dia','nasc-mes','nasc-ano'].map(id=>document.getElementById(id));
-  if(nascEl.classList.contains('erro')){
-    nascSeletores.forEach(s=>s.classList.add('erro'));
-  }
-  if(nascEl.value.trim()){
+  if(nascEl && nascEl.value.trim()){
     const nascData=new Date(nascEl.value+'T00:00:00');
     const hojeData=new Date();
     const idade=hojeData.getFullYear()-nascData.getFullYear()-(hojeData<new Date(hojeData.getFullYear(),nascData.getMonth(),nascData.getDate())?1:0);
     if(nascData>hojeData){
-      nascEl.classList.add('erro');nascEl.classList.remove('ok');
-      nascSeletores.forEach(s=>s.classList.add('erro'));
+      nascEl.classList.add('erro'); nascEl.classList.remove('ok');
+      nascSeletores.forEach(s=>{ if(s) s.classList.add('erro'); });
       document.getElementById('h-nasc').className='hint erro-txt';
       document.getElementById('h-nasc').textContent='Data inválida';
       ok=false;
     } else if(idade<18){
-      nascEl.classList.add('erro');nascEl.classList.remove('ok');
-      nascSeletores.forEach(s=>s.classList.add('erro'));
+      nascEl.classList.add('erro'); nascEl.classList.remove('ok');
+      nascSeletores.forEach(s=>{ if(s) s.classList.add('erro'); });
       document.getElementById('h-nasc').className='hint erro-txt';
       document.getElementById('h-nasc').textContent='O comprador deve ter pelo menos 18 anos';
       ok=false;
@@ -1316,11 +1567,6 @@ function validarFormulario(){
   req('estado-civil',null,'');
   req('contato1','h-c1','Preencha o contato');
   req('contato2','h-c2','Preencha o contato 2');
-  req('cep','h-cep','Preencha o CEP');
-  req('endereco',null,'');
-  req('numero','h-num','Preencha o número');
-  req('bairro',null,'');
-  req('cidade',null,'');
 
   // CPF válido
   if(!validarCPF(document.getElementById('cpf').value)){
@@ -1334,7 +1580,7 @@ function validarFormulario(){
   const rgEl=document.getElementById('rg');
   const rgd=rgEl.value.replace(/[^0-9X]/gi,'');
   if(rgd.length<6||rgd.length>10||/^(\d)\1+$/.test(rgd)){
-    rgEl.classList.add('erro');rgEl.classList.remove('ok');
+    rgEl.classList.add('erro'); rgEl.classList.remove('ok');
     document.getElementById('h-rg').className='hint erro-txt';
     document.getElementById('h-rg').textContent='RG inválido';
     ok=false;
@@ -1364,10 +1610,136 @@ function validarFormulario(){
     }
   }
 
+  if(!ok){
+    document.querySelector('#wizard-step-1 .input.erro')?.scrollIntoView({behavior:'smooth',block:'center'});
+    return false;
+  }
+  return true;
+}
 
+function validarStep2(){
+  let ok = true;
+  function req(id, hid, msg){
+    const el = document.getElementById(id);
+    const h = hid ? document.getElementById(hid) : null;
+    if(!el || !el.value.trim()){
+      if(el){ el.classList.add('erro'); el.classList.remove('ok'); }
+      if(h){ h.className='hint erro-txt'; h.textContent=msg||'Campo obrigatório'; }
+      ok = false;
+    } else {
+      el.classList.remove('erro'); el.classList.add('ok');
+    }
+  }
+
+  req('cep','h-cep','Preencha o CEP');
+  req('endereco',null,'');
+  req('numero','h-num','Preencha o número');
+  req('bairro',null,'');
+  req('cidade',null,'');
+  req('uf',null,'');
+  req('vencimento','h-venc','Escolha a data de vencimento');
 
   if(!ok){
-    document.querySelector('.input.erro')?.scrollIntoView({behavior:'smooth',block:'center'});
+    document.querySelector('#wizard-step-2 .input.erro')?.scrollIntoView({behavior:'smooth',block:'center'});
+    return false;
+  }
+  return true;
+}
+
+function gerarResumoRevisao(){
+  let nasc=document.getElementById('nascimento').value;
+  if(nasc){const[y,m,d]=nasc.split('-');nasc=`${d}/${m}/${y}`;}
+
+  const vencVal=document.getElementById('vencimento').value;
+  let vencFmt='Não informado';
+  if(vencVal){const[vy,vm,vd]=vencVal.split('-');vencFmt=vd+'/'+vm+'/'+vy;}
+
+  const html = `
+    <div class="resumo-item">
+      <span class="resumo-label">Comprador:</span>
+      <span class="resumo-val">${document.getElementById('nome').value || '—'}</span>
+    </div>
+    <div class="resumo-item">
+      <span class="resumo-label">CPF:</span>
+      <span class="resumo-val">${document.getElementById('cpf').value || '—'}</span>
+    </div>
+    <div class="resumo-item">
+      <span class="resumo-label">RG:</span>
+      <span class="resumo-val">${document.getElementById('rg').value || '—'}</span>
+    </div>
+    <div class="resumo-item">
+      <span class="resumo-label">Nascimento:</span>
+      <span class="resumo-val">${nasc || '—'}</span>
+    </div>
+    <div class="resumo-item">
+      <span class="resumo-label">WhatsApp:</span>
+      <span class="resumo-val">${document.getElementById('contato1').value || '—'}</span>
+    </div>
+    <div class="resumo-item">
+      <span class="resumo-label">Endereço:</span>
+      <span class="resumo-val">${document.getElementById('endereco').value || ''}, Nº ${document.getElementById('numero').value || ''} - ${document.getElementById('bairro').value || ''}</span>
+    </div>
+    <div class="resumo-item">
+      <span class="resumo-label">Cidade/UF:</span>
+      <span class="resumo-val">${document.getElementById('cidade').value || ''} — ${(document.getElementById('uf').value||'').toUpperCase()} (CEP: ${document.getElementById('cep').value || ''})</span>
+    </div>
+    <div class="resumo-item">
+      <span class="resumo-label">1ª Parcela:</span>
+      <span class="resumo-val" style="color:var(--gold)">${vencFmt}</span>
+    </div>
+    <div class="resumo-item">
+      <span class="resumo-label">Corretor:</span>
+      <span class="resumo-val">Rafael Tavares</span>
+    </div>
+  `;
+  const container = document.getElementById('resumo-conteudo');
+  if(container) container.innerHTML = html;
+}
+
+function avancarStep(stepAtualNum){
+  if(stepAtualNum === 1){
+    if(!validarStep1()) return;
+    atualizarIndicadorSteps(2);
+    document.getElementById('steps-bar')?.scrollIntoView({behavior:'smooth',block:'start'});
+  } else if(stepAtualNum === 2){
+    if(!validarStep2()) return;
+    gerarResumoRevisao();
+    atualizarIndicadorSteps(3);
+    document.getElementById('steps-bar')?.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+}
+
+function voltarParaStep(stepAlvo){
+  atualizarIndicadorSteps(stepAlvo);
+  document.getElementById('steps-bar')?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function irParaStep(stepAlvo){
+  if(stepAlvo === stepAtual) return;
+  if(stepAlvo === 1){
+    voltarParaStep(1);
+  } else if(stepAlvo === 2){
+    if(validarStep1()){
+      atualizarIndicadorSteps(2);
+      document.getElementById('steps-bar')?.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+  } else if(stepAlvo === 3){
+    if(validarStep1() && validarStep2()){
+      gerarResumoRevisao();
+      atualizarIndicadorSteps(3);
+      document.getElementById('steps-bar')?.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+  }
+}
+
+// ── Enviar WhatsApp ────────────────────────────────────
+function validarFormulario(){
+  if(!validarStep1()){
+    atualizarIndicadorSteps(1);
+    return false;
+  }
+  if(!validarStep2()){
+    atualizarIndicadorSteps(2);
     return false;
   }
   return true;
@@ -1461,6 +1833,43 @@ function copiarCadastro(){
   }
 }
 
+
+function dispararBaloesPremio() {
+  const container = document.getElementById("popup-confete");
+  if (!container) return;
+  const cores = [
+    "linear-gradient(135deg, #ffd700, #c9a84c)",
+    "linear-gradient(135deg, #22c55e, #15803d)",
+    "linear-gradient(135deg, #eab308, #ca8a04)",
+    "linear-gradient(135deg, #38bdf8, #0284c7)",
+    "linear-gradient(135deg, #f43f5e, #be123c)",
+    "linear-gradient(135deg, #a855f7, #7e22ce)",
+    "linear-gradient(135deg, #ffffff, #d1d5db)"
+  ];
+  
+  for (let i = 0; i < 18; i++) {
+    setTimeout(() => {
+      const balao = document.createElement("div");
+      balao.className = "balao-premio";
+      const cor = cores[Math.floor(Math.random() * cores.length)];
+      balao.style.background = cor;
+      balao.style.left = (Math.random() * 88 + 6) + "%";
+      const scale = 0.75 + Math.random() * 0.65;
+      balao.style.setProperty("--rot", (Math.random() * 24 - 12) + "deg");
+      balao.style.setProperty("--drift", (Math.random() * 60 - 30) + "px");
+      balao.style.transform = "scale(" + scale + ")";
+      balao.style.animationDuration = (3.5 + Math.random() * 1.8) + "s";
+      
+      const corda = document.createElement("div");
+      corda.className = "balao-corda";
+      balao.appendChild(corda);
+      
+      container.appendChild(balao);
+      setTimeout(() => balao.remove(), 5500);
+    }, i * 140);
+  }
+}
+
 function dispararConfete(){
   const container=document.getElementById('popup-confete');
   if(!container)return;
@@ -1498,6 +1907,7 @@ function abrirPopupConclusao(){
   document.getElementById('popup-overlay').classList.add('aberto');
   document.body.style.overflow='hidden';
   setTimeout(dispararConfete,180);
+  setTimeout(dispararBaloesPremio,100);
 }
 
 function fecharPopupConclusao(){

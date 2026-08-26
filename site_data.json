@@ -70,7 +70,7 @@
             "cor": "#C9A84C"
         },
         {
-            "texto": "Comprei meu terreno no Bom Sossego e não me arrependo! Documentação impecável e preço justo.",
+            "texto": "Comprei meu terreno no Santa Maria e não me arrependo! Documentação impecável e preço justo.",
             "nome": "Ana Silva",
             "cidade": "Santarém, PA",
             "iniciais": "AS",
@@ -202,9 +202,9 @@
             "lat": -2.448417,
             "lng": -54.806361,
             "cor": "gold",
-            "min": "R$ 350",
-            "max": "R$ 900",
-            "desc": "Loteamento Bom Sossego com documentação regularizada.",
+            "min": "R$ 300",
+            "max": "R$ 400",
+            "desc": "Loteamento em Santa Maria: Econômico (50x R$ 300) e Mais Próximo (100x R$ 400).",
             "msg": "Olá Rafael! Tenho interesse em Santa Maria.",
             "tags": [
                 "Disponível",
@@ -303,7 +303,7 @@
             "desc": "Lotes residenciais, comerciais e econômicos. Documentação regularizada e condições especiais.",
             "badge": "🔥 Lançamento",
             "badgeTipo": "lancamento",
-            "wpp": "Olá Rafael! Tenho interesse no Bairro Mararu!",
+            "wpp": "Olá vim pelo site, tenho interesse no Mararu Ville!",
             "lat": -2.493,
             "lng": -54.686694,
             "diferenciais": [
@@ -323,7 +323,7 @@
             "desc": "Bairro em plena expansão com fácil acesso e alta valorização. Área residencial consolidada.",
             "badge": "Disponível",
             "badgeTipo": "disponivel",
-            "wpp": "Olá Rafael! Tenho interesse em Pajuçara!",
+            "wpp": "Olá vim pelo site, tenho interesse em Pajuçara!",
             "lat": -2.442361,
             "lng": -54.82825,
             "diferenciais": [
@@ -340,14 +340,14 @@
             "nome": "Santa Maria",
             "foto": "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-2-1780364588826.png",
             "loc": "Atrás do Horizonte Park",
-            "desc": "Tranquila e estruturada. Loteamento Bom Sossego com documentação completa.",
+            "desc": "Loteamento em Santa Maria. Opções a partir de R$ 500 de entrada e parcelas de R$ 300/mês.",
             "badge": "Disponível",
             "badgeTipo": "disponivel",
-            "wpp": "Olá Rafael! Tenho interesse em Santa Maria!",
+            "wpp": "Olá vim pelo site, tenho interesse em Santa Maria!",
             "lat": -2.448167,
             "lng": -54.805556,
             "diferenciais": [
-                "Empreendimento Bom Sossego",
+                "Loteamento em Santa Maria",
                 "Documentação completa",
                 "Região tranquila e estruturada",
                 "Qualidade de vida",
@@ -363,7 +363,7 @@
             "desc": "Região em expansão estratégica. Novos loteamentos com alto potencial de valorização.",
             "badge": "Disponível",
             "badgeTipo": "breve",
-            "wpp": "Olá Rafael! Tenho interesse em Cucurunã!",
+            "wpp": "Olá vim pelo site, tenho interesse em Cucurunã!",
             "lat": -2.463222,
             "lng": -54.791694,
             "diferenciais": [
@@ -383,7 +383,7 @@
             "desc": "Acesso ao rio Tapajós. Área privilegiada com vista panorâmica e potencial turístico.",
             "badge": "Premium",
             "badgeTipo": "breve-azul",
-            "wpp": "Olá Rafael! Tenho interesse em Ponta de Pedras!",
+            "wpp": "Olá vim pelo site, tenho interesse em Ponta de Pedras!",
             "lat": -2.465361,
             "lng": -54.909694,
             "diferenciais": [
@@ -403,7 +403,7 @@
             "desc": "O destino turístico mais famoso do Pará. Terrenos de alto valor em região paradisíaca.",
             "badge": "Premium",
             "badgeTipo": "premium",
-            "wpp": "Olá Rafael! Tenho interesse em Alter do Chão!",
+            "wpp": "Olá vim pelo site, tenho interesse em Alter do Chão!",
             "lat": -2.502556,
             "lng": -54.931083,
             "diferenciais": [
@@ -432,7 +432,7 @@
             "foto": "",
             "lat": -2.479222,
             "lng": -54.7545,
-            "wpp": "Olá Rafael! Tenho interesse em lotes na região do Espírito Santo em Santarém.",
+            "wpp": "Olá vim pelo site, tenho interesse em Espírito Santo!",
             "cidade": "Santarém"
         },
         {
@@ -445,7 +445,8 @@
             "foto": "https://raw.githubusercontent.com/rafaelrtmatos-stm/rafaeltavarescorretor/main/imagens/alenquer-obra-7.jpeg",
             "descricao": "Novo lançamento em Alenquer, PA.",
             "lancamento": true,
-            "dataLancamento": "2026-06-10"
+            "dataLancamento": "2026-06-10",
+            "wpp": "Olá vim pelo site, tenho interesse em Alenquer!"
         },
         {
             "id": "monte-alegre",
@@ -457,7 +458,8 @@
             "foto": "",
             "descricao": "Loteamento Jussaramia — Monte Alegre, PA. Vendas abertas!",
             "lancamento": true,
-            "lancado": true
+            "lancado": true,
+            "wpp": "Olá vim pelo site, tenho interesse em Monte Alegre!"
         }
     ],
     "pinSize": 30,
