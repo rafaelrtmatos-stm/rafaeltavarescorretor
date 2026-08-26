@@ -8,162 +8,122 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
-  --bg:#0A0A0A;--bg2:#111111;--bg3:#1A1A1A;
-  --gold:#C9A84C;--gold2:#E8C96A;--gold3:rgba(201,168,76,0.12);
-  --text:#F2EDE4;--text2:rgba(242,237,228,0.6);--text3:rgba(242,237,228,0.3);
-  --border:rgba(201,168,76,0.15);--border2:rgba(201,168,76,0.28);
-  --green:#22c55e;--red:#f87171;--blue:#60a5fa;
+  --bg:#08090A;--bg2:#101214;--bg3:#16191D;--bg-card:#121519;
+  --gold:#D4AF37;--gold2:#F3E5AB;--gold3:rgba(212,175,55,0.12);--gold-glow:rgba(212,175,55,0.25);
+  --text:#F7F5F0;--text2:rgba(247,245,240,0.7);--text3:rgba(247,245,240,0.4);
+  --border:rgba(255,255,255,0.07);--border2:rgba(212,175,55,0.25);--border-hover:rgba(212,175,55,0.45);
+  --green:#10b981;--red:#ef4444;--blue:#38bdf8;--purple:#a855f7;
+  --radius-sm:8px;--radius-md:12px;--radius-lg:16px;
 }
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;background-image:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(212,175,55,0.05),transparent);-webkit-font-smoothing:antialiased}
 
 /* LOGIN */
 .lock{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-.lock-card{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:40px 32px;width:100%;max-width:380px;text-align:center}
-.lock-logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--gold);letter-spacing:3px;margin-bottom:4px}
-.lock-sub{font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:28px}
-.inp{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:13px 14px;font-size:14px;color:var(--text);font-family:inherit;outline:none;margin-bottom:12px;-webkit-appearance:none;transition:border-color .2s}
-.inp:focus{border-color:var(--gold)}
-.btn-g{width:100%;background:var(--gold);color:#0D1A0D;border:none;padding:14px;font-size:13px;font-weight:600;border-radius:8px;cursor:pointer;font-family:inherit;transition:all .2s}
-.btn-g:hover{background:var(--gold2)}
-.err{display:none;font-size:12px;color:var(--red);margin-bottom:10px;padding:8px;background:rgba(248,113,113,0.1);border-radius:6px}
+.lock-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:44px 36px;width:100%;max-width:400px;text-align:center;box-shadow:0 20px 40px rgba(0,0,0,0.6),0 0 30px rgba(212,175,55,0.06)}
+.lock-logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--gold);letter-spacing:4px;margin-bottom:6px}
+.lock-sub{font-size:10px;letter-spacing:2.5px;color:var(--text3);text-transform:uppercase;margin-bottom:30px}
+.inp{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;font-size:14px;color:var(--text);font-family:inherit;outline:none;margin-bottom:14px;-webkit-appearance:none;transition:border-color .25s,box-shadow .25s}
+.inp:focus{border-color:var(--gold);box-shadow:0 0 15px var(--gold-glow)}
+.btn-g{width:100%;background:linear-gradient(135deg,var(--gold),#B38F24);color:#0A0A0A;border:none;padding:14px;font-size:13px;font-weight:700;letter-spacing:.5px;border-radius:var(--radius-sm);cursor:pointer;font-family:inherit;transition:all .25s;box-shadow:0 4px 15px rgba(212,175,55,0.25)}
+.btn-g:hover{background:linear-gradient(135deg,var(--gold2),var(--gold));transform:translateY(-1px);box-shadow:0 6px 20px rgba(212,175,55,0.35)}
+.err{display:none;font-size:12px;color:var(--red);margin-bottom:12px;padding:10px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);border-radius:var(--radius-sm)}
 
-/* GITHUB TOKEN CARD */
-.github-card{background:rgba(96,165,250,0.06);border:1px solid rgba(96,165,250,0.2);border-radius:12px;padding:18px;margin-bottom:20px;text-align:left}
-.github-card-title{font-size:12px;font-weight:600;color:var(--blue);margin-bottom:6px;display:flex;align-items:center;gap:6px}
-.github-card p{font-size:11px;color:var(--text3);line-height:1.7;margin-bottom:12px}
-.github-card a{color:var(--blue);text-decoration:none;font-size:11px}
-.github-card a:hover{text-decoration:underline}
-.token-status{display:flex;align-items:center;gap:6px;font-size:11px;padding:6px 10px;border-radius:6px;margin-top:8px}
-.token-status.ok{background:rgba(34,197,94,0.1);color:var(--green);border:1px solid rgba(34,197,94,0.2)}
-.token-status.err{background:rgba(248,113,113,0.1);color:var(--red);border:1px solid rgba(248,113,113,0.2)}
-.token-status.none{background:rgba(201,168,76,0.08);color:var(--text3);border:1px solid var(--border)}
-
-/* ADMIN */
+/* ADMIN HEADER */
 .admin{display:none;min-height:100vh}
-.anav{background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50;gap:10px}
-.anav-logo{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:700;color:var(--gold);letter-spacing:2px;white-space:nowrap}
-.anav-right{display:flex;align-items:center;gap:10px}
-
-.gh-status.on{color:var(--green);border-color:rgba(34,197,94,0.3);background:rgba(34,197,94,0.08)}
-.gh-status.off{color:var(--text3);border-color:var(--border);background:transparent}
-.btn-sair{background:transparent;border:1px solid var(--border);color:var(--text3);padding:7px 14px;border-radius:8px;font-size:12px;cursor:pointer;font-family:inherit;white-space:nowrap}
+.anav{background:rgba(16,18,20,0.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:60}
+.anav-brand{display:flex;align-items:center;gap:14px}
+.anav-logo{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--gold);letter-spacing:2px;display:flex;align-items:center;gap:8px}
+.anav-status{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--green);background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2);padding:4px 10px;border-radius:100px}
+.anav-status .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+.anav-right{display:flex;align-items:center;gap:12px}
+.btn-ver-site{display:inline-flex;align-items:center;gap:6px;background:var(--gold3);border:1px solid var(--border2);color:var(--gold);padding:8px 16px;border-radius:var(--radius-sm);font-size:12px;font-weight:600;text-decoration:none;transition:all .2s}
+.btn-ver-site:hover{background:rgba(212,175,55,0.25);border-color:var(--gold);transform:translateY(-1px)}
+.btn-sair{background:transparent;border:1px solid var(--border);color:var(--text3);padding:8px 14px;border-radius:var(--radius-sm);font-size:12px;cursor:pointer;font-family:inherit;transition:all .2s}
+.btn-sair:hover{color:var(--red);border-color:rgba(239,68,68,0.3);background:rgba(239,68,68,0.06)}
 
 /* LAYOUT */
-.layout{display:flex;min-height:calc(100vh - 57px)}
-.sidebar{width:200px;background:var(--bg2);border-right:1px solid var(--border);padding:16px 10px;flex-shrink:0;position:sticky;top:57px;height:calc(100vh - 57px);overflow-y:auto}
-.sidebar-title{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--text3);padding:0 8px;margin-bottom:8px;margin-top:14px}
-.sidebar-title:first-child{margin-top:0}
-.smenu{display:flex;flex-direction:column;gap:2px}
-.sitem{display:flex;align-items:center;gap:9px;padding:10px 10px;border-radius:8px;font-size:13px;color:var(--text2);cursor:pointer;transition:all .2s;border:none;background:transparent;font-family:inherit;text-align:left;width:100%}
-.sitem:hover{background:var(--gold3);color:var(--text)}
-.sitem.on{background:var(--gold3);color:var(--gold);font-weight:500}
-.sitem .icon{font-size:15px;flex-shrink:0;width:20px;text-align:center}
-.sitem .num{margin-left:auto;background:var(--gold);color:#0D1A0D;font-size:9px;font-weight:700;padding:2px 7px;border-radius:100px}
+.layout{display:flex;min-height:calc(100vh - 65px)}
+.sidebar{width:240px;background:var(--bg2);border-right:1px solid var(--border);padding:20px 12px;flex-shrink:0;position:sticky;top:65px;height:calc(100vh - 65px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.sidebar-user{display:flex;align-items:center;gap:12px;padding:12px 10px 18px;margin-bottom:12px;border-bottom:1px solid var(--border)}
+.sidebar-user-avatar{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--gold);overflow:hidden;flex-shrink:0;background:var(--bg3);display:flex;align-items:center;justify-content:center}
+.sidebar-user-avatar img{width:100%;height:100%;object-fit:cover}
+.sidebar-user-info{overflow:hidden}
+.sidebar-user-name{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sidebar-user-role{font-size:10px;color:var(--gold);letter-spacing:1px;text-transform:uppercase}
+
+.sidebar-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);padding:8px 10px 4px;margin-top:14px;font-weight:600}
+.sidebar-title:first-of-type{margin-top:0}
+.smenu{display:flex;flex-direction:column;gap:3px}
+.sitem{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:var(--radius-sm);font-size:13px;color:var(--text2);cursor:pointer;transition:all .2s;border:1px solid transparent;background:transparent;font-family:inherit;text-align:left;width:100%;position:relative}
+.sitem:hover{background:rgba(255,255,255,0.03);color:var(--text);border-color:var(--border)}
+.sitem.on{background:linear-gradient(90deg,var(--gold3),transparent);color:var(--gold);font-weight:600;border-color:var(--border2)}
+.sitem.on::before{content:'';position:absolute;left:0;top:8px;bottom:8px;width:3px;background:var(--gold);border-radius:0 3px 3px 0;box-shadow:0 0 10px var(--gold)}
+.sitem .icon{font-size:15px;flex-shrink:0;width:20px;text-align:center;transition:transform .2s}
+.sitem:hover .icon{transform:scale(1.15)}
 
 /* CONTENT */
-.content{flex:1;padding:24px 20px 80px;overflow-x:hidden;background:var(--bg);color:var(--text)}
-.page{display:none}
+.content{flex:1;padding:32px 36px 90px;overflow-x:hidden;background:var(--bg);color:var(--text);max-width:1200px}
+.page{display:none;animation:fadeIn .3s ease-out}
 .page.on{display:block}
-.page-header{margin-bottom:24px}
-.page-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--text);margin-bottom:4px}
-.page-sub{font-size:13px;color:var(--text3)}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+.page-header{margin-bottom:28px;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;border-bottom:1px solid var(--border);padding-bottom:18px}
+.page-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--text);letter-spacing:.5px}
+.page-sub{font-size:13px;color:var(--text3);margin-top:4px}
+
+/* LIVE PREVIEW BOX */
+.live-preview-box{background:linear-gradient(145deg,rgba(212,175,55,0.04),rgba(0,0,0,0.4));border:1px solid var(--border2);border-radius:var(--radius-md);padding:18px;margin-bottom:20px;box-shadow:inset 0 0 20px rgba(0,0,0,0.5)}
+.live-preview-title{display:flex;align-items:center;justify-content:space-between;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.live-preview-badge{font-size:9px;background:var(--gold);color:#0A0A0A;padding:2px 8px;border-radius:100px;font-weight:700;letter-spacing:1px}
 
 /* CARDS */
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:22px;margin-bottom:16px}
-.card-title{font-size:12px;font-weight:600;color:var(--text);margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;letter-spacing:.3px}
-.card-title span{font-size:15px}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:24px;margin-bottom:20px;box-shadow:0 4px 20px rgba(0,0,0,0.25);transition:border-color .25s}
+.card:hover{border-color:rgba(255,255,255,0.12)}
+.card-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.card-title span{font-size:17px}
 
-/* FORM */
-.f{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
-.f label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);font-weight:500}
-.f input,.f textarea,.f select{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:11px 12px;font-size:14px;color:var(--text);font-family:inherit;outline:none;transition:all .2s;-webkit-appearance:none;width:100%}
-.f input:focus,.f textarea:focus,.f select:focus{border-color:var(--gold)}
-.f textarea{resize:vertical;min-height:80px;line-height:1.6}
-.f select option{background:var(--bg2)}
-.f-hint{font-size:11px;color:var(--text3);margin-top:4px;line-height:1.5}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-
-/* FOTO */
-.foto-upload{display:flex;align-items:center;gap:16px;margin-bottom:14px}
-.foto-preview{width:72px;height:72px;border-radius:50%;background:var(--bg3);border:2px solid var(--border);overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.foto-preview img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-.foto-upload-info{flex:1}
-.foto-upload-info p{font-size:12px;color:var(--text2);margin-bottom:8px;line-height:1.5}
-.btn-upload{background:var(--gold3);border:1px solid var(--border2);color:var(--gold);padding:9px 16px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
-.btn-upload:hover{background:rgba(201,168,76,0.2)}
+/* FORM FIELDS */
+.f{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.f label{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text2);font-weight:600}
+.f input,.f textarea,.f select{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;font-size:13.5px;color:var(--text);font-family:inherit;outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;width:100%}
+.f input:focus,.f textarea:focus,.f select:focus{border-color:var(--gold);box-shadow:0 0 12px var(--gold-glow);background:#181c22}
+.f textarea{resize:vertical;min-height:90px;line-height:1.6}
+.f-hint{font-size:11px;color:var(--text3);margin-top:4px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 
 /* BUTTONS */
-.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
-.btn-save{background:var(--gold);color:#0D1A0D;border:none;padding:12px 24px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;display:flex;align-items:center;gap:8px}
-.btn-save:hover{background:var(--gold2);transform:translateY(-1px)}
-.btn-save:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.btn-restore{background:transparent;border:1px solid var(--border);color:var(--text3);padding:12px 20px;border-radius:8px;font-size:13px;cursor:pointer;font-family:inherit;transition:all .2s}
-.btn-restore:hover{border-color:var(--red);color:var(--red)}
-.btn-d{background:rgba(248,113,113,0.1);color:var(--red);border:1px solid rgba(248,113,113,0.25);padding:9px 16px;border-radius:8px;font-size:12px;cursor:pointer;font-family:inherit}
+.btn-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+.btn-save{background:linear-gradient(135deg,var(--gold),#B38F24);color:#0A0A0A;border:none;padding:12px 24px;border-radius:var(--radius-sm);font-size:13px;font-weight:700;letter-spacing:.3px;cursor:pointer;font-family:inherit;transition:all .25s;display:inline-flex;align-items:center;gap:8px;box-shadow:0 4px 15px rgba(212,175,55,0.2)}
+.btn-save:hover{background:linear-gradient(135deg,var(--gold2),var(--gold));transform:translateY(-2px);box-shadow:0 6px 20px rgba(212,175,55,0.35)}
+.btn-upload{background:var(--gold3);border:1px solid var(--border2);color:var(--gold);padding:10px 18px;border-radius:var(--radius-sm);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+.btn-upload:hover{background:rgba(212,175,55,0.25);border-color:var(--gold);transform:translateY(-1px)}
+.btn-restore{background:transparent;border:1px solid var(--border);color:var(--text3);padding:12px 20px;border-radius:var(--radius-sm);font-size:13px;cursor:pointer;font-family:inherit;transition:all .2s}
+.btn-restore:hover{border-color:var(--red);color:var(--red);background:rgba(239,68,68,0.06)}
 
 /* TOGGLES */
-.toggle-row{display:flex;align-items:center;gap:14px;padding:12px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .2s;user-select:none}
-.toggle-row:hover{border-color:var(--border2)}
+.toggle-row{display:flex;align-items:center;gap:16px;padding:14px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;transition:all .2s;user-select:none;margin-bottom:10px}
+.toggle-row:hover{border-color:var(--border-hover)}
 .toggle-info{flex:1}
-.toggle-label{font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px}
+.toggle-label{font-size:13.5px;font-weight:600;color:var(--text);margin-bottom:2px}
 .toggle-sub{font-size:11px;color:var(--text3)}
-.tog{width:42px;height:24px;background:rgba(255,255,255,0.08);border-radius:100px;position:relative;transition:background .2s;flex-shrink:0;border:1px solid var(--border)}
-.tog.on{background:var(--green);border-color:transparent}
-.tog-dot{width:18px;height:18px;background:#fff;border-radius:50%;position:absolute;top:2px;left:2px;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
-.tog.on .tog-dot{left:20px}
-
-/* ORDER */
-.order-item{display:flex;align-items:center;gap:12px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:13px 14px;cursor:grab;transition:all .2s;user-select:none}
-.order-item:hover{border-color:var(--border2)}
-.order-item.dragging{opacity:.4;border-color:var(--gold);background:var(--gold3)}
-.drag-handle{font-size:16px;color:var(--text3);letter-spacing:-2px;flex-shrink:0}
-.order-icon{font-size:16px;flex-shrink:0}
-.order-name{font-size:13px;font-weight:500;color:var(--text);flex:1}
-.order-badge{background:var(--gold3);color:var(--gold);font-size:10px;font-weight:700;padding:3px 9px;border-radius:100px;border:1px solid var(--border2)}
-
-/* STATUS BADGE */
-.status-ok{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--green);background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);padding:5px 12px;border-radius:100px;margin-bottom:16px}
-.dot-green{width:6px;height:6px;border-radius:50%;background:var(--green)}
-
-/* PINOS */
-.pino-coords{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
-.inp-inline{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:11px 12px;font-size:13px;color:var(--text);font-family:inherit;outline:none;transition:all .2s;-webkit-appearance:none}
-.inp-inline:focus{border-color:var(--gold)}
+.tog{width:46px;height:26px;background:rgba(255,255,255,0.1);border-radius:100px;position:relative;transition:all .25s;flex-shrink:0;border:1px solid var(--border)}
+.tog.on{background:var(--green);border-color:transparent;box-shadow:0 0 12px rgba(16,185,129,0.4)}
+.tog-dot{width:20px;height:20px;background:#fff;border-radius:50%;position:absolute;top:2px;left:2px;transition:left .25s;box-shadow:0 2px 4px rgba(0,0,0,0.4)}
+.tog.on .tog-dot{left:22px}
 
 /* TOAST */
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg2);border:1px solid var(--border2);color:var(--gold);padding:11px 22px;border-radius:100px;font-size:13px;font-weight:500;opacity:0;transition:all .3s;pointer-events:none;z-index:9999;white-space:nowrap}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(90px);background:var(--bg2);border:1px solid var(--border2);color:var(--gold);padding:12px 26px;border-radius:100px;font-size:13.5px;font-weight:600;opacity:0;transition:all .3s cubic-bezier(0.16, 1, 0.3, 1);pointer-events:none;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,0.6)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.toast.ok{background:#1a3a1a;border-color:rgba(37,211,102,0.4);color:#25d366}
-.toast.erro{background:#3a1a1a;border-color:rgba(248,113,113,0.4);color:#f87171}
-.toast.aviso{background:#3a2a00;border-color:rgba(201,168,76,0.4);color:#C9A84C}
-.toast.err{color:var(--red);border-color:rgba(248,113,113,0.3)}
-.toast.ok{color:var(--green);border-color:rgba(34,197,94,0.3)}
+.toast.ok{background:#0d2818;border-color:rgba(16,185,129,0.5);color:#34d399}
+.toast.err{background:#2e0d0d;border-color:rgba(239,68,68,0.5);color:#f87171}
+.toast.aviso{background:#2e2205;border-color:rgba(212,175,55,0.5);color:#fbbf24}
 
-/* PUSH MODAL */
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px}
-.modal-bg.on{display:flex}
-.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:28px;width:100%;max-width:420px}
-.modal h3{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--text);margin-bottom:6px}
-.modal p{font-size:13px;color:var(--text3);margin-bottom:20px;line-height:1.6}
-.push-log{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px;font-size:12px;color:var(--text2);line-height:1.8;margin-bottom:16px;min-height:80px;max-height:200px;overflow-y:auto;font-family:monospace}
-.push-step{display:flex;align-items:flex-start;gap:8px;margin-bottom:4px}
-.push-step.done{color:var(--green)}
-.push-step.err{color:var(--red)}
-.push-step.wait{color:var(--text3)}
-
-/* GITHUB PAGE */
-.gh-config-box{background:rgba(96,165,250,0.06);border:1px solid rgba(96,165,250,0.2);border-radius:12px;padding:20px;margin-bottom:16px}
-.gh-config-box h4{font-size:13px;font-weight:600;color:var(--blue);margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.gh-steps{counter-reset:steps;display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
-.gh-step{display:flex;gap:10px;font-size:12px;color:var(--text2);line-height:1.6}
-.gh-step-n{background:var(--blue);color:#fff;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px}
-.gh-step code{background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.2);color:var(--blue);padding:1px 6px;border-radius:4px;font-size:11px;font-family:monospace}
-
-/* MOBILE */
-@media(max-width:640px){
+/* MOBILE RESPONSIVE */
+@media(max-width:768px){
+  .anav{padding:12px 16px}
   .layout{flex-direction:column}
   .sidebar{display:none!important}
-  .content{padding:16px 14px 60px;width:100%}
+  .content{padding:20px 16px 80px;width:100%}
   .g2{grid-template-columns:1fr}
 }
 </style>
@@ -306,17 +266,33 @@ function salvarTokenModal(){
 <!-- ADMIN -->
 <div class="admin" id="admin">
   <div class="anav">
-    <div class="anav-logo">⚙️ PAINEL ADMIN</div>
+    <div class="anav-brand">
+      <div class="anav-logo">🏛️ RAFAEL TAVARES <span style="font-size:11px;font-family:'DM Sans',sans-serif;color:var(--text3);font-weight:400;margin-left:4px">| PAINEL</span></div>
+      <div class="anav-status"><span class="dot"></span> Online & Sincronizado</div>
+    </div>
     <div class="anav-right">
-      
-      <a href="../" class="btn-sair" style="text-decoration:none">← Ver site</a>
+      <a href="../" target="_blank" class="btn-ver-site">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+        Ver Site
+      </a>
+      <button class="btn-sair" onclick="logout()">Sair</button>
     </div>
   </div>
 
   <div class="layout">
     <div class="sidebar">
+      <div class="sidebar-user">
+        <div class="sidebar-user-avatar">
+          <img src="../rafael-foto.jpg" alt="Rafael Tavares" onerror="this.parentElement.innerHTML='👔'">
+        </div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name">Rafael Tavares</div>
+          <div class="sidebar-user-role">Corretor de Imóveis</div>
+        </div>
+      </div>
+
       <div class="smenu">
-        <div class="sidebar-title">📊 Site</div>
+        <div class="sidebar-title">📊 Início & Identidade</div>
         <button class="sitem on" onclick="goPage('geral',this)"><span class="icon">🏠</span><span>Geral</span></button>
         <button class="sitem" onclick="goPage('textos',this)"><span class="icon">✏️</span><span>Textos</span></button>
         <button class="sitem" onclick="goPage('hero',this)"><span class="icon">🌅</span><span>Hero</span></button>
@@ -495,29 +471,54 @@ function salvarTokenModal(){
       <!-- ══════ PÁGINA: DESTAQUE / LANÇAMENTO ══════ -->
       <div class="page" id="page-lancamento">
         <div class="page-header">
-          <div class="page-title">🔥 Bairro Mararu</div>
-          <div class="page-sub">Configure o empreendimento em destaque no início do site</div>
+          <div>
+            <div class="page-title">🔥 Bairro Mararu — Destaque</div>
+            <div class="page-sub">Configure o card de lançamento e as informações do empreendimento principal</div>
+          </div>
         </div>
+
+        <!-- PRÉVIA AO VIVO CARD MARARU -->
+        <div class="live-preview-box">
+          <div class="live-preview-title">
+            <span>👁️ Prévia ao Vivo — Card de Destaque na Home</span>
+            <span class="live-preview-badge">LIVE PREVIEW</span>
+          </div>
+          <div style="background:#132213;border:1px solid rgba(201,168,76,0.35);border-radius:12px;padding:20px;display:flex;gap:18px;align-items:center;flex-wrap:wrap">
+            <div id="live-lanc-img" style="width:120px;height:90px;border-radius:8px;overflow:hidden;background:#1E331E;border:1px solid rgba(201,168,76,0.2);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:24px;flex-shrink:0">
+              🏡
+            </div>
+            <div style="flex:1;min-width:200px">
+              <div id="live-lanc-badge" style="display:inline-block;font-size:10px;font-weight:700;letter-spacing:1px;color:var(--gold);text-transform:uppercase;background:rgba(201,168,76,0.15);padding:2px 8px;border-radius:4px;margin-bottom:6px">NOVO LANÇAMENTO</div>
+              <div id="live-lanc-titulo" style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:#F2EDE4;margin-bottom:4px">BAIRRO MARARU</div>
+              <div id="live-lanc-desc" style="font-size:12px;color:rgba(242,237,228,0.7);line-height:1.4;margin-bottom:10px">Terrenos residenciais, comerciais e excelente investimento...</div>
+              <div style="display:flex;gap:8px">
+                <span id="live-lanc-btn-reserva" style="display:inline-block;background:linear-gradient(135deg,#C9A84C,#DFBE6A);color:#0D1A0D;font-size:11px;font-weight:700;padding:6px 12px;border-radius:6px">Garantir Minha Pré-Reserva</span>
+                <span style="display:inline-block;background:rgba(255,255,255,0.08);color:#F2EDE4;font-size:11px;padding:6px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.15)">Ver Detalhes →</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="card">
-          <div class="card-title"><span>🗓️</span> Data do Lançamento (Countdown)</div>
+          <div class="card-title"><span>🗓️</span> Informações e Contagem Regressiva</div>
           <div class="f">
-            <label>Data e hora</label>
+            <label>Data e hora do Lançamento</label>
             <input type="datetime-local" id="lanc-data"/>
             <span class="f-hint">Aparece no cronômetro em todo o site — card hero e seção lançamento</span>
           </div>
           <div class="g2">
             <div class="f">
               <label>Título</label>
-              <input type="text" id="lanc-titulo" placeholder="BAIRRO MARARU"/>
+              <input type="text" id="lanc-titulo" placeholder="BAIRRO MARARU" oninput="atualizarLiveLancamento()"/>
             </div>
             <div class="f">
               <label>Subtítulo / Badge</label>
-              <input type="text" id="lanc-subtitulo" placeholder="Novo Lançamento"/>
+              <input type="text" id="lanc-subtitulo" placeholder="Novo Lançamento" oninput="atualizarLiveLancamento()"/>
             </div>
           </div>
           <div class="f">
             <label>Descrição</label>
-            <textarea id="lanc-desc" placeholder="Terrenos residenciais, comerciais..."></textarea>
+            <textarea id="lanc-desc" placeholder="Terrenos residenciais, comerciais..." oninput="atualizarLiveLancamento()"></textarea>
           </div>
           <div class="f">
             <label>Link da página</label>
@@ -532,7 +533,7 @@ function salvarTokenModal(){
           </div>
           <div class="f">
             <label>Botão Pré-Reserva</label>
-            <select id="lanc-prereserva">
+            <select id="lanc-prereserva" onchange="atualizarLiveLancamento()">
               <option value="true">✅ Mostrar botão "Garantir Minha Pré-Reserva"</option>
               <option value="false">❌ Ocultar botão de pré-reserva</option>
             </select>
@@ -1181,31 +1182,47 @@ function salvarTokenModal(){
       <!-- ══════ PÁGINA: HERO ══════ -->
       <div class="page" id="page-hero">
         <div class="page-header">
-          <div class="page-title">Hero — Início</div>
-          <div class="page-sub">Textos da seção principal (primeiro bloco do site)</div>
+          <div>
+            <div class="page-title">🌅 Hero — Início do Site</div>
+            <div class="page-sub">Textos principais e identidade da primeira seção que o cliente vê</div>
+          </div>
         </div>
+
+        <!-- PRÉVIA AO VIVO HERO -->
+        <div class="live-preview-box">
+          <div class="live-preview-title">
+            <span>👁️ Prévia ao Vivo — Como fica no Site</span>
+            <span class="live-preview-badge">LIVE PREVIEW</span>
+          </div>
+          <div style="background:#0D1A0D;border:1px solid rgba(201,168,76,0.3);border-radius:12px;padding:24px;text-align:center;position:relative;overflow:hidden">
+            <div id="live-h-badge" style="display:inline-block;border:1px solid rgba(201,168,76,0.4);background:rgba(201,168,76,0.1);color:var(--gold);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:12px">CORRETOR DE IMÓVEIS</div>
+            <h2 id="live-h-titulo" style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#F2EDE4;line-height:1.2;margin-bottom:10px">Realize seu <em style="color:var(--gold);font-style:italic">Sonho Imobiliário</em></h2>
+            <p id="live-h-subtitulo" style="font-size:13px;color:rgba(242,237,228,0.7);max-width:500px;margin:0 auto 14px;line-height:1.6">Especialista em loteamentos e terrenos em Santarém...</p>
+            <div id="live-h-assinatura" style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gold);font-size:13px">"tudo justo e perfeito…"</div>
+          </div>
+        </div>
+
         <div class="card">
-          <div class="card-title"><span>🌅</span> Textos do Hero</div>
+          <div class="card-title"><span>✏️</span> Editar Conteúdo</div>
           <div class="f">
             <label>Badge (etiqueta dourada acima do título)</label>
-            <input type="text" id="h-badge" placeholder="Corretor de Imóveis · Santarém PA"/>
+            <input type="text" id="h-badge" placeholder="Corretor de Imóveis · Santarém PA" oninput="atualizarLiveHero()"/>
           </div>
           <div class="f">
             <label>Título principal (use \n para quebrar linha)</label>
-            <textarea id="h-titulo" rows="3" placeholder="Realize seu\nSonho Imobiliário"></textarea>
-            <span class="f-hint">Use \n para quebrar linha. HTML &lt;em&gt; aceito para itálico dourado.</span>
+            <textarea id="h-titulo" rows="3" placeholder="Realize seu\nSonho Imobiliário" oninput="atualizarLiveHero()"></textarea>
+            <span class="f-hint">Dica: use &lt;em&gt;texto&lt;/em&gt; para deixar dourado e em itálico elegante.</span>
           </div>
           <div class="f">
             <label>Subtítulo / descrição</label>
-            <textarea id="h-subtitulo" rows="3" placeholder="Especialista em loteamentos e terrenos em Santarém..."></textarea>
+            <textarea id="h-subtitulo" rows="3" placeholder="Especialista em loteamentos e terrenos em Santarém..." oninput="atualizarLiveHero()"></textarea>
           </div>
           <div class="f">
             <label>Assinatura (frase em itálico no hero)</label>
-            <input type="text" id="h-assinatura" placeholder="Tudo justo e perfeito…"/>
-            <span class="f-hint">Aparece também no final da seção CTA</span>
+            <input type="text" id="h-assinatura" placeholder="Tudo justo e perfeito…" oninput="atualizarLiveHero()"/>
           </div>
           <div class="btn-row">
-            <button class="btn-save" onclick="salvarHero()">💾 Salvar hero</button>
+            <button class="btn-save" onclick="salvarHero()">💾 Salvar e Publicar Hero</button>
           </div>
         </div>
       </div>
@@ -1213,14 +1230,26 @@ function salvarTokenModal(){
       <!-- ══════ PÁGINA: NÚMEROS / STATS ══════ -->
       <div class="page" id="page-stats">
         <div class="page-header">
-          <div class="page-title">Números & Estatísticas</div>
-          <div class="page-sub">Contadores exibidos na seção de destaque do hero</div>
+          <div>
+            <div class="page-title">📊 Números & Estatísticas</div>
+            <div class="page-sub">Contadores em destaque exibidos no início do site</div>
+          </div>
         </div>
+
+        <!-- PRÉVIA AO VIVO STATS -->
+        <div class="live-preview-box">
+          <div class="live-preview-title">
+            <span>👁️ Prévia ao Vivo — Grid de Números</span>
+            <span class="live-preview-badge">LIVE PREVIEW</span>
+          </div>
+          <div id="live-stats-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px"></div>
+        </div>
+
         <div class="card">
-          <div class="card-title"><span>📊</span> 4 contadores</div>
+          <div class="card-title"><span>📊</span> Editar Contadores</div>
           <div id="stats-editor"></div>
           <div class="btn-row" style="margin-top:16px">
-            <button class="btn-save" onclick="salvarStats()">💾 Salvar números</button>
+            <button class="btn-save" onclick="salvarStats()">💾 Salvar e Publicar Números</button>
           </div>
         </div>
       </div>
@@ -1228,14 +1257,26 @@ function salvarTokenModal(){
       <!-- ══════ PÁGINA: BENEFÍCIOS ══════ -->
       <div class="page" id="page-beneficios">
         <div class="page-header">
-          <div class="page-title">Benefícios</div>
-          <div class="page-sub">Cards de benefícios exibidos abaixo do hero</div>
+          <div>
+            <div class="page-title">✅ Benefícios</div>
+            <div class="page-sub">Diferenciais e vantagens exibidos logo abaixo do hero</div>
+          </div>
         </div>
+
+        <!-- PRÉVIA AO VIVO BENEFÍCIOS -->
+        <div class="live-preview-box">
+          <div class="live-preview-title">
+            <span>👁️ Prévia ao Vivo — Cards de Benefícios</span>
+            <span class="live-preview-badge">LIVE PREVIEW</span>
+          </div>
+          <div id="live-ben-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px"></div>
+        </div>
+
         <div class="card">
-          <div class="card-title"><span>✅</span> Cards de benefícios</div>
+          <div class="card-title"><span>✅</span> Editar Cards de Benefícios</div>
           <div id="ben-editor"></div>
           <div class="btn-row" style="margin-top:16px">
-            <button class="btn-save" onclick="salvarBeneficios()">💾 Salvar benefícios</button>
+            <button class="btn-save" onclick="salvarBeneficios()">💾 Salvar e Publicar Benefícios</button>
           </div>
         </div>
       </div>
@@ -1243,8 +1284,10 @@ function salvarTokenModal(){
       <!-- ══════ PÁGINA: DEPOIMENTOS ══════ -->
       <div class="page" id="page-depoimentos">
         <div class="page-header">
-          <div class="page-title">Depoimentos</div>
-          <div class="page-sub">Avaliações de clientes exibidas no site</div>
+          <div>
+            <div class="page-title">💬 Depoimentos</div>
+            <div class="page-sub">Avaliações e depoimentos reais de clientes</div>
+          </div>
         </div>
         <div class="card">
           <div class="card-title"><span>💬</span> Depoimentos de clientes</div>
@@ -1259,21 +1302,37 @@ function salvarTokenModal(){
       <!-- ══════ PÁGINA: CTA ══════ -->
       <div class="page" id="page-cta">
         <div class="page-header">
-          <div class="page-title">CTA — Chamada Final</div>
-          <div class="page-sub">Seção de chamada para ação antes do rodapé</div>
+          <div>
+            <div class="page-title">📢 CTA — Chamada Final</div>
+            <div class="page-sub">Seção de chamada para ação antes do rodapé</div>
+          </div>
         </div>
+
+        <!-- PRÉVIA AO VIVO CTA -->
+        <div class="live-preview-box">
+          <div class="live-preview-title">
+            <span>👁️ Prévia ao Vivo — Chamada de Ação Final</span>
+            <span class="live-preview-badge">LIVE PREVIEW</span>
+          </div>
+          <div style="background:#132213;border:1px solid rgba(201,168,76,0.3);border-radius:12px;padding:24px;text-align:center">
+            <h3 id="live-cta-titulo" style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#F2EDE4;margin-bottom:8px">Vamos encontrar o empreendimento <em style="color:var(--gold)">ideal para você</em></h3>
+            <p id="live-cta-desc" style="font-size:12px;color:rgba(242,237,228,0.7);max-width:440px;margin:0 auto 14px;line-height:1.5">Atendimento personalizado, transparência total...</p>
+            <span style="display:inline-block;background:linear-gradient(135deg,#C9A84C,#DFBE6A);color:#0D1A0D;font-size:12px;font-weight:700;padding:8px 18px;border-radius:8px">Falar com Rafael no WhatsApp</span>
+          </div>
+        </div>
+
         <div class="card">
           <div class="card-title"><span>📢</span> Textos do CTA</div>
           <div class="f">
             <label>Título (HTML aceito para &lt;em&gt; itálico dourado)</label>
-            <textarea id="cta-titulo-inp" rows="3" placeholder="Vamos encontrar o empreendimento &lt;em&gt;ideal para você&lt;/em&gt;"></textarea>
+            <textarea id="cta-titulo-inp" rows="3" placeholder="Vamos encontrar o empreendimento &lt;em&gt;ideal para você&lt;/em&gt;" oninput="atualizarLiveCTA()"></textarea>
           </div>
           <div class="f">
             <label>Descrição / subtítulo</label>
-            <textarea id="cta-desc-inp" rows="3" placeholder="Atendimento personalizado, transparência total..."></textarea>
+            <textarea id="cta-desc-inp" rows="3" placeholder="Atendimento personalizado, transparência total..." oninput="atualizarLiveCTA()"></textarea>
           </div>
           <div class="btn-row">
-            <button class="btn-save" onclick="salvarCTA()">💾 Salvar CTA</button>
+            <button class="btn-save" onclick="salvarCTA()">💾 Salvar e Publicar CTA</button>
           </div>
         </div>
       </div>
@@ -1940,6 +1999,22 @@ async function salvarVIP(){
 }
 
 // ── HERO ──
+function atualizarLiveHero(){
+  var badge = (document.getElementById('h-badge')||{}).value || 'CORRETOR DE IMÓVEIS';
+  var titulo = (document.getElementById('h-titulo')||{}).value || 'Realize seu <em>Sonho Imobiliário</em>';
+  var subtitulo = (document.getElementById('h-subtitulo')||{}).value || 'Especialista em loteamentos e terrenos em Santarém...';
+  var assinatura = (document.getElementById('h-assinatura')||{}).value || 'tudo justo e perfeito…';
+
+  var lb = document.getElementById('live-h-badge');
+  if(lb) lb.textContent = badge;
+  var lt = document.getElementById('live-h-titulo');
+  if(lt) lt.innerHTML = titulo.replace(/\n/g, '<br>');
+  var ls = document.getElementById('live-h-subtitulo');
+  if(ls) ls.innerHTML = subtitulo.replace(/\n/g, '<br>');
+  var la = document.getElementById('live-h-assinatura');
+  if(la) la.textContent = '"' + assinatura + '"';
+}
+
 async function carregarHero(){
   var d = await loadSiteData();
   if(!d) return;
@@ -1949,6 +2024,7 @@ async function carregarHero(){
   el = document.getElementById('h-titulo');    if(el) el.value = h.titulo||'';
   el = document.getElementById('h-subtitulo'); if(el) el.value = h.subtitulo||'';
   el = document.getElementById('h-assinatura');if(el) el.value = (d.textos&&d.textos.assinatura)||'';
+  atualizarLiveHero();
 }
 async function salvarHero(){
   var btn=event.target; btn.textContent='⏳ Salvando...'; btn.disabled=true;
@@ -1960,12 +2036,25 @@ async function salvarHero(){
   d.textos = d.textos || {};
   d.textos.assinatura = (document.getElementById('h-assinatura')||{}).value||'';
   var ok = await saveSiteData(d);
-  btn.textContent='💾 Salvar hero'; btn.disabled=false;
-  if(ok) toast('✅ Hero salvo!','ok');
+  btn.textContent='💾 Salvar e Publicar Hero'; btn.disabled=false;
+  if(ok) toast('✅ Hero salvo e publicado!','ok');
 }
 
 // ── STATS ──
 var _statsData = [];
+function atualizarLiveStats(){
+  var grid = document.getElementById('live-stats-grid');
+  if(!grid) return;
+  grid.innerHTML = _statsData.map(function(s,i){
+    var num = (document.getElementById('st-num-'+i)||{}).value || s.numero;
+    var lbl = (document.getElementById('st-lbl-'+i)||{}).value || s.label;
+    return '<div style="background:#132213;border:1px solid rgba(201,168,76,0.3);border-radius:10px;padding:14px;text-align:center">'
+      +'<div style="font-family:\'Cormorant Garamond\',serif;font-size:24px;font-weight:700;color:var(--gold);margin-bottom:2px">'+num+'</div>'
+      +'<div style="font-size:11px;color:rgba(242,237,228,0.7)">'+lbl+'</div>'
+      +'</div>';
+  }).join('');
+}
+
 async function carregarStats(){
   var d = await loadSiteData();
   _statsData = (d && d.stats) ? JSON.parse(JSON.stringify(d.stats)) : [
@@ -1975,6 +2064,7 @@ async function carregarStats(){
     {numero:'98%',label:'Satisfação dos Clientes'}
   ];
   renderStatsEditor();
+  atualizarLiveStats();
 }
 function renderStatsEditor(){
   var c = document.getElementById('stats-editor');
@@ -1983,8 +2073,8 @@ function renderStatsEditor(){
     return '<div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px">'
       +'<div style="font-size:10px;letter-spacing:1px;color:var(--text3);text-transform:uppercase;margin-bottom:10px">Contador '+(i+1)+'</div>'
       +'<div class="g2">'
-      +'<div class="f"><label>Número</label><input type="text" id="st-num-'+i+'" value="'+s.numero+'" placeholder="150+"/></div>'
-      +'<div class="f"><label>Label</label><input type="text" id="st-lbl-'+i+'" value="'+s.label+'" placeholder="Famílias Atendidas"/></div>'
+      +'<div class="f"><label>Número</label><input type="text" id="st-num-'+i+'" value="'+s.numero+'" placeholder="150+" oninput="atualizarLiveStats()"/></div>'
+      +'<div class="f"><label>Label</label><input type="text" id="st-lbl-'+i+'" value="'+s.label+'" placeholder="Famílias Atendidas" oninput="atualizarLiveStats()"/></div>'
       +'</div></div>';
   }).join('');
 }
@@ -1998,16 +2088,32 @@ async function salvarStats(){
     };
   });
   var ok = await saveSiteData(d);
-  btn.textContent='💾 Salvar números'; btn.disabled=false;
-  if(ok) toast('✅ Números salvos!','ok');
+  btn.textContent='💾 Salvar e Publicar Números'; btn.disabled=false;
+  if(ok) toast('✅ Números salvos e publicados!','ok');
 }
 
 // ── BENEFÍCIOS ──
 var _bensData = [];
+function atualizarLiveBeneficios(){
+  var grid = document.getElementById('live-ben-grid');
+  if(!grid) return;
+  grid.innerHTML = _bensData.map(function(b,i){
+    var ico = (document.getElementById('ben-ico-'+i)||{}).value || b.icone;
+    var tit = (document.getElementById('ben-tit-'+i)||{}).value || b.titulo;
+    var dsc = (document.getElementById('ben-desc-'+i)||{}).value || b.desc;
+    return '<div style="background:#132213;border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:16px;text-align:left">'
+      +'<div style="font-size:24px;margin-bottom:8px">'+ico+'</div>'
+      +'<div style="font-size:14px;font-weight:700;color:#F2EDE4;margin-bottom:4px">'+tit+'</div>'
+      +'<div style="font-size:12px;color:rgba(242,237,228,0.7);line-height:1.4">'+dsc+'</div>'
+      +'</div>';
+  }).join('');
+}
+
 async function carregarBeneficios(){
   var d = await loadSiteData();
   _bensData = (d && d.beneficios) ? JSON.parse(JSON.stringify(d.beneficios)) : [];
   renderBenEditor();
+  atualizarLiveBeneficios();
 }
 function renderBenEditor(){
   var c = document.getElementById('ben-editor');
@@ -2016,10 +2122,10 @@ function renderBenEditor(){
     return '<div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px">'
       +'<div style="font-size:10px;letter-spacing:1px;color:var(--text3);text-transform:uppercase;margin-bottom:10px">Card '+(i+1)+'</div>'
       +'<div class="g2">'
-      +'<div class="f"><label>Ícone (emoji)</label><input type="text" id="ben-ico-'+i+'" value="'+b.icone+'" placeholder="🏡"/></div>'
-      +'<div class="f"><label>Título</label><input type="text" id="ben-tit-'+i+'" value="'+b.titulo+'" placeholder="Título"/></div>'
+      +'<div class="f"><label>Ícone (emoji)</label><input type="text" id="ben-ico-'+i+'" value="'+b.icone+'" placeholder="🏡" oninput="atualizarLiveBeneficios()"/></div>'
+      +'<div class="f"><label>Título</label><input type="text" id="ben-tit-'+i+'" value="'+b.titulo+'" placeholder="Título" oninput="atualizarLiveBeneficios()"/></div>'
       +'</div>'
-      +'<div class="f"><label>Descrição</label><textarea id="ben-desc-'+i+'" rows="2">'+b.desc+'</textarea></div>'
+      +'<div class="f"><label>Descrição</label><textarea id="ben-desc-'+i+'" rows="2" oninput="atualizarLiveBeneficios()">'+b.desc+'</textarea></div>'
       +'</div>';
   }).join('');
 }
@@ -2034,8 +2140,8 @@ async function salvarBeneficios(){
     };
   });
   var ok = await saveSiteData(d);
-  btn.textContent='💾 Salvar benefícios'; btn.disabled=false;
-  if(ok) toast('✅ Benefícios salvos!','ok');
+  btn.textContent='💾 Salvar e Publicar Benefícios'; btn.disabled=false;
+  if(ok) toast('✅ Benefícios salvos e publicados!','ok');
 }
 
 // ── DEPOIMENTOS ──
@@ -2087,6 +2193,15 @@ async function salvarDep(){
 }
 
 // ── CTA ──
+function atualizarLiveCTA(){
+  var tit = (document.getElementById('cta-titulo-inp')||{}).value || 'Vamos encontrar o empreendimento <em>ideal para você</em>';
+  var dsc = (document.getElementById('cta-desc-inp')||{}).value || 'Atendimento personalizado, transparência total...';
+  var lt = document.getElementById('live-cta-titulo');
+  if(lt) lt.innerHTML = tit;
+  var ld = document.getElementById('live-cta-desc');
+  if(ld) ld.innerHTML = dsc;
+}
+
 async function carregarCTA(){
   var d = await loadSiteData();
   if(!d) return;
@@ -2094,6 +2209,7 @@ async function carregarCTA(){
   var el;
   el = document.getElementById('cta-titulo-inp'); if(el) el.value = ct.titulo||'';
   el = document.getElementById('cta-desc-inp');   if(el) el.value = ct.desc||'';
+  atualizarLiveCTA();
 }
 async function salvarCTA(){
   var btn=event.target; btn.textContent='⏳ Salvando...'; btn.disabled=true;
@@ -2103,8 +2219,8 @@ async function salvarCTA(){
     desc:   (document.getElementById('cta-desc-inp')||{}).value||''
   };
   var ok = await saveSiteData(d);
-  btn.textContent='💾 Salvar CTA'; btn.disabled=false;
-  if(ok) toast('✅ CTA salvo!','ok');
+  btn.textContent='💾 Salvar e Publicar CTA'; btn.disabled=false;
+  if(ok) toast('✅ CTA salvo e publicado!','ok');
 }
 
 // Registrar aba imoveis no goPage
@@ -2292,6 +2408,31 @@ async function removerFotoEmp(emp,idx){
   renderGaleriaEmpPreview(emp,d[emp].galeria);
 }
 
+function atualizarLiveLancamento(){
+  var titulo = (document.getElementById('lanc-titulo')||{}).value || 'BAIRRO MARARU';
+  var subtitulo = (document.getElementById('lanc-subtitulo')||{}).value || 'NOVO LANÇAMENTO';
+  var desc = (document.getElementById('lanc-desc')||{}).value || 'Terrenos residenciais, comerciais...';
+  var prereserva = (document.getElementById('lanc-prereserva')||{}).value !== 'false';
+  var fp = (document.getElementById('mararu-foto-principal')||{}).value || '';
+
+  var lt = document.getElementById('live-lanc-titulo');
+  if(lt) lt.textContent = titulo;
+  var lb = document.getElementById('live-lanc-badge');
+  if(lb) lb.textContent = subtitulo;
+  var ld = document.getElementById('live-lanc-desc');
+  if(ld) ld.textContent = desc;
+  var lr = document.getElementById('live-lanc-btn-reserva');
+  if(lr) lr.style.display = prereserva ? 'inline-block' : 'none';
+  var li = document.getElementById('live-lanc-img');
+  if(li){
+    if(fp){
+      li.innerHTML = '<img src="'+fp+'" style="width:100%;height:100%;object-fit:cover">';
+    } else {
+      li.innerHTML = '🏡';
+    }
+  }
+}
+
 async function carregarLancamento(){
   var d=await loadSiteData()||{};
   var l=d.lancamento||{};
@@ -2317,6 +2458,7 @@ async function carregarLancamento(){
     document.getElementById('mararu-foto-principal').value=fp;
     prevMararuFoto();
   }
+  atualizarLiveLancamento();
 }
 
 async function salvarLancamento(){
