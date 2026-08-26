@@ -1,0 +1,6 @@
+{
+  "name": "Rafael Tavares Corretor",
+  "description": "Portal imobiliário e lançamentos de terrenos e imóveis em Santarém e região.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
