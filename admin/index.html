@@ -324,11 +324,18 @@ function salvarTokenModal(){
         <button class="sitem" onclick="goPage('beneficios',this)"><span class="icon">✅</span><span>Benefícios</span></button>
         <button class="sitem" onclick="goPage('depoimentos',this)"><span class="icon">💬</span><span>Depoimentos</span></button>
         <button class="sitem" onclick="goPage('cta',this)"><span class="icon">📢</span><span>CTA</span></button>
-        <div class="sidebar-title">🏘️ Imóveis</div>
-        <button class="sitem" onclick="goPage('regioes',this)"><span class="icon">🗺️</span><span>Regiões</span></button>
+        <div class="sidebar-title">🏘️ Empreendimentos</div>
         <button class="sitem" onclick="goPage('lancamento',this)"><span class="icon">🔥</span><span>Mararu</span></button>
+        <button class="sitem" onclick="goPage('santa-maria',this)"><span class="icon">🌿</span><span>Santa Maria</span></button>
+        <button class="sitem" onclick="goPage('pajuca',this)"><span class="icon">🌤️</span><span>Pajuçara / Céu Azul</span></button>
+        <button class="sitem" onclick="goPage('sao-braz',this)"><span class="icon">🏘️</span><span>São Braz</span></button>
+        <button class="sitem" onclick="goPage('cucuruna',this)"><span class="icon">🌴</span><span>Cucurunã</span></button>
+        <button class="sitem" onclick="goPage('espirito-santo',this)"><span class="icon">🌅</span><span>Espírito Santo</span></button>
         <button class="sitem" onclick="goPage('alenquer',this)"><span class="icon">🏙️</span><span>Alenquer</span></button>
-        <button class="sitem" onclick="goPage('monte-alegre',this)"><span class="icon">🌿</span><span>Monte Alegre</span></button>
+        <button class="sitem" onclick="goPage('monte-alegre',this)"><span class="icon">🌾</span><span>Monte Alegre</span></button>
+        <button class="sitem" onclick="goPage('imoveis',this)"><span class="icon">📍</span><span>Todos os Pinos/Empr.</span></button>
+        <div class="sidebar-title">🗺️ Regiões & Mapa</div>
+        <button class="sitem" onclick="goPage('regioes',this)"><span class="icon">🗺️</span><span>Regiões</span></button>
         <div class="sidebar-title">📱 Marketing</div>
         <button class="sitem" onclick="goPage('redes',this)"><span class="icon">📱</span><span>Redes Sociais</span></button>
         <button class="sitem" onclick="goPage('vip',this)"><span class="icon">💬</span><span>Grupo VIP</span></button>
@@ -622,6 +629,131 @@ function salvarTokenModal(){
       </div>
 
       <!-- REGIÕES -->
+      <!-- ABA SANTA MARIA -->
+      <div class="page" id="page-santa-maria">
+        <div class="page-header">
+          <div class="page-title">🌿 Santa Maria</div>
+          <div class="page-sub">Gerencie fotos, lotes e informações do loteamento em Santa Maria</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>🖼️</span> Galeria de Fotos e Vídeos</div>
+          <p style="font-size:12px;color:var(--text3);margin-bottom:12px">Fotos e vídeos do loteamento e das obras em Santa Maria.</p>
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+            <label class="btn-upload" style="cursor:pointer">
+              📁 Adicionar Fotos/Vídeos
+              <input type="file" accept="image/*,video/mp4,video/webm,video/quicktime" multiple style="display:none" onchange="uploadGaleriaEmp('santa-maria',this.files)">
+            </label>
+            <span id="gal-santa-maria-prog" style="display:none;font-size:12px;color:var(--gold)">⏳ Enviando...</span>
+          </div>
+          <div id="gal-santa-maria-preview" style="margin-top:14px;display:flex;flex-wrap:wrap;gap:8px"></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>⚙️</span> Condições e Preços</div>
+          <div class="f"><label>Descrição das Condições / Preços</label><textarea id="santa-maria-preco" rows="3" placeholder="A partir de R$500 entrada + 50x R$300 · Lote principal R$2.000 entrada + 100x R$400"></textarea></div>
+          <div class="f" style="margin-top:10px"><label>Mensagem padrão de WhatsApp</label><input type="text" id="santa-maria-wpp-msg" placeholder="Olá Rafael! Tenho interesse no loteamento Santa Maria."></div>
+          <button class="btn-save" onclick="salvarConfigCustomEmp('santa-maria')" style="margin-top:14px">💾 Salvar Santa Maria</button>
+        </div>
+      </div>
+
+      <!-- ABA PAJUÇARA / CÉU AZUL -->
+      <div class="page" id="page-pajuca">
+        <div class="page-header">
+          <div class="page-title">🌤️ Pajuçara / Céu Azul 1</div>
+          <div class="page-sub">Gerencie fotos e detalhes do loteamento em Pajuçara</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>🖼️</span> Galeria de Fotos e Vídeos</div>
+          <p style="font-size:12px;color:var(--text3);margin-bottom:12px">Fotos e vídeos do loteamento Céu Azul 1 / Pajuçara.</p>
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+            <label class="btn-upload" style="cursor:pointer">
+              📁 Adicionar Fotos/Vídeos
+              <input type="file" accept="image/*,video/mp4,video/webm,video/quicktime" multiple style="display:none" onchange="uploadGaleriaEmp('pajuca',this.files)">
+            </label>
+            <span id="gal-pajuca-prog" style="display:none;font-size:12px;color:var(--gold)">⏳ Enviando...</span>
+          </div>
+          <div id="gal-pajuca-preview" style="margin-top:14px;display:flex;flex-wrap:wrap;gap:8px"></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>⚙️</span> Condições e Preços</div>
+          <div class="f"><label>Descrição / Condições</label><textarea id="pajuca-desc" rows="3" placeholder="Loteamento no bairro Pajuçara com terrenos prontos para construir."></textarea></div>
+          <div class="f" style="margin-top:10px"><label>Mensagem padrão de WhatsApp</label><input type="text" id="pajuca-wpp-msg" placeholder="Olá Rafael! Tenho interesse no Céu Azul 1."></div>
+          <button class="btn-save" onclick="salvarConfigCustomEmp('pajuca')" style="margin-top:14px">💾 Salvar Pajuçara</button>
+        </div>
+      </div>
+
+      <!-- ABA SÃO BRAZ -->
+      <div class="page" id="page-sao-braz">
+        <div class="page-header">
+          <div class="page-title">🏘️ São Braz</div>
+          <div class="page-sub">Gerencie fotos e dados do empreendimento São Braz</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>🖼️</span> Galeria de Fotos e Vídeos</div>
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+            <label class="btn-upload" style="cursor:pointer">
+              📁 Adicionar Fotos/Vídeos
+              <input type="file" accept="image/*,video/mp4,video/webm,video/quicktime" multiple style="display:none" onchange="uploadGaleriaEmp('sao-braz',this.files)">
+            </label>
+            <span id="gal-sao-braz-prog" style="display:none;font-size:12px;color:var(--gold)">⏳ Enviando...</span>
+          </div>
+          <div id="gal-sao-braz-preview" style="margin-top:14px;display:flex;flex-wrap:wrap;gap:8px"></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>⚙️</span> Condições e Preços</div>
+          <div class="f"><label>Descrição / Condições</label><textarea id="sao-braz-desc" rows="3" placeholder="Empreendimento no bairro São Braz com terrenos regularizados."></textarea></div>
+          <div class="f" style="margin-top:10px"><label>Mensagem padrão de WhatsApp</label><input type="text" id="sao-braz-wpp-msg" placeholder="Olá Rafael! Tenho interesse no São Braz."></div>
+          <button class="btn-save" onclick="salvarConfigCustomEmp('sao-braz')" style="margin-top:14px">💾 Salvar São Braz</button>
+        </div>
+      </div>
+
+      <!-- ABA CUCURUNÃ -->
+      <div class="page" id="page-cucuruna">
+        <div class="page-header">
+          <div class="page-title">🌴 Cucurunã</div>
+          <div class="page-sub">Gerencie fotos e detalhes de Cucurunã</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>🖼️</span> Galeria de Fotos e Vídeos</div>
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+            <label class="btn-upload" style="cursor:pointer">
+              📁 Adicionar Fotos/Vídeos
+              <input type="file" accept="image/*,video/mp4,video/webm,video/quicktime" multiple style="display:none" onchange="uploadGaleriaEmp('cucuruna',this.files)">
+            </label>
+            <span id="gal-cucuruna-prog" style="display:none;font-size:12px;color:var(--gold)">⏳ Enviando...</span>
+          </div>
+          <div id="gal-cucuruna-preview" style="margin-top:14px;display:flex;flex-wrap:wrap;gap:8px"></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>⚙️</span> Informações</div>
+          <div class="f"><label>Descrição / Condições</label><textarea id="cucuruna-desc" rows="3" placeholder="Região em expansão estratégica com alto potencial de valorização."></textarea></div>
+          <button class="btn-save" onclick="salvarConfigCustomEmp('cucuruna')" style="margin-top:14px">💾 Salvar Cucurunã</button>
+        </div>
+      </div>
+
+      <!-- ABA ESPÍRITO SANTO -->
+      <div class="page" id="page-espirito-santo">
+        <div class="page-header">
+          <div class="page-title">🌅 Espírito Santo</div>
+          <div class="page-sub">Gerencie fotos e detalhes de Espírito Santo</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>🖼️</span> Galeria de Fotos e Vídeos</div>
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+            <label class="btn-upload" style="cursor:pointer">
+              📁 Adicionar Fotos/Vídeos
+              <input type="file" accept="image/*,video/mp4,video/webm,video/quicktime" multiple style="display:none" onchange="uploadGaleriaEmp('espirito-santo',this.files)">
+            </label>
+            <span id="gal-espirito-santo-prog" style="display:none;font-size:12px;color:var(--gold)">⏳ Enviando...</span>
+          </div>
+          <div id="gal-espirito-santo-preview" style="margin-top:14px;display:flex;flex-wrap:wrap;gap:8px"></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>⚙️</span> Informações</div>
+          <div class="f"><label>Descrição / Condições</label><textarea id="espirito-santo-desc" rows="3" placeholder="Região à beira do Tapajós com paisagens únicas."></textarea></div>
+          <button class="btn-save" onclick="salvarConfigCustomEmp('espirito-santo')" style="margin-top:14px">💾 Salvar Espírito Santo</button>
+        </div>
+      </div>
+
       <!-- ABA ALENQUER -->
       <div class="page" id="page-alenquer">
         <div class="page-header">
@@ -1265,8 +1397,14 @@ function goPage(id,el){
   if(id==='menu'){carregarMenuSecoes();}
   if(id==='regioes'){carregarRegioes();}
   if(id==='lancamento'){carregarLancamento();}
+  if(id==='santa-maria'&&typeof carregarConfigCustomEmp==='function'){carregarConfigCustomEmp('santa-maria');}
+  if(id==='pajuca'&&typeof carregarConfigCustomEmp==='function'){carregarConfigCustomEmp('pajuca');}
+  if(id==='sao-braz'&&typeof carregarConfigCustomEmp==='function'){carregarConfigCustomEmp('sao-braz');}
+  if(id==='cucuruna'&&typeof carregarConfigCustomEmp==='function'){carregarConfigCustomEmp('cucuruna');}
+  if(id==='espirito-santo'&&typeof carregarConfigCustomEmp==='function'){carregarConfigCustomEmp('espirito-santo');}
   if(id==='alenquer'&&typeof carregarConfigEmp==='function'){carregarConfigEmp('alenquer');}
   if(id==='monte-alegre'&&typeof carregarConfigEmp==='function'){carregarConfigEmp('monte-alegre');}
+  if(id==='imoveis'){renderEmpr();renderPinosAdmin();}
 }
 
 // ── CARREGAR ──
@@ -2100,6 +2238,31 @@ function renderGaleriaEmpPreview(emp,galeria){
   }).join('');
 }
 
+async function salvarConfigCustomEmp(emp){
+  var d=await loadSiteData()||{};
+  if(!d[emp])d[emp]={};
+  var precoEl=document.getElementById(emp+'-preco');
+  var descEl=document.getElementById(emp+'-desc');
+  var wppEl=document.getElementById(emp+'-wpp-msg');
+  if(precoEl)d[emp].preco=precoEl.value;
+  if(descEl)d[emp].desc=descEl.value;
+  if(wppEl)d[emp].wppMsg=wppEl.value;
+  await saveSiteData(d);
+  toast('✅ Salvo com sucesso!','ok');
+}
+
+async function carregarConfigCustomEmp(emp){
+  var d=await loadSiteData()||{};
+  var cfg=d[emp]||{};
+  var precoEl=document.getElementById(emp+'-preco');
+  var descEl=document.getElementById(emp+'-desc');
+  var wppEl=document.getElementById(emp+'-wpp-msg');
+  if(precoEl)precoEl.value=cfg.preco||'';
+  if(descEl)descEl.value=cfg.desc||'';
+  if(wppEl)wppEl.value=cfg.wppMsg||'';
+  renderGaleriaEmpPreview(emp,cfg.galeria||[]);
+}
+
 async function salvarConfigEmp(emp){
   var d=await loadSiteData()||{};
   if(!d[emp])d[emp]={};
@@ -2746,8 +2909,7 @@ document.addEventListener('DOMContentLoaded',function(){
     </div>
   </div>
   <nav style="padding:10px 10px;flex:1">
-    <div class="adm-nav-title">Configurações</div>
-    <div class="adm-nav-title">📊 Site</div>
+    <div class="adm-nav-title">📊 Início & Identidade</div>
     <button class="adm-si" onclick="goPageM('geral')"><span class="adm-ic">🏠</span>Geral</button>
     <button class="adm-si" onclick="goPageM('textos')"><span class="adm-ic">✏️</span>Textos</button>
     <button class="adm-si" onclick="goPageM('hero')"><span class="adm-ic">🌅</span>Hero</button>
@@ -2756,9 +2918,19 @@ document.addEventListener('DOMContentLoaded',function(){
     <button class="adm-si" onclick="goPageM('depoimentos')"><span class="adm-ic">💬</span>Depoimentos</button>
     <button class="adm-si" onclick="goPageM('cta')"><span class="adm-ic">📢</span>CTA</button>
     <div class="adm-nav-divider"></div>
-    <div class="adm-nav-title">🏘️ Imóveis</div>
-    <button class="adm-si" onclick="goPageM('regioes')"><span class="adm-ic">🗺️</span>Regiões</button>
+    <div class="adm-nav-title">🏘️ Empreendimentos</div>
     <button class="adm-si" onclick="goPageM('lancamento')"><span class="adm-ic">🔥</span>Mararu</button>
+    <button class="adm-si" onclick="goPageM('santa-maria')"><span class="adm-ic">🌿</span>Santa Maria</button>
+    <button class="adm-si" onclick="goPageM('pajuca')"><span class="adm-ic">🌤️</span>Pajuçara / Céu Azul</button>
+    <button class="adm-si" onclick="goPageM('sao-braz')"><span class="adm-ic">🏘️</span>São Braz</button>
+    <button class="adm-si" onclick="goPageM('cucuruna')"><span class="adm-ic">🌴</span>Cucurunã</button>
+    <button class="adm-si" onclick="goPageM('espirito-santo')"><span class="adm-ic">🌅</span>Espírito Santo</button>
+    <button class="adm-si" onclick="goPageM('alenquer')"><span class="adm-ic">🏙️</span>Alenquer</button>
+    <button class="adm-si" onclick="goPageM('monte-alegre')"><span class="adm-ic">🌾</span>Monte Alegre</button>
+    <button class="adm-si" onclick="goPageM('imoveis')"><span class="adm-ic">📍</span>Todos os Pinos/Empr.</button>
+    <div class="adm-nav-divider"></div>
+    <div class="adm-nav-title">🗺️ Regiões & Mapa</div>
+    <button class="adm-si" onclick="goPageM('regioes')"><span class="adm-ic">🗺️</span>Regiões</button>
     <div class="adm-nav-divider"></div>
     <div class="adm-nav-title">📱 Marketing</div>
     <button class="adm-si" onclick="goPageM('redes')"><span class="adm-ic">📱</span>Redes Sociais</button>

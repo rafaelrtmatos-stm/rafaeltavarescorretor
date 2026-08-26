@@ -792,7 +792,9 @@ section#hero{z-index:0;overflow:hidden!important}
       <svg style="position:absolute;left:16px;width:18px;height:18px;stroke:var(--gold);fill:none;stroke-width:2" viewBox="0 0 24 24">
         <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
       </svg>
-      <input type="text" id="busca-regioes" placeholder="Buscar empreendimento, bairro ou valor..." 
+      <input type="search" id="busca-regioes" name="busca_imoveis_search_field"
+        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+        placeholder="Buscar empreendimento, bairro ou valor..." 
         style="width:100%;padding:12px 16px 12px 46px;background:var(--bg2);border:1px solid var(--border);border-radius:100px;color:var(--text);font-size:13px;outline:none;transition:border-color .2s, box-shadow .2s;"
         oninput="filtrarRegioes(this.value)"
         onfocus="this.style.borderColor='var(--gold)';this.style.boxShadow='0 0 12px rgba(201,168,76,0.2)'"
@@ -866,28 +868,81 @@ section#hero{z-index:0;overflow:hidden!important}
 </style>
 
 <script>
-window.filtrarRegioes = function(termo){
-  var query = (termo || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+(function(){
   var track = document.getElementById('regioes-carrossel');
   if(!track) return;
-  var cards = track.querySelectorAll('.ecard');
-  var feedback = document.getElementById('busca-regioes-feedback');
-  var visiveis = 0;
 
-  cards.forEach(function(card){
-    var texto = (card.textContent || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    if(!query || texto.indexOf(query) !== -1){
-      card.style.display = 'block';
-      visiveis++;
-    } else {
-      card.style.display = 'none';
-    }
-  });
+  var direcao = 1; // 1 = avançando até o fim, -1 = voltando até o início
+  var paused = false, resumeTimeout;
+  var isVisible = true;
+  var estaFiltrando = false;
+  var speed = 0.55;
 
-  if(feedback){
-    feedback.style.display = (visiveis === 0) ? 'block' : 'none';
+  function pause(){ paused = true; clearTimeout(resumeTimeout); }
+  function agendarRetomada(){ clearTimeout(resumeTimeout); resumeTimeout = setTimeout(function(){ paused = false; }, 800); }
+
+  track.addEventListener('touchstart', pause, {passive:true});
+  track.addEventListener('mousedown', pause);
+  track.addEventListener('wheel', function(){ pause(); agendarRetomada(); }, {passive:true});
+  track.addEventListener('touchend', agendarRetomada, {passive:true});
+  window.addEventListener('mouseup', agendarRetomada);
+  track.addEventListener('mouseenter', pause);
+  track.addEventListener('mouseleave', agendarRetomada);
+
+  if('IntersectionObserver' in window){
+    var visObs = new IntersectionObserver(function(entries){
+      isVisible = entries[0].isIntersecting;
+      if(isVisible && !animating){
+        animating = true;
+        requestAnimationFrame(autoScroll);
+      }
+    }, {threshold: 0.05});
+    visObs.observe(track);
   }
-};
+
+  var animating = true;
+  function autoScroll(){
+    if(!paused && isVisible && !estaFiltrando){
+      var maxScroll = track.scrollWidth - track.clientWidth;
+      if(maxScroll > 10){
+        track.scrollLeft += (speed * direcao);
+        if(track.scrollLeft >= maxScroll - 1){
+          direcao = -1; // Chegou ao último -> volta
+        } else if(track.scrollLeft <= 0){
+          direcao = 1;  // Chegou ao primeiro -> avança
+        }
+      }
+    }
+    if(isVisible){
+      requestAnimationFrame(autoScroll);
+    } else {
+      animating = false;
+    }
+  }
+  requestAnimationFrame(autoScroll);
+
+  window.filtrarRegioes = function(termo){
+    var query = (termo || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+    estaFiltrando = (query.length > 0);
+    var cards = track.querySelectorAll('.ecard');
+    var feedback = document.getElementById('busca-regioes-feedback');
+    var visiveis = 0;
+
+    cards.forEach(function(card){
+      var texto = (card.textContent || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      if(!query || texto.indexOf(query) !== -1){
+        card.style.display = 'block';
+        visiveis++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    if(feedback){
+      feedback.style.display = (visiveis === 0) ? 'block' : 'none';
+    }
+  };
+})();
 </script>
 
 
