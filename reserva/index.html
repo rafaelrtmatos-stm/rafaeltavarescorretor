@@ -558,9 +558,12 @@ select.input option{background:#FFFFFF;color:#1A1710}
       <!-- Compradores extras injetados aqui -->
       <div id="compradores-extras"></div>
 
-      <button type="button" class="btn-add-comprador" onclick="adicionarComprador()">
-        + Adicionar outro comprador
-      </button>
+      <div style="margin-top:16px;padding:14px;background:rgba(201,168,76,0.06);border:1px dashed rgba(201,168,76,0.35);border-radius:12px;text-align:center;">
+        <p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;">Mais uma pessoa no contrato? <span style="font-weight:400;color:var(--text2);font-size:12px;">(Ex.: cônjuge, sócio, familiar)</span></p>
+        <button type="button" class="btn-add-comprador" onclick="adicionarComprador()" style="margin-top:0;">
+          + Adicionar mais uma pessoa no contrato
+        </button>
+      </div>
     </div>
 
     <!-- BOTÃO AVANÇAR ETAPA 1 -->
@@ -875,7 +878,7 @@ function adicionarComprador(){
   div.id = 'comprador-extra-'+n;
   div.innerHTML = `
     <div class="comprador-extra-label">
-      <span>Comprador ${n}</span>
+      <span>${n}ª Pessoa no Contrato (Comprador Adicional)</span>
       <button type="button" class="btn-remover-comprador" onclick="removerComprador(${n})">Remover</button>
     </div>
     <div style="display:flex;flex-direction:column;gap:14px">
@@ -1665,30 +1668,52 @@ function gerarResumoRevisao(){
   let nasc=document.getElementById('nascimento').value;
   if(nasc){const[y,m,d]=nasc.split('-');nasc=`${d}/${m}/${y}`;}
 
+  let nomes = [document.getElementById('nome').value.trim()].filter(Boolean);
+  let cpfs = [document.getElementById('cpf').value.trim()].filter(Boolean);
+  let rgs = [document.getElementById('rg').value.trim()].filter(Boolean);
+  let nascs = [nasc].filter(Boolean);
+  let contatos = [document.getElementById('contato1').value.trim()].filter(Boolean);
+
+  document.querySelectorAll('.comprador-extra').forEach(function(div){
+    const n=div.id.replace('comprador-extra-','');
+    const nomeX=document.getElementById('nome-'+n)?.value.trim();
+    if(nomeX){
+      nomes.push(nomeX);
+      const cpfX=document.getElementById('cpf-'+n)?.value.trim();
+      if(cpfX) cpfs.push(cpfX);
+      const rgX=document.getElementById('rg-'+n)?.value.trim();
+      if(rgX) rgs.push(rgX);
+      let nascX=document.getElementById('nasc-'+n)?.value;
+      if(nascX){const[y,m,d]=nascX.split('-');nascX=`${d}/${m}/${y}`; nascs.push(nascX);}
+      const telX=document.getElementById('tel1-'+n)?.value.trim();
+      if(telX) contatos.push(telX);
+    }
+  });
+
   const vencVal=document.getElementById('vencimento').value;
   let vencFmt='Não informado';
   if(vencVal){const[vy,vm,vd]=vencVal.split('-');vencFmt=vd+'/'+vm+'/'+vy;}
 
   const html = `
     <div class="resumo-item">
-      <span class="resumo-label">Comprador:</span>
-      <span class="resumo-val">${document.getElementById('nome').value || '—'}</span>
+      <span class="resumo-label">Comprador(es):</span>
+      <span class="resumo-val">${nomes.join(' / ') || '—'}</span>
     </div>
     <div class="resumo-item">
       <span class="resumo-label">CPF:</span>
-      <span class="resumo-val">${document.getElementById('cpf').value || '—'}</span>
+      <span class="resumo-val">${cpfs.join(' / ') || '—'}</span>
     </div>
     <div class="resumo-item">
       <span class="resumo-label">RG:</span>
-      <span class="resumo-val">${document.getElementById('rg').value || '—'}</span>
+      <span class="resumo-val">${rgs.join(' / ') || '—'}</span>
     </div>
     <div class="resumo-item">
       <span class="resumo-label">Nascimento:</span>
-      <span class="resumo-val">${nasc || '—'}</span>
+      <span class="resumo-val">${nascs.join(' / ') || '—'}</span>
     </div>
     <div class="resumo-item">
       <span class="resumo-label">WhatsApp:</span>
-      <span class="resumo-val">${document.getElementById('contato1').value || '—'}</span>
+      <span class="resumo-val">${contatos.join(' / ') || '—'}</span>
     </div>
     <div class="resumo-item">
       <span class="resumo-label">Endereço:</span>
@@ -1761,45 +1786,55 @@ function validarFormulario(){
 }
 
 function montarMensagemCadastro(){
-  // Formatar nascimento
+  // Formatar nascimento titular
   let nasc=document.getElementById('nascimento').value;
   if(nasc){const[y,m,d]=nasc.split('-');nasc=`${d}/${m}/${y}`;}
 
-  const c2=document.getElementById('contato2').value.trim();
+  let nomes = [document.getElementById('nome').value.trim()].filter(Boolean);
+  let cpfs = [document.getElementById('cpf').value.trim()].filter(Boolean);
+  let rgs = [document.getElementById('rg').value.trim()].filter(Boolean);
+  let nascs = [nasc].filter(Boolean);
+  let estadosCivis = [generizarEstadoCivil(document.getElementById('estado-civil').value, document.getElementById('genero').value)].filter(Boolean);
+  let contatos1 = [document.getElementById('contato1').value.trim()].filter(Boolean);
+  let contatos2 = [document.getElementById('contato2').value.trim()].filter(Boolean);
+
+  // Compradores extras
+  document.querySelectorAll('.comprador-extra').forEach(function(div){
+    const n=div.id.replace('comprador-extra-','');
+    const nomeX=document.getElementById('nome-'+n)?.value.trim();
+    if(nomeX){
+      nomes.push(nomeX);
+      const cpfX=document.getElementById('cpf-'+n)?.value.trim();
+      if(cpfX) cpfs.push(cpfX);
+      const rgX=document.getElementById('rg-'+n)?.value.trim();
+      if(rgX) rgs.push(rgX);
+      let nascX=document.getElementById('nasc-'+n)?.value;
+      if(nascX){const[y,m,d]=nascX.split('-');nascX=`${d}/${m}/${y}`; nascs.push(nascX);}
+      const ecX=document.getElementById('ec-'+n)?.value||'';
+      if(ecX) estadosCivis.push(generizarEstadoCivil(ecX, document.getElementById('genero-'+n)?.value||''));
+      const tel1X=document.getElementById('tel1-'+n)?.value.trim();
+      if(tel1X) contatos1.push(tel1X);
+      const tel2X=document.getElementById('tel2-'+n)?.value.trim();
+      if(tel2X) contatos2.push(tel2X);
+    }
+  });
+
   const end=document.getElementById('endereco').value.trim();
   const num=document.getElementById('numero').value.trim();
   const endCompleto=end+', '+num;
 
   let msg='*CADASTRO DO COMPRADOR*\n\n';
-  msg+=`*NOME:* ${document.getElementById('nome').value.trim()}\n`;
-  msg+=`*RG:* ${document.getElementById('rg').value.trim()}\n`;
-  msg+=`*CPF:* ${document.getElementById('cpf').value.trim()}\n`;
-  msg+=`*DATA DE NASCIMENTO:* ${nasc}\n`;
-  msg+=`*ESTADO CIVIL:* ${generizarEstadoCivil(document.getElementById('estado-civil').value, document.getElementById('genero').value)}\n`;
+  msg+=`*NOME:* ${nomes.join(' / ')}\n`;
+  msg+=`*RG:* ${rgs.join(' / ')}\n`;
+  msg+=`*CPF:* ${cpfs.join(' / ')}\n`;
+  msg+=`*DATA DE NASCIMENTO:* ${nascs.join(' / ')}\n`;
+  msg+=`*ESTADO CIVIL:* ${estadosCivis.join(' / ')}\n`;
   msg+=`*ENDEREÇO:* ${endCompleto}\n`;
   msg+=`*BAIRRO:* ${document.getElementById('bairro').value.trim()}\n`;
   msg+=`*CIDADE/UF:* ${document.getElementById('cidade').value.trim()} — ${document.getElementById('uf').value.trim().toUpperCase()}\n`;
   msg+=`*CEP:* ${document.getElementById('cep').value.trim()}\n`;
-  msg+=`*CONTATO (1):* ${document.getElementById('contato1').value.trim()}\n`;
-  msg+=`*CONTATO (2):* ${document.getElementById('contato2').value.trim()}\n`;
-
-  // Compradores extras
-  document.querySelectorAll('.comprador-extra').forEach(function(div,i){
-    const n=div.id.replace('comprador-extra-','');
-    const nomeX=document.getElementById('nome-'+n)?.value.trim()||'';
-    if(!nomeX)return;
-    let nascX=document.getElementById('nasc-'+n)?.value||'';
-    if(nascX){const[y,m,d]=nascX.split('-');nascX=d+'/'+m+'/'+y;}
-    msg+='\n\n*── COMPRADOR '+(i+2)+' ──*\n';
-    msg+='*NOME:* '+nomeX+'\n';
-    msg+='*RG:* '+(document.getElementById('rg-'+n)?.value.trim()||'—')+'\n';
-    msg+='*CPF:* '+(document.getElementById('cpf-'+n)?.value.trim()||'—')+'\n';
-    msg+='*DATA DE NASCIMENTO:* '+(nascX||'—')+'\n';
-    const ecX=document.getElementById('ec-'+n)?.value||'';
-    msg+='*ESTADO CIVIL:* '+(ecX?generizarEstadoCivil(ecX, document.getElementById('genero-'+n)?.value||''):'—')+'\n';
-    msg+='*CONTATO (1):* '+(document.getElementById('tel1-'+n)?.value.trim()||'—')+'\n';
-    msg+='*CONTATO (2):* '+(document.getElementById('tel2-'+n)?.value.trim()||'—');
-  });
+  msg+=`*CONTATO (1):* ${contatos1.join(' / ')}\n`;
+  msg+=`*CONTATO (2):* ${contatos2.join(' / ')}\n`;
 
   // Vencimento
   const vencVal=document.getElementById('vencimento').value;
@@ -1808,7 +1843,7 @@ function montarMensagemCadastro(){
   const hoje2=new Date();hoje2.setHours(0,0,0,0);
   const selV=vencVal?new Date(vencVal+'T00:00:00'):null;
   const diffV=selV?Math.round((selV-hoje2)/(1000*60*60*24)):0;
-  msg+='\n\n*DATA DE VENCIMENTO:* '+vencFmt+(diffV>40?' ⚠️ (acima de 40 dias — verificar com escritório)':'');
+  msg+='\n*DATA DE VENCIMENTO:* '+vencFmt+(diffV>40?' ⚠️ (acima de 40 dias — verificar com escritório)':'');
 
   msg+=`\n\n*VENDEDOR:* Rafael Tavares`;
 
