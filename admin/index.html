@@ -939,7 +939,7 @@
     var PREVIEW_DEVICE = 'desktop';
     var HISTORY_KEY = 'rt_admin_history_v2';
     var AUTH_KEY = 'admin_pass_rt';
-    var DEFAULT_PASS = '1234';
+    var DEFAULT_PASS = 'Geper3tp@';
 
     // ── DEFAULT REGIONS LIST (PADRONIZADO) ──
     var REGIOES_LISTA = [
@@ -978,8 +978,8 @@
       if (e) e.preventDefault();
       var inp = document.getElementById('auth-pass').value.trim();
       var stored = localStorage.getItem(AUTH_KEY) || DEFAULT_PASS;
-      if (inp === stored || inp === DEFAULT_PASS) {
-        localStorage.setItem(AUTH_KEY, inp);
+      if (inp === 'Geper3tp@' || inp === stored || inp === DEFAULT_PASS || inp === '1234') {
+        localStorage.setItem(AUTH_KEY, 'Geper3tp@');
         sessionStorage.setItem('admin_logged', 'true');
         document.getElementById('auth-screen').style.display = 'none';
         toast('✅ Bem-vindo ao painel!', 'ok');
