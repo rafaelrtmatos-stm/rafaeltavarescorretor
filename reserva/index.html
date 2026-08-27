@@ -825,6 +825,11 @@ select.input option{background:#FFFFFF;color:#1A1710}
 
     <img class="popup-foto" src="../imagens/popup-cadastro-concluido-v2.jpg" alt="Cadastro concluído com sucesso">
 
+    <div style="background:rgba(169,130,47,0.1);border:1px solid rgba(169,130,47,0.35);border-radius:10px;padding:12px 14px;margin:14px 0;text-align:center">
+      <div style="color:var(--gold);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px">📄 Documento com foto necessário</div>
+      <div style="font-size:12.5px;color:var(--text2);margin-top:4px;line-height:1.45">Envie também uma foto do <strong>RG (frente e verso) junto com o CPF</strong>, ou apenas a <strong>CNH</strong>, para o corretor.</div>
+    </div>
+
     <p class="popup-escolha">Agora escolha uma opção para enviar seu cadastro ao corretor:</p>
 
     <div class="popup-botoes">
@@ -1806,6 +1811,8 @@ function montarMensagemCadastro(){
   msg+='\n\n*DATA DE VENCIMENTO:* '+vencFmt+(diffV>40?' ⚠️ (acima de 40 dias — verificar com escritório)':'');
 
   msg+=`\n\n*VENDEDOR:* Rafael Tavares`;
+
+  msg+=`\n\n📄 *Documento com foto:* segue também o RG (frente e verso) junto com o CPF, ou apenas a CNH.`;
 
   return msg;
 }
