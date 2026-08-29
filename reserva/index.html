@@ -1821,33 +1821,36 @@ function montarMensagemCadastro(){
 
   const end=document.getElementById('endereco').value.trim();
   const num=document.getElementById('numero').value.trim();
-  const endCompleto=end+', '+num;
-
-  let msg='*CADASTRO DO COMPRADOR*\n\n';
-  msg+=`*NOME:* ${nomes.join(' / ')}\n`;
-  msg+=`*RG:* ${rgs.join(' / ')}\n`;
-  msg+=`*CPF:* ${cpfs.join(' / ')}\n`;
-  msg+=`*DATA DE NASCIMENTO:* ${nascs.join(' / ')}\n`;
-  msg+=`*ESTADO CIVIL:* ${estadosCivis.join(' / ')}\n`;
-  msg+=`*ENDEREÇO:* ${endCompleto}\n`;
-  msg+=`*BAIRRO:* ${document.getElementById('bairro').value.trim()}\n`;
-  msg+=`*CIDADE/UF:* ${document.getElementById('cidade').value.trim()} — ${document.getElementById('uf').value.trim().toUpperCase()}\n`;
-  msg+=`*CEP:* ${document.getElementById('cep').value.trim()}\n`;
-  msg+=`*CONTATO (1):* ${contatos1.join(' / ')}\n`;
-  msg+=`*CONTATO (2):* ${contatos2.join(' / ')}\n`;
+  const bairro=document.getElementById('bairro').value.trim();
+  const cep=document.getElementById('cep').value.trim();
+  const cidade=document.getElementById('cidade').value.trim();
 
   // Vencimento
   const vencVal=document.getElementById('vencimento').value;
-  let vencFmt='Não informado';
+  let vencFmt='';
   if(vencVal){const[vy,vm,vd]=vencVal.split('-');vencFmt=vd+'/'+vm+'/'+vy;}
-  const hoje2=new Date();hoje2.setHours(0,0,0,0);
-  const selV=vencVal?new Date(vencVal+'T00:00:00'):null;
-  const diffV=selV?Math.round((selV-hoje2)/(1000*60*60*24)):0;
-  msg+='\n*DATA DE VENCIMENTO:* '+vencFmt+(diffV>40?' ⚠️ (acima de 40 dias — verificar com escritório)':'');
 
-  msg+=`\n\n*VENDEDOR:* Rafael Tavares`;
-
-  msg+=`\n\n📄 *Documento com foto:* segue também o RG (frente e verso) junto com o CPF, ou apenas a CNH.`;
+  let msg='CADASTRO DO COMPRADOR\n\n';
+  msg+=`NOME COMPLETO: ${nomes.join(' / ')}\n`;
+  msg+=`CPF: ${cpfs.join(' / ')}\n`;
+  msg+=`RG: ${rgs.join(' / ')}\n`;
+  msg+=`DATA DE NASCIMENTO: ${nascs.join(' / ')}\n`;
+  msg+=`ESTADO CIVIL: ${estadosCivis.join(' / ')}\n`;
+  msg+=`ENDEREÇO: ${end}\n`;
+  msg+=`N°: ${num}\n`;
+  msg+=`BAIRRO: ${bairro}\n`;
+  msg+=`CEP: ${cep}\n`;
+  msg+=`CIDADE: ${cidade}\n`;
+  msg+=`CONTATO(1): ${contatos1.join(' / ')}\n`;
+  msg+=`CONTATO(2): ${contatos2.join(' / ')}\n`;
+  msg+=`LOTE: \n`;
+  msg+=`QUADRA: \n`;
+  msg+=`EMPREENDIMENTO: \n`;
+  msg+=`VENCIMENTO: ${vencFmt}\n`;
+  msg+=`VALOR DA ENTRADA: \n`;
+  msg+=`VALOR DAS PARCELAS: \n`;
+  msg+=`VALOR TOTAL: \n`;
+  msg+=`VENDEDOR: Rafael Tavares`;
 
   return msg;
 }
