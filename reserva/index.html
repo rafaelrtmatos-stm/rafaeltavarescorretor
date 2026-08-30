@@ -114,13 +114,19 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
   display:flex;align-items:center;gap:12px;margin-top:16px;
 }
 .btn-wizard-next{
-  flex:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  background:linear-gradient(135deg,var(--gold2) 0%,var(--gold) 100%);
-  color:#1a1400;font-weight:700;font-size:14px;padding:16px 24px;border-radius:14px;
-  border:none;cursor:pointer;box-shadow:0 6px 20px rgba(201,168,76,0.3);
-  transition:all .2s;font-family:'Inter',sans-serif;
+  flex:1;display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  background:linear-gradient(135deg, #F3D98A 0%, #D4AF37 50%, #B88E18 100%);
+  color:#1a1202;font-weight:800;font-size:15px;letter-spacing:0.3px;padding:16px 24px;border-radius:14px;
+  border:1px solid rgba(255,255,255,0.4);cursor:pointer;box-shadow:0 6px 20px rgba(212,175,55,0.45), 0 2px 4px rgba(0,0,0,0.15);
+  transition:all .2s ease;font-family:'Inter',sans-serif;
 }
-.btn-wizard-next:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(201,168,76,0.4)}
+.btn-wizard-next:hover{
+  background:linear-gradient(135deg, #FDE69E 0%, #E5BE45 50%, #C99B1E 100%);
+  transform:translateY(-2px);box-shadow:0 10px 28px rgba(212,175,55,0.6), 0 4px 8px rgba(0,0,0,0.2);
+}
+.btn-wizard-next:active{
+  transform:translateY(1px);box-shadow:0 3px 10px rgba(212,175,55,0.3);
+}
 .btn-wizard-prev{
   display:inline-flex;align-items:center;justify-content:center;gap:6px;
   background:var(--bg2);color:var(--text2);font-weight:600;font-size:13px;padding:15px 20px;
@@ -211,6 +217,97 @@ select.input option{background:#FFFFFF;color:#1A1710}
 
 .btn-icon-circle{width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .btn-copiar{width:100%;display:flex;align-items:center;gap:14px;background:var(--bg2);color:var(--text);padding:14px 18px;border-radius:14px;cursor:pointer;border:1.5px solid var(--border2);font-family:'Inter',sans-serif;transition:all .2s;margin-top:10px;text-align:left}
+
+/* ── BARRA DE CONTROLE DO RASCUNHO & FORMULÁRIO ── */
+.form-top-actions{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:rgba(20,18,13,0.85);border:1px solid rgba(201,168,76,0.3);
+  padding:10px 16px;border-radius:12px;margin-bottom:18px;backdrop-filter:blur(6px);
+}
+.draft-indicator{
+  display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:#E8C96A;font-weight:500;
+}
+.draft-indicator .dot{
+  width:8px;height:8px;border-radius:50%;background:#25d366;box-shadow:0 0 6px #25d366;
+}
+.btn-limpar-draft{
+  background:rgba(217,70,63,0.12);border:1px solid rgba(217,70,63,0.35);color:#ff7a75;
+  font-size:11px;font-weight:700;padding:6px 12px;border-radius:8px;cursor:pointer;
+  display:inline-flex;align-items:center;gap:5px;transition:all .2s;font-family:'Inter',sans-serif;
+}
+.btn-limpar-draft:hover{
+  background:rgba(217,70,63,0.25);border-color:rgba(217,70,63,0.6);color:#fff;
+}
+
+/* ── LOTES & QUADRAS DINÂMICOS ── */
+.lote-item-card{
+  background:var(--bg3);border:1px solid rgba(201,168,76,0.25);border-radius:12px;
+  padding:16px;margin-bottom:12px;position:relative;
+}
+.lote-item-head{
+  display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;
+}
+.lote-item-title{
+  font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);font-weight:700;
+}
+.btn-remove-lote{
+  background:rgba(217,70,63,0.1);border:1px solid rgba(217,70,63,0.3);color:#c0392f;
+  font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;cursor:pointer;
+}
+.btn-remove-lote:hover{background:rgba(217,70,63,0.2)}
+.btn-add-lote{
+  width:100%;background:rgba(169,130,47,0.08);border:1px dashed rgba(169,130,47,0.4);
+  border-radius:10px;padding:12px;font-size:12.5px;font-weight:700;color:var(--gold);
+  cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;text-align:center;
+}
+.btn-add-lote:hover{background:rgba(169,130,47,0.16);border-color:var(--gold)}
+
+/* ── MODAL ADMIN SEGRETO ── */
+.admin-modal-overlay{
+  display:none;position:fixed;inset:0;z-index:9999;
+  background:rgba(10,9,6,0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  align-items:center;justify-content:center;padding:16px;
+}
+.admin-modal-overlay.aberto{display:flex;animation:popupFundoFade .25s ease-out both}
+.admin-modal-box{
+  background:#14120D;border:1px solid rgba(201,168,76,0.4);border-radius:18px;
+  width:100%;max-width:680px;max-height:90vh;overflow-y:auto;padding:24px;
+  color:#F2EDE4;position:relative;box-shadow:0 12px 40px rgba(0,0,0,0.8);
+}
+.admin-modal-head{
+  display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(201,168,76,0.25);
+  padding-bottom:14px;margin-bottom:18px;
+}
+.admin-modal-title{
+  font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--gold);
+  display:flex;align-items:center;gap:8px;
+}
+.admin-nav-tabs{
+  display:flex;gap:6px;border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:16px;
+}
+.admin-nav-tab{
+  background:transparent;border:none;border-bottom:2px solid transparent;
+  color:rgba(255,255,255,0.6);font-size:12px;font-weight:600;padding:8px 14px;
+  cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;
+}
+.admin-nav-tab.active{
+  color:var(--gold);border-bottom-color:var(--gold);
+}
+.admin-card{
+  background:#1c1913;border:1px solid rgba(201,168,76,0.2);border-radius:12px;
+  padding:14px;margin-bottom:12px;
+}
+.admin-input{
+  background:#0f0d09;border:1px solid rgba(201,168,76,0.3);border-radius:8px;
+  padding:10px 12px;font-size:13px;color:#fff;font-family:'Inter',sans-serif;width:100%;outline:none;
+}
+.admin-input:focus{border-color:var(--gold)}
+.admin-btn-save{
+  background:linear-gradient(135deg,#F3D98A,#D4AF37);color:#1a1202;font-weight:800;
+  font-size:13px;padding:12px 20px;border-radius:10px;border:none;cursor:pointer;
+  transition:all .2s;
+}
+.admin-btn-save:hover{filter:brightness(1.1)}
 
 /* ── POP-UP DE CONCLUSÃO ── */
 .popup-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(10,9,6,0.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);align-items:flex-end;justify-content:center;padding:0}
@@ -415,7 +512,7 @@ select.input option{background:#FFFFFF;color:#1A1710}
   <div class="hero-underline"></div>
   <p class="hero-sub" style="margin-top:14px">Preencha os dados abaixo. Ao enviar, todos os dados são enviados diretamente ao corretor pelo WhatsApp.</p>
   <div style="margin-top:16px">
-    <div class="hero-badge-seguro" style="margin-bottom:0">
+    <div class="hero-badge-seguro" id="hero-badge-seguro" style="margin-bottom:0;cursor:pointer;user-select:none" onclick="registrarCliqueBadgeSeguro()" title="Reserva Direta e Segura">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
       Reserva Direta e Segura · CRECI 13919
     </div>
@@ -424,8 +521,20 @@ select.input option{background:#FFFFFF;color:#1A1710}
 
 <div class="form-wrap" style="margin-top:-10px;position:relative;z-index:3">
 
-  <!-- BARRA DE ETAPAS -->
-  <div class="res-steps-bar" id="steps-bar">
+  <!-- BARRA DE CONTROLE DO RASCUNHO & FORMULÁRIO -->
+  <div class="form-top-actions" id="form-top-actions" style="display:none">
+    <div class="draft-indicator" id="draft-status-indicator">
+      <span class="dot"></span>
+      <span id="draft-status-txt">Rascunho salvo no seu navegador</span>
+    </div>
+    <button type="button" class="btn-limpar-draft" id="btn-limpar-draft" onclick="confirmarLimpezaFormulario()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6"/></svg>
+      Limpar dados
+    </button>
+  </div>
+
+  <!-- BARRA DE ETAPAS (4 ETAPAS) -->
+  <div class="res-steps-bar" id="steps-bar" style="grid-template-columns:repeat(4,1fr)">
     <div class="res-step-item active" id="step-tab-1" onclick="irParaStep(1)">
       <span class="res-step-num" id="step-tab-num-1">1</span>
       <span class="res-step-text">Seus Dados</span>
@@ -436,6 +545,10 @@ select.input option{background:#FFFFFF;color:#1A1710}
     </div>
     <div class="res-step-item" id="step-tab-3" onclick="irParaStep(3)">
       <span class="res-step-num" id="step-tab-num-3">3</span>
+      <span class="res-step-text">Dados do Lote</span>
+    </div>
+    <div class="res-step-item" id="step-tab-4" onclick="irParaStep(4)">
+      <span class="res-step-num" id="step-tab-num-4">4</span>
       <span class="res-step-text">WhatsApp</span>
     </div>
   </div>
@@ -469,7 +582,7 @@ select.input option{background:#FFFFFF;color:#1A1710}
             <label class="label">RG *</label>
             <div class="input-icon">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M6 12h.01M10 12h6M10 16h6"/></svg>
-              <input class="input" id="rg" type="text" placeholder="0000000" maxlength="12" autocomplete="off">
+              <input class="input" id="rg" type="text" placeholder="0000000 SSP PA" maxlength="25" autocomplete="off">
             </div>
             <span class="hint" id="h-rg"></span>
           </div>
@@ -576,7 +689,7 @@ select.input option{background:#FFFFFF;color:#1A1710}
   </div>
 
   <!-- ═══════════════════════════════════════════
-       ETAPA 2: ENDEREÇO & VENCIMENTO
+       ETAPA 2: ENDEREÇO
   ════════════════════════════════════════════ -->
   <div class="wizard-step" id="wizard-step-2">
     <!-- ENDEREÇO -->
@@ -584,7 +697,7 @@ select.input option{background:#FFFFFF;color:#1A1710}
       <div class="section-head">
         <div class="section-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
         <div>
-          <div class="section-title">Endereço</div>
+          <div class="section-title">Endereço Residencial</div>
           <div class="section-sub">Onde você mora atualmente</div>
         </div>
       </div>
@@ -660,7 +773,7 @@ select.input option{background:#FFFFFF;color:#1A1710}
             <label class="label">Endereço (Rua / Avenida) *</label>
             <div class="input-icon">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              <input class="input" id="endereco" type="text" placeholder="Rua / Avenida" autocomplete="off">
+              <input class="input" id="endereco" type="text" placeholder="Ex: Av. Petrônio Portela" autocomplete="off">
             </div>
           </div>
         </div>
@@ -668,12 +781,12 @@ select.input option{background:#FFFFFF;color:#1A1710}
         <div class="grid-3">
           <div class="field">
             <label class="label">Número *</label>
-            <input class="input" id="numero" type="text" placeholder="Nº" autocomplete="off">
+            <input class="input" id="numero" type="text" placeholder="Nº (ex: 259)" autocomplete="off">
             <span class="hint" id="h-num"></span>
           </div>
           <div class="field">
             <label class="label">Bairro *</label>
-            <input class="input" id="bairro" type="text" placeholder="Bairro" autocomplete="off">
+            <input class="input" id="bairro" type="text" placeholder="Ex: Floresta" autocomplete="off">
           </div>
         </div>
 
@@ -682,7 +795,7 @@ select.input option{background:#FFFFFF;color:#1A1710}
             <label class="label">Cidade *</label>
             <div class="input-icon">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a1 1 0 011-1h10a1 1 0 011 1v18M6 22h12M6 22H4M18 22h2M10 6h.01M14 6h.01M10 10h.01M14 10h.01M10 14h.01M14 14h.01"/></svg>
-              <input class="input" id="cidade" type="text" placeholder="Cidade" autocomplete="off">
+              <input class="input" id="cidade" type="text" placeholder="Cidade onde mora" autocomplete="off">
             </div>
           </div>
           <div class="field">
@@ -694,43 +807,6 @@ select.input option{background:#FFFFFF;color:#1A1710}
       </div>
     </div>
 
-    <!-- DATA VENCIMENTO + VENDEDOR -->
-    <div class="section-card">
-      <div class="section-head">
-        <div class="section-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
-        <div>
-          <div class="section-title">Data de Vencimento</div>
-          <div class="section-sub">Defina o prazo da primeira parcela</div>
-        </div>
-      </div>
-      <div class="field">
-        <label class="label">Data de vencimento da 1ª parcela *</label>
-        <div class="input-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-          <input class="input" id="vencimento" type="date" autocomplete="off" onchange="validarVencimento()">
-        </div>
-        <div class="venc-aviso-40" id="aviso-40">
-          ⚠️ <strong>Atenção:</strong> A data escolhida é superior a 40 dias após hoje. Para prazos acima de 40 dias é necessário verificar disponibilidade com o escritório antes de confirmar a reserva.<br>
-          <strong>Você pode continuar o envio</strong>, mas o prazo precisará ser confirmado pelo corretor.
-        </div>
-        <span class="hint" id="h-venc"></span>
-      </div>
-    </div>
-
-    <div class="section-card">
-      <div class="section-head">
-        <div class="section-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
-        <div>
-          <div class="section-title">Responsável</div>
-          <div class="section-sub">Corretor responsável pelo atendimento</div>
-        </div>
-      </div>
-      <div class="field">
-        <label class="label">Vendedor</label>
-        <div class="vendedor-fixo">Rafael Tavares</div>
-      </div>
-    </div>
-
     <!-- BOTÕES ETAPA 2 -->
     <div class="btn-wizard-nav">
       <button class="btn-wizard-prev" onclick="voltarParaStep(1)" type="button">
@@ -738,6 +814,132 @@ select.input option{background:#FFFFFF;color:#1A1710}
         <span>Voltar</span>
       </button>
       <button class="btn-wizard-next" onclick="avancarStep(2)" type="button">
+        <span>Avançar para Dados do Lote</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       ETAPA 3: DADOS DO LOTE & CONDIÇÕES
+  ════════════════════════════════════════════ -->
+  <div class="wizard-step" id="wizard-step-3">
+    
+    <!-- ESCOLHA DO EMPREENDIMENTO -->
+    <div class="section-card">
+      <div class="section-head">
+        <div class="section-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+        <div>
+          <div class="section-title">Empreendimento e Loteamento</div>
+          <div class="section-sub">Selecione a cidade, empreendimento e quadra/lote</div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="grid-2">
+          <div class="field">
+            <label class="label">Cidade do Empreendimento</label>
+            <select class="input" id="cidade-lote" onchange="aoMudarCidadeLote()">
+              <option value="">Selecione a cidade</option>
+            </select>
+            <span class="hint" id="h-cid-lote"></span>
+          </div>
+          <div class="field">
+            <label class="label">Empreendimento</label>
+            <select class="input" id="emp-lote" onchange="aoMudarEmpreendimentoLote()">
+              <option value="">Selecione primeiro a cidade</option>
+            </select>
+            <span class="hint" id="h-emp-lote"></span>
+          </div>
+        </div>
+
+        <!-- LISTA DE QUADRAS E LOTES SELECIONADOS -->
+        <div style="margin-top:6px">
+          <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:10px">Quadra(s) e Lote(s) da Reserva</div>
+          <div id="lotes-wrap">
+            <!-- Injetado dinamicamente -->
+          </div>
+          <button type="button" class="btn-add-lote" onclick="adicionarItemLote()">
+            + Adicionar mais um Lote / Quadra nesta reserva
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONDIÇÕES FINANCEIRAS -->
+    <div class="section-card">
+      <div class="section-head">
+        <div class="section-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 12h12M6 8h4M6 16h8"/></svg></div>
+        <div>
+          <div class="section-title">Condições de Pagamento</div>
+          <div class="section-sub">Valores acordados e plano de parcelamento</div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="grid-2">
+          <div class="field">
+            <label class="label">Valor Total</label>
+            <div class="input-icon">
+              <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--gold);font-weight:700;font-size:13px">R$</span>
+              <input class="input" id="valor-total" type="text" placeholder="0,00" autocomplete="off" style="padding-left:42px" oninput="formatarMoedaInput(this)">
+            </div>
+            <span class="hint" id="h-val-total"></span>
+          </div>
+          <div class="field">
+            <label class="label">Entrada</label>
+            <div class="input-icon">
+              <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--gold);font-weight:700;font-size:13px">R$</span>
+              <input class="input" id="valor-entrada" type="text" placeholder="0,00" autocomplete="off" style="padding-left:42px" oninput="formatarMoedaInput(this)">
+            </div>
+            <span class="hint" id="h-val-entrada"></span>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label class="label">Quantidade de Parcelas</label>
+            <input class="input" id="qtd-parcelas" type="number" min="1" max="240" placeholder="Ex: 50" autocomplete="off">
+            <span class="hint" id="h-qtd-parc"></span>
+          </div>
+          <div class="field">
+            <label class="label">Valor da Parcela</label>
+            <div class="input-icon">
+              <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--gold);font-weight:700;font-size:13px">R$</span>
+              <input class="input" id="valor-parcela" type="text" placeholder="0,00" autocomplete="off" style="padding-left:42px" oninput="formatarMoedaInput(this)">
+            </div>
+            <span class="hint" id="h-val-parc"></span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Data de Vencimento da 1ª Parcela</label>
+          <div class="input-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            <input class="input" id="vencimento" type="date" autocomplete="off" onchange="validarVencimento()">
+          </div>
+          <div class="venc-aviso-40" id="aviso-40">
+            ⚠️ <strong>Atenção:</strong> A data escolhida é superior a 40 dias após hoje. Para prazos acima de 40 dias é necessário verificar disponibilidade com o escritório antes de confirmar a reserva.<br>
+            <strong>Você pode continuar o envio</strong>, mas o prazo precisará ser confirmado pelo corretor.
+          </div>
+          <span class="hint" id="h-venc"></span>
+        </div>
+
+        <div class="field">
+          <label class="label">Vendedor Responsável</label>
+          <div class="vendedor-fixo">RAFAEL TAVARES</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- BOTÕES ETAPA 3 -->
+    <div class="btn-wizard-nav">
+      <button class="btn-wizard-prev" onclick="voltarParaStep(2)" type="button">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        <span>Voltar</span>
+      </button>
+      <button class="btn-wizard-next" onclick="avancarStep(3)" type="button">
         <span>Revisar e Enviar</span>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </button>
@@ -745,9 +947,9 @@ select.input option{background:#FFFFFF;color:#1A1710}
   </div>
 
   <!-- ═══════════════════════════════════════════
-       ETAPA 3: REVISÃO & WHATSAPP
+       ETAPA 4: REVISÃO & WHATSAPP
   ════════════════════════════════════════════ -->
-  <div class="wizard-step" id="wizard-step-3">
+  <div class="wizard-step" id="wizard-step-4">
     <div class="section-card">
       <div class="section-head">
         <div class="section-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
@@ -783,9 +985,9 @@ select.input option{background:#FFFFFF;color:#1A1710}
     </button>
 
     <div class="btn-wizard-nav" style="margin-top:14px">
-      <button class="btn-wizard-prev" onclick="voltarParaStep(2)" type="button" style="width:100%">
+      <button class="btn-wizard-prev" onclick="voltarParaStep(3)" type="button" style="width:100%">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-        <span>Voltar para Endereço</span>
+        <span>Voltar para Dados do Lote</span>
       </button>
     </div>
   </div>
@@ -861,6 +1063,87 @@ select.input option{background:#FFFFFF;color:#1A1710}
     <div id="popup-copiar-feedback" style="display:none;text-align:center;background:rgba(26,158,82,0.1);border:1px solid rgba(26,158,82,0.35);border-radius:10px;padding:12px 16px;margin-top:14px">
       <div id="popup-copiar-titulo" style="color:var(--green);font-weight:700;font-size:13px">✓ Mensagem copiada!</div>
       <div id="popup-copiar-sub" style="font-size:12px;color:var(--text2);margin-top:2px">Agora cole o cadastro na conversa com o corretor.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     MODAL DE SENHA ADMINISTRATIVA SEGRETA
+════════════════════════════════════════════ -->
+<div id="admin-auth-overlay" class="admin-modal-overlay" onclick="if(event.target===this)fecharModalAuthAdmin()">
+  <div class="admin-modal-box" style="max-width:380px;text-align:center;padding:28px 22px">
+    <div style="width:48px;height:48px;border-radius:50%;background:rgba(201,168,76,0.15);border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;margin:0 auto 14px">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+    </div>
+    <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);margin-bottom:6px">Área Restrita</h3>
+    <p style="font-size:12px;color:rgba(255,255,255,0.7);margin-bottom:18px">Digite a senha de administrador para gerenciar cidades, empreendimentos e lotes:</p>
+    
+    <form onsubmit="event.preventDefault();verificarSenhaAdmin()" style="display:flex;flex-direction:column;gap:12px">
+      <input type="password" id="input-senha-admin" class="input" placeholder="Digite a senha..." style="text-align:center;font-size:16px;letter-spacing:2px;background:#100E0A;color:#fff;border-color:rgba(201,168,76,0.4)">
+      <div id="admin-auth-erro" style="display:none;color:#ff7a75;font-size:11.5px;font-weight:600">Senha incorreta. Tente novamente.</div>
+      <div style="display:flex;gap:8px;margin-top:6px">
+        <button type="button" onclick="fecharModalAuthAdmin()" style="flex:1;background:transparent;border:1px solid rgba(255,255,255,0.2);color:#fff;padding:10px;border-radius:10px;font-size:12px;cursor:pointer">Cancelar</button>
+        <button type="submit" class="admin-btn-save" style="flex:1;padding:10px;font-size:12px">Acessar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     MODAL ADMINISTRATIVO SEGRETO (CRECI 13919 / Geper3tp@)
+════════════════════════════════════════════ -->
+<div id="admin-modal-overlay" class="admin-modal-overlay" onclick="if(event.target===this)fecharModalAdmin()">
+  <div class="admin-modal-box">
+    <div class="admin-modal-head">
+      <div class="admin-modal-title">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zM12 8v4M12 16h.01"/></svg>
+        Gerenciador de Empreendimentos e Lotes
+      </div>
+      <button onclick="fecharModalAdmin()" type="button" style="background:transparent;border:none;color:#fff;font-size:18px;cursor:pointer;padding:4px 8px">✕</button>
+    </div>
+
+    <!-- Abas de navegação do Admin -->
+    <div class="admin-nav-tabs">
+      <button class="admin-nav-tab active" id="tab-admin-emp" onclick="trocarAbaAdmin('emp')">🏢 Empreendimentos & Lotes</button>
+      <button class="admin-nav-tab" id="tab-admin-cid" onclick="trocarAbaAdmin('cid')">📍 Cidades</button>
+      <button class="admin-nav-tab" id="tab-admin-json" onclick="trocarAbaAdmin('json')">{ } JSON Avançado</button>
+    </div>
+
+    <!-- Conteúdo da Aba Empreendimentos -->
+    <div id="admin-view-emp">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <span style="font-size:13px;color:var(--text2)">Empreendimentos cadastrados no sistema:</span>
+        <button type="button" class="admin-btn-save" style="padding:6px 12px;font-size:11px" onclick="adminNovoEmpreendimento()">+ Novo Empreendimento</button>
+      </div>
+      <div id="admin-lista-emp" style="display:flex;flex-direction:column;gap:12px;max-height:55vh;overflow-y:auto;padding-right:4px">
+        <!-- Injetado via JS -->
+      </div>
+    </div>
+
+    <!-- Conteúdo da Aba Cidades -->
+    <div id="admin-view-cid" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <span style="font-size:13px;color:var(--text2)">Cidades ativas:</span>
+        <button type="button" class="admin-btn-save" style="padding:6px 12px;font-size:11px" onclick="adminNovaCidade()">+ Nova Cidade</button>
+      </div>
+      <div id="admin-lista-cid" style="display:flex;flex-direction:column;gap:10px">
+        <!-- Injetado via JS -->
+      </div>
+    </div>
+
+    <!-- Conteúdo da Aba JSON Avançado -->
+    <div id="admin-view-json" style="display:none">
+      <p style="font-size:12px;color:var(--text2);margin-bottom:8px">Visualização direta da estrutura de reserva salva no banco:</p>
+      <textarea id="admin-json-raw" class="admin-input" style="height:250px;font-family:monospace;font-size:12px"></textarea>
+      <button type="button" class="admin-btn-save" style="margin-top:10px;width:100%" onclick="adminSalvarJsonRaw()">Aplicar e Salvar JSON</button>
+    </div>
+
+    <div style="margin-top:18px;border-top:1px solid rgba(201,168,76,0.25);padding-top:14px;display:flex;justify-content:space-between;align-items:center">
+      <span id="admin-status-save" style="font-size:12px;color:var(--gold)"></span>
+      <div style="display:flex;gap:10px">
+        <button type="button" onclick="fecharModalAdmin()" style="background:transparent;border:1px solid rgba(255,255,255,0.2);color:#fff;padding:8px 14px;border-radius:8px;cursor:pointer">Fechar</button>
+        <button type="button" class="admin-btn-save" onclick="adminSalvarTodasAlteracoes()">💾 Salvar Alterações</button>
+      </div>
     </div>
   </div>
 </div>
@@ -1502,12 +1785,12 @@ Object.keys(CAMPOS_SEM_VALIDACAO_PROPRIA).forEach(function(id){
   });
 });
 
-// ── NAVEGAÇÃO ENTRE ETAPAS (WIZARD) ───────────────────
+// ── NAVEGAÇÃO ENTRE ETAPAS (WIZARD - 4 ETAPAS) ───────────────────
 let stepAtual = 1;
 
 function atualizarIndicadorSteps(step){
   stepAtual = step;
-  for(let i=1; i<=3; i++){
+  for(let i=1; i<=4; i++){
     const tab = document.getElementById('step-tab-'+i);
     const stepEl = document.getElementById('wizard-step-'+i);
     if(!tab || !stepEl) continue;
@@ -1523,6 +1806,939 @@ function atualizarIndicadorSteps(step){
   }
 }
 
+// ── FORMATAÇÃO DE MOEDA (R$) ──────────────────────────
+function formatarMoedaInput(input){
+  let v = input.value.replace(/\D/g, '');
+  if(!v){ input.value = ''; salvarRascunhoLocal(); return; }
+  v = (parseInt(v, 10) / 100).toFixed(2) + '';
+  v = v.replace('.', ',');
+  v = v.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+  input.value = v;
+  salvarRascunhoLocal();
+}
+
+// ── BANCO DE DADOS DE RESERVA (CIDADES, EMPREENDIMENTOS, LOTES) ──
+let dadosReserva = {
+  cidades: [
+    {
+      id: "santarem",
+      nome: "Santarém",
+      empreendimentos: [
+        {
+          id: "bela-vista-do-mararu",
+          nome: "Bela Vista do Mararu",
+          quadras: ["A", "B", "C", "D", "E", "F", "G", "H"],
+          lotes_padrao: 80,
+          valor_total_padrao: "",
+          entrada_padrao: "",
+          parcelas_padrao: "",
+          valor_parcela_padrao: ""
+        },
+        {
+          id: "bom-sossego",
+          nome: "Bom Sossego",
+          quadras: ["A", "B", "C", "D", "E", "F", "G", "H"],
+          lotes_padrao: 80,
+          valor_total_padrao: "",
+          entrada_padrao: "",
+          parcelas_padrao: "",
+          valor_parcela_padrao: ""
+        },
+        {
+          id: "boto",
+          nome: "Boto",
+          quadras: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
+          lotes_padrao: 100,
+          valor_total_padrao: "",
+          entrada_padrao: "",
+          parcelas_padrao: "",
+          valor_parcela_padrao: ""
+        },
+        {
+          id: "ceu-azul-1",
+          nome: "Céu Azul 1",
+          quadras: ["A", "B", "C", "D", "E", "F", "G", "H"],
+          lotes_padrao: 60,
+          valor_total_padrao: "",
+          entrada_padrao: "",
+          parcelas_padrao: "",
+          valor_parcela_padrao: ""
+        },
+        {
+          id: "ceu-azul-2",
+          nome: "Céu Azul 2",
+          quadras: ["A", "B", "C", "D", "E", "F", "G", "H"],
+          lotes_padrao: 60,
+          valor_total_padrao: "",
+          entrada_padrao: "",
+          parcelas_padrao: "",
+          valor_parcela_padrao: ""
+        },
+        {
+          id: "ceu-azul-3",
+          nome: "Céu Azul 3",
+          quadras: ["A", "B", "C", "D", "E", "F", "G", "H"],
+          lotes_padrao: 60,
+          valor_total_padrao: "",
+          entrada_padrao: "",
+          parcelas_padrao: "",
+          valor_parcela_padrao: ""
+        },
+        {
+          id: "cinco-irmaos",
+          nome: "Cinco Irmãos",
+          quadras: ["A", "B", "C", "D", "E", "F", "G", "H"],
+          lotes_padrao: 80,
+          valor_total_padrao: "",
+          entrada_padrao: "",
+          parcelas_padrao: "",
+          valor_parcela_padrao: ""
+        },
+        {
+          id: "da-paz",
+          nome: "Da Paz",
+          quadras: ["A", "B", "C", "D", "E", "F", "G", "H"],
+          lotes_padrao: 80,
+          valor_total_padrao: "",
+          entrada_padrao: "",
+          parcelas_padrao: "",
+          valor_parcela_padrao: ""
+        },
+        {
+          id: "mararu-ville",
+          nome: "Mararu Ville",
+          quadras: ["A", "B", "C", "D", "E", "F", "G", "H"],
+          lotes_padrao: 80,
+          valor_total_padrao: "",
+          entrada_padrao: "",
+          parcelas_padrao: "",
+          valor_parcela_padrao: ""
+        },
+        {
+          id: "nove-de-julho",
+          nome: "Nove de Julho",
+          quadras: ["A", "B", "C", "D", "E", "F", "G", "H"],
+          lotes_padrao: 80,
+          valor_total_padrao: "",
+          entrada_padrao: "",
+          parcelas_padrao: "",
+          valor_parcela_padrao: ""
+        },
+        {
+          id: "obra-de-deus-1",
+          nome: "Obra de Deus 1",
+          quadras: ["A", "B", "C", "D", "E", "F", "G", "H"],
+          lotes_padrao: 80,
+          valor_total_padrao: "",
+          entrada_padrao: "",
+          parcelas_padrao: "",
+          valor_parcela_padrao: ""
+        },
+        {
+          id: "obra-de-deus-2",
+          nome: "Obra de Deus 2",
+          quadras: ["A", "B", "C", "D", "E", "F", "G", "H"],
+          lotes_padrao: 80,
+          valor_total_padrao: "",
+          entrada_padrao: "",
+          parcelas_padrao: "",
+          valor_parcela_padrao: ""
+        },
+        {
+          id: "sao-braz",
+          nome: "São Braz",
+          quadras: ["A", "B", "C", "D", "E", "F", "G", "H"],
+          lotes_padrao: 60,
+          valor_total_padrao: "",
+          entrada_padrao: "",
+          parcelas_padrao: "",
+          valor_parcela_padrao: ""
+        },
+        {
+          id: "sao-raimundo-1",
+          nome: "São Raimundo 1",
+          quadras: ["A", "B", "C", "D", "E", "F", "G", "H"],
+          lotes_padrao: 80,
+          valor_total_padrao: "",
+          entrada_padrao: "",
+          parcelas_padrao: "",
+          valor_parcela_padrao: ""
+        },
+        {
+          id: "sao-raimundo-2",
+          nome: "São Raimundo 2",
+          quadras: ["A", "B", "C", "D", "E", "F", "G", "H"],
+          lotes_padrao: 80,
+          valor_total_padrao: "",
+          entrada_padrao: "",
+          parcelas_padrao: "",
+          valor_parcela_padrao: ""
+        },
+        {
+          id: "sol-nascente",
+          nome: "Sol Nascente",
+          quadras: ["A", "B", "C", "D", "E", "F", "G", "H"],
+          lotes_padrao: 80,
+          valor_total_padrao: "",
+          entrada_padrao: "",
+          parcelas_padrao: "",
+          valor_parcela_padrao: ""
+        },
+        {
+          id: "tapajos-1",
+          nome: "Tapajós 1",
+          quadras: ["A", "B", "C", "D", "E", "F", "G", "H"],
+          lotes_padrao: 80,
+          valor_total_padrao: "",
+          entrada_padrao: "",
+          parcelas_padrao: "",
+          valor_parcela_padrao: ""
+        },
+        {
+          id: "tapajos-2",
+          nome: "Tapajós 2",
+          quadras: ["A", "B", "C", "D", "E", "F", "G", "H"],
+          lotes_padrao: 80,
+          valor_total_padrao: "",
+          entrada_padrao: "",
+          parcelas_padrao: "",
+          valor_parcela_padrao: ""
+        },
+        {
+          id: "tapajos-3",
+          nome: "Tapajós 3",
+          quadras: ["A", "B", "C", "D", "E", "F", "G", "H"],
+          lotes_padrao: 80,
+          valor_total_padrao: "",
+          entrada_padrao: "",
+          parcelas_padrao: "",
+          valor_parcela_padrao: ""
+        },
+        {
+          id: "vitoria-regia",
+          nome: "Vitória Régia",
+          quadras: ["A", "B", "C", "D", "E", "F", "G", "H"],
+          lotes_padrao: 80,
+          valor_total_padrao: "",
+          entrada_padrao: "",
+          parcelas_padrao: "",
+          valor_parcela_padrao: ""
+        }
+      ]
+    },
+    {
+      id: "alenquer",
+      nome: "Alenquer",
+      empreendimentos: [
+        {
+          id: "jardim-alenquer",
+          nome: "Jardim Alenquer",
+          quadras: ["A", "B", "C", "D", "E", "F", "G"],
+          lotes_padrao: 70,
+          valor_total_padrao: "",
+          entrada_padrao: "",
+          parcelas_padrao: "",
+          valor_parcela_padrao: ""
+        }
+      ]
+    },
+    {
+      id: "monte-alegre",
+      nome: "Monte Alegre",
+      empreendimentos: [
+        {
+          id: "jussaramia",
+          nome: "Jussaramia",
+          quadras: ["A", "B", "C", "D", "E", "F"],
+          lotes_padrao: 60,
+          valor_total_padrao: "",
+          entrada_padrao: "",
+          parcelas_padrao: "",
+          valor_parcela_padrao: ""
+        }
+      ]
+    }
+  ]
+};
+
+let numItensLote = 0;
+
+// Carregar banco do site_data.json
+async function carregarDadosDoBanco(){
+  try{
+    const res = await fetch('/site_data.json?t=' + Date.now());
+    if(res.ok){
+      const data = await res.json();
+      if(data.reserva_dados && data.reserva_dados.cidades && data.reserva_dados.cidades.length > 0){
+        dadosReserva = data.reserva_dados;
+      }
+    }
+  }catch(e){
+    console.warn('Usando dados padrão de reserva:', e);
+  }
+  popularSelectCidades();
+  carregarRascunhoLocal();
+}
+
+function popularSelectCidades(cidadePreSel){
+  const sel = document.getElementById('cidade-lote');
+  if(!sel) return;
+  sel.innerHTML = '<option value="">Selecione a cidade</option>';
+  dadosReserva.cidades.forEach(cid => {
+    const opt = document.createElement('option');
+    opt.value = cid.id;
+    opt.textContent = cid.nome;
+    if(cidadePreSel && cid.id === cidadePreSel) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+
+function aoMudarCidadeLote(){
+  const cidId = document.getElementById('cidade-lote').value;
+  const empSel = document.getElementById('emp-lote');
+  empSel.innerHTML = '<option value="">Selecione o empreendimento</option>';
+  
+  const cidObj = dadosReserva.cidades.find(c => c.id === cidId);
+  if(cidObj && cidObj.empreendimentos){
+    const empsOrdenados = [...cidObj.empreendimentos].sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+    empsOrdenados.forEach(emp => {
+      const opt = document.createElement('option');
+      opt.value = emp.id;
+      opt.textContent = emp.nome;
+      empSel.appendChild(opt);
+    });
+  }
+  
+  // Atualizar lotes wrap
+  document.getElementById('lotes-wrap').innerHTML = '';
+  numItensLote = 0;
+  adicionarItemLote();
+  salvarRascunhoLocal();
+}
+
+function aoMudarEmpreendimentoLote(){
+  const cidId = document.getElementById('cidade-lote').value;
+  const empId = document.getElementById('emp-lote').value;
+  const cidObj = dadosReserva.cidades.find(c => c.id === cidId);
+  const empObj = cidObj?.empreendimentos?.find(e => e.id === empId);
+  
+  if(empObj){
+    // Preenche condições padrão se estiverem vazias
+    const vt = document.getElementById('valor-total');
+    const ve = document.getElementById('valor-entrada');
+    const qp = document.getElementById('qtd-parcelas');
+    const vp = document.getElementById('valor-parcela');
+    
+    if(!vt.value && empObj.valor_total_padrao) vt.value = empObj.valor_total_padrao;
+    if(!ve.value && empObj.entrada_padrao) ve.value = empObj.entrada_padrao;
+    if(!qp.value && empObj.parcelas_padrao) qp.value = empObj.parcelas_padrao;
+    if(!vp.value && empObj.valor_parcela_padrao) vp.value = empObj.valor_parcela_padrao;
+  }
+  
+  // Recarrega as opções de quadras de todos os cards de lote já adicionados
+  document.querySelectorAll('.lote-item-card').forEach(card => {
+    const idx = card.getAttribute('data-lote-idx');
+    popularQuadrasDoItem(idx);
+  });
+  salvarRascunhoLocal();
+}
+
+function adicionarItemLote(quadraVal, loteVal){
+  numItensLote++;
+  const idx = numItensLote;
+  const wrap = document.getElementById('lotes-wrap');
+  if(!wrap) return;
+  
+  const div = document.createElement('div');
+  div.className = 'lote-item-card';
+  div.id = 'lote-item-' + idx;
+  div.setAttribute('data-lote-idx', idx);
+  
+  div.innerHTML = `
+    <div class="lote-item-head">
+      <span class="lote-item-title">${idx}º Lote da Reserva</span>
+      ${idx > 1 ? `<button type="button" class="btn-remove-lote" onclick="removerItemLote(${idx})">Remover Lote</button>` : ''}
+    </div>
+    <div class="grid-2">
+      <div class="field">
+        <label class="label">Quadra</label>
+        <select class="input input-quadra" id="quadra-lote-${idx}" onchange="aoMudarQuadraItem(${idx})">
+          <option value="">Selecione a quadra</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="label">Lote</label>
+        <select class="input input-lote-num" id="num-lote-${idx}" onchange="salvarRascunhoLocal()">
+          <option value="">Selecione o lote</option>
+        </select>
+      </div>
+    </div>
+  `;
+  wrap.appendChild(div);
+  popularQuadrasDoItem(idx, quadraVal);
+  if(quadraVal){
+    popularLotesDoItem(idx, quadraVal, loteVal);
+  }
+}
+
+function removerItemLote(idx){
+  const el = document.getElementById('lote-item-' + idx);
+  if(el) el.remove();
+  salvarRascunhoLocal();
+}
+
+function popularQuadrasDoItem(idx, quadraPreSel){
+  const sel = document.getElementById('quadra-lote-' + idx);
+  if(!sel) return;
+  sel.innerHTML = '<option value="">Selecione a quadra</option>';
+  
+  const cidId = document.getElementById('cidade-lote').value;
+  const empId = document.getElementById('emp-lote').value;
+  const cidObj = dadosReserva.cidades.find(c => c.id === cidId);
+  const empObj = cidObj?.empreendimentos?.find(e => e.id === empId);
+  
+  const quadras = empObj?.quadras || ["A", "B", "C", "D", "E", "F", "G", "H"];
+  quadras.forEach(q => {
+    const opt = document.createElement('option');
+    opt.value = q;
+    opt.textContent = 'Quadra ' + q;
+    if(quadraPreSel && q === quadraPreSel) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+
+function aoMudarQuadraItem(idx){
+  const qVal = document.getElementById('quadra-lote-' + idx)?.value;
+  popularLotesDoItem(idx, qVal);
+  salvarRascunhoLocal();
+}
+
+function popularLotesDoItem(idx, quadraVal, lotePreSel){
+  const sel = document.getElementById('num-lote-' + idx);
+  if(!sel) return;
+  sel.innerHTML = '<option value="">Selecione o lote</option>';
+  if(!quadraVal) return;
+  
+  const cidId = document.getElementById('cidade-lote').value;
+  const empId = document.getElementById('emp-lote').value;
+  const cidObj = dadosReserva.cidades.find(c => c.id === cidId);
+  const empObj = cidObj?.empreendimentos?.find(e => e.id === empId);
+  const totalLotes = empObj?.lotes_padrao || 80;
+  
+  for(let i=1; i<=totalLotes; i++){
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = 'Lote ' + i;
+    if(lotePreSel && String(i) === String(lotePreSel)) opt.selected = true;
+    sel.appendChild(opt);
+  }
+}
+
+function obterLotesDaReserva(){
+  const lotes = [];
+  document.querySelectorAll('.lote-item-card').forEach(card => {
+    const idx = card.getAttribute('data-lote-idx');
+    const qEl = document.getElementById('quadra-lote-' + idx);
+    const lEl = document.getElementById('num-lote-' + idx);
+    const qVal = qEl?.value?.trim() || '';
+    const lVal = lEl?.value?.trim() || '';
+    if(qVal || lVal){
+      lotes.push({ quadra: qVal || '—', lote: lVal || '—' });
+    }
+  });
+  return lotes;
+}
+
+// ── VERIFICAÇÃO DE DADOS PREENCHIDOS NO FORMULÁRIO ─────────
+function temDadosPreenchidos(){
+  const nome = document.getElementById('nome')?.value?.trim() || '';
+  const rg = document.getElementById('rg')?.value?.trim() || '';
+  const cpf = document.getElementById('cpf')?.value?.trim() || '';
+  const dia = document.getElementById('nasc-dia')?.value?.trim() || '';
+  const mes = document.getElementById('nasc-mes')?.value?.trim() || '';
+  const ano = document.getElementById('nasc-ano')?.value?.trim() || '';
+  const contato1 = document.getElementById('contato1')?.value?.trim() || '';
+  const contato2 = document.getElementById('contato2')?.value?.trim() || '';
+  const cep = document.getElementById('cep')?.value?.trim() || '';
+  const endereco = document.getElementById('endereco')?.value?.trim() || '';
+  const numero = document.getElementById('numero')?.value?.trim() || '';
+  const bairro = document.getElementById('bairro')?.value?.trim() || '';
+  const cidade = document.getElementById('cidade')?.value?.trim() || '';
+  const uf = document.getElementById('uf')?.value?.trim() || '';
+  const cidadeLote = document.getElementById('cidade-lote')?.value?.trim() || '';
+  const empLote = document.getElementById('emp-lote')?.value?.trim() || '';
+  const valorTotal = document.getElementById('valor-total')?.value?.trim() || '';
+  const valorEntrada = document.getElementById('valor-entrada')?.value?.trim() || '';
+  const extras = document.querySelectorAll('.comprador-extra').length;
+
+  return !!(nome || rg || cpf || dia || mes || ano || contato1 || contato2 || cep || endereco || numero || bairro || cidade || uf || cidadeLote || empLote || valorTotal || valorEntrada || extras > 0);
+}
+
+function atualizarVisibilidadeBarraRascunho(){
+  const topActions = document.getElementById('form-top-actions');
+  const btnLimpar = document.getElementById('btn-limpar-draft');
+  const tem = temDadosPreenchidos();
+  if(topActions){
+    topActions.style.display = tem ? 'flex' : 'none';
+  }
+  if(btnLimpar){
+    btnLimpar.style.display = tem ? 'inline-flex' : 'none';
+  }
+}
+
+// ── LOCAL STORAGE: PERSISTÊNCIA DO CLIENTE ───────────────
+const DRAFT_KEY = 'rt_reserva_draft_v2';
+let draftTimeout = null;
+
+function salvarRascunhoLocal(){
+  atualizarVisibilidadeBarraRascunho();
+  clearTimeout(draftTimeout);
+  draftTimeout = setTimeout(() => {
+    const dados = {
+      nome: document.getElementById('nome')?.value || '',
+      rg: document.getElementById('rg')?.value || '',
+      cpf: document.getElementById('cpf')?.value || '',
+      dia: document.getElementById('nasc-dia')?.value || '',
+      mes: document.getElementById('nasc-mes')?.value || '',
+      ano: document.getElementById('nasc-ano')?.value || '',
+      genero: document.getElementById('genero')?.value || '',
+      estadoCivil: document.getElementById('estado-civil')?.value || '',
+      contato1: document.getElementById('contato1')?.value || '',
+      contato2: document.getElementById('contato2')?.value || '',
+      cep: document.getElementById('cep')?.value || '',
+      endereco: document.getElementById('endereco')?.value || '',
+      numero: document.getElementById('numero')?.value || '',
+      bairro: document.getElementById('bairro')?.value || '',
+      cidade: document.getElementById('cidade')?.value || '',
+      uf: document.getElementById('uf')?.value || '',
+      cidadeLote: document.getElementById('cidade-lote')?.value || '',
+      empLote: document.getElementById('emp-lote')?.value || '',
+      valorTotal: document.getElementById('valor-total')?.value || '',
+      valorEntrada: document.getElementById('valor-entrada')?.value || '',
+      qtdParcelas: document.getElementById('qtd-parcelas')?.value || '',
+      valorParcela: document.getElementById('valor-parcela')?.value || '',
+      vencimento: document.getElementById('vencimento')?.value || '',
+      lotes: obterLotesDaReserva()
+    };
+    
+    // Compradores extras
+    const extras = [];
+    document.querySelectorAll('.comprador-extra').forEach(div => {
+      const n = div.id.replace('comprador-extra-', '');
+      extras.push({
+        nome: document.getElementById('nome-' + n)?.value || '',
+        rg: document.getElementById('rg-' + n)?.value || '',
+        cpf: document.getElementById('cpf-' + n)?.value || '',
+        nasc: document.getElementById('nasc-' + n)?.value || '',
+        genero: document.getElementById('genero-' + n)?.value || '',
+        ec: document.getElementById('ec-' + n)?.value || '',
+        tel1: document.getElementById('tel1-' + n)?.value || '',
+        tel2: document.getElementById('tel2-' + n)?.value || ''
+      });
+    });
+    dados.extras = extras;
+
+    try{
+      if(temDadosPreenchidos()){
+        localStorage.setItem(DRAFT_KEY, JSON.stringify(dados));
+        const txt = document.getElementById('draft-status-txt');
+        if(txt){
+          txt.textContent = 'Rascunho salvo automaticamente';
+          setTimeout(() => { txt.textContent = 'Rascunho salvo no seu navegador'; }, 2000);
+        }
+      } else {
+        localStorage.removeItem(DRAFT_KEY);
+      }
+    }catch(e){}
+  }, 400);
+}
+
+function carregarRascunhoLocal(){
+  try{
+    const raw = localStorage.getItem(DRAFT_KEY);
+    if(!raw){
+      atualizarVisibilidadeBarraRascunho();
+      return;
+    }
+    const dados = JSON.parse(raw);
+    if(!dados){
+      atualizarVisibilidadeBarraRascunho();
+      return;
+    }
+
+    if(dados.nome) document.getElementById('nome').value = dados.nome;
+    if(dados.rg) document.getElementById('rg').value = dados.rg;
+    if(dados.cpf) document.getElementById('cpf').value = dados.cpf;
+    if(dados.dia) document.getElementById('nasc-dia').value = dados.dia;
+    if(dados.mes) document.getElementById('nasc-mes').value = dados.mes;
+    if(dados.ano) document.getElementById('nasc-ano').value = dados.ano;
+    if(dados.dia && dados.mes && dados.ano){
+      document.getElementById('nascimento').value = `${dados.ano}-${dados.mes}-${dados.dia}`;
+    }
+    if(dados.genero) document.getElementById('genero').value = dados.genero;
+    if(dados.estadoCivil) document.getElementById('estado-civil').value = dados.estadoCivil;
+    if(dados.contato1) document.getElementById('contato1').value = dados.contato1;
+    if(dados.contato2) document.getElementById('contato2').value = dados.contato2;
+    if(dados.cep) document.getElementById('cep').value = dados.cep;
+    if(dados.endereco) document.getElementById('endereco').value = dados.endereco;
+    if(dados.numero) document.getElementById('numero').value = dados.numero;
+    if(dados.bairro) document.getElementById('bairro').value = dados.bairro;
+    if(dados.cidade) document.getElementById('cidade').value = dados.cidade;
+    if(dados.uf) document.getElementById('uf').value = dados.uf;
+
+    if(dados.cidadeLote){
+      document.getElementById('cidade-lote').value = dados.cidadeLote;
+      aoMudarCidadeLote();
+      if(dados.empLote){
+        document.getElementById('emp-lote').value = dados.empLote;
+        aoMudarEmpreendimentoLote();
+      }
+    }
+
+    if(dados.lotes && dados.lotes.length > 0){
+      document.getElementById('lotes-wrap').innerHTML = '';
+      numItensLote = 0;
+      dados.lotes.forEach(l => {
+        adicionarItemLote(l.quadra, l.lote);
+      });
+    }
+
+    if(dados.valorTotal) document.getElementById('valor-total').value = dados.valorTotal;
+    if(dados.valorEntrada) document.getElementById('valor-entrada').value = dados.valorEntrada;
+    if(dados.qtdParcelas) document.getElementById('qtd-parcelas').value = dados.qtdParcelas;
+    if(dados.valorParcela) document.getElementById('valor-parcela').value = dados.valorParcela;
+    if(dados.vencimento) document.getElementById('vencimento').value = dados.vencimento;
+
+    // Restaurar compradores extras
+    if(dados.extras && dados.extras.length > 0){
+      document.getElementById('compradores-extras').innerHTML = '';
+      numCompradores = 1;
+      dados.extras.forEach(ex => {
+        adicionarComprador();
+        const n = numCompradores;
+        if(ex.nome) document.getElementById('nome-' + n).value = ex.nome;
+        if(ex.rg) document.getElementById('rg-' + n).value = ex.rg;
+        if(ex.cpf) document.getElementById('cpf-' + n).value = ex.cpf;
+        if(ex.nasc) document.getElementById('nasc-' + n).value = ex.nasc;
+        if(ex.genero) document.getElementById('genero-' + n).value = ex.genero;
+        if(ex.ec) document.getElementById('ec-' + n).value = ex.ec;
+        if(ex.tel1) document.getElementById('tel1-' + n).value = ex.tel1;
+        if(ex.tel2) document.getElementById('tel2-' + n).value = ex.tel2;
+      });
+    }
+
+  }catch(e){
+    console.error('Erro ao restaurar rascunho:', e);
+  }
+  atualizarVisibilidadeBarraRascunho();
+}
+
+// Ouvir todos os inputs para auto-save
+document.addEventListener('input', salvarRascunhoLocal);
+document.addEventListener('change', salvarRascunhoLocal);
+
+function confirmarLimpezaFormulario(){
+  if(confirm('Deseja realmente limpar todos os dados preenchidos neste formulário?')){
+    limparFormulario();
+  }
+}
+
+function limparFormulario(){
+  try{
+    localStorage.removeItem(DRAFT_KEY);
+  }catch(e){}
+  
+  // Limpar campos de texto e selects
+  const formWrap = document.querySelector('.form-wrap');
+  if(formWrap){
+    formWrap.querySelectorAll('input').forEach(inp => {
+      if(inp.type !== 'hidden') inp.value = '';
+      inp.classList.remove('ok', 'erro');
+    });
+    formWrap.querySelectorAll('select').forEach(sel => {
+      sel.selectedIndex = 0;
+      sel.classList.remove('ok', 'erro');
+    });
+  }
+
+  document.getElementById('compradores-extras').innerHTML = '';
+  numCompradores = 1;
+
+  document.getElementById('lotes-wrap').innerHTML = '';
+  numItensLote = 0;
+  adicionarItemLote();
+
+  // Redefinir vencimento padrão
+  const d = new Date(); d.setDate(d.getDate() + 30);
+  const iso = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  const vencEl = document.getElementById('vencimento');
+  if(vencEl) vencEl.value = iso;
+  validarVencimento();
+
+  voltarParaStep(1);
+  atualizarVisibilidadeBarraRascunho();
+}
+
+// ── ACESSO ADMINISTRATIVO SEGRETO (3 CLIQUES NO BADGE) ──
+let cliquesBadgeAdmin = 0;
+let timeoutBadgeAdmin = null;
+
+function registrarCliqueBadgeSeguro(){
+  cliquesBadgeAdmin++;
+  clearTimeout(timeoutBadgeAdmin);
+  timeoutBadgeAdmin = setTimeout(() => {
+    cliquesBadgeAdmin = 0;
+  }, 2500);
+
+  if(cliquesBadgeAdmin >= 3){
+    cliquesBadgeAdmin = 0;
+    abrirModalAuthAdmin();
+  }
+}
+
+function abrirModalAuthAdmin(){
+  const modal = document.getElementById('admin-auth-overlay');
+  const input = document.getElementById('input-senha-admin');
+  const erro = document.getElementById('admin-auth-erro');
+  if(erro) erro.style.display = 'none';
+  if(input) input.value = '';
+  if(modal){
+    modal.classList.add('aberto');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => { if(input) input.focus(); }, 150);
+  }
+}
+
+function fecharModalAuthAdmin(){
+  const modal = document.getElementById('admin-auth-overlay');
+  if(modal) modal.classList.remove('aberto');
+  document.body.style.overflow = '';
+}
+
+function verificarSenhaAdmin(){
+  const input = document.getElementById('input-senha-admin');
+  const erro = document.getElementById('admin-auth-erro');
+  const senha = input ? input.value.trim() : '';
+
+  if(senha === 'Geper3tp@'){
+    fecharModalAuthAdmin();
+    abrirModalAdmin();
+  } else {
+    if(erro) erro.style.display = 'block';
+    if(input){
+      input.classList.add('erro');
+      input.focus();
+      input.select();
+    }
+  }
+}
+
+function abrirModalAdmin(){
+  document.getElementById('admin-modal-overlay').classList.add('aberto');
+  document.body.style.overflow = 'hidden';
+  trocarAbaAdmin('emp');
+  renderizarAdminListaEmp();
+  renderizarAdminListaCid();
+}
+
+function fecharModalAdmin(){
+  document.getElementById('admin-modal-overlay').classList.remove('aberto');
+  document.body.style.overflow = '';
+}
+
+function trocarAbaAdmin(aba){
+  ['emp', 'cid', 'json'].forEach(a => {
+    document.getElementById('tab-admin-' + a)?.classList.toggle('active', a === aba);
+    document.getElementById('admin-view-' + a).style.display = a === aba ? 'block' : 'none';
+  });
+  if(aba === 'json'){
+    document.getElementById('admin-json-raw').value = JSON.stringify(dadosReserva, null, 2);
+  }
+}
+
+function renderizarAdminListaEmp(){
+  const container = document.getElementById('admin-lista-emp');
+  if(!container) return;
+  container.innerHTML = '';
+
+  dadosReserva.cidades.forEach((cid, cidIdx) => {
+    cid.empreendimentos.forEach((emp, empIdx) => {
+      const card = document.createElement('div');
+      card.className = 'admin-card';
+      card.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <div>
+            <strong style="color:var(--gold);font-size:14px">${emp.nome}</strong>
+            <span style="font-size:11px;color:rgba(255,255,255,0.6);margin-left:8px">(${cid.nome})</span>
+          </div>
+          <button type="button" style="background:rgba(217,70,63,0.2);border:1px solid rgba(217,70,63,0.4);color:#ff7a75;padding:3px 8px;border-radius:6px;font-size:11px;cursor:pointer" onclick="adminExcluirEmpreendimento(${cidIdx}, ${empIdx})">Excluir</button>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+          <div>
+            <label style="font-size:10px;color:var(--text3);display:block;margin-bottom:2px">Nome</label>
+            <input class="admin-input" type="text" value="${emp.nome}" onchange="dadosReserva.cidades[${cidIdx}].empreendimentos[${empIdx}].nome = this.value">
+          </div>
+          <div>
+            <label style="font-size:10px;color:var(--text3);display:block;margin-bottom:2px">Quadras (separadas por vírgula)</label>
+            <input class="admin-input" type="text" value="${emp.quadras.join(', ')}" onchange="dadosReserva.cidades[${cidIdx}].empreendimentos[${empIdx}].quadras = this.value.split(',').map(s=>s.trim()).filter(Boolean)">
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4, 1fr);gap:8px">
+          <div>
+            <label style="font-size:10px;color:var(--text3);display:block;margin-bottom:2px">Valor Total (R$)</label>
+            <input class="admin-input" type="text" value="${emp.valor_total_padrao || ''}" onchange="dadosReserva.cidades[${cidIdx}].empreendimentos[${empIdx}].valor_total_padrao = this.value">
+          </div>
+          <div>
+            <label style="font-size:10px;color:var(--text3);display:block;margin-bottom:2px">Entrada (R$)</label>
+            <input class="admin-input" type="text" value="${emp.entrada_padrao || ''}" onchange="dadosReserva.cidades[${cidIdx}].empreendimentos[${empIdx}].entrada_padrao = this.value">
+          </div>
+          <div>
+            <label style="font-size:10px;color:var(--text3);display:block;margin-bottom:2px">Parcelas</label>
+            <input class="admin-input" type="number" value="${emp.parcelas_padrao || ''}" onchange="dadosReserva.cidades[${cidIdx}].empreendimentos[${empIdx}].parcelas_padrao = parseInt(this.value,10)">
+          </div>
+          <div>
+            <label style="font-size:10px;color:var(--text3);display:block;margin-bottom:2px">Valor Parcela (R$)</label>
+            <input class="admin-input" type="text" value="${emp.valor_parcela_padrao || ''}" onchange="dadosReserva.cidades[${cidIdx}].empreendimentos[${empIdx}].valor_parcela_padrao = this.value">
+          </div>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  });
+}
+
+function renderizarAdminListaCid(){
+  const container = document.getElementById('admin-lista-cid');
+  if(!container) return;
+  container.innerHTML = '';
+
+  dadosReserva.cidades.forEach((cid, cidIdx) => {
+    const card = document.createElement('div');
+    card.className = 'admin-card';
+    card.style.display = 'flex';
+    card.style.justifyContent = 'space-between';
+    card.style.alignItems = 'center';
+    card.innerHTML = `
+      <div>
+        <strong style="color:#fff;font-size:14px">${cid.nome}</strong>
+        <span style="font-size:11px;color:var(--text3);margin-left:8px">(${cid.empreendimentos.length} empreendimentos)</span>
+      </div>
+      <div style="display:flex;gap:6px">
+        <button type="button" style="background:rgba(217,70,63,0.2);border:1px solid rgba(217,70,63,0.4);color:#ff7a75;padding:3px 8px;border-radius:6px;font-size:11px;cursor:pointer" onclick="adminExcluirCidade(${cidIdx})">Excluir</button>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function adminNovaCidade(){
+  const nome = prompt('Digite o nome da nova cidade (Ex: Itaituba):');
+  if(!nome || !nome.trim()) return;
+  const id = nome.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-');
+  dadosReserva.cidades.push({
+    id: id,
+    nome: nome.trim(),
+    empreendimentos: []
+  });
+  renderizarAdminListaCid();
+  popularSelectCidades();
+}
+
+function adminExcluirCidade(idx){
+  if(confirm(`Tem certeza que deseja excluir a cidade "${dadosReserva.cidades[idx].nome}"?`)){
+    dadosReserva.cidades.splice(idx, 1);
+    renderizarAdminListaCid();
+    renderizarAdminListaEmp();
+    popularSelectCidades();
+  }
+}
+
+function adminNovoEmpreendimento(){
+  if(dadosReserva.cidades.length === 0){
+    alert('Cadastre primeiro uma cidade.');
+    return;
+  }
+  const cidOpcoes = dadosReserva.cidades.map((c, i) => `${i+1} - ${c.nome}`).join('\n');
+  const escolha = prompt(`Escolha a cidade para o novo empreendimento:\n${cidOpcoes}`);
+  const idx = parseInt(escolha, 10) - 1;
+  if(isNaN(idx) || !dadosReserva.cidades[idx]) return;
+
+  const nome = prompt('Nome do novo empreendimento (Ex: Recanto das Palmeiras):');
+  if(!nome || !nome.trim()) return;
+  const empId = nome.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-');
+
+  dadosReserva.cidades[idx].empreendimentos.push({
+    id: empId,
+    nome: nome.trim(),
+    quadras: ["A", "B", "C", "D", "E"],
+    lotes_padrao: 60,
+    valor_total_padrao: "16.000,00",
+    entrada_padrao: "500,00",
+    parcelas_padrao: 50,
+    valor_parcela_padrao: "310,00"
+  });
+
+  renderizarAdminListaEmp();
+  popularSelectCidades();
+}
+
+function adminExcluirEmpreendimento(cidIdx, empIdx){
+  if(confirm(`Deseja excluir o empreendimento "${dadosReserva.cidades[cidIdx].empreendimentos[empIdx].nome}"?`)){
+    dadosReserva.cidades[cidIdx].empreendimentos.splice(empIdx, 1);
+    renderizarAdminListaEmp();
+  }
+}
+
+function adminSalvarJsonRaw(){
+  try{
+    const parsed = JSON.parse(document.getElementById('admin-json-raw').value);
+    if(parsed && parsed.cidades){
+      dadosReserva = parsed;
+      renderizarAdminListaEmp();
+      renderizarAdminListaCid();
+      popularSelectCidades();
+      adminSalvarTodasAlteracoes();
+    } else {
+      alert('Estrutura JSON inválida: precisa conter array "cidades".');
+    }
+  }catch(e){
+    alert('Erro de sintaxe no JSON: ' + e.message);
+  }
+}
+
+async function adminSalvarTodasAlteracoes(){
+  const statusEl = document.getElementById('admin-status-save');
+  statusEl.textContent = '⏳ Salvando alterações...';
+
+  try{
+    // Primeiro buscar o site_data atual para preservar outras configurações
+    let siteDataCompleto = {};
+    try{
+      const resGet = await fetch('/site_data.json?t=' + Date.now());
+      if(resGet.ok) siteDataCompleto = await resGet.json();
+    }catch(e){}
+
+    siteDataCompleto.reserva_dados = dadosReserva;
+
+    const resPost = await fetch('/api/save-site-data', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(siteDataCompleto)
+    });
+
+    if(resPost.ok){
+      statusEl.textContent = '✅ Salvo com sucesso no banco de dados!';
+      popularSelectCidades();
+      setTimeout(() => { statusEl.textContent = ''; fecharModalAdmin(); }, 1600);
+    } else {
+      statusEl.textContent = '⚠️ Salvo localmente na sessão.';
+    }
+  }catch(e){
+    statusEl.textContent = '⚠️ Salvo localmente na sessão.';
+  }
+}
+
+// ── VALIDAÇÃO DE CADA ETAPA ──────────────────────────────
 function validarStep1(){
   let ok = true;
   function req(id, hid, msg){
@@ -1597,7 +2813,7 @@ function validarStep1(){
   // RG
   const rgEl=document.getElementById('rg');
   const rgd=rgEl.value.replace(/[^0-9X]/gi,'');
-  if(rgd.length<6||rgd.length>10||/^(\d)\1+$/.test(rgd)){
+  if(rgd.length<6||rgd.length>12||/^(\d)\1+$/.test(rgd)){
     rgEl.classList.add('erro'); rgEl.classList.remove('ok');
     document.getElementById('h-rg').className='hint erro-txt';
     document.getElementById('h-rg').textContent='RG inválido';
@@ -1655,12 +2871,16 @@ function validarStep2(){
   req('bairro',null,'');
   req('cidade',null,'');
   req('uf',null,'');
-  req('vencimento','h-venc','Escolha a data de vencimento');
 
   if(!ok){
     document.querySelector('#wizard-step-2 .input.erro')?.scrollIntoView({behavior:'smooth',block:'center'});
     return false;
   }
+  return true;
+}
+
+function validarStep3(){
+  // Informações do empreendimento, quadra, lote e valores são opcionais
   return true;
 }
 
@@ -1690,9 +2910,24 @@ function gerarResumoRevisao(){
     }
   });
 
+  const empSel = document.getElementById('emp-lote');
+  const empNome = (empSel && empSel.selectedIndex > 0) ? empSel.options[empSel.selectedIndex]?.text : '';
+  const lotes = obterLotesDaReserva();
+  const lotesFmt = lotes.length > 0 ? lotes.map(l => `Lote ${l.lote} (Quadra ${l.quadra})`).join(', ') : '—';
+
   const vencVal=document.getElementById('vencimento').value;
-  let vencFmt='Não informado';
+  let vencFmt='—';
   if(vencVal){const[vy,vm,vd]=vencVal.split('-');vencFmt=vd+'/'+vm+'/'+vy;}
+
+  const valTotal = document.getElementById('valor-total')?.value?.trim();
+  const valEntrada = document.getElementById('valor-entrada')?.value?.trim();
+  const qtdParc = document.getElementById('qtd-parcelas')?.value?.trim();
+  const valParc = document.getElementById('valor-parcela')?.value?.trim();
+
+  let planoFmt = '—';
+  if(qtdParc || valParc){
+    planoFmt = `${qtdParc || '0'}x de R$ ${valParc || '0,00'}`;
+  }
 
   const html = `
     <div class="resumo-item">
@@ -1712,7 +2947,7 @@ function gerarResumoRevisao(){
       <span class="resumo-val">${nascs.join(' / ') || '—'}</span>
     </div>
     <div class="resumo-item">
-      <span class="resumo-label">WhatsApp:</span>
+      <span class="resumo-label">Contatos:</span>
       <span class="resumo-val">${contatos.join(' / ') || '—'}</span>
     </div>
     <div class="resumo-item">
@@ -1720,16 +2955,32 @@ function gerarResumoRevisao(){
       <span class="resumo-val">${document.getElementById('endereco').value || ''}, Nº ${document.getElementById('numero').value || ''} - ${document.getElementById('bairro').value || ''}</span>
     </div>
     <div class="resumo-item">
-      <span class="resumo-label">Cidade/UF:</span>
-      <span class="resumo-val">${document.getElementById('cidade').value || ''} — ${(document.getElementById('uf').value||'').toUpperCase()} (CEP: ${document.getElementById('cep').value || ''})</span>
+      <span class="resumo-label">Empreendimento:</span>
+      <span class="resumo-val" style="color:var(--gold)">${empNome || '—'}</span>
+    </div>
+    <div class="resumo-item">
+      <span class="resumo-label">Lote(s) / Quadra(s):</span>
+      <span class="resumo-val" style="color:var(--gold)">${lotesFmt || '—'}</span>
+    </div>
+    <div class="resumo-item">
+      <span class="resumo-label">Valor Total:</span>
+      <span class="resumo-val">${valTotal ? 'R$ ' + valTotal : '—'}</span>
+    </div>
+    <div class="resumo-item">
+      <span class="resumo-label">Entrada:</span>
+      <span class="resumo-val">${valEntrada ? 'R$ ' + valEntrada : '—'}</span>
+    </div>
+    <div class="resumo-item">
+      <span class="resumo-label">Plano:</span>
+      <span class="resumo-val">${planoFmt}</span>
     </div>
     <div class="resumo-item">
       <span class="resumo-label">1ª Parcela:</span>
       <span class="resumo-val" style="color:var(--gold)">${vencFmt}</span>
     </div>
     <div class="resumo-item">
-      <span class="resumo-label">Corretor:</span>
-      <span class="resumo-val">Rafael Tavares</span>
+      <span class="resumo-label">Vendedor:</span>
+      <span class="resumo-val">RAFAEL TAVARES</span>
     </div>
   `;
   const container = document.getElementById('resumo-conteudo');
@@ -1743,8 +2994,12 @@ function avancarStep(stepAtualNum){
     document.getElementById('steps-bar')?.scrollIntoView({behavior:'smooth',block:'start'});
   } else if(stepAtualNum === 2){
     if(!validarStep2()) return;
-    gerarResumoRevisao();
     atualizarIndicadorSteps(3);
+    document.getElementById('steps-bar')?.scrollIntoView({behavior:'smooth',block:'start'});
+  } else if(stepAtualNum === 3){
+    if(!validarStep3()) return;
+    gerarResumoRevisao();
+    atualizarIndicadorSteps(4);
     document.getElementById('steps-bar')?.scrollIntoView({behavior:'smooth',block:'start'});
   }
 }
@@ -1765,14 +3020,19 @@ function irParaStep(stepAlvo){
     }
   } else if(stepAlvo === 3){
     if(validarStep1() && validarStep2()){
-      gerarResumoRevisao();
       atualizarIndicadorSteps(3);
+      document.getElementById('steps-bar')?.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+  } else if(stepAlvo === 4){
+    if(validarStep1() && validarStep2() && validarStep3()){
+      gerarResumoRevisao();
+      atualizarIndicadorSteps(4);
       document.getElementById('steps-bar')?.scrollIntoView({behavior:'smooth',block:'start'});
     }
   }
 }
 
-// ── Enviar WhatsApp ────────────────────────────────────
+// ── ENVIAR WHATSAPP (ESTRUTURA EXATA DO MODELO SOLICITADO) ──
 function validarFormulario(){
   if(!validarStep1()){
     atualizarIndicadorSteps(1);
@@ -1780,6 +3040,10 @@ function validarFormulario(){
   }
   if(!validarStep2()){
     atualizarIndicadorSteps(2);
+    return false;
+  }
+  if(!validarStep3()){
+    atualizarIndicadorSteps(3);
     return false;
   }
   return true;
@@ -1795,8 +3059,10 @@ function montarMensagemCadastro(){
   let rgs = [document.getElementById('rg').value.trim()].filter(Boolean);
   let nascs = [nasc].filter(Boolean);
   let estadosCivis = [generizarEstadoCivil(document.getElementById('estado-civil').value, document.getElementById('genero').value)].filter(Boolean);
-  let contatos1 = [document.getElementById('contato1').value.trim()].filter(Boolean);
-  let contatos2 = [document.getElementById('contato2').value.trim()].filter(Boolean);
+  
+  let c1 = document.getElementById('contato1').value.trim();
+  let c2 = document.getElementById('contato2').value.trim();
+  let contatosString = c2 ? `${c1} / ${c2}` : c1;
 
   // Compradores extras
   document.querySelectorAll('.comprador-extra').forEach(function(div){
@@ -1813,44 +3079,55 @@ function montarMensagemCadastro(){
       const ecX=document.getElementById('ec-'+n)?.value||'';
       if(ecX) estadosCivis.push(generizarEstadoCivil(ecX, document.getElementById('genero-'+n)?.value||''));
       const tel1X=document.getElementById('tel1-'+n)?.value.trim();
-      if(tel1X) contatos1.push(tel1X);
       const tel2X=document.getElementById('tel2-'+n)?.value.trim();
-      if(tel2X) contatos2.push(tel2X);
+      if(tel1X) contatosString += ` / ${tel1X}`;
+      if(tel2X) contatosString += ` / ${tel2X}`;
     }
   });
 
-  const end=document.getElementById('endereco').value.trim();
-  const num=document.getElementById('numero').value.trim();
-  const bairro=document.getElementById('bairro').value.trim();
-  const cep=document.getElementById('cep').value.trim();
-  const cidade=document.getElementById('cidade').value.trim();
+  const empSel = document.getElementById('emp-lote');
+  const empNome = (empSel && empSel.selectedIndex > 0) ? empSel.options[empSel.selectedIndex]?.text : '';
+  const lotes = obterLotesDaReserva();
+  
+  // Formatando lotes e quadras
+  const listaLotes = lotes.map(l => l.lote).filter(Boolean).join(', ');
+  const listaQuadras = [...new Set(lotes.map(l => l.quadra).filter(Boolean))].join(', ');
 
-  // Vencimento
+  // Vencimento (formato DD/MM conforme modelo do corretor)
   const vencVal=document.getElementById('vencimento').value;
-  let vencFmt='';
-  if(vencVal){const[vy,vm,vd]=vencVal.split('-');vencFmt=vd+'/'+vm+'/'+vy;}
+  let vencFmt='—';
+  if(vencVal){
+    const[vy,vm,vd]=vencVal.split('-');
+    vencFmt=`${vd}/${vm}`;
+  }
 
-  let msg='CADASTRO DO COMPRADOR\n\n';
-  msg+=`NOME COMPLETO: ${nomes.join(' / ')}\n`;
-  msg+=`CPF: ${cpfs.join(' / ')}\n`;
-  msg+=`RG: ${rgs.join(' / ')}\n`;
-  msg+=`DATA DE NASCIMENTO: ${nascs.join(' / ')}\n`;
-  msg+=`ESTADO CIVIL: ${estadosCivis.join(' / ')}\n`;
-  msg+=`ENDEREÇO: ${end}\n`;
-  msg+=`N°: ${num}\n`;
-  msg+=`BAIRRO: ${bairro}\n`;
-  msg+=`CEP: ${cep}\n`;
-  msg+=`CIDADE: ${cidade}\n`;
-  msg+=`CONTATO(1): ${contatos1.join(' / ')}\n`;
-  msg+=`CONTATO(2): ${contatos2.join(' / ')}\n`;
-  msg+=`LOTE: \n`;
-  msg+=`QUADRA: \n`;
-  msg+=`EMPREENDIMENTO: \n`;
-  msg+=`VENCIMENTO: ${vencFmt}\n`;
-  msg+=`VALOR DA ENTRADA: \n`;
-  msg+=`VALOR DAS PARCELAS: \n`;
-  msg+=`VALOR TOTAL: \n`;
-  msg+=`VENDEDOR: Rafael Tavares`;
+  const vtVal = document.getElementById('valor-total')?.value?.trim();
+  const veVal = document.getElementById('valor-entrada')?.value?.trim();
+  const qpVal = document.getElementById('qtd-parcelas')?.value?.trim();
+  const vpVal = document.getElementById('valor-parcela')?.value?.trim();
+
+  const msg = 
+`CADASTRO DO COMPRADOR
+
+NOME: ${nomes.join(' / ').toUpperCase()}
+RG: ${rgs.join(' / ').toUpperCase()}
+CPF: ${cpfs.join(' / ')}
+DATA DE NASCIMENTO: ${nascs.join(' / ')}
+ESTADO CIVIL: ${estadosCivis.join(' / ').toUpperCase()}
+ENDEREÇO: ${document.getElementById('endereco').value.trim().toUpperCase()}
+N°: ${document.getElementById('numero').value.trim()}
+BAIRRO: ${document.getElementById('bairro').value.trim().toUpperCase()}
+CEP: ${document.getElementById('cep').value.trim()}
+CONTATO: ${contatosString}
+LOTE: ${listaLotes || '—'}
+QUADRA: ${listaQuadras || '—'}
+EMPREENDIMENTO: ${empNome ? empNome.toUpperCase() : '—'}
+VALOR TOTAL: ${vtVal ? 'R$ ' + vtVal : '—'}
+ENTRADA: ${veVal ? 'R$ ' + veVal : '—'}
+QUANTIDADE DE PARCELAS: ${qpVal || '—'}
+VALOR DA PARCELA: ${vpVal ? 'R$ ' + vpVal : '—'}
+DATA DE VENCIMENTO: ${vencFmt}
+VENDEDOR: RAFAEL TAVARES`;
 
   return msg;
 }
@@ -1887,7 +3164,6 @@ function copiarCadastro(){
     document.body.removeChild(ta);
   }
 }
-
 
 function dispararBaloesPremio() {
   const container = document.getElementById("popup-confete");
@@ -2011,7 +3287,15 @@ function popupCopiarDados(){
 }
 
 document.addEventListener('keydown',function(e){
-  if(e.key==='Escape')fecharPopupConclusao();
+  if(e.key==='Escape'){
+    fecharPopupConclusao();
+    fecharModalAdmin();
+  }
+});
+
+// Inicialização
+document.addEventListener('DOMContentLoaded', () => {
+  carregarDadosDoBanco();
 });
 </script>
 </body>
