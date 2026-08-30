@@ -866,73 +866,6 @@ select.input option{background:#FFFFFF;color:#1A1710}
       </div>
     </div>
 
-    <!-- CONDIÇÕES FINANCEIRAS -->
-    <div class="section-card">
-      <div class="section-head">
-        <div class="section-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 12h12M6 8h4M6 16h8"/></svg></div>
-        <div>
-          <div class="section-title">Condições de Pagamento</div>
-          <div class="section-sub">Valores acordados e plano de parcelamento</div>
-        </div>
-      </div>
-
-      <div style="display:flex;flex-direction:column;gap:14px">
-        <div class="grid-2">
-          <div class="field">
-            <label class="label">Valor Total</label>
-            <div class="input-icon">
-              <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--gold);font-weight:700;font-size:13px">R$</span>
-              <input class="input" id="valor-total" type="text" placeholder="0,00" autocomplete="off" style="padding-left:42px" oninput="formatarMoedaInput(this)">
-            </div>
-            <span class="hint" id="h-val-total"></span>
-          </div>
-          <div class="field">
-            <label class="label">Entrada</label>
-            <div class="input-icon">
-              <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--gold);font-weight:700;font-size:13px">R$</span>
-              <input class="input" id="valor-entrada" type="text" placeholder="0,00" autocomplete="off" style="padding-left:42px" oninput="formatarMoedaInput(this)">
-            </div>
-            <span class="hint" id="h-val-entrada"></span>
-          </div>
-        </div>
-
-        <div class="grid-2">
-          <div class="field">
-            <label class="label">Quantidade de Parcelas</label>
-            <input class="input" id="qtd-parcelas" type="number" min="1" max="240" placeholder="Ex: 50" autocomplete="off">
-            <span class="hint" id="h-qtd-parc"></span>
-          </div>
-          <div class="field">
-            <label class="label">Valor da Parcela</label>
-            <div class="input-icon">
-              <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--gold);font-weight:700;font-size:13px">R$</span>
-              <input class="input" id="valor-parcela" type="text" placeholder="0,00" autocomplete="off" style="padding-left:42px" oninput="formatarMoedaInput(this)">
-            </div>
-            <span class="hint" id="h-val-parc"></span>
-          </div>
-        </div>
-
-        <div class="field">
-          <label class="label">Data de Vencimento da 1ª Parcela</label>
-          <div class="input-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-            <input class="input" id="vencimento" type="date" autocomplete="off" onchange="validarVencimento()">
-          </div>
-          <div class="venc-aviso-40" id="aviso-40">
-            ⚠️ <strong>Atenção:</strong> A data escolhida é superior a 40 dias após hoje. Para prazos acima de 40 dias é necessário verificar disponibilidade com o escritório antes de confirmar a reserva.<br>
-            <strong>Você pode continuar o envio</strong>, mas o prazo precisará ser confirmado pelo corretor.
-          </div>
-          <span class="hint" id="h-venc"></span>
-        </div>
-
-        <div class="field">
-          <label class="label">Vendedor Responsável</label>
-          <div class="vendedor-fixo">RAFAEL TAVARES</div>
-        </div>
-
-      </div>
-    </div>
-
     <!-- BOTÕES ETAPA 3 -->
     <div class="btn-wizard-nav">
       <button class="btn-wizard-prev" onclick="voltarParaStep(2)" type="button">
@@ -1253,39 +1186,6 @@ function validarCpfExtra(n){
     el.classList.toggle('ok',ok);el.classList.toggle('erro',!ok);
     h.className='hint '+(ok?'ok-txt':'erro-txt');h.textContent=ok?'CPF válido':'CPF inválido';
   }else{el.className='input';h.className='hint';h.textContent='';}
-}
-
-// ── Data de vencimento com aviso 40 dias ───────────────
-// Pré-preencher vencimento com hoje + 30 dias
-(function(){
-  const el=document.getElementById('vencimento');
-  const d=new Date();d.setDate(d.getDate()+30);
-  const iso=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
-  el.value=iso;
-  // Disparar validação para exibir feedback
-  setTimeout(function(){validarVencimento();},0);
-})();
-
-function validarVencimento(){
-  const el=document.getElementById('vencimento');
-  const aviso=document.getElementById('aviso-40');
-  const h=document.getElementById('h-venc');
-  if(!el.value){aviso.style.display='none';h.textContent='';return;}
-  const hoje=new Date();hoje.setHours(0,0,0,0);
-  const sel=new Date(el.value+'T00:00:00');
-  const diff=Math.round((sel-hoje)/(1000*60*60*24));
-  if(diff<0){
-    el.classList.add('erro');h.className='hint erro-txt';h.textContent='Data inválida — anterior a hoje';
-    aviso.style.display='none';
-  } else if(diff>40){
-    el.classList.remove('erro');el.classList.add('ok');
-    h.className='hint';h.textContent='';
-    aviso.style.display='block';
-  } else {
-    el.classList.remove('erro');el.classList.add('ok');
-    h.className='hint ok-txt';h.textContent='✓ '+diff+' dia(s) após hoje';
-    aviso.style.display='none';
-  }
 }
 
 // ── CPF validação ──────────────────────────────────────
@@ -2117,24 +2017,6 @@ function aoMudarCidadeLote(){
 }
 
 function aoMudarEmpreendimentoLote(){
-  const cidId = document.getElementById('cidade-lote').value;
-  const empId = document.getElementById('emp-lote').value;
-  const cidObj = dadosReserva.cidades.find(c => c.id === cidId);
-  const empObj = cidObj?.empreendimentos?.find(e => e.id === empId);
-  
-  if(empObj){
-    // Preenche condições padrão se estiverem vazias
-    const vt = document.getElementById('valor-total');
-    const ve = document.getElementById('valor-entrada');
-    const qp = document.getElementById('qtd-parcelas');
-    const vp = document.getElementById('valor-parcela');
-    
-    if(!vt.value && empObj.valor_total_padrao) vt.value = empObj.valor_total_padrao;
-    if(!ve.value && empObj.entrada_padrao) ve.value = empObj.entrada_padrao;
-    if(!qp.value && empObj.parcelas_padrao) qp.value = empObj.parcelas_padrao;
-    if(!vp.value && empObj.valor_parcela_padrao) vp.value = empObj.valor_parcela_padrao;
-  }
-  
   // Recarrega as opções de quadras de todos os cards de lote já adicionados
   document.querySelectorAll('.lote-item-card').forEach(card => {
     const idx = card.getAttribute('data-lote-idx');
@@ -2267,11 +2149,9 @@ function temDadosPreenchidos(){
   const uf = document.getElementById('uf')?.value?.trim() || '';
   const cidadeLote = document.getElementById('cidade-lote')?.value?.trim() || '';
   const empLote = document.getElementById('emp-lote')?.value?.trim() || '';
-  const valorTotal = document.getElementById('valor-total')?.value?.trim() || '';
-  const valorEntrada = document.getElementById('valor-entrada')?.value?.trim() || '';
   const extras = document.querySelectorAll('.comprador-extra').length;
 
-  return !!(nome || rg || cpf || dia || mes || ano || contato1 || contato2 || cep || endereco || numero || bairro || cidade || uf || cidadeLote || empLote || valorTotal || valorEntrada || extras > 0);
+  return !!(nome || rg || cpf || dia || mes || ano || contato1 || contato2 || cep || endereco || numero || bairro || cidade || uf || cidadeLote || empLote || extras > 0);
 }
 
 function atualizarVisibilidadeBarraRascunho(){
@@ -2313,11 +2193,6 @@ function salvarRascunhoLocal(){
       uf: document.getElementById('uf')?.value || '',
       cidadeLote: document.getElementById('cidade-lote')?.value || '',
       empLote: document.getElementById('emp-lote')?.value || '',
-      valorTotal: document.getElementById('valor-total')?.value || '',
-      valorEntrada: document.getElementById('valor-entrada')?.value || '',
-      qtdParcelas: document.getElementById('qtd-parcelas')?.value || '',
-      valorParcela: document.getElementById('valor-parcela')?.value || '',
-      vencimento: document.getElementById('vencimento')?.value || '',
       lotes: obterLotesDaReserva()
     };
     
@@ -2403,12 +2278,6 @@ function carregarRascunhoLocal(){
       });
     }
 
-    if(dados.valorTotal) document.getElementById('valor-total').value = dados.valorTotal;
-    if(dados.valorEntrada) document.getElementById('valor-entrada').value = dados.valorEntrada;
-    if(dados.qtdParcelas) document.getElementById('qtd-parcelas').value = dados.qtdParcelas;
-    if(dados.valorParcela) document.getElementById('valor-parcela').value = dados.valorParcela;
-    if(dados.vencimento) document.getElementById('vencimento').value = dados.vencimento;
-
     // Restaurar compradores extras
     if(dados.extras && dados.extras.length > 0){
       document.getElementById('compradores-extras').innerHTML = '';
@@ -2467,13 +2336,6 @@ function limparFormulario(){
   document.getElementById('lotes-wrap').innerHTML = '';
   numItensLote = 0;
   adicionarItemLote();
-
-  // Redefinir vencimento padrão
-  const d = new Date(); d.setDate(d.getDate() + 30);
-  const iso = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
-  const vencEl = document.getElementById('vencimento');
-  if(vencEl) vencEl.value = iso;
-  validarVencimento();
 
   voltarParaStep(1);
   atualizarVisibilidadeBarraRascunho();
@@ -2915,20 +2777,6 @@ function gerarResumoRevisao(){
   const lotes = obterLotesDaReserva();
   const lotesFmt = lotes.length > 0 ? lotes.map(l => `Lote ${l.lote} (Quadra ${l.quadra})`).join(', ') : '—';
 
-  const vencVal=document.getElementById('vencimento').value;
-  let vencFmt='—';
-  if(vencVal){const[vy,vm,vd]=vencVal.split('-');vencFmt=vd+'/'+vm+'/'+vy;}
-
-  const valTotal = document.getElementById('valor-total')?.value?.trim();
-  const valEntrada = document.getElementById('valor-entrada')?.value?.trim();
-  const qtdParc = document.getElementById('qtd-parcelas')?.value?.trim();
-  const valParc = document.getElementById('valor-parcela')?.value?.trim();
-
-  let planoFmt = '—';
-  if(qtdParc || valParc){
-    planoFmt = `${qtdParc || '0'}x de R$ ${valParc || '0,00'}`;
-  }
-
   const html = `
     <div class="resumo-item">
       <span class="resumo-label">Comprador(es):</span>
@@ -2961,22 +2809,6 @@ function gerarResumoRevisao(){
     <div class="resumo-item">
       <span class="resumo-label">Lote(s) / Quadra(s):</span>
       <span class="resumo-val" style="color:var(--gold)">${lotesFmt || '—'}</span>
-    </div>
-    <div class="resumo-item">
-      <span class="resumo-label">Valor Total:</span>
-      <span class="resumo-val">${valTotal ? 'R$ ' + valTotal : '—'}</span>
-    </div>
-    <div class="resumo-item">
-      <span class="resumo-label">Entrada:</span>
-      <span class="resumo-val">${valEntrada ? 'R$ ' + valEntrada : '—'}</span>
-    </div>
-    <div class="resumo-item">
-      <span class="resumo-label">Plano:</span>
-      <span class="resumo-val">${planoFmt}</span>
-    </div>
-    <div class="resumo-item">
-      <span class="resumo-label">1ª Parcela:</span>
-      <span class="resumo-val" style="color:var(--gold)">${vencFmt}</span>
     </div>
     <div class="resumo-item">
       <span class="resumo-label">Vendedor:</span>
@@ -3093,19 +2925,6 @@ function montarMensagemCadastro(){
   const listaLotes = lotes.map(l => l.lote).filter(Boolean).join(', ');
   const listaQuadras = [...new Set(lotes.map(l => l.quadra).filter(Boolean))].join(', ');
 
-  // Vencimento (formato DD/MM conforme modelo do corretor)
-  const vencVal=document.getElementById('vencimento').value;
-  let vencFmt='—';
-  if(vencVal){
-    const[vy,vm,vd]=vencVal.split('-');
-    vencFmt=`${vd}/${vm}`;
-  }
-
-  const vtVal = document.getElementById('valor-total')?.value?.trim();
-  const veVal = document.getElementById('valor-entrada')?.value?.trim();
-  const qpVal = document.getElementById('qtd-parcelas')?.value?.trim();
-  const vpVal = document.getElementById('valor-parcela')?.value?.trim();
-
   const msg = 
 `CADASTRO DO COMPRADOR
 
@@ -3122,11 +2941,6 @@ CONTATO: ${contatosString}
 LOTE: ${listaLotes || '—'}
 QUADRA: ${listaQuadras || '—'}
 EMPREENDIMENTO: ${empNome ? empNome.toUpperCase() : '—'}
-VALOR TOTAL: ${vtVal ? 'R$ ' + vtVal : '—'}
-ENTRADA: ${veVal ? 'R$ ' + veVal : '—'}
-QUANTIDADE DE PARCELAS: ${qpVal || '—'}
-VALOR DA PARCELA: ${vpVal ? 'R$ ' + vpVal : '—'}
-DATA DE VENCIMENTO: ${vencFmt}
 VENDEDOR: RAFAEL TAVARES`;
 
   return msg;
