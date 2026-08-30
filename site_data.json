@@ -562,5 +562,247 @@
             "/imagens/sao-braz-foto3.jpg",
             "/imagens/sao-braz-foto4.jpg"
         ]
+    },
+    "reserva_dados": {
+        "cidades": [
+            {
+                "id": "santarem",
+                "nome": "Santarém",
+                "empreendimentos": [
+                    {
+                        "id": "bela-vista-do-mararu",
+                        "nome": "Bela Vista do Mararu",
+                        "quadras": ["A", "B", "C", "D", "E", "F", "G", "H"],
+                        "lotes_padrao": 80,
+                        "valor_total_padrao": "",
+                        "entrada_padrao": "",
+                        "parcelas_padrao": "",
+                        "valor_parcela_padrao": ""
+                    },
+                    {
+                        "id": "bom-sossego",
+                        "nome": "Bom Sossego",
+                        "quadras": ["A", "B", "C", "D", "E", "F", "G", "H"],
+                        "lotes_padrao": 80,
+                        "valor_total_padrao": "",
+                        "entrada_padrao": "",
+                        "parcelas_padrao": "",
+                        "valor_parcela_padrao": ""
+                    },
+                    {
+                        "id": "boto",
+                        "nome": "Boto",
+                        "quadras": ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
+                        "lotes_padrao": 100,
+                        "valor_total_padrao": "",
+                        "entrada_padrao": "",
+                        "parcelas_padrao": "",
+                        "valor_parcela_padrao": ""
+                    },
+                    {
+                        "id": "ceu-azul-1",
+                        "nome": "Céu Azul 1",
+                        "quadras": ["A", "B", "C", "D", "E", "F", "G", "H"],
+                        "lotes_padrao": 60,
+                        "valor_total_padrao": "",
+                        "entrada_padrao": "",
+                        "parcelas_padrao": "",
+                        "valor_parcela_padrao": ""
+                    },
+                    {
+                        "id": "ceu-azul-2",
+                        "nome": "Céu Azul 2",
+                        "quadras": ["A", "B", "C", "D", "E", "F", "G", "H"],
+                        "lotes_padrao": 60,
+                        "valor_total_padrao": "",
+                        "entrada_padrao": "",
+                        "parcelas_padrao": "",
+                        "valor_parcela_padrao": ""
+                    },
+                    {
+                        "id": "ceu-azul-3",
+                        "nome": "Céu Azul 3",
+                        "quadras": ["A", "B", "C", "D", "E", "F", "G", "H"],
+                        "lotes_padrao": 60,
+                        "valor_total_padrao": "",
+                        "entrada_padrao": "",
+                        "parcelas_padrao": "",
+                        "valor_parcela_padrao": ""
+                    },
+                    {
+                        "id": "cinco-irmaos",
+                        "nome": "Cinco Irmãos",
+                        "quadras": ["A", "B", "C", "D", "E", "F", "G", "H"],
+                        "lotes_padrao": 80,
+                        "valor_total_padrao": "",
+                        "entrada_padrao": "",
+                        "parcelas_padrao": "",
+                        "valor_parcela_padrao": ""
+                    },
+                    {
+                        "id": "da-paz",
+                        "nome": "Da Paz",
+                        "quadras": ["A", "B", "C", "D", "E", "F", "G", "H"],
+                        "lotes_padrao": 80,
+                        "valor_total_padrao": "",
+                        "entrada_padrao": "",
+                        "parcelas_padrao": "",
+                        "valor_parcela_padrao": ""
+                    },
+                    {
+                        "id": "mararu-ville",
+                        "nome": "Mararu Ville",
+                        "quadras": ["A", "B", "C", "D", "E", "F", "G", "H"],
+                        "lotes_padrao": 80,
+                        "valor_total_padrao": "",
+                        "entrada_padrao": "",
+                        "parcelas_padrao": "",
+                        "valor_parcela_padrao": ""
+                    },
+                    {
+                        "id": "nove-de-julho",
+                        "nome": "Nove de Julho",
+                        "quadras": ["A", "B", "C", "D", "E", "F", "G", "H"],
+                        "lotes_padrao": 80,
+                        "valor_total_padrao": "",
+                        "entrada_padrao": "",
+                        "parcelas_padrao": "",
+                        "valor_parcela_padrao": ""
+                    },
+                    {
+                        "id": "obra-de-deus-1",
+                        "nome": "Obra de Deus 1",
+                        "quadras": ["A", "B", "C", "D", "E", "F", "G", "H"],
+                        "lotes_padrao": 80,
+                        "valor_total_padrao": "",
+                        "entrada_padrao": "",
+                        "parcelas_padrao": "",
+                        "valor_parcela_padrao": ""
+                    },
+                    {
+                        "id": "obra-de-deus-2",
+                        "nome": "Obra de Deus 2",
+                        "quadras": ["A", "B", "C", "D", "E", "F", "G", "H"],
+                        "lotes_padrao": 80,
+                        "valor_total_padrao": "",
+                        "entrada_padrao": "",
+                        "parcelas_padrao": "",
+                        "valor_parcela_padrao": ""
+                    },
+                    {
+                        "id": "sao-braz",
+                        "nome": "São Braz",
+                        "quadras": ["A", "B", "C", "D", "E", "F", "G", "H"],
+                        "lotes_padrao": 60,
+                        "valor_total_padrao": "",
+                        "entrada_padrao": "",
+                        "parcelas_padrao": "",
+                        "valor_parcela_padrao": ""
+                    },
+                    {
+                        "id": "sao-raimundo-1",
+                        "nome": "São Raimundo 1",
+                        "quadras": ["A", "B", "C", "D", "E", "F", "G", "H"],
+                        "lotes_padrao": 80,
+                        "valor_total_padrao": "",
+                        "entrada_padrao": "",
+                        "parcelas_padrao": "",
+                        "valor_parcela_padrao": ""
+                    },
+                    {
+                        "id": "sao-raimundo-2",
+                        "nome": "São Raimundo 2",
+                        "quadras": ["A", "B", "C", "D", "E", "F", "G", "H"],
+                        "lotes_padrao": 80,
+                        "valor_total_padrao": "",
+                        "entrada_padrao": "",
+                        "parcelas_padrao": "",
+                        "valor_parcela_padrao": ""
+                    },
+                    {
+                        "id": "sol-nascente",
+                        "nome": "Sol Nascente",
+                        "quadras": ["A", "B", "C", "D", "E", "F", "G", "H"],
+                        "lotes_padrao": 80,
+                        "valor_total_padrao": "",
+                        "entrada_padrao": "",
+                        "parcelas_padrao": "",
+                        "valor_parcela_padrao": ""
+                    },
+                    {
+                        "id": "tapajos-1",
+                        "nome": "Tapajós 1",
+                        "quadras": ["A", "B", "C", "D", "E", "F", "G", "H"],
+                        "lotes_padrao": 80,
+                        "valor_total_padrao": "",
+                        "entrada_padrao": "",
+                        "parcelas_padrao": "",
+                        "valor_parcela_padrao": ""
+                    },
+                    {
+                        "id": "tapajos-2",
+                        "nome": "Tapajós 2",
+                        "quadras": ["A", "B", "C", "D", "E", "F", "G", "H"],
+                        "lotes_padrao": 80,
+                        "valor_total_padrao": "",
+                        "entrada_padrao": "",
+                        "parcelas_padrao": "",
+                        "valor_parcela_padrao": ""
+                    },
+                    {
+                        "id": "tapajos-3",
+                        "nome": "Tapajós 3",
+                        "quadras": ["A", "B", "C", "D", "E", "F", "G", "H"],
+                        "lotes_padrao": 80,
+                        "valor_total_padrao": "",
+                        "entrada_padrao": "",
+                        "parcelas_padrao": "",
+                        "valor_parcela_padrao": ""
+                    },
+                    {
+                        "id": "vitoria-regia",
+                        "nome": "Vitória Régia",
+                        "quadras": ["A", "B", "C", "D", "E", "F", "G", "H"],
+                        "lotes_padrao": 80,
+                        "valor_total_padrao": "",
+                        "entrada_padrao": "",
+                        "parcelas_padrao": "",
+                        "valor_parcela_padrao": ""
+                    }
+                ]
+            },
+            {
+                "id": "alenquer",
+                "nome": "Alenquer",
+                "empreendimentos": [
+                    {
+                        "id": "jardim-alenquer",
+                        "nome": "Jardim Alenquer",
+                        "quadras": ["A", "B", "C", "D", "E", "F", "G"],
+                        "lotes_padrao": 70,
+                        "valor_total_padrao": "",
+                        "entrada_padrao": "",
+                        "parcelas_padrao": "",
+                        "valor_parcela_padrao": ""
+                    }
+                ]
+            },
+            {
+                "id": "monte-alegre",
+                "nome": "Monte Alegre",
+                "empreendimentos": [
+                    {
+                        "id": "jussaramia",
+                        "nome": "Jussaramia",
+                        "quadras": ["A", "B", "C", "D", "E", "F"],
+                        "lotes_padrao": 60,
+                        "valor_total_padrao": "",
+                        "entrada_padrao": "",
+                        "parcelas_padrao": "",
+                        "valor_parcela_padrao": ""
+                    }
+                ]
+            }
+        ]
     }
 }
