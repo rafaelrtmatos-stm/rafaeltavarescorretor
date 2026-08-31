@@ -491,6 +491,7 @@ select.input option{background:#FFFFFF;color:#1A1710}
 
 .footer-lock{display:flex;align-items:center;justify-content:center;gap:6px;font-size:11px;color:rgba(255,255,255,0.5);margin-top:14px}
 </style>
+<script src="/assets/reserva-supabase.js"></script>
 </head>
 <body>
 
@@ -1963,8 +1964,23 @@ let dadosReserva = {
 
 let numItensLote = 0;
 
-// Carregar banco do site_data.json
+// Carregar banco: primeiro tenta dados AO VIVO do Supabase (gerenciador de
+// empreendimentos/lotes), depois cai para site_data.json, depois para o
+// objeto fixo dadosReserva já definido acima.
 async function carregarDadosDoBanco(){
+  try{
+    if(window.buscarEmpreendimentosAoVivo){
+      const dadosAoVivo = await window.buscarEmpreendimentosAoVivo();
+      if(dadosAoVivo && dadosAoVivo.cidades && dadosAoVivo.cidades.length > 0){
+        dadosReserva = dadosAoVivo;
+        popularSelectCidades();
+        carregarRascunhoLocal();
+        return;
+      }
+    }
+  }catch(e){
+    console.warn('Falha ao buscar dados ao vivo do Supabase, tentando site_data.json:', e);
+  }
   try{
     const res = await fetch('/site_data.json?t=' + Date.now());
     if(res.ok){
