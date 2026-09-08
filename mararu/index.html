@@ -297,7 +297,9 @@
       </div>
 
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
-        <input type="number" id="precoAmortInput" placeholder="Digite o valor que você quer amortizar (R$)" class="preco-amort-input" style="flex:1;min-width:200px;background:var(--bg2);border:2px solid var(--border2);color:var(--text);padding:14px 16px;border-radius:10px;font-size:16px;font-family:'Inter',sans-serif;transition:border-color .2s,box-shadow .2s">
+        <select id="precoAmortInput" class="preco-amort-input" style="flex:1;min-width:200px;background:var(--bg2);border:2px solid var(--border2);color:var(--text);padding:14px 16px;border-radius:10px;font-size:16px;font-family:'Inter',sans-serif;transition:border-color .2s,box-shadow .2s">
+          <option value="">Selecione quantas parcelas quer amortizar</option>
+        </select>
       </div>
       <div id="precoAmortAviso" style="display:none;background:rgba(225,29,46,0.15);border-left:4px solid #e11d2e;border-radius:8px;padding:12px;margin-bottom:14px;font-size:13px;color:#ff6b6b">
         ⚠️ <strong>Valor máximo:</strong> <span id="precoAmortAvisoMax"></span>
@@ -479,48 +481,53 @@
       requestAnimationFrame(() => { row.querySelector(".preco-evo-fill").style.width = pct + "%"; });
     });
 
+    precoRenderAmortSelector();
     precoUpdateAmortResult();
   }
 
-  function precoUpdateAmortResult(){
-    const input = document.getElementById("precoAmortInput");
-    const result = document.getElementById("precoAmortResult");
-    const avisoDiv = document.getElementById("precoAmortAviso");
-    const val = parseFloat(input.value);
+  function precoRenderAmortSelector(){
     const cat = precoData[precoCat];
     const p = cat.plans[precoPlan];
     const entrada = 600;
     const totalParcelas = parseInt(precoPlan, 10);
     const parcelaAtual = p.parcela;
 
-    // Calcula o máximo permitido (total do lote - entrada)
+    // Calcula o máximo de parcelas cheias que cabem no valor amortizável (total do lote - entrada)
     const maximoAmortizacao = p.total - entrada;
+    const maxParcelas = Math.min(totalParcelas, Math.floor(maximoAmortizacao / parcelaAtual));
 
-    // Valida se o valor excede o máximo
-    if (val && val > maximoAmortizacao) {
-      avisoDiv.style.display = "block";
-      document.getElementById("precoAmortAvisoMax").textContent = "R$ " + brl(maximoAmortizacao);
+    const select = document.getElementById("precoAmortInput");
+    select.innerHTML = '<option value="">Selecione quantas parcelas quer amortizar</option>';
+    for (let n = 1; n <= maxParcelas; n++) {
+      const opt = document.createElement("option");
+      opt.value = n;
+      opt.textContent = n + (n === 1 ? " parcela" : " parcelas") + " — " + brl(n * parcelaAtual);
+      select.appendChild(opt);
+    }
+  }
+
+  function precoUpdateAmortResult(){
+    const input = document.getElementById("precoAmortInput");
+    const result = document.getElementById("precoAmortResult");
+    const parcelasEliminadasInt = parseInt(input.value, 10);
+    const cat = precoData[precoCat];
+    const p = cat.plans[precoPlan];
+    const totalParcelas = parseInt(precoPlan, 10);
+    const parcelaAtual = p.parcela;
+
+    if (!parcelasEliminadasInt || parcelasEliminadasInt <= 0) {
       result.style.display = "none";
       const wrap = document.getElementById("precoDetailTotalAmortizadoWrap");
       if (wrap) wrap.style.display = "none";
       return;
     }
 
-    avisoDiv.style.display = "none";
-
-    if (!val || val <= 0) {
-      result.style.display = "none";
-      const wrap = document.getElementById("precoDetailTotalAmortizadoWrap");
-      if (wrap) wrap.style.display = "none";
-      return;
-    }
-
-    let parcelasEliminadas, parcelasEliminadasInt, valorFuturo, economiaTotal, novoPrazo;
+    // Parcelas cheias apenas: o valor amortizado é sempre N x parcela atual
+    const val = parcelasEliminadasInt * parcelaAtual;
+    let valorFuturo, economiaTotal, novoPrazo;
 
     if (p.fixa) {
       // Plano fixo: parcela não varia, então amortizar apenas reduz prazo, sem ganho de reajuste
-      parcelasEliminadas = Math.min(totalParcelas, val / parcelaAtual);
-      parcelasEliminadasInt = Math.min(totalParcelas, Math.round(parcelasEliminadas));
       valorFuturo = parcelasEliminadasInt * parcelaAtual;
       economiaTotal = 0;
       novoPrazo = totalParcelas - parcelasEliminadasInt;
@@ -536,10 +543,6 @@
         const parcelaNoAno = parcelaAtual * Math.pow(REAJUSTE_ANUAL, ano - 1);
         tabelaParcelas.push(parcelaNoAno);
       }
-      
-      // Calcula quantas parcelas inteiras pode eliminar
-      parcelasEliminadas = Math.min(totalParcelas, val / parcelaAtual);
-      parcelasEliminadasInt = Math.min(totalParcelas, Math.round(parcelasEliminadas));
       
       // Elimina as parcelas mais caras (do final para o começo)
       economiaTotal = 0;
@@ -561,7 +564,7 @@
 
     result.style.display = "block";
     document.getElementById("amortValInformado").textContent = brl(val);
-    document.getElementById("amortParcelasElim").textContent = parcelasEliminadas.toFixed(1).replace(".0","").replace(".",",") + (parcelasEliminadasInt === 1 ? " parcela" : " parcelas");
+    document.getElementById("amortParcelasElim").textContent = parcelasEliminadasInt + (parcelasEliminadasInt === 1 ? " parcela" : " parcelas");
     document.getElementById("amortValFuturo").textContent = brl(valorFuturo);
     document.getElementById("amortEconomiaTotal").textContent = brl(economiaTotal);
     document.getElementById("amortNovoPrazo").textContent = novoPrazo + " meses";
@@ -578,18 +581,18 @@
     if (amortValorTotalLoteEl) amortValorTotalLoteEl.textContent = brl(novoTotal);
 
     const explicacao = document.getElementById("amortExplicacao");
-    const parcelasTxt = parcelasEliminadas.toFixed(1).replace(".0","").replace(".",",");
+    const parcelasTxt = parcelasEliminadasInt + (parcelasEliminadasInt === 1 ? " parcela" : " parcelas");
     if (p.fixa) {
-      explicacao.innerHTML = `Amortizando <b style="color:var(--gold)">${brl(val)}</b>, você elimina o equivalente a <b style="color:var(--gold)">${parcelasTxt} parcela(s)</b> e reduz seu prazo para aproximadamente <b style="color:var(--gold)">${novoPrazo} meses</b>. Como esse plano já tem parcela fixa, a economia vem diretamente da redução do prazo.`;
+      explicacao.innerHTML = `Amortizando <b style="color:var(--gold)">${brl(val)}</b> (${parcelasTxt}), você reduz seu prazo para aproximadamente <b style="color:var(--gold)">${novoPrazo} meses</b>. Como esse plano já tem parcela fixa, a economia vem diretamente da redução do prazo.`;
     } else {
-      explicacao.innerHTML = `Amortizando <b style="color:var(--gold)">${brl(val)}</b> hoje, você elimina <b style="color:var(--gold)">${parcelasTxt} parcela(s)</b> das mais caras do final do contrato — que custariam <b style="color:var(--gold)">${brl(valorFuturo)}</b> — gerando uma economia de <b style="color:var(--gold)">${brl(economiaTotal)}</b> e reduzindo seu prazo para aproximadamente <b style="color:var(--gold)">${novoPrazo} meses</b>.`;
+      explicacao.innerHTML = `Amortizando <b style="color:var(--gold)">${brl(val)}</b> hoje (${parcelasTxt}), você elimina as mais caras do final do contrato — que custariam <b style="color:var(--gold)">${brl(valorFuturo)}</b> — gerando uma economia de <b style="color:var(--gold)">${brl(economiaTotal)}</b> e reduzindo seu prazo para aproximadamente <b style="color:var(--gold)">${novoPrazo} meses</b>.`;
     }
 
     // Dica educativa
     const dicaDiv = document.getElementById("amortDicaTotal");
     const dicaText = document.getElementById("amortDicaTotalText");
     const totalLote = p.total;
-    const valorMenosEntrada = totalLote - entrada;
+    const valorMenosEntrada = totalLote - 600;
     
     if (dicaDiv && dicaText) {
       if (valorMenosEntrada > 0) {
@@ -619,7 +622,7 @@
 
   let precoDigitandoTimeout;
   const precoAmortInputEl = document.getElementById("precoAmortInput");
-  precoAmortInputEl.addEventListener("input", () => {
+  precoAmortInputEl.addEventListener("change", () => {
     precoUpdateAmortResult();
   });
 
