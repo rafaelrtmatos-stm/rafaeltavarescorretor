@@ -792,8 +792,8 @@ section#hero{z-index:0;overflow:hidden!important}
       <svg style="position:absolute;left:16px;width:18px;height:18px;stroke:var(--gold);fill:none;stroke-width:2" viewBox="0 0 24 24">
         <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
       </svg>
-      <input type="search" id="busca-regioes" name="busca_imoveis_search_field"
-        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+      <input type="search" id="busca-regioes" name="busca_filtro_regioes"
+        autocomplete="one-time-code" autocorrect="off" autocapitalize="off" spellcheck="false"
         placeholder="Buscar empreendimento, bairro ou valor..." 
         style="width:100%;padding:12px 16px 12px 46px;background:var(--bg2);border:1px solid var(--border);border-radius:100px;color:var(--text);font-size:13px;outline:none;transition:border-color .2s, box-shadow .2s;"
         oninput="filtrarRegioes(this.value)"
@@ -942,6 +942,20 @@ section#hero{z-index:0;overflow:hidden!important}
       feedback.style.display = (visiveis === 0) ? 'block' : 'none';
     }
   };
+
+  // Previne que o autofill de senhas do navegador injete e-mail na busca de empreendimentos
+  var inputBuscaRegioes = document.getElementById('busca-regioes');
+  if(inputBuscaRegioes){
+    function limparAutofillInvalido(){
+      if(inputBuscaRegioes.value && inputBuscaRegioes.value.indexOf('@') !== -1){
+        inputBuscaRegioes.value = '';
+        window.filtrarRegioes('');
+      }
+    }
+    setTimeout(limparAutofillInvalido, 100);
+    setTimeout(limparAutofillInvalido, 500);
+    setTimeout(limparAutofillInvalido, 1200);
+  }
 })();
 </script>
 
@@ -2358,9 +2372,12 @@ function galTab(el,panel){
     <h2 style="font-family:Cormorant Garamond,serif;font-size:22px;color:#C9A84C;margin-bottom:6px">Painel Admin</h2>
     <p style="font-size:13px;color:rgba(242,237,228,0.5);margin-bottom:20px">Digite a senha para acessar</p>
     <div id="admin-err" style="display:none;font-size:12px;color:#f87171;margin-bottom:10px;padding:8px;background:rgba(248,113,113,0.1);border-radius:6px">❌ Senha incorreta</div>
-    <input id="admin-senha" type="password" placeholder="Senha de acesso" onkeydown="if(event.key==='Enter')loginAdmin()"
-      style="width:100%;background:#1A271A;border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:13px 14px;font-size:14px;color:#F2EDE4;font-family:inherit;outline:none;margin-bottom:12px;box-sizing:border-box" />
-    <button onclick="loginAdmin()" style="width:100%;background:#C9A84C;color:#0D1A0D;border:none;padding:13px;font-size:13px;font-weight:600;border-radius:8px;cursor:pointer;font-family:inherit">Entrar no Painel Admin</button>
+    <form autocomplete="off" onsubmit="event.preventDefault();loginAdmin();" style="display:flex;flex-direction:column;gap:12px;margin:0">
+      <input type="text" name="admin_user_isolate" style="display:none" autocomplete="username" tabindex="-1">
+      <input id="admin-senha" name="admin_pass_isolate" type="password" autocomplete="current-password" placeholder="Senha de acesso" onkeydown="if(event.key==='Enter')loginAdmin()"
+        style="width:100%;background:#1A271A;border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:13px 14px;font-size:14px;color:#F2EDE4;font-family:inherit;outline:none;box-sizing:border-box" />
+      <button type="submit" style="width:100%;background:#C9A84C;color:#0D1A0D;border:none;padding:13px;font-size:13px;font-weight:600;border-radius:8px;cursor:pointer;font-family:inherit">Entrar no Painel Admin</button>
+    </form>
   </div>
 </div>
 
