@@ -378,12 +378,13 @@ function fecharGaleriaLightbox(){
 
 function glbGoToIndex(idx,animate){
   var galeria=window.cucurunaGaleria||[];
-  if(idx<0)idx=0;
-  if(idx>galeria.length-1)idx=galeria.length-1;
+  if(!galeria.length)return;
+  if(idx<0) idx = galeria.length - 1;
+  if(idx>=galeria.length) idx = 0;
   glbIndex=idx;
   var track=document.getElementById('galeria-lightbox-track');
   if(track){
-    track.style.transition=animate===false?'none':'transform .3s ease';
+    track.style.transition=animate===false?'none':'transform 0.35s cubic-bezier(0.25, 1, 0.5, 1)';
     track.style.transform='translateX(-'+(glbIndex*100)+'%)';
   }
   var counter=document.getElementById('galeria-lightbox-counter');
@@ -397,43 +398,35 @@ function galeriaLightboxNav(dir){
   glbGoToIndex(glbIndex+dir,true);
 }
 
-function glbTouchStart(e){
-  glbDragStartX=e.touches[0].clientX;
-  glbDragging=true;
-}
-function glbMouseDown(e){
-  glbDragStartX=e.clientX;
-  glbDragging=true;
-  document.addEventListener('mousemove',glbMouseMove);
-  document.addEventListener('mouseup',glbMouseUp);
-}
-function glbMouseMove(e){
-  if(!glbDragging)return;
-}
-function glbMouseUp(e){
-  if(!glbDragging)return;
-  glbDragging=false;
-  var diff=e.clientX-glbDragStartX;
-  if(Math.abs(diff)>50){
-    galeriaLightboxNav(diff>0?-1:1);
-  }
-  document.removeEventListener('mousemove',glbMouseMove);
-  document.removeEventListener('mouseup',glbMouseUp);
-}
+// Suporte a deslizar na tela (touch swipe) leve, fluido e sem travamentos
+(function initLightboxGestures(){
+  var lb = document.getElementById('galeria-lightbox');
+  if(!lb) return;
+  var startX = 0, startY = 0, diffX = 0;
+  lb.addEventListener('touchstart', function(e){
+    if(e.touches.length === 1){
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      diffX = 0;
+    }
+  }, {passive: true});
 
-document.addEventListener('DOMContentLoaded',function(){
-  var lb=document.getElementById('galeria-lightbox');
-  if(lb){
-    lb.addEventListener('touchend',function(e){
-      if(!glbDragging)return;
-      glbDragging=false;
-      var diff=e.changedTouches[0].clientX-glbDragStartX;
-      if(Math.abs(diff)>50){
-        galeriaLightboxNav(diff>0?-1:1);
+  lb.addEventListener('touchmove', function(e){
+    if(e.touches.length === 1){
+      diffX = e.touches[0].clientX - startX;
+    }
+  }, {passive: true});
+
+  lb.addEventListener('touchend', function(e){
+    if(Math.abs(diffX) > 45){
+      if(diffX < 0){
+        galeriaLightboxNav(1); // próxima
+      } else {
+        galeriaLightboxNav(-1); // anterior
       }
-    });
-  }
-});
+    }
+  }, {passive: true});
+})();
 
 function scrollGaleria(direcao){
   var g=document.getElementById('galeria-grid');

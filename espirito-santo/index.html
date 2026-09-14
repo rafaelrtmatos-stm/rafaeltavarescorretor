@@ -379,11 +379,12 @@ document.addEventListener('keydown',function(e){
 
 <!-- LIGHTBOX GALERIA -->
 <div id="galeria-lightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.96);z-index:2000;align-items:center;justify-content:center;touch-action:none">
-  <button onclick="fecharGaleriaLightbox()" aria-label="Fechar" style="position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;color:#fff;font-size:20px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center">✕</button>
-  <div id="galeria-lightbox-counter" style="position:absolute;top:22px;left:20px;color:rgba(255,255,255,0.7);font-size:13px;font-weight:600;z-index:10"></div>
+  <button onclick="fecharGaleriaLightbox()" aria-label="Fechar" style="position:absolute;top:18px;right:18px;width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,0.7);border:1.5px solid rgba(255,255,255,0.3);color:#fff;font-size:22px;cursor:pointer;z-index:2500;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,0.5)">✕</button>
+  <div id="galeria-lightbox-counter" style="position:absolute;top:22px;left:20px;color:#fff;background:rgba(0,0,0,0.6);padding:6px 14px;border-radius:100px;border:1px solid rgba(255,255,255,0.2);font-size:13px;font-weight:700;z-index:2500"></div>
 
-  <button onclick="galeriaLightboxNav(-1)" aria-label="Anterior" style="position:absolute;left:8px;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;color:#fff;font-size:22px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center">‹</button>
-  <button onclick="galeriaLightboxNav(1)" aria-label="Próxima" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;color:#fff;font-size:22px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center">›</button>
+  <!-- BOTOES DE NAVEGACAO (SETAS) -->
+  <button onclick="event.stopPropagation();galeriaLightboxNav(-1)" aria-label="Anterior" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);width:50px;height:50px;border-radius:50%;background:rgba(10,18,9,0.85);border:2px solid var(--gold);color:var(--gold);font-size:26px;font-weight:bold;cursor:pointer;z-index:2500;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,0.8),0 0 12px rgba(201,168,76,0.3);transition:all .2s">‹</button>
+  <button onclick="event.stopPropagation();galeriaLightboxNav(1)" aria-label="Próxima" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);width:50px;height:50px;border-radius:50%;background:rgba(10,18,9,0.85);border:2px solid var(--gold);color:var(--gold);font-size:26px;font-weight:bold;cursor:pointer;z-index:2500;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,0.8),0 0 12px rgba(201,168,76,0.3);transition:all .2s">›</button>
 
   <div id="galeria-lightbox-track" style="display:flex;width:100%;height:100%;will-change:transform"></div>
 </div>
@@ -628,9 +629,6 @@ function fecharModalCorretor(){
 
 // ===== LIGHTBOX DA GALERIA (tela cheia, arrastar para o lado) =====
 var glbIndex=0;
-var glbDragStartX=0;
-var glbDragCurrentX=0;
-var glbDragging=false;
 var glbWidth=0;
 
 function glbIsVideo(url){
@@ -642,37 +640,39 @@ function abrirGaleriaLightbox(idx){
   if(!galeria.length)return;
   glbIndex=idx;
   var track=document.getElementById('galeria-lightbox-track');
+  if(!track)return;
   track.innerHTML=galeria.map(function(url){
     if(glbIsVideo(url)){
       return '<div style="min-width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><video src="'+url+'" controls playsinline poster="'+url+'" style="max-width:100%;max-height:100%;width:auto;height:auto" autoplay muted loop></video></div>';
     }
     return '<div style="min-width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="'+url+'" style="max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain" alt="Bairro Espírito Santo"></div>';
   }).join('');
-  document.getElementById('galeria-lightbox').style.display='flex';
+  var lb=document.getElementById('galeria-lightbox');
+  if(lb) lb.style.display='flex';
   document.body.style.overflow='hidden';
   glbWidth=window.innerWidth;
   glbGoToIndex(glbIndex,false);
-
-  var lb=document.getElementById('galeria-lightbox');
-  lb.addEventListener('touchstart',glbTouchStart,{passive:true});
-  lb.addEventListener('mousedown',glbMouseDown);
 }
 
 function fecharGaleriaLightbox(){
   // Pausa qualquer video em reprodução
   document.querySelectorAll('#galeria-lightbox-track video').forEach(function(v){v.pause();});
-  document.getElementById('galeria-lightbox').style.display='none';
+  var lb=document.getElementById('galeria-lightbox');
+  if(lb) lb.style.display='none';
   document.body.style.overflow='';
 }
 
 function glbGoToIndex(idx,animate){
   var galeria=window.espiritoSantoGaleria||[];
-  if(idx<0)idx=0;
-  if(idx>galeria.length-1)idx=galeria.length-1;
+  if(!galeria.length)return;
+  if(idx<0) idx = galeria.length - 1;
+  if(idx>=galeria.length) idx = 0;
   glbIndex=idx;
   var track=document.getElementById('galeria-lightbox-track');
-  track.style.transition=animate===false?'none':'transform .3s ease';
-  track.style.transform='translateX(-'+(glbIndex*100)+'%)';
+  if(track){
+    track.style.transition=animate===false?'none':'transform 0.35s cubic-bezier(0.25, 1, 0.5, 1)';
+    track.style.transform='translateX(-'+(glbIndex*100)+'%)';
+  }
   var counter=document.getElementById('galeria-lightbox-counter');
   if(counter)counter.textContent=(glbIndex+1)+' / '+galeria.length;
   // Pausa videos que nao estao visiveis
@@ -685,90 +685,36 @@ function galeriaLightboxNav(dir){
   glbGoToIndex(glbIndex+dir,true);
 }
 
-function glbTouchStart(e){
-  glbDragging=true;
-  glbDragStartX=e.touches[0].clientX;
-  glbDragCurrentX=glbDragStartX;
-  var track=document.getElementById('galeria-lightbox-track');
-  track.style.transition='none';
-  var animFrameId=null;
-  function updateTransform(){
-    if(glbDragging){
-      var delta=glbDragCurrentX-glbDragStartX;
-      track.style.transform='translateX(calc(-'+(glbIndex*100)+'% + '+delta+'px))';
-      animFrameId=requestAnimationFrame(updateTransform);
+// Suporte a deslizar na tela (touch swipe) leve, fluido e sem travamentos
+(function initLightboxGestures(){
+  var lb = document.getElementById('galeria-lightbox');
+  if(!lb) return;
+  var startX = 0, startY = 0, diffX = 0;
+  lb.addEventListener('touchstart', function(e){
+    if(e.touches.length === 1){
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      diffX = 0;
     }
-  }
-  function onMove(ev){
-    if(!glbDragging)return;
-    glbDragCurrentX=ev.touches[0].clientX;
-    if(!animFrameId)animFrameId=requestAnimationFrame(updateTransform);
-  }
-  function onEnd(){
-    if(!glbDragging)return;
-    glbDragging=false;
-    if(animFrameId)cancelAnimationFrame(animFrameId);
-    var delta=glbDragCurrentX-glbDragStartX;
-    if(Math.abs(delta)>glbWidth*0.18){
-      glbGoToIndex(glbIndex+(delta<0?1:-1),true);
-    }else{
-      glbGoToIndex(glbIndex,true);
+  }, {passive: true});
+
+  lb.addEventListener('touchmove', function(e){
+    if(e.touches.length === 1){
+      diffX = e.touches[0].clientX - startX;
     }
-    document.removeEventListener('touchmove',onMove);
-    document.removeEventListener('touchend',onEnd);
-  }
-  document.addEventListener('touchmove',onMove,{passive:true});
-  document.addEventListener('touchend',onEnd);
-}
-function glbTouchMove(e){
-  if(!glbDragging)return;
-  glbDragCurrentX=e.touches[0].clientX;
-}
-function glbTouchEnd(){
-  if(!glbDragging)return;
-  glbDragging=false;
-  var delta=glbDragCurrentX-glbDragStartX;
-  if(Math.abs(delta)>glbWidth*0.18){
-    glbGoToIndex(glbIndex+(delta<0?1:-1),true);
-  }else{
-    glbGoToIndex(glbIndex,true);
-  }
-}
-function glbMouseDown(e){
-  glbDragging=true;
-  glbDragStartX=e.clientX;
-  glbDragCurrentX=glbDragStartX;
-  var track=document.getElementById('galeria-lightbox-track');
-  track.style.transition='none';
-  var animFrameId=null;
-  function updateTransform(){
-    if(glbDragging){
-      var delta=glbDragCurrentX-glbDragStartX;
-      track.style.transform='translateX(calc(-'+(glbIndex*100)+'% + '+delta+'px))';
-      animFrameId=requestAnimationFrame(updateTransform);
+  }, {passive: true});
+
+  lb.addEventListener('touchend', function(e){
+    if(Math.abs(diffX) > 45){
+      if(diffX < 0){
+        galeriaLightboxNav(1); // próxima
+      } else {
+        galeriaLightboxNav(-1); // anterior
+      }
     }
-  }
-  function onMove(ev){
-    if(!glbDragging)return;
-    glbDragCurrentX=ev.clientX;
-    if(!animFrameId)animFrameId=requestAnimationFrame(updateTransform);
-  }
-  function onUp(){
-    if(!glbDragging)return;
-    glbDragging=false;
-    if(animFrameId)cancelAnimationFrame(animFrameId);
-    var delta=glbDragCurrentX-glbDragStartX;
-    if(Math.abs(delta)>glbWidth*0.18){
-      glbGoToIndex(glbIndex+(delta<0?1:-1),true);
-    }else{
-      glbGoToIndex(glbIndex,true);
-    }
-    document.removeEventListener('mousemove',onMove);
-    document.removeEventListener('mouseup',onUp);
-  }
-  document.addEventListener('mousemove',onMove);
-  document.addEventListener('mouseup',onUp);
-}
+  }, {passive: true});
+})();
+
 document.addEventListener('keydown',function(e){
   var lb=document.getElementById('galeria-lightbox');
   if(!lb||lb.style.display==='none'||!lb.style.display)return;
