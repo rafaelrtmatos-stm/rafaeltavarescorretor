@@ -1,0 +1,21 @@
+{
+  "name": "Rafael Tavares Corretor",
+  "short_name": "RT Corretor",
+  "description": "Portal imobiliário e lançamentos de terrenos e imóveis em Santarém e região.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#C9A84C",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo-rt.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
