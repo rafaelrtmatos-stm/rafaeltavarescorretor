@@ -338,12 +338,12 @@
         {
             "id": "santa-maria",
             "nome": "Santa Maria",
-            "foto": "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-2-1780364588826.png",
+            "foto": "/imagens/bom-sossego.png",
             "loc": "Atrás do Horizonte Park",
             "desc": "Loteamento em Santa Maria. Opções a partir de R$ 500 de entrada e parcelas de R$ 300/mês.",
             "badge": "Disponível",
             "badgeTipo": "disponivel",
-            "wpp": "Olá vim pelo site, tenho interesse em Santa Maria!",
+            "wpp": "Olá Rafael! Vi as fotos de Santa Maria no site e quero mais informações sobre os lotes.",
             "lat": -2.448167,
             "lng": -54.805556,
             "diferenciais": [
@@ -442,7 +442,7 @@
             "estado": "PA",
             "lat": -1.9632448,
             "lng": -54.7075062,
-            "foto": "https://raw.githubusercontent.com/rafaelrtmatos-stm/rafaeltavarescorretor/main/imagens/alenquer-obra-7.jpeg",
+            "foto": "/imagens/alenquer-obra-7.jpeg",
             "descricao": "Novo lançamento em Alenquer, PA.",
             "lancamento": true,
             "dataLancamento": "2026-06-10",
@@ -512,15 +512,15 @@
     "_ts": 1780595055,
     "alenquer": {
         "galeria": [
-            "https://raw.githubusercontent.com/rafaelrtmatos-stm/rafaeltavarescorretor/main/imagens/alenquer-obra-1.jpeg",
-            "https://raw.githubusercontent.com/rafaelrtmatos-stm/rafaeltavarescorretor/main/imagens/alenquer-obra-2.jpeg",
-            "https://raw.githubusercontent.com/rafaelrtmatos-stm/rafaeltavarescorretor/main/imagens/alenquer-obra-3.jpeg",
-            "https://raw.githubusercontent.com/rafaelrtmatos-stm/rafaeltavarescorretor/main/imagens/alenquer-obra-4.jpeg",
-            "https://raw.githubusercontent.com/rafaelrtmatos-stm/rafaeltavarescorretor/main/imagens/alenquer-obra-5.jpeg",
-            "https://raw.githubusercontent.com/rafaelrtmatos-stm/rafaeltavarescorretor/main/imagens/alenquer-obra-6.jpeg",
-            "https://raw.githubusercontent.com/rafaelrtmatos-stm/rafaeltavarescorretor/main/imagens/alenquer-obra-7.jpeg",
-            "https://raw.githubusercontent.com/rafaelrtmatos-stm/rafaeltavarescorretor/main/imagens/alenquer-obra-8.jpeg",
-            "https://raw.githubusercontent.com/rafaelrtmatos-stm/rafaeltavarescorretor/main/imagens/alenquer-obra-9.jpeg"
+            "/imagens/alenquer-obra-1.jpeg",
+            "/imagens/alenquer-obra-2.jpeg",
+            "/imagens/alenquer-obra-3.jpeg",
+            "/imagens/alenquer-obra-4.jpeg",
+            "/imagens/alenquer-obra-5.jpeg",
+            "/imagens/alenquer-obra-6.jpeg",
+            "/imagens/alenquer-obra-7.jpeg",
+            "/imagens/alenquer-obra-8.jpeg",
+            "/imagens/alenquer-obra-9.jpeg"
         ],
         "empId": "1780939976772",
         "dataLancamento": "2026-06-10T11:00:00.000Z",
@@ -549,6 +549,7 @@
     },
     "santa-maria": {
         "galeria": [
+            "/imagens/bom-sossego.png",
             "/imagens/santa-maria-obra-1.jpeg",
             "/imagens/santa-maria-obra-2.jpeg",
             "/imagens/santa-maria-obra-3.jpeg"

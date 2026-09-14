@@ -81,9 +81,6 @@
     .plano-entrada{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;margin-top:20px;margin-bottom:4px}
     .plano-valor{font-family:"Cormorant Garamond",serif;font-size:36px;font-weight:700;color:var(--gold)}
     .plano-parcela{font-size:12px;color:var(--text2);margin-top:4px}
-    .galeria-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:28px}
-    .galeria-item{border-radius:12px;overflow:hidden;aspect-ratio:16/9;background:var(--bg3);border:1px solid var(--border)}
-    .galeria-item video,.galeria-item img{width:100%;height:100%;object-fit:cover}
     footer{padding:40px 24px;text-align:center;border-top:1px solid var(--border);font-size:12px;color:var(--text3)}
     @media(max-width:768px){
       .hero{height:65vh;min-height:440px}
@@ -95,7 +92,7 @@
       [style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr!important}
       [style*="display:flex;align-items:center;gap:32px"]{flex-direction:column!important;text-align:center!important}
 
-      .stats-band-inner,.planos-grid,.galeria-grid{grid-template-columns:1fr}
+      .stats-band-inner,.planos-grid{grid-template-columns:1fr}
       .nav-btn-outline{display:none}
       /* SEÇÃO SOBRE - empilha em mobile */
       #sobre > div > div[style*="grid-template-columns:1fr 1.3fr"]{
@@ -315,25 +312,9 @@ function mostrarSeg(id, btn) {
   <div id="galeria-grid" class="no-scrollbar" style="display:flex;gap:16px;overflow-x:auto;padding:10px 24px 24px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;">
     <div style="padding:40px;color:var(--text3);font-size:13px;text-align:center;width:100%;">Carregando fotos e vídeos...</div>
   </div>
-
-  <!-- BLOCO DE ATENDIMENTO LOGO APÓS AS FOTOS -->
-  <div style="max-width:900px;margin:32px auto 0;padding:0 24px;">
-    <div style="background:linear-gradient(135deg, rgba(201,168,76,0.12), rgba(20,28,20,0.85));border:1.5px solid rgba(201,168,76,0.35);border-radius:20px;padding:32px 24px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,0.4);">
-      <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px;">Gostou do que viu? Fale direto com o corretor</div>
-      <h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--text);margin-bottom:10px;">Garanta seu lote em Monte Alegre com Rafael Tavares</h3>
-      <p style="font-size:13.5px;color:var(--text2);max-width:540px;margin:0 auto 24px;line-height:1.6;">Tire suas dúvidas sobre parcelas, metragens de lotes ou solicite um agendamento de visita no local.</p>
-      
-      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-        <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Vi%20as%20fotos%20do%20Bairro%20Jussaramia%20em%20Monte%20Alegre%20no%20site%20e%20quero%20mais%20informa%C3%A7%C3%B5es%20sobre%20os%20lotes." target="_blank" class="btn-wpp" style="font-size:14px;padding:15px 30px;box-shadow:0 6px 24px rgba(37,211,102,0.35);display:inline-flex;align-items:center;gap:10px;border-radius:100px;text-decoration:none;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          Falar com Rafael no WhatsApp
-        </a>
-      </div>
-    </div>
-  </div>
 </section>
 
-<section style="background:var(--bg);padding:64px 24px;border-top:1px solid var(--border)">
+<section id="sec-localizacao" style="background:var(--bg);padding:64px 24px;border-top:1px solid var(--border)">
   <div style="max-width:900px;margin:0 auto;text-align:center">
     <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px">Localização</div>
     <h2 class="section-title">Onde fica o <em>Jussaramia</em></h2>
@@ -352,6 +333,20 @@ function mostrarSeg(id, btn) {
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
       Como chegar
     </a>
+
+    <!-- BLOCO DE ATENDIMENTO LOGO APÓS A LOCALIZAÇÃO -->
+    <div id="sec-contato" style="margin-top:48px;background:linear-gradient(135deg, rgba(201,168,76,0.12), rgba(20,28,20,0.85));border:1.5px solid rgba(201,168,76,0.35);border-radius:20px;padding:32px 24px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,0.4);">
+      <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px;">Gostou da localização? Fale direto com o corretor</div>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--text);margin-bottom:10px;">Garanta seu lote em Monte Alegre com Rafael Tavares</h3>
+      <p style="font-size:13.5px;color:var(--text2);max-width:540px;margin:0 auto 24px;line-height:1.6;">Tire suas dúvidas sobre parcelas, metragens de lotes ou solicite um agendamento de visita no local.</p>
+      
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Vi%20as%20fotos%20do%20Bairro%20Jussaramia%20em%20Monte%20Alegre%20no%20site%20e%20quero%20mais%20informa%C3%A7%C3%B5es%20sobre%20os%20lotes." target="_blank" class="btn-wpp" style="font-size:14px;padding:15px 30px;box-shadow:0 6px 24px rgba(37,211,102,0.35);display:inline-flex;align-items:center;gap:10px;border-radius:100px;text-decoration:none;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Falar com Rafael no WhatsApp
+        </a>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -756,7 +751,16 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')fecharMenu()
 <script>
 function scrollGaleria(direcao){
   var g=document.getElementById('galeria-grid');
-  if(g) g.scrollBy({left: direcao * 310, behavior: 'smooth'});
+  if(!g) return;
+  var maxScroll = g.scrollWidth - g.clientWidth;
+  if(maxScroll <= 5) return;
+  if(direcao > 0 && g.scrollLeft >= maxScroll - 15){
+    g.scrollTo({left: 0, behavior: 'smooth'});
+  } else if(direcao < 0 && g.scrollLeft <= 15){
+    g.scrollTo({left: maxScroll, behavior: 'smooth'});
+  } else {
+    g.scrollBy({left: direcao * 310, behavior: 'smooth'});
+  }
 }
 
 var glbIndex=0;
@@ -769,7 +773,7 @@ function abrirGaleriaLightbox(idx){
     lb=document.createElement('div');
     lb.id='galeria-lightbox';
     lb.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.96);display:flex;align-items:center;justify-content:center;flex-direction:column;';
-    lb.innerHTML='<button onclick="fecharGaleriaLightbox()" style="position:absolute;top:18px;right:20px;background:none;border:none;color:#fff;font-size:32px;cursor:pointer;z-index:2;line-height:1">×</button><div id="galeria-lightbox-counter" style="position:absolute;top:22px;left:24px;color:rgba(255,255,255,0.7);font-size:13px;letter-spacing:1px;font-weight:600"></div><button onclick="galeriaLightboxNav(-1)" style="position:absolute;left:16px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.2);color:#fff;font-size:24px;width:44px;height:44px;border-radius:50%;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center">‹</button><button onclick="galeriaLightboxNav(1)" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.2);color:#fff;font-size:24px;width:44px;height:44px;border-radius:50%;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center">›</button><div style="width:100%;height:85vh;overflow:hidden;position:relative"><div id="galeria-lightbox-track" style="display:flex;height:100%;transition:transform 0.35s cubic-bezier(0.25, 1, 0.5, 1)"></div></div>';
+    lb.innerHTML='<button onclick="fecharGaleriaLightbox()" style="position:absolute;top:18px;right:20px;background:none;border:none;color:#fff;font-size:32px;cursor:pointer;z-index:2;line-height:1">×</button><div id="galeria-lightbox-counter" style="position:absolute;top:22px;left:24px;color:rgba(255,255,255,0.7);font-size:13px;letter-spacing:1px;font-weight:600"></div><button onclick="event.stopPropagation();galeriaLightboxNav(-1)" style="position:absolute;left:16px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.2);color:#fff;font-size:24px;width:44px;height:44px;border-radius:50%;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center">‹</button><button onclick="event.stopPropagation();galeriaLightboxNav(1)" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.2);color:#fff;font-size:24px;width:44px;height:44px;border-radius:50%;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center">›</button><div style="width:100%;height:85vh;overflow:hidden;position:relative"><div id="galeria-lightbox-track" style="display:flex;height:100%;transition:transform 0.35s cubic-bezier(0.25, 1, 0.5, 1)"></div></div>';
     document.body.appendChild(lb);
     lb.addEventListener('touchstart', function(e){
       if(e.touches.length === 1){
@@ -795,7 +799,7 @@ function abrirGaleriaLightbox(idx){
     if(isVideo){
       return '<div style="min-width:100%;width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><video src="'+url+'" controls playsinline poster="'+url+'" style="max-width:92vw;max-height:85vh;width:auto;height:auto;border-radius:8px" autoplay muted loop></video></div>';
     }
-    return '<div style="min-width:100%;width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="'+url+'" style="max-width:92vw;max-height:85vh;width:auto;height:auto;object-fit:contain;border-radius:8px" alt="Jussaramia Monte Alegre"></div>';
+    return '<div style="min-width:100%;width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="'+url+'" style="max-width:92vw;max-height:85vh;width:auto;height:auto;object-fit:contain;border-radius:8px;cursor:pointer" onclick="galeriaLightboxNav(1)" alt="Jussaramia Monte Alegre"></div>';
   }).join('');
   lb.style.display='flex';
   document.body.style.overflow='hidden';
