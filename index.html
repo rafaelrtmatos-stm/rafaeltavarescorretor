@@ -215,13 +215,13 @@ body{font-family:"Inter",sans-serif;background:var(--bg);color:var(--text);overf
   .nav-brand-creci{font-size:8px}
 
   /* HERO */
-  .hero{height:48svh;min-height:400px}
+  .hero{height:auto;min-height:540px;padding-bottom:30px}
   .hero-body{padding:0 18px 90px}
   .hero-badge{font-size:9px;padding:6px 14px;margin-bottom:18px}
   .hero-title{font-size:clamp(36px,10vw,52px);letter-spacing:-1px;margin-bottom:10px}
   .hero-sub{font-size:13px;margin-bottom:24px}
   .hero-btns{flex-direction:column;gap:10px;align-items:center}
-  .hero-foto-principal{object-position:calc(50% - 50px) top}
+  .hero-foto-principal{object-position:68% top}
   .btn-primary,.btn-secondary{width:100%;max-width:300px;justify-content:center;padding:14px 20px;font-size:13px}
   .hero-stats{display:none}
   .hero-assinatura{display:none}
@@ -844,8 +844,52 @@ section#hero{z-index:0;overflow:hidden!important}
     </a>
   </div>
 
-  <div style="text-align:center;padding:0 24px">
-    <a href="#regioes-carrossel" onclick="document.getElementById('regioes-carrossel').scrollIntoView({behavior:'smooth'});return false;" style="display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--border2);color:var(--gold);padding:12px 22px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:.5px;text-decoration:none">▦ VER TODOS OS EMPREENDIMENTOS</a>
+  <div style="text-align:center;padding:0 24px;margin-top:4px;">
+    <button id="btn-toggle-grid-regioes" onclick="alternarGradeRegioes()" style="display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--border2);background:transparent;color:var(--gold);padding:12px 24px;border-radius:100px;font-size:11.5px;font-weight:700;letter-spacing:.5px;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(201,168,76,0.1)';this.style.borderColor='var(--gold)'" onmouseout="this.style.background='transparent';this.style.borderColor='var(--border2)'">
+      <span id="btn-toggle-grid-icon">▦</span> <span id="btn-toggle-grid-txt">VER TODOS OS EMPREENDIMENTOS EM GRADE</span>
+    </button>
+  </div>
+
+  <!-- GRADE COMPLETA COM TODOS OS EMPREENDIMENTOS (EXPANSÍVEL) -->
+  <div id="regioes-grade-completa" style="display:none;max-width:1200px;margin:32px auto 0;padding:0 24px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));gap:20px;">
+      <a href="/mararu/" class="ecard-grid" style="text-decoration:none;background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .2s ease;display:block;">
+        <div class="ecard-foto" style="height:140px;background-image:url('/imagens/mararu-hero-rafael.jpg');background-size:cover;background-position:center;position:relative"><span class="ecard-badge ecard-badge-lancamento">LANÇAMENTO</span></div>
+        <div class="ecard-corpo"><div class="ecard-nome">Mararu Ville</div><div class="ecard-preco">Entrada <b>R$ 600</b><br>Parcela a partir de <b>R$ 255,56</b></div><div class="ecard-loc">📍 Bairro Mararu · Santarém</div></div>
+      </a>
+      <a href="/bela-vista-mararu/" class="ecard-grid" style="text-decoration:none;background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .2s ease;display:block;">
+        <div class="ecard-foto" style="height:140px;background-image:url('/imagens/bela-vista-mararu-hero-v2.jpg');background-size:cover;background-position:center;position:relative"><span class="ecard-badge ecard-badge-lancamento">LANÇAMENTO</span></div>
+        <div class="ecard-corpo"><div class="ecard-nome">Bela Vista do Mararu</div><div class="ecard-preco">Entrada <b>R$ 600</b><br>Parcela a partir de <b>R$ 194,45</b></div><div class="ecard-loc">📍 Bairro Mararu · Santarém</div></div>
+      </a>
+      <a href="/alenquer/" class="ecard-grid" style="text-decoration:none;background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .2s ease;display:block;">
+        <div class="ecard-foto" style="height:140px;background-image:url('/imagens/alenquer-hero.png');background-size:cover;background-position:center;position:relative"><span class="ecard-badge ecard-badge-lancamento">LANÇAMENTO</span></div>
+        <div class="ecard-corpo"><div class="ecard-nome">Alenquer</div><div class="ecard-preco">Entrada <b>R$ 500</b><br>Parcela a partir de <b>R$ 200</b></div><div class="ecard-loc">📍 Alenquer, PA</div></div>
+      </a>
+      <a href="/monte-alegre/" class="ecard-grid" style="text-decoration:none;background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .2s ease;display:block;">
+        <div class="ecard-foto" style="height:140px;background-image:url('/imagens/monte-alegre-hero.jpg');background-size:cover;background-position:center;position:relative"><span class="ecard-badge ecard-badge-lancamento">LANÇAMENTO</span></div>
+        <div class="ecard-corpo"><div class="ecard-nome">Monte Alegre</div><div class="ecard-preco">Entrada <b>R$ 500</b><br>Parcela a partir de <b>R$ 300</b></div><div class="ecard-loc">📍 Monte Alegre, PA</div></div>
+      </a>
+      <a href="/cucuruna/" class="ecard-grid" style="text-decoration:none;background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .2s ease;display:block;">
+        <div class="ecard-foto" style="height:140px;background-image:url('/imagens/cucuruna-hero.jpg');background-size:cover;background-position:center;position:relative"><span class="ecard-badge ecard-badge-promocao">PROMOÇÃO</span></div>
+        <div class="ecard-corpo"><div class="ecard-nome">Cucurunã</div><div class="ecard-preco">Entrada <b>R$ 500</b><br>Parcela a partir de <b>R$ 312,50</b></div><div class="ecard-loc">📍 Cucurunã · Santarém</div></div>
+      </a>
+      <a href="/santa-maria/" class="ecard-grid" style="text-decoration:none;background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .2s ease;display:block;">
+        <div class="ecard-foto" style="height:140px;background-image:url('/imagens/santa-maria-obra-1.jpeg');background-size:cover;background-position:center;position:relative"><span class="ecard-badge ecard-badge-promocao">PROMOÇÃO</span></div>
+        <div class="ecard-corpo"><div class="ecard-nome">Santa Maria</div><div class="ecard-preco">Entrada <b>R$ 500</b><br>Parcela a partir de <b>R$ 300</b></div><div class="ecard-loc">📍 Santa Maria · Santarém</div></div>
+      </a>
+      <a href="/sao-braz/" class="ecard-grid" style="text-decoration:none;background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .2s ease;display:block;">
+        <div class="ecard-foto" style="height:140px;background-image:url('/imagens/sao-braz-hero.jpg');background-size:cover;background-position:center;position:relative"><span class="ecard-badge ecard-badge-lazer">LAZER</span></div>
+        <div class="ecard-corpo"><div class="ecard-nome">São Braz</div><div class="ecard-preco">Entrada <b>R$ 1.000</b><br>Parcela a partir de <b>R$ 300</b></div><div class="ecard-loc">📍 São Braz · Santarém</div></div>
+      </a>
+      <a href="/espirito-santo/" class="ecard-grid" style="text-decoration:none;background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .2s ease;display:block;">
+        <div class="ecard-foto" style="height:140px;background-image:url('/imagens/espirito-santo-hero.jpg');background-size:cover;background-position:center;position:relative"><span class="ecard-badge ecard-badge-promocao">PROMOÇÃO</span></div>
+        <div class="ecard-corpo"><div class="ecard-nome">Espírito Santo</div><div class="ecard-preco">Entrada <b>R$ 2.000</b><br>Parcela a partir de <b>R$ 400</b></div><div class="ecard-loc">📍 Espírito Santo · Santarém</div></div>
+      </a>
+      <a href="/pajucara/" class="ecard-grid" style="text-decoration:none;background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .2s ease;display:block;">
+        <div class="ecard-foto" style="height:140px;background-image:url('/imagens/pajuca-foto1.jpeg');background-size:cover;background-position:center;position:relative"><span class="ecard-badge ecard-badge-lazer">LAZER</span></div>
+        <div class="ecard-corpo"><div class="ecard-nome">Pajuçara</div><div class="ecard-preco">Entrada <b>R$ 500</b><br>Parcela a partir de <b>R$ 312,50</b></div><div class="ecard-loc">📍 Pajuçara · Santarém</div></div>
+      </a>
+    </div>
   </div>
 </section>
 
@@ -854,6 +898,7 @@ section#hero{z-index:0;overflow:hidden!important}
   .no-scrollbar{scrollbar-width:none}
   .ecard{flex:0 0 220px;display:block;text-decoration:none;background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .2s ease;contain:paint}
   .ecard:hover{border-color:var(--border2);transform:translateY(-2px)}
+  .ecard-grid:hover{border-color:var(--gold)!important;transform:translateY(-3px);box-shadow:0 8px 24px rgba(201,168,76,0.15)}
   .ecard-foto{height:130px;background-size:cover;background-position:center;position:relative}
   .ecard-badge{position:absolute;top:10px;left:10px;font-size:9px;font-weight:800;letter-spacing:.5px;padding:5px 10px;border-radius:100px;text-transform:uppercase}
   .ecard-badge-destaque,.ecard-badge-lancamento{background:var(--gold);color:#000}
@@ -943,8 +988,37 @@ section#hero{z-index:0;overflow:hidden!important}
       }
     });
 
+    var gridCards = document.querySelectorAll('#regioes-grade-completa .ecard-grid');
+    gridCards.forEach(function(gcard){
+      var gtexto = (gcard.textContent || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      if(!query || gtexto.indexOf(query) !== -1){
+        gcard.style.display = 'block';
+      } else {
+        gcard.style.display = 'none';
+      }
+    });
+
     if(feedback){
       feedback.style.display = (visiveis === 0) ? 'block' : 'none';
+    }
+  };
+
+  window.alternarGradeRegioes = function(){
+    var grade = document.getElementById('regioes-grade-completa');
+    var txt = document.getElementById('btn-toggle-grid-txt');
+    var icon = document.getElementById('btn-toggle-grid-icon');
+    if(!grade) return;
+    if(grade.style.display === 'none' || !grade.style.display){
+      grade.style.display = 'block';
+      if(txt) txt.textContent = 'RECOLHER GRADE DE EMPREENDIMENTOS';
+      if(icon) icon.textContent = '▲';
+      grade.scrollIntoView({behavior:'smooth', block:'start'});
+    } else {
+      grade.style.display = 'none';
+      if(txt) txt.textContent = 'VER TODOS OS EMPREENDIMENTOS EM GRADE';
+      if(icon) icon.textContent = '▦';
+      var regioesSec = document.getElementById('regioes');
+      if(regioesSec) regioesSec.scrollIntoView({behavior:'smooth', block:'start'});
     }
   };
 
