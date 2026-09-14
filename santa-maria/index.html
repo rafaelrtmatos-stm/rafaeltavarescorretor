@@ -197,20 +197,27 @@ footer { background: var(--bg2); border-top: 1px solid rgba(201,168,76,0.15); pa
 
 <section class="hero">
   <div class="hero-bg">
-    <img src="/imagens/santa-maria-obra-3.jpeg" alt="Santa Maria - Santarém" loading="eager">
+    <img src="/imagens/hero-santa-maria.png" alt="Santa Maria - Santarém" loading="eager" style="object-position: center;">
     <div class="hero-overlay"></div>
   </div>
   <div class="hero-content">
     <div class="hero-tag">🌺 Lotes em Santa Maria</div>
     <h1 class="hero-title"><em>Santa Maria</em></h1>
     <p class="hero-sub">Empreendimentos Porto Belo, Tapajós e Bom Sossego disponíveis em Santa Maria — Santarém, PA.<br>Lotes 10x30 (300 m²) com condições facilitadas de entrada e parcelamento direto.</p>
-    <div class="hero-btns">
-      <a href="#empreendimentos" class="btn-gold">Ver Empreendimentos</a>
-            <button onclick="compartilharPagina()" class="btn-share" type="button">
+    
+    <div class="hero-btns" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:22px 0 10px;">
+      <a href="#empreendimentos" class="btn-gold" style="font-size:13.5px;padding:15px 26px;letter-spacing:.5px;box-shadow:0 8px 28px rgba(201,168,76,0.35);display:inline-flex;align-items:center;gap:9px;border-radius:100px;font-weight:700;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        Ver Empreendimentos e Preços ↓
+      </a>
+      <a href="#sec-galeria" style="font-size:13.5px;padding:15px 26px;letter-spacing:.5px;display:inline-flex;align-items:center;gap:9px;background:rgba(201,168,76,0.08);border:1.5px solid rgba(201,168,76,0.5);color:#E8C96A;text-decoration:none;border-radius:100px;font-weight:700;transition:all .2s;" onmouseover="this.style.background='rgba(201,168,76,0.18)';this.style.borderColor='var(--gold)'" onmouseout="this.style.background='rgba(201,168,76,0.08)';this.style.borderColor='rgba(201,168,76,0.5)'">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        Ver Fotos e Vídeos ↓
+      </a>
+      <button onclick="compartilharPagina()" class="btn-share" type="button" style="padding:14px 20px;border-radius:100px;">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
         Compartilhar
       </button>
-<a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Vim%20pelo%20site%2C%20tenho%20interesse%20nos%20empreendimentos%20no%20Santa%20Maria." target="_blank" class="btn-wpp">Falar com Rafael</a>
     </div>
   </div>
 </section>
@@ -366,10 +373,44 @@ footer { background: var(--bg2); border-top: 1px solid rgba(201,168,76,0.15); pa
   </div>
 </section>
 
-<section style="padding: 60px 20px; max-width: 1200px; margin: 0 auto;">
-  <h2 class="section-title">Conheça <em>Santa Maria</em></h2>
-  <div id="galeria-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px">
-    <div style="padding:40px;color:var(--text3);font-size:13px;text-align:center;grid-column:1/-1">Carregando fotos...</div>
+<section id="sec-galeria" style="background:var(--bg);border-bottom:1px solid var(--border);padding:70px 0;">
+  <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:24px;">
+      <div>
+        <div class="section-tag">Conheça o Empreendimento</div>
+        <h2 class="section-title" style="margin-bottom:6px;">Galeria <em>Santa Maria</em></h2>
+        <p class="section-sub" style="margin-bottom:0;">Deslize para ver as fotos e vídeos da região e dos lotes.</p>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="scrollGaleria(-1)" aria-label="Anterior" style="width:40px;height:40px;border-radius:50%;background:var(--bg2);border:1px solid var(--border2);color:var(--gold);font-size:18px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .2s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border2)'">‹</button>
+        <button onclick="scrollGaleria(1)" aria-label="Próxima" style="width:40px;height:40px;border-radius:50%;background:var(--bg2);border:1px solid var(--border2);color:var(--gold);font-size:18px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .2s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border2)'">›</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Carrossel de Fotos e Videos -->
+  <div id="galeria-grid" class="no-scrollbar" style="display:flex;gap:16px;overflow-x:auto;padding:10px 24px 24px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;">
+    <div style="padding:40px;color:var(--text3);font-size:13px;text-align:center;width:100%;">Carregando fotos e vídeos...</div>
+  </div>
+
+  <!-- BLOCO DE ATENDIMENTO LOGO APÓS AS FOTOS -->
+  <div style="max-width:900px;margin:32px auto 0;padding:0 24px;">
+    <div style="background:linear-gradient(135deg, rgba(201,168,76,0.12), rgba(20,28,20,0.85));border:1.5px solid rgba(201,168,76,0.35);border-radius:20px;padding:32px 24px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,0.4);">
+      <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px;">Gostou de Santa Maria? Fale com o corretor</div>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--text);margin-bottom:10px;">Garanta seu lote com Rafael Tavares</h3>
+      <p style="font-size:13.5px;color:var(--text2);max-width:540px;margin:0 auto 24px;line-height:1.6;">Atendimento direto para tirar dúvidas sobre Porto Belo, Tapajós ou Bom Sossego e agendar visitas.</p>
+      
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Vi%20as%20fotos%20de%20Santa%20Maria%20no%20site%20e%20quero%20mais%20informa%C3%A7%C3%B5es." target="_blank" class="btn-wpp" style="font-size:14px;padding:15px 30px;box-shadow:0 6px 24px rgba(37,211,102,0.35);display:inline-flex;align-items:center;gap:10px;border-radius:100px;text-decoration:none;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Falar com Rafael no WhatsApp
+        </a>
+        <a href="https://chat.whatsapp.com/GcVmmuRJ6FKBGnePTdAGAg?s=cl&p=i&mlu=3" target="_blank" style="font-size:13px;padding:14px 24px;border-radius:100px;background:rgba(201,168,76,0.1);border:1.5px solid rgba(201,168,76,0.45);color:var(--gold);text-decoration:none;display:inline-flex;align-items:center;gap:8px;font-weight:700;transition:all .2s;" onmouseover="this.style.background='rgba(201,168,76,0.2)';this.style.borderColor='var(--gold)'" onmouseout="this.style.background='rgba(201,168,76,0.1)';this.style.borderColor='rgba(201,168,76,0.45)'">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          Entrar no Grupo VIP
+        </a>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -433,6 +474,18 @@ footer { background: var(--bg2); border-top: 1px solid rgba(201,168,76,0.15); pa
   <p>© 2026 Santa Maria — Loteamento · Santarém, PA | CRECI 13919 — Rafael Tavares</p>
 </footer>
 
+<!-- LIGHTBOX GALERIA -->
+<div id="galeria-lightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.96);z-index:2000;align-items:center;justify-content:center;touch-action:none">
+  <button onclick="fecharGaleriaLightbox()" aria-label="Fechar" style="position:absolute;top:18px;right:18px;width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,0.7);border:1.5px solid rgba(255,255,255,0.3);color:#fff;font-size:22px;cursor:pointer;z-index:2500;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,0.5)">✕</button>
+  <div id="galeria-lightbox-counter" style="position:absolute;top:22px;left:20px;color:#fff;background:rgba(0,0,0,0.6);padding:6px 14px;border-radius:100px;border:1px solid rgba(255,255,255,0.2);font-size:13px;font-weight:700;z-index:2500"></div>
+
+  <!-- BOTOES DE NAVEGACAO (SETAS) -->
+  <button onclick="event.stopPropagation();galeriaLightboxNav(-1)" aria-label="Anterior" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);width:50px;height:50px;border-radius:50%;background:rgba(10,18,9,0.85);border:2px solid var(--gold);color:var(--gold);font-size:26px;font-weight:bold;cursor:pointer;z-index:2500;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,0.8),0 0 12px rgba(201,168,76,0.3);transition:all .2s">‹</button>
+  <button onclick="event.stopPropagation();galeriaLightboxNav(1)" aria-label="Próxima" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);width:50px;height:50px;border-radius:50%;background:rgba(10,18,9,0.85);border:2px solid var(--gold);color:var(--gold);font-size:26px;font-weight:bold;cursor:pointer;z-index:2500;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,0.8),0 0 12px rgba(201,168,76,0.3);transition:all .2s">›</button>
+
+  <div id="galeria-lightbox-track" style="display:flex;width:100%;height:100%;will-change:transform"></div>
+</div>
+
 <script>
 var _open=false;
 function toggleMenu(){_open?fecharMenu():abrirMenu();}
@@ -455,10 +508,6 @@ function ir(url){window.location.href=url;}
 
 // ===== GALERIA =====
 var glbIndex=0;
-var glbDragStartX=0;
-var glbDragCurrentX=0;
-var glbDragging=false;
-var glbWidth=0;
 
 function glbIsVideo(url){
   return url.indexOf('.mp4')>=0||url.indexOf('.webm')>=0||url.indexOf('.mov')>=0;
@@ -471,17 +520,13 @@ function abrirGaleriaLightbox(idx){
   var track=document.getElementById('galeria-lightbox-track');
   track.innerHTML=galeria.map(function(url){
     if(glbIsVideo(url)){
-      return '<div style="min-width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><video src="'+url+'" controls playsinline poster="'+url+'" style="max-width:100%;max-height:100%;width:auto;height:auto" autoplay muted loop></video></div>';
+      return '<div style="min-width:100%;width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><video src="'+url+'" controls playsinline poster="'+url+'" style="max-width:92vw;max-height:85vh;width:auto;height:auto;border-radius:8px" autoplay muted loop></video></div>';
     }
-    return '<div style="min-width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="'+url+'" style="max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain" alt="Santa Maria"></div>';
+    return '<div style="min-width:100%;width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="'+url+'" style="max-width:92vw;max-height:85vh;width:auto;height:auto;object-fit:contain;border-radius:8px" alt="Santa Maria"></div>';
   }).join('');
   document.getElementById('galeria-lightbox').style.display='flex';
   document.body.style.overflow='hidden';
-  glbWidth=window.innerWidth;
   glbGoToIndex(glbIndex,false);
-  var lb=document.getElementById('galeria-lightbox');
-  lb.addEventListener('touchstart',glbTouchStart,{passive:true});
-  lb.addEventListener('mousedown',glbMouseDown);
 }
 
 function fecharGaleriaLightbox(){
@@ -492,12 +537,15 @@ function fecharGaleriaLightbox(){
 
 function glbGoToIndex(idx,animate){
   var galeria=window.santaMariaGaleria||[];
-  if(idx<0)idx=0;
-  if(idx>galeria.length-1)idx=galeria.length-1;
+  if(!galeria.length)return;
+  if(idx<0) idx = galeria.length - 1;
+  if(idx>=galeria.length) idx = 0;
   glbIndex=idx;
   var track=document.getElementById('galeria-lightbox-track');
-  track.style.transition=animate===false?'none':'transform .3s ease';
-  track.style.transform='translateX(-'+(glbIndex*100)+'%)';
+  if(track){
+    track.style.transition=animate===false?'none':'transform 0.35s cubic-bezier(0.25, 1, 0.5, 1)';
+    track.style.transform='translateX(-'+(glbIndex*100)+'%)';
+  }
   var counter=document.getElementById('galeria-lightbox-counter');
   if(counter)counter.textContent=(glbIndex+1)+' / '+galeria.length;
   document.querySelectorAll('#galeria-lightbox-track video').forEach(function(v,i){
@@ -509,43 +557,38 @@ function galeriaLightboxNav(dir){
   glbGoToIndex(glbIndex+dir,true);
 }
 
-function glbTouchStart(e){
-  glbDragStartX=e.touches[0].clientX;
-  glbDragging=true;
-}
-function glbMouseDown(e){
-  glbDragStartX=e.clientX;
-  glbDragging=true;
-  document.addEventListener('mousemove',glbMouseMove);
-  document.addEventListener('mouseup',glbMouseUp);
-}
-function glbMouseMove(e){
-  if(!glbDragging)return;
-}
-function glbMouseUp(e){
-  if(!glbDragging)return;
-  glbDragging=false;
-  var diff=e.clientX-glbDragStartX;
-  if(Math.abs(diff)>50){
-    galeriaLightboxNav(diff>0?-1:1);
-  }
-  document.removeEventListener('mousemove',glbMouseMove);
-  document.removeEventListener('mouseup',glbMouseUp);
+function scrollGaleria(direcao){
+  var g=document.getElementById('galeria-grid');
+  if(g) g.scrollBy({left: direcao * 310, behavior: 'smooth'});
 }
 
-document.addEventListener('DOMContentLoaded',function(){
-  var lb=document.getElementById('galeria-lightbox');
-  if(lb){
-    lb.addEventListener('touchend',function(e){
-      if(!glbDragging)return;
-      glbDragging=false;
-      var diff=e.changedTouches[0].clientX-glbDragStartX;
-      if(Math.abs(diff)>50){
-        galeriaLightboxNav(diff>0?-1:1);
+(function initLightboxGestures(){
+  var lb = document.getElementById('galeria-lightbox');
+  if(!lb) return;
+  var startX = 0, diffX = 0;
+  lb.addEventListener('touchstart', function(e){
+    if(e.touches.length === 1){
+      startX = e.touches[0].clientX;
+      diffX = 0;
+    }
+  }, {passive: true});
+
+  lb.addEventListener('touchmove', function(e){
+    if(e.touches.length === 1){
+      diffX = e.touches[0].clientX - startX;
+    }
+  }, {passive: true});
+
+  lb.addEventListener('touchend', function(e){
+    if(Math.abs(diffX) > 45){
+      if(diffX < 0){
+        galeriaLightboxNav(1);
+      } else {
+        galeriaLightboxNav(-1);
       }
-    });
-  }
-});
+    }
+  }, {passive: true});
+})();
 
 fetch('/site_data.json?_='+Date.now()).then(function(r){return r.json();}).then(function(d){
   var galeria=(d['santa-maria']&&d['santa-maria'].galeria)||[];
@@ -553,19 +596,20 @@ fetch('/site_data.json?_='+Date.now()).then(function(r){return r.json();}).then(
   var grid=document.getElementById('galeria-grid');
   if(!grid)return;
   if(!galeria.length){
-    grid.innerHTML='<div style="padding:40px;color:var(--text3);font-size:13px;text-align:center;grid-column:1/-1">Fotos em breve</div>';
+    grid.innerHTML='<div style="padding:40px;color:var(--text3);font-size:13px;text-align:center;width:100%">Fotos em breve</div>';
     return;
   }
+  var cardStyle='flex:0 0 290px;border-radius:14px;overflow:hidden;border:1px solid rgba(201,168,76,0.2);background:var(--bg3);position:relative;box-shadow:0 6px 24px rgba(0,0,0,0.5);transition:transform .25s;cursor:pointer';
   grid.innerHTML=galeria.map(function(url,idx){
     var isVideo=glbIsVideo(url);
     if(isVideo){
-      return '<div onclick="abrirGaleriaLightbox('+idx+')" style="border-radius:12px;overflow:hidden;aspect-ratio:16/9;cursor:pointer"><video src="'+url+'" muted playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover" autoplay loop></video></div>';
+      return '<div onclick="abrirGaleriaLightbox('+idx+')" style="'+cardStyle+';aspect-ratio:16/9"><video src="'+url+'" muted playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover" autoplay loop></video></div>';
     }
-    return '<div onclick="abrirGaleriaLightbox('+idx+')" style="border-radius:12px;overflow:hidden;aspect-ratio:16/9;cursor:pointer"><img src="'+url+'" loading="lazy" alt="Santa Maria" style="width:100%;height:100%;object-fit:cover"></div>';
+    return '<div onclick="abrirGaleriaLightbox('+idx+')" style="'+cardStyle+';aspect-ratio:16/9"><img src="'+url+'" loading="lazy" alt="Santa Maria" style="width:100%;height:100%;object-fit:cover"></div>';
   }).join('');
 }).catch(function(){
   var grid=document.getElementById('galeria-grid');
-  if(grid)grid.innerHTML='<div style="padding:40px;color:var(--text3);font-size:13px;text-align:center;grid-column:1/-1">Fotos em breve</div>';
+  if(grid)grid.innerHTML='<div style="padding:40px;color:var(--text3);font-size:13px;text-align:center;width:100%">Fotos em breve</div>';
 });
 </script>
 
