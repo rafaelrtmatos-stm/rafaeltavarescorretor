@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Pajuçara — Empreendimento em Santarém, PA</title>
 <meta name="description" content="Pajuçara: Oportunidade para investir próximo à praia. Entrada de R$500 e parcelas acessíveis. Santarém, PA.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Pajuçara — Empreendimento em Santarém, PA">
+<meta property="og:description" content="Pajuçara: Oportunidade para investir próximo à praia. Entrada de R$500 e parcelas acessíveis. Santarém, PA.">
+<meta property="og:image" content="https://www.rafaeltavarescorretor.com.br/imagens/og/og-pajucara.jpg">
+<meta property="og:url" content="https://www.rafaeltavarescorretor.com.br/pajucara/">
+<meta property="og:locale" content="pt_BR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pajuçara — Empreendimento em Santarém, PA">
+<meta name="twitter:description" content="Pajuçara: Oportunidade para investir próximo à praia. Entrada de R$500 e parcelas acessíveis. Santarém, PA.">
+<meta name="twitter:image" content="https://www.rafaeltavarescorretor.com.br/imagens/og/og-pajucara.jpg">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
@@ -34,6 +44,8 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
 .btn-wpp { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: transparent; border: 1.5px solid rgba(37,211,102,0.45); color: #25d366; padding: 14px 28px; border-radius: 100px; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; transition: all 0.3s; cursor: pointer; text-decoration: none; }
 .btn-wpp:hover { border-color: #25d366; background: rgba(37,211,102,0.08); }
 
+.btn-share{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:transparent;border:1.5px solid rgba(201,168,76,0.4);color:#C9A84C;padding:12px 26px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;transition:all .3s;cursor:pointer;font-family:"Inter",sans-serif}
+.btn-share:hover{border-color:#C9A84C;background:rgba(201,168,76,0.08)}
 .section-title { font-family: "Cormorant Garamond", serif; font-size: clamp(28px,4vw,44px); font-weight: 700; text-align: center; margin-bottom: 12px; line-height: .98; }
 .section-title em { color: var(--gold); font-style: italic; }
 .section-sub { text-align: center; color: var(--text2); font-size: 13px; margin-bottom: 24px; }
@@ -96,31 +108,57 @@ footer { background: var(--bg2); border-top: 1px solid rgba(201,168,76,0.15); pa
     <div class="hero-tag">🏡 Investimento · Perto da Praia</div>
     <h1 class="hero-title"><em>Pajuçara</em></h1>
     <p class="hero-sub">Oportunidade para investir próximo à praia de Pajuçara. Apenas 6 minutos de distância!</p>
-    <div class="hero-btns">
-      <a href="/reserva/" class="btn-gold">Garantir Meu Lote</a>
-      <a href="https://wa.me/5593992332012" target="_blank" class="btn-wpp">Falar com Rafael</a>
+    <div class="hero-btns" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:22px 0 10px;">
+      <a href="#sec-precos" class="btn-gold" style="font-size:13.5px;padding:15px 26px;letter-spacing:.5px;box-shadow:0 8px 28px rgba(201,168,76,0.35);display:inline-flex;align-items:center;gap:9px;border-radius:100px;font-weight:700;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        Ver Tabela de Preços e Parcelas ↓
+      </a>
+      <a href="#sec-galeria" style="font-size:13.5px;padding:15px 26px;letter-spacing:.5px;display:inline-flex;align-items:center;gap:9px;background:rgba(201,168,76,0.08);border:1.5px solid rgba(201,168,76,0.5);color:#E8C96A;text-decoration:none;border-radius:100px;font-weight:700;transition:all .2s;" onmouseover="this.style.background='rgba(201,168,76,0.18)';this.style.borderColor='var(--gold)'" onmouseout="this.style.background='rgba(201,168,76,0.08)';this.style.borderColor='rgba(201,168,76,0.5)'">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        Ver Fotos e Vídeos ↓
+      </a>
+      <button onclick="compartilharPagina()" class="btn-share" type="button" style="padding:14px 20px;border-radius:100px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        Compartilhar
+      </button>
     </div>
   </div>
 </section>
 
-<section class="sec-precos">
+<section id="sec-precos" class="sec-precos">
   <div style="max-width: 1200px; margin: 0 auto;">
     <h2 class="section-title">Tabela de <em>Preços</em></h2>
-    <p class="section-sub">Escolha o tipo de lote. Antecipe 7+ parcelas e ganhe 20% de desconto!</p>
+    <p class="section-sub">Antecipe 7+ parcelas e ganhe 20% de desconto!</p>
 
-    <div style="background: rgba(201,168,76,0.05); border: 1px solid rgba(201,168,76,0.2); border-radius: 14px; padding: 24px; margin-bottom: 28px;">
-      <div style="display: flex; justify-content: space-between; text-align: center;">
-        <div>
-          <div style="font-size: 11px; color: rgba(255,255,255,0.6); text-transform: uppercase;">Até 300m²</div>
-          <div style="font-size: 18px; font-weight: 700; color: var(--gold); margin-top: 8px;">R$ 15.500</div>
-          <div style="font-size: 12px; color: var(--text2); margin-top: 4px;">48x R$ 312,50</div>
-        </div>
-        <div style="border-left: 1px solid rgba(201,168,76,0.2);"></div>
-        <div>
-          <div style="font-size: 11px; color: rgba(255,255,255,0.6); text-transform: uppercase;">Acima de 300m²</div>
-          <div style="font-size: 18px; font-weight: 700; color: var(--gold); margin-top: 8px;">R$ 18.000</div>
-          <div style="font-size: 12px; color: var(--text2); margin-top: 4px;">50x R$ 350,00</div>
-        </div>
+    <div style="text-align:center;margin-bottom:14px">
+      <div style="font-size:14px;font-weight:800;color:var(--text);letter-spacing:.5px;text-transform:uppercase">Escolha o tamanho do lote</div>
+      <div style="font-size:12.5px;color:var(--text3);margin-top:4px">Selecione uma opção para ver os valores e condições.</div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:28px" id="precoCatToggle">
+      <button class="preco-cat-btn active" data-cat="padrao">
+        <span class="preco-cat-btn-title">ATÉ 300 m²</span>
+        <span class="preco-cat-btn-sub">Lote Padrão</span>
+      </button>
+      <button class="preco-cat-btn" data-cat="maior">
+        <span class="preco-cat-btn-title">ACIMA DE 300 m²</span>
+        <span class="preco-cat-btn-sub">Lote Maior</span>
+      </button>
+    </div>
+
+    <div id="cardPadrao" style="background: rgba(201,168,76,0.05); border: 1px solid rgba(201,168,76,0.2); border-radius: 14px; padding: 24px; margin-bottom: 28px; max-width:400px; margin-left:auto; margin-right:auto">
+      <div style="text-align: center;">
+        <div style="font-size: 11px; color: rgba(255,255,255,0.6); text-transform: uppercase">Até 300m² · Entrada R$ 500</div>
+        <div style="font-size: 22px; font-weight: 700; color: var(--gold); margin-top: 8px;">R$ 15.500</div>
+        <div style="font-size: 13px; color: var(--text2); margin-top: 4px;">48x R$ 312,50</div>
+      </div>
+    </div>
+
+    <div id="cardMaior" style="display:none; background: rgba(201,168,76,0.05); border: 1px solid rgba(201,168,76,0.2); border-radius: 14px; padding: 24px; margin-bottom: 28px; max-width:400px; margin-left:auto; margin-right:auto">
+      <div style="text-align: center;">
+        <div style="font-size: 11px; color: rgba(255,255,255,0.6); text-transform: uppercase">Acima de 300m² · Entrada R$ 500</div>
+        <div style="font-size: 22px; font-weight: 700; color: var(--gold); margin-top: 8px;">R$ 18.000</div>
+        <div style="font-size: 13px; color: var(--text2); margin-top: 4px;">50x R$ 350,00</div>
       </div>
     </div>
 
@@ -139,20 +177,121 @@ footer { background: var(--bg2); border-top: 1px solid rgba(201,168,76,0.15); pa
   </div>
 </section>
 
-<section style="padding: 60px 20px; max-width: 1200px; margin: 0 auto;">
-  <h2 class="section-title">Conheça <em>Pajuçara</em></h2>
-  <div id="galeria-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px">
-    <div style="padding:40px;color:var(--text3);font-size:13px;text-align:center;grid-column:1/-1">Carregando fotos...</div>
+<style>
+  .preco-cat-btn.active{background:var(--gold)!important;color:#000!important;border-color:var(--gold)!important;box-shadow:0 6px 20px rgba(201,168,76,0.25)!important;animation:none!important}
+  .preco-cat-btn:not(.active){background:#14170f!important;color:var(--gold)!important;border-color:var(--gold)!important;animation:precoBorderBreathe 1.8s ease-in-out infinite}
+  @keyframes precoBorderBreathe{
+    0%{box-shadow:0 0 0 0 rgba(201,168,76,0.35),0 0 6px rgba(201,168,76,0.25)}
+    50%{box-shadow:0 0 0 3px rgba(201,168,76,0.18),0 0 18px rgba(201,168,76,0.6)}
+    100%{box-shadow:0 0 0 0 rgba(201,168,76,0.35),0 0 6px rgba(201,168,76,0.25)}
+  }
+  .preco-cat-btn{width:100%;max-width:420px;display:flex;flex-direction:column;align-items:center;gap:2px;padding:16px 22px;border-radius:16px;border:2px solid var(--gold);cursor:pointer;font-family:inherit;transition:background .2s,color .2s}
+  .preco-cat-btn-title{font-size:15px;font-weight:800;letter-spacing:.5px}
+  .preco-cat-btn-sub{font-size:11.5px;font-weight:600;opacity:.75}
+</style>
+<script>
+  document.querySelectorAll("#precoCatToggle .preco-cat-btn").forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll("#precoCatToggle .preco-cat-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      const cat = btn.dataset.cat;
+      document.getElementById("cardPadrao").style.display = cat === "padrao" ? "" : "none";
+      document.getElementById("cardMaior").style.display = cat === "maior" ? "" : "none";
+    };
+  });
+</script>
+
+<section id="sec-galeria" style="background:var(--bg);border-bottom:1px solid var(--border);padding:70px 0;">
+  <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:24px;">
+      <div>
+        <div class="section-tag">Conheça o Empreendimento</div>
+        <h2 class="section-title" style="margin-bottom:6px;">Galeria <em>Pajuçara</em></h2>
+        <p class="section-sub" style="margin-bottom:0;">Deslize para ver as fotos e vídeos reais do loteamento.</p>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="scrollGaleria(-1)" aria-label="Anterior" style="width:40px;height:40px;border-radius:50%;background:var(--bg2);border:1px solid var(--border2);color:var(--gold);font-size:18px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .2s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border2)'">‹</button>
+        <button onclick="scrollGaleria(1)" aria-label="Próxima" style="width:40px;height:40px;border-radius:50%;background:var(--bg2);border:1px solid var(--border2);color:var(--gold);font-size:18px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .2s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border2)'">›</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Carrossel de Fotos e Videos -->
+  <div id="galeria-grid" class="no-scrollbar" style="display:flex;gap:16px;overflow-x:auto;padding:10px 24px 24px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;">
+    <div style="padding:40px;color:var(--text3);font-size:13px;text-align:center;width:100%;">Carregando fotos e vídeos...</div>
+  </div>
+
+  <!-- BLOCO DE ATENDIMENTO LOGO APÓS AS FOTOS -->
+  <div style="max-width:900px;margin:32px auto 0;padding:0 24px;">
+    <div style="background:linear-gradient(135deg, rgba(201,168,76,0.12), rgba(20,28,20,0.85));border:1.5px solid rgba(201,168,76,0.35);border-radius:20px;padding:32px 24px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,0.4);">
+      <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px;">Gostou do que viu? Fale direto com o corretor</div>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--text);margin-bottom:10px;">Garanta sua unidade com Rafael Tavares</h3>
+      <p style="font-size:13.5px;color:var(--text2);max-width:540px;margin:0 auto 24px;line-height:1.6;">Tire suas dúvidas sobre parcelas, metragens de lotes ou solicite um agendamento de visita no local.</p>
+      
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Vi%20as%20fotos%20de%20Paju%C3%A7ara%20no%20site%20e%20quero%20mais%20informa%C3%A7%C3%B5es%20sobre%20os%20lotes." target="_blank" class="btn-wpp" style="font-size:14px;padding:15px 30px;box-shadow:0 6px 24px rgba(37,211,102,0.35);display:inline-flex;align-items:center;gap:10px;border-radius:100px;text-decoration:none;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Falar com Rafael no WhatsApp
+        </a>
+        <a href="https://chat.whatsapp.com/GcVmmuRJ6FKBGnePTdAGAg?s=cl&p=i&mlu=3" target="_blank" style="font-size:13px;padding:14px 24px;border-radius:100px;background:rgba(201,168,76,0.1);border:1.5px solid rgba(201,168,76,0.45);color:var(--gold);text-decoration:none;display:inline-flex;align-items:center;gap:8px;font-weight:700;transition:all .2s;" onmouseover="this.style.background='rgba(201,168,76,0.2)';this.style.borderColor='var(--gold)'" onmouseout="this.style.background='rgba(201,168,76,0.1)';this.style.borderColor='rgba(201,168,76,0.45)'">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          Entrar no Grupo VIP
+        </a>
+      </div>
+    </div>
   </div>
 </section>
 
-<div id="galeria-lightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.96);z-index:2000;align-items:center;justify-content:center;touch-action:none">
-  <button onclick="fecharGaleriaLightbox()" aria-label="Fechar" style="position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;color:#fff;font-size:20px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center">✕</button>
-  <div id="galeria-lightbox-counter" style="position:absolute;top:22px;left:20px;color:rgba(255,255,255,0.7);font-size:13px;font-weight:600;z-index:10"></div>
-  <button onclick="galeriaLightboxNav(-1)" aria-label="Anterior" style="position:absolute;left:8px;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;color:#fff;font-size:22px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center">‹</button>
-  <button onclick="galeriaLightboxNav(1)" aria-label="Próxima" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;color:#fff;font-size:22px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center">›</button>
-  <div id="galeria-lightbox-track" style="display:flex;width:100%;height:100%;will-change:transform"></div>
-</div>
+<section style="background:var(--bg);padding:64px 24px;border-top:1px solid var(--border)">
+  <div style="max-width:900px;margin:0 auto;text-align:center">
+    <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px">Localização</div>
+    <h2 class="section-title">Onde fica o <em>Pajuçara</em></h2>
+    <p class="section-sub">Pajuçara, Santarém, PA</p>
+    <div id="mini-mapa-wrapper" style="position:relative;border-radius:16px;overflow:hidden;border:1px solid rgba(201,168,76,0.25);height:380px;margin-top:24px;box-shadow:0 20px 60px rgba(0,0,0,0.5)">
+      <iframe src="https://maps.google.com/maps?q=-2.442361,-54.82825&t=k&z=17&iwloc=&output=embed" style="width:100%;height:100%;border:0" loading="lazy" allowfullscreen title="Localização no mapa"></iframe>
+      <button onclick="abrirMiniMapaFullscreen()" id="btn-minimapa-expandir" title="Tela cheia" style="position:absolute;top:14px;right:14px;z-index:900;width:42px;height:42px;border-radius:10px;background:#000;border:2px solid #000;box-shadow:0 0 0 1.5px rgba(201,168,76,0.7),0 4px 14px rgba(0,0,0,0.6);color:#C9A84C;cursor:pointer;display:flex;align-items:center;justify-content:center">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
+      </button>
+      <button onclick="fecharMiniMapaFullscreen()" id="btn-minimapa-fechar" title="Fechar tela cheia" style="display:none;position:absolute;top:14px;right:14px;z-index:900;width:42px;height:42px;border-radius:10px;background:#000;border:2px solid #000;box-shadow:0 0 0 1.5px rgba(201,168,76,0.7),0 4px 14px rgba(0,0,0,0.6);color:#C9A84C;cursor:pointer;align-items:center;justify-content:center;font-size:22px;line-height:1;font-weight:700">
+        ×
+      </button>
+    </div>
+
+    <a href="https://www.google.com/maps/search/?api=1&query=-2.442361,-54.82825" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;margin-top:16px;background:var(--gold);color:#000;padding:12px 24px;border-radius:100px;font-size:12px;font-weight:700;letter-spacing:.5px;text-decoration:none">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+      Como chegar
+    </a>
+  </div>
+</section>
+
+<script>
+function abrirMiniMapaFullscreen(){
+  var w=document.getElementById('mini-mapa-wrapper');
+  document.body.style.overflow='hidden';
+  w.style.position='fixed';w.style.inset='0';
+  w.style.top='0';w.style.left='0';w.style.right='0';w.style.bottom='0';
+  w.style.width='100vw';w.style.height='100vh';
+  w.style.zIndex='9999';w.style.borderRadius='0';
+  document.getElementById('btn-minimapa-expandir').style.display='none';
+  document.getElementById('btn-minimapa-fechar').style.display='flex';
+}
+function fecharMiniMapaFullscreen(){
+  var w=document.getElementById('mini-mapa-wrapper');
+  document.body.style.overflow='';
+  w.style.position='relative';w.style.inset='';
+  w.style.top='';w.style.left='';w.style.right='';w.style.bottom='';
+  w.style.width='';w.style.height='380px';
+  w.style.zIndex='';w.style.borderRadius='16px';
+  document.getElementById('btn-minimapa-expandir').style.display='flex';
+  document.getElementById('btn-minimapa-fechar').style.display='none';
+}
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){
+    var b=document.getElementById('btn-minimapa-fechar');
+    if(b && b.style.display==='flex') fecharMiniMapaFullscreen();
+  }
+});
+</script>
 
 <div id="menu-overlay" onclick="fecharMenu()" style="position:fixed;inset:0;z-index:250;background:rgba(0,0,0,0.75);display:none;opacity:0;transition:opacity .3s"></div>
 
@@ -203,7 +342,7 @@ footer { background: var(--bg2); border-top: 1px solid rgba(201,168,76,0.15); pa
   </div>
   <!-- RODAPÉ -->
   <div style="padding:14px 18px;border-top:1px solid rgba(201,168,76,0.12);flex-shrink:0">
-    <a href="https://wa.me/5593992332012?text=Olá+Rafael!+Vim+pelo+site+e+gostaria+de+saber+mais!" target="_blank" onclick="fecharMenu()" style="display:flex;align-items:center;justify-content:center;gap:9px;background:#25d366;color:#000;padding:13px;border-radius:10px;font-size:13px;font-weight:700;text-decoration:none">
+    <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20vim%20pelo%20site%2C%20tenho%20interesse%20em%20Paju%C3%A7ara!" target="_blank" onclick="fecharMenu()" style="display:flex;align-items:center;justify-content:center;gap:9px;background:#25d366;color:#000;padding:13px;border-radius:10px;font-size:13px;font-weight:700;text-decoration:none">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
       Falar com Rafael
     </a>
@@ -379,7 +518,7 @@ document.addEventListener('DOMContentLoaded',function(){
         return;
       }
       window.mararuGaleria=galeria;
-      var cardStyle='border-radius:14px;overflow:hidden;border:1px solid rgba(201,168,76,0.15);background:var(--bg3);position:relative;box-shadow:0 6px 24px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.04);transition:transform .25s,box-shadow .25s;cursor:pointer';
+      var cardStyle='flex:0 0 290px;border-radius:14px;overflow:hidden;border:1px solid rgba(201,168,76,0.2);background:var(--bg3);position:relative;box-shadow:0 6px 24px rgba(0,0,0,0.5);transition:transform .25s;cursor:pointer';
       grid.innerHTML=galeria.map(function(url,idx){
         var isVideo=glbIsVideo(url);
         if(isVideo){
@@ -389,6 +528,11 @@ document.addEventListener('DOMContentLoaded',function(){
       }).join('');
     }).catch(function(){});
 });
+
+function scrollGaleria(direcao){
+  var g=document.getElementById('galeria-grid');
+  if(g) g.scrollBy({left: direcao * 310, behavior: 'smooth'});
+}
 </script>
 
 
@@ -433,5 +577,19 @@ window.ir=function(href){
 document.addEventListener('keydown',function(e){if(e.key==='Escape')fecharMenu();});
 })();
 </script>
+
+
+<script>
+function compartilharPagina(){
+  var url=window.location.href;
+  var titulo=document.title;
+  if(navigator.share){
+    navigator.share({title:titulo,url:url}).catch(function(){});
+  } else {
+    window.open('https://wa.me/?text='+encodeURIComponent(titulo+' — '+url),'_blank');
+  }
+}
+</script>
+
 </body>
 </html>
