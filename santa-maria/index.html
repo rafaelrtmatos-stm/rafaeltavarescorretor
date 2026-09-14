@@ -229,7 +229,7 @@ footer { background: var(--bg2); border-top: 1px solid rgba(201,168,76,0.15); pa
       <!-- 1. PORTO BELO -->
       <div class="card-emp" id="card-porto-belo">
         <div style="position: relative; line-height: 0;">
-          <img src="/imagens/santa-maria-obra-1.jpeg" alt="Empreendimento Porto Belo" style="width: 100%; height: 220px; object-fit: cover;">
+          <img src="/imagens/portobelo.png" alt="Empreendimento Porto Belo" style="width: 100%; height: 220px; object-fit: cover;">
           <span style="position: absolute; top: 14px; left: 14px; background: var(--gold); color: #000; font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 4px 12px; border-radius: 100px;">SANTA MARIA</span>
         </div>
         <div style="padding: 24px; display: flex; flex-direction: column; flex: 1;">
@@ -270,7 +270,7 @@ footer { background: var(--bg2); border-top: 1px solid rgba(201,168,76,0.15); pa
       <!-- 2. TAPAJÓS -->
       <div class="card-emp" id="card-tapajos">
         <div style="position: relative; line-height: 0;">
-          <img src="/imagens/santa-maria-obra-2.jpeg" alt="Empreendimento Tapajós" style="width: 100%; height: 220px; object-fit: cover;">
+          <img src="/imagens/tapajos.png" alt="Empreendimento Tapajós" style="width: 100%; height: 220px; object-fit: cover;">
           <span style="position: absolute; top: 14px; left: 14px; background: var(--gold); color: #000; font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 4px 12px; border-radius: 100px;">SANTA MARIA</span>
         </div>
         <div style="padding: 24px; display: flex; flex-direction: column; flex: 1;">
@@ -311,7 +311,7 @@ footer { background: var(--bg2); border-top: 1px solid rgba(201,168,76,0.15); pa
       <!-- 3. BOM SOSSEGO -->
       <div class="card-emp" id="card-bom-sossego">
         <div style="position: relative; line-height: 0;">
-          <img src="/imagens/santa-maria-obra-3.jpeg" alt="Empreendimento Bom Sossego" style="width: 100%; height: 220px; object-fit: cover;">
+          <img src="/imagens/bom-sossego.png" alt="Empreendimento Bom Sossego" style="width: 100%; height: 220px; object-fit: cover;">
           <span style="position: absolute; top: 14px; left: 14px; background: var(--gold); color: #000; font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 4px 12px; border-radius: 100px;">SANTA MARIA</span>
         </div>
         <div style="padding: 24px; display: flex; flex-direction: column; flex: 1;">
@@ -372,57 +372,6 @@ footer { background: var(--bg2); border-top: 1px solid rgba(201,168,76,0.15); pa
     <div style="padding:40px;color:var(--text3);font-size:13px;text-align:center;grid-column:1/-1">Carregando fotos...</div>
   </div>
 </section>
-
-<section style="background:var(--bg);padding:64px 24px;border-top:1px solid var(--border)">
-  <div style="max-width:900px;margin:0 auto;text-align:center">
-    <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px">Localização</div>
-    <h2 class="section-title">Onde fica o <em>Santa Maria</em></h2>
-    <p class="section-sub">Santa Maria, Atrás do Horizonte Park, Santarém, PA</p>
-    <div id="mini-mapa-wrapper" style="position:relative;border-radius:16px;overflow:hidden;border:1px solid rgba(201,168,76,0.25);height:380px;margin-top:24px;box-shadow:0 20px 60px rgba(0,0,0,0.5)">
-      <iframe src="https://maps.google.com/maps?q=-2.448167,-54.805556&t=k&z=17&iwloc=&output=embed" style="width:100%;height:100%;border:0" loading="lazy" allowfullscreen title="Localização no mapa"></iframe>
-      <button onclick="abrirMiniMapaFullscreen()" id="btn-minimapa-expandir" title="Tela cheia" style="position:absolute;top:14px;right:14px;z-index:900;width:42px;height:42px;border-radius:10px;background:#000;border:2px solid #000;box-shadow:0 0 0 1.5px rgba(201,168,76,0.7),0 4px 14px rgba(0,0,0,0.6);color:#C9A84C;cursor:pointer;display:flex;align-items:center;justify-content:center">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
-      </button>
-      <button onclick="fecharMiniMapaFullscreen()" id="btn-minimapa-fechar" title="Fechar tela cheia" style="display:none;position:absolute;top:14px;right:14px;z-index:900;width:42px;height:42px;border-radius:10px;background:#000;border:2px solid #000;box-shadow:0 0 0 1.5px rgba(201,168,76,0.7),0 4px 14px rgba(0,0,0,0.6);color:#C9A84C;cursor:pointer;align-items:center;justify-content:center;font-size:22px;line-height:1;font-weight:700">
-        ×
-      </button>
-    </div>
-
-    <a href="https://www.google.com/maps/search/?api=1&query=-2.448167,-54.805556" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;margin-top:16px;background:var(--gold);color:#000;padding:12px 24px;border-radius:100px;font-size:12px;font-weight:700;letter-spacing:.5px;text-decoration:none">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
-      Como chegar
-    </a>
-  </div>
-</section>
-
-<script>
-function abrirMiniMapaFullscreen(){
-  var w=document.getElementById('mini-mapa-wrapper');
-  document.body.style.overflow='hidden';
-  w.style.position='fixed';w.style.inset='0';
-  w.style.top='0';w.style.left='0';w.style.right='0';w.style.bottom='0';
-  w.style.width='100vw';w.style.height='100vh';
-  w.style.zIndex='9999';w.style.borderRadius='0';
-  document.getElementById('btn-minimapa-expandir').style.display='none';
-  document.getElementById('btn-minimapa-fechar').style.display='flex';
-}
-function fecharMiniMapaFullscreen(){
-  var w=document.getElementById('mini-mapa-wrapper');
-  document.body.style.overflow='';
-  w.style.position='relative';w.style.inset='';
-  w.style.top='';w.style.left='';w.style.right='';w.style.bottom='';
-  w.style.width='';w.style.height='380px';
-  w.style.zIndex='';w.style.borderRadius='16px';
-  document.getElementById('btn-minimapa-expandir').style.display='flex';
-  document.getElementById('btn-minimapa-fechar').style.display='none';
-}
-document.addEventListener('keydown',function(e){
-  if(e.key==='Escape'){
-    var b=document.getElementById('btn-minimapa-fechar');
-    if(b && b.style.display==='flex') fecharMiniMapaFullscreen();
-  }
-});
-</script>
 
 <div id="menu-overlay" onclick="fecharMenu()" style="position:fixed;inset:0;z-index:250;background:rgba(0,0,0,0.75);display:none;opacity:0;transition:opacity .3s"></div>
 
