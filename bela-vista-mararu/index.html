@@ -26,8 +26,8 @@
       --border:rgba(255,255,255,0.08);--border2:rgba(201,168,76,0.25);
     }
     *{margin:0;padding:0;box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{background:var(--bg);color:var(--text);font-family:"Inter",sans-serif;overflow-x:hidden}
+    html{scroll-behavior:smooth;overflow-x:hidden;max-width:100%}
+    body{background:var(--bg);color:var(--text);font-family:"Inter",sans-serif;overflow-x:hidden;max-width:100%;width:100%}
     a{color:inherit;text-decoration:none}
     img{max-width:100%}
     nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(0,0,0,0.35);border-bottom:1px solid rgba(255,255,255,0.06);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
@@ -36,19 +36,19 @@
     .nav-btn{padding:8px 18px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:"Inter",sans-serif;letter-spacing:.3px;text-decoration:none;transition:all .2s}
     .nav-btn-outline{border:1px solid var(--border2);color:var(--gold);background:transparent}
     .nav-btn-gold{background:var(--gold);color:#000;border:none}
-    .hero{position:relative;height:100vh;min-height:600px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-top:0;padding-top:0}
-    .hero-bg{position:absolute;inset:0;z-index:0}
-    .hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center 60%}
-    .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.55) 0%,rgba(0,0,0,0.15) 14%,rgba(0,0,0,0.08) 38%,rgba(0,0,0,0.25) 62%,rgba(0,0,0,0.75) 80%,rgba(0,0,0,0.97) 100%)}
-    .hero-content{position:relative;z-index:2;text-align:center;padding:0 24px;max-width:700px}
-    .hero-tag{font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;font-weight:600;text-shadow:0 2px 12px rgba(0,0,0,0.9)}
-    .hero-title{font-family:"Cormorant Garamond",serif;font-size:clamp(44px,7vw,80px);font-weight:700;line-height:.9;letter-spacing:-3px;margin-bottom:20px;text-shadow:0 4px 20px rgba(0,0,0,0.95)}
+    .hero{position:relative;width:100%;max-width:100%;height:auto;min-height:auto;display:flex;flex-direction:column;align-items:center;overflow:hidden;margin:0;padding:0;background:var(--bg)}
+    .hero-bg{position:relative;width:100%;max-width:100%;height:auto;line-height:0;overflow:hidden}
+    .hero-bg img{width:100%!important;max-width:100%!important;height:auto!important;display:block!important;object-fit:contain!important;margin:0 auto}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.2) 0%,transparent 40%,rgba(10,10,10,0.85) 80%,var(--bg) 100%);pointer-events:none}
+    .hero-content{position:relative;z-index:2;text-align:center;padding:0 16px 40px;width:100%;max-width:650px;box-sizing:border-box;margin:-40px auto 0}
+    .hero-tag{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;font-weight:600;text-shadow:0 2px 12px rgba(0,0,0,0.9);max-width:100%;box-sizing:border-box}
+    .hero-title{font-family:"Cormorant Garamond",serif;font-size:clamp(36px,7vw,80px);font-weight:700;line-height:.95;letter-spacing:-2px;margin-bottom:20px;text-shadow:0 4px 20px rgba(0,0,0,0.95);word-break:break-word}
     .hero-title em{font-style:italic;color:var(--gold)}
-    .hero-sub{font-size:15px;color:#fff;line-height:1.7;max-width:500px;margin:0 auto 32px;font-weight:500;text-shadow:0 2px 12px rgba(0,0,0,0.9),0 0 20px rgba(0,0,0,0.7);background:rgba(0,0,0,0.35);padding:20px 28px;border-radius:14px;border:1.5px solid rgba(201,168,76,0.25);}
-    .hero-btns{display:flex;flex-direction:column;align-items:center;gap:10px}
-    .btn-gold{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#B8902A,#E8C96A,#B8902A);background-size:200% 100%;background-position:left;color:#000;padding:16px 32px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;transition:all .35s;cursor:pointer;border:none;font-family:"Inter",sans-serif;box-shadow:0 4px 20px rgba(201,168,76,0.25)}
-    .btn-wpp{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:transparent;border:1.5px solid rgba(37,211,102,0.45);color:#25d366;padding:14px 28px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;transition:all .3s}
-        .btn-share{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:transparent;border:1.5px solid rgba(201,168,76,0.4);color:#C9A84C;padding:12px 26px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;transition:all .3s;cursor:pointer;font-family:"Inter",sans-serif}
+    .hero-sub{font-size:15px;color:#fff;line-height:1.7;max-width:500px;margin:0 auto 32px;font-weight:500;text-shadow:0 2px 12px rgba(0,0,0,0.9),0 0 20px rgba(0,0,0,0.7);background:rgba(0,0,0,0.35);padding:18px 20px;border-radius:14px;border:1.5px solid rgba(201,168,76,0.25);box-sizing:border-box}
+    .hero-btns{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;max-width:100%;box-sizing:border-box}
+    .btn-gold{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#B8902A,#E8C96A,#B8902A);background-size:200% 100%;background-position:left;color:#000;padding:16px 28px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;transition:all .35s;cursor:pointer;border:none;font-family:"Inter",sans-serif;box-shadow:0 4px 20px rgba(201,168,76,0.25);max-width:100%;box-sizing:border-box}
+    .btn-wpp{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:transparent;border:1.5px solid rgba(37,211,102,0.45);color:#25d366;padding:14px 24px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;transition:all .3s;max-width:100%;box-sizing:border-box}
+    .btn-share{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:transparent;border:1.5px solid rgba(201,168,76,0.4);color:#C9A84C;padding:12px 24px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;transition:all .3s;cursor:pointer;font-family:"Inter",sans-serif;max-width:100%;box-sizing:border-box}
     .btn-share:hover{border-color:#C9A84C;background:rgba(201,168,76,0.08)}
 .stats-band{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:28px 24px}
     .stats-band-inner{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;text-align:center}
@@ -92,6 +92,7 @@
 
       .stats-band-inner,.planos-grid,.galeria-grid{grid-template-columns:1fr}
       .nav-btn-outline{display:none}
+      .hero-content{margin-top:-30px;padding:0 16px 36px}
       /* SEÇÃO SOBRE - empilha em mobile */
       #sobre > div > div[style*="grid-template-columns:1fr 1.3fr"]{
         display:flex!important;flex-direction:column!important;gap:32px!important
@@ -134,22 +135,22 @@
 
 <section class="hero">
   <div class="hero-bg">
-    <img src="/imagens/bela-vista-mararu-hero-v2.jpg" alt="Estrada de acesso ao Bela Vista do Mararu" loading="lazy" loading="eager">
+    <img src="/imagens/bela-vista-mararu-hero-v2.jpg" alt="Bela Vista do Mararu" loading="eager" fetchpriority="high" style="width:100%!important;max-width:100%!important;height:auto!important;display:block!important;object-fit:contain!important;margin:0 auto">
     <div class="hero-overlay"></div>
   </div>
   <div class="hero-content">
-    <div class="hero-tag" style="background:linear-gradient(135deg,#E8C96A 0%,#C9A84C 100%);border:3px solid #9D7E2C;padding:12px 32px;border-radius:100px;display:inline-block;margin-bottom:20px;box-shadow:0 8px 30px rgba(201,168,76,0.5),0 0 20px rgba(201,168,76,0.3),inset 0 1px 0 rgba(255,255,255,0.3);font-weight:700;color:#0A1209;letter-spacing:2px;font-size:11px;text-shadow:0 1px 2px rgba(0,0,0,0.1)">🔥 LANÇAMENTO OFICIAL — SANTARÉM, PA</div>
+    <div class="hero-tag" style="background:linear-gradient(135deg,#E8C96A 0%,#C9A84C 100%);border:3px solid #9D7E2C;padding:10px 20px;border-radius:100px;display:inline-block;margin-bottom:20px;box-shadow:0 8px 30px rgba(201,168,76,0.5),0 0 20px rgba(201,168,76,0.3),inset 0 1px 0 rgba(255,255,255,0.3);font-weight:700;color:#0A1209;letter-spacing:1.5px;font-size:11px;text-shadow:0 1px 2px rgba(0,0,0,0.1);max-width:100%;box-sizing:border-box;white-space:normal">🔥 LANÇAMENTO OFICIAL — SANTARÉM, PA</div>
     <h1 class="hero-title">Bela Vista do <em>Mararu</em></h1>
     <p class="hero-sub">Lotes disponíveis agora. Entrada de R$ 600 e parcelas a partir de R$ 194,45.</p>
     <div class="hero-btns">
-      <a href="/reserva/" class="btn-gold" style="font-size:14px;padding:18px 36px;letter-spacing:1px;box-shadow:0 4px 24px rgba(201,168,76,0.35)">
+      <a href="/reserva/" class="btn-gold" style="font-size:14px;padding:16px 28px;letter-spacing:1px;box-shadow:0 4px 24px rgba(201,168,76,0.35);max-width:100%;box-sizing:border-box">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Garantir Meu Lote
       </a>
             <button onclick="compartilharPagina()" class="btn-share" type="button">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
         Compartilhar
       </button>
-<a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Vi%20o%20Bairro%20Mararu%20no%20site%20e%20quero%20garantir%20meu%20lote." target="_blank" class="btn-wpp" style="font-size:13px;padding:14px 28px">
+<a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Vi%20o%20Bela%20Vista%20do%20Mararu%20no%20site%20e%20quero%20garantir%20meu%20lote." target="_blank" class="btn-wpp" style="font-size:13px;padding:14px 28px">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Falar com Rafael
       </a>
       <a href="https://chat.whatsapp.com/GcVmmuRJ6FKBGnePTdAGAg?s=cl&p=i&mlu=3" target="_blank"
@@ -728,7 +729,7 @@ document.addEventListener('keydown',function(e){
       O atendimento e feito diretamente com Rafael. Ele ira apresentar os planos, tirar suas duvidas e conduzir sua compra com seguranca e transparencia. <strong style="color:var(--text)">Nao compartilhe dados com terceiros.</strong>
     </div>
     <div style="display:flex;flex-direction:column;gap:10px">
-      <a href="https://wa.me/5593992332012?text=Ola%20Rafael!%20Vi%20o%20Bairro%20Mararu%20no%20site%20e%20quero%20saber%20mais%20sobre%20os%20lotes." target="_blank" class="btn-wpp" style="font-size:13px;padding:14px;width:100%;box-sizing:border-box">
+      <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Vi%20o%20Bela%20Vista%20do%20Mararu%20no%20site%20e%20quero%20saber%20mais%20sobre%20os%20lotes." target="_blank" class="btn-wpp" style="font-size:13px;padding:14px;width:100%;box-sizing:border-box">
         Abrir WhatsApp com Rafael
       </a>
       <a href="https://chat.whatsapp.com/GcVmmuRJ6FKBGnePTdAGAg?s=cl&p=i&mlu=3" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--text2);font-weight:500">
@@ -757,7 +758,7 @@ document.addEventListener('keydown',function(e){
       <div style="position:relative">
         <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:75%;height:75%;background:var(--gold3);border-radius:160px 160px 0 0;border:1px solid var(--border)"></div>
         <img src="/imagens/rafael-sobre.jpg" alt="Rafael Tavares" style="position:relative;z-index:2;width:100%;border-radius:12px 12px 0 0;object-fit:cover;object-position:top;max-height:520px;display:block" />
-        <div style="position:absolute;top:20px;right:-16px;z-index:3;background:var(--gold);color:#0A1209;border-radius:10px;padding:10px 16px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase">CRECI 13919</div>
+        <div style="position:absolute;top:20px;right:12px;z-index:3;background:var(--gold);color:#0A1209;border-radius:10px;padding:10px 16px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase">CRECI 13919</div>
       </div>
 
       <!-- TEXTO -->
@@ -1145,7 +1146,7 @@ document.addEventListener('keydown',function(e){
 
 <div id="menu-overlay" onclick="fecharMenu()" style="position:fixed;inset:0;z-index:250;background:rgba(0,0,0,0.75);display:none;opacity:0;transition:opacity .3s"></div>
 
-<div id="menu-drawer" style="position:fixed;top:0;right:-320px;bottom:0;z-index:260;width:290px;background:#000;border-left:1px solid rgba(201,168,76,0.2);transition:right .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;overflow-y:auto">
+<div id="menu-drawer" style="position:fixed;top:0;right:0;bottom:0;z-index:260;width:290px;max-width:85vw;background:#000;border-left:1px solid rgba(201,168,76,0.2);transform:translateX(100%);visibility:hidden;transition:transform .35s cubic-bezier(.4,0,.2,1),visibility .35s;display:flex;flex-direction:column;overflow-y:auto">
   <!-- HEADER -->
   <div style="padding:22px 20px 14px;border-bottom:1px solid rgba(201,168,76,0.12);flex-shrink:0">
     <div style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:700;color:#C9A84C;letter-spacing:2px">Rafael Tavares</div>
@@ -1192,7 +1193,7 @@ document.addEventListener('keydown',function(e){
   </div>
   <!-- RODAPÉ -->
   <div style="padding:14px 18px;border-top:1px solid rgba(201,168,76,0.12);flex-shrink:0">
-    <a href="https://wa.me/5593992332012?text=Olá+Rafael!+Vim+pelo+site+e+gostaria+de+saber+mais!" target="_blank" onclick="fecharMenu()" style="display:flex;align-items:center;justify-content:center;gap:9px;background:#25d366;color:#000;padding:13px;border-radius:10px;font-size:13px;font-weight:700;text-decoration:none">
+    <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Vi%20o%20Bela%20Vista%20do%20Mararu%20no%20site%20e%20gostaria%20de%20saber%20mais!" target="_blank" onclick="fecharMenu()" style="display:flex;align-items:center;justify-content:center;gap:9px;background:#25d366;color:#000;padding:13px;border-radius:10px;font-size:13px;font-weight:700;text-decoration:none">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
       Falar com Rafael
     </a>
@@ -1225,14 +1226,14 @@ window.abrirMenu=function(){
   document.getElementById('menu-btn').classList.add('menu-open');
   var o=document.getElementById('menu-overlay'),d=document.getElementById('menu-drawer');
   o.style.display='block';setTimeout(function(){o.style.opacity='1';},10);
-  d.style.right='0';document.body.style.overflow='hidden';
+  d.style.visibility='visible';d.style.transform='translateX(0)';document.body.style.overflow='hidden';
 };
 window.fecharMenu=function(){
   _open=false;
   document.getElementById('menu-btn').classList.remove('menu-open');
   var o=document.getElementById('menu-overlay'),d=document.getElementById('menu-drawer');
-  o.style.opacity='0';d.style.right='-320px';
-  setTimeout(function(){o.style.display='none';},300);
+  o.style.opacity='0';d.style.transform='translateX(100%)';
+  setTimeout(function(){o.style.display='none';d.style.visibility='hidden';},350);
   document.body.style.overflow='';
 };
 window.ir=function(href){

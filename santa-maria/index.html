@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Santa Maria — Loteamento · Santarém, PA</title>
-<meta name="description" content="Loteamento, em Santa Maria — Atrás do Horizonte Park, Santarém, PA. Entrada de R$500,00 e 80 parcelas de R$312,50. Uma excelente oportunidade pra sair do aluguel ou investir com segurança.">
+<title>Empreendimentos em Santa Maria — Santarém, PA · Rafael Tavares</title>
+<meta name="description" content="Terrenos nos empreendimentos Porto Belo, Tapajós e Bom Sossego em Santa Maria, Santarém — PA. Lotes 10x30 (300 m²) com entrada facilitada e parcelamento direto.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Santa Maria — Loteamento · Santarém, PA">
-<meta property="og:description" content="Loteamento, em Santa Maria — Atrás do Horizonte Park, Santarém, PA. Entrada de R$500,00 e 80 parcelas de R$312,50. Uma excelente oportunidade pra sair do aluguel ou investir com segurança.">
+<meta property="og:title" content="Empreendimentos em Santa Maria — Santarém, PA · Rafael Tavares">
+<meta property="og:description" content="Terrenos nos empreendimentos Porto Belo, Tapajós e Bom Sossego em Santa Maria, Santarém — PA. Lotes 10x30 (300 m²) com entrada facilitada e parcelamento direto.">
 <meta property="og:image" content="https://www.rafaeltavarescorretor.com.br/imagens/og/og-santa-maria.jpg">
 <meta property="og:url" content="https://www.rafaeltavarescorretor.com.br/santa-maria/">
 <meta property="og:locale" content="pt_BR">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Santa Maria — Loteamento · Santarém, PA">
-<meta name="twitter:description" content="Loteamento, em Santa Maria — Atrás do Horizonte Park, Santarém, PA. Entrada de R$500,00 e 80 parcelas de R$312,50. Uma excelente oportunidade pra sair do aluguel ou investir com segurança.">
+<meta name="twitter:title" content="Empreendimentos em Santa Maria — Santarém, PA · Rafael Tavares">
+<meta name="twitter:description" content="Terrenos nos empreendimentos Porto Belo, Tapajós e Bom Sossego em Santa Maria, Santarém — PA. Lotes 10x30 (300 m²) com entrada facilitada e parcelamento direto.">
 <meta name="twitter:image" content="https://www.rafaeltavarescorretor.com.br/imagens/og/og-santa-maria.jpg">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
@@ -126,6 +126,64 @@ footer { background: var(--bg2); border-top: 1px solid rgba(201,168,76,0.15); pa
   opacity: .85;
 }
 
+.card-emp {
+  background: var(--bg3);
+  border: 1.5px solid var(--border2);
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.card-emp:hover {
+  transform: translateY(-4px);
+  border-color: var(--gold);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.5), 0 0 20px rgba(201,168,76,0.15);
+}
+.btn-interesse {
+  background: linear-gradient(135deg, #B8902A, #E8C96A, #B8902A);
+  background-size: 200% 100%;
+  color: #000;
+  padding: 14px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  box-shadow: 0 4px 16px rgba(201,168,76,0.25);
+  transition: all .3s ease;
+}
+.btn-interesse:hover {
+  box-shadow: 0 6px 24px rgba(201,168,76,0.4);
+}
+.btn-mapa {
+  background: transparent;
+  border: 1px solid rgba(201,168,76,0.35);
+  color: var(--gold);
+  padding: 11px;
+  border-radius: 100px;
+  font-size: 11.5px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 44px;
+  transition: all .2s ease;
+}
+.btn-mapa:hover {
+  border-color: var(--gold);
+  background: rgba(201,168,76,0.08);
+}
 </style>
 </head>
 <body>
@@ -145,109 +203,167 @@ footer { background: var(--bg2); border-top: 1px solid rgba(201,168,76,0.15); pa
   <div class="hero-content">
     <div class="hero-tag">🌺 Lotes em Santa Maria</div>
     <h1 class="hero-title"><em>Santa Maria</em></h1>
-    <p class="hero-sub">Santa Maria – Atrás do Horizonte Park, Santarém, PA<br>Uma excelente oportunidade pra sair do aluguel ou investir com segurança. Muita gente já está garantindo o seu — não fique de fora!</p>
+    <p class="hero-sub">Empreendimentos Porto Belo, Tapajós e Bom Sossego disponíveis em Santa Maria — Santarém, PA.<br>Lotes 10x30 (300 m²) com condições facilitadas de entrada e parcelamento direto.</p>
     <div class="hero-btns">
-      <a href="/reserva/" class="btn-gold">Garantir Meu Lote</a>
+      <a href="#empreendimentos" class="btn-gold">Ver Empreendimentos</a>
             <button onclick="compartilharPagina()" class="btn-share" type="button">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
         Compartilhar
       </button>
-<a href="https://wa.me/5593992332012?text=Ol%C3%A1%20vim%20pelo%20site%2C%20tenho%20interesse%20em%20Santa%20Maria!" target="_blank" class="btn-wpp">Falar com Rafael</a>
+<a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Vim%20pelo%20site%2C%20tenho%20interesse%20nos%20empreendimentos%20no%20Santa%20Maria." target="_blank" class="btn-wpp">Falar com Rafael</a>
     </div>
   </div>
 </section>
 
-<section class="sec-precos">
-  <div style="max-width: 1200px; margin: 0 auto;">
-    <h2 class="section-title">Tabela de <em>Preços</em></h2>
-    <p class="section-sub">Santa Maria — Atrás do Horizonte Park, Santarém</p>
-
-    <div style="text-align:center;margin-bottom:18px">
-      <div style="font-size:13px;font-weight:800;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase">Escolha a sua opção de lote</div>
-      <div style="font-size:12.5px;color:var(--text3);margin-top:4px">Selecione uma opção para conferir a entrada e as parcelas.</div>
+<!-- SEÇÃO: 3 EMPREENDIMENTOS NO SANTA MARIA -->
+<section id="empreendimentos" style="padding: 64px 20px; background: var(--bg2); border-top: 1px solid rgba(201,168,76,0.15);">
+  <div style="max-width: 1140px; margin: 0 auto;">
+    <div style="text-align: center; margin-bottom: 44px;">
+      <div style="font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gold); font-weight: 700;">Santa Maria — Santarém, PA</div>
+      <h2 class="section-title" style="margin-top: 8px;">Empreendimentos <em>Disponíveis</em></h2>
+      <p class="section-sub" style="margin-bottom: 0;">Selecione o empreendimento desejado para conferir valores, localização e condições.</p>
     </div>
 
-    <!-- Seletor de Opções -->
-    <div style="display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:28px" id="precoCatToggle">
-      <button class="preco-cat-btn active" data-cat="proximo" type="button">
-        <span class="preco-cat-btn-title">🌟 MAIS PRÓXIMO</span>
-        <span class="preco-cat-btn-sub">Entrada R$ 2.000 · 100x R$ 400</span>
-      </button>
-      <button class="preco-cat-btn" data-cat="economico" type="button">
-        <span class="preco-cat-btn-title">💰 MAIS ECONÔMICO</span>
-        <span class="preco-cat-btn-sub">Entrada R$ 500 · 50x R$ 300</span>
-      </button>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 24px;">
+
+      <!-- 1. PORTO BELO -->
+      <div class="card-emp" id="card-porto-belo">
+        <div style="position: relative; line-height: 0;">
+          <img src="/imagens/santa-maria-obra-1.jpeg" alt="Empreendimento Porto Belo" style="width: 100%; height: 220px; object-fit: cover;">
+          <span style="position: absolute; top: 14px; left: 14px; background: var(--gold); color: #000; font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 4px 12px; border-radius: 100px;">SANTA MARIA</span>
+        </div>
+        <div style="padding: 24px; display: flex; flex-direction: column; flex: 1;">
+          <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 700; color: var(--text);">Porto Belo</h3>
+          
+          <div style="margin-top: 8px; font-size: 13px; color: var(--text2); line-height: 1.6;">
+            <div>📍 <strong>Localização:</strong> Santa Maria</div>
+            <div style="margin-top: 3px;">🧭 <strong>Referência:</strong> Passando a sede, à direita</div>
+            <div style="margin-top: 3px;">⏱️ <strong>Distância:</strong> ~5 min da principal do Santa Maria</div>
+            <div style="margin-top: 6px; color: var(--gold); font-weight: 700; font-size: 13px;">📐 Terrenos: 10x30 — 300 m²</div>
+          </div>
+
+          <!-- Bloco Valores -->
+          <div style="margin: 20px 0; padding: 14px 12px; background: rgba(0,0,0,0.35); border-radius: 14px; border: 1px solid rgba(201,168,76,0.22); display: flex; justify-content: space-between; text-align: center;">
+            <div style="flex: 1;">
+              <div style="font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 1px;">Entrada a partir de</div>
+              <div style="font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 700; color: var(--gold); margin-top: 2px;">R$ 500,00</div>
+            </div>
+            <div style="border-left: 1px solid rgba(201,168,76,0.25);"></div>
+            <div style="flex: 1;">
+              <div style="font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 1px;">Parcelamento</div>
+              <div style="font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; color: var(--text); margin-top: 2px;">70x R$ 350,00</div>
+            </div>
+          </div>
+
+          <!-- Botões -->
+          <div style="margin-top: auto; display: flex; flex-direction: column; gap: 8px;">
+            <a href="https://wa.me/5593992332012?text=Ol%C3%A1%2C%20Rafael!%20Tenho%20interesse%20no%20Empreendimento%20Porto%20Belo.%20Gostaria%20de%20receber%20a%20localiza%C3%A7%C3%A3o%20e%20mais%20informa%C3%A7%C3%B5es%20sobre%20as%20condi%C3%A7%C3%B5es%20de%20pagamento." target="_blank" rel="noopener" class="btn-interesse">
+              <span>Tenho interesse</span>
+            </a>
+            <a href="https://maps.google.com/?q=-2.456583,-54.826306" target="_blank" rel="noopener" class="btn-mapa">
+              <span>📍 Ver localização no Mapa</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. TAPAJÓS -->
+      <div class="card-emp" id="card-tapajos">
+        <div style="position: relative; line-height: 0;">
+          <img src="/imagens/santa-maria-obra-2.jpeg" alt="Empreendimento Tapajós" style="width: 100%; height: 220px; object-fit: cover;">
+          <span style="position: absolute; top: 14px; left: 14px; background: var(--gold); color: #000; font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 4px 12px; border-radius: 100px;">SANTA MARIA</span>
+        </div>
+        <div style="padding: 24px; display: flex; flex-direction: column; flex: 1;">
+          <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 700; color: var(--text);">Tapajós</h3>
+          
+          <div style="margin-top: 8px; font-size: 13px; color: var(--text2); line-height: 1.6;">
+            <div>📍 <strong>Localização:</strong> Santa Maria</div>
+            <div style="margin-top: 3px;">🧭 <strong>Referência:</strong> Ao lado do campo oficial do CT Tapajós</div>
+            <div style="margin-top: 3px;">⚽ <strong>Destaque:</strong> Próximo ao centro de treinamento</div>
+            <div style="margin-top: 6px; color: var(--gold); font-weight: 700; font-size: 13px;">📐 Terrenos: 10x30 — 300 m²</div>
+          </div>
+
+          <!-- Bloco Valores -->
+          <div style="margin: 20px 0; padding: 14px 12px; background: rgba(0,0,0,0.35); border-radius: 14px; border: 1px solid rgba(201,168,76,0.22); display: flex; justify-content: space-between; text-align: center;">
+            <div style="flex: 1;">
+              <div style="font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 1px;">Entrada a partir de</div>
+              <div style="font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 700; color: var(--gold); margin-top: 2px;">R$ 500,00</div>
+            </div>
+            <div style="border-left: 1px solid rgba(201,168,76,0.25);"></div>
+            <div style="flex: 1;">
+              <div style="font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 1px;">Parcelamento</div>
+              <div style="font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; color: var(--text); margin-top: 2px;">75x R$ 312,50</div>
+            </div>
+          </div>
+
+          <!-- Botões -->
+          <div style="margin-top: auto; display: flex; flex-direction: column; gap: 8px;">
+            <a href="https://wa.me/5593992332012?text=Ol%C3%A1%2C%20Rafael!%20Tenho%20interesse%20no%20Empreendimento%20Tapaj%C3%B3s.%20Gostaria%20de%20receber%20a%20localiza%C3%A7%C3%A3o%20e%20mais%20informa%C3%A7%C3%B5es%20sobre%20as%20condi%C3%A7%C3%B5es%20de%20pagamento." target="_blank" rel="noopener" class="btn-interesse">
+              <span>Tenho interesse</span>
+            </a>
+            <a href="https://maps.google.com/?q=-2.455917,-54.814056" target="_blank" rel="noopener" class="btn-mapa">
+              <span>📍 Ver localização no Mapa</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. BOM SOSSEGO -->
+      <div class="card-emp" id="card-bom-sossego">
+        <div style="position: relative; line-height: 0;">
+          <img src="/imagens/santa-maria-obra-3.jpeg" alt="Empreendimento Bom Sossego" style="width: 100%; height: 220px; object-fit: cover;">
+          <span style="position: absolute; top: 14px; left: 14px; background: var(--gold); color: #000; font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 4px 12px; border-radius: 100px;">SANTA MARIA</span>
+        </div>
+        <div style="padding: 24px; display: flex; flex-direction: column; flex: 1;">
+          <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 700; color: var(--text);">Bom Sossego</h3>
+          
+          <div style="margin-top: 8px; font-size: 13px; color: var(--text2); line-height: 1.6;">
+            <div>📍 <strong>Localização:</strong> Santa Maria</div>
+            <div style="margin-top: 3px;">🧭 <strong>Referência:</strong> A 1 km da Fernando Guilhon</div>
+            <div style="margin-top: 3px;">🛣️ <strong>Acesso:</strong> Rápido acesso à Rod. Fernando Guilhon</div>
+            <div style="margin-top: 6px; color: var(--gold); font-weight: 700; font-size: 13px;">📐 Terrenos: 10x30 — 300 m²</div>
+          </div>
+
+          <!-- Bloco Valores -->
+          <div style="margin: 20px 0; padding: 14px 12px; background: rgba(0,0,0,0.35); border-radius: 14px; border: 1px solid rgba(201,168,76,0.22); display: flex; justify-content: space-between; text-align: center;">
+            <div style="flex: 1;">
+              <div style="font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 1px;">Entrada a partir de</div>
+              <div style="font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 700; color: var(--gold); margin-top: 2px;">R$ 2.000,00</div>
+            </div>
+            <div style="border-left: 1px solid rgba(201,168,76,0.25);"></div>
+            <div style="flex: 1;">
+              <div style="font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 1px;">Parcelamento</div>
+              <div style="font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; color: var(--text); margin-top: 2px;">100x R$ 400,00</div>
+            </div>
+          </div>
+
+          <!-- Botões -->
+          <div style="margin-top: auto; display: flex; flex-direction: column; gap: 8px;">
+            <a href="https://wa.me/5593992332012?text=Ol%C3%A1%2C%20Rafael!%20Tenho%20interesse%20no%20Empreendimento%20Bom%20Sossego.%20Gostaria%20de%20receber%20a%20localiza%C3%A7%C3%A3o%20e%20mais%20informa%C3%A7%C3%B5es%20sobre%20as%20condi%C3%A7%C3%B5es%20de%20pagamento." target="_blank" rel="noopener" class="btn-interesse">
+              <span>Tenho interesse</span>
+            </a>
+            <a href="https://maps.google.com/?q=-2.447361,-54.805028" target="_blank" rel="noopener" class="btn-mapa">
+              <span>📍 Ver localização no Mapa</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
     </div>
 
-    <!-- Card 1: Mais Próximo -->
-    <div id="cardMaisProximo" style="background: linear-gradient(135deg, rgba(201,168,76,0.14), rgba(201,168,76,0.05)); border: 2px solid var(--gold); border-radius: 20px; padding: 32px 24px; max-width: 480px; margin: 0 auto 28px; box-shadow: 0 12px 36px rgba(201,168,76,0.18);">
-      <div style="text-align:center;margin-bottom:16px;">
-        <span style="display:inline-block;background:rgba(201,168,76,0.18);color:var(--gold);font-size:11px;font-weight:700;letter-spacing:1px;padding:5px 14px;border-radius:100px;border:1px solid rgba(201,168,76,0.4)">LOCALIZAÇÃO PRIVILEGIADA</span>
-        <h3 style="font-family:'Cormorant Garamond', serif;font-size:26px;color:var(--text);margin-top:8px;font-weight:700">Lote <em style="color:var(--gold);font-style:italic">Mais Próximo</em></h3>
-        <p style="font-size:12.5px;color:var(--text2);margin-top:4px">Mais perto da entrada e acesso principal, com valorização acelerada.</p>
+    <!-- Contato e Atendimento do Corretor -->
+    <div style="margin-top: 48px; background: rgba(201,168,76,0.06); border: 1px solid rgba(201,168,76,0.25); border-radius: 18px; padding: 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;">
+      <div>
+        <div style="font-size: 11px; color: var(--gold); letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700;">Atendimento Especializado</div>
+        <div style="font-size: 18px; font-weight: 700; color: var(--text); margin-top: 4px;">Rafael Tavares · CRECI 13919</div>
+        <div style="font-size: 13px; color: var(--text2); margin-top: 2px;">WhatsApp: (93) 99233-2012 · Atendimento em Santarém — PA</div>
       </div>
-
-      <div style="display: flex; justify-content: space-between; text-align: center; gap: 12px; margin-bottom: 22px; background: rgba(0,0,0,0.3); padding: 18px 12px; border-radius: 14px; border: 1px solid rgba(201,168,76,0.2);">
-        <div style="flex:1">
-          <div style="font-size: 11px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing:1px;">Entrada</div>
-          <div style="font-family:'Cormorant Garamond', serif; font-size: 30px; font-weight: 700; color: var(--gold); margin-top: 6px;">R$ 2.000</div>
-        </div>
-        <div style="border-left: 1px solid rgba(201,168,76,0.25);"></div>
-        <div style="flex:1">
-          <div style="font-size: 11px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing:1px;">Parcelamento</div>
-          <div style="font-family:'Cormorant Garamond', serif; font-size: 30px; font-weight: 700; color: var(--gold); margin-top: 6px;">100x R$ 400</div>
-        </div>
-      </div>
-
-      <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20vim%20pelo%20site%2C%20tenho%20interesse%20no%20lote%20Mais%20Pr%C3%B3ximo%20em%20Santa%20Maria!" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:10px;background:var(--gold);color:#000;padding:14px;border-radius:100px;font-size:13px;font-weight:800;text-decoration:none;letter-spacing:.5px;box-shadow:0 4px 16px rgba(201,168,76,0.35);transition:transform .2s">
-        <span>Garantir Opção Mais Próximo no WhatsApp</span>
+      <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20Rafael!%20Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20os%20empreendimentos%20no%20Santa%20Maria." target="_blank" rel="noopener" class="btn-interesse" style="padding: 12px 28px;">
+        <span>Conversar com Rafael</span>
       </a>
-    </div>
-
-    <!-- Card 2: Mais Econômico -->
-    <div id="cardMaisEconomico" style="display:none; background: linear-gradient(135deg, rgba(201,168,76,0.14), rgba(201,168,76,0.05)); border: 2px solid var(--gold); border-radius: 20px; padding: 32px 24px; max-width: 480px; margin: 0 auto 28px; box-shadow: 0 12px 36px rgba(201,168,76,0.18);">
-      <div style="text-align:center;margin-bottom:16px;">
-        <span style="display:inline-block;background:rgba(201,168,76,0.18);color:var(--gold);font-size:11px;font-weight:700;letter-spacing:1px;padding:5px 14px;border-radius:100px;border:1px solid rgba(201,168,76,0.4)">MÁXIMA FACILIDADE</span>
-        <h3 style="font-family:'Cormorant Garamond', serif;font-size:26px;color:var(--text);margin-top:8px;font-weight:700">Lote <em style="color:var(--gold);font-style:italic">Mais Econômico</em></h3>
-        <p style="font-size:12.5px;color:var(--text2);margin-top:4px">Menor entrada inicial e parcelas leves de apenas R$ 10 ao dia.</p>
-      </div>
-
-      <div style="display: flex; justify-content: space-between; text-align: center; gap: 12px; margin-bottom: 22px; background: rgba(0,0,0,0.3); padding: 18px 12px; border-radius: 14px; border: 1px solid rgba(201,168,76,0.2);">
-        <div style="flex:1">
-          <div style="font-size: 11px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing:1px;">Entrada</div>
-          <div style="font-family:'Cormorant Garamond', serif; font-size: 30px; font-weight: 700; color: var(--gold); margin-top: 6px;">R$ 500</div>
-        </div>
-        <div style="border-left: 1px solid rgba(201,168,76,0.25);"></div>
-        <div style="flex:1">
-          <div style="font-size: 11px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing:1px;">Parcelamento</div>
-          <div style="font-family:'Cormorant Garamond', serif; font-size: 30px; font-weight: 700; color: var(--gold); margin-top: 6px;">50x R$ 300</div>
-        </div>
-      </div>
-
-      <a href="https://wa.me/5593992332012?text=Ol%C3%A1%20vim%20pelo%20site%2C%20tenho%20interesse%20no%20lote%20Mais%20Econ%C3%B4mico%20em%20Santa%20Maria!" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:10px;background:var(--gold);color:#000;padding:14px;border-radius:100px;font-size:13px;font-weight:800;text-decoration:none;letter-spacing:.5px;box-shadow:0 4px 16px rgba(201,168,76,0.35);transition:transform .2s">
-        <span>Garantir Opção Econômica no WhatsApp</span>
-      </a>
-    </div>
-
-    <!-- Bloco de Garantia e Pagamento -->
-    <div style="max-width: 480px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px;">
-      <div style="background: rgba(201,168,76,0.06); border: 1px solid rgba(201,168,76,0.2); border-radius: 14px; padding: 16px; font-size: 12.5px; color: var(--text); display: flex; align-items: center; gap: 12px;">
-        <span style="font-size: 22px;">📜</span>
-        <div>
-          <strong>Documentação 100% Regular:</strong> Loteamento com histórico seguro e pronto para você construir.
-        </div>
-      </div>
-      <div style="background: rgba(220,53,69,0.12); border: 1px solid rgba(220,53,69,0.3); border-radius: 14px; padding: 14px; font-size: 12px; color: #ff9a9a; text-align: center;">
-        💳 <strong>Facilidade Total:</strong> Parcelamento direto com a Imobiliária, sem burocracia e sem comprovação de renda.
-      </div>
     </div>
 
   </div>
-</section>
-
-<section class="sec-sobre">
-  <h2 class="section-title">Empreendimento <em>Santa Maria</em></h2>
-  <p>Localização: Santa Maria – Atrás do Horizonte Park.<br><br>Uma excelente oportunidade pra sair do aluguel ou investir com segurança. Muita gente já está garantindo o seu — não fique de fora!</p>
 </section>
 
 <section style="padding: 60px 20px; max-width: 1200px; margin: 0 auto;">
@@ -517,20 +633,6 @@ function compartilharPagina(){
 }
 </script>
 
-
-<script>
-  document.querySelectorAll("#precoCatToggle .preco-cat-btn").forEach(function(btn) {
-    btn.onclick = function() {
-      document.querySelectorAll("#precoCatToggle .preco-cat-btn").forEach(function(b) { b.classList.remove("active"); });
-      btn.classList.add("active");
-      var cat = btn.getAttribute("data-cat");
-      var cardProx = document.getElementById("cardMaisProximo");
-      var cardEcon = document.getElementById("cardMaisEconomico");
-      if (cardProx) cardProx.style.display = cat === "proximo" ? "" : "none";
-      if (cardEcon) cardEcon.style.display = cat === "economico" ? "" : "none";
-    };
-  });
-</script>
 
 </body>
 </html>
