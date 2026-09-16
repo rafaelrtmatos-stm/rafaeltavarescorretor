@@ -337,6 +337,8 @@
       pagFrase = 'tenho parte do valor';
     } else if (pag.indexOf('troca') !== -1) {
       pagFrase = 'pretendo negociar uma troca';
+    } else if (pag.indexOf('vista') !== -1 || pag.indexOf('depend') !== -1) {
+      pagFrase = 'quero negociar à vista, dependendo do valor';
     } else if (pag.indexOf('não sei') !== -1 || pag.indexOf('nao sei') !== -1) {
       pagFrase = 'ainda estou avaliando a forma de pagamento';
     }
@@ -523,24 +525,24 @@
     var checksSpan = document.createElement('span');
 
     if (animar) {
-      // 1. Enviado: um pauzinho cinza
+      // 1. Enviado: um pauzinho cinza (dura pelo menos 1 segundo)
       checksSpan.className = 'lead-msg-checks status-enviado';
       checksSpan.title = 'Enviado';
       checksSpan.innerHTML = SVG_TIQUE_1;
 
-      // 2. Recebido: dois pauzinhos cinzas (após 450ms)
+      // 2. Recebido: dois pauzinhos cinzas (após 1000ms - pelo menos 1s de intervalo)
       agendarTimeout(function () {
         checksSpan.className = 'lead-msg-checks status-recebido';
         checksSpan.title = 'Entregue';
         checksSpan.innerHTML = SVG_TIQUE_2;
-      }, 450);
+      }, 1000);
 
-      // 3. Lido: dois pauzinhos azuis (após 950ms)
+      // 3. Lido: dois pauzinhos azuis (após 2000ms - pelo menos 1s de intervalo após recebido)
       agendarTimeout(function () {
         checksSpan.className = 'lead-msg-checks status-lido';
         checksSpan.title = 'Lido';
         checksSpan.innerHTML = SVG_TIQUE_2;
-      }, 950);
+      }, 2000);
     } else {
       // Histórico já lido
       checksSpan.className = 'lead-msg-checks status-lido';
@@ -557,7 +559,7 @@
     return row;
   }
 
-  // Enviar resposta do cliente: toca som de envio, mostra 1 pauzinho cinza -> 2 pauzinhos cinza -> 2 azuis,
+  // Enviar resposta do cliente: toca som de envio, mostra 1 pauzinho cinza -> 2 pauzinhos cinza -> 2 azuis (1s entre cada),
   // e em seguida inicia os 3 segundos de digitação com notificação para a próxima mensagem
   function responderCliente(textoExibicao, proximaEtapa) {
     tocarSomEnviado();
@@ -571,10 +573,10 @@
       rolarParaFinal();
     }
 
-    // Aguarda a confirmação visual da leitura em azul (~1050ms) antes de iniciar os 3s de digitação da próxima etapa
+    // Aguarda a confirmação visual completa da leitura em azul (2000ms + 400ms) antes de iniciar a digitação da próxima etapa
     agendarTimeout(function () {
       irParaEtapa(proximaEtapa, false);
-    }, 1050);
+    }, 2400);
   }
 
   // Criar indicador de digitação (três pontos pulsantes com texto)
@@ -985,7 +987,7 @@
         { label: '💵 Tenho o valor para a entrada', val: 'Tenho o valor para a entrada' },
         { label: '💰 Tenho parte do valor', val: 'Tenho parte do valor' },
         { label: '🚗 Pretendo negociar uma troca (carro/moto)', val: 'Pretendo negociar uma troca (carro/moto)' },
-        { label: '🤔 Ainda não sei', val: 'Ainda não sei' }
+        { label: '🤝 Quero negociar à vista, mas dependendo do valor', val: 'Quero negociar à vista, mas dependendo do valor' }
       ];
 
       opcoesPag.forEach(function (opt) {
@@ -1145,58 +1147,85 @@
 
     // ── ETAPA 7: HORÁRIO DA VISITA COM INTERVALOS DE 30 MINUTOS ──
     if (etapa === 7) {
-      container.appendChild(criarBalaoRafael('Qual horário fica melhor para o agendamento da sua visita? (Intervalos de 30 minutos)'));
+      var agora = new Date();
+      var horaAtual = agora.getHours();
+      var isNoiteDepoisDas17 = (horaAtual >= 17);
+
+      var diaFormatado = (agora.getDate() < 10 ? '0' : '') + agora.getDate();
+      var mesFormatado = (agora.getMonth() + 1 < 10 ? '0' : '') + (agora.getMonth() + 1);
+      var hojeStr = diaFormatado + '/' + mesFormatado + '/' + agora.getFullYear();
+      var isHoje = (!leadData.data_visita || leadData.data_visita === hojeStr);
+
+      if (isNoiteDepoisDas17) {
+        container.appendChild(criarBalaoRafael('Qual horário fica melhor para o agendamento da sua visita? Como já passa das 17h, selecione o melhor horário a partir da tarde:'));
+      } else {
+        container.appendChild(criarBalaoRafael('Qual horário fica melhor para o agendamento da sua visita? (Intervalos de 30 minutos)'));
+      }
 
       var timeWrap = document.createElement('div');
       timeWrap.className = 'lead-time-slots-container';
-
-      // Grupo Manhã (08:30 às 11:30 de 30 em 30 min)
-      var grpManha = document.createElement('div');
-      grpManha.className = 'lead-time-group';
-      grpManha.innerHTML = '<div class="lead-time-group-title"><span>🌅</span> Manhã</div>';
-      var gridManha = document.createElement('div');
-      gridManha.className = 'lead-time-grid';
-
-      var horariosManha = ['08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30'];
-      horariosManha.forEach(function (hora) {
-        var btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'lead-time-slot-btn';
-        btn.textContent = hora;
-        btn.addEventListener('click', function () {
-          selecionarHorario(hora);
-        });
-        gridManha.appendChild(btn);
-      });
-      grpManha.appendChild(gridManha);
-
-      // Grupo Tarde (14:00 às 17:30 de 30 em 30 min)
-      var grpTarde = document.createElement('div');
-      grpTarde.className = 'lead-time-group';
-      grpTarde.innerHTML = '<div class="lead-time-group-title"><span>☀️</span> Tarde</div>';
-      var gridTarde = document.createElement('div');
-      gridTarde.className = 'lead-time-grid';
-
-      var horariosTarde = ['14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30'];
-      horariosTarde.forEach(function (hora) {
-        var btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'lead-time-slot-btn';
-        btn.textContent = hora;
-        btn.addEventListener('click', function () {
-          selecionarHorario(hora);
-        });
-        gridTarde.appendChild(btn);
-      });
-      grpTarde.appendChild(gridTarde);
-
-      timeWrap.appendChild(grpManha);
-      timeWrap.appendChild(grpTarde);
 
       function selecionarHorario(hora) {
         leadData.horario_visita = hora;
         leadData.periodo_visita = hora;
         responderCliente('🕒 Horário agendado: ' + hora, 8);
+      }
+
+      function criarGrupoHorarios(titulo, icone, listaHoras) {
+        var grp = document.createElement('div');
+        grp.className = 'lead-time-group';
+        grp.innerHTML = '<div class="lead-time-group-title"><span>' + icone + '</span> ' + titulo + '</div>';
+        var grid = document.createElement('div');
+        grid.className = 'lead-time-grid';
+
+        listaHoras.forEach(function (hora) {
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'lead-time-slot-btn';
+          btn.textContent = hora;
+          btn.addEventListener('click', function () {
+            selecionarHorario(hora);
+          });
+          grid.appendChild(btn);
+        });
+        grp.appendChild(grid);
+        return grp;
+      }
+
+      // Se estiver escrevendo à noite, depois das 17h: só aparece o horário a partir da tarde depois das 17h
+      if (isNoiteDepoisDas17) {
+        var horariosDepois17 = ['17:00', '17:30', '18:00'];
+        timeWrap.appendChild(criarGrupoHorarios('Tarde / Início da Noite (a partir das 17h)', '🌆', horariosDepois17));
+
+        // Se o agendamento for para outro dia, oferece opção para ver os demais horários caso queira
+        if (!isHoje) {
+          var btnOutros = document.createElement('button');
+          btnOutros.type = 'button';
+          btnOutros.className = 'lead-skip-step-btn';
+          btnOutros.style.marginTop = '4px';
+          btnOutros.textContent = '☀️ Ver horários da manhã e tarde completa para este dia';
+          btnOutros.addEventListener('click', function () {
+            btnOutros.remove();
+            timeWrap.innerHTML = '';
+            var horariosManha = ['08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30'];
+            var horariosTarde = ['14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30'];
+            timeWrap.appendChild(criarGrupoHorarios('Manhã', '🌅', horariosManha));
+            timeWrap.appendChild(criarGrupoHorarios('Tarde', '☀️', horariosTarde));
+          });
+          actionsWrap.appendChild(btnOutros);
+        }
+      } else {
+        // Se for antes das 17h:
+        var horariosManha = ['08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30'];
+        var horariosTarde = ['14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30'];
+
+        // Se for hoje à tarde (entre 12h e 17h), a manhã já passou
+        if (isHoje && horaAtual >= 12) {
+          timeWrap.appendChild(criarGrupoHorarios('Tarde', '☀️', horariosTarde));
+        } else {
+          timeWrap.appendChild(criarGrupoHorarios('Manhã', '🌅', horariosManha));
+          timeWrap.appendChild(criarGrupoHorarios('Tarde', '☀️', horariosTarde));
+        }
       }
 
       actionsWrap.appendChild(timeWrap);
