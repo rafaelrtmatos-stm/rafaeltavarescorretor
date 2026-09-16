@@ -1506,6 +1506,13 @@
         });
       }
 
+      if (btnFinal) {
+        btnFinal.addEventListener('click', function (e) {
+          e.preventDefault();
+          finalizarConversa();
+        });
+      }
+
       async function finalizarConversa() {
         var tel = (telInput ? telInput.value : '').trim();
         var telDigitos = tel.replace(/\D/g, '');
