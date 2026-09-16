@@ -1275,6 +1275,8 @@
       function desenharCalendarioChat() {
         var ano = calCurrentDate.getFullYear();
         var mes = calCurrentDate.getMonth();
+        var agoraCal = new Date();
+        var expedienteFechadoHoje = agoraCal.getHours() >= 18;
         var hoje = new Date();
         hoje.setHours(0, 0, 0, 0);
 
@@ -1301,7 +1303,10 @@
           var dateRef = new Date(ano, mes, d);
           dateRef.setHours(0, 0, 0, 0);
 
-          if (dateRef < hoje) {
+          // Depois das 18h (fim do expediente) o dia de hoje não tem mais horários disponíveis
+          var ehHojeSemHorario = (dateRef.getTime() === hoje.getTime()) && expedienteFechadoHoje;
+
+          if (dateRef < hoje || ehHojeSemHorario) {
             dayBtn.classList.add('disabled');
             dayBtn.disabled = true;
           } else {
@@ -1339,14 +1344,32 @@
     if (etapa === 7) {
       var agora = new Date();
       var horaAtual = agora.getHours();
-      var isNoiteDepoisDas17 = (horaAtual >= 17);
 
       var diaFormatado = (agora.getDate() < 10 ? '0' : '') + agora.getDate();
       var mesFormatado = (agora.getMonth() + 1 < 10 ? '0' : '') + (agora.getMonth() + 1);
       var hojeStr = diaFormatado + '/' + mesFormatado + '/' + agora.getFullYear();
       var isHoje = (!leadData.data_visita || leadData.data_visita === hojeStr);
 
-      if (isNoiteDepoisDas17) {
+      // Expediente é das 08h às 18h. Se for "hoje" e já passou das 18h, não sobra
+      // nenhum horário válido no dia — empurra automaticamente o agendamento
+      // para amanhã em vez de oferecer horários que já ficaram no passado.
+      var empurradoParaAmanha = false;
+      if (isHoje && horaAtual >= 18) {
+        var amanha = new Date(agora);
+        amanha.setDate(amanha.getDate() + 1);
+        var diaAmanha = (amanha.getDate() < 10 ? '0' : '') + amanha.getDate();
+        var mesAmanha = (amanha.getMonth() + 1 < 10 ? '0' : '') + (amanha.getMonth() + 1);
+        leadData.data_visita = diaAmanha + '/' + mesAmanha + '/' + amanha.getFullYear();
+        leadData.data_visita_texto = amanha.getDate() + ' de ' + meses[amanha.getMonth()].toLowerCase() + ' de ' + amanha.getFullYear();
+        isHoje = false;
+        empurradoParaAmanha = true;
+      }
+
+      var isNoiteDepoisDas17 = isHoje && (horaAtual >= 17);
+
+      if (empurradoParaAmanha) {
+        container.appendChild(criarBalaoRafael('Nosso horário de atendimento é das 08h às 18h e já encerrou por hoje. Vamos agendar para amanhã, dia ' + leadData.data_visita + ' — qual horário fica melhor?'));
+      } else if (isNoiteDepoisDas17) {
         container.appendChild(criarBalaoRafael('Qual horário fica melhor para o agendamento da sua visita? Como já passa das 17h, selecione o melhor horário a partir da tarde:'));
       } else {
         container.appendChild(criarBalaoRafael('Qual horário fica melhor para o agendamento da sua visita? (Intervalos de 30 minutos)'));
