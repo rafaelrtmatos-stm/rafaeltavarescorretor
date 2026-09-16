@@ -49,8 +49,8 @@
     .btn-wpp{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:transparent;border:1.5px solid rgba(37,211,102,0.45);color:#25d366;padding:14px 28px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;transition:all .3s}
         .btn-share{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:transparent;border:1.5px solid rgba(201,168,76,0.4);color:#C9A84C;padding:12px 26px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;transition:all .3s;cursor:pointer;font-family:"Inter",sans-serif}
     .btn-share:hover{border-color:#C9A84C;background:rgba(201,168,76,0.08)}
-.stats-band{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:28px 24px}
-    .stats-band-inner{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;text-align:center}
+.stats-band{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:26px 20px}
+    .stats-band-inner{max-width:600px;margin:0 auto;display:grid;grid-template-columns:repeat(2,1fr);gap:20px;text-align:center}
     .stat-num{font-family:"Cormorant Garamond",serif;font-size:clamp(32px,4vw,48px);font-weight:700;color:var(--gold);line-height:1}
     .stat-label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:2px;margin-top:4px}
     section{padding:80px 24px}
@@ -91,7 +91,8 @@
       [style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr!important}
       [style*="display:flex;align-items:center;gap:32px"]{flex-direction:column!important;text-align:center!important}
 
-      .stats-band-inner,.planos-grid{grid-template-columns:1fr}
+      .planos-grid{grid-template-columns:1fr}
+      .stats-band-inner{grid-template-columns:repeat(2,1fr);gap:14px}
       .nav-btn-outline{display:none}
       /* SEÇÃO SOBRE - empilha em mobile */
       #sobre > div > div[style*="grid-template-columns:1fr 1.3fr"]{
@@ -159,9 +160,8 @@
 
 <div class="stats-band">
   <div class="stats-band-inner">
-    <div><div class="stat-num">376</div><div class="stat-label">Lotes disponiveis</div></div>
-    <div><div class="stat-num">R$600</div><div class="stat-label">Entrada a partir de</div></div>
-    <div><div class="stat-num">R$255,56</div><div class="stat-label">Parcelas a partir de</div></div>
+    <div><div class="stat-num">R$ 600</div><div class="stat-label">Entrada a partir de</div></div>
+    <div><div class="stat-num">R$ 255,56</div><div class="stat-label">Parcelas a partir de</div></div>
   </div>
 </div>
 
@@ -926,10 +926,28 @@ function aplicarDadosMararu(data){
   if(!data)return;
   _mararuDataCache=data;
 
-  var disp=data.lotesDisponiveis!=null?data.lotesDisponiveis:13;
-  var res=data.lotesReservados!=null?data.lotesReservados:0;
-  var vend=data.lotesVendidos!=null?data.lotesVendidos:9;
-  var total=data.totalLotes!=null?data.totalLotes:376;
+  var pontos=data.mapaPontos||[];
+  var lotesInfo=data.lotesInfo||{};
+
+  var total=pontos.length||(data.totalLotes!=null?data.totalLotes:376);
+  var disp=0;
+  var res=0;
+
+  if(pontos.length>0){
+    pontos.forEach(function(p){
+      var key=p.key||(p.quadra+'-'+p.lote);
+      var inf=lotesInfo[key]||{};
+      var st=inf.status||p.status||'disponivel';
+      if(st==='disponivel') disp++;
+      else if(st==='reservado'||st==='pre-reserva') res++;
+    });
+  } else {
+    disp=data.lotesDisponiveis!=null?data.lotesDisponiveis:14;
+    res=data.lotesReservados!=null?data.lotesReservados:0;
+  }
+
+  // Vendidos é o total de lotes que NÃO estão disponíveis (descontando reservas)
+  var vend=Math.max(0, total - disp - res);
 
   var st=document.getElementById('mapa-stats');
   if(st){st.style.display='grid';}
@@ -937,6 +955,7 @@ function aplicarDadosMararu(data){
   var sr=document.getElementById('stat-res');if(sr)sr.textContent=res;
   var sv=document.getElementById('stat-vend');if(sv)sv.textContent=vend;
   var stotal=document.getElementById('stat-total');if(stotal)stotal.textContent=Number(total).toLocaleString('pt-BR');
+  var heroDisp=document.getElementById('hero-stat-disp');if(heroDisp)heroDisp.textContent=disp;
 
   var wrap=document.getElementById('mapa-vis');
   if(!wrap)return;

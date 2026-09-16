@@ -41,8 +41,8 @@
     .btn-wpp{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:transparent;border:1.5px solid rgba(37,211,102,0.45);color:#25d366;padding:14px 28px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;transition:all .3s}
         .btn-share{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:transparent;border:1.5px solid rgba(201,168,76,0.4);color:#C9A84C;padding:12px 26px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;transition:all .3s;cursor:pointer;font-family:"Inter",sans-serif}
     .btn-share:hover{border-color:#C9A84C;background:rgba(201,168,76,0.08)}
-    .stats-band{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:28px 24px}
-    .stats-band-inner{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;text-align:center}
+    .stats-band{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:26px 20px}
+    .stats-band-inner{max-width:600px;margin:0 auto;display:grid;grid-template-columns:repeat(2,1fr);gap:20px;text-align:center}
     .stat-num{font-family:"Cormorant Garamond",serif;font-size:clamp(32px,4vw,48px);font-weight:700;color:var(--gold);line-height:1}
     .stat-label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:2px;margin-top:4px}
     section{padding:80px 24px}
@@ -143,7 +143,6 @@
 
 <div class="stats-band">
   <div class="stats-band-inner">
-    <div><div class="stat-num" id="hero-stat-disp">94</div><div class="stat-label">Lotes disponíveis</div></div>
     <div><div class="stat-num">R$ 500</div><div class="stat-label">Entrada a partir de</div></div>
     <div><div class="stat-num">R$ 200,00</div><div class="stat-label">Parcelas a partir de</div></div>
   </div>
@@ -779,11 +778,28 @@ function aplicarDadosAlenquer(data){
   if(!data)return;
   _alenquerDataCache=data;
 
-  // 1. Números reais diretamente do Supabase
-  var disp=data.lotesDisponiveis!=null?data.lotesDisponiveis:94;
-  var res=data.lotesReservados!=null?data.lotesReservados:0;
-  var vend=data.lotesVendidos!=null?data.lotesVendidos:15;
-  var total=data.totalLotes!=null?data.totalLotes:1150;
+  var pontos=data.mapaPontos||[];
+  var lotesInfo=data.lotesInfo||{};
+
+  var total=pontos.length||(data.totalLotes!=null?data.totalLotes:596);
+  var disp=0;
+  var res=0;
+
+  if(pontos.length>0){
+    pontos.forEach(function(p){
+      var key=p.key||(p.quadra+'-'+p.lote);
+      var inf=lotesInfo[key]||{};
+      var st=inf.status||p.status||'disponivel';
+      if(st==='disponivel') disp++;
+      else if(st==='reservado'||st==='pre-reserva') res++;
+    });
+  } else {
+    disp=data.lotesDisponiveis!=null?data.lotesDisponiveis:49;
+    res=data.lotesReservados!=null?data.lotesReservados:0;
+  }
+
+  // Vendidos é o total de lotes que NÃO estão disponíveis (descontando reservas)
+  var vend=Math.max(0, total - disp - res);
 
   var st=document.getElementById('mapa-stats');
   if(st){st.style.display='grid';}

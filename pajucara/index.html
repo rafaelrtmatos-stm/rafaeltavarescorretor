@@ -78,6 +78,13 @@ footer { background: var(--bg2); border-top: 1px solid rgba(201,168,76,0.15); pa
 .dmi:hover span, .dmi:active span { color: #C9A84C; }
 .dico { width: 18px; height: 18px; flex-shrink: 0; fill: none; stroke: #C9A84C; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 .dmi span { font-size: 13px; font-weight: 500; color: rgba(242,237,228,0.82); flex: 1; }
+.stats-band{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:26px 20px}
+.stats-band-inner{max-width:600px;margin:0 auto;display:grid;grid-template-columns:repeat(2,1fr);gap:20px;text-align:center}
+.stat-num{font-family:"Cormorant Garamond",serif;font-size:clamp(32px,4vw,48px);font-weight:700;color:var(--gold);line-height:1}
+.stat-label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:2px;margin-top:4px}
+@media(max-width:640px){
+  .stats-band-inner{grid-template-columns:repeat(2,1fr);gap:14px}
+}
 
 </style>
 <style>
@@ -122,6 +129,13 @@ footer { background: var(--bg2); border-top: 1px solid rgba(201,168,76,0.15); pa
     </div>
   </div>
 </section>
+
+<div class="stats-band">
+  <div class="stats-band-inner">
+    <div><div class="stat-num">R$ 500</div><div class="stat-label">Entrada a partir de</div></div>
+    <div><div class="stat-num">R$ 312,50</div><div class="stat-label">Parcelas a partir de</div></div>
+  </div>
+</div>
 
 <section id="sec-precos" class="sec-precos">
   <div style="max-width: 1200px; margin: 0 auto;">
