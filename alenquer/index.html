@@ -768,80 +768,41 @@ var ALENQUER_EMP_ID='1780939976772';
 function corLote(s){
   if(s==='disponivel')return'#3b82f6';
   if(s==='reservado'||s==='pre-reserva')return'#eab308';
+  if(s==='indisponivel')return'#64748b';
   return'#ef4444';
 }
 
-function atualizarContadoresAlenquer(data){
+var _alenquerDataCache=null;
+
+function aplicarDadosAlenquer(data){
   if(!data)return;
-  var lotesInfo=data.lotesInfo||{};
-  var pontos=data.mapaPontos||[];
-  var disp=0,res=0,vend=0;
-  var total=data.totalLotes||1150;
+  _alenquerDataCache=data;
 
-  var keys=Object.keys(lotesInfo);
-  if(keys.length>0){
-    keys.forEach(function(k){
-      var s=lotesInfo[k].status||'disponivel';
-      if(s==='disponivel')disp++;
-      else if(s==='reservado'||s==='pre-reserva')res++;
-      else vend++;
-    });
-  } else if(pontos.length>0){
-    pontos.forEach(function(p){
-      var s=p.status||'disponivel';
-      if(s==='disponivel')disp++;
-      else if(s==='reservado'||s==='pre-reserva')res++;
-      else vend++;
-    });
-  } else {
-    disp=data.lotesDisponiveis!=null?data.lotesDisponiveis:94;
-    vend=data.lotesVendidos!=null?data.lotesVendidos:15;
-    res=data.lotesReservados!=null?data.lotesReservados:0;
-  }
-
-  // Se o total geral é 1150 e disp foi contado pelos lotes cadastrados
-  if(disp===0&&data.lotesDisponiveis!=null){
-    disp=data.lotesDisponiveis;
-  }
+  // 1. Números reais diretamente do Supabase
+  var disp=data.lotesDisponiveis!=null?data.lotesDisponiveis:94;
+  var res=data.lotesReservados!=null?data.lotesReservados:0;
+  var vend=data.lotesVendidos!=null?data.lotesVendidos:15;
+  var total=data.totalLotes!=null?data.totalLotes:1150;
 
   var sd=document.getElementById('stat-disp');if(sd)sd.textContent=disp;
   var sr=document.getElementById('stat-res');if(sr)sr.textContent=res;
   var sv=document.getElementById('stat-vend');if(sv)sv.textContent=vend;
-  var stotal=document.getElementById('stat-total');if(stotal)stotal.textContent=total.toLocaleString ? total.toLocaleString('pt-BR') : total;
+  var stotal=document.getElementById('stat-total');if(stotal)stotal.textContent=Number(total).toLocaleString('pt-BR');
   var heroDisp=document.getElementById('hero-stat-disp');if(heroDisp)heroDisp.textContent=disp;
   var st=document.getElementById('mapa-stats');if(st)st.style.display='grid';
-}
 
-function renderMapaVisual(lotesInfo,pontos,imgUrl){
+  // 2. Renderizar mapa visual com bolinhas reais
   var wrap=document.getElementById('mapa-vis');
   if(!wrap)return;
-  if(!imgUrl||!pontos||!pontos.length){
+
+  var imgUrl=data.mapaImagemUrl||'';
+  var pontos=data.mapaPontos||[];
+  var lotesInfo=data.lotesInfo||{};
+
+  if(!imgUrl||!pontos.length){
     wrap.innerHTML='<div style="padding:40px;color:var(--text3);text-align:center;font-size:13px">Mapa em preparação</div>';
     return;
   }
-  var disp=0,res=0,vend=0;
-  var vals=Object.values(lotesInfo);
-  if(vals.length>0){
-    vals.forEach(function(l){
-      var s=l.status||'disponivel';
-      if(s==='disponivel')disp++;
-      else if(s==='reservado'||s==='pre-reserva')res++;
-      else vend++;
-    });
-  } else {
-    pontos.forEach(function(p){
-      var s=p.status||'disponivel';
-      if(s==='disponivel')disp++;
-      else if(s==='reservado'||s==='pre-reserva')res++;
-      else vend++;
-    });
-  }
-  var st=document.getElementById('mapa-stats');
-  if(st){st.style.display='grid';}
-  var sd=document.getElementById('stat-disp');if(sd)sd.textContent=disp;
-  var sr=document.getElementById('stat-res');if(sr)sr.textContent=res;
-  var sv=document.getElementById('stat-vend');if(sv)sv.textContent=vend;
-  var stotal=document.getElementById('stat-total');if(stotal)stotal.textContent=disp+res+vend;
 
   wrap.style.minHeight='auto';
   var imgW=wrap.offsetWidth||320;
@@ -863,23 +824,28 @@ function renderMapaVisual(lotesInfo,pontos,imgUrl){
   if(leg)leg.style.display='flex';
 }
 
-var _alenquerMapCache=null;
 window.addEventListener('resize',function(){
-  if(_alenquerMapCache){
-    renderMapaVisual(_alenquerMapCache.lotesInfo,_alenquerMapCache.pontos,_alenquerMapCache.imgUrl);
+  if(_alenquerDataCache){
+    aplicarDadosAlenquer(_alenquerDataCache);
   }
 });
 
-fetch(SUPABASE_URL+'/rest/v1/empreendimentos?id=eq.'+ALENQUER_EMP_ID+'&select=data',{
-  headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}
-}).then(function(r){return r.json();})
-  .then(function(rows){
-    if(!rows||!rows.length)return;
-    var data=rows[0].data;
-    atualizarContadoresAlenquer(data);
-    _alenquerMapCache={lotesInfo:data.lotesInfo||{},pontos:data.mapaPontos||[],imgUrl:data.mapaImagemUrl||''};
-    renderMapaVisual(_alenquerMapCache.lotesInfo,_alenquerMapCache.pontos,_alenquerMapCache.imgUrl);
-  }).catch(function(e){console.warn('Alenquer Supabase:',e);});
+function buscarDadosAlenquerRealtime(){
+  fetch(SUPABASE_URL+'/rest/v1/empreendimentos?id=eq.'+ALENQUER_EMP_ID+'&select=data&_='+Date.now(),{
+    headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}
+  }).then(function(r){return r.json();})
+    .then(function(rows){
+      if(!rows||!rows.length)return;
+      aplicarDadosAlenquer(rows[0].data);
+    }).catch(function(e){console.warn('Alenquer Supabase Realtime:',e);});
+}
+
+// Primeira busca imediata
+buscarDadosAlenquerRealtime();
+// Atualização contínua em tempo real (a cada 8 segundos e quando a aba ganha foco)
+setInterval(buscarDadosAlenquerRealtime, 8000);
+window.addEventListener('focus', buscarDadosAlenquerRealtime);
+window.addEventListener('online', buscarDadosAlenquerRealtime);
 
 fetch('/site_data.json?_='+Date.now())
   .then(function(r){return r.json();})

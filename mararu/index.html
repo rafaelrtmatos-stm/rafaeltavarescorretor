@@ -927,29 +927,38 @@ var MARARU_ID='1780067816277';
 function corLote(s){
   if(s==='disponivel')return'#3b82f6';
   if(s==='reservado'||s==='pre-reserva')return'#eab308';
+  if(s==='indisponivel')return'#64748b';
   return'#ef4444';
 }
 
-function renderMapaVisual(lotesInfo,pontos,imgUrl){
-  var wrap=document.getElementById('mapa-vis');
-  if(!wrap)return;
-  if(!imgUrl||!pontos||!pontos.length){
-    wrap.innerHTML='<div style="padding:40px;color:var(--text3);text-align:center;font-size:13px">Mapa em preparacao</div>';
-    return;
-  }
-  var disp=0,res=0,vend=0;
-  Object.values(lotesInfo).forEach(function(l){
-    var s=l.status||'disponivel';
-    if(s==='disponivel')disp++;
-    else if(s==='reservado'||s==='pre-reserva')res++;
-    else vend++;
-  });
+var _mararuDataCache=null;
+
+function aplicarDadosMararu(data){
+  if(!data)return;
+  _mararuDataCache=data;
+
+  var disp=data.lotesDisponiveis!=null?data.lotesDisponiveis:13;
+  var res=data.lotesReservados!=null?data.lotesReservados:0;
+  var vend=data.lotesVendidos!=null?data.lotesVendidos:9;
+  var total=data.totalLotes!=null?data.totalLotes:376;
+
   var st=document.getElementById('mapa-stats');
   if(st){st.style.display='grid';}
   var sd=document.getElementById('stat-disp');if(sd)sd.textContent=disp;
   var sr=document.getElementById('stat-res');if(sr)sr.textContent=res;
   var sv=document.getElementById('stat-vend');if(sv)sv.textContent=vend;
-  var stotal=document.getElementById('stat-total');if(stotal)stotal.textContent=disp+res+vend;
+  var stotal=document.getElementById('stat-total');if(stotal)stotal.textContent=Number(total).toLocaleString('pt-BR');
+
+  var wrap=document.getElementById('mapa-vis');
+  if(!wrap)return;
+  var imgUrl=data.mapaImagemUrl||'';
+  var pontos=data.mapaPontos||[];
+  var lotesInfo=data.lotesInfo||{};
+
+  if(!imgUrl||!pontos||!pontos.length){
+    wrap.innerHTML='<div style="padding:40px;color:var(--text3);text-align:center;font-size:13px">Mapa em preparacao</div>';
+    return;
+  }
 
   var imgW=wrap.offsetWidth||320;
   var sz=Math.max(6,Math.min(14,Math.round(imgW*0.011)));
@@ -970,14 +979,26 @@ function renderMapaVisual(lotesInfo,pontos,imgUrl){
   if(leg)leg.style.display='flex';
 }
 
-fetch(SUPABASE_URL+'/rest/v1/empreendimentos?id=eq.'+MARARU_ID+'&select=data',{
-  headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}
-}).then(function(r){return r.json();})
-  .then(function(rows){
-    if(!rows||!rows.length)return;
-    var data=rows[0].data;
-    renderMapaVisual(data.lotesInfo||{},data.mapaPontos||[],data.mapaImagemUrl||'');
-  }).catch(function(e){console.warn('Mapa:',e);});
+window.addEventListener('resize',function(){
+  if(_mararuDataCache){
+    aplicarDadosMararu(_mararuDataCache);
+  }
+});
+
+function buscarDadosMararuRealtime(){
+  fetch(SUPABASE_URL+'/rest/v1/empreendimentos?id=eq.'+MARARU_ID+'&select=data&_='+Date.now(),{
+    headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}
+  }).then(function(r){return r.json();})
+    .then(function(rows){
+      if(!rows||!rows.length)return;
+      aplicarDadosMararu(rows[0].data);
+    }).catch(function(e){console.warn('Mapa Mararu Realtime:',e);});
+}
+
+buscarDadosMararuRealtime();
+setInterval(buscarDadosMararuRealtime, 8000);
+window.addEventListener('focus', buscarDadosMararuRealtime);
+window.addEventListener('online', buscarDadosMararuRealtime);
 
 fetch('/site_data.json?_='+Date.now())
   .then(function(r){return r.json();})
