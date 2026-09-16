@@ -413,7 +413,7 @@
       '        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>',
       '      </button>',
       '      <div class="lead-avatar-wrap">',
-      '        <img src="/rafael-foto.jpg" alt="Corretor Rafael" class="lead-chat-avatar" onerror="this.src=\'/apple-touch-icon.png\'">',
+      '        <img src="/imagens/rafael-foto.jpg" alt="Corretor Rafael" class="lead-chat-avatar" onerror="this.src=\'/apple-touch-icon.png\'">',
       '        <span class="lead-online-badge" title="Online agora"></span>',
       '      </div>',
       '      <div class="lead-corretor-meta">',
