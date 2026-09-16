@@ -287,8 +287,9 @@
     var nome = (dados.nome || '').trim();
 
     var empRaw = (dados.empreendimento || '').trim();
+    var isGeral = (!empRaw || empRaw === 'Geral / Portal Principal' || empRaw === 'Geral');
     var empTexto = 'o empreendimento';
-    if (!empRaw || empRaw === 'Geral / Portal Principal' || empRaw === 'Geral') {
+    if (isGeral) {
       empTexto = 'os terrenos';
     } else if (/^(o|a|os|as)\s+/i.test(empRaw)) {
       empTexto = empRaw;
@@ -379,12 +380,14 @@
       visitaFrase = 'Por enquanto, gostaria de receber mais informações sobre o empreendimento.';
     }
 
+    var introFrase = 'Vi ' + empTexto + ' no site e tenho interesse. ';
     var encerramento = 'Gostaria de saber mais sobre os terrenos!';
-    if (empTexto === 'os terrenos') {
-      encerramento = 'Gostaria de receber mais informações.';
+    if (isGeral) {
+      introFrase = 'Vi seu site e tenho interesse em conhecer os terrenos disponíveis. ';
+      encerramento = 'Gostaria de receber mais informações sobre as opções disponíveis!';
     }
 
-    return 'Olá, Corretor Rafael! Meu nome é ' + nome + '. Vi ' + empTexto + ' no site e tenho interesse. ' +
+    return 'Olá, Corretor Rafael! Meu nome é ' + nome + '. ' + introFrase +
       textoPrefs + visitaFrase + ' ' + encerramento;
   }
 
@@ -577,6 +580,84 @@
     agendarTimeout(function () {
       irParaEtapa(proximaEtapa, false);
     }, 2400);
+  }
+
+  // Enviar nome do cliente e, em seguida (só quando o empreendimento não foi identificado pela URL,
+  // ou seja, cliente entrou pela página Início/Geral), perguntar qual empreendimento despertou o interesse dele
+  function responderClienteComPerguntaEmpreendimento(textoExibicao) {
+    tocarSomEnviado();
+
+    var actionsWrap = document.getElementById('lead-active-actions');
+    if (actionsWrap) actionsWrap.remove();
+
+    var messagesBox = document.getElementById('lead-chat-messages');
+    if (messagesBox) {
+      messagesBox.appendChild(criarBalaoCliente(textoExibicao, true));
+      rolarParaFinal();
+    }
+
+    agendarTimeout(function () {
+      definirStatusDigitando(true);
+      var typing = criarIndicadorDigitando();
+      messagesBox.appendChild(typing);
+      rolarParaFinal();
+
+      agendarTimeout(function () {
+        if (typing && typing.parentNode) typing.remove();
+        definirStatusDigitando(false);
+
+        var primeiroNome = (leadData.nome || '').trim().split(' ')[0] || 'você';
+        messagesBox.appendChild(criarBalaoRafael('Prazer, ' + primeiroNome + '! 😊 Antes de continuar, qual empreendimento despertou seu interesse?'));
+        tocarSomRecebido();
+
+        renderizarAcoesEmpreendimentoGeral(messagesBox);
+        rolarParaFinal();
+      }, 3000);
+    }, 2400);
+  }
+
+  // Renderizar opções de empreendimento quando o cliente entrou pela página Início (sem empreendimento identificado)
+  function renderizarAcoesEmpreendimentoGeral(container) {
+    var actionsWrap = document.createElement('div');
+    actionsWrap.className = 'lead-actions-container';
+    actionsWrap.id = 'lead-active-actions';
+
+    var opcoesEmp = [
+      { nome: 'Jardim Alenquer', slug: 'alenquer' },
+      { nome: 'Bela Vista do Mararu', slug: 'bela-vista-mararu' },
+      { nome: 'Bairro Mararu', slug: 'mararu' },
+      { nome: 'São Braz', slug: 'sao-braz' },
+      { nome: 'Jussaramia', slug: 'monte-alegre' },
+      { nome: 'Pajucará', slug: 'pajucara' },
+      { nome: 'Santa Maria', slug: 'santa-maria' },
+      { nome: 'Cucurunã', slug: 'cucuruna' },
+      { nome: 'Bairro Espírito Santo', slug: 'espirito-santo' }
+    ];
+
+    opcoesEmp.forEach(function (opt) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'lead-choice-btn';
+      btn.innerHTML = '<span class="lead-choice-label">' + opt.nome + '</span><span class="lead-choice-arrow">›</span>';
+      btn.addEventListener('click', function () {
+        leadData.empreendimento = opt.nome;
+        leadData.empreendimento_slug = opt.slug;
+
+        var headerEmp = document.getElementById('lead-header-emp');
+        if (headerEmp) headerEmp.textContent = opt.nome;
+
+        responderCliente(opt.nome, 2);
+      });
+      actionsWrap.appendChild(btn);
+    });
+
+    // Botão Pular
+    var btnPularEmp = criarBotaoPular('Pular esta pergunta ›', function () {
+      responderCliente('Ainda não sei, quero ver as opções', 2);
+    });
+    actionsWrap.appendChild(btnPularEmp);
+
+    container.appendChild(actionsWrap);
   }
 
   // Criar indicador de digitação (três pontos pulsantes com texto)
@@ -790,7 +871,11 @@
       errNome.style.display = 'none';
       leadData.nome = valor;
 
-      responderCliente(valor, 2);
+      if (leadData.empreendimento_slug === 'geral') {
+        responderClienteComPerguntaEmpreendimento(valor);
+      } else {
+        responderCliente(valor, 2);
+      }
     }
 
     btnNome.addEventListener('click', confirmarNome);
