@@ -1,0 +1,14 @@
+{
+  "name": "rafaeltavarescorretor",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Portal imobiliário e lançamentos de terrenos e imóveis em Santarém e região.",
+  "scripts": {
+    "dev": "node server.js",
+    "build": "node -e \"console.log('Build completed successfully')\"",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

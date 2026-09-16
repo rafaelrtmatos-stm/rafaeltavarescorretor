@@ -53,7 +53,6 @@ scripts/
 site/
 terrenos/
 attached_assets/
-package.json
 pnpm-lock.yaml
 pnpm-workspace.yaml
 replit.md

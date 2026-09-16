@@ -45,8 +45,14 @@ app.use(express.static(ROOT, {
 }));
 
 // Fallback for subdirectories without trailing slash or missing .html extension
-app.get('*', (req, res, next) => {
-  const requestedPath = path.join(ROOT, req.path);
+app.get('*', (req, res) => {
+  const safePath = path.normalize(req.path).replace(/^(\.\.[\/\\])+/, '');
+  const requestedPath = path.join(ROOT, safePath);
+
+  if (!requestedPath.startsWith(ROOT)) {
+    return res.status(403).send('Forbidden');
+  }
+
   if (fs.existsSync(requestedPath)) {
     if (fs.statSync(requestedPath).isDirectory()) {
       const indexPath = path.join(requestedPath, 'index.html');
@@ -55,11 +61,16 @@ app.get('*', (req, res, next) => {
       }
     }
   }
+
   const htmlPath = requestedPath + '.html';
   if (fs.existsSync(htmlPath)) {
     return res.sendFile(htmlPath);
   }
-  
+
+  if (path.extname(req.path)) {
+    return res.status(404).send('Not Found');
+  }
+
   const rootIndex = path.join(ROOT, 'index.html');
   if (fs.existsSync(rootIndex)) {
     return res.sendFile(rootIndex);
