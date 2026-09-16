@@ -770,7 +770,6 @@ var ALENQUER_EMP_ID='1780939976772';
 function corLote(s){
   if(s==='disponivel')return'#3b82f6';
   if(s==='reservado'||s==='pre-reserva')return'#eab308';
-  if(s==='indisponivel')return'#64748b';
   return'#ef4444';
 }
 
@@ -833,14 +832,20 @@ window.addEventListener('resize',function(){
 });
 
 function buscarDadosAlenquerRealtime(){
-  fetch(SUPABASE_URL+'/rest/v1/empreendimentos?id=eq.'+ALENQUER_EMP_ID+'&select=data&_='+Date.now(),{
+  fetch(SUPABASE_URL+'/rest/v1/empreendimentos?id=eq.'+ALENQUER_EMP_ID+'&select=data',{
     headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}
   }).then(function(r){return r.json();})
     .then(function(rows){
       if(!rows||!rows.length)return;
       aplicarDadosAlenquer(rows[0].data);
+      try{localStorage.setItem('mapa_cache_'+ALENQUER_EMP_ID,JSON.stringify(rows[0].data));}catch(e){}
     }).catch(function(e){console.warn('Alenquer Supabase Realtime:',e);});
 }
+
+try{
+  var _cachedAlenquer=localStorage.getItem('mapa_cache_'+ALENQUER_EMP_ID);
+  if(_cachedAlenquer)aplicarDadosAlenquer(JSON.parse(_cachedAlenquer));
+}catch(e){}
 
 // Primeira busca imediata
 buscarDadosAlenquerRealtime();
