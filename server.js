@@ -38,14 +38,164 @@ app.post('/api/save-site-data', (req, res) => {
   }
 });
 
-// Serve static files
-app.use(express.static(ROOT, {
-  extensions: ['html', 'htm'],
-  index: 'index.html',
-}));
+// ── LEADS DATABASE & API ──
+const DATA_DIR = path.join(ROOT, 'data');
+const LEADS_FILE = path.join(DATA_DIR, 'leads.json');
+const SUPABASE_URL = 'https://uftxcwcryqpkfdfxzlno.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI';
 
-// Fallback for subdirectories without trailing slash or missing .html extension
-app.get('*', (req, res) => {
+function ensureLeadsFile() {
+  if (!fs.existsSync(DATA_DIR)) {
+    fs.mkdirSync(DATA_DIR, { recursive: true });
+  }
+  if (!fs.existsSync(LEADS_FILE)) {
+    fs.writeFileSync(LEADS_FILE, JSON.stringify([], null, 2), 'utf-8');
+  }
+}
+
+function readLeads() {
+  ensureLeadsFile();
+  try {
+    const content = fs.readFileSync(LEADS_FILE, 'utf-8');
+    return JSON.parse(content || '[]');
+  } catch (e) {
+    return [];
+  }
+}
+
+function writeLeads(leads) {
+  ensureLeadsFile();
+  fs.writeFileSync(LEADS_FILE, JSON.stringify(leads, null, 2), 'utf-8');
+}
+
+// POST /api/leads - Cadastrar novo lead
+app.post('/api/leads', async (req, res) => {
+  try {
+    const body = req.body || {};
+    const nome = (body.nome || '').trim();
+    const telefone = (body.telefone || '').trim();
+
+    if (!nome || !telefone) {
+      return res.status(400).json({ error: 'Nome e telefone são obrigatórios.' });
+    }
+
+    const agora = new Date();
+    const novoLead = {
+      id: 'lead_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
+      created_at: agora.toISOString(),
+      nome,
+      telefone,
+      empreendimento: body.empreendimento || 'Geral / Portal Principal',
+      empreendimento_slug: body.empreendimento_slug || 'geral',
+      origem_url: body.origem_url || '/',
+      objetivo: body.objetivo || '',
+      planejamento_compra: body.planejamento_compra || '',
+      forma_pagamento: body.forma_pagamento || '',
+      quer_visitar: Boolean(body.quer_visitar),
+      data_visita: body.data_visita || null,
+      periodo_visita: body.periodo_visita || null,
+      status: 'Novo',
+      observacao: '',
+      whatsapp_enviado: Boolean(body.whatsapp_enviado !== false)
+    };
+
+    // Salvar localmente
+    const leads = readLeads();
+    leads.unshift(novoLead);
+    writeLeads(leads);
+
+    // Tentar sincronizar com Supabase se a tabela existir
+    try {
+      fetch(`${SUPABASE_URL}/rest/v1/leads`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(novoLead)
+      }).catch(err => console.warn('Supabase sync leads:', err.message));
+    } catch (sbErr) {
+      // Falha silenciosa no Supabase, mantendo persistência local segura
+    }
+
+    return res.status(201).json({ success: true, lead: novoLead });
+  } catch (err) {
+    console.error('Erro ao salvar lead:', err);
+    return res.status(500).json({ error: 'Erro interno ao salvar lead.' });
+  }
+});
+
+// GET /api/leads - Listar leads cadastrados
+app.get('/api/leads', (req, res) => {
+  try {
+    const leads = readLeads();
+    return res.json({ success: true, total: leads.length, leads });
+  } catch (err) {
+    return res.status(500).json({ error: 'Erro ao listar leads.' });
+  }
+});
+
+// PATCH /api/leads/:id - Atualizar status ou observações de um lead
+app.patch('/api/leads/:id', (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status, observacao } = req.body;
+    const leads = readLeads();
+    const idx = leads.findIndex(l => l.id === id);
+    if (idx === -1) {
+      return res.status(404).json({ error: 'Lead não encontrado.' });
+    }
+    if (status !== undefined) leads[idx].status = status;
+    if (observacao !== undefined) leads[idx].observacao = observacao;
+    leads[idx].updated_at = new Date().toISOString();
+    writeLeads(leads);
+    return res.json({ success: true, lead: leads[idx] });
+  } catch (err) {
+    return res.status(500).json({ error: 'Erro ao atualizar lead.' });
+  }
+});
+
+// DELETE /api/leads/:id - Remover lead
+app.delete('/api/leads/:id', (req, res) => {
+  try {
+    const { id } = req.params;
+    let leads = readLeads();
+    leads = leads.filter(l => l.id !== id);
+    writeLeads(leads);
+    return res.json({ success: true });
+  } catch (err) {
+    return res.status(500).json({ error: 'Erro ao excluir lead.' });
+  }
+});
+
+function sendHtmlWithLeadModal(filePath, res) {
+  try {
+    let content = fs.readFileSync(filePath, 'utf-8');
+    if (filePath.includes('/admin/')) {
+      return res.type('html').send(content);
+    }
+    if (!content.includes('lead-modal.js')) {
+      const tags = `
+<!-- Lead Capture Modal — Rafael Tavares -->
+<link rel="stylesheet" href="/assets/lead-modal.css">
+<script src="/assets/lead-modal.js" defer></script>
+</body>`;
+      if (content.includes('</body>')) {
+        content = content.replace('</body>', tags);
+      } else {
+        content += tags;
+      }
+    }
+    return res.type('html').send(content);
+  } catch (e) {
+    return res.sendFile(filePath);
+  }
+}
+
+// Fallback and dynamic serving for HTML files
+app.get('*', (req, res, next) => {
   const safePath = path.normalize(req.path).replace(/^(\.\.[\/\\])+/, '');
   const requestedPath = path.join(ROOT, safePath);
 
@@ -57,26 +207,33 @@ app.get('*', (req, res) => {
     if (fs.statSync(requestedPath).isDirectory()) {
       const indexPath = path.join(requestedPath, 'index.html');
       if (fs.existsSync(indexPath)) {
-        return res.sendFile(indexPath);
+        return sendHtmlWithLeadModal(indexPath, res);
       }
     }
   }
 
   const htmlPath = requestedPath + '.html';
   if (fs.existsSync(htmlPath)) {
-    return res.sendFile(htmlPath);
+    return sendHtmlWithLeadModal(htmlPath, res);
   }
 
   if (path.extname(req.path)) {
-    return res.status(404).send('Not Found');
+    return next();
   }
 
   const rootIndex = path.join(ROOT, 'index.html');
   if (fs.existsSync(rootIndex)) {
-    return res.sendFile(rootIndex);
+    return sendHtmlWithLeadModal(rootIndex, res);
   }
-  res.status(404).send('Not Found');
+
+  next();
 });
+
+// Serve static assets (images, css, js, etc.)
+app.use(express.static(ROOT, {
+  extensions: ['html', 'htm'],
+  index: 'index.html',
+}));
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Servidor rodando em http://0.0.0.0:${PORT}`);

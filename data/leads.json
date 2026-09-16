@@ -1,0 +1,39 @@
+[
+  {
+    "id": "lead_1789594303723_hhury",
+    "created_at": "2026-09-16T21:31:43.723Z",
+    "nome": "Carlos Eduardo",
+    "telefone": "93991234567",
+    "empreendimento": "Jardim Alenquer",
+    "empreendimento_slug": "geral",
+    "origem_url": "/alenquer/",
+    "objetivo": "Investir",
+    "planejamento_compra": "Nos próximos 30 dias",
+    "forma_pagamento": "Parcelamento direto",
+    "quer_visitar": true,
+    "data_visita": "2026-09-25",
+    "periodo_visita": "Tarde",
+    "status": "Em atendimento",
+    "observacao": "Cliente quer agendar visita no lote da esquina",
+    "whatsapp_enviado": true,
+    "updated_at": "2026-09-16T21:31:47.899Z"
+  },
+  {
+    "id": "lead_1789594192597_mjmsu",
+    "created_at": "2026-09-16T21:29:52.597Z",
+    "nome": "João Silva Teste",
+    "telefone": "(93) 99123-4567",
+    "empreendimento": "Jardim Alenquer",
+    "empreendimento_slug": "alenquer",
+    "origem_url": "/alenquer/",
+    "objetivo": "Morar",
+    "planejamento_compra": "Quero comprar agora, se eu gostar",
+    "forma_pagamento": "Prefiro pagar parcelado",
+    "quer_visitar": true,
+    "data_visita": "20/09/2026",
+    "periodo_visita": "Manhã",
+    "status": "Novo",
+    "observacao": "",
+    "whatsapp_enviado": true
+  }
+]
