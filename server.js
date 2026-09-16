@@ -41,8 +41,8 @@ app.post('/api/save-site-data', (req, res) => {
 // ── LEADS DATABASE & API ──
 const DATA_DIR = path.join(ROOT, 'data');
 const LEADS_FILE = path.join(DATA_DIR, 'leads.json');
-const SUPABASE_URL = 'https://uftxcwcryqpkfdfxzlno.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI';
+const SUPABASE_URL = process.env.SUPABASE_URL || 'https://uftxcwcryqpkfdfxzlno.supabase.co';
+const SUPABASE_KEY = process.env.SUPABASE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmdHhjd2NyeXFwa2ZkZnh6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzU2NjcsImV4cCI6MjA5NDI1MTY2N30.Jrxm0Clp5P2KamDKsDSmwB5GLsuP2rbySeWuHEIuqyI';
 
 function ensureLeadsFile() {
   if (!fs.existsSync(DATA_DIR)) {
