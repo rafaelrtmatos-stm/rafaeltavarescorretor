@@ -30,6 +30,10 @@
   var stepHistory = [];
   var currentStep = 1;
 
+  // Persistência da conversa no navegador do cliente (para não reiniciar caso ele saia e volte depois)
+  var LOCAL_STORAGE_KEY = 'rt_lead_conversa_v1';
+  var conversaDataInicio = null;
+
   // Estado do Calendário
   var calCurrentDate = new Date();
 
@@ -494,6 +498,97 @@
   }
 
   // Criar balão do Rafael com animação de recebimento
+  // ── PERSISTÊNCIA DA CONVERSA (localStorage) ──────────────────────────────
+
+  // Estrutura padrão do leadData (usada para garantir todos os campos ao carregar dados salvos antigos)
+  function criarLeadDataPadrao() {
+    return {
+      empreendimento: '',
+      empreendimento_slug: '',
+      origem_url: window.location.href,
+      nome: '',
+      objetivo: '',
+      planejamento_compra: '',
+      forma_pagamento: '',
+      quer_visitar: false,
+      data_visita: null,
+      data_visita_texto: '',
+      periodo_visita: null,
+      horario_visita: null,
+      telefone: ''
+    };
+  }
+
+  // Salva o estado atual da conversa (dados + etapa) no navegador do cliente
+  function salvarConversaLocal() {
+    try {
+      var payload = {
+        leadData: leadData,
+        currentStep: currentStep,
+        stepHistory: stepHistory,
+        dataInicio: conversaDataInicio || (new Date()).toISOString(),
+        ultimaAtualizacao: (new Date()).toISOString()
+      };
+      window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(payload));
+    } catch (e) {
+      // Armazenamento indisponível (modo privado, cota excedida etc.) — a conversa segue funcionando sem persistir
+    }
+  }
+
+  // Carrega a conversa salva anteriormente, se existir
+  function carregarConversaLocal() {
+    try {
+      var raw = window.localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (!raw) return null;
+      var dados = JSON.parse(raw);
+      if (!dados || !dados.leadData || !dados.leadData.nome) return null;
+
+      var padrao = criarLeadDataPadrao();
+      for (var chave in dados.leadData) {
+        if (Object.prototype.hasOwnProperty.call(dados.leadData, chave)) {
+          padrao[chave] = dados.leadData[chave];
+        }
+      }
+      dados.leadData = padrao;
+      return dados;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  // Verifica se duas datas (ISO ou Date) caem no mesmo dia do calendário
+  function ehMesmoDia(dataA, dataB) {
+    var a = new Date(dataA);
+    var b = new Date(dataB);
+    return a.getFullYear() === b.getFullYear() &&
+      a.getMonth() === b.getMonth() &&
+      a.getDate() === b.getDate();
+  }
+
+  // Formata a data de início salva como rótulo do pill ("Hoje", "Ontem" ou "dd/mm")
+  function formatarDivisorData(dataIso) {
+    var agora = new Date();
+    var data = new Date(dataIso);
+
+    if (ehMesmoDia(data, agora)) return 'Hoje';
+
+    var ontem = new Date(agora);
+    ontem.setDate(ontem.getDate() - 1);
+    if (ehMesmoDia(data, ontem)) return 'Ontem';
+
+    var dia = String(data.getDate()).padStart(2, '0');
+    var mes = String(data.getMonth() + 1).padStart(2, '0');
+    return dia + '/' + mes;
+  }
+
+  // Criar divisor/pill de data na conversa (ex: "Hoje", "Ontem")
+  function criarDivisorData(label) {
+    var div = document.createElement('div');
+    div.className = 'lead-chat-date-pill';
+    div.textContent = label;
+    return div;
+  }
+
   function criarBalaoRafael(texto) {
     var row = document.createElement('div');
     row.className = 'lead-msg-row';
@@ -723,6 +818,7 @@
       stepHistory.push(etapa);
     }
     atualizarProgresso(etapa);
+    salvarConversaLocal();
 
     var messagesBox = document.getElementById('lead-chat-messages');
     if (!messagesBox) return;
@@ -922,13 +1018,22 @@
   }
 
   // Reconstruir conversa até a etapa selecionada ao clicar em Voltar
-  function reconstruirConversaAte(etapaAlvo) {
+  function reconstruirConversaAte(etapaAlvo, pillInicial, inserirPillHojeAntes) {
     var messagesBox = document.getElementById('lead-chat-messages');
-    messagesBox.innerHTML = '<div class="lead-chat-date-pill">Hoje</div>';
+    messagesBox.innerHTML = '';
+    messagesBox.appendChild(criarDivisorData(pillInicial || 'Hoje'));
+
+    function renderizarEtapaAtiva(etapa) {
+      if (inserirPillHojeAntes) {
+        messagesBox.appendChild(criarDivisorData('Hoje'));
+      }
+      renderizarConteudoEtapa(etapa, messagesBox);
+    }
 
     if (etapaAlvo === 1) {
       messagesBox.appendChild(criarBalaoRafael('Olá! 👋 Sou o assistente virtual do Corretor Rafael. Vou fazer algumas perguntas rápidas para entender o que você procura e facilitar o seu atendimento com ele.'));
       messagesBox.appendChild(criarBalaoRafael('Antes de começarmos, como posso te chamar?'));
+      if (inserirPillHojeAntes) messagesBox.appendChild(criarDivisorData('Hoje'));
       renderizarAcoesNome(messagesBox);
       rolarParaFinal();
       return;
@@ -939,7 +1044,7 @@
     if (leadData.nome) messagesBox.appendChild(criarBalaoCliente(leadData.nome));
 
     if (etapaAlvo === 2) {
-      renderizarConteudoEtapa(2, messagesBox);
+      renderizarEtapaAtiva(2);
       rolarParaFinal();
       return;
     }
@@ -950,7 +1055,7 @@
     if (leadData.objetivo) messagesBox.appendChild(criarBalaoCliente(leadData.objetivo));
 
     if (etapaAlvo === 3) {
-      renderizarConteudoEtapa(3, messagesBox);
+      renderizarEtapaAtiva(3);
       rolarParaFinal();
       return;
     }
@@ -959,7 +1064,7 @@
     if (leadData.planejamento_compra) messagesBox.appendChild(criarBalaoCliente(leadData.planejamento_compra));
 
     if (etapaAlvo === 4) {
-      renderizarConteudoEtapa(4, messagesBox);
+      renderizarEtapaAtiva(4);
       rolarParaFinal();
       return;
     }
@@ -968,7 +1073,7 @@
     if (leadData.forma_pagamento) messagesBox.appendChild(criarBalaoCliente(leadData.forma_pagamento));
 
     if (etapaAlvo === 5) {
-      renderizarConteudoEtapa(5, messagesBox);
+      renderizarEtapaAtiva(5);
       rolarParaFinal();
       return;
     }
@@ -981,7 +1086,7 @@
     }
 
     if (etapaAlvo === 6) {
-      renderizarConteudoEtapa(6, messagesBox);
+      renderizarEtapaAtiva(6);
       rolarParaFinal();
       return;
     }
@@ -991,7 +1096,7 @@
       if (leadData.data_visita) messagesBox.appendChild(criarBalaoCliente('📅 Dia ' + leadData.data_visita));
 
       if (etapaAlvo === 7) {
-        renderizarConteudoEtapa(7, messagesBox);
+        renderizarEtapaAtiva(7);
         rolarParaFinal();
         return;
       }
@@ -1003,7 +1108,7 @@
     }
 
     if (etapaAlvo === 8) {
-      renderizarConteudoEtapa(8, messagesBox);
+      renderizarEtapaAtiva(8);
       rolarParaFinal();
     }
   }
@@ -1382,14 +1487,17 @@
         var tel = (telInput ? telInput.value : '').trim();
         var telDigitos = tel.replace(/\D/g, '');
 
-        if (telDigitos.length < 10) {
+        // Só bloqueia se o cliente DIGITOU algo e ficou incompleto.
+        // Se ele não digitar nada, segue direto para o WhatsApp do Rafael com o que já foi coletado na conversa.
+        if (telDigitos.length > 0 && telDigitos.length < 10) {
           if (errTel) errTel.style.display = 'block';
           if (telInput) telInput.focus();
           return;
         }
         if (errTel) errTel.style.display = 'none';
 
-        leadData.telefone = tel;
+        leadData.telefone = telDigitos.length > 0 ? tel : '';
+        salvarConversaLocal();
 
         // Feedback no botão
         btnFinal.disabled = true;
@@ -1447,25 +1555,33 @@
     // Desbloqueia contexto de áudio a partir do clique do usuário
     obterAudioContext();
 
-    // Detecta empreendimento
-    var empInfo = empSobrescrito || identificarEmpreendimento();
-    leadData.empreendimento = empInfo.nome;
-    leadData.empreendimento_slug = empInfo.slug;
-    leadData.origem_url = window.location.href;
-
-    // Atualiza subtítulo do corretor no topo do chat
-    var headerEmp = document.getElementById('lead-header-emp');
-    if (headerEmp) {
-      headerEmp.textContent = empInfo.nome;
-    }
-
     var overlay = document.getElementById('lead-modal-overlay');
     var messagesBox = document.getElementById('lead-chat-messages');
+    if (!overlay || !messagesBox) return;
 
-    if (overlay && messagesBox) {
-      // Limpa e inicia a conversa
-      messagesBox.innerHTML = '<div class="lead-chat-date-pill">Hoje</div>';
-      stepHistory = [];
+    var salvo = carregarConversaLocal();
+
+    // ── RETOMAR CONVERSA JÁ EXISTENTE (cliente já conversou antes) ──
+    if (salvo) {
+      leadData = salvo.leadData;
+      conversaDataInicio = salvo.dataInicio || (new Date()).toISOString();
+
+      // Se a conversa salva ainda estava genérica (página Início) e agora o cliente
+      // está numa página de empreendimento específico, atualiza o interesse dele
+      var empDetectado = empSobrescrito || identificarEmpreendimento();
+      if ((!leadData.empreendimento_slug || leadData.empreendimento_slug === 'geral') && empDetectado.slug !== 'geral') {
+        leadData.empreendimento = empDetectado.nome;
+        leadData.empreendimento_slug = empDetectado.slug;
+      }
+      leadData.origem_url = window.location.href;
+
+      var headerEmpSalvo = document.getElementById('lead-header-emp');
+      if (headerEmpSalvo) {
+        headerEmpSalvo.textContent = leadData.empreendimento || empDetectado.nome;
+      }
+
+      stepHistory = (salvo.stepHistory && salvo.stepHistory.length) ? salvo.stepHistory : [salvo.currentStep || 1];
+      currentStep = salvo.currentStep || 1;
       calCurrentDate = new Date();
 
       overlay.style.display = 'flex';
@@ -1473,8 +1589,37 @@
         overlay.classList.add('ativo');
       }, 10);
 
-      irParaEtapa(1, false);
+      var pillAnterior = formatarDivisorData(conversaDataInicio);
+      var mesmoDia = (pillAnterior === 'Hoje');
+      reconstruirConversaAte(currentStep, pillAnterior, !mesmoDia);
+      salvarConversaLocal();
+      return;
     }
+
+    // ── NOVA CONVERSA (primeira vez que o cliente fala com o Rafael) ──
+    var empInfo = empSobrescrito || identificarEmpreendimento();
+    leadData.empreendimento = empInfo.nome;
+    leadData.empreendimento_slug = empInfo.slug;
+    leadData.origem_url = window.location.href;
+    conversaDataInicio = (new Date()).toISOString();
+
+    // Atualiza subtítulo do corretor no topo do chat
+    var headerEmp = document.getElementById('lead-header-emp');
+    if (headerEmp) {
+      headerEmp.textContent = empInfo.nome;
+    }
+
+    // Limpa e inicia a conversa
+    messagesBox.innerHTML = '<div class="lead-chat-date-pill">Hoje</div>';
+    stepHistory = [];
+    calCurrentDate = new Date();
+
+    overlay.style.display = 'flex';
+    setTimeout(function () {
+      overlay.classList.add('ativo');
+    }, 10);
+
+    irParaEtapa(1, false);
   }
 
   // Fechar Modal de Chat
