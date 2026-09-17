@@ -42,6 +42,12 @@
       'letter-spacing:1.2px;text-transform:uppercase;cursor:pointer;transition:all .3s;' +
       'font-family:"Inter",sans-serif;box-shadow:0 4px 20px rgba(201,168,76,0.3)}' +
       '.cc-modal-btn:hover{background-position:right}' +
+      '.cc-modal-btn-secundario{display:flex;align-items:center;justify-content:center;width:100%;' +
+      'margin-top:12px;background:transparent;color:#25D366;border:1.5px solid rgba(37,211,102,0.5);' +
+      'padding:14px 20px;border-radius:100px;font-size:12.5px;font-weight:700;' +
+      'letter-spacing:1.2px;text-transform:uppercase;cursor:pointer;transition:all .3s;' +
+      'font-family:"Inter",sans-serif}' +
+      '.cc-modal-btn-secundario:hover{background:rgba(37,211,102,0.1);border-color:#25D366}' +
       '.cc-modal-close{position:absolute;top:12px;right:14px;background:transparent;border:none;' +
       'color:var(--text3,rgba(242,237,228,0.45));font-size:22px;line-height:1;cursor:pointer;' +
       'padding:6px;border-radius:50%;transition:color .2s}' +
@@ -67,11 +73,13 @@
       '<p class="cc-modal-text">A visita deve ser previamente agendada para que eu possa acompanhá-lo pessoalmente.</p>' +
       '<p class="cc-modal-text">Após clicar em "OK, ENTENDI", você poderá acessar a localização e traçar sua rota.</p>' +
       '<button type="button" class="cc-modal-btn" id="cc-modal-confirm-btn">OK, ENTENDI</button>' +
+      '<button type="button" class="cc-modal-btn-secundario" id="cc-modal-wpp-btn">📲 Falar com o Corretor Rafael</button>' +
       '</div>';
     document.body.appendChild(overlayEl);
 
     overlayEl.querySelector('.cc-modal-close').addEventListener('click', fechar);
     overlayEl.querySelector('#cc-modal-confirm-btn').addEventListener('click', confirmar);
+    overlayEl.querySelector('#cc-modal-wpp-btn').addEventListener('click', falarComRafael);
 
     // Fecha ao clicar fora da caixa (no fundo escurecido)
     overlayEl.addEventListener('click', function (e) {
@@ -112,6 +120,15 @@
     fechar();
     if (url) {
       window.open(url, '_blank', 'noopener');
+    }
+  }
+
+  // Fecha este modal e abre o chat de captação de leads (lead-modal.js),
+  // caso ele esteja carregado na página.
+  function falarComRafael() {
+    fechar();
+    if (typeof window.abrirFormularioLead === 'function') {
+      window.abrirFormularioLead();
     }
   }
 
