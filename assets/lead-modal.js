@@ -1462,7 +1462,7 @@
       var cardWpp = document.createElement('div');
       cardWpp.className = 'lead-input-card';
       cardWpp.innerHTML = [
-        '<input type="tel" id="chat-input-tel" class="lead-chat-field" placeholder="Seu WhatsApp (ex: 93 99123-4567)" autocomplete="tel" value="' + (leadData.telefone || '') + '">',
+        '<input type="tel" id="chat-input-tel" name="tel" class="lead-chat-field" placeholder="Seu WhatsApp (ex: 93 99123-4567)" autocomplete="tel" inputmode="numeric" required value="' + (leadData.telefone || '') + '">',
         '<div id="chat-error-tel" class="lead-error-msg">Por favor, informe um número de WhatsApp válido com DDD.</div>',
         '<button type="button" id="chat-btn-final" class="lead-btn-submit-action">',
         '  <span>📲</span> CONVERSAR COM O CORRETOR RAFAEL NO WHATSAPP',
@@ -1517,16 +1517,15 @@
         var tel = (telInput ? telInput.value : '').trim();
         var telDigitos = tel.replace(/\D/g, '');
 
-        // Só bloqueia se o cliente DIGITOU algo e ficou incompleto.
-        // Se ele não digitar nada, segue direto para o WhatsApp do Rafael com o que já foi coletado na conversa.
-        if (telDigitos.length > 0 && telDigitos.length < 10) {
+        // Telefone é obrigatório: bloqueia se estiver vazio OU incompleto.
+        if (telDigitos.length < 10) {
           if (errTel) errTel.style.display = 'block';
           if (telInput) telInput.focus();
           return;
         }
         if (errTel) errTel.style.display = 'none';
 
-        leadData.telefone = telDigitos.length > 0 ? tel : '';
+        leadData.telefone = tel;
         salvarConversaLocal();
 
         // Feedback no botão
