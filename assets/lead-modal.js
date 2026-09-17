@@ -418,7 +418,7 @@
       '      </div>',
       '      <div class="lead-corretor-meta">',
       '        <div class="lead-corretor-nome-row">',
-      '          <span class="lead-corretor-nome">Corretor Rafael</span>',
+      '          <span class="lead-corretor-nome">Assistente do Corretor Rafael</span>',
       '          <span class="lead-selo-verificado" title="Consultor Verificado">✓</span>',
       '        </div>',
       '        <span class="lead-corretor-sub" id="lead-header-status">',
@@ -1533,41 +1533,42 @@
         btnFinal.disabled = true;
         btnFinal.innerHTML = '<span>⏳</span> Abrindo conversa com o Corretor Rafael...';
 
-        // 1. Salvar Lead no Servidor (API Local / Banco)
-        try {
-          await fetch('/api/leads', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              nome: leadData.nome,
-              telefone: leadData.telefone,
-              empreendimento: leadData.empreendimento,
-              empreendimento_slug: leadData.empreendimento_slug,
-              origem_url: leadData.origem_url,
-              objetivo: leadData.objetivo,
-              planejamento_compra: leadData.planejamento_compra,
-              forma_pagamento: leadData.forma_pagamento,
-              quer_visitar: leadData.quer_visitar,
-              data_visita: leadData.data_visita,
-              periodo_visita: leadData.horario_visita || leadData.periodo_visita,
-              horario_visita: leadData.horario_visita,
-              whatsapp_enviado: true
-            })
-          });
-        } catch (err) {
-          console.warn('Registro de lead:', err);
-        }
-
-        // 2. Gerar mensagem personalizada corrida (sem emojis, sem telefone, sem quebras)
+        // 1. Gerar mensagem e abrir o WhatsApp IMEDIATAMENTE (ainda no mesmo
+        //    "gesto do usuário"). Se isso for adiado por um await antes,
+        //    navegadores (principalmente no celular) bloqueiam o pop-up
+        //    silenciosamente e o clique parece não fazer nada.
         var mensagemFinal = gerarMensagemWhatsApp(leadData);
         var wppUrl = 'https://wa.me/' + NUMERO_RAFAEL + '?text=' + encodeURIComponent(mensagemFinal);
 
-        // 3. Fechar modal e abrir WhatsApp
         fecharModal();
         window.open(wppUrl, '_blank');
 
         btnFinal.disabled = false;
         btnFinal.innerHTML = '<span>📲</span> CONVERSAR COM O CORRETOR RAFAEL NO WHATSAPP';
+
+        // 2. Salvar Lead no Servidor (API Local / Banco) em segundo plano,
+        //    sem bloquear a abertura do WhatsApp.
+        fetch('/api/leads', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            nome: leadData.nome,
+            telefone: leadData.telefone,
+            empreendimento: leadData.empreendimento,
+            empreendimento_slug: leadData.empreendimento_slug,
+            origem_url: leadData.origem_url,
+            objetivo: leadData.objetivo,
+            planejamento_compra: leadData.planejamento_compra,
+            forma_pagamento: leadData.forma_pagamento,
+            quer_visitar: leadData.quer_visitar,
+            data_visita: leadData.data_visita,
+            periodo_visita: leadData.horario_visita || leadData.periodo_visita,
+            horario_visita: leadData.horario_visita,
+            whatsapp_enviado: true
+          })
+        }).catch(function (err) {
+          console.warn('Registro de lead:', err);
+        });
       }
 
       btnFinal.addEventListener('click', finalizarConversa);
