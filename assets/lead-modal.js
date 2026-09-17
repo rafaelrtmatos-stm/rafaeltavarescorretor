@@ -1760,4 +1760,24 @@
   window.abrirFormularioLead = abrirModal;
   window.fecharFormularioLead = fecharModal;
 
+  // ── ABERTURA AUTOMÁTICA VIA LINK (?form=1) ──
+  // Permite copiar o link do botão "Falar com Rafael" (segurando/long-press ou
+  // clique direito → copiar link) e, ao abrir esse link em qualquer página do
+  // site, o formulário/chat abre automaticamente, sem precisar de um botão
+  // separado de "copiar link".
+  function abrirFormularioSeSolicitado() {
+    try {
+      var params = new URLSearchParams(window.location.search);
+      if (params.get('form') === '1') {
+        abrirModal();
+      }
+    } catch (e) {}
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', abrirFormularioSeSolicitado);
+  } else {
+    abrirFormularioSeSolicitado();
+  }
+
 })();
