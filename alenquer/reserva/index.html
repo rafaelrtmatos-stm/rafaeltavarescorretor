@@ -1388,4 +1388,15 @@ function selecionarDoc(tipo){
 <!-- ═══ FIM MENU ═══ -->
 <link rel="stylesheet" href="/assets/lead-modal.css">
 <script src="/assets/lead-modal.js" defer></script>
+<script defer>
+(function(){
+  function abrirFormularioSeSolicitado(){
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('form') === '1' && window.abrirFormularioLead) {
+      window.abrirFormularioLead();
+    }
+  }
+  abrirFormularioSeSolicitado();
+})();
+</script>
 </html>
