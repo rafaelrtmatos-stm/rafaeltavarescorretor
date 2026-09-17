@@ -1702,6 +1702,14 @@
     var target = e.target.closest('a, button');
     if (!target) return;
 
+    // Nunca interceptar cliques em botões que já estão DENTRO do próprio
+    // modal de conversa (ex: o botão final "...CORRETOR RAFAEL NO WHATSAPP"
+    // contém o texto "corretor rafael" e seria erroneamente re-capturado
+    // aqui, impedindo o clique de chegar até finalizarConversa()).
+    if (target.closest('#lead-modal-overlay')) {
+      return;
+    }
+
     if (target.id === 'lead-chat-close' || target.id === 'lead-chat-back' || target.id === 'lead-chat-sound') {
       return;
     }
