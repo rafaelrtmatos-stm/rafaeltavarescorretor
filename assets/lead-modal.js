@@ -434,21 +434,71 @@
     return { nome: 'Geral / Portal Principal', slug: 'geral' };
   }
 
-  // Geração da mensagem do WhatsApp (conversa real corrida, sem emojis, sem telefone, sem quebras de linha)
+  // Geração da mensagem do WhatsApp com todos os dados do cliente
   function gerarMensagemWhatsApp(dados) {
-    var nome = (dados.nome || '').trim();
-
+    var nome = (dados.nome || '').trim() || 'Cliente';
     var empRaw = (dados.empreendimento || '').trim();
     var isGeral = (!empRaw || empRaw === 'Geral / Portal Principal' || empRaw === 'Geral');
-    var empTexto = 'o empreendimento';
-    if (isGeral) {
-      empTexto = 'os terrenos';
-    } else if (/^(o|a|os|as)\s+/i.test(empRaw)) {
-      empTexto = empRaw;
-    } else {
-      empTexto = 'o ' + empRaw;
+    var empTexto = isGeral ? 'os terrenos e lançamentos' : empRaw;
+
+    var cfgWpp = (configChat && configChat.mensagem_whatsapp) || {};
+    var estilo = cfgWpp.estilo || 'organizado'; // 'organizado' (em tópicos) ou 'corrido'
+
+    // Formatar data da visita
+    var dataCurta = '';
+    if (dados.data_visita) {
+      dataCurta = dados.data_visita.trim();
+      if (/^\d{4}-\d{2}-\d{2}$/.test(dataCurta)) {
+        var partes = dataCurta.split('-');
+        dataCurta = partes[2] + '/' + partes[1];
+      } else if (/^\d{2}\/\d{2}\/\d{4}$/.test(dataCurta)) {
+        dataCurta = dataCurta.substring(0, 5);
+      }
+    }
+    var hora = (dados.horario_visita || dados.periodo_visita || '').trim();
+
+    // FORMATO 1: ORGANIZADO EM TÓPICOS (Recomendado para leitura rápida no WhatsApp)
+    if (estilo === 'organizado') {
+      var linhas = [];
+      var saudacao = (cfgWpp.texto_intro || 'Olá Corretor Rafael! Meu nome é *{nome}*.')
+        .replace(/\{nome\}/gi, nome)
+        .replace(/\{empreendimento\}/gi, empTexto);
+
+      linhas.push(saudacao);
+      linhas.push('');
+      linhas.push('📌 *Interesse:* ' + empTexto);
+
+      if (dados.objetivo && dados.objetivo !== 'A definir') {
+        linhas.push('• *Objetivo:* ' + dados.objetivo);
+      }
+      if (dados.planejamento_compra && dados.planejamento_compra !== 'A definir') {
+        linhas.push('• *Planejamento:* ' + dados.planejamento_compra);
+      }
+      if (dados.forma_pagamento && dados.forma_pagamento !== 'A definir') {
+        linhas.push('• *Pagamento:* ' + dados.forma_pagamento);
+      }
+
+      if (dados.quer_visitar && dataCurta) {
+        var visTxt = 'Agendada para ' + dataCurta;
+        if (hora) visTxt += ' às ' + hora;
+        linhas.push('• *Visita presencial:* ' + visTxt);
+      } else {
+        linhas.push('• *Visita:* Gostaria de receber mais detalhes antes de agendar.');
+      }
+
+      var conclusao = (cfgWpp.texto_conclusao || 'Gostaria de saber mais detalhes e opções disponíveis!')
+        .replace(/\{nome\}/gi, nome)
+        .replace(/\{empreendimento\}/gi, empTexto);
+
+      if (conclusao) {
+        linhas.push('');
+        linhas.push(conclusao);
+      }
+
+      return linhas.join('\n');
     }
 
+    // FORMATO 2: TEXTO CORRIDO HUMANIZADO
     // Objetivo
     var objFrase = '';
     var obj = (dados.objetivo || '').toLowerCase();
@@ -462,6 +512,8 @@
       objFrase = 'Quero construir para vender';
     } else if (obj.indexOf('lazer') !== -1 || obj.indexOf('chácara') !== -1) {
       objFrase = 'Quero comprar para lazer';
+    } else if (dados.objetivo && dados.objetivo !== 'A definir') {
+      objFrase = 'Objetivo: ' + dados.objetivo;
     }
 
     // Planejamento
@@ -477,6 +529,8 @@
       planFrase = 'ainda estou pensando em comprar mais pra frente';
     } else if (plan.indexOf('analisando') !== -1) {
       planFrase = 'ainda estou analisando o momento da compra';
+    } else if (dados.planejamento_compra && dados.planejamento_compra !== 'A definir') {
+      planFrase = 'Planejamento: ' + dados.planejamento_compra;
     }
 
     // Forma de Pagamento
@@ -494,20 +548,10 @@
       pagFrase = 'quero negociar à vista, dependendo do valor';
     } else if (pag.indexOf('não sei') !== -1 || pag.indexOf('nao sei') !== -1) {
       pagFrase = 'ainda estou avaliando a forma de pagamento';
-    }
-
-    // Fallbacks para opções customizadas adicionadas no painel
-    if (!objFrase && dados.objetivo && dados.objetivo !== 'A definir') {
-      objFrase = 'Objetivo: ' + dados.objetivo;
-    }
-    if (!planFrase && dados.planejamento_compra && dados.planejamento_compra !== 'A definir') {
-      planFrase = 'Planejamento: ' + dados.planejamento_compra;
-    }
-    if (!pagFrase && dados.forma_pagamento && dados.forma_pagamento !== 'A definir') {
+    } else if (dados.forma_pagamento && dados.forma_pagamento !== 'A definir') {
       pagFrase = 'Pagamento: ' + dados.forma_pagamento;
     }
 
-    // Combinar preferências não nulas
     var prefs = [];
     if (objFrase) prefs.push(objFrase);
     if (planFrase) prefs.push(planFrase);
@@ -518,41 +562,27 @@
       textoPrefs = prefs.join(', ') + '. ';
     }
 
-    // Visita com horário específico (intervalo de 30 min)
     var visitaFrase = '';
-    if (dados.quer_visitar && dados.data_visita) {
-      var dataCurta = dados.data_visita.trim();
-      if (/^\d{4}-\d{2}-\d{2}$/.test(dataCurta)) {
-        var partes = dataCurta.split('-');
-        dataCurta = partes[2] + '/' + partes[1];
-      } else if (/^\d{2}\/\d{2}\/\d{4}$/.test(dataCurta)) {
-        dataCurta = dataCurta.substring(0, 5);
-      }
-
-      var hora = dados.horario_visita || dados.periodo_visita;
+    if (dados.quer_visitar && dataCurta) {
       if (hora && hora.indexOf(':') !== -1) {
         visitaFrase = 'Gostaria de agendar uma visita ao empreendimento no dia ' + dataCurta + ' às ' + hora + '.';
-      } else if (hora && hora.toLowerCase().indexOf('combinar') !== -1) {
-        visitaFrase = 'Gostaria de agendar uma visita ao empreendimento no dia ' + dataCurta + ' (horário a combinar).';
       } else if (hora) {
         visitaFrase = 'Gostaria de agendar uma visita ao empreendimento no dia ' + dataCurta + ' (' + hora + ').';
       } else {
         visitaFrase = 'Gostaria de agendar uma visita ao empreendimento no dia ' + dataCurta + '.';
       }
     } else {
-      visitaFrase = 'Por enquanto, gostaria de receber mais informações sobre o empreendimento.';
+      visitaFrase = 'Por enquanto, gostaria de receber mais informações sobre as opções disponíveis.';
     }
 
-    var introModelo = (configChat.etapa8_final && configChat.etapa8_final.texto_intro_wpp) || 'Vi {empreendimento} no site e tenho interesse.';
-    var encerramento = (configChat.etapa8_final && configChat.etapa8_final.texto_encerramento_wpp) || 'Gostaria de saber mais sobre os terrenos!';
-    var introFrase = introModelo.replace(/\{empreendimento\}/gi, empTexto) + ' ';
-    if (isGeral) {
-      introFrase = 'Vi seu site e tenho interesse em conhecer os terrenos disponíveis. ';
-      encerramento = 'Gostaria de receber mais informações sobre as opções disponíveis!';
-    }
+    var introCorrida = isGeral
+      ? 'Vi seu site e tenho interesse em conhecer os terrenos disponíveis. '
+      : 'Vi ' + empTexto + ' no site e tenho interesse. ';
 
-    return 'Olá, Corretor Rafael! Meu nome é ' + nome + '. ' + introFrase +
-      textoPrefs + visitaFrase + ' ' + encerramento;
+    var encerramentoCorrido = cfgWpp.texto_conclusao || 'Gostaria de receber mais informações!';
+
+    return 'Olá, Corretor Rafael! Meu nome é ' + nome + '. ' + introCorrida +
+      textoPrefs + visitaFrase + ' ' + encerramentoCorrido;
   }
 
   // Injeção do Container do Modal de Chat
@@ -1751,6 +1781,58 @@
         });
       }
 
+      // Função robusta para gravar lead na API e no banco com garantia de entrega
+      function enviarLeadParaServidor(dados) {
+        try {
+          var payload = {
+            nome: (dados.nome || '').trim() || 'Cliente Interessado',
+            telefone: (dados.telefone || '').trim(),
+            empreendimento: dados.empreendimento || 'Geral / Portal Principal',
+            empreendimento_slug: dados.empreendimento_slug || 'geral',
+            origem_url: dados.origem_url || window.location.href,
+            objetivo: dados.objetivo || '',
+            planejamento_compra: dados.planejamento_compra || '',
+            forma_pagamento: dados.forma_pagamento || '',
+            quer_visitar: Boolean(dados.quer_visitar),
+            data_visita: dados.data_visita || null,
+            periodo_visita: dados.horario_visita || dados.periodo_visita || null,
+            horario_visita: dados.horario_visita || null,
+            whatsapp_enviado: true
+          };
+
+          var payloadStr = JSON.stringify(payload);
+
+          // Salva backup imediato no localStorage para nunca perder o lead
+          try {
+            var backup = JSON.parse(localStorage.getItem('rt_leads_backup') || '[]');
+            payload.backup_at = new Date().toISOString();
+            backup.unshift(payload);
+            localStorage.setItem('rt_leads_backup', JSON.stringify(backup.slice(0, 50)));
+          } catch (eBkp) {}
+
+          // 1. sendBeacon (garante envio mesmo se a aba fechar ou mudar de foco para o app do WhatsApp)
+          if (navigator.sendBeacon) {
+            try {
+              var blob = new Blob([payloadStr], { type: 'application/json' });
+              navigator.sendBeacon('/api/leads', blob);
+            } catch (eBeacon) {}
+          }
+
+          // 2. Fetch com keepalive: true (padrão W3C para garantir finalização da requisição)
+          fetch('/api/leads', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: payloadStr,
+            keepalive: true
+          }).catch(function (err) {
+            console.warn('Registro de lead via fetch:', err);
+          });
+        } catch (eGeral) {
+          console.warn('Erro ao disparar envio do lead:', eGeral);
+        }
+      }
+      window.enviarLeadParaServidor = enviarLeadParaServidor;
+
       async function finalizarConversa() {
         var tel = (telInput ? telInput.value : '').trim();
         var telDigitos = tel.replace(/\D/g, '');
@@ -1770,10 +1852,11 @@
         btnFinal.disabled = true;
         btnFinal.innerHTML = '<span>⏳</span> Abrindo conversa com o Corretor Rafael...';
 
-        // 1. Gerar mensagem e abrir o WhatsApp IMEDIATAMENTE (ainda no mesmo
-        //    "gesto do usuário"). Se isso for adiado por um await antes,
-        //    navegadores (principalmente no celular) bloqueiam o pop-up
-        //    silenciosamente e o clique parece não fazer nada.
+        // 1. DISPARAR GRAVAÇÃO DO LEAD NO SERVIDOR IMEDIATAMENTE (ANTES de abrir o WhatsApp)
+        // Isso garante que os dados já foram enviados para o servidor sem ser cancelados pela troca de app
+        enviarLeadParaServidor(leadData);
+
+        // 2. Gerar mensagem e abrir o WhatsApp IMEDIATAMENTE no mesmo gesto do usuário
         var mensagemFinal = gerarMensagemWhatsApp(leadData);
         var numDestino = (configChat.numero_whatsapp || NUMERO_RAFAEL).replace(/\D/g, '');
         var wppUrl = 'https://wa.me/' + numDestino + '?text=' + encodeURIComponent(mensagemFinal);
@@ -1783,33 +1866,7 @@
 
         btnFinal.disabled = false;
         btnFinal.innerHTML = '<span>📲</span> ' + escapeHtml(btnTextoWpp);
-
-        // 2. Salvar Lead no Servidor (API Local / Banco) em segundo plano,
-        //    sem bloquear a abertura do WhatsApp.
-        fetch('/api/leads', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            nome: leadData.nome,
-            telefone: leadData.telefone,
-            empreendimento: leadData.empreendimento,
-            empreendimento_slug: leadData.empreendimento_slug,
-            origem_url: leadData.origem_url,
-            objetivo: leadData.objetivo,
-            planejamento_compra: leadData.planejamento_compra,
-            forma_pagamento: leadData.forma_pagamento,
-            quer_visitar: leadData.quer_visitar,
-            data_visita: leadData.data_visita,
-            periodo_visita: leadData.horario_visita || leadData.periodo_visita,
-            horario_visita: leadData.horario_visita,
-            whatsapp_enviado: true
-          })
-        }).catch(function (err) {
-          console.warn('Registro de lead:', err);
-        });
       }
-
-      btnFinal.addEventListener('click', finalizarConversa);
     }
   }
 

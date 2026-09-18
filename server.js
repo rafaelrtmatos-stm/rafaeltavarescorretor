@@ -7,6 +7,7 @@ const PORT = 3000;
 const ROOT = path.resolve(__dirname);
 
 app.use(express.json({ limit: '10mb' }));
+app.use(express.text({ type: ['text/plain', 'text/*', 'application/json'], limit: '10mb' }));
 
 // Health check
 app.get('/api/health', (req, res) => {
@@ -71,13 +72,25 @@ function writeLeads(leads) {
 // POST /api/leads - Cadastrar novo lead
 app.post('/api/leads', async (req, res) => {
   try {
-    const body = req.body || {};
-    const nome = (body.nome || '').trim();
-    const telefone = (body.telefone || '').trim();
-
-    if (!nome || !telefone) {
-      return res.status(400).json({ error: 'Nome e telefone são obrigatórios.' });
+    let body = req.body || {};
+    if (typeof body === 'string') {
+      try {
+        body = JSON.parse(body);
+      } catch (e) {
+        // fallback regex se o corpo for urlencoded ou texto solto
+        body = {};
+      }
     }
+
+    const rawNome = (body.nome || body.name || '').trim();
+    const rawTelefone = (body.telefone || body.tel || body.whatsapp || body.tel1 || '').trim();
+
+    if (!rawTelefone && !rawNome) {
+      return res.status(400).json({ error: 'Telefone ou identificação é obrigatório.' });
+    }
+
+    const nome = rawNome || 'Cliente Interessado';
+    const telefone = rawTelefone || '(Não informado)';
 
     const agora = new Date();
     const novoLead = {
@@ -85,6 +98,7 @@ app.post('/api/leads', async (req, res) => {
       created_at: agora.toISOString(),
       nome,
       telefone,
+      email: (body.email || '').trim(),
       empreendimento: body.empreendimento || 'Geral / Portal Principal',
       empreendimento_slug: body.empreendimento_slug || 'geral',
       origem_url: body.origem_url || '/',
@@ -93,14 +107,37 @@ app.post('/api/leads', async (req, res) => {
       forma_pagamento: body.forma_pagamento || '',
       quer_visitar: Boolean(body.quer_visitar),
       data_visita: body.data_visita || null,
-      periodo_visita: body.periodo_visita || null,
+      periodo_visita: body.horario_visita || body.periodo_visita || null,
+      horario_visita: body.horario_visita || null,
       status: 'Novo',
-      observacao: '',
+      observacao: body.observacao || '',
       whatsapp_enviado: Boolean(body.whatsapp_enviado !== false)
     };
 
     // Salvar localmente
     const leads = readLeads();
+
+    // Evitar duplicações idênticas no intervalo de 15 segundos (ex: clique duplo ou sendBeacon + fetch)
+    const telDigitos = telefone.replace(/\D/g, '');
+    const duplicadoRecente = leads.find(l => {
+      const lDig = (l.telefone || '').replace(/\D/g, '');
+      if (telDigitos && lDig && telDigitos === lDig) {
+        const diffMs = agora.getTime() - new Date(l.created_at).getTime();
+        return diffMs < 20000; // 20s
+      }
+      return false;
+    });
+
+    if (duplicadoRecente) {
+      // Atualiza os dados do lead recente se tiver mais detalhes
+      if (novoLead.objetivo && !duplicadoRecente.objetivo) duplicadoRecente.objetivo = novoLead.objetivo;
+      if (novoLead.planejamento_compra && !duplicadoRecente.planejamento_compra) duplicadoRecente.planejamento_compra = novoLead.planejamento_compra;
+      if (novoLead.data_visita && !duplicadoRecente.data_visita) duplicadoRecente.data_visita = novoLead.data_visita;
+      if (novoLead.observacao && !duplicadoRecente.observacao) duplicadoRecente.observacao = novoLead.observacao;
+      writeLeads(leads);
+      return res.status(200).json({ success: true, lead: duplicadoRecente, duplicate_merged: true });
+    }
+
     leads.unshift(novoLead);
     writeLeads(leads);
 
@@ -115,15 +152,61 @@ app.post('/api/leads', async (req, res) => {
           'Prefer': 'return=minimal'
         },
         body: JSON.stringify(novoLead)
-      }).catch(err => console.warn('Supabase sync leads:', err.message));
-    } catch (sbErr) {
-      // Falha silenciosa no Supabase, mantendo persistência local segura
-    }
+      }).catch(err => {});
+    } catch (sbErr) {}
 
     return res.status(201).json({ success: true, lead: novoLead });
   } catch (err) {
     console.error('Erro ao salvar lead:', err);
     return res.status(500).json({ error: 'Erro interno ao salvar lead.' });
+  }
+});
+
+// POST /api/leads/sync-batch - Sincronizar lote de leads do backup local
+app.post('/api/leads/sync-batch', (req, res) => {
+  try {
+    const batch = Array.isArray(req.body) ? req.body : (req.body && req.body.leads) ? req.body.leads : [];
+    if (!batch.length) {
+      return res.json({ success: true, added: 0 });
+    }
+    const leads = readLeads();
+    let adicionados = 0;
+    batch.forEach(item => {
+      const telDig = (item.telefone || '').replace(/\D/g, '');
+      if (!telDig && !item.nome) return;
+      const jaExiste = leads.some(l => {
+        const lDig = (l.telefone || '').replace(/\D/g, '');
+        return (lDig && telDig && lDig === telDig) || (item.id && l.id === item.id);
+      });
+      if (!jaExiste) {
+        leads.push({
+          id: item.id || ('lead_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7)),
+          created_at: item.created_at || new Date().toISOString(),
+          nome: (item.nome || '').trim() || 'Cliente Interessado',
+          telefone: item.telefone || '',
+          email: item.email || '',
+          empreendimento: item.empreendimento || 'Geral / Portal Principal',
+          empreendimento_slug: item.empreendimento_slug || 'geral',
+          origem_url: item.origem_url || '/',
+          objetivo: item.objetivo || '',
+          planejamento_compra: item.planejamento_compra || '',
+          forma_pagamento: item.forma_pagamento || '',
+          quer_visitar: Boolean(item.quer_visitar),
+          data_visita: item.data_visita || null,
+          periodo_visita: item.horario_visita || item.periodo_visita || null,
+          status: item.status || 'Novo',
+          observacao: item.observacao || '',
+          whatsapp_enviado: Boolean(item.whatsapp_enviado !== false)
+        });
+        adicionados++;
+      }
+    });
+    if (adicionados > 0) {
+      writeLeads(leads);
+    }
+    return res.json({ success: true, added: adicionados, total: leads.length });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
   }
 });
 

@@ -2972,6 +2972,38 @@ VENDEDOR: RAFAEL TAVARES`;
 function enviar(){
   if(!validarFormulario())return;
   const msg=montarMensagemCadastro();
+
+  // Gravar Lead no CRM / Painel de Leads
+  try {
+    const cNome = document.getElementById('comprador-nome') ? document.getElementById('comprador-nome').value.trim() : '';
+    const cTel = document.getElementById('comprador-tel') ? document.getElementById('comprador-tel').value.trim() : '';
+    const cEmpEl = document.getElementById('resumo-emp');
+    const cEmp = cEmpEl ? cEmpEl.textContent.trim() : 'Reserva de Lote';
+    if (cTel || cNome) {
+      const leadRes = {
+        nome: cNome || 'Cliente Reserva',
+        telefone: cTel,
+        empreendimento: cEmp,
+        origem_url: window.location.href,
+        objetivo: 'Reserva de Lote',
+        observacao: msg.slice(0, 400)
+      };
+      if (window.enviarLeadParaServidor) {
+        window.enviarLeadParaServidor(leadRes);
+      } else {
+        if (navigator.sendBeacon) {
+          navigator.sendBeacon('/api/leads', new Blob([JSON.stringify(leadRes)], { type: 'application/json' }));
+        }
+        fetch('/api/leads', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(leadRes),
+          keepalive: true
+        }).catch(function(){});
+      }
+    }
+  } catch(e) {}
+
   window.open('https://wa.me/5593992332012?text='+encodeURIComponent(msg),'_blank');
 }
 

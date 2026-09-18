@@ -464,6 +464,31 @@ async function enviar(){
     +'*Documento:* '+dados.tipoDoc+'\n\n'
     +'_Enviado via site em '+dados.timestamp+'_';
 
+  // Gravar Lead no CRM / Painel de Leads
+  try {
+    var leadPre = {
+      nome: dados.nome,
+      telefone: dados.tel1,
+      empreendimento: 'Bairro Mararu (Pré-Cadastro)',
+      origem_url: window.location.href,
+      objetivo: 'Pré-Cadastro Loteamento',
+      observacao: 'CPF: ' + dados.cpf + ' | RG: ' + dados.rg + (dados.tel2 ? ' | Tel2: ' + dados.tel2 : '') + ' | End: ' + dados.rua + ', ' + dados.num + ' - ' + dados.bairro + ' (' + dados.cidade + '/' + dados.estado + ')'
+    };
+    if (window.enviarLeadParaServidor) {
+      window.enviarLeadParaServidor(leadPre);
+    } else {
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon('/api/leads', new Blob([JSON.stringify(leadPre)], { type: 'application/json' }));
+      }
+      fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(leadPre),
+        keepalive: true
+      }).catch(function(){});
+    }
+  } catch(e) {}
+
   try{
     await fetch('https://uftxcwcryqpkfdfxzlno.supabase.co/rest/v1/clientes',{
       method:'POST',

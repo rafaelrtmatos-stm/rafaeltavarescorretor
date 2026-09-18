@@ -3188,10 +3188,40 @@ function enviarInteresse(e){
   var email=document.getElementById('rm-f-email').value.trim();
   var msg=document.getElementById('rm-f-msg').value.trim();
   var c=_catalogos[_regiaoAtual]||{};
-  var txt='Olá Rafael! Tenho interesse na região de '+(c.nome||_regiaoAtual)+'.'
+  var regNome = c.nome || _regiaoAtual || 'Catálogo de Regiões';
+  var txt='Olá Rafael! Tenho interesse na região de '+regNome+'.'
     +'\n\nNome: '+nome+'\nTelefone: '+tel
     +(email?'\nE-mail: '+email:'')
     +(msg?'\n\nMensagem: '+msg:'');
+
+  // Gravar Lead no sistema
+  try {
+    var leadObj = {
+      nome: nome || 'Cliente Interessado',
+      telefone: tel,
+      email: email,
+      empreendimento: 'Região: ' + regNome,
+      origem_url: window.location.href,
+      objetivo: 'Interesse na região ' + regNome,
+      observacao: (msg ? 'Mensagem: ' + msg : '') + (email ? ' | E-mail: ' + email : '')
+    };
+    if (window.enviarLeadParaServidor) {
+      window.enviarLeadParaServidor(leadObj);
+    } else {
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon('/api/leads', new Blob([JSON.stringify(leadObj)], { type: 'application/json' }));
+      }
+      fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(leadObj),
+        keepalive: true
+      }).catch(function(){});
+    }
+  } catch(err) {
+    console.warn('Erro ao salvar lead:', err);
+  }
+
   window.open('https://wa.me/5593992332012?text='+encodeURIComponent(txt),'_blank');
   document.getElementById('rm-form').style.display='none';
   document.getElementById('rm-form-ok').style.display='block';

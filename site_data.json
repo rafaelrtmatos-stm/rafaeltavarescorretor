@@ -1096,8 +1096,9 @@
       "selo_seguranca": "🔒 Seus dados estão seguros e não enviamos spam."
     },
     "mensagem_whatsapp": {
-      "texto_intro": "Olá Corretor Rafael! Acabei de preencher o formulário no seu site.",
-      "texto_conclusao": "Aguardo seu retorno para tirar dúvidas e negociar!"
+      "estilo": "organizado",
+      "texto_intro": "Olá Corretor Rafael! Meu nome é {nome}.",
+      "texto_conclusao": "Gostaria de saber mais detalhes sobre os lotes disponíveis!"
     }
   }
 }

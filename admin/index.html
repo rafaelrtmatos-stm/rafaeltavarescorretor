@@ -2308,18 +2308,44 @@
           <div class="card-header">
             <div class="card-title">
               <span class="chat-step-badge">WhatsApp</span>
-              📝 Mensagem Pronta que o Cliente Envia ao Corretor
+              📱 Mensagem Completa Enviada ao seu WhatsApp (com todos os dados)
             </div>
           </div>
+
+          <div style="background:rgba(37,211,102,0.08);border:1px solid rgba(37,211,102,0.3);border-radius:10px;padding:14px 16px;margin-bottom:18px;font-size:13px;line-height:1.6;color:#dcfce7;">
+            ✅ <strong>Todos os dados do cliente são enviados para o seu WhatsApp!</strong><br>
+            A mensagem aberta no aplicativo <strong>não é genérica</strong>: ela é montada automaticamente com <strong>todos os dados reais</strong> que o cliente preencheu no formulário (Nome, Empreendimento de interesse, Objetivo, Planejamento de compra, Forma de pagamento e Agendamento de visita presencial com data e horário).
+          </div>
+
           <div class="form-grid">
             <div class="form-group span-2">
-              <label class="form-label">Texto de Introdução</label>
-              <input type="text" class="form-control" id="chat-cfg-wpp-intro" value="${escapeHtml(wppMsg.texto_intro || 'Olá Corretor Rafael! Acabei de preencher o formulário no seu site.')}" oninput="syncLive()">
-              <span class="form-hint">Aparece na primeira linha da mensagem gerada que abre no aplicativo do WhatsApp.</span>
+              <label class="form-label">Estilo de Formatação no WhatsApp</label>
+              <select class="form-control" id="chat-cfg-wpp-estilo" onchange="atualizarSimuladorWpp(); syncLive();">
+                <option value="organizado" ${(wppMsg.estilo || 'organizado') === 'organizado' ? 'selected' : ''}>📋 Tópicos Organizados com Negrito (Recomendado — leitura rápida no celular)</option>
+                <option value="corrido" ${wppMsg.estilo === 'corrido' ? 'selected' : ''}>💬 Texto Corrido Humanizado (Frases contínuas)</option>
+              </select>
+              <span class="form-hint">O formato em tópicos organiza cada dado com marcadores e negrito nativo do WhatsApp (*texto*).</span>
             </div>
+
+            <div class="form-group span-2">
+              <label class="form-label">Texto de Saudação / Abertura</label>
+              <input type="text" class="form-control" id="chat-cfg-wpp-intro" value="${escapeHtml(wppMsg.texto_intro || 'Olá Corretor Rafael! Meu nome é {nome}.')}" oninput="atualizarSimuladorWpp(); syncLive()">
+              <span class="form-hint">Você pode usar as tags <code>{nome}</code> e <code>{empreendimento}</code> para personalizar a saudação.</span>
+            </div>
+
             <div class="form-group span-2">
               <label class="form-label">Texto de Conclusão / Despedida</label>
-              <input type="text" class="form-control" id="chat-cfg-wpp-outro" value="${escapeHtml(wppMsg.texto_conclusao || 'Aguardo seu retorno para tirar dúvidas e negociar!')}" oninput="syncLive()">
+              <input type="text" class="form-control" id="chat-cfg-wpp-outro" value="${escapeHtml(wppMsg.texto_conclusao || 'Gostaria de saber mais detalhes e opções disponíveis!')}" oninput="atualizarSimuladorWpp(); syncLive()">
+            </div>
+
+            <!-- SIMULADOR REAL DO WHATSAPP -->
+            <div class="form-group span-2">
+              <label class="form-label" style="display:flex;align-items:center;gap:6px;">
+                <span>📲</span> Simulação em Tempo Real da Mensagem que Você Receberá:
+              </label>
+              <div id="wpp-msg-simulator" style="background:#0b141a;border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:16px;font-family:system-ui,-apple-system,sans-serif;color:#e9edef;font-size:13.5px;line-height:1.55;white-space:pre-wrap;position:relative;">
+                <!-- Preenchido via script -->
+              </div>
             </div>
           </div>
         </div>
@@ -2339,6 +2365,7 @@
           </div>
         </div>
       `;
+      atualizarSimuladorWpp();
     }
 
     function testarChatPreview(etapa) {
@@ -2544,9 +2571,43 @@
         var e8Selo = document.getElementById('chat-cfg-e8-selo'); if (e8Selo) c.etapa8_final.selo_seguranca = e8Selo.value;
 
         c.mensagem_whatsapp = c.mensagem_whatsapp || {};
+        var wppEstilo = document.getElementById('chat-cfg-wpp-estilo'); if (wppEstilo) c.mensagem_whatsapp.estilo = wppEstilo.value;
         var wppIntro = document.getElementById('chat-cfg-wpp-intro'); if (wppIntro) c.mensagem_whatsapp.texto_intro = wppIntro.value;
         var wppOutro = document.getElementById('chat-cfg-wpp-outro'); if (wppOutro) c.mensagem_whatsapp.texto_conclusao = wppOutro.value;
       }
+    }
+
+    function atualizarSimuladorWpp() {
+      var box = document.getElementById('wpp-msg-simulator');
+      if (!box) return;
+
+      var estilo = document.getElementById('chat-cfg-wpp-estilo') ? document.getElementById('chat-cfg-wpp-estilo').value : 'organizado';
+      var intro = document.getElementById('chat-cfg-wpp-intro') ? document.getElementById('chat-cfg-wpp-intro').value : 'Olá Corretor Rafael! Meu nome é *{nome}*.';
+      var outro = document.getElementById('chat-cfg-wpp-outro') ? document.getElementById('chat-cfg-wpp-outro').value : 'Gostaria de saber mais detalhes e opções disponíveis!';
+
+      var saudacao = intro.replace(/\{nome\}/gi, 'Maria Silva').replace(/\{empreendimento\}/gi, 'Residencial Bela Vista');
+      var despedida = outro.replace(/\{nome\}/gi, 'Maria Silva').replace(/\{empreendimento\}/gi, 'Residencial Bela Vista');
+
+      var texto = '';
+      if (estilo === 'organizado') {
+        texto = saudacao + '\n\n'
+          + '📌 *Interesse:* Residencial Bela Vista\n'
+          + '• *Objetivo:* Morar\n'
+          + '• *Planejamento:* Quero comprar agora se eu gostar\n'
+          + '• *Pagamento:* Tenho o valor para a entrada\n'
+          + '• *Visita presencial:* Agendada para 25/09 às 15:30'
+          + (despedida ? '\n\n' + despedida : '');
+      } else {
+        texto = 'Olá, Corretor Rafael! Meu nome é Maria Silva. Vi o Residencial Bela Vista no site e tenho interesse. '
+          + 'Quero comprar para morar, meu planejamento é comprar agora, se eu gostar, tenho o valor para a entrada. '
+          + 'Gostaria de agendar uma visita ao empreendimento no dia 25/09 às 15:30. '
+          + despedida;
+      }
+
+      box.innerHTML = '<div style="background:#005c4b;color:#e9edef;border-radius:8px 8px 8px 0;padding:12px 14px;max-width:92%;box-shadow:0 1px 2px rgba(0,0,0,0.3);position:relative;">'
+        + '<div style="white-space:pre-wrap;font-size:13px;line-height:1.5;">' + escapeHtml(texto) + '</div>'
+        + '<div style="text-align:right;font-size:10px;color:rgba(255,255,255,0.6);margin-top:6px;">15:31 ✓✓</div>'
+        + '</div>';
     }
 
     function refreshPreview() {
@@ -2878,17 +2939,49 @@
     var LEADS_DATA = [];
     var LEADS_FILTRADOS = [];
 
+    var _ultimoTotalLeads = -1;
+
     async function carregarLeads(silencioso) {
       try {
+        // Tentar sincronizar leads do backup local do navegador se houver algum
+        try {
+          var bkpStr = localStorage.getItem('rt_leads_backup');
+          if (bkpStr) {
+            var bkpList = JSON.parse(bkpStr);
+            if (Array.isArray(bkpList) && bkpList.length > 0) {
+              fetch('/api/leads/sync-batch', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(bkpList)
+              }).then(function(r){ return r.json(); }).then(function(res){
+                if (res && res.added > 0) {
+                  localStorage.removeItem('rt_leads_backup');
+                }
+              }).catch(function(){});
+            }
+          }
+        } catch(eBkp) {}
+
         var res = await fetch('/api/leads?_=' + Date.now());
         if (res.ok) {
           var json = await res.json();
-          LEADS_DATA = json.leads || [];
+          var novosLeads = json.leads || [];
+
+          // Notificar se chegou um novo lead enquanto o painel estava aberto
+          if (_ultimoTotalLeads !== -1 && novosLeads.length > _ultimoTotalLeads) {
+            var recents = novosLeads[0];
+            if (recents) {
+              toast('🔔 Novo lead captado: ' + recents.nome + ' (' + recents.telefone + ')', 'ok');
+            }
+          }
+          _ultimoTotalLeads = novosLeads.length;
+
+          LEADS_DATA = novosLeads;
           atualizarBadgeLeads();
           if (ACTIVE_TAB === 'leads') {
             aplicarFiltrosLeads();
           }
-          if (!silencioso) toast('✅ Leads atualizados!', 'ok');
+          if (!silencioso) toast('✅ Leads atualizados (' + LEADS_DATA.length + ')', 'ok');
         }
       } catch (err) {
         console.warn('Erro ao carregar leads:', err);
@@ -3390,10 +3483,15 @@
       toast('📥 Download do CSV iniciado!', 'ok');
     }
 
-    // Carregar contagem de leads ao abrir painel
+    // Carregar contagem de leads ao abrir painel e atualizar periodicamente
     setTimeout(function() {
       carregarLeads(true);
-    }, 1000);
+    }, 500);
+
+    // Polling automático para atualizar novos contatos em tempo real a cada 15s
+    setInterval(function() {
+      carregarLeads(true);
+    }, 15000);
 
   </script>
 </body>
