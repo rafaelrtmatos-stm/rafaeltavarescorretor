@@ -94,8 +94,13 @@
 
   function aplicarConfigChat(nova) {
     if (!nova || typeof nova !== 'object') return;
+    delete configChat.perguntas_fluxo;
+    if (!nova.ordem_etapas || !Array.isArray(nova.ordem_etapas) || nova.ordem_etapas.length === 0) {
+      delete configChat.ordem_etapas;
+    }
     for (var k in nova) {
       if (Object.prototype.hasOwnProperty.call(nova, k)) {
+        if (k === 'perguntas_fluxo') continue;
         if (typeof nova[k] === 'object' && nova[k] !== null && !Array.isArray(nova[k])) {
           configChat[k] = configChat[k] || {};
           for (var sub in nova[k]) {
@@ -145,6 +150,15 @@
     if (!e.data) return;
     if (e.data.type === 'UPDATE_DATA' && e.data.data && e.data.data.chat_contato) {
       aplicarConfigChat(e.data.data.chat_contato);
+      var overlay = document.getElementById('lead-modal-overlay');
+      if (overlay && overlay.classList.contains('ativo')) {
+        var idAtual = normalizarIdEtapa(currentStep);
+        var qAtual = obterPerguntaPorId(idAtual);
+        if (qAtual && qAtual.ativo === false) {
+          var proxAtiva = obterProximaEtapa(idAtual);
+          irParaEtapa(proxAtiva, false);
+        }
+      }
     }
     if (e.data.type === 'ABRIR_CHAT_LEAD') {
       if (e.data.resetar || e.data.forcarNovo) {
@@ -1222,9 +1236,6 @@
       }
       return reordenado;
     }
-    if (configChat && Array.isArray(configChat.perguntas_fluxo) && configChat.perguntas_fluxo.length > 0) {
-      return configChat.perguntas_fluxo;
-    }
     return base;
   }
 
@@ -1251,7 +1262,7 @@
     return null;
   }
 
-  // Fila dinâmica de etapas ativas com base na ordem de perguntas_fluxo
+  // Fila dinâmica de etapas ativas com base na ordem e status de ativação
   function obterFilaEtapas() {
     var fluxo = obterFluxoNormalizado();
     var fila = [];
@@ -1276,7 +1287,30 @@
     if (idx !== -1 && idx < fila.length - 1) {
       return fila[idx + 1];
     }
-    return fila[fila.length - 1] || 'e8_final';
+    if (idx !== -1) {
+      return fila[fila.length - 1] || 'e8_final';
+    }
+
+    // Se a etapa consultada estiver inativa (desativada no painel ADM),
+    // localiza sua posição no fluxo completo e avança para a próxima etapa ativa
+    var fluxoCompleto = obterFluxoNormalizado();
+    var idxCompleto = -1;
+    for (var k = 0; k < fluxoCompleto.length; k++) {
+      if (fluxoCompleto[k] && (fluxoCompleto[k].id === idNorm || fluxoCompleto[k].id === etapaAtual)) {
+        idxCompleto = k;
+        break;
+      }
+    }
+    if (idxCompleto !== -1) {
+      for (var next = idxCompleto + 1; next < fluxoCompleto.length; next++) {
+        var itemNext = fluxoCompleto[next];
+        if (itemNext && itemNext.ativo !== false) {
+          return itemNext.id;
+        }
+      }
+    }
+
+    return (fila && fila.length) ? fila[fila.length - 1] : 'e8_final';
   }
 
   // Atualizar barra discreta de progresso
@@ -1673,7 +1707,11 @@
     var idAlvo = normalizarIdEtapa(etapaAlvo);
     var fila = obterFilaEtapas();
     var idxAlvo = fila.indexOf(idAlvo);
-    if (idxAlvo === -1) idxAlvo = fila.length - 1;
+    if (idxAlvo === -1) {
+      var proxAtiva = obterProximaEtapa(idAlvo);
+      idxAlvo = fila.indexOf(proxAtiva);
+      if (idxAlvo === -1) idxAlvo = fila.length - 1;
+    }
 
     for (var i = 0; i <= idxAlvo; i++) {
       var stepId = fila[i];
