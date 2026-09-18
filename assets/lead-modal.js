@@ -468,22 +468,34 @@
       linhas.push('');
       linhas.push('📌 *Interesse:* ' + empTexto);
 
-      if (dados.objetivo && dados.objetivo !== 'A definir') {
+      if (dados.objetivo && dados.objetivo !== 'A definir' && (!configChat.etapa2 || configChat.etapa2.ativo !== false)) {
         linhas.push('• *Objetivo:* ' + dados.objetivo);
       }
-      if (dados.planejamento_compra && dados.planejamento_compra !== 'A definir') {
+      if (dados.planejamento_compra && dados.planejamento_compra !== 'A definir' && (!configChat.etapa3 || configChat.etapa3.ativo !== false)) {
         linhas.push('• *Planejamento:* ' + dados.planejamento_compra);
       }
-      if (dados.forma_pagamento && dados.forma_pagamento !== 'A definir') {
+      if (dados.forma_pagamento && dados.forma_pagamento !== 'A definir' && (!configChat.etapa4 || configChat.etapa4.ativo !== false)) {
         linhas.push('• *Pagamento:* ' + dados.forma_pagamento);
       }
 
-      if (dados.quer_visitar && dataCurta) {
-        var visTxt = 'Agendada para ' + dataCurta;
-        if (hora) visTxt += ' às ' + hora;
-        linhas.push('• *Visita presencial:* ' + visTxt);
-      } else {
-        linhas.push('• *Visita:* Gostaria de receber mais detalhes antes de agendar.');
+      // Perguntas extras / personalizadas ativas
+      if (dados.respostas_extras && typeof dados.respostas_extras === 'object') {
+        Object.keys(dados.respostas_extras).forEach(function (pTitulo) {
+          var rVal = dados.respostas_extras[pTitulo];
+          if (rVal && rVal !== 'Não informado' && rVal !== 'A definir') {
+            linhas.push('• *' + pTitulo + ':* ' + rVal);
+          }
+        });
+      }
+
+      if (!configChat.etapa5_visita || configChat.etapa5_visita.ativo !== false) {
+        if (dados.quer_visitar && dataCurta) {
+          var visTxt = 'Agendada para ' + dataCurta;
+          if (hora) visTxt += ' às ' + hora;
+          linhas.push('• *Visita presencial:* ' + visTxt);
+        } else {
+          linhas.push('• *Visita:* Gostaria de receber mais detalhes antes de agendar.');
+        }
       }
 
       var conclusao = (cfgWpp.texto_conclusao || 'Gostaria de saber mais detalhes e opções disponíveis!')
@@ -501,55 +513,61 @@
     // FORMATO 2: TEXTO CORRIDO HUMANIZADO
     // Objetivo
     var objFrase = '';
-    var obj = (dados.objetivo || '').toLowerCase();
-    if (obj.indexOf('morar e investir') !== -1) {
-      objFrase = 'Quero comprar para morar e investir';
-    } else if (obj.indexOf('morar') !== -1) {
-      objFrase = 'Quero comprar para morar';
-    } else if (obj.indexOf('investir') !== -1) {
-      objFrase = 'Quero comprar para investir';
-    } else if (obj.indexOf('vender') !== -1) {
-      objFrase = 'Quero construir para vender';
-    } else if (obj.indexOf('lazer') !== -1 || obj.indexOf('chácara') !== -1) {
-      objFrase = 'Quero comprar para lazer';
-    } else if (dados.objetivo && dados.objetivo !== 'A definir') {
-      objFrase = 'Objetivo: ' + dados.objetivo;
+    if (!configChat.etapa2 || configChat.etapa2.ativo !== false) {
+      var obj = (dados.objetivo || '').toLowerCase();
+      if (obj.indexOf('morar e investir') !== -1) {
+        objFrase = 'Quero comprar para morar e investir';
+      } else if (obj.indexOf('morar') !== -1) {
+        objFrase = 'Quero comprar para morar';
+      } else if (obj.indexOf('investir') !== -1) {
+        objFrase = 'Quero comprar para investir';
+      } else if (obj.indexOf('vender') !== -1) {
+        objFrase = 'Quero construir para vender';
+      } else if (obj.indexOf('lazer') !== -1 || obj.indexOf('chácara') !== -1) {
+        objFrase = 'Quero comprar para lazer';
+      } else if (dados.objetivo && dados.objetivo !== 'A definir') {
+        objFrase = 'Objetivo: ' + dados.objetivo;
+      }
     }
 
     // Planejamento
     var planFrase = '';
-    var plan = (dados.planejamento_compra || '').toLowerCase();
-    if (plan.indexOf('agora') !== -1) {
-      planFrase = 'meu planejamento é comprar agora, se eu gostar';
-    } else if (plan.indexOf('semana') !== -1) {
-      planFrase = 'meu planejamento é daqui a uma semana';
-    } else if (plan.indexOf('mês') !== -1 || plan.indexOf('mes') !== -1) {
-      planFrase = 'meu planejamento é daqui a um mês';
-    } else if (plan.indexOf('frente') !== -1) {
-      planFrase = 'ainda estou pensando em comprar mais pra frente';
-    } else if (plan.indexOf('analisando') !== -1) {
-      planFrase = 'ainda estou analisando o momento da compra';
-    } else if (dados.planejamento_compra && dados.planejamento_compra !== 'A definir') {
-      planFrase = 'Planejamento: ' + dados.planejamento_compra;
+    if (!configChat.etapa3 || configChat.etapa3.ativo !== false) {
+      var plan = (dados.planejamento_compra || '').toLowerCase();
+      if (plan.indexOf('agora') !== -1) {
+        planFrase = 'meu planejamento é comprar agora, se eu gostar';
+      } else if (plan.indexOf('semana') !== -1) {
+        planFrase = 'meu planejamento é daqui a uma semana';
+      } else if (plan.indexOf('mês') !== -1 || plan.indexOf('mes') !== -1) {
+        planFrase = 'meu planejamento é daqui a um mês';
+      } else if (plan.indexOf('frente') !== -1) {
+        planFrase = 'ainda estou pensando em comprar mais pra frente';
+      } else if (plan.indexOf('analisando') !== -1) {
+        planFrase = 'ainda estou analisando o momento da compra';
+      } else if (dados.planejamento_compra && dados.planejamento_compra !== 'A definir') {
+        planFrase = 'Planejamento: ' + dados.planejamento_compra;
+      }
     }
 
     // Forma de Pagamento
     var pagFrase = '';
-    var pag = (dados.forma_pagamento || '').toLowerCase();
-    if (pag.indexOf('parcelado') !== -1) {
-      pagFrase = 'prefiro pagar parcelado';
-    } else if (pag.indexOf('entrada') !== -1) {
-      pagFrase = 'tenho o valor para a entrada';
-    } else if (pag.indexOf('parte') !== -1) {
-      pagFrase = 'tenho parte do valor';
-    } else if (pag.indexOf('troca') !== -1) {
-      pagFrase = 'pretendo negociar uma troca';
-    } else if (pag.indexOf('vista') !== -1 || pag.indexOf('depend') !== -1) {
-      pagFrase = 'quero negociar à vista, dependendo do valor';
-    } else if (pag.indexOf('não sei') !== -1 || pag.indexOf('nao sei') !== -1) {
-      pagFrase = 'ainda estou avaliando a forma de pagamento';
-    } else if (dados.forma_pagamento && dados.forma_pagamento !== 'A definir') {
-      pagFrase = 'Pagamento: ' + dados.forma_pagamento;
+    if (!configChat.etapa4 || configChat.etapa4.ativo !== false) {
+      var pag = (dados.forma_pagamento || '').toLowerCase();
+      if (pag.indexOf('parcelado') !== -1) {
+        pagFrase = 'prefiro pagar parcelado';
+      } else if (pag.indexOf('entrada') !== -1) {
+        pagFrase = 'tenho o valor para a entrada';
+      } else if (pag.indexOf('parte') !== -1) {
+        pagFrase = 'tenho parte do valor';
+      } else if (pag.indexOf('troca') !== -1) {
+        pagFrase = 'pretendo negociar uma troca';
+      } else if (pag.indexOf('vista') !== -1 || pag.indexOf('depend') !== -1) {
+        pagFrase = 'quero negociar à vista, dependendo do valor';
+      } else if (pag.indexOf('não sei') !== -1 || pag.indexOf('nao sei') !== -1) {
+        pagFrase = 'ainda estou avaliando a forma de pagamento';
+      } else if (dados.forma_pagamento && dados.forma_pagamento !== 'A definir') {
+        pagFrase = 'Pagamento: ' + dados.forma_pagamento;
+      }
     }
 
     var prefs = [];
@@ -557,22 +575,33 @@
     if (planFrase) prefs.push(planFrase);
     if (pagFrase) prefs.push(pagFrase);
 
+    if (dados.respostas_extras && typeof dados.respostas_extras === 'object') {
+      Object.keys(dados.respostas_extras).forEach(function (pTitulo) {
+        var rVal = dados.respostas_extras[pTitulo];
+        if (rVal && rVal !== 'Não informado' && rVal !== 'A definir') {
+          prefs.push(pTitulo + ': ' + rVal);
+        }
+      });
+    }
+
     var textoPrefs = '';
     if (prefs.length > 0) {
       textoPrefs = prefs.join(', ') + '. ';
     }
 
     var visitaFrase = '';
-    if (dados.quer_visitar && dataCurta) {
-      if (hora && hora.indexOf(':') !== -1) {
-        visitaFrase = 'Gostaria de agendar uma visita ao empreendimento no dia ' + dataCurta + ' às ' + hora + '.';
-      } else if (hora) {
-        visitaFrase = 'Gostaria de agendar uma visita ao empreendimento no dia ' + dataCurta + ' (' + hora + ').';
+    if (!configChat.etapa5_visita || configChat.etapa5_visita.ativo !== false) {
+      if (dados.quer_visitar && dataCurta) {
+        if (hora && hora.indexOf(':') !== -1) {
+          visitaFrase = 'Gostaria de agendar uma visita ao empreendimento no dia ' + dataCurta + ' às ' + hora + '.';
+        } else if (hora) {
+          visitaFrase = 'Gostaria de agendar uma visita ao empreendimento no dia ' + dataCurta + ' (' + hora + ').';
+        } else {
+          visitaFrase = 'Gostaria de agendar uma visita ao empreendimento no dia ' + dataCurta + '.';
+        }
       } else {
-        visitaFrase = 'Gostaria de agendar uma visita ao empreendimento no dia ' + dataCurta + '.';
+        visitaFrase = 'Por enquanto, gostaria de receber mais informações sobre as opções disponíveis.';
       }
-    } else {
-      visitaFrase = 'Por enquanto, gostaria de receber mais informações sobre as opções disponíveis.';
     }
 
     var introCorrida = isGeral
@@ -718,6 +747,7 @@
       objetivo: '',
       planejamento_compra: '',
       forma_pagamento: '',
+      respostas_extras: {},
       quer_visitar: false,
       data_visita: null,
       data_visita_texto: '',
@@ -949,14 +979,14 @@
         var headerEmp = document.getElementById('lead-header-emp');
         if (headerEmp) headerEmp.textContent = opt.nome;
 
-        responderCliente(opt.nome, 2);
+        responderCliente(opt.nome, obterProximaEtapa(1));
       });
       actionsWrap.appendChild(btn);
     });
 
     // Botão Pular
     var btnPularEmp = criarBotaoPular('Pular esta pergunta ›', function () {
-      responderCliente('Ainda não sei, quero ver as opções', 2);
+      responderCliente('Ainda não sei, quero ver as opções', obterProximaEtapa(1));
     });
     actionsWrap.appendChild(btnPularEmp);
 
@@ -989,20 +1019,53 @@
     return btn;
   }
 
+  // Fila dinâmica de etapas ativas (permite encurtar ou estender o formulário)
+  function obterFilaEtapas() {
+    var fila = [1];
+    if (!configChat.etapa2 || configChat.etapa2.ativo !== false) fila.push(2);
+    if (!configChat.etapa3 || configChat.etapa3.ativo !== false) fila.push(3);
+    if (!configChat.etapa4 || configChat.etapa4.ativo !== false) fila.push(4);
+
+    if (configChat.perguntas_extras && Array.isArray(configChat.perguntas_extras)) {
+      configChat.perguntas_extras.forEach(function (p, idx) {
+        if (p && p.ativo !== false && (p.pergunta || '').trim()) {
+          fila.push('extra_' + idx);
+        }
+      });
+    }
+
+    if (!configChat.etapa5_visita || configChat.etapa5_visita.ativo !== false) {
+      fila.push(5);
+    }
+    fila.push(8);
+    return fila;
+  }
+
+  function obterProximaEtapa(etapaAtual) {
+    var fila = obterFilaEtapas();
+    var idx = fila.indexOf(etapaAtual);
+    if (idx !== -1 && idx < fila.length - 1) {
+      return fila[idx + 1];
+    }
+    return 8;
+  }
+
   // Atualizar barra discreta de progresso
   function atualizarProgresso(etapa) {
     var bar = document.getElementById('lead-chat-progress');
     if (!bar) return;
-    var pct = 15;
-    if (etapa === 1) pct = 15;
-    else if (etapa === 2) pct = 30;
-    else if (etapa === 3) pct = 48;
-    else if (etapa === 4) pct = 65;
-    else if (etapa === 5) pct = 78;
-    else if (etapa === 6) pct = 85;
-    else if (etapa === 7) pct = 92;
-    else if (etapa === 8) pct = 100;
-    bar.style.width = pct + '%';
+    if (etapa === 6) { bar.style.width = '85%'; return; }
+    if (etapa === 7) { bar.style.width = '92%'; return; }
+    if (etapa === 8) { bar.style.width = '100%'; return; }
+
+    var fila = obterFilaEtapas();
+    var idx = fila.indexOf(etapa);
+    if (idx !== -1) {
+      var pct = Math.round(((idx + 1) / (fila.length + 1)) * 100);
+      bar.style.width = Math.max(15, Math.min(95, pct)) + '%';
+    } else {
+      bar.style.width = '50%';
+    }
   }
 
   // Voltar etapa na conversa
@@ -1021,6 +1084,33 @@
   // Executar renderização da etapa com digitação de 3s e som oficial do WhatsApp em cada mensagem
   function irParaEtapa(etapa, isVoltar) {
     limparTimeouts();
+
+    // Verificações automáticas de etapas desativadas
+    if (etapa === 2 && configChat.etapa2 && configChat.etapa2.ativo === false) {
+      irParaEtapa(obterProximaEtapa(2), isVoltar);
+      return;
+    }
+    if (etapa === 3 && configChat.etapa3 && configChat.etapa3.ativo === false) {
+      irParaEtapa(obterProximaEtapa(3), isVoltar);
+      return;
+    }
+    if (etapa === 4 && configChat.etapa4 && configChat.etapa4.ativo === false) {
+      irParaEtapa(obterProximaEtapa(4), isVoltar);
+      return;
+    }
+    if (etapa === 5 && configChat.etapa5_visita && configChat.etapa5_visita.ativo === false) {
+      irParaEtapa(8, isVoltar);
+      return;
+    }
+    if (typeof etapa === 'string' && etapa.indexOf('extra_') === 0) {
+      var extraIdx = parseInt(etapa.replace('extra_', ''), 10);
+      var pExtra = (configChat.perguntas_extras && configChat.perguntas_extras[extraIdx]);
+      if (!pExtra || pExtra.ativo === false || !(pExtra.pergunta || '').trim()) {
+        irParaEtapa(obterProximaEtapa(etapa), isVoltar);
+        return;
+      }
+    }
+
     currentStep = etapa;
     if (!isVoltar) {
       stepHistory.push(etapa);
@@ -1191,7 +1281,7 @@
       if (leadData.empreendimento_slug === 'geral') {
         responderClienteComPerguntaEmpreendimento(valor);
       } else {
-        responderCliente(valor, 2);
+        responderCliente(valor, obterProximaEtapa(1));
       }
     }
 
@@ -1225,7 +1315,7 @@
       btn.innerHTML = '<span class="lead-choice-label">' + escapeHtml(opt.label) + '</span><span class="lead-choice-arrow">›</span>';
       btn.addEventListener('click', function () {
         leadData.objetivo = opt.val || opt.label;
-        responderCliente(opt.label, 3);
+        responderCliente(opt.label, obterProximaEtapa(2));
       });
       actionsWrap.appendChild(btn);
     });
@@ -1235,7 +1325,7 @@
       var textoPular = (configChat.etapa2 && configChat.etapa2.texto_pular) || 'Pular esta pergunta ›';
       var btnPular2 = criarBotaoPular(escapeHtml(textoPular), function () {
         leadData.objetivo = 'A definir';
-        responderCliente('Pulei esta pergunta', 3);
+        responderCliente('Pulei esta pergunta', obterProximaEtapa(2));
       });
       actionsWrap.appendChild(btnPular2);
     }
@@ -1278,12 +1368,14 @@
       return;
     }
 
-    var primeiroNome = (leadData.nome || '').trim().split(' ')[0] || 'você';
-    var trans_e2 = (configChat.etapa2 && configChat.etapa2.transicao) || 'Prazer, {nome}! 😊 Vou fazer algumas perguntas rápidas para entender o que você procura e facilitar seu atendimento com o Corretor Rafael.';
-    var perg_e2 = (configChat.etapa2 && configChat.etapa2.pergunta) || 'Para começar, qual é o seu objetivo com o terreno?';
-    messagesBox.appendChild(criarBalaoRafael(trans_e2.replace(/\{nome\}/gi, primeiroNome)));
-    messagesBox.appendChild(criarBalaoRafael(perg_e2));
-    if (leadData.objetivo) messagesBox.appendChild(criarBalaoCliente(leadData.objetivo));
+    if (!configChat.etapa2 || configChat.etapa2.ativo !== false) {
+      var primeiroNome = (leadData.nome || '').trim().split(' ')[0] || 'você';
+      var trans_e2 = (configChat.etapa2 && configChat.etapa2.transicao) || 'Prazer, {nome}! 😊 Vou fazer algumas perguntas rápidas para entender o que você procura e facilitar seu atendimento com o Corretor Rafael.';
+      var perg_e2 = (configChat.etapa2 && configChat.etapa2.pergunta) || 'Para começar, qual é o seu objetivo com o terreno?';
+      messagesBox.appendChild(criarBalaoRafael(trans_e2.replace(/\{nome\}/gi, primeiroNome)));
+      messagesBox.appendChild(criarBalaoRafael(perg_e2));
+      if (leadData.objetivo) messagesBox.appendChild(criarBalaoCliente(leadData.objetivo));
+    }
 
     if (etapaAlvo === 3) {
       renderizarEtapaAtiva(3);
@@ -1291,9 +1383,11 @@
       return;
     }
 
-    var perg_e3 = (configChat.etapa3 && configChat.etapa3.pergunta) || 'E qual é o seu planejamento para essa compra?';
-    messagesBox.appendChild(criarBalaoRafael(perg_e3));
-    if (leadData.planejamento_compra) messagesBox.appendChild(criarBalaoCliente(leadData.planejamento_compra));
+    if (!configChat.etapa3 || configChat.etapa3.ativo !== false) {
+      var perg_e3 = (configChat.etapa3 && configChat.etapa3.pergunta) || 'E qual é o seu planejamento para essa compra?';
+      messagesBox.appendChild(criarBalaoRafael(perg_e3));
+      if (leadData.planejamento_compra) messagesBox.appendChild(criarBalaoCliente(leadData.planejamento_compra));
+    }
 
     if (etapaAlvo === 4) {
       renderizarEtapaAtiva(4);
@@ -1301,9 +1395,30 @@
       return;
     }
 
-    var perg_e4 = (configChat.etapa4 && configChat.etapa4.pergunta) || 'Para entendermos melhor o que você procura, qual destas opções combina mais com o seu planejamento?';
-    messagesBox.appendChild(criarBalaoRafael(perg_e4));
-    if (leadData.forma_pagamento) messagesBox.appendChild(criarBalaoCliente(leadData.forma_pagamento));
+    if (!configChat.etapa4 || configChat.etapa4.ativo !== false) {
+      var perg_e4 = (configChat.etapa4 && configChat.etapa4.pergunta) || 'Para entendermos melhor o que você procura, qual destas opções combina mais com o seu planejamento?';
+      messagesBox.appendChild(criarBalaoRafael(perg_e4));
+      if (leadData.forma_pagamento) messagesBox.appendChild(criarBalaoCliente(leadData.forma_pagamento));
+    }
+
+    // Perguntas extras / personalizadas no histórico
+    if (configChat.perguntas_extras && Array.isArray(configChat.perguntas_extras)) {
+      for (var k = 0; k < configChat.perguntas_extras.length; k++) {
+        var pExtra = configChat.perguntas_extras[k];
+        if (pExtra && pExtra.ativo !== false && (pExtra.pergunta || '').trim()) {
+          var keyExtra = 'extra_' + k;
+          if (etapaAlvo === keyExtra) {
+            renderizarEtapaAtiva(keyExtra);
+            rolarParaFinal();
+            return;
+          }
+          messagesBox.appendChild(criarBalaoRafael(pExtra.pergunta));
+          if (leadData.respostas_extras && leadData.respostas_extras[pExtra.pergunta]) {
+            messagesBox.appendChild(criarBalaoCliente(leadData.respostas_extras[pExtra.pergunta]));
+          }
+        }
+      }
+    }
 
     if (etapaAlvo === 5) {
       renderizarEtapaAtiva(5);
@@ -1311,14 +1426,16 @@
       return;
     }
 
-    var perg_e5 = (configChat.etapa5_visita && configChat.etapa5_visita.pergunta) || 'Gostaria de conhecer o empreendimento pessoalmente?';
-    var lblSim_e5 = (configChat.etapa5_visita && configChat.etapa5_visita.opcao_sim) || '🏡 Sim, quero agendar uma visita';
-    var lblNao_e5 = (configChat.etapa5_visita && configChat.etapa5_visita.opcao_nao) || '💬 Prefiro receber mais informações primeiro';
-    messagesBox.appendChild(criarBalaoRafael(perg_e5));
-    if (leadData.quer_visitar) {
-      messagesBox.appendChild(criarBalaoCliente(lblSim_e5));
-    } else {
-      messagesBox.appendChild(criarBalaoCliente(lblNao_e5));
+    if (!configChat.etapa5_visita || configChat.etapa5_visita.ativo !== false) {
+      var perg_e5 = (configChat.etapa5_visita && configChat.etapa5_visita.pergunta) || 'Gostaria de conhecer o empreendimento pessoalmente?';
+      var lblSim_e5 = (configChat.etapa5_visita && configChat.etapa5_visita.opcao_sim) || '🏡 Sim, quero agendar uma visita';
+      var lblNao_e5 = (configChat.etapa5_visita && configChat.etapa5_visita.opcao_nao) || '💬 Prefiro receber mais informações primeiro';
+      messagesBox.appendChild(criarBalaoRafael(perg_e5));
+      if (leadData.quer_visitar) {
+        messagesBox.appendChild(criarBalaoCliente(lblSim_e5));
+      } else {
+        messagesBox.appendChild(criarBalaoCliente(lblNao_e5));
+      }
     }
 
     if (etapaAlvo === 6) {
@@ -1396,7 +1513,7 @@
         btn.innerHTML = '<span class="lead-choice-label">' + escapeHtml(opt.label) + '</span><span class="lead-choice-arrow">›</span>';
         btn.addEventListener('click', function () {
           leadData.planejamento_compra = opt.val || opt.label;
-          responderCliente(opt.label, 4);
+          responderCliente(opt.label, obterProximaEtapa(3));
         });
         actionsWrap.appendChild(btn);
       });
@@ -1406,7 +1523,7 @@
         var textoPular3 = (configChat.etapa3 && configChat.etapa3.texto_pular) || 'Pular esta pergunta ›';
         var btnPular3 = criarBotaoPular(escapeHtml(textoPular3), function () {
           leadData.planejamento_compra = 'A definir';
-          responderCliente('Pulei esta pergunta', 4);
+          responderCliente('Pulei esta pergunta', obterProximaEtapa(3));
         });
         actionsWrap.appendChild(btnPular3);
       }
@@ -1436,7 +1553,7 @@
         btn.innerHTML = '<span class="lead-choice-label">' + escapeHtml(opt.label) + '</span><span class="lead-choice-arrow">›</span>';
         btn.addEventListener('click', function () {
           leadData.forma_pagamento = opt.val || opt.label;
-          responderCliente(opt.label, 5);
+          responderCliente(opt.label, obterProximaEtapa(4));
         });
         actionsWrap.appendChild(btn);
       });
@@ -1446,9 +1563,90 @@
         var textoPular4 = (configChat.etapa4 && configChat.etapa4.texto_pular) || 'Pular esta pergunta ›';
         var btnPular4 = criarBotaoPular(escapeHtml(textoPular4), function () {
           leadData.forma_pagamento = 'A definir';
-          responderCliente('Pulei esta pergunta', 5);
+          responderCliente('Pulei esta pergunta', obterProximaEtapa(4));
         });
         actionsWrap.appendChild(btnPular4);
+      }
+
+      container.appendChild(actionsWrap);
+      return;
+    }
+
+    // ── PERGUNTAS EXTRAS / PERSONALIZADAS ADICIONADAS PELO USUÁRIO ──
+    if (typeof etapa === 'string' && etapa.indexOf('extra_') === 0) {
+      var extraIdx = parseInt(etapa.replace('extra_', ''), 10);
+      var pExtra = (configChat.perguntas_extras && configChat.perguntas_extras[extraIdx]);
+      if (!pExtra || pExtra.ativo === false || !(pExtra.pergunta || '').trim()) {
+        irParaEtapa(obterProximaEtapa(etapa), false);
+        return;
+      }
+
+      container.appendChild(criarBalaoRafael(pExtra.pergunta));
+
+      if (pExtra.tipo === 'texto_livre') {
+        var cardInputExtra = document.createElement('div');
+        cardInputExtra.className = 'lead-input-card';
+        cardInputExtra.innerHTML = [
+          '<input type="text" id="chat-input-extra-' + extraIdx + '" class="lead-chat-field" placeholder="' + escapeHtml(pExtra.placeholder || 'Digite sua resposta...') + '">',
+          '<button type="button" id="chat-btn-extra-' + extraIdx + '" class="lead-btn-submit-action">',
+          '  Continuar <span>→</span>',
+          '</button>'
+        ].join('');
+        actionsWrap.appendChild(cardInputExtra);
+
+        setTimeout(function () {
+          var inEl = document.getElementById('chat-input-extra-' + extraIdx);
+          var btEl = document.getElementById('chat-btn-extra-' + extraIdx);
+          if (!inEl) return;
+          inEl.focus();
+
+          function submeterExtraTexto() {
+            var respVal = (inEl.value || '').trim();
+            if (!respVal && pExtra.permitir_pular === false) {
+              inEl.focus();
+              return;
+            }
+            if (!leadData.respostas_extras) leadData.respostas_extras = {};
+            leadData.respostas_extras[pExtra.pergunta] = respVal || 'Não informado';
+            responderCliente(respVal || 'Pulei esta pergunta', obterProximaEtapa(etapa));
+          }
+
+          if (btEl) btEl.addEventListener('click', submeterExtraTexto);
+          inEl.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              submeterExtraTexto();
+            }
+          });
+        }, 80);
+      } else {
+        // Opções de botões
+        var opcoesExtra = Array.isArray(pExtra.opcoes) ? pExtra.opcoes : [];
+        opcoesExtra.forEach(function (optItem) {
+          var labelOpt = typeof optItem === 'object' ? (optItem.label || optItem.val) : String(optItem);
+          var valOpt = typeof optItem === 'object' ? (optItem.val || optItem.label) : String(optItem);
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'lead-choice-btn';
+          btn.innerHTML = '<span class="lead-choice-label">' + escapeHtml(labelOpt) + '</span><span class="lead-choice-arrow">›</span>';
+          btn.addEventListener('click', function () {
+            if (!leadData.respostas_extras) leadData.respostas_extras = {};
+            leadData.respostas_extras[pExtra.pergunta] = valOpt;
+            responderCliente(labelOpt, obterProximaEtapa(etapa));
+          });
+          actionsWrap.appendChild(btn);
+        });
+      }
+
+      // Botão Pular Pergunta Extra
+      if (pExtra.permitir_pular !== false) {
+        var textoPularExtra = pExtra.texto_pular || 'Pular esta pergunta ›';
+        var btnPularEx = criarBotaoPular(escapeHtml(textoPularExtra), function () {
+          if (!leadData.respostas_extras) leadData.respostas_extras = {};
+          leadData.respostas_extras[pExtra.pergunta] = 'Não informado';
+          responderCliente('Pulei esta pergunta', obterProximaEtapa(etapa));
+        });
+        actionsWrap.appendChild(btnPularEx);
       }
 
       container.appendChild(actionsWrap);
@@ -1797,6 +1995,7 @@
             data_visita: dados.data_visita || null,
             periodo_visita: dados.horario_visita || dados.periodo_visita || null,
             horario_visita: dados.horario_visita || null,
+            respostas_extras: dados.respostas_extras || null,
             whatsapp_enviado: true
           };
 

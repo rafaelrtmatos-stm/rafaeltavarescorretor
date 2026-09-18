@@ -109,6 +109,7 @@ app.post('/api/leads', async (req, res) => {
       data_visita: body.data_visita || null,
       periodo_visita: body.horario_visita || body.periodo_visita || null,
       horario_visita: body.horario_visita || null,
+      respostas_extras: body.respostas_extras || null,
       status: 'Novo',
       observacao: body.observacao || '',
       whatsapp_enviado: Boolean(body.whatsapp_enviado !== false)
@@ -132,7 +133,9 @@ app.post('/api/leads', async (req, res) => {
       // Atualiza os dados do lead recente se tiver mais detalhes
       if (novoLead.objetivo && !duplicadoRecente.objetivo) duplicadoRecente.objetivo = novoLead.objetivo;
       if (novoLead.planejamento_compra && !duplicadoRecente.planejamento_compra) duplicadoRecente.planejamento_compra = novoLead.planejamento_compra;
+      if (novoLead.forma_pagamento && !duplicadoRecente.forma_pagamento) duplicadoRecente.forma_pagamento = novoLead.forma_pagamento;
       if (novoLead.data_visita && !duplicadoRecente.data_visita) duplicadoRecente.data_visita = novoLead.data_visita;
+      if (novoLead.respostas_extras && !duplicadoRecente.respostas_extras) duplicadoRecente.respostas_extras = novoLead.respostas_extras;
       if (novoLead.observacao && !duplicadoRecente.observacao) duplicadoRecente.observacao = novoLead.observacao;
       writeLeads(leads);
       return res.status(200).json({ success: true, lead: duplicadoRecente, duplicate_merged: true });

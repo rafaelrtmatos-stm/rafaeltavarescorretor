@@ -1088,6 +1088,48 @@
       cursor: pointer;
       accent-color: var(--gold);
     }
+    .chat-step-toggle-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      background: rgba(212, 175, 55, 0.07);
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .chat-extra-box {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-bottom: 16px;
+      position: relative;
+      transition: var(--transition);
+    }
+    .chat-extra-box:hover {
+      border-color: rgba(212, 175, 55, 0.4);
+    }
+    .chat-btn-delete-question {
+      background: rgba(244, 67, 54, 0.12);
+      color: #f87171;
+      border: 1px solid rgba(244, 67, 54, 0.3);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .chat-btn-delete-question:hover {
+      background: #ef4444;
+      color: #fff;
+    }
   </style>
 </head>
 <body>
@@ -1996,6 +2038,71 @@
 
       var telPadrao = c.numero_whatsapp || (SITE_DATA.config && SITE_DATA.config.wpp ? SITE_DATA.config.wpp : '5593991234567');
 
+      var extrasListHTML = '';
+      var pExtras = Array.isArray(c.perguntas_extras) ? c.perguntas_extras : [];
+      if (pExtras.length === 0) {
+        extrasListHTML = `
+          <div style="background:rgba(255,255,255,0.02);border:1px dashed var(--border);border-radius:8px;padding:20px;text-align:center;color:var(--text-dim);font-size:13px;">
+            Nenhuma pergunta extra cadastrada. Clique no botão <b>"+ Adicionar Pergunta"</b> para incluir novas perguntas no formulário.
+          </div>
+        `;
+      } else {
+        extrasListHTML = pExtras.map(function(pe, i) {
+          var opcoesPeTxt = (pe.opcoes || []).map(function(o){ return typeof o === 'string' ? o : (o.label || o.val || ''); }).join('\n');
+          var isTextoLivre = pe.tipo === 'texto_livre';
+
+          return `
+            <div class="chat-extra-box chat-extra-question-item" data-extra-idx="${i}">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <span class="chat-step-badge" style="background:rgba(212,175,55,0.15);color:var(--gold);border-color:rgba(212,175,55,0.3);">Pergunta Extra #${i + 1}</span>
+                  <label class="chat-toggle-label" style="font-weight:600;font-size:12.5px;">
+                    <input type="checkbox" id="chat-cfg-extra-ativo-${i}" ${pe.ativo !== false ? 'checked' : ''} onchange="syncLive();atualizarSimuladorWpp();">
+                    <span>Ativa no fluxo</span>
+                  </label>
+                </div>
+                <button type="button" class="chat-btn-delete-question" onclick="removerPerguntaExtra(${i})">
+                  🗑️ Excluir Pergunta
+                </button>
+              </div>
+
+              <div class="form-grid">
+                <div class="form-group span-2">
+                  <label class="form-label">Texto da Pergunta</label>
+                  <input type="text" class="form-control" id="chat-cfg-extra-perg-${i}" value="${escapeHtml(pe.pergunta || '')}" placeholder="Ex: Tem interesse em financiar pelo banco?" oninput="syncLive();atualizarSimuladorWpp();">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Tipo de Resposta</label>
+                  <select class="form-control" id="chat-cfg-extra-tipo-${i}" onchange="alternarTipoPerguntaExtra(${i});syncLive();">
+                    <option value="opcoes" ${!isTextoLivre ? 'selected' : ''}>🔘 Botões de Escolha Rápida</option>
+                    <option value="texto_livre" ${isTextoLivre ? 'selected' : ''}>✍️ Campo de Texto Livre (Digitável)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Texto do Botão Pular</label>
+                  <input type="text" class="form-control" id="chat-cfg-extra-pular-txt-${i}" value="${escapeHtml(pe.texto_pular || 'Pular esta pergunta ›')}" oninput="syncLive()">
+                </div>
+                <div class="form-group span-2" id="chat-wrap-extra-opcoes-${i}" style="${isTextoLivre ? 'display:none;' : ''}">
+                  <label class="form-label">Opções de Resposta (Uma por linha)</label>
+                  <textarea class="form-control" id="chat-cfg-extra-opcoes-${i}" rows="3" placeholder="Sim\nNão\nTalvez" oninput="syncLive()">${escapeHtml(opcoesPeTxt)}</textarea>
+                  <span class="form-hint">Cada linha se transformará em um botão clicável.</span>
+                </div>
+                <div class="form-group span-2" id="chat-wrap-extra-ph-${i}" style="${!isTextoLivre ? 'display:none;' : ''}">
+                  <label class="form-label">Placeholder do Campo Digitável</label>
+                  <input type="text" class="form-control" id="chat-cfg-extra-ph-${i}" value="${escapeHtml(pe.placeholder || 'Digite sua resposta...')}" placeholder="Digite sua resposta..." oninput="syncLive()">
+                </div>
+                <div class="form-group span-2">
+                  <label class="chat-toggle-label">
+                    <input type="checkbox" id="chat-cfg-extra-pular-${i}" ${pe.permitir_pular !== false ? 'checked' : ''} onchange="syncLive()">
+                    <span>Permitir que o cliente pule esta pergunta</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
       container.innerHTML = `
         <div class="editor-header">
           <div>
@@ -2113,6 +2220,13 @@
               🎯 Objetivo com o Terreno (Morar / Investir)
             </div>
           </div>
+          <div class="chat-step-toggle-bar">
+            <label class="chat-toggle-label" style="font-weight:700;color:var(--gold);">
+              <input type="checkbox" id="chat-cfg-e2-ativo" ${e2.ativo !== false ? 'checked' : ''} onchange="syncLive();atualizarSimuladorWpp();">
+              <span>Ativar esta pergunta no formulário</span>
+            </label>
+            <span style="font-size:12px;color:var(--text-dim);">Desmarque para excluir do fluxo e encurtar o chat</span>
+          </div>
           <div class="form-grid">
             <div class="form-group span-2">
               <label class="form-label">Mensagem de Transição (Pode usar <code style="color:var(--gold);">{nome}</code>)</label>
@@ -2156,6 +2270,13 @@
               📅 Planejamento da Compra (Prazo / Momento)
             </div>
           </div>
+          <div class="chat-step-toggle-bar">
+            <label class="chat-toggle-label" style="font-weight:700;color:var(--gold);">
+              <input type="checkbox" id="chat-cfg-e3-ativo" ${e3.ativo !== false ? 'checked' : ''} onchange="syncLive();atualizarSimuladorWpp();">
+              <span>Ativar esta pergunta no formulário</span>
+            </label>
+            <span style="font-size:12px;color:var(--text-dim);">Desmarque para excluir do fluxo e encurtar o chat</span>
+          </div>
           <div class="form-grid">
             <div class="form-group span-2">
               <label class="form-label">Pergunta Principal</label>
@@ -2187,6 +2308,13 @@
               💳 Forma de Pagamento & Condições
             </div>
           </div>
+          <div class="chat-step-toggle-bar">
+            <label class="chat-toggle-label" style="font-weight:700;color:var(--gold);">
+              <input type="checkbox" id="chat-cfg-e4-ativo" ${e4.ativo !== false ? 'checked' : ''} onchange="syncLive();atualizarSimuladorWpp();">
+              <span>Ativar esta pergunta no formulário</span>
+            </label>
+            <span style="font-size:12px;color:var(--text-dim);">Desmarque para excluir do fluxo e encurtar o chat</span>
+          </div>
           <div class="form-grid">
             <div class="form-group span-2">
               <label class="form-label">Pergunta Principal</label>
@@ -2210,6 +2338,32 @@
           </div>
         </div>
 
+        <!-- CARD: PERGUNTAS EXTRAS / PERSONALIZADAS -->
+        <div class="card chat-step-card" style="border-left-color: var(--gold) !important;">
+          <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+            <div class="card-title">
+              <span class="chat-step-badge" style="background:rgba(212,175,55,0.15);color:var(--gold);border-color:rgba(212,175,55,0.3);">Personalizado</span>
+              ➕ Perguntas Extras / Personalizadas
+            </div>
+            <button type="button" class="btn btn-gold btn-sm" onclick="adicionarPerguntaExtra()" style="padding:7px 14px;font-size:12.5px;">
+              + Adicionar Pergunta
+            </button>
+          </div>
+          <div style="padding:4px 0 6px 0;">
+            <p style="font-size:13px;color:var(--text-dim);margin-bottom:14px;line-height:1.5;">
+              Adicione perguntas adicionais ao formulário (com botões de múltipla escolha ou campo digitável) ou exclua as que não desejar para encurtar a conversa.
+            </p>
+            <div id="chat-extra-questions-container">
+              ${extrasListHTML}
+            </div>
+            <div style="margin-top:12px;">
+              <button type="button" class="btn btn-secondary" onclick="adicionarPerguntaExtra()" style="width:100%;justify-content:center;border-style:dashed;">
+                + Adicionar Nova Pergunta Personalizada
+              </button>
+            </div>
+          </div>
+        </div>
+
         <!-- CARD 6: ETAPA 5 - VISITA PRESENCIAL -->
         <div class="card chat-step-card">
           <div class="card-header">
@@ -2218,15 +2372,14 @@
               🏡 Agendamento de Visita Presencial
             </div>
           </div>
+          <div class="chat-step-toggle-bar">
+            <label class="chat-toggle-label" style="font-weight:700;color:var(--gold);">
+              <input type="checkbox" id="chat-cfg-e5-ativo" ${e5.ativo !== false ? 'checked' : ''} onchange="syncLive();atualizarSimuladorWpp();">
+              <span>Ativar agendamento de visita presencial no formulário</span>
+            </label>
+            <span style="font-size:12px;color:var(--text-dim);">Se desativado, o formulário pula direto para a etapa do WhatsApp</span>
+          </div>
           <div class="form-grid">
-            <div class="form-group span-2">
-              <label class="chat-toggle-label" style="font-weight:700;color:var(--gold);">
-                <input type="checkbox" id="chat-cfg-e5-ativo" ${e5.ativo !== false ? 'checked' : ''} onchange="syncLive()">
-                <span>Ativar pergunta sobre agendamento de visita presencial no fluxo</span>
-              </label>
-              <span class="form-hint">Se desativado, o formulário pula diretamente para a etapa final do WhatsApp.</span>
-            </div>
-            <div class="form-group span-2">
               <label class="form-label">Pergunta Principal</label>
               <input type="text" class="form-control" id="chat-cfg-e5-perg" value="${escapeHtml(e5.pergunta || 'Gostaria de conhecer o empreendimento pessoalmente?')}" oninput="syncLive()">
             </div>
@@ -2368,6 +2521,55 @@
       atualizarSimuladorWpp();
     }
 
+    function adicionarPerguntaExtra() {
+      coletarInputsParaState();
+      SITE_DATA.chat_contato = SITE_DATA.chat_contato || {};
+      SITE_DATA.chat_contato.perguntas_extras = SITE_DATA.chat_contato.perguntas_extras || [];
+      var novoNum = SITE_DATA.chat_contato.perguntas_extras.length + 1;
+      SITE_DATA.chat_contato.perguntas_extras.push({
+        ativo: true,
+        pergunta: 'Pergunta Extra ' + novoNum,
+        tipo: 'opcoes',
+        opcoes: [
+          { label: 'Opção 1', val: 'Opção 1' },
+          { label: 'Opção 2', val: 'Opção 2' }
+        ],
+        placeholder: '',
+        permitir_pular: true,
+        texto_pular: 'Pular esta pergunta ›'
+      });
+      var editor = document.getElementById('app-editor');
+      if (editor) renderChatContatoEditor(editor);
+      syncLive();
+      toast('➕ Nova pergunta personalizada adicionada com sucesso!', 'ok');
+    }
+
+    function removerPerguntaExtra(idx) {
+      if (!confirm('Deseja realmente excluir esta pergunta do formulário?')) return;
+      coletarInputsParaState();
+      if (SITE_DATA.chat_contato && Array.isArray(SITE_DATA.chat_contato.perguntas_extras)) {
+        SITE_DATA.chat_contato.perguntas_extras.splice(idx, 1);
+      }
+      var editor = document.getElementById('app-editor');
+      if (editor) renderChatContatoEditor(editor);
+      syncLive();
+      toast('🗑️ Pergunta excluída com sucesso!', 'ok');
+    }
+
+    function alternarTipoPerguntaExtra(idx) {
+      var sel = document.getElementById('chat-cfg-extra-tipo-' + idx);
+      var wrapOp = document.getElementById('chat-wrap-extra-opcoes-' + idx);
+      var wrapPh = document.getElementById('chat-wrap-extra-ph-' + idx);
+      if (!sel) return;
+      if (sel.value === 'texto_livre') {
+        if (wrapOp) wrapOp.style.display = 'none';
+        if (wrapPh) wrapPh.style.display = '';
+      } else {
+        if (wrapOp) wrapOp.style.display = '';
+        if (wrapPh) wrapPh.style.display = 'none';
+      }
+    }
+
     function testarChatPreview(etapa) {
       coletarInputsParaState();
       syncLive();
@@ -2404,6 +2606,7 @@
           botao_texto: 'Continuar ›'
         },
         etapa2: {
+          ativo: true,
           transicao: 'Prazer, {nome}! 😊 Vou fazer algumas perguntas rápidas para entender seu momento e te apresentar as melhores opções.',
           pergunta: 'Para começar, qual é o seu objetivo com o terreno?',
           opcao_morar: 'Morar',
@@ -2413,6 +2616,7 @@
           texto_pular: 'Pular esta pergunta ›'
         },
         etapa3: {
+          ativo: true,
           pergunta: 'E qual é o seu planejamento para essa compra?',
           opcoes: [
             { label: 'Quero comprar agora se eu gostar', val: 'Quero comprar agora se eu gostar' },
@@ -2425,6 +2629,7 @@
           texto_pular: 'Pular esta pergunta ›'
         },
         etapa4: {
+          ativo: true,
           pergunta: 'Para entendermos melhor o que você procura, qual destas opções combina mais com o seu planejamento?',
           opcoes: [
             { label: 'Tenho o valor para a entrada', val: 'Tenho o valor para a entrada' },
@@ -2436,6 +2641,7 @@
           permitir_pular: true,
           texto_pular: 'Pular esta pergunta ›'
         },
+        perguntas_extras: [],
         etapa5_visita: {
           ativo: true,
           pergunta: 'Gostaria de conhecer o empreendimento pessoalmente?',
@@ -2519,6 +2725,7 @@
         var e1Btn = document.getElementById('chat-cfg-e1-btn'); if (e1Btn) c.etapa1.botao_texto = e1Btn.value;
 
         c.etapa2 = c.etapa2 || {};
+        var e2AtivoEl = document.getElementById('chat-cfg-e2-ativo'); if (e2AtivoEl) c.etapa2.ativo = e2AtivoEl.checked;
         var e2Trans = document.getElementById('chat-cfg-e2-trans'); if (e2Trans) c.etapa2.transicao = e2Trans.value;
         var e2Perg = document.getElementById('chat-cfg-e2-perg'); if (e2Perg) c.etapa2.pergunta = e2Perg.value;
         var e2Op1 = document.getElementById('chat-cfg-e2-op1'); if (e2Op1) c.etapa2.opcao_morar = e2Op1.value;
@@ -2528,6 +2735,7 @@
         var e2PularTxt = document.getElementById('chat-cfg-e2-pular-txt'); if (e2PularTxt) c.etapa2.texto_pular = e2PularTxt.value;
 
         c.etapa3 = c.etapa3 || {};
+        var e3AtivoEl = document.getElementById('chat-cfg-e3-ativo'); if (e3AtivoEl) c.etapa3.ativo = e3AtivoEl.checked;
         var e3Perg = document.getElementById('chat-cfg-e3-perg'); if (e3Perg) c.etapa3.pergunta = e3Perg.value;
         var e3PularEl = document.getElementById('chat-cfg-e3-pular-chk'); if (e3PularEl) c.etapa3.permitir_pular = e3PularEl.checked;
         var e3PularTxt = document.getElementById('chat-cfg-e3-pular-txt'); if (e3PularTxt) c.etapa3.texto_pular = e3PularTxt.value;
@@ -2539,6 +2747,7 @@
         }
 
         c.etapa4 = c.etapa4 || {};
+        var e4AtivoEl = document.getElementById('chat-cfg-e4-ativo'); if (e4AtivoEl) c.etapa4.ativo = e4AtivoEl.checked;
         var e4Perg = document.getElementById('chat-cfg-e4-perg'); if (e4Perg) c.etapa4.pergunta = e4Perg.value;
         var e4PularEl = document.getElementById('chat-cfg-e4-pular-chk'); if (e4PularEl) c.etapa4.permitir_pular = e4PularEl.checked;
         var e4PularTxt = document.getElementById('chat-cfg-e4-pular-txt'); if (e4PularTxt) c.etapa4.texto_pular = e4PularTxt.value;
@@ -2548,6 +2757,40 @@
             return { label: s, val: s };
           });
         }
+
+        // Coleta de perguntas extras / personalizadas
+        c.perguntas_extras = [];
+        var extraItems = document.querySelectorAll('.chat-extra-question-item');
+        extraItems.forEach(function (item) {
+          var idx = item.getAttribute('data-extra-idx');
+          var pergEl = document.getElementById('chat-cfg-extra-perg-' + idx);
+          var tipoEl = document.getElementById('chat-cfg-extra-tipo-' + idx);
+          var opcoesEl = document.getElementById('chat-cfg-extra-opcoes-' + idx);
+          var phEl = document.getElementById('chat-cfg-extra-ph-' + idx);
+          var pularEl = document.getElementById('chat-cfg-extra-pular-' + idx);
+          var pularTxtEl = document.getElementById('chat-cfg-extra-pular-txt-' + idx);
+          var ativoEl = document.getElementById('chat-cfg-extra-ativo-' + idx);
+
+          if (pergEl) {
+            var q = {
+              ativo: ativoEl ? ativoEl.checked : true,
+              pergunta: pergEl.value,
+              tipo: tipoEl ? tipoEl.value : 'opcoes',
+              permitir_pular: pularEl ? pularEl.checked : true,
+              texto_pular: pularTxtEl ? pularTxtEl.value : 'Pular esta pergunta ›'
+            };
+            if (q.tipo === 'texto_livre') {
+              q.placeholder = phEl ? phEl.value : 'Digite sua resposta...';
+              q.opcoes = [];
+            } else {
+              q.placeholder = '';
+              q.opcoes = opcoesEl ? opcoesEl.value.split('\n').map(function(s){ return s.trim(); }).filter(Boolean).map(function(s){
+                return { label: s, val: s };
+              }) : [];
+            }
+            c.perguntas_extras.push(q);
+          }
+        });
 
         c.etapa5_visita = c.etapa5_visita || {};
         var e5AtivoEl = document.getElementById('chat-cfg-e5-ativo'); if (e5AtivoEl) c.etapa5_visita.ativo = e5AtivoEl.checked;
@@ -2588,26 +2831,113 @@
       var saudacao = intro.replace(/\{nome\}/gi, 'Maria Silva').replace(/\{empreendimento\}/gi, 'Residencial Bela Vista');
       var despedida = outro.replace(/\{nome\}/gi, 'Maria Silva').replace(/\{empreendimento\}/gi, 'Residencial Bela Vista');
 
+      var e2Ativo = document.getElementById('chat-cfg-e2-ativo') ? document.getElementById('chat-cfg-e2-ativo').checked : true;
+      var e3Ativo = document.getElementById('chat-cfg-e3-ativo') ? document.getElementById('chat-cfg-e3-ativo').checked : true;
+      var e4Ativo = document.getElementById('chat-cfg-e4-ativo') ? document.getElementById('chat-cfg-e4-ativo').checked : true;
+      var e5Ativo = document.getElementById('chat-cfg-e5-ativo') ? document.getElementById('chat-cfg-e5-ativo').checked : true;
+
       var texto = '';
       if (estilo === 'organizado') {
-        texto = saudacao + '\n\n'
-          + '📌 *Interesse:* Residencial Bela Vista\n'
-          + '• *Objetivo:* Morar\n'
-          + '• *Planejamento:* Quero comprar agora se eu gostar\n'
-          + '• *Pagamento:* Tenho o valor para a entrada\n'
-          + '• *Visita presencial:* Agendada para 25/09 às 15:30'
-          + (despedida ? '\n\n' + despedida : '');
+        var linhas = [saudacao, '', '📌 *Interesse:* Residencial Bela Vista'];
+        if (e2Ativo) linhas.push('• *Objetivo:* Morar');
+        if (e3Ativo) linhas.push('• *Planejamento:* Quero comprar agora se eu gostar');
+        if (e4Ativo) linhas.push('• *Pagamento:* Tenho o valor para a entrada');
+
+        // Incluir perguntas extras ativas no simulador
+        var extraItems = document.querySelectorAll('.chat-extra-question-item');
+        if (extraItems.length > 0) {
+          extraItems.forEach(function(item) {
+            var idx = item.getAttribute('data-extra-idx');
+            var ativoEl = document.getElementById('chat-cfg-extra-ativo-' + idx);
+            var pergEl = document.getElementById('chat-cfg-extra-perg-' + idx);
+            if (ativoEl && ativoEl.checked && pergEl && pergEl.value.trim()) {
+              var pNome = pergEl.value.trim().replace(/[:?]$/, '');
+              linhas.push('• *' + pNome + ':* Resposta exemplo');
+            }
+          });
+        }
+
+        if (e5Ativo) linhas.push('• *Visita presencial:* Agendada para 25/09 às 15:30');
+        if (despedida) {
+          linhas.push('');
+          linhas.push(despedida);
+        }
+        texto = linhas.join('\n');
       } else {
-        texto = 'Olá, Corretor Rafael! Meu nome é Maria Silva. Vi o Residencial Bela Vista no site e tenho interesse. '
-          + 'Quero comprar para morar, meu planejamento é comprar agora, se eu gostar, tenho o valor para a entrada. '
-          + 'Gostaria de agendar uma visita ao empreendimento no dia 25/09 às 15:30. '
-          + despedida;
+        var partes = ['Olá, Corretor Rafael! Meu nome é Maria Silva. Vi o Residencial Bela Vista no site e tenho interesse.'];
+        if (e2Ativo) partes.push('Quero comprar para morar.');
+        if (e3Ativo) partes.push('Meu planejamento é comprar agora se eu gostar.');
+        if (e4Ativo) partes.push('Tenho o valor para a entrada.');
+
+        var extraItems = document.querySelectorAll('.chat-extra-question-item');
+        if (extraItems.length > 0) {
+          extraItems.forEach(function(item) {
+            var idx = item.getAttribute('data-extra-idx');
+            var ativoEl = document.getElementById('chat-cfg-extra-ativo-' + idx);
+            var pergEl = document.getElementById('chat-cfg-extra-perg-' + idx);
+            if (ativoEl && ativoEl.checked && pergEl && pergEl.value.trim()) {
+              partes.push(pergEl.value.trim() + ': Resposta exemplo.');
+            }
+          });
+        }
+
+        if (e5Ativo) partes.push('Gostaria de agendar uma visita ao empreendimento no dia 25/09 às 15:30.');
+        if (despedida) partes.push(despedida);
+        texto = partes.join(' ');
       }
 
       box.innerHTML = '<div style="background:#005c4b;color:#e9edef;border-radius:8px 8px 8px 0;padding:12px 14px;max-width:92%;box-shadow:0 1px 2px rgba(0,0,0,0.3);position:relative;">'
         + '<div style="white-space:pre-wrap;font-size:13px;line-height:1.5;">' + escapeHtml(texto) + '</div>'
         + '<div style="text-align:right;font-size:10px;color:rgba(255,255,255,0.6);margin-top:6px;">15:31 ✓✓</div>'
         + '</div>';
+    }
+
+    // ── GESTÃO DE PERGUNTAS EXTRAS DO CHAT ──
+    function adicionarPerguntaExtra() {
+      coletarInputsParaState();
+      SITE_DATA.chat_contato = SITE_DATA.chat_contato || {};
+      SITE_DATA.chat_contato.perguntas_extras = Array.isArray(SITE_DATA.chat_contato.perguntas_extras) ? SITE_DATA.chat_contato.perguntas_extras : [];
+      SITE_DATA.chat_contato.perguntas_extras.push({
+        ativo: true,
+        pergunta: 'Pergunta adicional',
+        tipo: 'opcoes',
+        opcoes: [
+          { label: 'Sim', val: 'Sim' },
+          { label: 'Não', val: 'Não' }
+        ],
+        placeholder: '',
+        permitir_pular: true,
+        texto_pular: 'Pular esta pergunta ›'
+      });
+      var editor = document.getElementById('app-editor');
+      if (editor) renderChatContatoEditor(editor);
+      syncLive();
+      atualizarSimuladorWpp();
+      toast('➕ Pergunta extra adicionada ao formulário!', 'ok');
+    }
+
+    function removerPerguntaExtra(idx) {
+      if (!confirm('Deseja realmente excluir esta pergunta do formulário?')) return;
+      coletarInputsParaState();
+      if (SITE_DATA.chat_contato && Array.isArray(SITE_DATA.chat_contato.perguntas_extras)) {
+        SITE_DATA.chat_contato.perguntas_extras.splice(idx, 1);
+      }
+      var editor = document.getElementById('app-editor');
+      if (editor) renderChatContatoEditor(editor);
+      syncLive();
+      atualizarSimuladorWpp();
+      toast('🗑️ Pergunta excluída com sucesso!', 'ok');
+    }
+
+    function alternarTipoPerguntaExtra(idx) {
+      var tipoEl = document.getElementById('chat-cfg-extra-tipo-' + idx);
+      var wrapOpcoes = document.getElementById('chat-wrap-extra-opcoes-' + idx);
+      var wrapPh = document.getElementById('chat-wrap-extra-ph-' + idx);
+      if (!tipoEl) return;
+      var isTexto = tipoEl.value === 'texto_livre';
+      if (wrapOpcoes) wrapOpcoes.style.display = isTexto ? 'none' : 'block';
+      if (wrapPh) wrapPh.style.display = isTexto ? 'block' : 'none';
+      syncLive();
     }
 
     function refreshPreview() {
@@ -3343,6 +3673,14 @@
               <div class="lead-detail-label">Página / URL de Origem</div>
               <div class="lead-detail-val" style="font-size:12px;color:var(--text-dim);">${escapeHtml(lead.origem_url || '-')}</div>
             </div>
+            ${lead.respostas_extras && typeof lead.respostas_extras === 'object' && Object.keys(lead.respostas_extras).length > 0 ? Object.entries(lead.respostas_extras).map(function(pair) {
+              return `
+                <div class="lead-detail-item">
+                  <div class="lead-detail-label">${escapeHtml(pair[0])}</div>
+                  <div class="lead-detail-val">${escapeHtml(String(pair[1] || 'Não informado'))}</div>
+                </div>
+              `;
+            }).join('') : ''}
           </div>
 
           <!-- STATUS E OBSERVAÇÃO DO CORRETOR -->
@@ -3451,7 +3789,7 @@
         return;
       }
 
-      var cabecalho = ['ID', 'Data', 'Nome', 'WhatsApp', 'Empreendimento', 'Objetivo', 'Planejamento', 'Forma de Pagamento', 'Visita Agendada', 'Data da Visita', 'Periodo', 'Status', 'Observacao', 'Origem'];
+      var cabecalho = ['ID', 'Data', 'Nome', 'WhatsApp', 'Empreendimento', 'Objetivo', 'Planejamento', 'Forma de Pagamento', 'Visita Agendada', 'Data da Visita', 'Periodo', 'Status', 'Observacao', 'Origem', 'Perguntas Extras'];
       var linhas = [cabecalho.join(';')];
 
       LEADS_DATA.forEach(function(l) {
@@ -3469,7 +3807,8 @@
           '"' + (l.periodo_visita || '') + '"',
           '"' + (l.status || 'Novo') + '"',
           '"' + (l.observacao || '').replace(/"/g, '""') + '"',
-          '"' + (l.origem_url || '') + '"'
+          '"' + (l.origem_url || '') + '"',
+          '"' + (l.respostas_extras ? JSON.stringify(l.respostas_extras).replace(/"/g, '""') : '') + '"'
         ];
         linhas.push(linha.join(';'));
       });

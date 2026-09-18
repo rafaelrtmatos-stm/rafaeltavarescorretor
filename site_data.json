@@ -1042,6 +1042,7 @@
       "botao_texto": "Continuar ›"
     },
     "etapa2": {
+      "ativo": true,
       "transicao": "Prazer, {nome}! 😊 Vou fazer algumas perguntas rápidas para entender seu momento e te apresentar as melhores opções.",
       "pergunta": "Para começar, qual é o seu objetivo com o terreno?",
       "opcao_morar": "Morar",
@@ -1051,6 +1052,7 @@
       "texto_pular": "Pular esta pergunta ›"
     },
     "etapa3": {
+      "ativo": true,
       "pergunta": "E qual é o seu planejamento para essa compra?",
       "opcoes": [
         { "label": "Quero comprar agora se eu gostar", "val": "Quero comprar agora se eu gostar" },
@@ -1063,6 +1065,7 @@
       "texto_pular": "Pular esta pergunta ›"
     },
     "etapa4": {
+      "ativo": true,
       "pergunta": "Para entendermos melhor o que você procura, qual destas opções combina mais com o seu planejamento?",
       "opcoes": [
         { "label": "Tenho o valor para a entrada", "val": "Tenho o valor para a entrada" },
@@ -1074,6 +1077,7 @@
       "permitir_pular": true,
       "texto_pular": "Pular esta pergunta ›"
     },
+    "perguntas_extras": [],
     "etapa5_visita": {
       "ativo": true,
       "pergunta": "Gostaria de conhecer o empreendimento pessoalmente?",
