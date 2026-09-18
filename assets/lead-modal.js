@@ -9,6 +9,154 @@
 
   var NUMERO_RAFAEL = '5593992332012';
 
+  // ── CONFIGURAÇÕES DINÂMICAS DO CHAT (CONFIGURÁVEIS PELO PAINEL ADM) ──
+  var CONFIG_CHAT_PADRAO = {
+    numero_whatsapp: '5593992332012',
+    assistente_nome: 'Assistente do Corretor Rafael',
+    assistente_subtitulo: 'Assistente virtual',
+    assistente_avatar: '/imagens/rafael-foto.jpg',
+    som_habilitado: true,
+    tempo_digitando_ms: 3000,
+    etapa1: {
+      mensagem1: 'Olá! 👋 Sou o assistente virtual do Corretor Rafael. Vou fazer algumas perguntas rápidas para entender o que você procura e facilitar o seu atendimento com ele.',
+      mensagem2: 'Antes de começarmos, como posso te chamar?',
+      placeholder_nome: 'Digite seu nome completo'
+    },
+    etapa2: {
+      transicao: 'Prazer, {nome}! 😊 Vou fazer algumas perguntas rápidas para entender o que você procura e facilitar seu atendimento com o Corretor Rafael.',
+      pergunta: 'Para começar, qual é o seu objetivo com o terreno?',
+      permitir_pular: true,
+      texto_pular: 'Pular esta pergunta ›',
+      opcoes: [
+        { label: '🏠 Morar', val: 'Morar' },
+        { label: '💰 Investir', val: 'Investir' },
+        { label: '🏠💰 Morar e investir', val: 'Morar e investir' }
+      ]
+    },
+    etapa3: {
+      pergunta: 'E qual é o seu planejamento para essa compra?',
+      permitir_pular: true,
+      texto_pular: 'Pular esta pergunta ›',
+      opcoes: [
+        { label: '🔥 Quero comprar agora, se eu gostar', val: 'Quero comprar agora, se eu gostar' },
+        { label: '📅 Daqui a uma semana', val: 'Daqui a uma semana' },
+        { label: '📆 Daqui a um mês', val: 'Daqui a um mês' },
+        { label: '🕐 Mais pra frente', val: 'Mais pra frente' },
+        { label: '🤔 Ainda estou analisando', val: 'Ainda estou analisando' }
+      ]
+    },
+    etapa4: {
+      pergunta: 'Para entendermos melhor o que você procura, qual destas opções combina mais com o seu planejamento?',
+      permitir_pular: true,
+      texto_pular: 'Pular esta pergunta ›',
+      opcoes: [
+        { label: '💵 Tenho o valor para a entrada', val: 'Tenho o valor para a entrada' },
+        { label: '💰 Tenho parte do valor', val: 'Tenho parte do valor' },
+        { label: '🚗 Pretendo negociar uma troca (carro/moto)', val: 'Pretendo negociar uma troca (carro/moto)' },
+        { label: '🤝 Quero negociar à vista, mas dependendo do valor', val: 'Quero negociar à vista, mas dependendo do valor' }
+      ]
+    },
+    etapa5_visita: {
+      ativo: true,
+      pergunta: 'Gostaria de conhecer o empreendimento pessoalmente?',
+      opcao_sim: '🏡 Sim, quero agendar uma visita',
+      opcao_nao: '💬 Prefiro receber mais informações primeiro'
+    },
+    etapa6_data: {
+      pergunta: 'Ótimo! Qual dia fica melhor para você?',
+      permitir_pular: true,
+      texto_pular: 'Pular agendamento de visita ›'
+    },
+    etapa7_horario: {
+      pergunta: 'Qual horário fica melhor para o agendamento da sua visita? (Intervalos de 30 minutos)',
+      msg_expediente_fechado: 'Nosso horário de atendimento é das 08h às 18h e já encerrou por hoje. Vamos agendar para amanhã, dia {data} — qual horário fica melhor?',
+      horarios_manha: '08:30, 09:00, 09:30, 10:00, 10:30, 11:00, 11:30',
+      horarios_tarde: '14:00, 14:30, 15:00, 15:30, 16:00, 16:30, 17:00, 17:30',
+      permitir_pular: true,
+      texto_pular: 'Pular definição de horário ›'
+    },
+    etapa8_final: {
+      mensagem: 'Só falta seu WhatsApp para facilitar o seu atendimento com o Corretor Rafael. 😊',
+      placeholder_tel: 'Seu WhatsApp (ex: 93 99123-4567)',
+      texto_botao: 'CONVERSAR COM O CORRETOR RAFAEL NO WHATSAPP',
+      texto_seguranca: '🔒 Seus dados estão seguros e não enviamos spam.',
+      texto_intro_wpp: 'Vi {empreendimento} no site e tenho interesse.',
+      texto_encerramento_wpp: 'Gostaria de saber mais sobre os terrenos!'
+    }
+  };
+
+  var configChat = JSON.parse(JSON.stringify(CONFIG_CHAT_PADRAO));
+
+  function escapeHtml(str) {
+    if (typeof str !== 'string') return '';
+    return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function aplicarConfigChat(nova) {
+    if (!nova || typeof nova !== 'object') return;
+    for (var k in nova) {
+      if (Object.prototype.hasOwnProperty.call(nova, k)) {
+        if (typeof nova[k] === 'object' && nova[k] !== null && !Array.isArray(nova[k])) {
+          configChat[k] = configChat[k] || {};
+          for (var sub in nova[k]) {
+            if (Object.prototype.hasOwnProperty.call(nova[k], sub)) {
+              configChat[k][sub] = nova[k][sub];
+            }
+          }
+        } else {
+          configChat[k] = nova[k];
+        }
+      }
+    }
+    if (typeof configChat.som_habilitado === 'boolean') {
+      somHabilitado = configChat.som_habilitado;
+    }
+    atualizarCabecalhoModalComConfig();
+  }
+
+  function carregarConfiguracoesChat(cb) {
+    if (window.SITE_DATA && window.SITE_DATA.chat_contato) {
+      aplicarConfigChat(window.SITE_DATA.chat_contato);
+      if (cb) cb();
+      return;
+    }
+    try {
+      fetch('/site_data.json?_=' + Date.now())
+        .then(function (r) {
+          if (!r.ok) throw new Error('Status ' + r.status);
+          return r.json();
+        })
+        .then(function (d) {
+          if (d && d.chat_contato) {
+            aplicarConfigChat(d.chat_contato);
+          }
+          if (cb) cb();
+        })
+        .catch(function () {
+          if (cb) cb();
+        });
+    } catch (e) {
+      if (cb) cb();
+    }
+  }
+
+  // Sincronização em tempo real via postMessage com o painel ADM
+  window.addEventListener('message', function (e) {
+    if (!e.data) return;
+    if (e.data.type === 'UPDATE_DATA' && e.data.data && e.data.data.chat_contato) {
+      aplicarConfigChat(e.data.data.chat_contato);
+    }
+    if (e.data.type === 'ABRIR_CHAT_LEAD') {
+      abrirModal(e.data.empreendimento || null, null, e.data.etapa || 1);
+    }
+    if (e.data.type === 'FECHAR_CHAT_LEAD') {
+      fecharModal();
+    }
+  });
+
+  // Carregar configurações do servidor logo no início
+  carregarConfiguracoesChat();
+
   // Dados coletados do lead
   var leadData = {
     empreendimento: '',
@@ -348,6 +496,17 @@
       pagFrase = 'ainda estou avaliando a forma de pagamento';
     }
 
+    // Fallbacks para opções customizadas adicionadas no painel
+    if (!objFrase && dados.objetivo && dados.objetivo !== 'A definir') {
+      objFrase = 'Objetivo: ' + dados.objetivo;
+    }
+    if (!planFrase && dados.planejamento_compra && dados.planejamento_compra !== 'A definir') {
+      planFrase = 'Planejamento: ' + dados.planejamento_compra;
+    }
+    if (!pagFrase && dados.forma_pagamento && dados.forma_pagamento !== 'A definir') {
+      pagFrase = 'Pagamento: ' + dados.forma_pagamento;
+    }
+
     // Combinar preferências não nulas
     var prefs = [];
     if (objFrase) prefs.push(objFrase);
@@ -384,8 +543,9 @@
       visitaFrase = 'Por enquanto, gostaria de receber mais informações sobre o empreendimento.';
     }
 
-    var introFrase = 'Vi ' + empTexto + ' no site e tenho interesse. ';
-    var encerramento = 'Gostaria de saber mais sobre os terrenos!';
+    var introModelo = (configChat.etapa8_final && configChat.etapa8_final.texto_intro_wpp) || 'Vi {empreendimento} no site e tenho interesse.';
+    var encerramento = (configChat.etapa8_final && configChat.etapa8_final.texto_encerramento_wpp) || 'Gostaria de saber mais sobre os terrenos!';
+    var introFrase = introModelo.replace(/\{empreendimento\}/gi, empTexto) + ' ';
     if (isGeral) {
       introFrase = 'Vi seu site e tenho interesse em conhecer os terrenos disponíveis. ';
       encerramento = 'Gostaria de receber mais informações sobre as opções disponíveis!';
@@ -413,16 +573,16 @@
       '        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>',
       '      </button>',
       '      <div class="lead-avatar-wrap">',
-      '        <img src="/imagens/rafael-foto.jpg" alt="Corretor Rafael" class="lead-chat-avatar" onerror="this.src=\'/apple-touch-icon.png\'">',
+      '        <img src="' + (configChat.assistente_avatar || '/imagens/rafael-foto.jpg') + '" alt="Corretor Rafael" class="lead-chat-avatar" id="lead-header-avatar" onerror="this.src=\'/apple-touch-icon.png\'">',
       '        <span class="lead-online-badge" title="Online agora"></span>',
       '      </div>',
       '      <div class="lead-corretor-meta">',
       '        <div class="lead-corretor-nome-row">',
-      '          <span class="lead-corretor-nome">Assistente do Corretor Rafael</span>',
+      '          <span class="lead-corretor-nome" id="lead-header-nome">' + escapeHtml(configChat.assistente_nome || 'Assistente do Corretor Rafael') + '</span>',
       '          <span class="lead-selo-verificado" title="Consultor Verificado">✓</span>',
       '        </div>',
       '        <span class="lead-corretor-sub" id="lead-header-status">',
-      '          Assistente virtual · <span class="emp-tag" id="lead-header-emp">Jardim Alenquer</span>',
+      '          ' + escapeHtml(configChat.assistente_subtitulo || 'Assistente virtual') + ' · <span class="emp-tag" id="lead-header-emp">Jardim Alenquer</span>',
       '        </span>',
       '      </div>',
       '    </div>',
@@ -481,7 +641,25 @@
       statusEl.innerHTML = '<span class="lead-status-typing">digitando...</span>';
     } else {
       var empNome = leadData.empreendimento || 'Jardim Alenquer';
-      statusEl.innerHTML = 'Assistente virtual · <span class="emp-tag">' + empNome + '</span>';
+      var sub = (configChat && configChat.assistente_subtitulo) ? configChat.assistente_subtitulo : 'Assistente virtual';
+      statusEl.innerHTML = escapeHtml(sub) + ' · <span class="emp-tag" id="lead-header-emp">' + escapeHtml(empNome) + '</span>';
+    }
+  }
+
+  function atualizarCabecalhoModalComConfig() {
+    var nomeEl = document.getElementById('lead-header-nome');
+    if (nomeEl && configChat.assistente_nome) {
+      nomeEl.textContent = configChat.assistente_nome;
+    }
+    var avatarEl = document.getElementById('lead-header-avatar');
+    if (avatarEl && configChat.assistente_avatar) {
+      avatarEl.src = configChat.assistente_avatar;
+    }
+    var statusEl = document.getElementById('lead-header-status');
+    if (statusEl && !statusEl.querySelector('.lead-status-typing')) {
+      var empNome = leadData.empreendimento || 'Jardim Alenquer';
+      var sub = (configChat && configChat.assistente_subtitulo) ? configChat.assistente_subtitulo : 'Assistente virtual';
+      statusEl.innerHTML = escapeHtml(sub) + ' · <span class="emp-tag" id="lead-header-emp">' + escapeHtml(empNome) + '</span>';
     }
   }
 
@@ -838,7 +1016,9 @@
       return;
     }
 
-    // ── ETAPA 1 (Abertura: 1ª mensagem em 3s, 2ª mensagem em mais 3s com sons) ──
+    var delayDigitando = (configChat && configChat.tempo_digitando_ms) ? configChat.tempo_digitando_ms : 3000;
+
+    // ── ETAPA 1 (Abertura: 1ª mensagem em delayDigitando, 2ª mensagem em mais delayDigitando com sons) ──
     if (etapa === 1) {
       definirStatusDigitando(true);
       var typing1 = criarIndicadorDigitando();
@@ -848,12 +1028,13 @@
       agendarTimeout(function () {
         if (typing1 && typing1.parentNode) typing1.remove();
 
-        // 1ª mensagem do Assistente Virtual do Corretor Rafael (chega aos 3s)
-        messagesBox.appendChild(criarBalaoRafael('Olá! 👋 Sou o assistente virtual do Corretor Rafael. Vou fazer algumas perguntas rápidas para entender o que você procura e facilitar o seu atendimento com ele.'));
+        // 1ª mensagem do Assistente Virtual (configurável)
+        var msg1 = (configChat.etapa1 && configChat.etapa1.mensagem1) || 'Olá! 👋 Sou o assistente virtual do Corretor Rafael. Vou fazer algumas perguntas rápidas para entender o que você procura e facilitar o seu atendimento com ele.';
+        messagesBox.appendChild(criarBalaoRafael(msg1));
         tocarSomRecebido();
         rolarParaFinal();
 
-        // Status "digitando..." por mais 3 segundos para a 2ª mensagem
+        // Status "digitando..." por mais delayDigitando para a 2ª mensagem
         definirStatusDigitando(true);
         var typing2 = criarIndicadorDigitando();
         messagesBox.appendChild(typing2);
@@ -863,15 +1044,16 @@
           if (typing2 && typing2.parentNode) typing2.remove();
           definirStatusDigitando(false);
 
-          // 2ª mensagem (chega após mais 3s)
-          messagesBox.appendChild(criarBalaoRafael('Antes de começarmos, como posso te chamar?'));
+          // 2ª mensagem (configurável)
+          var msg2 = (configChat.etapa1 && configChat.etapa1.mensagem2) || 'Antes de começarmos, como posso te chamar?';
+          messagesBox.appendChild(criarBalaoRafael(msg2));
           tocarSomRecebido();
 
           // Renderizar o campo de entrada do nome
           renderizarAcoesNome(messagesBox);
           rolarParaFinal();
-        }, 3000);
-      }, 3000);
+        }, delayDigitando);
+      }, delayDigitando);
       return;
     }
 
@@ -886,11 +1068,12 @@
         if (typing1 && typing1.parentNode) typing1.remove();
 
         var primeiroNome = (leadData.nome || '').trim().split(' ')[0] || 'você';
-        messagesBox.appendChild(criarBalaoRafael('Prazer, ' + primeiroNome + '! 😊 Vou fazer algumas perguntas rápidas para entender o que você procura e facilitar seu atendimento com o Corretor Rafael.'));
+        var modeloTrans = (configChat.etapa2 && configChat.etapa2.transicao) || 'Prazer, {nome}! 😊 Vou fazer algumas perguntas rápidas para entender o que você procura e facilitar seu atendimento com o Corretor Rafael.';
+        messagesBox.appendChild(criarBalaoRafael(modeloTrans.replace(/\{nome\}/gi, primeiroNome)));
         tocarSomRecebido();
         rolarParaFinal();
 
-        // Status "digitando..." por mais 3 segundos para a 2ª mensagem
+        // Status "digitando..." por mais delayDigitando para a 2ª mensagem
         definirStatusDigitando(true);
         var typing2 = criarIndicadorDigitando();
         messagesBox.appendChild(typing2);
@@ -900,17 +1083,24 @@
           if (typing2 && typing2.parentNode) typing2.remove();
           definirStatusDigitando(false);
 
-          messagesBox.appendChild(criarBalaoRafael('Para começar, qual é o seu objetivo com o terreno?'));
+          var msgPerg = (configChat.etapa2 && configChat.etapa2.pergunta) || 'Para começar, qual é o seu objetivo com o terreno?';
+          messagesBox.appendChild(criarBalaoRafael(msgPerg));
           tocarSomRecebido();
 
           renderizarAcoesEtapa2(messagesBox);
           rolarParaFinal();
-        }, 3000);
-      }, 3000);
+        }, delayDigitando);
+      }, delayDigitando);
       return;
     }
 
-    // ── DEMAIS ETAPAS (3 a 8): SEMPRE 3 SEGUNDOS COM STATUS DIGITANDO ──
+    // Se etapa 5 (visita) estiver desativada pelo administrador, pula direto para a etapa 8 (WhatsApp)
+    if (etapa === 5 && configChat.etapa5_visita && configChat.etapa5_visita.ativo === false) {
+      irParaEtapa(8, false);
+      return;
+    }
+
+    // ── DEMAIS ETAPAS (3 a 8): TEMPO DIGITANDO CONFIGURÁVEL ──
     definirStatusDigitando(true);
     var typing = criarIndicadorDigitando();
     messagesBox.appendChild(typing);
@@ -927,7 +1117,7 @@
       tocarSomRecebido();
 
       rolarParaFinal();
-    }, 3000);
+    }, delayDigitando);
   }
 
   // Renderizar o formulário de nome da etapa 1
@@ -936,10 +1126,11 @@
     actionsWrap.className = 'lead-actions-container';
     actionsWrap.id = 'lead-active-actions';
 
+    var placeholderNome = (configChat.etapa1 && configChat.etapa1.placeholder_nome) || 'Digite seu nome completo';
     var card = document.createElement('div');
     card.className = 'lead-input-card';
     card.innerHTML = [
-      '<input type="text" id="chat-input-nome" class="lead-chat-field" placeholder="Digite seu nome completo" autocomplete="name" autocapitalize="words" value="' + (leadData.nome || '') + '">',
+      '<input type="text" id="chat-input-nome" class="lead-chat-field" placeholder="' + escapeHtml(placeholderNome) + '" autocomplete="name" autocapitalize="words" value="' + (leadData.nome || '') + '">',
       '<div id="chat-error-nome" class="lead-error-msg">Por favor, informe seu nome.</div>',
       '<button type="button" id="chat-btn-nome" class="lead-btn-submit-action">',
       '  Continuar <span>→</span>',
@@ -989,30 +1180,35 @@
     actionsWrap.className = 'lead-actions-container';
     actionsWrap.id = 'lead-active-actions';
 
-    var opcoesObj = [
-      { label: '🏠 Morar', val: 'Morar' },
-      { label: '💰 Investir', val: 'Investir' },
-      { label: '🏠💰 Morar e investir', val: 'Morar e investir' }
-    ];
+    var opcoesObj = (configChat.etapa2 && configChat.etapa2.opcoes && configChat.etapa2.opcoes.length)
+      ? configChat.etapa2.opcoes
+      : [
+        { label: '🏠 Morar', val: 'Morar' },
+        { label: '💰 Investir', val: 'Investir' },
+        { label: '🏠💰 Morar e investir', val: 'Morar e investir' }
+      ];
 
     opcoesObj.forEach(function (opt) {
       var btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'lead-choice-btn';
-      btn.innerHTML = '<span class="lead-choice-label">' + opt.label + '</span><span class="lead-choice-arrow">›</span>';
+      btn.innerHTML = '<span class="lead-choice-label">' + escapeHtml(opt.label) + '</span><span class="lead-choice-arrow">›</span>';
       btn.addEventListener('click', function () {
-        leadData.objetivo = opt.val;
+        leadData.objetivo = opt.val || opt.label;
         responderCliente(opt.label, 3);
       });
       actionsWrap.appendChild(btn);
     });
 
     // Botão Pular
-    var btnPular2 = criarBotaoPular('Pular esta pergunta ›', function () {
-      leadData.objetivo = 'A definir';
-      responderCliente('Pulei esta pergunta', 3);
-    });
-    actionsWrap.appendChild(btnPular2);
+    if (!configChat.etapa2 || configChat.etapa2.permitir_pular !== false) {
+      var textoPular = (configChat.etapa2 && configChat.etapa2.texto_pular) || 'Pular esta pergunta ›';
+      var btnPular2 = criarBotaoPular(escapeHtml(textoPular), function () {
+        leadData.objetivo = 'A definir';
+        responderCliente('Pulei esta pergunta', 3);
+      });
+      actionsWrap.appendChild(btnPular2);
+    }
 
     container.appendChild(actionsWrap);
   }
@@ -1030,17 +1226,20 @@
       renderizarConteudoEtapa(etapa, messagesBox);
     }
 
+    var msg1_e1 = (configChat.etapa1 && configChat.etapa1.mensagem1) || 'Olá! 👋 Sou o assistente virtual do Corretor Rafael. Vou fazer algumas perguntas rápidas para entender o que você procura e facilitar o seu atendimento com ele.';
+    var msg2_e1 = (configChat.etapa1 && configChat.etapa1.mensagem2) || 'Antes de começarmos, como posso te chamar?';
+
     if (etapaAlvo === 1) {
-      messagesBox.appendChild(criarBalaoRafael('Olá! 👋 Sou o assistente virtual do Corretor Rafael. Vou fazer algumas perguntas rápidas para entender o que você procura e facilitar o seu atendimento com ele.'));
-      messagesBox.appendChild(criarBalaoRafael('Antes de começarmos, como posso te chamar?'));
+      messagesBox.appendChild(criarBalaoRafael(msg1_e1));
+      messagesBox.appendChild(criarBalaoRafael(msg2_e1));
       if (inserirPillHojeAntes) messagesBox.appendChild(criarDivisorData('Hoje'));
       renderizarAcoesNome(messagesBox);
       rolarParaFinal();
       return;
     }
 
-    messagesBox.appendChild(criarBalaoRafael('Olá! 👋 Sou o assistente virtual do Corretor Rafael. Vou fazer algumas perguntas rápidas para entender o que você procura e facilitar o seu atendimento com ele.'));
-    messagesBox.appendChild(criarBalaoRafael('Antes de começarmos, como posso te chamar?'));
+    messagesBox.appendChild(criarBalaoRafael(msg1_e1));
+    messagesBox.appendChild(criarBalaoRafael(msg2_e1));
     if (leadData.nome) messagesBox.appendChild(criarBalaoCliente(leadData.nome));
 
     if (etapaAlvo === 2) {
@@ -1050,8 +1249,10 @@
     }
 
     var primeiroNome = (leadData.nome || '').trim().split(' ')[0] || 'você';
-    messagesBox.appendChild(criarBalaoRafael('Prazer, ' + primeiroNome + '! 😊 Vou fazer algumas perguntas rápidas para entender o que você procura e facilitar seu atendimento com o Corretor Rafael.'));
-    messagesBox.appendChild(criarBalaoRafael('Para começar, qual é o seu objetivo com o terreno?'));
+    var trans_e2 = (configChat.etapa2 && configChat.etapa2.transicao) || 'Prazer, {nome}! 😊 Vou fazer algumas perguntas rápidas para entender o que você procura e facilitar seu atendimento com o Corretor Rafael.';
+    var perg_e2 = (configChat.etapa2 && configChat.etapa2.pergunta) || 'Para começar, qual é o seu objetivo com o terreno?';
+    messagesBox.appendChild(criarBalaoRafael(trans_e2.replace(/\{nome\}/gi, primeiroNome)));
+    messagesBox.appendChild(criarBalaoRafael(perg_e2));
     if (leadData.objetivo) messagesBox.appendChild(criarBalaoCliente(leadData.objetivo));
 
     if (etapaAlvo === 3) {
@@ -1060,7 +1261,8 @@
       return;
     }
 
-    messagesBox.appendChild(criarBalaoRafael('E qual é o seu planejamento para essa compra?'));
+    var perg_e3 = (configChat.etapa3 && configChat.etapa3.pergunta) || 'E qual é o seu planejamento para essa compra?';
+    messagesBox.appendChild(criarBalaoRafael(perg_e3));
     if (leadData.planejamento_compra) messagesBox.appendChild(criarBalaoCliente(leadData.planejamento_compra));
 
     if (etapaAlvo === 4) {
@@ -1069,7 +1271,8 @@
       return;
     }
 
-    messagesBox.appendChild(criarBalaoRafael('Para entendermos melhor o que você procura, qual destas opções combina mais com o seu planejamento?'));
+    var perg_e4 = (configChat.etapa4 && configChat.etapa4.pergunta) || 'Para entendermos melhor o que você procura, qual destas opções combina mais com o seu planejamento?';
+    messagesBox.appendChild(criarBalaoRafael(perg_e4));
     if (leadData.forma_pagamento) messagesBox.appendChild(criarBalaoCliente(leadData.forma_pagamento));
 
     if (etapaAlvo === 5) {
@@ -1078,11 +1281,14 @@
       return;
     }
 
-    messagesBox.appendChild(criarBalaoRafael('Gostaria de conhecer o empreendimento pessoalmente?'));
+    var perg_e5 = (configChat.etapa5_visita && configChat.etapa5_visita.pergunta) || 'Gostaria de conhecer o empreendimento pessoalmente?';
+    var lblSim_e5 = (configChat.etapa5_visita && configChat.etapa5_visita.opcao_sim) || '🏡 Sim, quero agendar uma visita';
+    var lblNao_e5 = (configChat.etapa5_visita && configChat.etapa5_visita.opcao_nao) || '💬 Prefiro receber mais informações primeiro';
+    messagesBox.appendChild(criarBalaoRafael(perg_e5));
     if (leadData.quer_visitar) {
-      messagesBox.appendChild(criarBalaoCliente('🏡 Sim, quero agendar uma visita'));
+      messagesBox.appendChild(criarBalaoCliente(lblSim_e5));
     } else {
-      messagesBox.appendChild(criarBalaoCliente('💬 Prefiro receber mais informações primeiro'));
+      messagesBox.appendChild(criarBalaoCliente(lblNao_e5));
     }
 
     if (etapaAlvo === 6) {
@@ -1092,7 +1298,8 @@
     }
 
     if (leadData.quer_visitar) {
-      messagesBox.appendChild(criarBalaoRafael('Ótimo! Qual dia fica melhor para você?'));
+      var perg_e6 = (configChat.etapa6_calendario && configChat.etapa6_calendario.pergunta) || 'Ótimo! Qual dia fica melhor para você?';
+      messagesBox.appendChild(criarBalaoRafael(perg_e6));
       if (leadData.data_visita) messagesBox.appendChild(criarBalaoCliente('📅 Dia ' + leadData.data_visita));
 
       if (etapaAlvo === 7) {
@@ -1101,7 +1308,8 @@
         return;
       }
 
-      messagesBox.appendChild(criarBalaoRafael('Qual horário fica melhor para o agendamento da sua visita? (Intervalos de 30 minutos)'));
+      var perg_e7 = (configChat.etapa7_horario && configChat.etapa7_horario.pergunta) || 'Qual horário fica melhor para o agendamento da sua visita? (Intervalos de 30 minutos)';
+      messagesBox.appendChild(criarBalaoRafael(perg_e7));
       if (leadData.horario_visita || leadData.periodo_visita) {
         messagesBox.appendChild(criarBalaoCliente('🕒 Horário agendado: ' + (leadData.horario_visita || leadData.periodo_visita)));
       }
@@ -1125,79 +1333,93 @@
       return;
     }
 
-    // ── ETAPA 2: OBJETIVO (Morar, Investir, Morar e investir) ──
+    // ── ETAPA 2: OBJETIVO ──
     if (etapa === 2) {
       var primeiroNome = (leadData.nome || '').trim().split(' ')[0] || 'você';
-      container.appendChild(criarBalaoRafael('Prazer, ' + primeiroNome + '! 😊 Vou fazer algumas perguntas rápidas para entender o que você procura e facilitar seu atendimento com o Corretor Rafael.'));
-      container.appendChild(criarBalaoRafael('Para começar, qual é o seu objetivo com o terreno?'));
+      var trans_e2 = (configChat.etapa2 && configChat.etapa2.transicao) || 'Prazer, {nome}! 😊 Vou fazer algumas perguntas rápidas para entender o que você procura e facilitar seu atendimento com o Corretor Rafael.';
+      var perg_e2 = (configChat.etapa2 && configChat.etapa2.pergunta) || 'Para começar, qual é o seu objetivo com o terreno?';
+      container.appendChild(criarBalaoRafael(trans_e2.replace(/\{nome\}/gi, primeiroNome)));
+      container.appendChild(criarBalaoRafael(perg_e2));
       renderizarAcoesEtapa2(container);
       return;
     }
 
     // ── ETAPA 3: PLANEJAMENTO ──
     if (etapa === 3) {
-      container.appendChild(criarBalaoRafael('E qual é o seu planejamento para essa compra?'));
+      var perg_e3 = (configChat.etapa3 && configChat.etapa3.pergunta) || 'E qual é o seu planejamento para essa compra?';
+      container.appendChild(criarBalaoRafael(perg_e3));
 
-      var opcoesPlan = [
-        { label: '🔥 Quero comprar agora, se eu gostar', val: 'Quero comprar agora, se eu gostar' },
-        { label: '📅 Daqui a uma semana', val: 'Daqui a uma semana' },
-        { label: '📆 Daqui a um mês', val: 'Daqui a um mês' },
-        { label: '🕐 Mais pra frente', val: 'Mais pra frente' },
-        { label: '🤔 Ainda estou analisando', val: 'Ainda estou analisando' }
-      ];
+      var opcoesPlan = (configChat.etapa3 && configChat.etapa3.opcoes && configChat.etapa3.opcoes.length)
+        ? configChat.etapa3.opcoes
+        : [
+          { label: '🔥 Quero comprar agora, se eu gostar', val: 'Quero comprar agora, se eu gostar' },
+          { label: '📅 Daqui a uma semana', val: 'Daqui a uma semana' },
+          { label: '📆 Daqui a um mês', val: 'Daqui a um mês' },
+          { label: '🕐 Mais pra frente', val: 'Mais pra frente' },
+          { label: '🤔 Ainda estou analisando', val: 'Ainda estou analisando' }
+        ];
 
       opcoesPlan.forEach(function (opt) {
         var btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'lead-choice-btn';
-        btn.innerHTML = '<span class="lead-choice-label">' + opt.label + '</span><span class="lead-choice-arrow">›</span>';
+        btn.innerHTML = '<span class="lead-choice-label">' + escapeHtml(opt.label) + '</span><span class="lead-choice-arrow">›</span>';
         btn.addEventListener('click', function () {
-          leadData.planejamento_compra = opt.val;
+          leadData.planejamento_compra = opt.val || opt.label;
           responderCliente(opt.label, 4);
         });
         actionsWrap.appendChild(btn);
       });
 
       // Botão Pular
-      var btnPular3 = criarBotaoPular('Pular esta pergunta ›', function () {
-        leadData.planejamento_compra = 'A definir';
-        responderCliente('Pulei esta pergunta', 4);
-      });
-      actionsWrap.appendChild(btnPular3);
+      if (!configChat.etapa3 || configChat.etapa3.permitir_pular !== false) {
+        var textoPular3 = (configChat.etapa3 && configChat.etapa3.texto_pular) || 'Pular esta pergunta ›';
+        var btnPular3 = criarBotaoPular(escapeHtml(textoPular3), function () {
+          leadData.planejamento_compra = 'A definir';
+          responderCliente('Pulei esta pergunta', 4);
+        });
+        actionsWrap.appendChild(btnPular3);
+      }
 
       container.appendChild(actionsWrap);
       return;
     }
 
-    // ── ETAPA 4: FORMA DE PAGAMENTO (SEM "Prefiro pagar parcelado") ──
+    // ── ETAPA 4: FORMA DE PAGAMENTO ──
     if (etapa === 4) {
-      container.appendChild(criarBalaoRafael('Para entendermos melhor o que você procura, qual destas opções combina mais com o seu planejamento?'));
+      var perg_e4 = (configChat.etapa4 && configChat.etapa4.pergunta) || 'Para entendermos melhor o que você procura, qual destas opções combina mais com o seu planejamento?';
+      container.appendChild(criarBalaoRafael(perg_e4));
 
-      var opcoesPag = [
-        { label: '💵 Tenho o valor para a entrada', val: 'Tenho o valor para a entrada' },
-        { label: '💰 Tenho parte do valor', val: 'Tenho parte do valor' },
-        { label: '🚗 Pretendo negociar uma troca (carro/moto)', val: 'Pretendo negociar uma troca (carro/moto)' },
-        { label: '🤝 Quero negociar à vista, mas dependendo do valor', val: 'Quero negociar à vista, mas dependendo do valor' }
-      ];
+      var opcoesPag = (configChat.etapa4 && configChat.etapa4.opcoes && configChat.etapa4.opcoes.length)
+        ? configChat.etapa4.opcoes
+        : [
+          { label: '💵 Tenho o valor para a entrada', val: 'Tenho o valor para a entrada' },
+          { label: '💰 Tenho parte do valor', val: 'Tenho parte do valor' },
+          { label: '🚗 Pretendo negociar uma troca (carro/moto)', val: 'Pretendo negociar uma troca (carro/moto)' },
+          { label: '🤝 Quero negociar à vista, mas dependendo do valor', val: 'Quero negociar à vista, mas dependendo do valor' }
+        ];
 
       opcoesPag.forEach(function (opt) {
         var btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'lead-choice-btn';
-        btn.innerHTML = '<span class="lead-choice-label">' + opt.label + '</span><span class="lead-choice-arrow">›</span>';
+        btn.innerHTML = '<span class="lead-choice-label">' + escapeHtml(opt.label) + '</span><span class="lead-choice-arrow">›</span>';
         btn.addEventListener('click', function () {
-          leadData.forma_pagamento = opt.val;
+          leadData.forma_pagamento = opt.val || opt.label;
           responderCliente(opt.label, 5);
         });
         actionsWrap.appendChild(btn);
       });
 
       // Botão Pular
-      var btnPular4 = criarBotaoPular('Pular esta pergunta ›', function () {
-        leadData.forma_pagamento = 'A definir';
-        responderCliente('Pulei esta pergunta', 5);
-      });
-      actionsWrap.appendChild(btnPular4);
+      if (!configChat.etapa4 || configChat.etapa4.permitir_pular !== false) {
+        var textoPular4 = (configChat.etapa4 && configChat.etapa4.texto_pular) || 'Pular esta pergunta ›';
+        var btnPular4 = criarBotaoPular(escapeHtml(textoPular4), function () {
+          leadData.forma_pagamento = 'A definir';
+          responderCliente('Pulei esta pergunta', 5);
+        });
+        actionsWrap.appendChild(btnPular4);
+      }
 
       container.appendChild(actionsWrap);
       return;
@@ -1205,27 +1427,31 @@
 
     // ── ETAPA 5: VISITA PRESENCIAL ──
     if (etapa === 5) {
-      container.appendChild(criarBalaoRafael('Gostaria de conhecer o empreendimento pessoalmente?'));
+      var perg_e5 = (configChat.etapa5_visita && configChat.etapa5_visita.pergunta) || 'Gostaria de conhecer o empreendimento pessoalmente?';
+      var lblSim_e5 = (configChat.etapa5_visita && configChat.etapa5_visita.opcao_sim) || '🏡 Sim, quero agendar uma visita';
+      var lblNao_e5 = (configChat.etapa5_visita && configChat.etapa5_visita.opcao_nao) || '💬 Prefiro receber mais informações primeiro';
+
+      container.appendChild(criarBalaoRafael(perg_e5));
 
       var btnSim = document.createElement('button');
       btnSim.type = 'button';
       btnSim.className = 'lead-choice-btn';
-      btnSim.innerHTML = '<span class="lead-choice-label">🏡 Sim, quero agendar uma visita</span><span class="lead-choice-arrow">›</span>';
+      btnSim.innerHTML = '<span class="lead-choice-label">' + escapeHtml(lblSim_e5) + '</span><span class="lead-choice-arrow">›</span>';
       btnSim.addEventListener('click', function () {
         leadData.quer_visitar = true;
-        responderCliente('🏡 Sim, quero agendar uma visita', 6);
+        responderCliente(lblSim_e5, 6);
       });
 
       var btnNao = document.createElement('button');
       btnNao.type = 'button';
       btnNao.className = 'lead-choice-btn';
-      btnNao.innerHTML = '<span class="lead-choice-label">💬 Prefiro receber mais informações primeiro</span><span class="lead-choice-arrow">›</span>';
+      btnNao.innerHTML = '<span class="lead-choice-label">' + escapeHtml(lblNao_e5) + '</span><span class="lead-choice-arrow">›</span>';
       btnNao.addEventListener('click', function () {
         leadData.quer_visitar = false;
         leadData.data_visita = null;
         leadData.periodo_visita = null;
         leadData.horario_visita = null;
-        responderCliente('💬 Prefiro receber mais informações primeiro', 8); // Pula calendário e vai direto para WhatsApp
+        responderCliente(lblNao_e5, 8); // Pula calendário e vai direto para WhatsApp
       });
 
       actionsWrap.appendChild(btnSim);
@@ -1236,7 +1462,8 @@
 
     // ── ETAPA 6: CALENDÁRIO DA VISITA ──
     if (etapa === 6) {
-      container.appendChild(criarBalaoRafael('Ótimo! Qual dia fica melhor para você?'));
+      var perg_e6 = (configChat.etapa6_calendario && configChat.etapa6_calendario.pergunta) || 'Ótimo! Qual dia fica melhor para você?';
+      container.appendChild(criarBalaoRafael(perg_e6));
 
       var calCard = document.createElement('div');
       calCard.className = 'lead-chat-calendar-card';
@@ -1256,7 +1483,8 @@
       actionsWrap.appendChild(calCard);
 
       // Botão Pular agendamento
-      var btnPular6 = criarBotaoPular('Pular agendamento de visita ›', function () {
+      var textoPular6 = (configChat.etapa6_calendario && configChat.etapa6_calendario.texto_pular) || 'Pular agendamento de visita ›';
+      var btnPular6 = criarBotaoPular(escapeHtml(textoPular6), function () {
         leadData.quer_visitar = false;
         leadData.data_visita = null;
         leadData.periodo_visita = null;
@@ -1367,12 +1595,14 @@
 
       var isNoiteDepoisDas17 = isHoje && (horaAtual >= 17);
 
+      var perg_e7 = (configChat.etapa7_horario && configChat.etapa7_horario.pergunta) || 'Qual horário fica melhor para o agendamento da sua visita? (Intervalos de 30 minutos)';
+
       if (empurradoParaAmanha) {
         container.appendChild(criarBalaoRafael('Nosso horário de atendimento é das 08h às 18h e já encerrou por hoje. Vamos agendar para amanhã, dia ' + leadData.data_visita + ' — qual horário fica melhor?'));
       } else if (isNoiteDepoisDas17) {
         container.appendChild(criarBalaoRafael('Qual horário fica melhor para o agendamento da sua visita? Como já passa das 17h, selecione o melhor horário a partir da tarde:'));
       } else {
-        container.appendChild(criarBalaoRafael('Qual horário fica melhor para o agendamento da sua visita? (Intervalos de 30 minutos)'));
+        container.appendChild(criarBalaoRafael(perg_e7));
       }
 
       var timeWrap = document.createElement('div');
@@ -1444,12 +1674,15 @@
       actionsWrap.appendChild(timeWrap);
 
       // Botão Pular definição de horário
-      var btnPular7 = criarBotaoPular('Pular definição de horário ›', function () {
-        leadData.horario_visita = 'A combinar';
-        leadData.periodo_visita = 'A combinar';
-        responderCliente('Horário a combinar com o Corretor Rafael', 8);
-      });
-      actionsWrap.appendChild(btnPular7);
+      if (!configChat.etapa7_horario || configChat.etapa7_horario.permitir_pular !== false) {
+        var textoPular7 = (configChat.etapa7_horario && configChat.etapa7_horario.texto_pular) || 'Pular definição de horário ›';
+        var btnPular7 = criarBotaoPular(escapeHtml(textoPular7), function () {
+          leadData.horario_visita = 'A combinar';
+          leadData.periodo_visita = 'A combinar';
+          responderCliente('Horário a combinar com o Corretor Rafael', 8);
+        });
+        actionsWrap.appendChild(btnPular7);
+      }
 
       container.appendChild(actionsWrap);
       return;
@@ -1457,18 +1690,23 @@
 
     // ── ETAPA 8: WHATSAPP FINAL ──
     if (etapa === 8) {
-      container.appendChild(criarBalaoRafael('Só falta seu WhatsApp para facilitar o seu atendimento com o Corretor Rafael. 😊'));
+      var msgWpp = (configChat.etapa8_final && configChat.etapa8_final.mensagem) || 'Só falta seu WhatsApp para facilitar o seu atendimento com o Corretor Rafael. 😊';
+      var placeholderTel = (configChat.etapa8_final && configChat.etapa8_final.placeholder_tel) || 'Seu WhatsApp (ex: 93 99123-4567)';
+      var btnTextoWpp = (configChat.etapa8_final && configChat.etapa8_final.texto_botao) || 'CONVERSAR COM O CORRETOR RAFAEL NO WHATSAPP';
+      var seloSeg = (configChat.etapa8_final && configChat.etapa8_final.selo_seguranca) || 'Seus dados estão seguros e não enviamos spam.';
+
+      container.appendChild(criarBalaoRafael(msgWpp));
 
       var cardWpp = document.createElement('div');
       cardWpp.className = 'lead-input-card';
       cardWpp.innerHTML = [
-        '<input type="tel" id="chat-input-tel" name="tel" class="lead-chat-field" placeholder="Seu WhatsApp (ex: 93 99123-4567)" autocomplete="tel" inputmode="numeric" required value="' + (leadData.telefone || '') + '">',
+        '<input type="tel" id="chat-input-tel" name="tel" class="lead-chat-field" placeholder="' + escapeHtml(placeholderTel) + '" autocomplete="tel" inputmode="numeric" required value="' + (leadData.telefone || '') + '">',
         '<div id="chat-error-tel" class="lead-error-msg">Por favor, informe um número de WhatsApp válido com DDD.</div>',
         '<button type="button" id="chat-btn-final" class="lead-btn-submit-action">',
-        '  <span>📲</span> CONVERSAR COM O CORRETOR RAFAEL NO WHATSAPP',
+        '  <span>📲</span> ' + escapeHtml(btnTextoWpp),
         '</button>',
         '<div class="lead-security-badge">',
-        '  <span>🔒</span> Seus dados estão seguros e não enviamos spam.',
+        '  <span>🔒</span> ' + escapeHtml(seloSeg),
         '</div>'
       ].join('');
 
@@ -1537,13 +1775,14 @@
         //    navegadores (principalmente no celular) bloqueiam o pop-up
         //    silenciosamente e o clique parece não fazer nada.
         var mensagemFinal = gerarMensagemWhatsApp(leadData);
-        var wppUrl = 'https://wa.me/' + NUMERO_RAFAEL + '?text=' + encodeURIComponent(mensagemFinal);
+        var numDestino = (configChat.numero_whatsapp || NUMERO_RAFAEL).replace(/\D/g, '');
+        var wppUrl = 'https://wa.me/' + numDestino + '?text=' + encodeURIComponent(mensagemFinal);
 
         fecharModal();
         window.open(wppUrl, '_blank');
 
         btnFinal.disabled = false;
-        btnFinal.innerHTML = '<span>📲</span> CONVERSAR COM O CORRETOR RAFAEL NO WHATSAPP';
+        btnFinal.innerHTML = '<span>📲</span> ' + escapeHtml(btnTextoWpp);
 
         // 2. Salvar Lead no Servidor (API Local / Banco) em segundo plano,
         //    sem bloquear a abertura do WhatsApp.
@@ -1577,6 +1816,7 @@
   // Abrir Modal de Chat
   function abrirModal(empSobrescrito) {
     injetarModalHTML();
+    carregarConfiguracoesChat();
 
     // Limpar temporizadores pendentes e resetar status
     limparTimeouts();
@@ -1759,6 +1999,9 @@
   // Expõe para chamadas manuais se necessário
   window.abrirFormularioLead = abrirModal;
   window.fecharFormularioLead = fecharModal;
+  window.aplicarConfigChat = aplicarConfigChat;
+  window.recarregarConfigChat = carregarConfiguracoesChat;
+  window.obterConfigChat = function () { return JSON.parse(JSON.stringify(configChat)); };
 
   // ── ABERTURA AUTOMÁTICA VIA LINK (?form=1) ──
   // Permite copiar o link do botão "Falar com Rafael" (segurando/long-press ou

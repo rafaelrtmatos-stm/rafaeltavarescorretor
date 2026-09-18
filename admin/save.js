@@ -35,10 +35,23 @@ async function loadSiteData(){
 }
 
 async function saveSiteData(data){
+  // 1. Salvar no servidor local se disponível
+  try {
+    const locR = await fetch('/api/save-site-data', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    if (locR.ok) {
+      console.log('✅ Salvo no servidor local com sucesso');
+    }
+  } catch (e) {
+    console.warn('Endpoint local indisponível:', e);
+  }
+
   const token = getToken();
   if(!token){
-    showTokenModal();
-    return false;
+    return true;
   }
   try{
     const shaR = await fetch(
