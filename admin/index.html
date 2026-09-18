@@ -1334,6 +1334,197 @@
       background: #ef4444;
       color: #fff;
     }
+
+    /* ── NOVO CONSTRUTOR DE FLUXO DE PERGUNTAS ── */
+    .chat-flow-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 18px;
+      overflow: hidden;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .chat-flow-card:hover {
+      border-color: rgba(212, 175, 55, 0.4);
+    }
+    .chat-flow-card.desativado {
+      opacity: 0.65;
+      border-style: dashed;
+    }
+    .chat-flow-header {
+      background: rgba(0, 0, 0, 0.35);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .chat-flow-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 260px;
+    }
+    .chat-flow-num-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 28px;
+      height: 28px;
+      padding: 0 6px;
+      border-radius: 6px;
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 12px;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      flex-shrink: 0;
+    }
+    .chat-flow-title-input {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text);
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      padding: 4px 8px;
+      width: 100%;
+      max-width: 320px;
+      transition: all 0.2s;
+    }
+    .chat-flow-title-input:hover, .chat-flow-title-input:focus {
+      background: var(--bg-surface);
+      border-color: var(--border);
+      color: #fff;
+    }
+    .chat-flow-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .chat-flow-btn-order {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+    .chat-flow-btn-order:hover:not(:disabled) {
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--gold);
+      border-color: rgba(212, 175, 55, 0.4);
+    }
+    .chat-flow-btn-order:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+    .chat-flow-body {
+      padding: 16px;
+    }
+    .chat-balloons-wrapper {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(37, 211, 102, 0.2);
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 16px;
+    }
+    .chat-balloon-item {
+      background: rgba(37, 211, 102, 0.04);
+      border: 1px solid rgba(37, 211, 102, 0.25);
+      border-left: 3px solid #25d366;
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+    }
+    .chat-balloon-item-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #25d366;
+    }
+    .chat-balloon-btn-del {
+      background: transparent;
+      border: none;
+      color: #f87171;
+      font-size: 11px;
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+    .chat-balloon-btn-del:hover {
+      background: rgba(244, 67, 54, 0.2);
+    }
+    .chat-options-wrapper {
+      background: rgba(0, 0, 0, 0.15);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 16px;
+    }
+    .chat-option-item-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .chat-option-item-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .chat-option-btn-del {
+      background: rgba(244, 67, 54, 0.1);
+      border: 1px solid rgba(244, 67, 54, 0.25);
+      color: #f87171;
+      border-radius: 6px;
+      padding: 8px 10px;
+      cursor: pointer;
+      font-size: 11px;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .chat-option-btn-del:hover {
+      background: #ef4444;
+      color: #fff;
+    }
+    .chat-delay-badge-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-size: 11px;
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .chat-delay-badge-btn:hover {
+      background: rgba(212, 175, 55, 0.2);
+      color: var(--gold);
+      border-color: rgba(212, 175, 55, 0.4);
+    }
   </style>
 </head>
 <body>
@@ -2346,6 +2537,102 @@
     }
 
     // 13. BOTÃO DE CONTATO & FLUXO DE CONVERSA (WHATSAPP LEAD MODAL)
+    function obterListaEtapasParaOrdenacao() {
+      var c = (SITE_DATA && SITE_DATA.chat_contato) ? SITE_DATA.chat_contato : {};
+      var pExtras = Array.isArray(c.perguntas_extras) ? c.perguntas_extras : [];
+
+      var catalogo = [
+        { id: 'e1_nome', cardId: 'chat-card-e1', titulo: 'Boas-Vindas & Nome', icon: '👋', badge: 'Etapa 1', ativo: true },
+        { id: 'e2_objetivo', cardId: 'chat-card-e2', titulo: 'Objetivo da Compra', icon: '🎯', badge: 'Etapa 2', ativo: c.etapa2 ? c.etapa2.ativo !== false : true },
+        { id: 'e3_planejamento', cardId: 'chat-card-e3', titulo: 'Planejamento / Urgência', icon: '⏳', badge: 'Etapa 3', ativo: c.etapa3 ? c.etapa3.ativo !== false : true },
+        { id: 'e4_pagamento', cardId: 'chat-card-e4', titulo: 'Condição de Pagamento', icon: '💳', badge: 'Etapa 4', ativo: c.etapa4 ? c.etapa4.ativo !== false : true }
+      ];
+
+      pExtras.forEach(function (pe, idx) {
+        catalogo.push({
+          id: 'extra_' + (idx + 1),
+          cardId: 'chat-card-extras',
+          titulo: pe.pergunta ? (pe.pergunta.length > 40 ? pe.pergunta.slice(0, 40) + '...' : pe.pergunta) : ('Pergunta Extra #' + (idx + 1)),
+          icon: '➕',
+          badge: 'Extra #' + (idx + 1),
+          ativo: pe.ativo !== false
+        });
+      });
+
+      catalogo.push({
+        id: 'e5_visita',
+        cardId: 'chat-card-e5',
+        titulo: 'Agendamento de Visita Presencial',
+        icon: '🏡',
+        badge: 'Etapa 5',
+        ativo: c.etapa5_visita ? c.etapa5_visita.ativo !== false : true
+      });
+
+      var ordemSalva = Array.isArray(c.ordem_etapas) ? c.ordem_etapas : null;
+      if (!ordemSalva || ordemSalva.length === 0) {
+        return catalogo;
+      }
+
+      var map = {};
+      catalogo.forEach(function (item) { map[item.id] = item; });
+      var ordenada = [];
+      ordemSalva.forEach(function (rawId) {
+        var idNorm = rawId;
+        if (idNorm === 1 || idNorm === '1') idNorm = 'e1_nome';
+        if (idNorm === 2 || idNorm === '2') idNorm = 'e2_objetivo';
+        if (idNorm === 3 || idNorm === '3') idNorm = 'e3_planejamento';
+        if (idNorm === 4 || idNorm === '4') idNorm = 'e4_pagamento';
+        if (idNorm === 5 || idNorm === '5') idNorm = 'e5_visita';
+
+        if (map[idNorm]) {
+          ordenada.push(map[idNorm]);
+          delete map[idNorm];
+        }
+      });
+
+      catalogo.forEach(function (item) {
+        if (map[item.id]) {
+          ordenada.push(item);
+          delete map[item.id];
+        }
+      });
+
+      return ordenada;
+    }
+
+    window.moverEtapaFluxo = function (id, direcao) {
+      coletarInputsParaState();
+      SITE_DATA.chat_contato = SITE_DATA.chat_contato || {};
+      var lista = obterListaEtapasParaOrdenacao();
+      var ids = lista.map(function (item) { return item.id; });
+      var idx = ids.indexOf(id);
+      if (idx === -1) return;
+      var novoIdx = idx + direcao;
+      if (novoIdx < 0 || novoIdx >= ids.length) return;
+
+      var temp = ids[idx];
+      ids[idx] = ids[novoIdx];
+      ids[novoIdx] = temp;
+
+      SITE_DATA.chat_contato.ordem_etapas = ids;
+      var editor = document.getElementById('app-editor');
+      if (editor) renderChatContatoEditor(editor);
+      syncLive();
+      atualizarSimuladorWpp();
+      toast('↕️ Ordem da pergunta atualizada no fluxo!', 'ok');
+    };
+
+    window.restaurarOrdemPadraoFluxo = function () {
+      coletarInputsParaState();
+      SITE_DATA.chat_contato = SITE_DATA.chat_contato || {};
+      delete SITE_DATA.chat_contato.ordem_etapas;
+      var editor = document.getElementById('app-editor');
+      if (editor) renderChatContatoEditor(editor);
+      syncLive();
+      atualizarSimuladorWpp();
+      toast('↺ Ordem padrão do fluxo restaurada!', 'ok');
+    };
+
     function renderChatContatoEditor(container) {
       var c = SITE_DATA.chat_contato || {};
       var e1 = c.etapa1 || {};
@@ -2357,6 +2644,20 @@
       var e7 = c.etapa7_horario || {};
       var e8 = c.etapa8_final || {};
       var wppMsg = c.mensagem_whatsapp || {};
+
+      var ordemAtual = obterListaEtapasParaOrdenacao();
+      function getPosicaoEtapa(id) {
+        for (var k = 0; k < ordemAtual.length; k++) {
+          if (ordemAtual[k].id === id) return (k + 1) + 'º no fluxo';
+        }
+        return '';
+      }
+      function getIndiceEtapa(id) {
+        for (var k = 0; k < ordemAtual.length; k++) {
+          if (ordemAtual[k].id === id) return k;
+        }
+        return -1;
+      }
 
       var opcoesE3Txt = (e3.opcoes || []).map(function(o){ return typeof o === 'string' ? o : (o.label || o.val || ''); }).join('\n');
       if (!opcoesE3Txt) {
@@ -2382,20 +2683,36 @@
         extrasListHTML = pExtras.map(function(pe, i) {
           var opcoesPeTxt = (pe.opcoes || []).map(function(o){ return typeof o === 'string' ? o : (o.label || o.val || ''); }).join('\n');
           var isTextoLivre = pe.tipo === 'texto_livre';
+          var extraId = 'extra_' + (i + 1);
+          var posIdx = getIndiceEtapa(extraId);
 
           return `
             <div class="chat-extra-box chat-extra-question-item" data-extra-idx="${i}">
               <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
                 <div style="display:flex;align-items:center;gap:10px;">
                   <span class="chat-step-badge" style="background:rgba(212,175,55,0.15);color:var(--gold);border-color:rgba(212,175,55,0.3);">Pergunta Extra #${i + 1}</span>
+                  <span style="font-size:11.5px;color:var(--gold);background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.25);padding:2px 8px;border-radius:4px;font-weight:600;">
+                    Posição: ${getPosicaoEtapa(extraId)}
+                  </span>
                   <label class="chat-toggle-label" style="font-weight:600;font-size:12.5px;">
                     <input type="checkbox" id="chat-cfg-extra-ativo-${i}" ${pe.ativo !== false ? 'checked' : ''} onchange="syncLive();atualizarSimuladorWpp();">
                     <span>Ativa no fluxo</span>
                   </label>
                 </div>
-                <button type="button" class="chat-btn-delete-question" onclick="removerPerguntaExtra(${i})">
-                  🗑️ Excluir Pergunta
-                </button>
+                <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                  <button type="button" class="btn btn-secondary btn-sm" style="padding:4px 8px;font-size:11.5px;" onclick="moverEtapaFluxo('${extraId}', -1)" ${posIdx === 0 ? 'disabled style="opacity:0.35;cursor:not-allowed;"' : ''} title="Mover para cima no fluxo completo">
+                    ▲ Subir
+                  </button>
+                  <button type="button" class="btn btn-secondary btn-sm" style="padding:4px 8px;font-size:11.5px;" onclick="moverEtapaFluxo('${extraId}', 1)" ${posIdx === ordemAtual.length - 1 ? 'disabled style="opacity:0.35;cursor:not-allowed;"' : ''} title="Mover para baixo no fluxo completo">
+                    ▼ Descer
+                  </button>
+                  <button type="button" class="btn btn-secondary btn-sm" style="padding:4px 8px;font-size:11.5px;" onclick="duplicarPerguntaExtra(${i})" title="Duplicar esta pergunta">
+                    📑 Duplicar
+                  </button>
+                  <button type="button" class="chat-btn-delete-question" onclick="removerPerguntaExtra(${i})">
+                    🗑️ Excluir
+                  </button>
+                </div>
               </div>
 
               <div class="form-grid">
@@ -2453,19 +2770,38 @@
 
         <!-- BANNER DE TESTE EM TEMPO REAL -->
         <div class="chat-preview-banner">
-          <div>
-            <div style="display:flex;align-items:center;gap:8px;font-weight:700;color:var(--text);">
-              <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#25d366;"></span>
+          <div style="flex:1;min-width:240px;">
+            <div style="display:flex;align-items:center;gap:8px;font-weight:700;color:var(--text);font-size:14.5px;">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#25d366;box-shadow:0 0 8px #25d366;"></span>
               Simulador em Tempo Real
             </div>
-            <div style="font-size:12.5px;color:var(--text-dim);margin-top:4px;">
+            <div style="font-size:12.5px;color:var(--text-dim);margin-top:4px;line-height:1.4;">
               Qualquer alteração feita abaixo é sincronizada instantaneamente na prévia ao lado.
             </div>
           </div>
-          <div style="display:flex;gap:8px;">
-            <button type="button" class="chat-quick-btn btn-gold" onclick="testarChatPreview(1)">
-              👁️ Abrir Conversa no Preview
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+            <button type="button" class="chat-quick-btn" style="background:#be123c;color:#fff;font-weight:700;box-shadow:0 2px 8px rgba(190,18,60,0.35);" onclick="resetarSimuladorChat(1)" title="Apaga todas as respostas do teste anterior e reinicia a conversa do início">
+              🔄 Resetar Simulador (Início)
             </button>
+            <button type="button" class="chat-quick-btn btn-gold" onclick="testarChatPreview(1)" title="Abre a conversa na prévia mantendo o ponto atual">
+              👁️ Abrir Conversa
+            </button>
+            <div style="display:inline-flex;align-items:center;gap:4px;background:rgba(0,0,0,0.3);padding:3px 6px;border-radius:var(--radius-sm);border:1px solid rgba(255,255,255,0.08);">
+              <span style="font-size:11px;color:var(--text-dim);font-weight:600;">Pular:</span>
+              <select id="simulador-etapa-sel" style="background:var(--bg-card);color:var(--text);border:1px solid var(--border);border-radius:4px;font-size:11.5px;padding:3px 5px;cursor:pointer;">
+                <option value="1">Etapa 1: Início</option>
+                <option value="2">Etapa 2: Objetivo</option>
+                <option value="3">Etapa 3: Planejamento</option>
+                <option value="4">Etapa 4: Pagamento</option>
+                <option value="5">Etapa 5: Visita</option>
+                <option value="6">Etapa 6: Calendário</option>
+                <option value="7">Etapa 7: Horário</option>
+                <option value="8">Etapa 8: WhatsApp</option>
+              </select>
+              <button type="button" class="chat-quick-btn" style="padding:4px 8px;font-size:11px;background:rgba(212,175,55,0.2);color:var(--gold);border:1px solid rgba(212,175,55,0.4);" onclick="testarEtapaSelecionada()" title="Testar a partir desta etapa selecionada">
+                ▶
+              </button>
+            </div>
           </div>
         </div>
 
@@ -2516,12 +2852,81 @@
           </div>
         </div>
 
+        <!-- CARD DE ORDENAÇÃO GERAL DO FLUXO (REORDENAÇÃO DE TODAS AS ETAPAS) -->
+        <div class="card chat-step-card" id="chat-card-ordem" style="border:1px solid rgba(212,175,55,0.45);background:linear-gradient(180deg, rgba(212,175,55,0.08) 0%, rgba(20,20,20,0.6) 100%);box-shadow:0 4px 18px rgba(0,0,0,0.25);">
+          <div class="card-header" style="flex-wrap:wrap;gap:10px;">
+            <div class="card-title" style="color:var(--gold);">
+              <span class="chat-step-badge" style="background:rgba(212,175,55,0.2);color:var(--gold);border-color:rgba(212,175,55,0.45);">Sequência do Atendimento</span>
+              🔀 Organizar & Reordenar Perguntas do Chat
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="restaurarOrdemPadraoFluxo()" style="font-size:12px;" title="Restaura a sequência padrão do funil">
+              ↺ Restaurar Ordem Padrão
+            </button>
+          </div>
+          <p style="font-size:13px;color:var(--text-dim);margin:0 0 16px 0;line-height:1.55;">
+            Você tem controle total sobre a sequência das perguntas! Use os botões <b>▲ Subir</b> e <b>▼ Descer</b> para mover <b>qualquer pergunta</b> (tanto as perguntas padrão quanto perguntas extras). O chat no site e a mensagem final do WhatsApp seguirão exatamente esta ordem.
+          </p>
+          <div class="chat-order-list" style="display:flex;flex-direction:column;gap:8px;">
+            ${ordemAtual.map(function(item, idx) {
+              return `
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:rgba(255,255,255,0.03);border:1px solid ${item.ativo ? 'rgba(212,175,55,0.28)' : 'rgba(255,255,255,0.08)'};border-radius:8px;padding:10px 14px;flex-wrap:wrap;">
+                  <div style="display:flex;align-items:center;gap:12px;">
+                    <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:rgba(212,175,55,0.18);color:var(--gold);font-weight:700;font-size:12.5px;border:1px solid rgba(212,175,55,0.35);">
+                      ${idx + 1}º
+                    </span>
+                    <div>
+                      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                        <strong style="color:var(--text);font-size:13.5px;">${item.icon} ${escapeHtml(item.titulo)}</strong>
+                        <span class="chat-step-badge" style="font-size:10.5px;padding:2px 7px;">${escapeHtml(item.badge)}</span>
+                        ${item.ativo 
+                          ? '<span style="color:#22c55e;font-size:11.5px;font-weight:600;">● Ativa</span>' 
+                          : '<span style="color:#ef4444;font-size:11.5px;font-weight:600;">○ Desativada</span>'}
+                      </div>
+                    </div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:6px;">
+                    <button type="button" class="btn btn-secondary btn-sm" style="padding:4px 9px;font-size:12px;" onclick="moverEtapaFluxo('${item.id}', -1)" ${idx === 0 ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''} title="Subir esta pergunta no fluxo">
+                      ▲ Subir
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm" style="padding:4px 9px;font-size:12px;" onclick="moverEtapaFluxo('${item.id}', 1)" ${idx === ordemAtual.length - 1 ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''} title="Descer esta pergunta no fluxo">
+                      ▼ Descer
+                    </button>
+                    <button type="button" class="btn btn-outline btn-sm" style="padding:4px 9px;font-size:12px;" onclick="var el = document.getElementById('${item.cardId}'); if(el) el.scrollIntoView({behavior:'smooth'});" title="Rolar até as opções desta etapa">
+                      ✏️ Editar
+                    </button>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+            <div style="display:flex;align-items:center;gap:12px;background:rgba(37,211,102,0.06);border:1px dashed rgba(37,211,102,0.35);border-radius:8px;padding:10px 14px;margin-top:4px;">
+              <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:rgba(37,211,102,0.2);color:#25d366;font-weight:700;font-size:12.5px;">
+                ✓
+              </span>
+              <div style="flex:1;">
+                <strong style="color:#4ade80;font-size:13px;">📲 Etapa Final: Coleta de WhatsApp & Direcionamento</strong>
+                <div style="font-size:11.5px;color:var(--text-dim);">Sempre posicionada no encerramento para garantir que todos os dados preenchidos sejam transmitidos com segurança.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- CARD 2: ETAPA 1 - BOAS-VINDAS E NOME -->
-        <div class="card chat-step-card">
-          <div class="card-header">
+        <div class="card chat-step-card" id="chat-card-e1">
+          <div class="card-header" style="flex-wrap:wrap;gap:8px;">
             <div class="card-title">
               <span class="chat-step-badge">Etapa 1</span>
               👋 Boas-Vindas & Identificação do Cliente
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span style="font-size:11.5px;color:var(--gold);background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.3);padding:3px 8px;border-radius:4px;font-weight:600;">
+                ${getPosicaoEtapa('e1_nome')}
+              </span>
+              <button type="button" class="btn btn-secondary btn-sm" style="padding:3px 7px;font-size:11.5px;" onclick="moverEtapaFluxo('e1_nome', -1)" ${getIndiceEtapa('e1_nome') === 0 ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''} title="Mover para cima no fluxo">
+                ▲ Subir
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" style="padding:3px 7px;font-size:11.5px;" onclick="moverEtapaFluxo('e1_nome', 1)" ${getIndiceEtapa('e1_nome') === ordemAtual.length - 1 ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''} title="Mover para baixo no fluxo">
+                ▼ Descer
+              </button>
             </div>
           </div>
           <div class="form-grid">
@@ -2545,11 +2950,22 @@
         </div>
 
         <!-- CARD 3: ETAPA 2 - OBJETIVO COM O TERRENO -->
-        <div class="card chat-step-card">
-          <div class="card-header">
+        <div class="card chat-step-card" id="chat-card-e2">
+          <div class="card-header" style="flex-wrap:wrap;gap:8px;">
             <div class="card-title">
               <span class="chat-step-badge">Etapa 2</span>
               🎯 Objetivo com o Terreno (Morar / Investir)
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span style="font-size:11.5px;color:var(--gold);background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.3);padding:3px 8px;border-radius:4px;font-weight:600;">
+                ${getPosicaoEtapa('e2_objetivo')}
+              </span>
+              <button type="button" class="btn btn-secondary btn-sm" style="padding:3px 7px;font-size:11.5px;" onclick="moverEtapaFluxo('e2_objetivo', -1)" ${getIndiceEtapa('e2_objetivo') === 0 ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''} title="Mover para cima no fluxo">
+                ▲ Subir
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" style="padding:3px 7px;font-size:11.5px;" onclick="moverEtapaFluxo('e2_objetivo', 1)" ${getIndiceEtapa('e2_objetivo') === ordemAtual.length - 1 ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''} title="Mover para baixo no fluxo">
+                ▼ Descer
+              </button>
             </div>
           </div>
           <div class="chat-step-toggle-bar">
@@ -2595,11 +3011,22 @@
         </div>
 
         <!-- CARD 4: ETAPA 3 - PLANEJAMENTO DE COMPRA -->
-        <div class="card chat-step-card">
-          <div class="card-header">
+        <div class="card chat-step-card" id="chat-card-e3">
+          <div class="card-header" style="flex-wrap:wrap;gap:8px;">
             <div class="card-title">
               <span class="chat-step-badge">Etapa 3</span>
               📅 Planejamento da Compra (Prazo / Momento)
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span style="font-size:11.5px;color:var(--gold);background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.3);padding:3px 8px;border-radius:4px;font-weight:600;">
+                ${getPosicaoEtapa('e3_planejamento')}
+              </span>
+              <button type="button" class="btn btn-secondary btn-sm" style="padding:3px 7px;font-size:11.5px;" onclick="moverEtapaFluxo('e3_planejamento', -1)" ${getIndiceEtapa('e3_planejamento') === 0 ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''} title="Mover para cima no fluxo">
+                ▲ Subir
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" style="padding:3px 7px;font-size:11.5px;" onclick="moverEtapaFluxo('e3_planejamento', 1)" ${getIndiceEtapa('e3_planejamento') === ordemAtual.length - 1 ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''} title="Mover para baixo no fluxo">
+                ▼ Descer
+              </button>
             </div>
           </div>
           <div class="chat-step-toggle-bar">
@@ -2633,11 +3060,22 @@
         </div>
 
         <!-- CARD 5: ETAPA 4 - FORMA DE PAGAMENTO -->
-        <div class="card chat-step-card">
-          <div class="card-header">
+        <div class="card chat-step-card" id="chat-card-e4">
+          <div class="card-header" style="flex-wrap:wrap;gap:8px;">
             <div class="card-title">
               <span class="chat-step-badge">Etapa 4</span>
               💳 Forma de Pagamento & Condições
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span style="font-size:11.5px;color:var(--gold);background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.3);padding:3px 8px;border-radius:4px;font-weight:600;">
+                ${getPosicaoEtapa('e4_pagamento')}
+              </span>
+              <button type="button" class="btn btn-secondary btn-sm" style="padding:3px 7px;font-size:11.5px;" onclick="moverEtapaFluxo('e4_pagamento', -1)" ${getIndiceEtapa('e4_pagamento') === 0 ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''} title="Mover para cima no fluxo">
+                ▲ Subir
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" style="padding:3px 7px;font-size:11.5px;" onclick="moverEtapaFluxo('e4_pagamento', 1)" ${getIndiceEtapa('e4_pagamento') === ordemAtual.length - 1 ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''} title="Mover para baixo no fluxo">
+                ▼ Descer
+              </button>
             </div>
           </div>
           <div class="chat-step-toggle-bar">
@@ -2671,7 +3109,7 @@
         </div>
 
         <!-- CARD: PERGUNTAS EXTRAS / PERSONALIZADAS -->
-        <div class="card chat-step-card" style="border-left-color: var(--gold) !important;">
+        <div class="card chat-step-card" id="chat-card-extras" style="border-left-color: var(--gold) !important;">
           <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
             <div class="card-title">
               <span class="chat-step-badge" style="background:rgba(212,175,55,0.15);color:var(--gold);border-color:rgba(212,175,55,0.3);">Personalizado</span>
@@ -2697,11 +3135,22 @@
         </div>
 
         <!-- CARD 6: ETAPA 5 - VISITA PRESENCIAL -->
-        <div class="card chat-step-card">
-          <div class="card-header">
+        <div class="card chat-step-card" id="chat-card-e5">
+          <div class="card-header" style="flex-wrap:wrap;gap:8px;">
             <div class="card-title">
               <span class="chat-step-badge">Etapa 5</span>
               🏡 Agendamento de Visita Presencial
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span style="font-size:11.5px;color:var(--gold);background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.3);padding:3px 8px;border-radius:4px;font-weight:600;">
+                ${getPosicaoEtapa('e5_visita')}
+              </span>
+              <button type="button" class="btn btn-secondary btn-sm" style="padding:3px 7px;font-size:11.5px;" onclick="moverEtapaFluxo('e5_visita', -1)" ${getIndiceEtapa('e5_visita') === 0 ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''} title="Mover para cima no fluxo">
+                ▲ Subir
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" style="padding:3px 7px;font-size:11.5px;" onclick="moverEtapaFluxo('e5_visita', 1)" ${getIndiceEtapa('e5_visita') === ordemAtual.length - 1 ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''} title="Mover para baixo no fluxo">
+                ▼ Descer
+              </button>
             </div>
           </div>
           <div class="chat-step-toggle-bar">
@@ -2712,6 +3161,7 @@
             <span style="font-size:12px;color:var(--text-dim);">Se desativado, o formulário pula direto para a etapa do WhatsApp</span>
           </div>
           <div class="form-grid">
+            <div class="form-group span-2">
               <label class="form-label">Pergunta Principal</label>
               <input type="text" class="form-control" id="chat-cfg-e5-perg" value="${escapeHtml(e5.pergunta || 'Gostaria de conhecer o empreendimento pessoalmente?')}" oninput="syncLive()">
             </div>
@@ -2837,9 +3287,14 @@
 
         <!-- BOTÕES DE SALVAMENTO FINAL -->
         <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px;gap:12px;flex-wrap:wrap;">
-          <button type="button" class="btn btn-secondary" onclick="testarChatPreview(1)">
-            👁️ Testar Janela no Preview
-          </button>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+            <button type="button" class="btn btn-secondary" style="border-color:rgba(225,29,72,0.4);color:#fda4af;" onclick="resetarSimuladorChat(1)" title="Apagar dados salvos do teste e reiniciar conversa do zero">
+              🔄 Resetar Simulador (Início)
+            </button>
+            <button type="button" class="btn btn-secondary" onclick="testarChatPreview(1)">
+              👁️ Abrir no Preview
+            </button>
+          </div>
           <div style="display:flex;gap:10px;">
             <button type="button" class="btn btn-secondary" onclick="restaurarPadroesChatContato()">
               ↺ Restaurar Padrões
@@ -2873,7 +3328,40 @@
       var editor = document.getElementById('app-editor');
       if (editor) renderChatContatoEditor(editor);
       syncLive();
+      atualizarSimuladorWpp();
       toast('➕ Nova pergunta personalizada adicionada com sucesso!', 'ok');
+    }
+
+    function moverPerguntaExtra(idx, direcao) {
+      coletarInputsParaState();
+      SITE_DATA.chat_contato = SITE_DATA.chat_contato || {};
+      var extras = SITE_DATA.chat_contato.perguntas_extras;
+      if (!Array.isArray(extras)) return;
+      var novoIdx = idx + direcao;
+      if (novoIdx < 0 || novoIdx >= extras.length) return;
+      var temp = extras[idx];
+      extras[idx] = extras[novoIdx];
+      extras[novoIdx] = temp;
+      var editor = document.getElementById('app-editor');
+      if (editor) renderChatContatoEditor(editor);
+      syncLive();
+      atualizarSimuladorWpp();
+      toast('↕️ Ordem da pergunta atualizada!', 'ok');
+    }
+
+    function duplicarPerguntaExtra(idx) {
+      coletarInputsParaState();
+      SITE_DATA.chat_contato = SITE_DATA.chat_contato || {};
+      var extras = SITE_DATA.chat_contato.perguntas_extras;
+      if (!Array.isArray(extras) || !extras[idx]) return;
+      var copia = JSON.parse(JSON.stringify(extras[idx]));
+      copia.pergunta = (copia.pergunta || '') + ' (Cópia)';
+      extras.splice(idx + 1, 0, copia);
+      var editor = document.getElementById('app-editor');
+      if (editor) renderChatContatoEditor(editor);
+      syncLive();
+      atualizarSimuladorWpp();
+      toast('📑 Pergunta duplicada com sucesso!', 'ok');
     }
 
     function removerPerguntaExtra(idx) {
@@ -2885,6 +3373,7 @@
       var editor = document.getElementById('app-editor');
       if (editor) renderChatContatoEditor(editor);
       syncLive();
+      atualizarSimuladorWpp();
       toast('🗑️ Pergunta excluída com sucesso!', 'ok');
     }
 
@@ -2900,6 +3389,8 @@
         if (wrapOp) wrapOp.style.display = '';
         if (wrapPh) wrapPh.style.display = 'none';
       }
+      syncLive();
+      atualizarSimuladorWpp();
     }
 
     function testarChatPreview(etapa) {
@@ -2914,11 +3405,55 @@
             etapa: etapa || 1
           }, '*');
           if (typeof iframe.contentWindow.abrirFormularioLead === 'function') {
-            iframe.contentWindow.abrirFormularioLead(null, null, etapa || 1);
+            iframe.contentWindow.abrirFormularioLead(null, false, etapa || 1);
           }
         } catch(e) {}
       }
       toast('💬 Abrindo simulação da conversa no preview...', 'ok');
+    }
+
+    function resetarSimuladorChat(etapaDesejada) {
+      var et = etapaDesejada || 1;
+      coletarInputsParaState();
+      syncLive();
+      openMobilePreview();
+
+      function dispararReset() {
+        var iframe = document.getElementById('live-preview-iframe');
+        if (!iframe || !iframe.contentWindow) return;
+        try {
+          // Limpeza do localStorage no iframe se mesma origem
+          try {
+            if (iframe.contentWindow.localStorage) {
+              iframe.contentWindow.localStorage.removeItem('rt_lead_conversa_v1');
+            }
+          } catch(errLS) {}
+
+          iframe.contentWindow.postMessage({
+            type: 'RESETAR_CHAT_LEAD',
+            etapa: et
+          }, '*');
+
+          if (typeof iframe.contentWindow.resetarFormularioLead === 'function') {
+            iframe.contentWindow.resetarFormularioLead(null, et);
+          } else if (typeof iframe.contentWindow.abrirFormularioLead === 'function') {
+            iframe.contentWindow.abrirFormularioLead(null, true, et);
+          }
+        } catch(e) {}
+      }
+
+      dispararReset();
+      // Envia uma segunda vez para garantir após abertura/renderização do iframe
+      setTimeout(dispararReset, 180);
+
+      toast('🔄 Simulador resetado! Conversa reiniciada do zero para teste.', 'ok');
+    }
+
+    function testarEtapaSelecionada() {
+      var sel = document.getElementById('simulador-etapa-sel');
+      var et = sel ? parseInt(sel.value, 10) : 1;
+      if (isNaN(et) || et < 1) et = 1;
+      resetarSimuladorChat(et);
     }
 
     function restaurarPadroesChatContato() {
@@ -3091,38 +3626,40 @@
         }
 
         // Coleta de perguntas extras / personalizadas
-        c.perguntas_extras = [];
-        var extraItems = document.querySelectorAll('.chat-extra-question-item');
-        extraItems.forEach(function (item) {
-          var idx = item.getAttribute('data-extra-idx');
-          var pergEl = document.getElementById('chat-cfg-extra-perg-' + idx);
-          var tipoEl = document.getElementById('chat-cfg-extra-tipo-' + idx);
-          var opcoesEl = document.getElementById('chat-cfg-extra-opcoes-' + idx);
-          var phEl = document.getElementById('chat-cfg-extra-ph-' + idx);
-          var pularEl = document.getElementById('chat-cfg-extra-pular-' + idx);
-          var pularTxtEl = document.getElementById('chat-cfg-extra-pular-txt-' + idx);
-          var ativoEl = document.getElementById('chat-cfg-extra-ativo-' + idx);
+        if (document.getElementById('chat-extra-questions-container')) {
+          c.perguntas_extras = [];
+          var extraItems = document.querySelectorAll('.chat-extra-question-item');
+          extraItems.forEach(function (item) {
+            var idx = item.getAttribute('data-extra-idx');
+            var pergEl = document.getElementById('chat-cfg-extra-perg-' + idx);
+            var tipoEl = document.getElementById('chat-cfg-extra-tipo-' + idx);
+            var opcoesEl = document.getElementById('chat-cfg-extra-opcoes-' + idx);
+            var phEl = document.getElementById('chat-cfg-extra-ph-' + idx);
+            var pularEl = document.getElementById('chat-cfg-extra-pular-' + idx);
+            var pularTxtEl = document.getElementById('chat-cfg-extra-pular-txt-' + idx);
+            var ativoEl = document.getElementById('chat-cfg-extra-ativo-' + idx);
 
-          if (pergEl) {
-            var q = {
-              ativo: ativoEl ? ativoEl.checked : true,
-              pergunta: pergEl.value,
-              tipo: tipoEl ? tipoEl.value : 'opcoes',
-              permitir_pular: pularEl ? pularEl.checked : true,
-              texto_pular: pularTxtEl ? pularTxtEl.value : 'Pular esta pergunta ›'
-            };
-            if (q.tipo === 'texto_livre') {
-              q.placeholder = phEl ? phEl.value : 'Digite sua resposta...';
-              q.opcoes = [];
-            } else {
-              q.placeholder = '';
-              q.opcoes = opcoesEl ? opcoesEl.value.split('\n').map(function(s){ return s.trim(); }).filter(Boolean).map(function(s){
-                return { label: s, val: s };
-              }) : [];
+            if (pergEl) {
+              var q = {
+                ativo: ativoEl ? ativoEl.checked : true,
+                pergunta: pergEl.value,
+                tipo: tipoEl ? tipoEl.value : 'opcoes',
+                permitir_pular: pularEl ? pularEl.checked : true,
+                texto_pular: pularTxtEl ? pularTxtEl.value : 'Pular esta pergunta ›'
+              };
+              if (q.tipo === 'texto_livre') {
+                q.placeholder = phEl ? phEl.value : 'Digite sua resposta...';
+                q.opcoes = [];
+              } else {
+                q.placeholder = '';
+                q.opcoes = opcoesEl ? opcoesEl.value.split('\n').map(function(s){ return s.trim(); }).filter(Boolean).map(function(s){
+                  return { label: s, val: s };
+                }) : [];
+              }
+              c.perguntas_extras.push(q);
             }
-            c.perguntas_extras.push(q);
-          }
-        });
+          });
+        }
 
         c.etapa5_visita = c.etapa5_visita || {};
         var e5AtivoEl = document.getElementById('chat-cfg-e5-ativo'); if (e5AtivoEl) c.etapa5_visita.ativo = e5AtivoEl.checked;
@@ -3163,33 +3700,30 @@
       var saudacao = intro.replace(/\{nome\}/gi, 'Maria Silva').replace(/\{empreendimento\}/gi, 'Residencial Bela Vista');
       var despedida = outro.replace(/\{nome\}/gi, 'Maria Silva').replace(/\{empreendimento\}/gi, 'Residencial Bela Vista');
 
-      var e2Ativo = document.getElementById('chat-cfg-e2-ativo') ? document.getElementById('chat-cfg-e2-ativo').checked : true;
-      var e3Ativo = document.getElementById('chat-cfg-e3-ativo') ? document.getElementById('chat-cfg-e3-ativo').checked : true;
-      var e4Ativo = document.getElementById('chat-cfg-e4-ativo') ? document.getElementById('chat-cfg-e4-ativo').checked : true;
-      var e5Ativo = document.getElementById('chat-cfg-e5-ativo') ? document.getElementById('chat-cfg-e5-ativo').checked : true;
+      var listaEtapas = typeof obterListaEtapasParaOrdenacao === 'function' ? obterListaEtapasParaOrdenacao() : [];
 
       var texto = '';
       if (estilo === 'organizado') {
         var linhas = [saudacao, '', '📌 *Interesse:* Residencial Bela Vista'];
-        if (e2Ativo) linhas.push('• *Objetivo:* Morar');
-        if (e3Ativo) linhas.push('• *Planejamento:* Quero comprar agora se eu gostar');
-        if (e4Ativo) linhas.push('• *Pagamento:* Tenho o valor para a entrada');
 
-        // Incluir perguntas extras ativas no simulador
-        var extraItems = document.querySelectorAll('.chat-extra-question-item');
-        if (extraItems.length > 0) {
-          extraItems.forEach(function(item) {
-            var idx = item.getAttribute('data-extra-idx');
-            var ativoEl = document.getElementById('chat-cfg-extra-ativo-' + idx);
-            var pergEl = document.getElementById('chat-cfg-extra-perg-' + idx);
-            if (ativoEl && ativoEl.checked && pergEl && pergEl.value.trim()) {
-              var pNome = pergEl.value.trim().replace(/[:?]$/, '');
-              linhas.push('• *' + pNome + ':* Resposta exemplo');
-            }
-          });
-        }
+        listaEtapas.forEach(function(item) {
+          if (!item.ativo) return;
+          if (item.id === 'e2_objetivo') {
+            linhas.push('• *Objetivo:* Morar');
+          } else if (item.id === 'e3_planejamento') {
+            linhas.push('• *Planejamento:* Quero comprar agora se eu gostar');
+          } else if (item.id === 'e4_pagamento') {
+            linhas.push('• *Pagamento:* Tenho o valor para a entrada');
+          } else if (item.id.indexOf('extra_') === 0) {
+            var exIdx = parseInt(item.id.replace('extra_', ''), 10) - 1;
+            var pergEl = document.getElementById('chat-cfg-extra-perg-' + exIdx);
+            var pNome = (pergEl && pergEl.value.trim()) ? pergEl.value.trim().replace(/[:?]$/, '') : item.titulo;
+            linhas.push('• *' + pNome + ':* Resposta exemplo');
+          } else if (item.id === 'e5_visita') {
+            linhas.push('• *Visita presencial:* Agendada para 25/09 às 15:30');
+          }
+        });
 
-        if (e5Ativo) linhas.push('• *Visita presencial:* Agendada para 25/09 às 15:30');
         if (despedida) {
           linhas.push('');
           linhas.push(despedida);
@@ -3197,23 +3731,25 @@
         texto = linhas.join('\n');
       } else {
         var partes = ['Olá, Corretor Rafael! Meu nome é Maria Silva. Vi o Residencial Bela Vista no site e tenho interesse.'];
-        if (e2Ativo) partes.push('Quero comprar para morar.');
-        if (e3Ativo) partes.push('Meu planejamento é comprar agora se eu gostar.');
-        if (e4Ativo) partes.push('Tenho o valor para a entrada.');
 
-        var extraItems = document.querySelectorAll('.chat-extra-question-item');
-        if (extraItems.length > 0) {
-          extraItems.forEach(function(item) {
-            var idx = item.getAttribute('data-extra-idx');
-            var ativoEl = document.getElementById('chat-cfg-extra-ativo-' + idx);
-            var pergEl = document.getElementById('chat-cfg-extra-perg-' + idx);
-            if (ativoEl && ativoEl.checked && pergEl && pergEl.value.trim()) {
-              partes.push(pergEl.value.trim() + ': Resposta exemplo.');
-            }
-          });
-        }
+        listaEtapas.forEach(function(item) {
+          if (!item.ativo) return;
+          if (item.id === 'e2_objetivo') {
+            partes.push('Quero comprar para morar.');
+          } else if (item.id === 'e3_planejamento') {
+            partes.push('Meu planejamento é comprar agora se eu gostar.');
+          } else if (item.id === 'e4_pagamento') {
+            partes.push('Tenho o valor para a entrada.');
+          } else if (item.id.indexOf('extra_') === 0) {
+            var exIdx = parseInt(item.id.replace('extra_', ''), 10) - 1;
+            var pergEl = document.getElementById('chat-cfg-extra-perg-' + exIdx);
+            var pNome = (pergEl && pergEl.value.trim()) ? pergEl.value.trim().replace(/[:?]$/, '') : item.titulo;
+            partes.push(pNome + ': Resposta exemplo.');
+          } else if (item.id === 'e5_visita') {
+            partes.push('Gostaria de agendar uma visita ao empreendimento no dia 25/09 às 15:30.');
+          }
+        });
 
-        if (e5Ativo) partes.push('Gostaria de agendar uma visita ao empreendimento no dia 25/09 às 15:30.');
         if (despedida) partes.push(despedida);
         texto = partes.join(' ');
       }
@@ -3224,57 +3760,14 @@
         + '</div>';
     }
 
-    // ── GESTÃO DE PERGUNTAS EXTRAS DO CHAT ──
-    function adicionarPerguntaExtra() {
-      coletarInputsParaState();
-      SITE_DATA.chat_contato = SITE_DATA.chat_contato || {};
-      SITE_DATA.chat_contato.perguntas_extras = Array.isArray(SITE_DATA.chat_contato.perguntas_extras) ? SITE_DATA.chat_contato.perguntas_extras : [];
-      SITE_DATA.chat_contato.perguntas_extras.push({
-        ativo: true,
-        pergunta: 'Pergunta adicional',
-        tipo: 'opcoes',
-        opcoes: [
-          { label: 'Sim', val: 'Sim' },
-          { label: 'Não', val: 'Não' }
-        ],
-        placeholder: '',
-        permitir_pular: true,
-        texto_pular: 'Pular esta pergunta ›'
-      });
-      var editor = document.getElementById('app-editor');
-      if (editor) renderChatContatoEditor(editor);
-      syncLive();
-      atualizarSimuladorWpp();
-      toast('➕ Pergunta extra adicionada ao formulário!', 'ok');
-    }
-
-    function removerPerguntaExtra(idx) {
-      if (!confirm('Deseja realmente excluir esta pergunta do formulário?')) return;
-      coletarInputsParaState();
-      if (SITE_DATA.chat_contato && Array.isArray(SITE_DATA.chat_contato.perguntas_extras)) {
-        SITE_DATA.chat_contato.perguntas_extras.splice(idx, 1);
-      }
-      var editor = document.getElementById('app-editor');
-      if (editor) renderChatContatoEditor(editor);
-      syncLive();
-      atualizarSimuladorWpp();
-      toast('🗑️ Pergunta excluída com sucesso!', 'ok');
-    }
-
-    function alternarTipoPerguntaExtra(idx) {
-      var tipoEl = document.getElementById('chat-cfg-extra-tipo-' + idx);
-      var wrapOpcoes = document.getElementById('chat-wrap-extra-opcoes-' + idx);
-      var wrapPh = document.getElementById('chat-wrap-extra-ph-' + idx);
-      if (!tipoEl) return;
-      var isTexto = tipoEl.value === 'texto_livre';
-      if (wrapOpcoes) wrapOpcoes.style.display = isTexto ? 'none' : 'block';
-      if (wrapPh) wrapPh.style.display = isTexto ? 'block' : 'none';
-      syncLive();
-    }
-
     function refreshPreview() {
       var iframe = document.getElementById('live-preview-iframe');
       if (iframe) {
+        try {
+          if (iframe.contentWindow && iframe.contentWindow.localStorage) {
+            iframe.contentWindow.localStorage.removeItem('rt_lead_conversa_v1');
+          }
+        } catch(e) {}
         iframe.src = '/?_=' + Date.now();
         toast('🔄 Prévia atualizada!', 'ok');
       }

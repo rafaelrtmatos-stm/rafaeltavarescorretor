@@ -207,6 +207,32 @@
   flex-shrink: 0;
 }
 
+/* Botão Reiniciar / Reset da Conversa */
+.lead-chat-btn-reset {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 15px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+  padding: 0;
+}
+.lead-chat-btn-reset:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
+  transform: rotate(-180deg);
+}
+.lead-chat-btn-reset:active {
+  transform: rotate(-360deg) scale(0.92);
+}
+
 /* Botão de Som */
 .lead-chat-btn-som {
   background: none;
