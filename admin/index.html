@@ -236,9 +236,84 @@
       display: flex;
       flex-direction: column;
       flex-shrink: 0;
-      overflow-y: auto;
+      overflow: hidden;
       transition: var(--transition);
       z-index: 90;
+    }
+    .sidebar-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      z-index: 210;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      cursor: pointer;
+    }
+    .sidebar-backdrop.active {
+      display: block;
+      opacity: 1;
+    }
+    .sidebar-mobile-header {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      background: rgba(22, 27, 34, 0.98);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .sidebar-mobile-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .sidebar-close-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: var(--transition);
+    }
+    .sidebar-close-btn:hover {
+      background: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+      border-color: rgba(239, 68, 68, 0.4);
+    }
+    .sidebar-search-box {
+      padding: 10px 14px 4px;
+      flex-shrink: 0;
+    }
+    .sidebar-search-input {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 12.5px;
+      padding: 8px 12px;
+      outline: none;
+      transition: var(--transition);
+      box-sizing: border-box;
+    }
+    .sidebar-search-input:focus {
+      border-color: var(--gold);
+      background: rgba(212, 175, 55, 0.06);
+    }
+    .sidebar-scroll-area {
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      flex: 1;
+      padding-bottom: 24px;
     }
     .sidebar-section {
       padding: 14px 12px 6px;
@@ -251,6 +326,7 @@
       color: var(--gold);
       padding: 0 10px 8px;
       opacity: 0.85;
+      user-select: none;
     }
     .nav-item {
       display: flex;
@@ -266,6 +342,7 @@
       margin-bottom: 2px;
       transition: var(--transition);
       border: 1px solid transparent;
+      user-select: none;
     }
     .nav-item:hover {
       background: var(--bg-card);
@@ -281,6 +358,7 @@
       font-size: 16px;
       width: 20px;
       text-align: center;
+      flex-shrink: 0;
     }
     .nav-badge {
       margin-left: auto;
@@ -289,6 +367,7 @@
       border-radius: 10px;
       background: rgba(255,255,255,0.07);
       color: var(--text-muted);
+      flex-shrink: 0;
     }
     .nav-badge.gold {
       background: var(--gold);
@@ -599,34 +678,63 @@
       left: 0;
       right: 0;
       height: 60px;
-      background: rgba(17, 20, 26, 0.95);
-      backdrop-filter: blur(16px);
-      border-top: 1px solid var(--border);
+      background: rgba(15, 18, 24, 0.96);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-top: 1px solid rgba(212, 175, 55, 0.22);
       z-index: 150;
       align-items: center;
       justify-content: space-around;
-      padding: 0 10px;
+      padding: 0 4px;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
     }
     .mobile-nav-btn {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 3px;
+      gap: 2px;
       background: none;
       border: none;
       color: var(--text-muted);
-      font-size: 11px;
+      font-size: 10px;
       font-family: inherit;
       cursor: pointer;
-      padding: 6px 12px;
+      padding: 6px 6px;
       border-radius: 8px;
+      position: relative;
+      min-width: 52px;
+      transition: var(--transition);
+      user-select: none;
+    }
+    .mobile-nav-btn:hover {
+      color: var(--text);
     }
     .mobile-nav-btn.active {
       color: var(--gold);
+      font-weight: 700;
     }
     .mobile-nav-btn span.icon {
       font-size: 18px;
+      line-height: 1.1;
+    }
+    .mobile-nav-badge {
+      position: absolute;
+      top: 3px;
+      right: 8px;
+      background: var(--gold);
+      color: #000;
+      font-size: 9px;
+      font-weight: 800;
+      min-width: 15px;
+      height: 15px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 3px;
+      line-height: 1;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
     }
 
     /* ── FLOATING MOBILE PREVIEW TRIGGER ── */
@@ -767,29 +875,125 @@
     }
 
     @media (max-width: 768px) {
-      .menu-toggle-btn {
-        display: flex;
+      .app-header {
+        padding: 0 12px;
+        height: 56px;
       }
-      .app-sidebar {
-        position: fixed;
-        left: -100%;
-        top: var(--header-h);
-        bottom: 60px;
-        width: 280px;
-        z-index: 180;
-        box-shadow: 10px 0 30px rgba(0,0,0,0.8);
+      .header-left {
+        gap: 8px;
+        min-width: 0;
       }
-      .app-sidebar.open {
-        left: 0;
+      .brand-group {
+        gap: 8px;
+        min-width: 0;
       }
-      .mobile-bottom-bar {
-        display: flex;
+      .brand-avatar {
+        width: 32px;
+        height: 32px;
+        flex-shrink: 0;
       }
-      .app-editor {
-        padding: 16px 14px 90px;
+      .brand-text {
+        min-width: 0;
+      }
+      .brand-text h1 {
+        font-size: 15px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .brand-text p {
+        display: none;
+      }
+      .header-right {
+        gap: 6px;
+        flex-shrink: 0;
       }
       .header-right .preview-mode-switch {
         display: none;
+      }
+      .save-main-btn {
+        padding: 7px 12px;
+        font-size: 12px;
+        gap: 5px;
+        border-radius: 16px;
+        white-space: nowrap;
+        box-shadow: 0 3px 10px rgba(212, 175, 55, 0.3);
+      }
+      .save-main-btn .btn-label-desktop {
+        display: none;
+      }
+      .save-main-btn .btn-label-mobile {
+        display: inline !important;
+      }
+      .menu-toggle-btn {
+        display: flex;
+        width: 38px;
+        height: 38px;
+        flex-shrink: 0;
+        border-color: rgba(212, 175, 55, 0.35);
+      }
+
+      /* Mobile Drawer Navigation */
+      .app-sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: min(320px, 86vw);
+        max-width: 340px;
+        height: 100vh;
+        height: 100dvh;
+        z-index: 220;
+        box-shadow: 15px 0 45px rgba(0, 0, 0, 0.9);
+        transform: translateX(-105%);
+        transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+        border-right: 1px solid var(--gold-border);
+      }
+      .app-sidebar.open {
+        transform: translateX(0);
+      }
+      .sidebar-mobile-header {
+        display: flex;
+      }
+      .sidebar-scroll-area {
+        padding-bottom: calc(110px + env(safe-area-inset-bottom, 20px));
+      }
+      .nav-item {
+        padding: 11px 14px;
+        font-size: 13.5px;
+        min-height: 44px;
+      }
+
+      /* Mobile Bottom Navigation Bar */
+      .mobile-bottom-bar {
+        display: flex;
+        height: calc(58px + env(safe-area-inset-bottom, 0px));
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      .app-editor {
+        padding: 14px 12px calc(90px + env(safe-area-inset-bottom, 20px));
+      }
+      .mobile-preview-fab {
+        bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+        right: 14px;
+        padding: 10px 16px;
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .app-header {
+        padding: 0 10px;
+      }
+      .save-main-btn {
+        padding: 6px 10px;
+        font-size: 11.5px;
+      }
+      .card {
+        padding: 16px 14px;
+      }
+      .editor-title {
+        font-size: 22px;
       }
     }
 
@@ -1154,7 +1358,7 @@
   <!-- ═══ APP HEADER ═══ -->
   <header class="app-header">
     <div class="header-left">
-      <button class="menu-toggle-btn" onclick="toggleSidebar()" aria-label="Menu">
+      <button class="menu-toggle-btn" onclick="toggleSidebar()" aria-label="Menu" id="btn-menu-toggle">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
       </button>
       <div class="brand-group">
@@ -1173,58 +1377,85 @@
       </div>
       <button class="save-main-btn" id="btn-save-global" onclick="salvarTudoGlobal()">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg>
-        Salvar & Publicar
+        <span class="btn-label-desktop">Salvar & Publicar</span>
+        <span class="btn-label-mobile" style="display:none;">Salvar</span>
       </button>
     </div>
   </header>
+
+  <!-- ═══ BACKDROP PARA SIDEBAR MOBILE ═══ -->
+  <div class="sidebar-backdrop" id="sidebar-backdrop" onclick="closeSidebar()"></div>
 
   <!-- ═══ WORKSPACE BODY ═══ -->
   <div class="app-body">
 
     <!-- ── SIDEBAR NAVIGATION ── -->
     <nav class="app-sidebar" id="app-sidebar">
-      <div class="sidebar-section">
-        <div class="sidebar-label">Início & Identidade</div>
-        <a class="nav-item active" id="nav-item-geral" onclick="goTab('geral')"><span class="icon">👤</span> Dados do Corretor</a>
-        <a class="nav-item" id="nav-item-hero" onclick="goTab('hero')"><span class="icon">✨</span> Hero & Capa</a>
-        <a class="nav-item" id="nav-item-textos" onclick="goTab('textos')"><span class="icon">📝</span> Textos & Rodapé</a>
-      </div>
-
-      <div class="sidebar-section">
-        <div class="sidebar-label">Atendimento & CRM</div>
-        <a class="nav-item" id="nav-item-leads" onclick="goTab('leads')">
-          <span class="icon">📥</span> Leads & Contatos
-          <span class="nav-badge" id="badge-leads-count" style="background:var(--gold);color:#000;display:none;">0</span>
-        </a>
-        <a class="nav-item" id="nav-item-chat-contato" onclick="goTab('chat-contato')">
-          <span class="icon">💬</span> Botão & Conversa WhatsApp
-          <span class="nav-badge" style="background:rgba(37,211,102,0.2);color:#25d366;border:1px solid rgba(37,211,102,0.35);">Configurar</span>
-        </a>
-      </div>
-
-      <div class="sidebar-section">
-        <div class="sidebar-label">Empreendimentos & Regiões</div>
-        <div id="sidebar-regioes-list">
-          <!-- Injected dynamically -->
+      <!-- Cabeçalho exclusivo para mobile dentro do drawer -->
+      <div class="sidebar-mobile-header">
+        <div class="sidebar-mobile-brand">
+          <img src="../rafael-foto.jpg" alt="Foto Rafael" class="brand-avatar" style="width:34px;height:34px;" onerror="this.style.display='none'">
+          <div>
+            <div style="font-family:'Cormorant Garamond',serif;font-weight:700;font-size:16px;color:var(--gold);line-height:1.1;">Rafael Tavares</div>
+            <div style="font-size:10.5px;color:var(--text-muted);">Painel do Administrador</div>
+          </div>
         </div>
-        <a class="nav-item" onclick="novoEmpreendimentoModal()" style="color:var(--gold);"><span class="icon">➕</span> Cadastrar Região</a>
+        <button class="sidebar-close-btn" onclick="closeSidebar()" aria-label="Fechar Menu">✕ Fechar</button>
       </div>
 
-      <div class="sidebar-section">
-        <div class="sidebar-label">Páginas & Conteúdo</div>
-        <a class="nav-item" onclick="goTab('mararu-vip')"><span class="icon">⭐</span> Lançamento Mararu</a>
-        <a class="nav-item" onclick="goTab('mapa')"><span class="icon">📍</span> Mapa & Coordenadas</a>
-        <a class="nav-item" onclick="goTab('stats')"><span class="icon">📊</span> Números & Métricas</a>
-        <a class="nav-item" onclick="goTab('beneficios')"><span class="icon">🛡️</span> Diferenciais</a>
-        <a class="nav-item" onclick="goTab('depoimentos')"><span class="icon">💬</span> Depoimentos</a>
+      <!-- Filtro rápido de itens no menu -->
+      <div class="sidebar-search-box">
+        <input type="text" class="sidebar-search-input" id="sidebar-filter-input" placeholder="🔍 Filtrar seções e regiões..." oninput="filterSidebarItems(this.value)">
       </div>
 
-      <div class="sidebar-section">
-        <div class="sidebar-label">Sistema & Segurança</div>
-        <a class="nav-item" onclick="goTab('historico')"><span class="icon">⏱️</span> Histórico & Backup</a>
-        <a class="nav-item" onclick="goTab('github')"><span class="icon">🐙</span> Sincronização GitHub</a>
-        <a class="nav-item" onclick="goTab('seguranca')"><span class="icon">🔒</span> Alterar Senha</a>
-        <a class="nav-item" onclick="logoutAdmin()" style="color:var(--red)"><span class="icon">🚪</span> Sair</a>
+      <!-- Área rolável da barra lateral com padding seguro -->
+      <div class="sidebar-scroll-area" id="sidebar-scroll-area">
+        <div class="sidebar-section" data-sidebar-section>
+          <div class="sidebar-label">Início & Identidade</div>
+          <a class="nav-item active" id="nav-item-geral" onclick="goTab('geral')"><span class="icon">👤</span> Dados do Corretor</a>
+          <a class="nav-item" id="nav-item-hero" onclick="goTab('hero')"><span class="icon">✨</span> Hero & Capa</a>
+          <a class="nav-item" id="nav-item-textos" onclick="goTab('textos')"><span class="icon">📝</span> Textos & Rodapé</a>
+        </div>
+
+        <div class="sidebar-section" data-sidebar-section>
+          <div class="sidebar-label">Atendimento & CRM</div>
+          <a class="nav-item" id="nav-item-leads" onclick="goTab('leads')">
+            <span class="icon">📥</span> Leads & Contatos
+            <span class="nav-badge" id="badge-leads-count" style="background:var(--gold);color:#000;display:none;">0</span>
+          </a>
+          <a class="nav-item" id="nav-item-chat-contato" onclick="goTab('chat-contato')">
+            <span class="icon">💬</span> Botão WhatsApp
+            <span class="nav-badge" style="background:rgba(37,211,102,0.2);color:#25d366;border:1px solid rgba(37,211,102,0.35);">Configurar</span>
+          </a>
+        </div>
+
+        <div class="sidebar-section" data-sidebar-section>
+          <div class="sidebar-label" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;" onclick="toggleRegioesCollapse()">
+            <span id="label-regioes-count">Empreendimentos & Regiões</span>
+            <span id="regioes-toggle-icon" style="font-size:10px;color:var(--gold);padding:2px 6px;border-radius:4px;background:rgba(212,175,55,0.1)">▼</span>
+          </div>
+          <div id="sidebar-regioes-list">
+            <!-- Injected dynamically -->
+          </div>
+          <a class="nav-item" onclick="novoEmpreendimentoModal()" style="color:var(--gold);font-weight:600;"><span class="icon">➕</span> Cadastrar Região</a>
+        </div>
+
+        <div class="sidebar-section" data-sidebar-section>
+          <div class="sidebar-label">Páginas & Conteúdo</div>
+          <a class="nav-item" id="nav-item-mararu-vip" onclick="goTab('mararu-vip')"><span class="icon">⭐</span> Lançamento Mararu</a>
+          <a class="nav-item" id="nav-item-mapa" onclick="goTab('mapa')"><span class="icon">📍</span> Mapa & Coordenadas</a>
+          <a class="nav-item" id="nav-item-stats" onclick="goTab('stats')"><span class="icon">📊</span> Números & Métricas</a>
+          <a class="nav-item" id="nav-item-beneficios" onclick="goTab('beneficios')"><span class="icon">🛡️</span> Diferenciais</a>
+          <a class="nav-item" id="nav-item-depoimentos" onclick="goTab('depoimentos')"><span class="icon">💬</span> Depoimentos</a>
+        </div>
+
+        <div class="sidebar-section" data-sidebar-section>
+          <div class="sidebar-label">Sistema & Segurança</div>
+          <a class="nav-item" id="nav-item-historico" onclick="goTab('historico')"><span class="icon">⏱️</span> Histórico & Backup</a>
+          <a class="nav-item" id="nav-item-github" onclick="goTab('github')"><span class="icon">🐙</span> Sincronização GitHub</a>
+          <a class="nav-item" id="nav-item-seguranca" onclick="goTab('seguranca')"><span class="icon">🔒</span> Alterar Senha</a>
+          <a class="nav-item" onclick="logoutAdmin()" style="color:var(--red);font-weight:600;"><span class="icon">🚪</span> Sair</a>
+        </div>
       </div>
     </nav>
 
@@ -1256,11 +1487,57 @@
   </div>
 
   <!-- ═══ MOBILE BOTTOM NAVIGATION ═══ -->
-  <div class="mobile-bottom-bar">
-    <button class="mobile-nav-btn active" onclick="toggleSidebar()"><span class="icon">☰</span> Menu</button>
-    <button class="mobile-nav-btn" onclick="openMobilePreview()"><span class="icon">👁️</span> Prévia</button>
-    <button class="mobile-nav-btn" onclick="goTab('geral')"><span class="icon">👤</span> Perfil</button>
-    <button class="mobile-nav-btn" style="color:var(--gold);" onclick="salvarTudoGlobal()"><span class="icon">💾</span> Salvar</button>
+  <div class="mobile-bottom-bar" id="mobile-bottom-bar">
+    <button class="mobile-nav-btn active" id="mb-btn-menu" onclick="toggleSidebar()"><span class="icon">☰</span> Menu</button>
+    <button class="mobile-nav-btn" id="mb-btn-leads" onclick="goTab('leads')">
+      <span class="icon">📥</span> Leads
+      <span class="mobile-nav-badge" id="badge-leads-mobile" style="display:none;">0</span>
+    </button>
+    <button class="mobile-nav-btn" id="mb-btn-chat" onclick="goTab('chat-contato')"><span class="icon">💬</span> WhatsApp</button>
+    <button class="mobile-nav-btn" id="mb-btn-preview" onclick="openMobilePreview()"><span class="icon">👁️</span> Prévia</button>
+    <button class="mobile-nav-btn" id="mb-btn-save" style="color:var(--gold);" onclick="salvarTudoGlobal()"><span class="icon">💾</span> Salvar</button>
+  </div>
+
+  <!-- ═══ MODAL CADASTRAR NOVA REGIÃO ═══ -->
+  <div id="modal-nova-regiao" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);backdrop-filter:blur(6px);z-index:300;align-items:center;justify-content:center;padding:16px;">
+    <div style="background:var(--bg-card);border:1px solid var(--gold-border);border-radius:var(--radius-md);max-width:480px;width:100%;padding:22px;box-shadow:0 20px 50px rgba(0,0,0,0.9);animation:fadeIn 0.2s ease;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:10px;">
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold);font-weight:700;">➕ Cadastrar Nova Região</h3>
+        <button onclick="fecharNovaRegiaoModal()" style="background:none;border:none;color:var(--text-muted);font-size:20px;cursor:pointer;line-height:1;">✕</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div>
+          <label class="form-label">Nome da Região / Empreendimento</label>
+          <input type="text" id="nova-reg-nome" class="form-control" placeholder="Ex: Residencial Jardim Europa">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div>
+            <label class="form-label">Emoji / Ícone</label>
+            <input type="text" id="nova-reg-emoji" class="form-control" value="🏡" style="text-align:center;font-size:18px;">
+          </div>
+          <div>
+            <label class="form-label">Badge / Selo</label>
+            <input type="text" id="nova-reg-badge" class="form-control" value="Lançamento" placeholder="Ex: Oportunidade">
+          </div>
+        </div>
+        <div>
+          <label class="form-label">Localização</label>
+          <input type="text" id="nova-reg-local" class="form-control" value="Santarém — PA">
+        </div>
+        <div>
+          <label class="form-label">Status Inicial</label>
+          <select id="nova-reg-status" class="form-control">
+            <option value="disponivel">🟢 Disponível para Venda</option>
+            <option value="lancamento" selected>⭐ Lançamento Oficial</option>
+            <option value="em-breve">⏳ Em Breve</option>
+          </select>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:20px;border-top:1px solid var(--border);padding-top:14px;">
+        <button class="btn btn-secondary btn-sm" onclick="fecharNovaRegiaoModal()">Cancelar</button>
+        <button class="btn btn-gold btn-sm" onclick="confirmarNovaRegiao()">Salvar e Editar</button>
+      </div>
+    </div>
   </div>
 
   <!-- ═══ FLOATING MOBILE PREVIEW BUTTON ═══ -->
@@ -1364,29 +1641,45 @@
       document.querySelectorAll('.nav-item').forEach(function(el) {
         el.classList.remove('active');
       });
+
       // Fechar drawer no mobile se aberto
       closeSidebar();
 
-      var editor = document.getElementById('app-editor');
+      // Atualizar botões na barra móvel inferior
+      document.querySelectorAll('.mobile-nav-btn').forEach(function(b) {
+        b.classList.remove('active');
+      });
       if (tabId === 'leads') {
-        var nLeads = document.getElementById('nav-item-leads');
-        if (nLeads) nLeads.classList.add('active');
+        var mbL = document.getElementById('mb-btn-leads');
+        if (mbL) mbL.classList.add('active');
+      } else if (tabId === 'chat-contato') {
+        var mbC = document.getElementById('mb-btn-chat');
+        if (mbC) mbC.classList.add('active');
+      }
+
+      var editor = document.getElementById('app-editor');
+      if (!editor) return;
+
+      // Ativação do item correspondente na sidebar
+      var targetNavId = 'nav-item-' + tabId;
+      if (tabId.startsWith('regiao-')) {
+        targetNavId = 'nav-reg-' + tabId.replace('regiao-', '');
+      }
+      var targetNavItem = document.getElementById(targetNavId);
+      if (targetNavItem) {
+        targetNavItem.classList.add('active');
+      }
+
+      // Roteamento de telas
+      if (tabId === 'leads') {
         renderLeadsEditor(editor);
       } else if (tabId === 'chat-contato') {
-        var nChat = document.getElementById('nav-item-chat-contato');
-        if (nChat) nChat.classList.add('active');
         renderChatContatoEditor(editor);
       } else if (tabId === 'geral') {
-        var nGeral = document.getElementById('nav-item-geral');
-        if (nGeral) nGeral.classList.add('active');
         renderGeralEditor(editor);
       } else if (tabId === 'hero') {
-        var nHero = document.getElementById('nav-item-hero');
-        if (nHero) nHero.classList.add('active');
         renderHeroEditor(editor);
       } else if (tabId === 'textos') {
-        var nTextos = document.getElementById('nav-item-textos');
-        if (nTextos) nTextos.classList.add('active');
         renderTextosEditor(editor);
       } else if (tabId.startsWith('regiao-')) {
         var regId = tabId.replace('regiao-', '');
@@ -1408,10 +1701,17 @@
       } else if (tabId === 'seguranca') {
         renderSegurancaEditor(editor);
       }
+
+      // Rolar editor para o topo suavemente
+      editor.scrollTop = 0;
     }
 
     function buildSidebarRegioes() {
       var container = document.getElementById('sidebar-regioes-list');
+      var labelCount = document.getElementById('label-regioes-count');
+      if (labelCount && REGIOES_LISTA) {
+        labelCount.textContent = 'Empreendimentos & Regiões (' + REGIOES_LISTA.length + ')';
+      }
       if (!container) return;
       container.innerHTML = REGIOES_LISTA.map(function(r) {
         return '<a class="nav-item" id="nav-reg-' + r.id + '" onclick="goTab(\'regiao-' + r.id + '\')">' +
@@ -1419,6 +1719,38 @@
           '<span class="nav-badge">' + (r.badge || 'Região') + '</span>' +
         '</a>';
       }).join('');
+    }
+
+    var REGIOES_COLLAPSED = false;
+    function toggleRegioesCollapse() {
+      REGIOES_COLLAPSED = !REGIOES_COLLAPSED;
+      var list = document.getElementById('sidebar-regioes-list');
+      var icon = document.getElementById('regioes-toggle-icon');
+      if (list) {
+        list.style.display = REGIOES_COLLAPSED ? 'none' : 'block';
+      }
+      if (icon) {
+        icon.textContent = REGIOES_COLLAPSED ? '▶' : '▼';
+      }
+    }
+
+    function filterSidebarItems(query) {
+      var q = (query || '').toLowerCase().trim();
+      var sections = document.querySelectorAll('[data-sidebar-section]');
+      sections.forEach(function(sec) {
+        var items = sec.querySelectorAll('.nav-item');
+        var anyVisible = false;
+        items.forEach(function(item) {
+          var text = item.textContent.toLowerCase();
+          if (!q || text.indexOf(q) !== -1) {
+            item.style.display = 'flex';
+            anyVisible = true;
+          } else {
+            item.style.display = 'none';
+          }
+        });
+        sec.style.display = (anyVisible || !q) ? 'block' : 'none';
+      });
     }
 
     // ── RENDERERS FOR EACH FORM VIEW ──
@@ -2978,14 +3310,111 @@
       if (pane) pane.classList.remove('mobile-open');
     }
 
-    function toggleSidebar() {
+    function toggleSidebar(force) {
       var sb = document.getElementById('app-sidebar');
-      if (sb) sb.classList.toggle('open');
+      var backdrop = document.getElementById('sidebar-backdrop');
+      var mbBtn = document.getElementById('mb-btn-menu');
+      if (!sb) return;
+
+      var willOpen = (typeof force === 'boolean') ? force : !sb.classList.contains('open');
+      if (willOpen) {
+        sb.classList.add('open');
+        if (backdrop) backdrop.classList.add('active');
+        if (mbBtn) mbBtn.classList.add('active');
+        // Prevenir scroll do fundo enquanto o menu lateral está aberto no mobile
+        if (window.innerWidth <= 768) {
+          document.body.style.overflow = 'hidden';
+        }
+      } else {
+        sb.classList.remove('open');
+        if (backdrop) backdrop.classList.remove('active');
+        if (mbBtn) mbBtn.classList.remove('active');
+        document.body.style.overflow = '';
+      }
     }
 
     function closeSidebar() {
-      var sb = document.getElementById('app-sidebar');
-      if (sb) sb.classList.remove('open');
+      toggleSidebar(false);
+    }
+
+    // ── MODAL CADASTRO NOVA REGIÃO ──
+    function novoEmpreendimentoModal() {
+      closeSidebar();
+      var modal = document.getElementById('modal-nova-regiao');
+      if (modal) {
+        modal.style.display = 'flex';
+        var inp = document.getElementById('nova-reg-nome');
+        if (inp) {
+          inp.value = '';
+          setTimeout(function() { inp.focus(); }, 100);
+        }
+      }
+    }
+
+    function fecharNovaRegiaoModal() {
+      var modal = document.getElementById('modal-nova-regiao');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function confirmarNovaRegiao() {
+      var nomeInp = document.getElementById('nova-reg-nome');
+      var nome = nomeInp ? nomeInp.value.trim() : '';
+      if (!nome) {
+        toast('⚠️ Por favor, informe o nome da região/empreendimento.', 'err');
+        return;
+      }
+      var emoji = (document.getElementById('nova-reg-emoji') && document.getElementById('nova-reg-emoji').value.trim()) || '🏡';
+      var badge = (document.getElementById('nova-reg-badge') && document.getElementById('nova-reg-badge').value.trim()) || 'Lançamento';
+      var local = (document.getElementById('nova-reg-local') && document.getElementById('nova-reg-local').value.trim()) || 'Santarém — PA';
+      var status = (document.getElementById('nova-reg-status') && document.getElementById('nova-reg-status').value) || 'disponivel';
+
+      var slug = nome.toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+      if (!slug) slug = 'regiao-' + Date.now();
+
+      var existe = REGIOES_LISTA.find(function(r){ return r.id === slug; });
+      if (existe) {
+        slug = slug + '-' + Math.floor(Math.random() * 1000);
+      }
+
+      var nova = {
+        id: slug,
+        nome: nome,
+        emoji: emoji,
+        local: local,
+        status: status,
+        badge: badge,
+        cor: 'gold',
+        lat: -2.44,
+        lng: -54.73
+      };
+
+      REGIOES_LISTA.push(nova);
+      SITE_DATA.regioes = SITE_DATA.regioes || [];
+      SITE_DATA.regioes.push(nova);
+
+      SITE_DATA.empreendimentos = SITE_DATA.empreendimentos || [];
+      SITE_DATA.empreendimentos.push({
+        id: slug,
+        nome: nome,
+        local: local,
+        tipo: 'Terrenos',
+        status: status,
+        badge: badge,
+        preco: 'Consulte Condições',
+        destaque: true,
+        icone: emoji,
+        coords: [-2.44, -54.73],
+        imagens: []
+      });
+
+      buildSidebarRegioes();
+      fecharNovaRegiaoModal();
+      toast('✅ Região "' + nome + '" adicionada com sucesso!', 'ok');
+      goTab('regiao-' + slug);
+      syncLive();
     }
 
     // ── UPLOAD HANDLERS ──
@@ -3321,18 +3750,33 @@
 
     function atualizarBadgeLeads() {
       var b = document.getElementById('badge-leads-count');
-      if (!b) return;
+      var bMob = document.getElementById('badge-leads-mobile');
       var totalNovos = LEADS_DATA.filter(function(l){ return l.status === 'Novo'; }).length;
-      if (totalNovos > 0) {
-        b.textContent = totalNovos;
-        b.style.display = 'inline-block';
-      } else if (LEADS_DATA.length > 0) {
-        b.textContent = LEADS_DATA.length;
-        b.style.display = 'inline-block';
-        b.style.background = 'rgba(201, 168, 76, 0.2)';
-        b.style.color = 'var(--gold)';
-      } else {
-        b.style.display = 'none';
+      var textoExibir = totalNovos > 0 ? totalNovos : (LEADS_DATA.length > 0 ? LEADS_DATA.length : 0);
+
+      if (b) {
+        if (totalNovos > 0) {
+          b.textContent = totalNovos;
+          b.style.display = 'inline-block';
+          b.style.background = 'var(--gold)';
+          b.style.color = '#000';
+        } else if (LEADS_DATA.length > 0) {
+          b.textContent = LEADS_DATA.length;
+          b.style.display = 'inline-block';
+          b.style.background = 'rgba(201, 168, 76, 0.2)';
+          b.style.color = 'var(--gold)';
+        } else {
+          b.style.display = 'none';
+        }
+      }
+
+      if (bMob) {
+        if (textoExibir > 0) {
+          bMob.textContent = textoExibir;
+          bMob.style.display = 'inline-flex';
+        } else {
+          bMob.style.display = 'none';
+        }
       }
     }
 
