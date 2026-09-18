@@ -2861,11 +2861,12 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')fecharMenu()
         document.querySelectorAll('.contato-email,.cfg-email').forEach(function(el){el.textContent=c.email;});
       }
       if(c.wpp){
-        var wppNum=c.wpp.replace(/\D/g,'');
-        document.querySelectorAll('a[href^="https://wa.me/"]').forEach(function(a){
+        var wppDigits=c.wpp.replace(/\D/g,'');
+        var cleanNum=wppDigits.startsWith('55')?wppDigits:('55'+wppDigits);
+        document.querySelectorAll('a[href*="wa.me"]').forEach(function(a){
           var url=a.href;
-          var textPart=url.split('?text=')[1]||'';
-          a.href='https://wa.me/55'+wppNum+(textPart?'?text='+textPart:'');
+          var textPart=url.indexOf('?text=')!==-1?url.split('?text=')[1]:'';
+          a.href='https://wa.me/'+cleanNum+(textPart?'?text='+textPart:'');
         });
         document.querySelectorAll('.cfg-wpp').forEach(function(el){el.textContent=c.wpp;});
       }
@@ -2892,112 +2893,158 @@ document.addEventListener('touchmove',function(e){
 <script>
 // ══════════════════════════════════════════════════
 //  carregarSite — carrega site_data.json e aplica
-//  todos os campos editáveis do painel admin
+//  todos os campos editáveis do painel admin em tempo real
 // ══════════════════════════════════════════════════
+function aplicarDadosSite(d){
+  if(!d) return;
+
+  // ── CONFIG (nav) ──
+  var c = d.config || {};
+  if(c.nome){
+    var partes = c.nome.split(' ');
+    var p1 = partes[0] || '';
+    var p2 = partes.slice(1).join(' ');
+    var e1 = document.getElementById('nav-nome-p1');
+    var e2 = document.getElementById('nav-nome-p2');
+    if(e1) e1.textContent = p1;
+    if(e2) e2.textContent = p2;
+    document.querySelectorAll('.cfg-nome').forEach(function(el){ el.textContent = c.nome; });
+  }
+  var ncr = document.getElementById('nav-creci-val');
+  if(ncr && c.creci) ncr.textContent = c.creci;
+  if(c.creci) document.querySelectorAll('.cfg-creci').forEach(function(el){ el.textContent = 'CRECI ' + c.creci; });
+
+  if(c.wpp){
+    var wppDigits = c.wpp.replace(/\D/g,'');
+    var cleanNum = wppDigits.startsWith('55') ? wppDigits : ('55' + wppDigits);
+    document.querySelectorAll('a[href*="wa.me"]').forEach(function(a){
+      var url = a.href;
+      var textPart = url.indexOf('?text=') !== -1 ? url.split('?text=')[1] : '';
+      a.href = 'https://wa.me/' + cleanNum + (textPart ? '?text=' + textPart : '');
+    });
+    document.querySelectorAll('.cfg-wpp').forEach(function(el){ el.textContent = c.wpp; });
+  }
+
+  if(c.email){
+    document.querySelectorAll('a[href^="mailto:"]').forEach(function(a){ a.href = 'mailto:' + c.email; a.textContent = c.email; });
+    document.querySelectorAll('.contato-email,.cfg-email').forEach(function(el){ el.textContent = c.email; });
+  }
+
+  var nig = document.getElementById('nav-ig-link');
+  if(nig && c.ig) nig.href = 'https://instagram.com/' + c.ig.replace('@','');
+  var nfb = document.getElementById('nav-fb-link');
+  if(nfb && c.fb) nfb.href = c.fb.startsWith('http') ? c.fb : 'https://facebook.com/' + c.fb;
+
+  // ── HERO ──
+  var h = d.hero || {};
+  var hb = document.getElementById('hero-badge-txt');
+  if(hb && h.badge) hb.textContent = h.badge;
+  var ht = document.getElementById('hero-titulo');
+  if(ht && h.titulo) ht.innerHTML = h.titulo.replace(/\n/g,'<br>');
+  var hs = document.getElementById('hero-subtitulo');
+  if(hs && h.subtitulo) hs.textContent = h.subtitulo;
+  var ha = document.getElementById('hero-assinatura-txt');
+  if(ha && d.textos && d.textos.assinatura) ha.textContent = d.textos.assinatura;
+
+  // ── STATS ──
+  var st = d.stats || [];
+  var statEls = document.querySelectorAll('.stat-num-big');
+  var lblEls  = document.querySelectorAll('.stat-lbl-big');
+  st.forEach(function(s, i){
+    if(statEls[i]){
+      var n = s.numero || s.num || '';
+      statEls[i].setAttribute('data-target', n);
+      statEls[i].textContent = n || statEls[i].textContent;
+    }
+    if(lblEls[i]) lblEls[i].textContent = s.label || lblEls[i].textContent;
+  });
+
+  // ── BENEFÍCIOS ──
+  var benContainer = document.getElementById('beneficios-container');
+  var bens = d.beneficios || [];
+  if(benContainer && bens.length){
+    benContainer.innerHTML = bens.map(function(b){
+      return '<div class="ben-card"><div class="ben-icon">' + (b.icone || b.ico || '⭐') + '</div>'
+        +'<div class="ben-titulo">' + (b.titulo || b.tit || '') + '</div>'
+        +'<div class="ben-desc">' + (b.desc || '') + '</div></div>';
+    }).join('');
+  }
+
+  // ── DEPOIMENTOS / CONVERSAS DE CLIENTES ──
+  var depContainer = document.getElementById('depoimentos-container');
+  var deps = d.depoimentos || [];
+  if(depContainer && deps.length){
+    depContainer.innerHTML = deps.map(function(dep){
+      var initials = dep.iniciais || (dep.nome ? dep.nome.split(' ').filter(Boolean).map(function(n){return n[0];}).join('').slice(0,2).toUpperCase() : '??');
+      var subtitulo = dep.cidade || dep.cargo || dep.empreendimento || dep.sub || '';
+      var avatarStyle = dep.cor ? 'style="background:'+dep.cor+';color:#fff"' : '';
+      return '<div class="dep-card">'
+        +'<div class="dep-stars">★★★★★</div>'
+        +'<div class="dep-text">"' + (dep.texto || '') + '"</div>'
+        +'<div class="dep-author">'
+        +'<div class="dep-avatar" ' + avatarStyle + '>' + initials + '</div>'
+        +'<div><div class="dep-name">' + (dep.nome || '') + '</div>'
+        +(subtitulo ? '<div class="dep-role">' + subtitulo + '</div>' : '') + '</div>'
+        +'</div></div>';
+    }).join('');
+  }
+
+  // ── VIP ──
+  var v = d.vip || {};
+  var vb = document.getElementById('vip-badge-txt');
+  if(vb && v.badge) vb.textContent = v.badge;
+  var vt = document.getElementById('vip-titulo');
+  if(vt && v.nome) vt.textContent = v.nome;
+  var vdesc = document.getElementById('vip-desc-txt');
+  if(vdesc && v.desc) vdesc.textContent = v.desc;
+  var vitens = document.getElementById('vip-itens');
+  if(vitens && v.itens && v.itens.length){
+    vitens.innerHTML = v.itens.map(function(item){
+      return '<li style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:rgba(242,237,228,0.7);line-height:1.6">'
+        +'<svg style="flex-shrink:0;margin-top:3px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>'
+        + item + '</li>';
+    }).join('');
+  }
+  var vlnk = document.getElementById('vip-link-btn');
+  if(vlnk && v.link) vlnk.href = v.link;
+
+  // ── CTA ──
+  var ct = d.cta || {};
+  var ctTit = document.getElementById('cta-titulo');
+  if(ctTit && ct.titulo) ctTit.innerHTML = ct.titulo;
+  var ctDesc = document.getElementById('cta-desc');
+  if(ctDesc && ct.desc) ctDesc.textContent = ct.desc;
+  var ctAs = document.getElementById('cta-assinatura-txt');
+  if(ctAs && d.textos && d.textos.assinatura) ctAs.textContent = d.textos.assinatura;
+
+  // ── MAPA / PINOS REAL-TIME ──
+  if(d.pinos && Array.isArray(d.pinos) && typeof _mapInstance !== 'undefined' && _mapInstance && typeof L !== 'undefined'){
+    try {
+      _mapInstance.eachLayer(function(layer){
+        if(layer instanceof L.Marker) _mapInstance.removeLayer(layer);
+      });
+      d.pinos.forEach(function(p){
+        if(typeof adicionarPinoMapa === 'function'){
+          adicionarPinoMapa(_mapInstance, p);
+        }
+      });
+    } catch(err){ console.warn('Erro ao atualizar pinos do mapa:', err); }
+  }
+}
+
 (function carregarSite(){
   fetch('/site_data.json?_='+Date.now())
     .then(function(r){return r.json();})
     .then(function(d){
+      aplicarDadosSite(d);
+    }).catch(function(e){ console.warn('Erro ao carregar site_data:', e); });
 
-      // ── CONFIG (nav) ──
-      var c = d.config || {};
-      if(c.nome){
-        var partes = c.nome.split(' ');
-        var p1 = partes[0] || '';
-        var p2 = partes.slice(1).join(' ');
-        var e1 = document.getElementById('nav-nome-p1');
-        var e2 = document.getElementById('nav-nome-p2');
-        if(e1) e1.textContent = p1;
-        if(e2) e2.textContent = p2;
-      }
-      var ncr = document.getElementById('nav-creci-val');
-      if(ncr && c.creci) ncr.textContent = c.creci;
-      var nig = document.getElementById('nav-ig-link');
-      if(nig && c.ig) nig.href = 'https://instagram.com/' + c.ig.replace('@','');
-      var nfb = document.getElementById('nav-fb-link');
-      if(nfb && c.fb) nfb.href = c.fb.startsWith('http') ? c.fb : 'https://facebook.com/' + c.fb;
-
-      // ── HERO ──
-      var h = d.hero || {};
-      var hb = document.getElementById('hero-badge-txt');
-      if(hb && h.badge) hb.textContent = h.badge;
-      var ht = document.getElementById('hero-titulo');
-      if(ht && h.titulo) ht.innerHTML = h.titulo.replace(/\n/g,'<br>');
-      var hs = document.getElementById('hero-subtitulo');
-      if(hs && h.subtitulo) hs.textContent = h.subtitulo;
-      var ha = document.getElementById('hero-assinatura-txt');
-      if(ha && d.textos && d.textos.assinatura) ha.textContent = d.textos.assinatura;
-
-      // ── STATS ──
-      var st = d.stats || [];
-      var statEls = document.querySelectorAll('.stat-num-big');
-      var lblEls  = document.querySelectorAll('.stat-lbl-big');
-      st.forEach(function(s, i){
-        if(statEls[i]){
-          var n = s.numero || s.num || '';
-          statEls[i].setAttribute('data-target', n);
-          statEls[i].textContent = n || statEls[i].textContent;
-        }
-        if(lblEls[i]) lblEls[i].textContent = s.label || lblEls[i].textContent;
-      });
-
-      // ── BENEFÍCIOS ──
-      var benContainer = document.getElementById('beneficios-container');
-      var bens = d.beneficios || [];
-      if(benContainer && bens.length){
-        benContainer.innerHTML = bens.map(function(b){
-          return '<div class="ben-card"><div class="ben-icon">'+b.icone+'</div>'
-            +'<div class="ben-titulo">'+b.titulo+'</div>'
-            +'<div class="ben-desc">'+b.desc+'</div></div>';
-        }).join('');
-      }
-
-      // ── DEPOIMENTOS ──
-      var depContainer = document.getElementById('depoimentos-container');
-      var deps = d.depoimentos || [];
-      if(depContainer && deps.length){
-        depContainer.innerHTML = deps.map(function(dep){
-          var initials = dep.nome ? dep.nome.split(' ').map(function(n){return n[0];}).join('').slice(0,2).toUpperCase() : '??';
-          return '<div class="dep-card">'
-            +'<div class="dep-stars">★★★★★</div>'
-            +'<div class="dep-text">"'+dep.texto+'"</div>'
-            +'<div class="dep-author">'
-            +'<div class="dep-avatar">'+initials+'</div>'
-            +'<div><div class="dep-name">'+dep.nome+'</div>'
-            +'<div class="dep-role">'+dep.cargo+'</div></div>'
-            +'</div></div>';
-        }).join('');
-      }
-
-      // ── VIP ──
-      var v = d.vip || {};
-      var vb = document.getElementById('vip-badge-txt');
-      if(vb && v.badge) vb.textContent = v.badge;
-      var vt = document.getElementById('vip-titulo');
-      if(vt && v.nome) vt.textContent = v.nome;
-      var vdesc = document.getElementById('vip-desc-txt');
-      if(vdesc && v.desc) vdesc.textContent = v.desc;
-      var vitens = document.getElementById('vip-itens');
-      if(vitens && v.itens && v.itens.length){
-        vitens.innerHTML = v.itens.map(function(item){
-          return '<li style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:rgba(242,237,228,0.7);line-height:1.6">'
-            +'<svg style="flex-shrink:0;margin-top:3px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>'
-            + item + '</li>';
-        }).join('');
-      }
-      var vlnk = document.getElementById('vip-link-btn');
-      if(vlnk && v.link) vlnk.href = v.link;
-
-      // ── CTA ──
-      var ct = d.cta || {};
-      var ctTit = document.getElementById('cta-titulo');
-      if(ctTit && ct.titulo) ctTit.innerHTML = ct.titulo;
-      var ctDesc = document.getElementById('cta-desc');
-      if(ctDesc && ct.desc) ctDesc.textContent = ct.desc;
-      var ctAs = document.getElementById('cta-assinatura-txt');
-      if(ctAs && d.textos && d.textos.assinatura) ctAs.textContent = d.textos.assinatura;
-
-    }).catch(function(){});
+  // Ouvir atualizações ao vivo enviadas pelo painel admin (syncLive via postMessage)
+  window.addEventListener('message', function(event){
+    if(event.data && event.data.type === 'UPDATE_DATA' && event.data.data){
+      aplicarDadosSite(event.data.data);
+    }
+  });
 })();
 </script>
 
