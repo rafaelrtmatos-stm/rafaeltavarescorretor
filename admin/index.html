@@ -1750,6 +1750,66 @@
     var AUTH_KEY = 'admin_pass_rt';
     var DEFAULT_PASS = 'Geper3tp@';
 
+    // ── SUPABASE: configuração do formulário (tabela site_config) ──
+    var SB_URL = 'https://uftxcwcryqpkfdfxzlno.supabase.co';
+    var SB_KEY = 'sb_publishable_8Nj_F2sAuA871CEwIam75Q_2J1wuNuH';
+    var SB_PASS_KEY = 'admin_supabase_pass_rt';
+
+    function sbHeaders(extra) {
+      var h = { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY };
+      for (var k in (extra || {})) h[k] = extra[k];
+      return h;
+    }
+
+    async function carregarChatContatoSupabase() {
+      try {
+        var r = await fetch(SB_URL + '/rest/v1/site_config?chave=eq.chat_contato&select=valor', {
+          cache: 'no-store', headers: sbHeaders()
+        });
+        if (!r.ok) return null;
+        var rows = await r.json();
+        return (rows && rows[0] && rows[0].valor && typeof rows[0].valor === 'object') ? rows[0].valor : null;
+      } catch (e) {
+        console.warn('Supabase indisponível ao ler o formulário:', e);
+        return null;
+      }
+    }
+
+    // Uma tentativa de gravação. Retorna { ok, senhaErrada, motivo }
+    async function tentarGravarChatContato(senha) {
+      try {
+        var r = await fetch(SB_URL + '/rest/v1/rpc/salvar_site_config', {
+          method: 'POST',
+          headers: sbHeaders({ 'Content-Type': 'application/json' }),
+          body: JSON.stringify({ p_senha: senha, p_chave: 'chat_contato', p_valor: SITE_DATA.chat_contato || {} })
+        });
+        if (r.ok) return { ok: true };
+        var txt = '';
+        try { txt = await r.text(); } catch (e) {}
+        if (r.status === 403 || txt.indexOf('senha_invalida') !== -1) {
+          return { ok: false, senhaErrada: true, motivo: 'senha do Admin incorreta' };
+        }
+        return { ok: false, motivo: 'erro ' + r.status };
+      } catch (e) {
+        return { ok: false, motivo: 'sem conexão com o Supabase' };
+      }
+    }
+
+    // Usa a senha do próprio Admin (a mesma do login do painel). Só pergunta se ela for recusada.
+    async function salvarChatContatoSupabase() {
+      var senha = localStorage.getItem(SB_PASS_KEY) || localStorage.getItem(AUTH_KEY) || DEFAULT_PASS;
+      var res = await tentarGravarChatContato(senha);
+      if (!res.ok && res.senhaErrada) {
+        localStorage.removeItem(SB_PASS_KEY);
+        var digitada = (prompt('Senha do Admin (a mesma do painel) para publicar o formulário:') || '').trim();
+        if (!digitada) return { ok: false, motivo: 'senha do Admin não informada' };
+        res = await tentarGravarChatContato(digitada);
+        if (res.ok) senha = digitada;
+      }
+      if (res.ok) localStorage.setItem(SB_PASS_KEY, senha);
+      return res;
+    }
+
     // ── DEFAULT REGIONS LIST (PADRONIZADO) ──
     var REGIOES_LISTA = [
       { id: 'sao-braz', nome: 'São Braz', emoji: '🏡', local: 'Santarém — PA', status: 'disponivel', badge: 'Lançamento', cor: 'gold', lat: -2.520412, lng: -54.764512 },
@@ -1816,6 +1876,10 @@
       if (!SITE_DATA) {
         SITE_DATA = { config: {}, hero: {}, regioes: [], empreendimentos: [], stats: [], beneficios: [], depoimentos: [], lancamento: {}, pinos: [] };
       }
+      // O formulário/chat vem do Supabase (fonte principal); o JSON é só reserva
+      var chatSb = await carregarChatContatoSupabase();
+      if (chatSb) SITE_DATA.chat_contato = chatSb;
+
       // Garantir estrutura básica
       SITE_DATA.config = SITE_DATA.config || {};
       SITE_DATA.hero = SITE_DATA.hero || {};
@@ -4031,21 +4095,26 @@
       // 1. Criar Snapshot de Restauração no Histórico (30 dias)
       salvarSnapshotHistorico('Alterações salvas via painel');
 
-      // 2. Salvar no Servidor Local via API
+      // 2. Formulário/chat → Supabase (vale no site na hora)
+      var sb = await salvarChatContatoSupabase();
+
+      // 3. Demais seções → servidor local (Replit) e/ou GitHub (Vercel)
+      var localOk = false;
       try {
-        await fetch('/api/save-site-data', {
+        var locR = await fetch('/api/save-site-data', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(SITE_DATA)
         });
+        localOk = locR.ok;
       } catch(e) {
         console.warn('Endpoint local indisponível:', e);
       }
 
-      // 3. Salvar no GitHub se token estiver disponível
+      var ghOk = false;
       if (typeof saveSiteData === 'function' && localStorage.getItem('gh_rt_tok')) {
         try {
-          await saveSiteData(SITE_DATA);
+          ghOk = (await saveSiteData(SITE_DATA)) === true;
         } catch(e) {
           console.warn('Erro ao salvar no GitHub:', e);
         }
@@ -4055,7 +4124,15 @@
         btn.disabled = false;
         btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg> Salvar & Publicar';
       }
-      toast('✅ Dados salvos e publicados com sucesso!', 'ok');
+
+      if (sb.ok) {
+        toast('✅ Formulário salvo no Supabase — já vale no site!', 'ok');
+      } else {
+        toast('❌ Formulário NÃO foi salvo: ' + sb.motivo, 'err');
+      }
+      if (!localOk && !ghOk) {
+        toast('⚠️ As demais seções (fora do formulário) não foram publicadas: falta o token do GitHub.', 'err');
+      }
       refreshPreview();
     }
 

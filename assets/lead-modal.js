@@ -119,12 +119,52 @@
     atualizarCabecalhoModalComConfig();
   }
 
+  // Fonte principal da configuração do formulário: tabela site_config no Supabase
+  // (o painel ADM grava lá). O site_data.json fica só como reserva.
+  var SB_CFG_URL = 'https://uftxcwcryqpkfdfxzlno.supabase.co';
+  var SB_CFG_KEY = 'sb_publishable_8Nj_F2sAuA871CEwIam75Q_2J1wuNuH';
+
+  function buscarConfigChatSupabase() {
+    return fetch(SB_CFG_URL + '/rest/v1/site_config?chave=eq.chat_contato&select=valor', {
+      cache: 'no-store',
+      headers: { apikey: SB_CFG_KEY, Authorization: 'Bearer ' + SB_CFG_KEY }
+    })
+      .then(function (r) {
+        if (!r.ok) throw new Error('Status ' + r.status);
+        return r.json();
+      })
+      .then(function (rows) {
+        return (rows && rows[0] && rows[0].valor && typeof rows[0].valor === 'object') ? rows[0].valor : null;
+      });
+  }
+
   function carregarConfiguracoesChat(cb) {
     if (window.SITE_DATA && window.SITE_DATA.chat_contato) {
       aplicarConfigChat(window.SITE_DATA.chat_contato);
       if (cb) cb();
       return;
     }
+    var jaChamou = false;
+    function fim() { if (!jaChamou) { jaChamou = true; if (cb) cb(); } }
+    try {
+      buscarConfigChatSupabase()
+        .then(function (cfg) {
+          if (cfg) {
+            aplicarConfigChat(cfg);
+            fim();
+          } else {
+            carregarConfigChatDoJson(fim);
+          }
+        })
+        .catch(function () {
+          carregarConfigChatDoJson(fim);
+        });
+    } catch (e) {
+      carregarConfigChatDoJson(fim);
+    }
+  }
+
+  function carregarConfigChatDoJson(cb) {
     try {
       fetch('/site_data.json?_=' + Date.now())
         .then(function (r) {
