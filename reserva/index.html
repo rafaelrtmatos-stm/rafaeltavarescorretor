@@ -289,6 +289,13 @@ select.input option{background:#FFFFFF;color:#1A1710}
   font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--gold);
   display:flex;align-items:center;gap:8px;
 }
+.admin-footer{
+  position:sticky;bottom:-24px;z-index:3;background:#14120D;
+  margin:18px -24px -24px;padding:14px 24px calc(14px + env(safe-area-inset-bottom,0px));
+  border-top:1px solid rgba(201,168,76,0.25);border-radius:0 0 18px 18px;
+  display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.admin-btn-save:disabled{opacity:.55;cursor:wait}
 .admin-nav-tabs{
   display:flex;gap:6px;border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:16px;
 }
@@ -1056,7 +1063,7 @@ select.input option{background:#FFFFFF;color:#1A1710}
         <span style="font-size:13px;color:var(--text2)">Empreendimentos cadastrados no sistema:</span>
         <button type="button" class="admin-btn-save" style="padding:6px 12px;font-size:11px" onclick="adminNovoEmpreendimento()">+ Novo Empreendimento</button>
       </div>
-      <div id="admin-lista-emp" style="display:flex;flex-direction:column;gap:12px;max-height:55vh;overflow-y:auto;padding-right:4px">
+      <div id="admin-lista-emp" style="display:flex;flex-direction:column;gap:12px">
         <!-- Injetado via JS -->
       </div>
     </div>
@@ -1079,11 +1086,11 @@ select.input option{background:#FFFFFF;color:#1A1710}
       <button type="button" class="admin-btn-save" style="margin-top:10px;width:100%" onclick="adminSalvarJsonRaw()">Aplicar e Salvar JSON</button>
     </div>
 
-    <div style="margin-top:18px;border-top:1px solid rgba(201,168,76,0.25);padding-top:14px;display:flex;justify-content:space-between;align-items:center">
-      <span id="admin-status-save" style="font-size:12px;color:var(--gold)"></span>
+    <div class="admin-footer">
+      <span id="admin-status-save" style="font-size:12px;color:var(--gold);flex:1;min-width:140px;line-height:1.35"></span>
       <div style="display:flex;gap:10px">
         <button type="button" onclick="fecharModalAdmin()" style="background:transparent;border:1px solid rgba(255,255,255,0.2);color:#fff;padding:8px 14px;border-radius:8px;cursor:pointer">Fechar</button>
-        <button type="button" class="admin-btn-save" onclick="adminSalvarTodasAlteracoes()">💾 Salvar Alterações</button>
+        <button type="button" id="admin-btn-salvar" class="admin-btn-save" onclick="adminSalvarTodasAlteracoes()">💾 Salvar Alterações</button>
       </div>
     </div>
   </div>
@@ -2424,12 +2431,39 @@ function abrirModalAdmin(){
   trocarAbaAdmin('emp');
   renderizarAdminListaEmp();
   renderizarAdminListaCid();
+  if(adminSujo) adminStatus('● Alterações não salvas', '#f5b942'); else adminStatus('', 'var(--gold)');
 }
 
 function fecharModalAdmin(){
+  if(adminSujo && !confirm('Você tem alterações NÃO SALVAS no Admin. Fechar mesmo assim?')) return;
   document.getElementById('admin-modal-overlay').classList.remove('aberto');
   document.body.style.overflow = '';
 }
+
+// ── Admin: controle de "alterações não salvas" ──────────────
+let adminSujo = false;
+let adminSalvando = false;
+const adminEmpsSujos = new Set();
+
+function adminStatus(msg, cor){
+  const el = document.getElementById('admin-status-save');
+  if(!el) return;
+  el.textContent = msg;
+  el.style.color = cor || 'var(--gold)';
+}
+function adminMarcarSujo(emp){
+  adminSujo = true;
+  if(emp) adminEmpsSujos.add(emp);
+  adminStatus('● Alterações não salvas', '#f5b942');
+}
+// Qualquer campo editado dentro de um card de empreendimento marca aquele empreendimento como alterado
+document.getElementById('admin-modal-overlay').addEventListener('change', function(ev){
+  const card = ev.target.closest && ev.target.closest('[data-admin-emp]');
+  if(!card) return;
+  const partes = card.getAttribute('data-admin-emp').split(':').map(Number);
+  const cid = dadosReserva.cidades[partes[0]];
+  adminMarcarSujo(cid && cid.empreendimentos[partes[1]]);
+});
 
 function trocarAbaAdmin(aba){
   ['emp', 'cid', 'json'].forEach(a => {
@@ -2450,6 +2484,7 @@ function renderizarAdminListaEmp(){
     cid.empreendimentos.forEach((emp, empIdx) => {
       const card = document.createElement('div');
       card.className = 'admin-card';
+      card.setAttribute('data-admin-emp', cidIdx + ':' + empIdx);
       card.innerHTML = `
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
           <div>
@@ -2468,7 +2503,11 @@ function renderizarAdminListaEmp(){
             <input class="admin-input" type="text" value="${emp.quadras.join(', ')}" onchange="dadosReserva.cidades[${cidIdx}].empreendimentos[${empIdx}].quadras = this.value.split(',').map(s=>s.trim()).filter(Boolean)">
           </div>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(4, 1fr);gap:8px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px">
+          <div>
+            <label style="font-size:10px;color:var(--text3);display:block;margin-bottom:2px">Lotes por quadra (maior nº)</label>
+            <input class="admin-input" type="number" min="1" value="${emp.lotes_padrao || ''}" onchange="dadosReserva.cidades[${cidIdx}].empreendimentos[${empIdx}].lotes_padrao = parseInt(this.value,10) || 0">
+          </div>
           <div>
             <label style="font-size:10px;color:var(--text3);display:block;margin-bottom:2px">Valor Total (R$)</label>
             <input class="admin-input" type="text" value="${emp.valor_total_padrao || ''}" onchange="dadosReserva.cidades[${cidIdx}].empreendimentos[${empIdx}].valor_total_padrao = this.value">
@@ -2525,6 +2564,7 @@ function adminNovaCidade(){
     nome: nome.trim(),
     empreendimentos: []
   });
+  adminMarcarSujo();
   renderizarAdminListaCid();
   popularSelectCidades();
 }
@@ -2532,6 +2572,7 @@ function adminNovaCidade(){
 function adminExcluirCidade(idx){
   if(confirm(`Tem certeza que deseja excluir a cidade "${dadosReserva.cidades[idx].nome}"?`)){
     dadosReserva.cidades.splice(idx, 1);
+    adminMarcarSujo();
     renderizarAdminListaCid();
     renderizarAdminListaEmp();
     popularSelectCidades();
@@ -2560,16 +2601,19 @@ function adminNovoEmpreendimento(){
     valor_total_padrao: "16.000,00",
     entrada_padrao: "500,00",
     parcelas_padrao: 50,
-    valor_parcela_padrao: "310,00"
+    valor_parcela_padrao: "310,00",
+    _novo: true
   });
 
+  adminMarcarSujo(dadosReserva.cidades[idx].empreendimentos[dadosReserva.cidades[idx].empreendimentos.length - 1]);
   renderizarAdminListaEmp();
   popularSelectCidades();
 }
 
 function adminExcluirEmpreendimento(cidIdx, empIdx){
-  if(confirm(`Deseja excluir o empreendimento "${dadosReserva.cidades[cidIdx].empreendimentos[empIdx].nome}"?`)){
+  if(confirm(`Deseja excluir o empreendimento "${dadosReserva.cidades[cidIdx].empreendimentos[empIdx].nome}"?\n\nAtenção: ele some só desta tela. No Supabase (gerenciador) ele continua e volta quando a página for reaberta.`)){
     dadosReserva.cidades[cidIdx].empreendimentos.splice(empIdx, 1);
+    adminMarcarSujo();
     renderizarAdminListaEmp();
   }
 }
@@ -2579,6 +2623,7 @@ function adminSalvarJsonRaw(){
     const parsed = JSON.parse(document.getElementById('admin-json-raw').value);
     if(parsed && parsed.cidades){
       dadosReserva = parsed;
+      dadosReserva.cidades.forEach(c => (c.empreendimentos || []).forEach(e => adminMarcarSujo(e)));
       renderizarAdminListaEmp();
       renderizarAdminListaCid();
       popularSelectCidades();
@@ -2592,34 +2637,59 @@ function adminSalvarJsonRaw(){
 }
 
 async function adminSalvarTodasAlteracoes(){
-  const statusEl = document.getElementById('admin-status-save');
-  statusEl.textContent = '⏳ Salvando alterações...';
+  if(adminSalvando) return;
+  adminSalvando = true;
+  const btn = document.getElementById('admin-btn-salvar');
+  if(btn) btn.disabled = true;
+  adminStatus('⏳ Salvando...', 'var(--gold)');
+
+  const erros = [];       // falhas reais (mostradas em vermelho)
+  const naoGravados = []; // itens que o Supabase não guarda (só ficam nesta sessão)
+  let gravados = 0;
 
   try{
-    // Primeiro buscar o site_data atual para preservar outras configurações
-    let siteDataCompleto = {};
+    const alvos = [];
+    dadosReserva.cidades.forEach(c => (c.empreendimentos || []).forEach(e => { if(adminEmpsSujos.has(e)) alvos.push(e); }));
+
+    for(const emp of alvos){
+      if(emp._novo || !window.salvarReservaAdminAoVivo){ naoGravados.push(emp.nome); continue; }
+      try{
+        await window.salvarReservaAdminAoVivo(emp);
+        gravados++;
+        adminEmpsSujos.delete(emp);
+      }catch(e){
+        erros.push(emp.nome + ': ' + (e && e.message ? e.message : e));
+      }
+    }
+
+    // Cópia em site_data.json (só funciona no servidor próprio). Melhor esforço: não conta como "salvo".
     try{
+      let siteDataCompleto = {};
       const resGet = await fetch('/site_data.json?t=' + Date.now());
       if(resGet.ok) siteDataCompleto = await resGet.json();
+      siteDataCompleto.reserva_dados = dadosReserva;
+      await fetch('/api/save-site-data', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(siteDataCompleto) });
     }catch(e){}
+  } finally {
+    adminSalvando = false;
+    if(btn) btn.disabled = false;
+  }
 
-    siteDataCompleto.reserva_dados = dadosReserva;
+  if(erros.length){
+    adminStatus('❌ NÃO salvou — ' + erros.join(' | '), '#ff7a75');
+    return; // continua marcado como não salvo
+  }
 
-    const resPost = await fetch('/api/save-site-data', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(siteDataCompleto)
-    });
-
-    if(resPost.ok){
-      statusEl.textContent = '✅ Salvo com sucesso no banco de dados!';
-      popularSelectCidades();
-      setTimeout(() => { statusEl.textContent = ''; fecharModalAdmin(); }, 1600);
-    } else {
-      statusEl.textContent = '⚠️ Salvo localmente na sessão.';
-    }
-  }catch(e){
-    statusEl.textContent = '⚠️ Salvo localmente na sessão.';
+  const hora = new Date().toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
+  popularSelectCidades();
+  adminSujo = false;
+  adminEmpsSujos.clear();
+  if(naoGravados.length){
+    adminStatus('⚠️ Salvo às ' + hora + ', mas NÃO gravado no Supabase (fica só nesta sessão): ' + naoGravados.join(', '), '#f5b942');
+  } else if(gravados > 0){
+    adminStatus('✅ Salvo às ' + hora + ' (' + gravados + ' empreendimento' + (gravados > 1 ? 's' : '') + ' gravado' + (gravados > 1 ? 's' : '') + ' no Supabase)', '#6fdc8c');
+  } else {
+    adminStatus('✅ Nada novo para salvar (' + hora + ')', '#6fdc8c');
   }
 }
 

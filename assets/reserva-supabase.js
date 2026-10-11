@@ -82,15 +82,19 @@
       }
       if (maiorLote === 0) maiorLote = 80; // fallback padrão
 
+      // Ajustes feitos no Admin da reserva ficam em data.reserva_admin (nao mexem em lotesInfo do gerenciador)
+      var ov = d.reserva_admin || {};
+      var lotesAdmin = parseInt(ov.lotes_padrao, 10);
+
       cidadesMap.get(cidadeInfo.id).empreendimentos.push({
         id: item.id,
-        nome: d.nome,
-        quadras: quadras,
-        lotes_padrao: maiorLote,
-        valor_total_padrao: '',
-        entrada_padrao: '',
-        parcelas_padrao: '',
-        valor_parcela_padrao: ''
+        nome: ov.nome ? String(ov.nome) : d.nome,
+        quadras: (Array.isArray(ov.quadras) && ov.quadras.length) ? ov.quadras.map(String) : quadras,
+        lotes_padrao: lotesAdmin > 0 ? lotesAdmin : maiorLote,
+        valor_total_padrao: ov.valor_total_padrao || '',
+        entrada_padrao: ov.entrada_padrao || '',
+        parcelas_padrao: ov.parcelas_padrao || '',
+        valor_parcela_padrao: ov.valor_parcela_padrao || ''
       });
     });
 
@@ -108,5 +112,47 @@
     return { cidades: cidades };
   }
 
+  // Grava no Supabase os ajustes do Admin (nome, quadras, lotes e valores) de UM empreendimento.
+  // Le a linha atual, acrescenta data.reserva_admin e grava de volta. Falha de verdade (com mensagem) se
+  // o Supabase recusar ou se a permissao (RLS) impedir a alteracao — nunca finge que salvou.
+  async function salvarReservaAdminAoVivo(emp) {
+    var base = SUPABASE_URL + '/rest/v1/empreendimentos';
+    var headers = { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json' };
+    var alvo = base + '?id=eq.' + encodeURIComponent(emp.id);
+
+    var rGet = await fetch(alvo + '&select=id,data', { headers: headers });
+    if (!rGet.ok) throw new Error('não consegui ler o empreendimento (erro ' + rGet.status + ')');
+    var rows = await rGet.json();
+    if (!rows.length) throw new Error('empreendimento não encontrado no Supabase');
+
+    var data = rows[0].data || {};
+    data.reserva_admin = {
+      nome: emp.nome,
+      quadras: emp.quadras,
+      lotes_padrao: emp.lotes_padrao,
+      valor_total_padrao: emp.valor_total_padrao || '',
+      entrada_padrao: emp.entrada_padrao || '',
+      parcelas_padrao: emp.parcelas_padrao || '',
+      valor_parcela_padrao: emp.valor_parcela_padrao || ''
+    };
+
+    var rPatch = await fetch(alvo, {
+      method: 'PATCH',
+      headers: Object.assign({}, headers, { Prefer: 'return=representation' }),
+      body: JSON.stringify({ data: data })
+    });
+    if (!rPatch.ok) {
+      var detalhe = '';
+      try { detalhe = (await rPatch.text()).slice(0, 160); } catch (e) {}
+      throw new Error('o Supabase recusou a gravação (erro ' + rPatch.status + ') ' + detalhe);
+    }
+    var saida = await rPatch.json();
+    if (!Array.isArray(saida) || saida.length === 0) {
+      throw new Error('o Supabase não aplicou a alteração (provável falta de permissão de escrita)');
+    }
+    return true;
+  }
+
   window.buscarEmpreendimentosAoVivo = buscarEmpreendimentosAoVivo;
+  window.salvarReservaAdminAoVivo = salvarReservaAdminAoVivo;
 })();
