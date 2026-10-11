@@ -198,6 +198,12 @@ select.input option{background:#FFFFFF;color:#1A1710}
 .btn-remover-comprador:hover{background:rgba(217,70,63,0.16)}
 .btn-add-comprador{width:100%;background:rgba(169,130,47,0.06);border:1px dashed rgba(169,130,47,0.35);border-radius:12px;padding:14px;font-size:13px;font-weight:700;color:var(--gold);cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;margin-top:16px;letter-spacing:.3px}
 .btn-add-comprador:hover{background:rgba(169,130,47,0.12);border-color:rgba(169,130,47,0.55)}
+.venc-opt{flex:1 1 112px;min-width:104px;padding:12px 8px;border-radius:12px;border:1.5px solid var(--border);background:var(--bg3);color:var(--text2);cursor:pointer;font-family:inherit;text-align:center;line-height:1.25;transition:all .15s}
+.venc-opt b{display:block;font-size:15px;font-weight:800;color:var(--text)}
+.venc-opt span{display:block;font-size:11px;margin-top:2px;color:var(--text3)}
+.venc-opt:hover{border-color:var(--gold)}
+.venc-opt.sel{border-color:var(--gold);background:rgba(169,130,47,0.14);box-shadow:0 0 0 2px rgba(169,130,47,0.18)}
+.venc-opt.sel b{color:var(--gold2)}
 .venc-aviso-40{background:rgba(184,131,0,0.08);border:1px solid rgba(184,131,0,0.35);border-radius:10px;padding:12px 14px;font-size:12px;color:#8a5c00;margin-top:8px;line-height:1.6;display:none}
 
 .btn-enviar{width:100%;display:flex;align-items:center;gap:14px;background:#25d366;color:#000;padding:14px 18px;border-radius:14px;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:all .2s;margin-top:8px;text-align:left}
@@ -289,6 +295,13 @@ select.input option{background:#FFFFFF;color:#1A1710}
   font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--gold);
   display:flex;align-items:center;gap:8px;
 }
+.admin-footer{
+  position:sticky;bottom:-24px;z-index:3;background:#14120D;
+  margin:18px -24px -24px;padding:14px 24px calc(14px + env(safe-area-inset-bottom,0px));
+  border-top:1px solid rgba(201,168,76,0.25);border-radius:0 0 18px 18px;
+  display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.admin-btn-save:disabled{opacity:.55;cursor:wait}
 .admin-nav-tabs{
   display:flex;gap:6px;border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:16px;
 }
@@ -499,6 +512,7 @@ select.input option{background:#FFFFFF;color:#1A1710}
 .footer-lock{display:flex;align-items:center;justify-content:center;gap:6px;font-size:11px;color:rgba(255,255,255,0.5);margin-top:14px}
 </style>
 <script src="/assets/reserva-supabase.js"></script>
+<script src="/assets/admin-auth.js"></script>
 </head>
 <body>
 
@@ -874,6 +888,23 @@ select.input option{background:#FFFFFF;color:#1A1710}
       </div>
     </div>
 
+    <!-- DATA DE VENCIMENTO DA 1ª PARCELA (só dias 5, 10, 15, 20, 25 e 30) -->
+    <div class="section-card">
+      <div class="section-head">
+        <div class="section-icon"><span style="font-size:20px;line-height:1">📅</span></div>
+        <div>
+          <div class="section-title">Data de Vencimento</div>
+          <div class="section-sub">Escolha o dia do pagamento da 1ª parcela</div>
+        </div>
+      </div>
+      <div id="venc-opcoes" style="display:flex;flex-wrap:wrap;gap:10px"></div>
+      <input type="hidden" id="vencimento" value="">
+      <div class="venc-aviso-40" id="aviso-40">
+        ⚠️ <strong>Confirmar com o escritório.</strong> Datas além das opções acima precisam ser confirmadas pelo corretor antes de fechar a reserva. Você pode continuar o envio normalmente.
+      </div>
+      <span class="hint" id="h-venc"></span>
+    </div>
+
     <!-- BOTÕES ETAPA 3 -->
     <div class="btn-wizard-nav">
       <button class="btn-wizard-prev" onclick="voltarParaStep(2)" type="button">
@@ -1031,7 +1062,7 @@ select.input option{background:#FFFFFF;color:#1A1710}
 </div>
 
 <!-- ═══════════════════════════════════════════
-     MODAL ADMINISTRATIVO SEGRETO (CRECI 13919 / Geper3tp@)
+     MODAL ADMINISTRATIVO SEGRETO
 ════════════════════════════════════════════ -->
 <div id="admin-modal-overlay" class="admin-modal-overlay" onclick="if(event.target===this)fecharModalAdmin()">
   <div class="admin-modal-box">
@@ -1056,7 +1087,7 @@ select.input option{background:#FFFFFF;color:#1A1710}
         <span style="font-size:13px;color:var(--text2)">Empreendimentos cadastrados no sistema:</span>
         <button type="button" class="admin-btn-save" style="padding:6px 12px;font-size:11px" onclick="adminNovoEmpreendimento()">+ Novo Empreendimento</button>
       </div>
-      <div id="admin-lista-emp" style="display:flex;flex-direction:column;gap:12px;max-height:55vh;overflow-y:auto;padding-right:4px">
+      <div id="admin-lista-emp" style="display:flex;flex-direction:column;gap:12px">
         <!-- Injetado via JS -->
       </div>
     </div>
@@ -1079,11 +1110,11 @@ select.input option{background:#FFFFFF;color:#1A1710}
       <button type="button" class="admin-btn-save" style="margin-top:10px;width:100%" onclick="adminSalvarJsonRaw()">Aplicar e Salvar JSON</button>
     </div>
 
-    <div style="margin-top:18px;border-top:1px solid rgba(201,168,76,0.25);padding-top:14px;display:flex;justify-content:space-between;align-items:center">
-      <span id="admin-status-save" style="font-size:12px;color:var(--gold)"></span>
+    <div class="admin-footer">
+      <span id="admin-status-save" style="font-size:12px;color:var(--gold);flex:1;min-width:140px;line-height:1.35"></span>
       <div style="display:flex;gap:10px">
         <button type="button" onclick="fecharModalAdmin()" style="background:transparent;border:1px solid rgba(255,255,255,0.2);color:#fff;padding:8px 14px;border-radius:8px;cursor:pointer">Fechar</button>
-        <button type="button" class="admin-btn-save" onclick="adminSalvarTodasAlteracoes()">💾 Salvar Alterações</button>
+        <button type="button" id="admin-btn-salvar" class="admin-btn-save" onclick="adminSalvarTodasAlteracoes()">💾 Salvar Alterações</button>
       </div>
     </div>
   </div>
@@ -1698,6 +1729,7 @@ let stepAtual = 1;
 
 function atualizarIndicadorSteps(step){
   stepAtual = step;
+  if(step === 3 && typeof renderizarOpcoesVencimento === 'function') renderizarOpcoesVencimento();
   for(let i=1; i<=4; i++){
     const tab = document.getElementById('step-tab-'+i);
     const stepEl = document.getElementById('wizard-step-'+i);
@@ -2405,7 +2437,7 @@ function verificarSenhaAdmin(){
   const erro = document.getElementById('admin-auth-erro');
   const senha = input ? input.value.trim() : '';
 
-  if(senha === 'Geper3tp@'){
+  if(rtSenhaAdminConfere(senha)){
     fecharModalAuthAdmin();
     abrirModalAdmin();
   } else {
@@ -2424,12 +2456,39 @@ function abrirModalAdmin(){
   trocarAbaAdmin('emp');
   renderizarAdminListaEmp();
   renderizarAdminListaCid();
+  if(adminSujo) adminStatus('● Alterações não salvas', '#f5b942'); else adminStatus('', 'var(--gold)');
 }
 
 function fecharModalAdmin(){
+  if(adminSujo && !confirm('Você tem alterações NÃO SALVAS no Admin. Fechar mesmo assim?')) return;
   document.getElementById('admin-modal-overlay').classList.remove('aberto');
   document.body.style.overflow = '';
 }
+
+// ── Admin: controle de "alterações não salvas" ──────────────
+let adminSujo = false;
+let adminSalvando = false;
+const adminEmpsSujos = new Set();
+
+function adminStatus(msg, cor){
+  const el = document.getElementById('admin-status-save');
+  if(!el) return;
+  el.textContent = msg;
+  el.style.color = cor || 'var(--gold)';
+}
+function adminMarcarSujo(emp){
+  adminSujo = true;
+  if(emp) adminEmpsSujos.add(emp);
+  adminStatus('● Alterações não salvas', '#f5b942');
+}
+// Qualquer campo editado dentro de um card de empreendimento marca aquele empreendimento como alterado
+document.getElementById('admin-modal-overlay').addEventListener('change', function(ev){
+  const card = ev.target.closest && ev.target.closest('[data-admin-emp]');
+  if(!card) return;
+  const partes = card.getAttribute('data-admin-emp').split(':').map(Number);
+  const cid = dadosReserva.cidades[partes[0]];
+  adminMarcarSujo(cid && cid.empreendimentos[partes[1]]);
+});
 
 function trocarAbaAdmin(aba){
   ['emp', 'cid', 'json'].forEach(a => {
@@ -2450,6 +2509,7 @@ function renderizarAdminListaEmp(){
     cid.empreendimentos.forEach((emp, empIdx) => {
       const card = document.createElement('div');
       card.className = 'admin-card';
+      card.setAttribute('data-admin-emp', cidIdx + ':' + empIdx);
       card.innerHTML = `
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
           <div>
@@ -2468,7 +2528,11 @@ function renderizarAdminListaEmp(){
             <input class="admin-input" type="text" value="${emp.quadras.join(', ')}" onchange="dadosReserva.cidades[${cidIdx}].empreendimentos[${empIdx}].quadras = this.value.split(',').map(s=>s.trim()).filter(Boolean)">
           </div>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(4, 1fr);gap:8px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px">
+          <div>
+            <label style="font-size:10px;color:var(--text3);display:block;margin-bottom:2px">Lotes por quadra (maior nº)</label>
+            <input class="admin-input" type="number" min="1" value="${emp.lotes_padrao || ''}" onchange="dadosReserva.cidades[${cidIdx}].empreendimentos[${empIdx}].lotes_padrao = parseInt(this.value,10) || 0">
+          </div>
           <div>
             <label style="font-size:10px;color:var(--text3);display:block;margin-bottom:2px">Valor Total (R$)</label>
             <input class="admin-input" type="text" value="${emp.valor_total_padrao || ''}" onchange="dadosReserva.cidades[${cidIdx}].empreendimentos[${empIdx}].valor_total_padrao = this.value">
@@ -2525,6 +2589,7 @@ function adminNovaCidade(){
     nome: nome.trim(),
     empreendimentos: []
   });
+  adminMarcarSujo();
   renderizarAdminListaCid();
   popularSelectCidades();
 }
@@ -2532,6 +2597,7 @@ function adminNovaCidade(){
 function adminExcluirCidade(idx){
   if(confirm(`Tem certeza que deseja excluir a cidade "${dadosReserva.cidades[idx].nome}"?`)){
     dadosReserva.cidades.splice(idx, 1);
+    adminMarcarSujo();
     renderizarAdminListaCid();
     renderizarAdminListaEmp();
     popularSelectCidades();
@@ -2560,16 +2626,19 @@ function adminNovoEmpreendimento(){
     valor_total_padrao: "16.000,00",
     entrada_padrao: "500,00",
     parcelas_padrao: 50,
-    valor_parcela_padrao: "310,00"
+    valor_parcela_padrao: "310,00",
+    _novo: true
   });
 
+  adminMarcarSujo(dadosReserva.cidades[idx].empreendimentos[dadosReserva.cidades[idx].empreendimentos.length - 1]);
   renderizarAdminListaEmp();
   popularSelectCidades();
 }
 
 function adminExcluirEmpreendimento(cidIdx, empIdx){
-  if(confirm(`Deseja excluir o empreendimento "${dadosReserva.cidades[cidIdx].empreendimentos[empIdx].nome}"?`)){
+  if(confirm(`Deseja excluir o empreendimento "${dadosReserva.cidades[cidIdx].empreendimentos[empIdx].nome}"?\n\nAtenção: ele some só desta tela. No Supabase (gerenciador) ele continua e volta quando a página for reaberta.`)){
     dadosReserva.cidades[cidIdx].empreendimentos.splice(empIdx, 1);
+    adminMarcarSujo();
     renderizarAdminListaEmp();
   }
 }
@@ -2579,6 +2648,7 @@ function adminSalvarJsonRaw(){
     const parsed = JSON.parse(document.getElementById('admin-json-raw').value);
     if(parsed && parsed.cidades){
       dadosReserva = parsed;
+      dadosReserva.cidades.forEach(c => (c.empreendimentos || []).forEach(e => adminMarcarSujo(e)));
       renderizarAdminListaEmp();
       renderizarAdminListaCid();
       popularSelectCidades();
@@ -2592,34 +2662,59 @@ function adminSalvarJsonRaw(){
 }
 
 async function adminSalvarTodasAlteracoes(){
-  const statusEl = document.getElementById('admin-status-save');
-  statusEl.textContent = '⏳ Salvando alterações...';
+  if(adminSalvando) return;
+  adminSalvando = true;
+  const btn = document.getElementById('admin-btn-salvar');
+  if(btn) btn.disabled = true;
+  adminStatus('⏳ Salvando...', 'var(--gold)');
+
+  const erros = [];       // falhas reais (mostradas em vermelho)
+  const naoGravados = []; // itens que o Supabase não guarda (só ficam nesta sessão)
+  let gravados = 0;
 
   try{
-    // Primeiro buscar o site_data atual para preservar outras configurações
-    let siteDataCompleto = {};
+    const alvos = [];
+    dadosReserva.cidades.forEach(c => (c.empreendimentos || []).forEach(e => { if(adminEmpsSujos.has(e)) alvos.push(e); }));
+
+    for(const emp of alvos){
+      if(emp._novo || !window.salvarReservaAdminAoVivo){ naoGravados.push(emp.nome); continue; }
+      try{
+        await window.salvarReservaAdminAoVivo(emp);
+        gravados++;
+        adminEmpsSujos.delete(emp);
+      }catch(e){
+        erros.push(emp.nome + ': ' + (e && e.message ? e.message : e));
+      }
+    }
+
+    // Cópia em site_data.json (só funciona no servidor próprio). Melhor esforço: não conta como "salvo".
     try{
+      let siteDataCompleto = {};
       const resGet = await fetch('/site_data.json?t=' + Date.now());
       if(resGet.ok) siteDataCompleto = await resGet.json();
+      siteDataCompleto.reserva_dados = dadosReserva;
+      await fetch('/api/save-site-data', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(siteDataCompleto) });
     }catch(e){}
+  } finally {
+    adminSalvando = false;
+    if(btn) btn.disabled = false;
+  }
 
-    siteDataCompleto.reserva_dados = dadosReserva;
+  if(erros.length){
+    adminStatus('❌ NÃO salvou — ' + erros.join(' | '), '#ff7a75');
+    return; // continua marcado como não salvo
+  }
 
-    const resPost = await fetch('/api/save-site-data', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(siteDataCompleto)
-    });
-
-    if(resPost.ok){
-      statusEl.textContent = '✅ Salvo com sucesso no banco de dados!';
-      popularSelectCidades();
-      setTimeout(() => { statusEl.textContent = ''; fecharModalAdmin(); }, 1600);
-    } else {
-      statusEl.textContent = '⚠️ Salvo localmente na sessão.';
-    }
-  }catch(e){
-    statusEl.textContent = '⚠️ Salvo localmente na sessão.';
+  const hora = new Date().toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
+  popularSelectCidades();
+  adminSujo = false;
+  adminEmpsSujos.clear();
+  if(naoGravados.length){
+    adminStatus('⚠️ Salvo às ' + hora + ', mas NÃO gravado no Supabase (fica só nesta sessão): ' + naoGravados.join(', '), '#f5b942');
+  } else if(gravados > 0){
+    adminStatus('✅ Salvo às ' + hora + ' (' + gravados + ' empreendimento' + (gravados > 1 ? 's' : '') + ' gravado' + (gravados > 1 ? 's' : '') + ' no Supabase)', '#6fdc8c');
+  } else {
+    adminStatus('✅ Nada novo para salvar (' + hora + ')', '#6fdc8c');
   }
 }
 
@@ -2764,6 +2859,74 @@ function validarStep2(){
   return true;
 }
 
+// ── Data de vencimento da 1ª parcela: só dias 5, 10, 15, 20, 25 e 30 ──────────
+// O cliente pode escolher de hoje (inclusive) até o PRÓXIMO dia-5 depois de hoje.
+// Ex.: hoje 5 -> 5 ou 10 | hoje 8 -> 10 | hoje 10 -> 10 ou 15 | hoje 18 -> 20.
+// Qualquer outra data: "Confirmar com o escritório". Dia 30 vale o último dia do mês (fevereiro).
+function calcularOpcoesVencimento(agora){
+  const hoje = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate());
+  const candidatos = [];
+  for(let m = 0; m <= 2; m++){
+    const ano = hoje.getFullYear(), mes = hoje.getMonth() + m;
+    const ultimoDia = new Date(ano, mes + 1, 0).getDate();
+    [5,10,15,20,25,30].forEach(dia => candidatos.push(new Date(ano, mes, Math.min(dia, ultimoDia))));
+  }
+  const futuros = candidatos.filter(d => d >= hoje);
+  const limite = futuros.find(d => d > hoje);
+  return futuros.filter(d => d <= limite);
+}
+
+function vencIso(d){
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+
+function renderizarOpcoesVencimento(){
+  const box = document.getElementById('venc-opcoes');
+  if(!box) return;
+  const input = document.getElementById('vencimento');
+  const opcoes = calcularOpcoesVencimento(new Date());
+  const validos = opcoes.map(vencIso).concat(['FORA']);
+  if(input && validos.indexOf(input.value) === -1) input.value = ''; // seleção antiga venceu (ex.: página aberta de um dia pro outro)
+  const atual = input ? input.value : '';
+  box.innerHTML = '';
+  opcoes.forEach(d => {
+    const iso = vencIso(d);
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'venc-opt' + (atual === iso ? ' sel' : '');
+    b.setAttribute('data-venc', iso);
+    b.innerHTML = '<b>Dia ' + d.getDate() + '</b><span>' + d.toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit', weekday:'short'}).replace('.', '') + '</span>';
+    b.onclick = function(){ selecionarVencimento(iso); };
+    box.appendChild(b);
+  });
+  const outra = document.createElement('button');
+  outra.type = 'button';
+  outra.className = 'venc-opt' + (atual === 'FORA' ? ' sel' : '');
+  outra.setAttribute('data-venc', 'FORA');
+  outra.innerHTML = '<b>Outra data</b><span>confirmar com o escritório</span>';
+  outra.onclick = function(){ selecionarVencimento('FORA'); };
+  box.appendChild(outra);
+  const aviso = document.getElementById('aviso-40');
+  if(aviso) aviso.style.display = (atual === 'FORA') ? 'block' : 'none';
+}
+
+function selecionarVencimento(valor){
+  const input = document.getElementById('vencimento');
+  if(input) input.value = valor;
+  document.querySelectorAll('#venc-opcoes .venc-opt').forEach(b => b.classList.toggle('sel', b.getAttribute('data-venc') === valor));
+  const aviso = document.getElementById('aviso-40');
+  if(aviso) aviso.style.display = (valor === 'FORA') ? 'block' : 'none';
+}
+
+// Texto do vencimento para o resumo e a mensagem do WhatsApp
+function textoVencimento(){
+  const v = (document.getElementById('vencimento') || {}).value || '';
+  if(v === 'FORA') return 'A CONFIRMAR COM O ESCRITÓRIO';
+  if(!v) return '';
+  const [y,m,d] = v.split('-');
+  return d + '/' + m + '/' + y;
+}
+
 function validarStep3(){
   // Informações do empreendimento, quadra, lote e valores são opcionais
   return true;
@@ -2832,6 +2995,10 @@ function gerarResumoRevisao(){
     <div class="resumo-item">
       <span class="resumo-label">Lote(s) / Quadra(s):</span>
       <span class="resumo-val" style="color:var(--gold)">${lotesFmt || '—'}</span>
+    </div>
+    <div class="resumo-item">
+      <span class="resumo-label">Vencimento 1ª parcela:</span>
+      <span class="resumo-val" style="color:var(--gold)">${textoVencimento() || '—'}</span>
     </div>
     <div class="resumo-item">
       <span class="resumo-label">Vendedor:</span>
@@ -2964,6 +3131,7 @@ CONTATO: ${contatosString}
 LOTE: ${listaLotes || '—'}
 QUADRA: ${listaQuadras || '—'}
 EMPREENDIMENTO: ${empNome ? empNome.toUpperCase() : '—'}
+VENCIMENTO: ${textoVencimento() || '—'}
 VENDEDOR: RAFAEL TAVARES`;
 
   return msg;
@@ -3165,6 +3333,7 @@ document.addEventListener('keydown',function(e){
 // Inicialização
 document.addEventListener('DOMContentLoaded', () => {
   carregarDadosDoBanco();
+  renderizarOpcoesVencimento();
 });
 </script>
 <link rel="stylesheet" href="/assets/lead-modal.css">

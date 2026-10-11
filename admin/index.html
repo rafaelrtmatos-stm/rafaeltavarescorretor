@@ -1526,6 +1526,7 @@
       border-color: rgba(212, 175, 55, 0.4);
     }
   </style>
+<script src="/assets/admin-auth.js"></script>
 </head>
 <body>
 
@@ -1748,7 +1749,6 @@
     var PREVIEW_DEVICE = 'desktop';
     var HISTORY_KEY = 'rt_admin_history_v2';
     var AUTH_KEY = 'admin_pass_rt';
-    var DEFAULT_PASS = 'Geper3tp@';
 
     // ── SUPABASE: configuração do formulário (tabela site_config) ──
     var SB_URL = 'https://uftxcwcryqpkfdfxzlno.supabase.co';
@@ -1797,8 +1797,8 @@
 
     // Usa a senha do próprio Admin (a mesma do login do painel). Só pergunta se ela for recusada.
     async function salvarChatContatoSupabase() {
-      var senha = localStorage.getItem(SB_PASS_KEY) || localStorage.getItem(AUTH_KEY) || DEFAULT_PASS;
-      var res = await tentarGravarChatContato(senha);
+      var senha = localStorage.getItem(SB_PASS_KEY) || localStorage.getItem(AUTH_KEY) || '';
+      var res = senha ? await tentarGravarChatContato(senha) : { ok: false, senhaErrada: true };
       if (!res.ok && res.senhaErrada) {
         localStorage.removeItem(SB_PASS_KEY);
         var digitada = (prompt('Senha do Admin (a mesma do painel) para publicar o formulário:') || '').trim();
@@ -1846,9 +1846,9 @@
     function handleAuth(e) {
       if (e) e.preventDefault();
       var inp = document.getElementById('auth-pass').value.trim();
-      var stored = localStorage.getItem(AUTH_KEY) || DEFAULT_PASS;
-      if (inp === 'Geper3tp@' || inp === stored || inp === DEFAULT_PASS || inp === '1234') {
-        localStorage.setItem(AUTH_KEY, 'Geper3tp@');
+      var stored = localStorage.getItem(AUTH_KEY);
+      if (rtSenhaAdminConfere(inp) || (stored && inp === stored)) {
+        localStorage.setItem(AUTH_KEY, inp);
         sessionStorage.setItem('admin_logged', 'true');
         document.getElementById('auth-screen').style.display = 'none';
         toast('✅ Bem-vindo ao painel!', 'ok');
