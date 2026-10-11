@@ -512,6 +512,7 @@ select.input option{background:#FFFFFF;color:#1A1710}
 .footer-lock{display:flex;align-items:center;justify-content:center;gap:6px;font-size:11px;color:rgba(255,255,255,0.5);margin-top:14px}
 </style>
 <script src="/assets/reserva-supabase.js"></script>
+<script src="/assets/admin-auth.js"></script>
 </head>
 <body>
 
@@ -2436,7 +2437,7 @@ function verificarSenhaAdmin(){
   const erro = document.getElementById('admin-auth-erro');
   const senha = input ? input.value.trim() : '';
 
-  if(senha === 'Geper3tp@'){
+  if(rtSenhaAdminConfere(senha)){
     fecharModalAuthAdmin();
     abrirModalAdmin();
   } else {

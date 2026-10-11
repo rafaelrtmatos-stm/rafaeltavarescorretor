@@ -516,6 +516,7 @@ section#hero{z-index:0;overflow:hidden!important}
   content-visibility: visible !important;
 }
 </style>
+<script src="/assets/admin-auth.js"></script>
 </head>
 <body>
 
@@ -2637,9 +2638,10 @@ function galTab(el,panel){
 </div>
 
 <script>
-function getSenha(){return localStorage.getItem('admin_senha_rt')||'Geper3tp@';}
 function loginAdmin(){
-  if(document.getElementById('admin-senha').value===getSenha()){
+  var digitada=document.getElementById('admin-senha').value;
+  var custom=localStorage.getItem('admin_senha_rt');
+  if(rtSenhaAdminConfere(digitada)||(custom&&digitada===custom)){
     window.location.href='admin/';
   } else {
     document.getElementById('admin-err').style.display='block';
