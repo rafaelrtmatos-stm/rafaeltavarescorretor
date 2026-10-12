@@ -1976,8 +1976,9 @@ let numItensLote = 0;
 // objeto fixo dadosReserva já definido acima.
 async function carregarDadosDoBanco(){
   try{
-    if(window.buscarEmpreendimentosAoVivo){
-      const dadosAoVivo = await window.buscarEmpreendimentosAoVivo();
+    if(window.carregarReservaDados){
+      // Supabase: empreendimentos ao vivo + quadras/lotes salvos pelo ADM (site_config)
+      const dadosAoVivo = await window.carregarReservaDados();
       if(dadosAoVivo && dadosAoVivo.cidades && dadosAoVivo.cidades.length > 0){
         dadosReserva = dadosAoVivo;
         popularSelectCidades();
@@ -2400,12 +2401,15 @@ function fecharModalAuthAdmin(){
   document.body.style.overflow = '';
 }
 
+let senhaAdminReserva = '';
+
 function verificarSenhaAdmin(){
   const input = document.getElementById('input-senha-admin');
   const erro = document.getElementById('admin-auth-erro');
   const senha = input ? input.value.trim() : '';
 
   if(senha === 'Geper3tp@'){
+    senhaAdminReserva = senha;
     fecharModalAuthAdmin();
     abrirModalAdmin();
   } else {
@@ -2529,8 +2533,16 @@ function adminNovaCidade(){
   popularSelectCidades();
 }
 
+function adminMarcarExcluido(emp){
+  // Guarda o id para que o empreendimento (se vier da tabela ao vivo) não reapareça
+  if(!emp || emp.id === undefined || emp.id === null) return;
+  if(!Array.isArray(dadosReserva.excluidos)) dadosReserva.excluidos = [];
+  if(!dadosReserva.excluidos.includes(String(emp.id))) dadosReserva.excluidos.push(String(emp.id));
+}
+
 function adminExcluirCidade(idx){
   if(confirm(`Tem certeza que deseja excluir a cidade "${dadosReserva.cidades[idx].nome}"?`)){
+    dadosReserva.cidades[idx].empreendimentos.forEach(adminMarcarExcluido);
     dadosReserva.cidades.splice(idx, 1);
     renderizarAdminListaCid();
     renderizarAdminListaEmp();
@@ -2569,6 +2581,7 @@ function adminNovoEmpreendimento(){
 
 function adminExcluirEmpreendimento(cidIdx, empIdx){
   if(confirm(`Deseja excluir o empreendimento "${dadosReserva.cidades[cidIdx].empreendimentos[empIdx].nome}"?`)){
+    adminMarcarExcluido(dadosReserva.cidades[cidIdx].empreendimentos[empIdx]);
     dadosReserva.cidades[cidIdx].empreendimentos.splice(empIdx, 1);
     renderizarAdminListaEmp();
   }
@@ -2596,30 +2609,31 @@ async function adminSalvarTodasAlteracoes(){
   statusEl.textContent = '⏳ Salvando alterações...';
 
   try{
-    // Primeiro buscar o site_data atual para preservar outras configurações
-    let siteDataCompleto = {};
-    try{
-      const resGet = await fetch('/site_data.json?t=' + Date.now());
-      if(resGet.ok) siteDataCompleto = await resGet.json();
-    }catch(e){}
+    if(!window.salvarConfigReservaSupabase){
+      statusEl.textContent = '❌ Não foi possível salvar: módulo do Supabase não carregou.';
+      return;
+    }
 
-    siteDataCompleto.reserva_dados = dadosReserva;
+    // Grava no Supabase (tabela site_config, chave reserva_dados)
+    let senha = senhaAdminReserva || 'Geper3tp@';
+    let res = await window.salvarConfigReservaSupabase(dadosReserva, senha);
+    if(!res.ok && res.senhaErrada){
+      const digitada = (prompt('Senha do Admin (a mesma do painel) para publicar as quadras e lotes:') || '').trim();
+      if(digitada){
+        res = await window.salvarConfigReservaSupabase(dadosReserva, digitada);
+        if(res.ok) senhaAdminReserva = digitada;
+      }
+    }
 
-    const resPost = await fetch('/api/save-site-data', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(siteDataCompleto)
-    });
-
-    if(resPost.ok){
-      statusEl.textContent = '✅ Salvo com sucesso no banco de dados!';
+    if(res.ok){
+      statusEl.textContent = '✅ Salvo no Supabase! Já vale para todos os dispositivos.';
       popularSelectCidades();
       setTimeout(() => { statusEl.textContent = ''; fecharModalAdmin(); }, 1600);
     } else {
-      statusEl.textContent = '⚠️ Salvo localmente na sessão.';
+      statusEl.textContent = '❌ Não salvou no Supabase: ' + (res.motivo || 'erro desconhecido') + '. As alterações valem só nesta tela até salvar de novo.';
     }
   }catch(e){
-    statusEl.textContent = '⚠️ Salvo localmente na sessão.';
+    statusEl.textContent = '❌ Erro ao salvar: ' + e.message;
   }
 }
 
