@@ -8,6 +8,8 @@
   'use strict';
 
   var NUMERO_RAFAEL = '5593992332012';
+  // Fluxo rápido: pergunta só o nome e já abre o WhatsApp do Rafael com o empreendimento de interesse.
+  var FLUXO_RAPIDO = true;
 
   // ── CONFIGURAÇÕES DINÂMICAS DO CHAT (CONFIGURÁVEIS PELO PAINEL ADM) ──
   var CONFIG_CHAT_PADRAO = {
@@ -18,8 +20,8 @@
     som_habilitado: true,
     tempo_digitando_ms: 3000,
     etapa1: {
-      mensagem1: 'Olá! 👋 Sou o assistente virtual do Corretor Rafael. Vou fazer algumas perguntas rápidas para entender o que você procura e facilitar o seu atendimento com ele.',
-      mensagem2: 'Antes de começarmos, como posso te chamar?',
+      mensagem1: 'Olá! 👋 Sou o assistente virtual do Corretor Rafael. Para te levar direto ao WhatsApp dele, só preciso do seu nome.',
+      mensagem2: 'Como posso te chamar?',
       placeholder_nome: 'Digite seu nome completo'
     },
     etapa2: {
@@ -457,6 +459,9 @@
     }
     if (path.indexOf('bela-vista-mararu') !== -1) {
       return { nome: 'Bela Vista do Mararu', slug: 'bela-vista-mararu' };
+    }
+    if (path.indexOf('mararu2') !== -1) {
+      return { nome: 'Mararu Ville Segunda Etapa', slug: 'mararu2' };
     }
     if (path.indexOf('mararu') !== -1) {
       return { nome: 'Bairro Mararu', slug: 'mararu' };
@@ -1054,6 +1059,7 @@
       { nome: 'Jardim Alenquer', slug: 'alenquer' },
       { nome: 'Bela Vista do Mararu', slug: 'bela-vista-mararu' },
       { nome: 'Bairro Mararu', slug: 'mararu' },
+      { nome: 'Mararu Ville Segunda Etapa', slug: 'mararu2' },
       { nome: 'São Braz', slug: 'sao-braz' },
       { nome: 'Jussaramia', slug: 'monte-alegre' },
       { nome: 'Pajucará', slug: 'pajucara' },
@@ -1074,14 +1080,22 @@
         var headerEmp = document.getElementById('lead-header-emp');
         if (headerEmp) headerEmp.textContent = opt.nome;
 
-        responderCliente(opt.nome, obterProximaEtapa(currentStep || 'e1_nome'));
+        if (FLUXO_RAPIDO) {
+          enviarParaWhatsAppRapido(opt.nome);
+        } else {
+          responderCliente(opt.nome, obterProximaEtapa(currentStep || 'e1_nome'));
+        }
       });
       actionsWrap.appendChild(btn);
     });
 
     // Botão Pular
     var btnPularEmp = criarBotaoPular('Pular esta pergunta ›', function () {
-      responderCliente('Ainda não sei, quero ver as opções', obterProximaEtapa(currentStep || 'e1_nome'));
+      if (FLUXO_RAPIDO) {
+        enviarParaWhatsAppRapido('Ainda não sei, quero ver as opções');
+      } else {
+        responderCliente('Ainda não sei, quero ver as opções', obterProximaEtapa(currentStep || 'e1_nome'));
+      }
     });
     actionsWrap.appendChild(btnPularEmp);
 
@@ -1532,13 +1546,107 @@
   }
 
   // Ações da Etapa de Nome
+  // ── FLUXO RÁPIDO: só o nome → WhatsApp do Rafael já com o empreendimento ──
+  function gerarMensagemRapida(dados) {
+    var nome = (dados.nome || '').trim() || 'Cliente';
+    var empRaw = (dados.empreendimento || '').trim();
+    var isGeral = (!empRaw || empRaw === 'Geral / Portal Principal' || empRaw === 'Geral');
+    var empTexto = isGeral ? 'os terrenos e lançamentos' : empRaw;
+    var cfgWpp = (configChat && configChat.mensagem_whatsapp) || {};
+
+    var saudacao = (cfgWpp.texto_intro || 'Olá Corretor Rafael! Meu nome é *{nome}*.')
+      .replace(/\{nome\}/gi, nome)
+      .replace(/\{empreendimento\}/gi, empTexto);
+    var conclusao = (cfgWpp.texto_conclusao || 'Gostaria de saber mais detalhes e opções disponíveis!')
+      .replace(/\{nome\}/gi, nome)
+      .replace(/\{empreendimento\}/gi, empTexto);
+
+    var linhas = [saudacao, '', '📌 *Interesse:* ' + empTexto];
+    if (conclusao) {
+      linhas.push('');
+      linhas.push(conclusao);
+    }
+    return linhas.join('\n');
+  }
+
+  function enviarLeadRapido(dados) {
+    try {
+      var payload = {
+        nome: (dados.nome || '').trim() || 'Cliente Interessado',
+        telefone: (dados.telefone || '').trim(),
+        empreendimento: dados.empreendimento || 'Geral / Portal Principal',
+        empreendimento_slug: dados.empreendimento_slug || 'geral',
+        origem_url: dados.origem_url || window.location.href,
+        objetivo: '',
+        planejamento_compra: '',
+        forma_pagamento: '',
+        quer_visitar: false,
+        data_visita: null,
+        periodo_visita: null,
+        horario_visita: null,
+        respostas_extras: null,
+        whatsapp_enviado: true
+      };
+      var payloadStr = JSON.stringify(payload);
+
+      try {
+        var backup = JSON.parse(localStorage.getItem('rt_leads_backup') || '[]');
+        payload.backup_at = new Date().toISOString();
+        backup.unshift(payload);
+        localStorage.setItem('rt_leads_backup', JSON.stringify(backup.slice(0, 50)));
+      } catch (eBkp) {}
+
+      if (navigator.sendBeacon) {
+        try {
+          navigator.sendBeacon('/api/leads', new Blob([payloadStr], { type: 'application/json' }));
+        } catch (eBeacon) {}
+      }
+      fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: payloadStr,
+        keepalive: true
+      }).catch(function (err) {
+        console.warn('Registro de lead via fetch:', err);
+      });
+    } catch (eGeral) {
+      console.warn('Erro ao disparar envio do lead:', eGeral);
+    }
+  }
+
+  // Deve ser chamada direto do clique do cliente (para o navegador não bloquear a abertura do WhatsApp)
+  function enviarParaWhatsAppRapido(textoExibicao) {
+    tocarSomEnviado();
+
+    var actionsWrap = document.getElementById('lead-active-actions');
+    if (actionsWrap) actionsWrap.remove();
+
+    var messagesBox = document.getElementById('lead-chat-messages');
+    if (messagesBox) {
+      messagesBox.appendChild(criarBalaoCliente(textoExibicao, true));
+      rolarParaFinal();
+    }
+
+    salvarConversaLocal();
+    enviarLeadRapido(leadData);
+
+    var mensagemFinal = gerarMensagemRapida(leadData);
+    var numDestino = (configChat.numero_whatsapp || NUMERO_RAFAEL).replace(/\D/g, '');
+    var wppUrl = 'https://wa.me/' + numDestino + '?text=' + encodeURIComponent(mensagemFinal);
+
+    window.open(wppUrl, '_blank');
+    setTimeout(fecharModal, 500);
+  }
+
   function renderizarAcoesNome(container, q) {
     var actionsWrap = document.createElement('div');
     actionsWrap.id = 'lead-active-actions';
     actionsWrap.className = 'lead-actions-container';
 
     var placeholder = (q && q.placeholder) || (configChat.etapa1 && configChat.etapa1.placeholder) || (configChat.etapa1 && configChat.etapa1.placeholder_nome) || 'Digite seu nome completo';
-    var btnTexto = (q && q.botao_texto) || (configChat.etapa1 && configChat.etapa1.botao_texto) || 'Continuar ›';
+    var btnTexto = (FLUXO_RAPIDO && leadData.empreendimento_slug !== 'geral')
+      ? 'Ir para o WhatsApp'
+      : ((q && q.botao_texto) || (configChat.etapa1 && configChat.etapa1.botao_texto) || 'Continuar ›');
 
     var card = document.createElement('div');
     card.className = 'lead-input-card';
@@ -1573,6 +1681,8 @@
 
       if (leadData.empreendimento_slug === 'geral') {
         responderClienteComPerguntaEmpreendimento(valor);
+      } else if (FLUXO_RAPIDO) {
+        enviarParaWhatsAppRapido(valor);
       } else {
         responderCliente(valor, obterProximaEtapa(q ? q.id : 'e1_nome'));
       }
@@ -2502,6 +2612,12 @@
     if (!overlay || !messagesBox) return;
 
     var salvo = carregarConversaLocal();
+    var nomeSalvo = '';
+    if (FLUXO_RAPIDO) {
+      // Fluxo rápido: sempre recomeça (só nome); aproveita o nome já informado antes
+      nomeSalvo = (salvo && salvo.leadData && salvo.leadData.nome) || '';
+      salvo = null;
+    }
 
     // ── RETOMAR CONVERSA JÁ EXISTENTE (cliente já conversou antes) ──
     if (salvo) {
@@ -2543,6 +2659,7 @@
     leadData.empreendimento = empInfo.nome;
     leadData.empreendimento_slug = empInfo.slug;
     leadData.origem_url = window.location.href;
+    if (nomeSalvo) leadData.nome = nomeSalvo;
     conversaDataInicio = (new Date()).toISOString();
 
     // Atualiza subtítulo do corretor no topo do chat
@@ -2584,6 +2701,9 @@
 
     var href = (el.getAttribute('href') || '').toLowerCase();
     if (href.indexOf('chat.whatsapp.com') !== -1) return false;
+
+    // Botões que já levam uma mensagem pronta (comprovante de reserva / card de região): seguem direto para o WhatsApp
+    if (el.id === 'btn-wpp-comp' || el.id === 'modal-wpp') return false;
 
     if (el.classList.contains('nav-falar-txt') ||
         el.classList.contains('nav-wpp') ||
