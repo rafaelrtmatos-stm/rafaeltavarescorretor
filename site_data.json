@@ -246,20 +246,37 @@
     },
     {
       "id": "mararu",
-      "nome": "Mararu",
+      "nome": "Mararu Ville 1ª Etapa",
       "regiao": "Mararu",
-      "lat": -2.492528,
-      "lng": -54.686639,
+      "lat": -2.492278,
+      "lng": -54.687083,
       "cor": "red",
       "min": "R$ 300",
       "max": "R$ 800",
       "desc": "🔥 Lançamento exclusivo! Terrenos residenciais, comerciais e econômicos.",
-      "msg": "Olá Rafael! Tenho interesse no Bairro Mararu!",
+      "msg": "Olá Rafael! Tenho interesse no Mararu Ville 1ª Etapa!",
       "tags": [
         "Lançamento",
         "Documentado"
       ],
       "link": "mararu/"
+    },
+    {
+      "id": "mararu2",
+      "nome": "Mararu Ville 2ª Etapa",
+      "regiao": "Mararu",
+      "lat": -2.492556,
+      "lng": -54.685528,
+      "cor": "red",
+      "min": "R$ 300",
+      "max": "R$ 800",
+      "desc": "🔥 Lançamento! Entrada de R$ 600 e parcelas a partir de R$ 255,56.",
+      "msg": "Olá Rafael! Tenho interesse no Mararu Ville 2ª Etapa!",
+      "tags": [
+        "Lançamento",
+        "Documentado"
+      ],
+      "link": "mararu2/"
     },
     {
       "id": "belavista",
@@ -751,6 +768,25 @@
           {
             "id": "mararu-ville",
             "nome": "Mararu Ville",
+            "quadras": [
+              "A",
+              "B",
+              "C",
+              "D",
+              "E",
+              "F",
+              "G",
+              "H"
+            ],
+            "lotes_padrao": 80,
+            "valor_total_padrao": "",
+            "entrada_padrao": "",
+            "parcelas_padrao": "",
+            "valor_parcela_padrao": ""
+          },
+          {
+            "id": "mararu-ville-2",
+            "nome": "Mararu Ville 2ª Etapa",
             "quadras": [
               "A",
               "B",
