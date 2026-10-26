@@ -62,3 +62,7 @@ tsconfig.json
 .replitignore
 santarem-sunset.jpg
 serve.js
+
+# Central de Materiais (corretores): dados de execução e dependências
+corretores-data/
+corretores-src/node_modules/
