@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>Central de Materiais | Corretores</title>
+<link rel="stylesheet" href="/central-materiais/styles.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+</head>
+<body>
+<div class="page-shell">
+<header class="topbar"><a class="brand" href="/"><span class="brand-mark">RT</span><span>Central de Materiais<small>Rafael Tavares · Corretores</small></span></a><div id="user-tools" hidden><span id="user-email"></span><button id="logout" class="btn btn-quiet">Sair</button></div></header>
+<main>
+<section id="config-warning" class="notice" hidden>Configuração pendente: preencha a URL e a chave pública do Supabase em <code>central-materiais/config.js</code>.</section>
+<section id="auth-view" class="auth-card">
+<div class="eyebrow">ÁREA RESTRITA</div><h1>Acesse seus materiais</h1><p>Entre com o e-mail convidado pela administração. O cadastro aberto não está disponível.</p>
+<form id="login-form"><label>E-mail<input id="email" type="email" autocomplete="username" required></label><label>Senha<input id="password" type="password" autocomplete="current-password" required minlength="8"></label><button class="btn btn-primary" type="submit">Entrar na central</button><p id="auth-error" class="error" role="alert"></p></form>
+</section>
+<section id="app-view" hidden>
+<div class="welcome"><div><div class="eyebrow">BIBLIOTECA COMERCIAL</div><h1>Materiais dos empreendimentos</h1><p>Fotos, localização, tabelas de preços e mapas em um só lugar.</p></div><button id="new-project" class="btn btn-primary" hidden>+ Cadastrar empreendimento</button></div>
+<div id="admin-panel" class="admin-panel" hidden><h2>Convidar corretor</h2><p>Informe o e-mail. A pessoa receberá um convite do Supabase para criar o acesso.</p><form id="invite-form" class="invite-form"><input id="invite-email" type="email" placeholder="corretor@exemplo.com" required><button class="btn btn-primary" type="submit">Enviar convite</button></form><p id="invite-status" role="status"></p></div>
+<div id="project-form-wrap" class="admin-panel" hidden><h2 id="project-form-title">Cadastrar empreendimento</h2><form id="project-form" class="project-form">
+<input id="project-id" type="hidden"><label>Nome do empreendimento<input id="project-name" required maxlength="120"></label><label>Localização / endereço<input id="project-location" maxlength="250"></label><label>Link do Google Maps<input id="project-map" type="url" placeholder="https://maps.google.com/..."></label><label>Descrição<textarea id="project-description" rows="3" maxlength="1000"></textarea></label><label>Adicionar fotos, PDFs ou tabela de preços<input id="project-files" type="file" multiple accept="image/*,.pdf"></label><p class="hint">Os arquivos serão privados. Tipos aceitos: imagens e PDF; limite de 20 MB por arquivo.</p><div class="form-actions"><button class="btn btn-primary" type="submit">Salvar empreendimento</button><button id="cancel-project" class="btn btn-quiet" type="button">Cancelar</button></div><p id="project-status" role="status"></p></form></div>
+<div id="projects" class="project-grid"></div><p id="empty-state" class="empty" hidden>Nenhum empreendimento cadastrado ainda.</p><p id="app-status" role="status" class="status"></p>
+</section>
+</main><footer>Materiais internos · Acesso autorizado somente</footer>
+</div>
+<script src="/central-materiais/config.js"></script><script src="/central-materiais/app.js"></script>
+</body></html>
