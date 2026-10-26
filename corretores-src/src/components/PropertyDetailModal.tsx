@@ -163,6 +163,17 @@ export const PropertyDetailModal: React.FC<PropertyDetailModalProps> = ({ proper
     setTimeout(() => setCopiedId(null), 2500);
   };
 
+  // Texto pronto para colar no WhatsApp: nome, local, mapa e todas as condições de preço
+  const buildSummary = () => {
+    const lines: string[] = [`*${property.title}*`, `📍 ${property.location}`];
+    if (property.mapLink) lines.push(`🗺️ ${property.mapLink}`);
+    property.prices.forEach((p) => {
+      lines.push('', `*${p.plan}*`, `Entrada: ${p.entry}`, `Parcelamento: ${p.installments}`, `Valor total: ${p.total}`);
+      if (p.notes) lines.push(`Obs: ${p.notes}`);
+    });
+    return lines.join('\n');
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#050504]/90 backdrop-blur-md p-2 sm:p-4 overflow-y-auto">
       <div className="bg-[#0c0a08] border border-[#26221c] rounded-lg w-full max-w-5xl max-h-[92vh] flex flex-col overflow-hidden shadow-2xl animate-in fade-in zoom-in duration-200">
@@ -254,7 +265,16 @@ export const PropertyDetailModal: React.FC<PropertyDetailModalProps> = ({ proper
           {activeTab === 'overview' && (
             <div className="space-y-5">
               <div className="bg-[#050504] p-5 rounded-lg border border-[#26221c]">
-                <h3 className="text-sm font-bold text-[#F5F0E6] mb-1.5">Sobre o Empreendimento</h3>
+                <div className="flex items-center justify-between gap-3 mb-1.5">
+                  <h3 className="text-sm font-bold text-[#F5F0E6]">Sobre o Empreendimento</h3>
+                  <button
+                    onClick={() => copyText(buildSummary(), 'summary')}
+                    className="px-2.5 py-1 rounded-md bg-[#14120f] hover:bg-[#1a1713] text-[#CBA747] text-xs font-semibold flex items-center gap-1 border border-[#CBA747]/30 transition-colors shrink-0"
+                  >
+                    {copiedId === 'summary' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                    {copiedId === 'summary' ? 'Copiado!' : 'Copiar resumo completo'}
+                  </button>
+                </div>
                 <p className="text-[#77736B] leading-relaxed text-xs">{property.description}</p>
               </div>
 
@@ -429,7 +449,14 @@ export const PropertyDetailModal: React.FC<PropertyDetailModalProps> = ({ proper
                 <p className="text-xs text-[#77736B] flex items-center gap-2">
                   <MapPin className="w-4 h-4 text-[#CBA747] shrink-0" /> {property.location}
                 </p>
-                <div className="pt-1">
+                <div className="pt-1 flex flex-wrap items-center gap-2">
+                  <button
+                    onClick={() => copyText(`${property.title}\n${property.location}\n${property.mapLink}`, 'location')}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-md bg-[#14120f] hover:bg-[#1a1713] text-[#CBA747] font-bold text-xs border border-[#CBA747]/30 transition-colors"
+                  >
+                    {copiedId === 'location' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                    {copiedId === 'location' ? 'Copiado!' : 'Copiar localização'}
+                  </button>
                   <a
                     href={property.mapLink}
                     target="_blank"
