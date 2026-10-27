@@ -40,11 +40,6 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogin
     }
   };
 
-  const handleDemoLogin = (demoEmail: string, demoPass: string) => {
-    setEmail(demoEmail);
-    setPassword(demoPass);
-  };
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#050504]/90 backdrop-blur-md p-4 overflow-y-auto">
       <div className="bg-[#0c0a08] border border-[#26221c] rounded-lg w-full max-w-md overflow-hidden shadow-2xl animate-in fade-in zoom-in duration-200">
@@ -112,28 +107,6 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogin
             {loading ? 'Entrando...' : 'Entrar na Central'}
             <ArrowRight className="w-4 h-4" />
           </button>
-
-          <div className="pt-3 border-t border-[#26221c] space-y-2">
-            <span className="text-[10px] font-semibold text-[#77736B] uppercase tracking-wider block">Atalhos de Demonstração:</span>
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                type="button"
-                onClick={() => handleDemoLogin('admin@imobiliaria.com', 'admin123')}
-                className="px-2.5 py-2 bg-[#14120f] hover:bg-[#1a1713] border border-[#26221c] rounded-md text-left transition-colors"
-              >
-                <div className="text-xs font-bold text-[#CBA747]">Admin</div>
-                <div className="text-[10px] text-[#77736B] truncate">admin@imobiliaria.com</div>
-              </button>
-              <button
-                type="button"
-                onClick={() => handleDemoLogin('corretor@imobiliaria.com', 'corretor123')}
-                className="px-2.5 py-2 bg-[#14120f] hover:bg-[#1a1713] border border-[#26221c] rounded-md text-left transition-colors"
-              >
-                <div className="text-xs font-bold text-[#CBA747]">Corretor</div>
-                <div className="text-[10px] text-[#77736B] truncate">corretor@imobiliaria.com</div>
-              </button>
-            </div>
-          </div>
         </form>
       </div>
     </div>
