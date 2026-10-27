@@ -40,6 +40,34 @@
     {
       "source": "/corretores/api/:path*",
       "destination": "/api/corretores?route=:path*"
+    },
+    {
+      "source": "/api/auth/:path*",
+      "destination": "/api/corretores?route=auth/:path*"
+    },
+    {
+      "source": "/api/properties",
+      "destination": "/api/corretores?route=properties"
+    },
+    {
+      "source": "/api/properties/:path*",
+      "destination": "/api/corretores?route=properties/:path*"
+    },
+    {
+      "source": "/api/suggestions",
+      "destination": "/api/corretores?route=suggestions"
+    },
+    {
+      "source": "/api/suggestions/:path*",
+      "destination": "/api/corretores?route=suggestions/:path*"
+    },
+    {
+      "source": "/api/realtors",
+      "destination": "/api/corretores?route=realtors"
+    },
+    {
+      "source": "/api/realtors/:path*",
+      "destination": "/api/corretores?route=realtors/:path*"
     }
   ]
 }
