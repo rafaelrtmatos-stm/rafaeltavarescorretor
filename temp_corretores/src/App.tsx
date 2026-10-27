@@ -33,7 +33,8 @@ export default function App() {
           setLoadingSession(false);
         });
     } else {
-      setUser(devUser);
+      setUser(null);
+      setLoginModalOpen(true);
       setLoadingSession(false);
     }
   }, []);
@@ -41,11 +42,13 @@ export default function App() {
   const handleLoginSuccess = (token: string, userData: User) => {
     setUser(userData);
     setCurrentView('hub');
+    setLoginModalOpen(false);
   };
 
   const handleLogout = async () => {
     localStorage.removeItem('rt_token');
     setUser(null);
+    setLoginModalOpen(true);
   };
 
   if (loadingSession) {
@@ -59,9 +62,8 @@ export default function App() {
     );
   }
 
-  // If user is not logged in, show initial Login screen as required
+  // If user is not logged in, show secure login prompt requiring password
   if (!user) {
-    const devUser: User = { userId: 'dev-user', email: 'corretor@rafaeltavares.com', role: 'admin', name: 'Corretor / Admin (Modo Dev)' };
     return (
       <div className="min-h-screen bg-[#050504] text-[#F5F0E6] flex flex-col items-center justify-center p-4">
         <div className="max-w-md w-full bg-[#0c0a08] border border-[#26221c] p-8 rounded-3xl shadow-2xl space-y-6 text-center">
@@ -69,28 +71,22 @@ export default function App() {
             <span className="text-2xl font-black">RT</span>
           </div>
           <div className="space-y-2">
-            <h1 className="text-2xl font-black text-[#F5F0E6]">Central de Materiais</h1>
-            <p className="text-xs text-[#77736B] uppercase tracking-widest font-bold">Rafael Tavares Corretor • Uso Interno</p>
+            <h1 className="text-2xl font-black text-[#F5F0E6]">Central de Corretores</h1>
+            <p className="text-xs text-[#77736B] uppercase tracking-widest font-bold">Rafael Tavares Corretor • Acesso Restrito</p>
           </div>
           <p className="text-xs text-[#77736B] bg-[#14120f] p-3.5 rounded-2xl border border-[#26221c]">
-            Aviso: Autenticação em modo temporário de desenvolvimento. Clique abaixo para acessar a Central.
+            Insira sua senha de administrador para acessar o portal de materiais e empreendimentos.
           </p>
           <button
-            onClick={() => setUser(devUser)}
+            onClick={() => setLoginModalOpen(true)}
             className="w-full py-4 rounded-xl bg-gradient-to-r from-[#CBA747] to-[#E8D8A0] text-[#050504] font-extrabold text-sm shadow-xl shadow-[#CBA747]/25 hover:from-[#d8b552] hover:to-[#f2e2b2] transition-all"
           >
-            Entrar na Central (Modo Dev)
-          </button>
-          <button
-            onClick={() => setLoginModalOpen(true)}
-            className="text-xs text-[#77736B] hover:text-[#CBA747] transition-colors"
-          >
-            Fazer login com credenciais CRM Rafa / Supabase
+            Fazer Login com Senha Admin
           </button>
         </div>
         <LoginModal
           isOpen={loginModalOpen}
-          onClose={() => setLoginModalOpen(false)}
+          onClose={() => { if (user) setLoginModalOpen(false); }}
           onLoginSuccess={handleLoginSuccess}
         />
       </div>

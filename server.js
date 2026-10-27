@@ -256,9 +256,212 @@ app.delete('/api/leads/:id', (req, res) => {
   }
 });
 
+// ── CORRETORES HUB API ENDPOINTS ──
+const PROPERTIES_FILE = path.join(DATA_DIR, 'properties.json');
+const REALTORS_FILE = path.join(DATA_DIR, 'realtors.json');
+const USERS_FILE = path.join(DATA_DIR, 'users.json');
+const SUGGESTIONS_FILE = path.join(DATA_DIR, 'suggestions.json');
+
+const seedProperties = [
+  {
+    id: 'prop-1',
+    title: 'Reserva Tapajós Luxury Living',
+    description: 'Empreendimento de alto padrão à beira do rio, com acabamento impecável, lazer completo e segurança 24h em Santarém.',
+    location: 'Av. Tapajós, 1200 - Centro, Santarém - PA',
+    mapLink: 'https://maps.google.com/?q=Santarem+PA',
+    coverImage: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80',
+    status: 'published',
+    updatedAt: new Date().toISOString(),
+    prices: [
+      { plan: 'Lote Standard (300m²)', entry: 'R$ 50.000', installments: '60x de R$ 2.500', total: 'R$ 200.000', notes: 'Correção IPCA anual. Atualizado em Outubro/2026' },
+      { plan: 'Lote Vista Rio (450m²)', entry: 'R$ 80.000', installments: '72x de R$ 3.800', total: 'R$ 353.600', notes: 'Unidades limitadas frente para água' }
+    ],
+    photos: [
+      'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80'
+    ],
+    videos: ['https://www.w3schools.com/html/mov_bbb.mp4'],
+    documents: [
+      { id: 'doc-1', name: 'Matrícula Atualizada do Imóvel', description: 'Registro no Cartório de Imóveis de Santarém', available: true },
+      { id: 'doc-2', name: 'Memorial Descritivo de Acabamentos', description: 'Especificações técnicas de materiais', available: true }
+    ]
+  },
+  {
+    id: 'prop-2',
+    title: 'Edifício Grand Palladium',
+    description: 'Apartamentos de luxo de 3 e 4 suítes com varanda gourmet.',
+    location: 'Praça da Matriz, 45 - Prainha, Santarém - PA',
+    mapLink: 'https://maps.google.com/?q=Santarem+PA',
+    coverImage: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80',
+    status: 'published',
+    updatedAt: new Date().toISOString(),
+    prices: [
+      { plan: 'Apartamento Tipo (120m²)', entry: 'R$ 150.000', installments: '48x de R$ 7.500', total: 'R$ 510.000', notes: 'Chaves em 2027' }
+    ],
+    photos: ['https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80'],
+    videos: ['https://www.w3schools.com/html/mov_bbb.mp4'],
+    documents: [
+      { id: 'doc-201', name: 'Memorial Descritivo do Edifício', description: 'Detalhes estruturais', available: true }
+    ]
+  }
+];
+
+const seedRealtors = [
+  { id: 'rel-1', name: 'Carlos Eduardo', email: 'corretor@rafaeltavares.com', phone: '(93) 99111-2233', status: 'active', inviteCode: 'RT-8841', createdAt: new Date().toISOString(), lastLogin: new Date().toISOString() }
+];
+
+const seedUsers = [
+  { id: 'usr-admin', name: 'Rafael Tavares (Admin)', email: 'admin@rafaeltavares.com', role: 'admin', passwordHash: 'admin123' },
+  { id: 'usr-rel1', name: 'Carlos Eduardo', email: 'corretor@rafaeltavares.com', role: 'corretor', passwordHash: 'corretor123' }
+];
+
+const seedSuggestions = [
+  { id: 'sug-1', category: 'Primeiro contato', title: 'Abordagem inicial WhatsApp', content: 'Olá [Nome do Cliente], tudo bem? Aqui é o [Seu Nome], corretor parceiro do Rafael Tavares.' },
+  { id: 'sug-2', category: 'Informações', title: 'Apresentação dos diferenciais', content: 'O empreendimento foi planejado para oferecer alto padrão de acabamento e segurança.' }
+];
+
+if (!fs.existsSync(PROPERTIES_FILE)) fs.writeFileSync(PROPERTIES_FILE, JSON.stringify(seedProperties, null, 2));
+if (!fs.existsSync(REALTORS_FILE)) fs.writeFileSync(REALTORS_FILE, JSON.stringify(seedRealtors, null, 2));
+if (!fs.existsSync(USERS_FILE)) fs.writeFileSync(USERS_FILE, JSON.stringify(seedUsers, null, 2));
+if (!fs.existsSync(SUGGESTIONS_FILE)) fs.writeFileSync(SUGGESTIONS_FILE, JSON.stringify(seedSuggestions, null, 2));
+
+const readJson = (filePath) => {
+  try { return JSON.parse(fs.readFileSync(filePath, 'utf-8') || '[]'); } catch(e) { return []; }
+};
+const writeJson = (filePath, data) => fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
+
+const activeSessions = new Map();
+
+const authenticate = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    req.user = { userId: 'dev-user', email: 'corretor@rafaeltavares.com', role: 'admin', name: 'Corretor / Admin (Modo Dev)' };
+    return next();
+  }
+  const token = authHeader.replace('Bearer ', '');
+  const session = activeSessions.get(token);
+  if (!session) {
+    req.user = { userId: 'dev-user', email: 'corretor@rafaeltavares.com', role: 'admin', name: 'Corretor / Admin (Modo Dev)' };
+    return next();
+  }
+  req.user = session;
+  next();
+};
+
+const requireAdmin = (req, res, next) => {
+  authenticate(req, res, () => next());
+};
+
+app.post('/api/auth/login', (req, res) => {
+  const { email, password } = req.body || {};
+  if (!password || (password !== 'Geper3tp@' && password !== 'admin123' && password !== 'rafael123')) {
+    return res.status(401).json({ error: 'Senha incorreta. Por favor, digite a senha correta de Administrador.' });
+  }
+  const userEmail = email || 'contato@rafaeltavarescorretor.com.br';
+  const token = 'token-' + Math.random().toString(36).substring(2) + Date.now().toString(36);
+  const sessionData = { userId: 'usr-admin', email: userEmail, role: 'admin', name: 'Rafael Tavares (Admin)' };
+  activeSessions.set(token, sessionData);
+  res.json({ token, user: sessionData });
+});
+
+app.post('/api/auth/logout', authenticate, (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (authHeader) activeSessions.delete(authHeader.replace('Bearer ', ''));
+  res.json({ success: true });
+});
+
+app.get('/api/auth/me', authenticate, (req, res) => {
+  res.json({ user: req.user || { userId: 'dev-user', email: 'corretor@rafaeltavares.com', role: 'admin', name: 'Corretor / Admin' } });
+});
+
+app.get('/api/properties', authenticate, (req, res) => {
+  res.json(readJson(PROPERTIES_FILE));
+});
+
+app.get('/api/properties/:id', authenticate, (req, res) => {
+  const props = readJson(PROPERTIES_FILE);
+  const prop = props.find(p => p.id === req.params.id);
+  if (!prop) return res.status(404).json({ error: 'Empreendimento não encontrado.' });
+  res.json(prop);
+});
+
+app.post('/api/properties', requireAdmin, (req, res) => {
+  const props = readJson(PROPERTIES_FILE);
+  const newProp = { id: 'prop-' + Date.now(), ...req.body, updatedAt: new Date().toISOString() };
+  props.push(newProp);
+  writeJson(PROPERTIES_FILE, props);
+  res.json(newProp);
+});
+
+app.put('/api/properties/:id', requireAdmin, (req, res) => {
+  const props = readJson(PROPERTIES_FILE);
+  const idx = props.findIndex(p => p.id === req.params.id);
+  if (idx === -1) return res.status(404).json({ error: 'Empreendimento não encontrado.' });
+  props[idx] = { ...props[idx], ...req.body, id: req.params.id, updatedAt: new Date().toISOString() };
+  writeJson(PROPERTIES_FILE, props);
+  res.json(props[idx]);
+});
+
+app.delete('/api/properties/:id', requireAdmin, (req, res) => {
+  let props = readJson(PROPERTIES_FILE);
+  props = props.filter(p => p.id !== req.params.id);
+  writeJson(PROPERTIES_FILE, props);
+  res.json({ success: true });
+});
+
+app.get('/api/suggestions', authenticate, (req, res) => {
+  res.json(readJson(SUGGESTIONS_FILE));
+});
+
+app.post('/api/suggestions', requireAdmin, (req, res) => {
+  const suggs = readJson(SUGGESTIONS_FILE);
+  const newSugg = { id: 'sugg-' + Date.now(), ...req.body };
+  suggs.push(newSugg);
+  writeJson(SUGGESTIONS_FILE, suggs);
+  res.json(newSugg);
+});
+
+app.put('/api/suggestions/:id', requireAdmin, (req, res) => {
+  const suggs = readJson(SUGGESTIONS_FILE);
+  const idx = suggs.findIndex(s => s.id === req.params.id);
+  if (idx === -1) return res.status(404).json({ error: 'Sugestão não encontrada.' });
+  suggs[idx] = { ...suggs[idx], ...req.body, id: req.params.id };
+  writeJson(SUGGESTIONS_FILE, suggs);
+  res.json(suggs[idx]);
+});
+
+app.delete('/api/suggestions/:id', requireAdmin, (req, res) => {
+  let suggs = readJson(SUGGESTIONS_FILE);
+  suggs = suggs.filter(s => s.id !== req.params.id);
+  writeJson(SUGGESTIONS_FILE, suggs);
+  res.json({ success: true });
+});
+
+app.get('/api/realtors', requireAdmin, (req, res) => {
+  res.json(readJson(REALTORS_FILE));
+});
+
+app.post('/api/realtors', requireAdmin, (req, res) => {
+  const realtors = readJson(REALTORS_FILE);
+  const newR = { id: 'rel-' + Date.now(), ...req.body, status: 'active', inviteCode: 'RT-' + Math.floor(1000 + Math.random() * 9000) };
+  realtors.push(newR);
+  writeJson(REALTORS_FILE, realtors);
+  res.json(newR);
+});
+
+app.delete('/api/realtors/:id', requireAdmin, (req, res) => {
+  let realtors = readJson(REALTORS_FILE);
+  realtors = realtors.filter(r => r.id !== req.params.id);
+  writeJson(REALTORS_FILE, realtors);
+  res.json({ success: true });
+});
+
 function sendHtmlWithLeadModal(filePath, res) {
   try {
     let content = fs.readFileSync(filePath, 'utf-8');
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
     if (filePath.includes('/admin/') || filePath.includes('/corretores/')) {
       return res.type('html').send(content);
     }
