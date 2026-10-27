@@ -414,6 +414,12 @@
   let precoCat = "200";
   let precoPlan = "180"; // plano padrão ao carregar a página
 
+  // Leva o plano escolhido (36/120/180) para a página de reserva
+  document.addEventListener("click", function(ev){
+    var a = ev.target && ev.target.closest ? ev.target.closest('a[href^="/reserva/"]') : null;
+    if (a) a.setAttribute("href", "/reserva/?plano=" + precoPlan);
+  });
+
   function brl(v){
     return "R$ " + v.toLocaleString("pt-BR", {minimumFractionDigits:2, maximumFractionDigits:2});
   }
@@ -844,7 +850,7 @@ document.addEventListener('keydown',function(e){
         <div style="display:flex;flex-direction:column;gap:10px">
           <span style="font-size:13px;color:var(--text3)">CRECI 13919</span>
           <span style="font-size:13px;color:var(--text3)">Geoflorestal Imobiliária</span>
-          <a href="/mararu/reserva/" style="font-size:13px;color:var(--text2);text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text2)'">Formulário de reserva</a>
+          <a href="/reserva/" style="font-size:13px;color:var(--text2);text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text2)'">Formulário de reserva</a>
         </div>
       </div>
 

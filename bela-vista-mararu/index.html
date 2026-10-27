@@ -384,6 +384,12 @@
   let precoCat = "300";
   let precoPlan = "180"; // plano padrão ao carregar a página
 
+  // Leva o plano escolhido (36/120/180) para a página de reserva
+  document.addEventListener("click", function(ev){
+    var a = ev.target && ev.target.closest ? ev.target.closest('a[href^="/reserva/"]') : null;
+    if (a) a.setAttribute("href", "/reserva/?plano=" + precoPlan);
+  });
+
   function brl(v){
     return "R$ " + v.toLocaleString("pt-BR", {minimumFractionDigits:2, maximumFractionDigits:2});
   }
@@ -814,7 +820,7 @@ document.addEventListener('keydown',function(e){
         <div style="display:flex;flex-direction:column;gap:10px">
           <span style="font-size:13px;color:var(--text3)">CRECI 13919</span>
           <span style="font-size:13px;color:var(--text3)">Geoflorestal Imobiliária</span>
-          <a href="/mararu/reserva/" style="font-size:13px;color:var(--text2);text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text2)'">Formulário de reserva</a>
+          <a href="/reserva/" style="font-size:13px;color:var(--text2);text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text2)'">Formulário de reserva</a>
         </div>
       </div>
 
@@ -1093,7 +1099,7 @@ document.addEventListener('keydown',function(e){
       <span>Onde Estamos</span>
     </div>
     <div style="height:1px;background:rgba(201,168,76,0.1);margin:6px 18px"></div>
-    <div class="dmi" onclick="ir('/reserva/')">
+    <div class="dmi" onclick="ir('/reserva/'+(typeof precoPlan!=='undefined'?'?plano='+precoPlan:''))">
       <svg class="dico" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
       <span>Formulário de Reserva</span>
       <em class="dbg" style="background:rgba(201,168,76,0.15);color:#C9A84C;border:1px solid rgba(201,168,76,0.3)">RESERVAR</em>
