@@ -3616,6 +3616,12 @@
     function syncLive() {
       // Coletar dados ativos dos inputs na tela
       coletarInputsParaState();
+      try {
+        localStorage.setItem('rt_site_data', JSON.stringify(SITE_DATA));
+        if (SITE_DATA.chat_contato) {
+          localStorage.setItem('rt_site_data_chat', JSON.stringify(SITE_DATA.chat_contato));
+        }
+      } catch(e) {}
       var iframe = document.getElementById('live-preview-iframe');
       if (iframe && iframe.contentWindow) {
         try {
@@ -4091,6 +4097,16 @@
         btn.innerHTML = '⏳ Salvando...';
       }
       coletarInputsParaState();
+
+      // Salvar em localStorage imediatamente para persistência instantânea no navegador
+      try {
+        localStorage.setItem('rt_site_data', JSON.stringify(SITE_DATA));
+        if (SITE_DATA.chat_contato) {
+          localStorage.setItem('rt_site_data_chat', JSON.stringify(SITE_DATA.chat_contato));
+        }
+        localStorage.setItem('rt_site_data_ts', Date.now().toString());
+        localStorage.removeItem('rt_lead_conversa_v1');
+      } catch(eLS) {}
 
       // 1. Criar Snapshot de Restauração no Histórico (30 dias)
       salvarSnapshotHistorico('Alterações salvas via painel');
