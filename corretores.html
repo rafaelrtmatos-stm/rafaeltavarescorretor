@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Parceria com Corretores — Rafael Tavares | CRECI 13919</title>
+<meta name="description" content="Informações sobre atendimento, parcerias e co-corretagem com o Corretor Rafael Tavares em Santarém, Alenquer e Monte Alegre, Pará.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Parceria com Corretores — Rafael Tavares | CRECI 13919">
+<meta property="og:description" content="Informações sobre atendimento, parcerias e co-corretagem com o Corretor Rafael Tavares em Santarém, Alenquer e Monte Alegre, Pará.">
+<meta property="og:url" content="https://www.rafaeltavarescorretor.com.br/corretores">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#000000;--bg2:#0A0A0A;--bg3:#111111;
+  --gold:#C9A84C;--gold2:#E8C96A;--gold3:rgba(201,168,76,0.1);
+  --text:#F2EDE4;--text2:rgba(242,237,228,0.65);--text3:rgba(242,237,228,0.3);
+  --border:rgba(201,168,76,0.14);--border2:rgba(201,168,76,0.28);
+}
+html{scroll-behavior:smooth}
+body{font-family:"Inter",sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.6}
+
+/* NAV */
+.nav{
+  position:relative;z-index:10;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 56px;gap:16px;
+  background:linear-gradient(180deg,rgba(10,18,9,0.85) 0%,rgba(0,0,0,0.6) 100%);
+  border-bottom:1px solid var(--border);
+}
+.nav-brand{display:flex;align-items:center;gap:14px;text-decoration:none}
+.nav-logo-mark{
+  width:44px;height:44px;border-radius:10px;
+  background:var(--gold3);border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:"Cormorant Garamond",serif;font-size:18px;font-weight:700;color:var(--gold);
+  letter-spacing:1px;flex-shrink:0;
+}
+.nav-brand-name{font-family:"Cormorant Garamond",serif;font-size:17px;font-weight:700;color:var(--gold);letter-spacing:1.5px;line-height:1}
+.nav-brand-creci{font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-top:3px}
+.nav-center{display:flex;gap:28px;align-items:center}
+.nav-center a{font-size:13px;color:var(--text2);text-decoration:none;font-weight:400;transition:color .2s;letter-spacing:.3px}
+.nav-center a:hover{color:var(--gold)}
+.btn-wpp-nav{
+  display:inline-flex;align-items:center;gap:7px;
+  background:var(--gold);color:#0A1209;
+  padding:10px 20px;border-radius:7px;
+  font-size:12px;font-weight:700;text-decoration:none;letter-spacing:.3px;
+  transition:all .2s;
+}
+.btn-wpp-nav:hover{background:var(--gold2);transform:translateY(-1px)}
+
+/* HERO */
+.page-hero{
+  padding:80px 20px 60px;
+  text-align:center;
+  background:linear-gradient(180deg, rgba(201,168,76,0.05) 0%, transparent 100%);
+  border-bottom:1px solid var(--border);
+}
+.page-hero h1{
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(32px, 5vw, 52px);
+  font-weight:700;
+  color:var(--gold);
+  margin-bottom:16px;
+  letter-spacing:1px;
+}
+.page-hero p{
+  font-size:clamp(15px, 2vw, 18px);
+  color:var(--text2);
+  max-width:700px;
+  margin:0 auto;
+}
+
+/* CONTENT */
+.container{
+  max-width:1000px;
+  margin:0 auto;
+  padding:60px 24px;
+}
+.card-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+  gap:30px;
+  margin-bottom:50px;
+}
+.info-card{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:36px 28px;
+  transition:all .3s ease;
+  position:relative;
+  overflow:hidden;
+}
+.info-card::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:3px;
+  background:var(--gold);
+  opacity:0.7;
+}
+.info-card:hover{
+  border-color:var(--border2);
+  transform:translateY(-4px);
+  box-shadow:0 12px 30px rgba(201,168,76,0.08);
+}
+.info-card h3{
+  font-family:"Cormorant Garamond",serif;
+  font-size:24px;
+  color:var(--gold);
+  margin-bottom:14px;
+}
+.info-card p{
+  color:var(--text2);
+  font-size:14px;
+  line-height:1.7;
+  margin-bottom:20px;
+}
+.info-card ul{
+  list-style:none;
+  padding:0;
+}
+.info-card li{
+  font-size:13px;
+  color:var(--text2);
+  margin-bottom:10px;
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+}
+.info-card li i{
+  color:var(--gold);
+  margin-top:3px;
+}
+
+.highlight-box{
+  background:rgba(201,168,76,0.06);
+  border:1px solid var(--border2);
+  border-radius:14px;
+  padding:40px;
+  text-align:center;
+  margin-top:40px;
+}
+.highlight-box h2{
+  font-family:"Cormorant Garamond",serif;
+  font-size:28px;
+  color:var(--gold);
+  margin-bottom:16px;
+}
+.highlight-box p{
+  color:var(--text2);
+  font-size:15px;
+  max-width:700px;
+  margin:0 auto 24px;
+}
+.btn-primary{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  background:var(--gold);
+  color:#000;
+  font-weight:700;
+  padding:14px 28px;
+  border-radius:8px;
+  text-decoration:none;
+  transition:all .2s;
+  font-size:15px;
+}
+.btn-primary:hover{
+  background:var(--gold2);
+  transform:translateY(-2px);
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:40px 24px;
+  border-top:1px solid var(--border);
+  color:var(--text3);
+  font-size:13px;
+}
+footer a{color:var(--gold);text-decoration:none}
+
+@media(max-width:768px){
+  .nav{padding:16px 20px;}
+  .nav-center{display:none;}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/" class="nav-brand">
+    <div class="nav-logo-mark">RT</div>
+    <div class="nav-brand-text">
+      <div class="nav-brand-name">RAFAEL TAVARES</div>
+      <div class="nav-brand-creci">CRECI 13919</div>
+    </div>
+  </a>
+  <div class="nav-center">
+    <a href="/">Início</a>
+    <a href="/#empreendimentos">Empreendimentos</a>
+    <a href="/#contato">Contato</a>
+  </div>
+  <div class="nav-right">
+    <a href="https://wa.me/5593991234567?text=Olá%20Rafael,%20gostaria%20de%20falar%20sobre%20atendimento%20e%20parcerias." target="_blank" class="btn-wpp-nav">
+      <i class="fab fa-whatsapp"></i> WhatsApp
+    </a>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <h1>Atendimento & Parcerias com Corretores</h1>
+  <p>Transparência, ética profissional e suporte especializado em loteamentos e imóveis em Santarém, Alenquer e Monte Alegre.</p>
+</header>
+
+<main class="container">
+  <div class="card-grid">
+    <div class="info-card">
+      <h3>Para Clientes e Compradores</h3>
+      <p>Já está sendo atendido pelo Corretor Rafael Tavares ou visitando nossos empreendimentos?</p>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Caso seja abordado no plantão ou empreendimento por outro corretor, informe que você já possui atendimento exclusivo com o <b>Corretor Rafael</b>.</li>
+        <li><i class="fas fa-check-circle"></i> Isso garante a continuidade de todo o seu suporte, negociação facilitada e acompanhamento até a entrega da sua escritura.</li>
+      </ul>
+    </div>
+
+    <div class="info-card">
+      <h3>Parcerias & Co-Corretagem</h3>
+      <p>Trabalha no mercado imobiliário e deseja realizar parcerias em loteamentos na região?</p>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Parcerias transparentes e éticas para corretores credenciados CRECI.</li>
+        <li><i class="fas fa-check-circle"></i> Condições especiais para fechamento de lotes e repasse de clientes interessados.</li>
+        <li><i class="fas fa-check-circle"></i> Suporte completo com material comercial atualizado e tabelas de vendas.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+     <h2>Fale Diretamente com o Corretor Rafael Tavares</h2>
+     <p>Tire suas dúvidas sobre disponibilidade de lotes, condições de pagamento facilitadas ou parcerias comerciais.</p>
+     <a href="https://wa.me/5593991234567?text=Olá%20Rafael,%20vim%20pela%20página%20de%20corretores%20e%20gostaria%20de%20conversar." target="_blank" class="btn-primary">
+       <i class="fab fa-whatsapp"></i> Chamar no WhatsApp (93) 99123-4567
+     </a>
+  </div>
+</main>
+
+<footer>
+  <p>&copy; 2026 Rafael Tavares — Corretor de Imóveis (CRECI 13919). Todos os direitos reservados. | <a href="/">Voltar ao Portal</a></p>
+</footer>
+
+</body>
+</html>
