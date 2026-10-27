@@ -2912,6 +2912,11 @@ function validarStep3(){
   return true;
 }
 
+const VALOR_RESERVA_POR_LOTE=600;
+function valorReservaFmt(qtd){
+  return (qtd*VALOR_RESERVA_POR_LOTE).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+}
+
 function gerarResumoRevisao(){
   let nasc=document.getElementById('nascimento').value;
   if(nasc){const[y,m,d]=nasc.split('-');nasc=`${d}/${m}/${y}`;}
@@ -2980,6 +2985,10 @@ function gerarResumoRevisao(){
     <div class="resumo-item">
       <span class="resumo-label">Lote(s) / Quadra(s):</span>
       <span class="resumo-val" style="color:var(--gold)">${lotesFmt || '—'}</span>
+    </div>
+    <div class="resumo-item">
+      <span class="resumo-label">Valor da Reserva:</span>
+      <span class="resumo-val" style="color:var(--gold)">${lotes.length>0?valorReservaFmt(lotes.length)+' ('+lotes.length+' lote'+(lotes.length>1?'s':'')+' x R$ 600,00)':'—'}</span>
     </div>
     ${planoResumo!==null?`<div class="resumo-item">
       <span class="resumo-label">Plano:</span>
@@ -3130,6 +3139,7 @@ CONTATO: ${contatosString}
 LOTE: ${listaLotes || '—'}
 QUADRA: ${listaQuadras || '—'}
 EMPREENDIMENTO: ${empNome ? empNome.toUpperCase() : '—'}
+VALOR DA RESERVA: ${lotes.length>0?valorReservaFmt(lotes.length):'—'}
 ${linhaPlano}DATA DE VENCIMENTO: ${vencFmt}
 VENDEDOR: RAFAEL TAVARES`;
 
