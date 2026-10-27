@@ -3,14 +3,6 @@ const path = require('path');
 const fs = require('fs');
 
 const app = express();
-
-// Atrás de proxy (Vercel/Replit): necessário para o limite de tentativas de login usar o IP real
-app.set('trust proxy', 1);
-
-// Central de Materiais dos corretores → /corretores (login próprio, API própria).
-// Fica ANTES dos parsers e do fallback de HTML abaixo, que injetariam o modal de leads no app.
-app.use(['/corretores-src', '/corretores-data', '/corretores-api.js'], (req, res) => res.status(404).end());
-app.use('/corretores', require('./corretores-api'));
 const PORT = 3000;
 const ROOT = path.resolve(__dirname);
 
