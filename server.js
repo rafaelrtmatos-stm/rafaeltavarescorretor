@@ -354,7 +354,8 @@ const requireAdmin = (req, res, next) => {
 
 app.post('/api/auth/login', (req, res) => {
   const { email, password } = req.body || {};
-  if (!password || (password !== 'Geper3tp@' && password !== 'admin123' && password !== 'rafael123')) {
+  // A senha vem da variável de ambiente ADMIN_PASSWORD (nunca escrita no código).
+  if (!process.env.ADMIN_PASSWORD || !password || password !== process.env.ADMIN_PASSWORD) {
     return res.status(401).json({ error: 'Senha incorreta. Por favor, digite a senha correta de Administrador.' });
   }
   const userEmail = email || 'contato@rafaeltavarescorretor.com.br';
