@@ -1031,7 +1031,7 @@ select.input option{background:#FFFFFF;color:#1A1710}
 </div>
 
 <!-- ═══════════════════════════════════════════
-     MODAL ADMINISTRATIVO SEGRETO (CRECI 13919 / Geper3tp@)
+     MODAL ADMINISTRATIVO SEGRETO (senha validada no servidor)
 ════════════════════════════════════════════ -->
 <div id="admin-modal-overlay" class="admin-modal-overlay" onclick="if(event.target===this)fecharModalAdmin()">
   <div class="admin-modal-box">
@@ -2404,18 +2404,32 @@ function verificarSenhaAdmin(){
   const input = document.getElementById('input-senha-admin');
   const erro = document.getElementById('admin-auth-erro');
   const senha = input ? input.value.trim() : '';
-
-  if(senha === 'Geper3tp@'){
-    fecharModalAuthAdmin();
-    abrirModalAdmin();
-  } else {
+  const negar = () => {
     if(erro) erro.style.display = 'block';
     if(input){
       input.classList.add('erro');
       input.focus();
       input.select();
     }
-  }
+  };
+  if(!senha) return negar();
+
+  // A senha é conferida no servidor (/api/admin-login), não mais aqui no navegador
+  fetch('/api/admin-login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ senha })
+  })
+    .then(r => r.ok ? r.json() : null)
+    .then(d => {
+      if(d && d.ok){
+        fecharModalAuthAdmin();
+        abrirModalAdmin();
+      } else {
+        negar();
+      }
+    })
+    .catch(negar);
 }
 
 function abrirModalAdmin(){

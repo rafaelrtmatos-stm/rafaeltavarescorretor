@@ -2651,14 +2651,24 @@ function galTab(el,panel){
 </div>
 
 <script>
-function getSenha(){return localStorage.getItem('admin_senha_rt')||'Geper3tp@';}
 function loginAdmin(){
-  if(document.getElementById('admin-senha').value===getSenha()){
-    window.location.href='admin/';
-  } else {
-    document.getElementById('admin-err').style.display='block';
-    setTimeout(function(){document.getElementById('admin-err').style.display='none';},2000);
-  }
+  var campo=document.getElementById('admin-senha');
+  fetch('/api/admin-login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({senha:campo.value})})
+    .then(function(r){return r.json().catch(function(){return {};}).then(function(d){return {ok:r.ok,d:d};});})
+    .then(function(res){
+      if(res.ok&&res.d&&res.d.token){
+        localStorage.setItem('admin_token_rt',res.d.token);
+        localStorage.setItem('admin_pass_rt',campo.value);
+        window.location.href='admin/';
+      } else {
+        document.getElementById('admin-err').style.display='block';
+        setTimeout(function(){document.getElementById('admin-err').style.display='none';},2000);
+      }
+    })
+    .catch(function(){
+      document.getElementById('admin-err').style.display='block';
+      setTimeout(function(){document.getElementById('admin-err').style.display='none';},2000);
+    });
 }
 document.addEventListener('keydown',function(e){if(e.key==='Escape')document.getElementById('modal-admin').style.display='none';});
 </script>
