@@ -5,11 +5,41 @@
   "installCommand": "",
   "framework": null,
   "redirects": [
-    { "source": "/pajuca", "destination": "/pajucara/", "permanent": true },
-    { "source": "/pajuca/", "destination": "/pajucara/", "permanent": true },
-    { "source": "/pajuca/:path*", "destination": "/pajucara/:path*", "permanent": true },
-    { "source": "/sao-bras", "destination": "/sao-braz/", "permanent": true },
-    { "source": "/sao-bras/", "destination": "/sao-braz/", "permanent": true },
-    { "source": "/sao-bras/:path*", "destination": "/sao-braz/:path*", "permanent": true }
+    {
+      "source": "/pajuca",
+      "destination": "/pajucara/",
+      "permanent": true
+    },
+    {
+      "source": "/pajuca/",
+      "destination": "/pajucara/",
+      "permanent": true
+    },
+    {
+      "source": "/pajuca/:path*",
+      "destination": "/pajucara/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/sao-bras",
+      "destination": "/sao-braz/",
+      "permanent": true
+    },
+    {
+      "source": "/sao-bras/",
+      "destination": "/sao-braz/",
+      "permanent": true
+    },
+    {
+      "source": "/sao-bras/:path*",
+      "destination": "/sao-braz/:path*",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/corretores/api/:path*",
+      "destination": "/api/corretores?route=:path*"
+    }
   ]
 }

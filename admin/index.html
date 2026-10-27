@@ -1748,7 +1748,9 @@
     var PREVIEW_DEVICE = 'desktop';
     var HISTORY_KEY = 'rt_admin_history_v2';
     var AUTH_KEY = 'admin_pass_rt';
-    var DEFAULT_PASS = 'Geper3tp@';
+    // A senha do painel NÃO fica mais no código: é validada no servidor (/api/admin-login).
+    var DEFAULT_PASS = '';
+    var TOKEN_KEY = 'admin_token_rt';
 
     // ── SUPABASE: configuração do formulário (tabela site_config) ──
     var SB_URL = 'https://uftxcwcryqpkfdfxzlno.supabase.co';
@@ -1836,29 +1838,46 @@
 
     // ── AUTHENTICATION ──
     function checkAuth() {
-      var saved = localStorage.getItem(AUTH_KEY);
-      var passValid = saved || sessionStorage.getItem('admin_logged');
-      if (passValid) {
-        document.getElementById('auth-screen').style.display = 'none';
-      }
+      var tk = localStorage.getItem(TOKEN_KEY);
+      if (!tk) return;
+      fetch('/api/admin-login', { headers: { Authorization: 'Bearer ' + tk }, cache: 'no-store' })
+        .then(function(r) {
+          if (r.ok) document.getElementById('auth-screen').style.display = 'none';
+          else { localStorage.removeItem(TOKEN_KEY); localStorage.removeItem(AUTH_KEY); }
+        })
+        .catch(function() {});
     }
 
     function handleAuth(e) {
       if (e) e.preventDefault();
       var inp = document.getElementById('auth-pass').value.trim();
-      var stored = localStorage.getItem(AUTH_KEY) || DEFAULT_PASS;
-      if (inp === 'Geper3tp@' || inp === stored || inp === DEFAULT_PASS || inp === '1234') {
-        localStorage.setItem(AUTH_KEY, 'Geper3tp@');
-        sessionStorage.setItem('admin_logged', 'true');
-        document.getElementById('auth-screen').style.display = 'none';
-        toast('✅ Bem-vindo ao painel!', 'ok');
-      } else {
-        toast('❌ Senha incorreta!', 'err');
-      }
+      if (!inp) return;
+      fetch('/api/admin-login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ senha: inp })
+      }).then(function(r) {
+        return r.json().catch(function() { return {}; }).then(function(d) { return { ok: r.ok, d: d }; });
+      }).then(function(res) {
+        if (res.ok && res.d && res.d.token) {
+          localStorage.setItem(TOKEN_KEY, res.d.token);
+          localStorage.setItem(AUTH_KEY, inp); // usada só para publicar no Supabase (que valida o hash)
+          sessionStorage.setItem('admin_logged', 'true');
+          document.getElementById('auth-screen').style.display = 'none';
+          toast('✅ Bem-vindo ao painel!', 'ok');
+        } else {
+          toast('❌ ' + ((res.d && res.d.error) || 'Senha incorreta!'), 'err');
+        }
+      }).catch(function() {
+        toast('❌ Sem conexão com o servidor.', 'err');
+      });
     }
 
     function logoutAdmin() {
       sessionStorage.removeItem('admin_logged');
+      localStorage.removeItem(TOKEN_KEY);
+      localStorage.removeItem(AUTH_KEY);
+      localStorage.removeItem(SB_PASS_KEY);
       document.getElementById('auth-screen').style.display = 'flex';
       document.getElementById('auth-pass').value = '';
     }
@@ -4256,18 +4275,8 @@
     }
 
     function salvarNovaSenha() {
-      var n = document.getElementById('pass-nova').value.trim();
-      var c = document.getElementById('pass-conf').value.trim();
-      if (!n || n.length < 3) {
-        toast('❌ A senha deve ter no mínimo 3 dígitos!', 'err');
-        return;
-      }
-      if (n !== c) {
-        toast('❌ As senhas não conferem!', 'err');
-        return;
-      }
-      localStorage.setItem(AUTH_KEY, n);
-      toast('✅ Senha alterada com sucesso!', 'ok');
+      // A senha agora é guardada no servidor, não no navegador.
+      toast('🔒 A senha fica na Vercel (variável ADMIN_PANEL_PASSWORD). Altere lá e faça um novo deploy.', 'err');
       document.getElementById('pass-nova').value = '';
       document.getElementById('pass-conf').value = '';
     }
