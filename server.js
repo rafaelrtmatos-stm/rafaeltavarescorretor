@@ -259,7 +259,7 @@ app.delete('/api/leads/:id', (req, res) => {
 function sendHtmlWithLeadModal(filePath, res) {
   try {
     let content = fs.readFileSync(filePath, 'utf-8');
-    if (filePath.includes('/admin/')) {
+    if (filePath.includes('/admin/') || filePath.includes('/corretores/')) {
       return res.type('html').send(content);
     }
     if (!content.includes('lead-modal.js')) {

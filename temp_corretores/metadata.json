@@ -1,0 +1,6 @@
+{
+  "name": "Central de Materiais - Rafael Tavares Corretor",
+  "description": "Central de Materiais exclusiva para corretores imobiliários de Rafael Tavares Corretor, com gestão de empreendimentos, fotos, vídeos, tabelas de preços, documentos e painel administrativo.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
