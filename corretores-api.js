@@ -341,11 +341,12 @@ router.post('/api/realtors', requireAdmin, (req, res) => {
   const name = String((req.body && req.body.name) || '').trim();
   const email = String((req.body && req.body.email) || '').trim().toLowerCase();
   const phone = String((req.body && req.body.phone) || '').trim();
-  const password = String((req.body && req.body.password) || '');
+  // Sem senha informada, a senha é o número do telefone (só dígitos, com DDD)
+  const password = String((req.body && req.body.password) || '') || phone.replace(/\D/g, '');
 
   if (!name || !email) return res.status(400).json({ error: 'Informe nome e e-mail.' });
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ error: 'E-mail inválido.' });
-  if (password.length < 8) return res.status(400).json({ error: 'A senha precisa ter pelo menos 8 caracteres.' });
+  if (password.length < 8) return res.status(400).json({ error: 'Informe o telefone com DDD (mínimo 8 números): ele é a senha de acesso do corretor.' });
   if (email === ADMIN_EMAIL) return res.status(400).json({ error: 'Este e-mail é reservado.' });
 
   const users = readJson(FILES.users, []);

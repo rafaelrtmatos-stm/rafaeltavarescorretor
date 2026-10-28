@@ -388,11 +388,12 @@ async function route(req, res) {
       const name = String(body.name || '').trim();
       const email = String(body.email || '').trim().toLowerCase();
       const phone = String(body.phone || '').trim();
-      const password = String(body.password || '');
+      // Sem senha informada, a senha é o número do telefone (só dígitos, com DDD)
+      const password = String(body.password || '') || phone.replace(/\D/g, '');
 
       if (!name || !email) throw new HttpError(400, 'Informe nome e e-mail.');
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new HttpError(400, 'E-mail inválido.');
-      if (password.length < 8) throw new HttpError(400, 'A senha precisa ter pelo menos 8 caracteres.');
+      if (password.length < 8) throw new HttpError(400, 'Informe o telefone com DDD (mínimo 8 números): ele é a senha de acesso do corretor.');
       if (email === ADMIN_EMAIL) throw new HttpError(400, 'Este e-mail é reservado.');
 
       const exists = await sb('GET', 'corretores_users', { query: `email=${eq(email)}&select=id` });

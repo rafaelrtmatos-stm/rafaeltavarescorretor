@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Building2, Users, Plus, Edit, Trash2, Shield, Mail, Phone, CheckCircle, Clock, X, AlertTriangle, Save, FolderPlus, MessageSquare, FileText } from 'lucide-react';
+import { Building2, Users, Plus, Edit, Trash2, Shield, Mail, Phone, CheckCircle, Clock, X, AlertTriangle, Save, FolderPlus, MessageSquare, FileText, Send, Copy, Check, MessageCircle } from 'lucide-react';
 import { Property, Realtor, ResponseSuggestion, DocumentInfoItem, PriceItem, User } from '../types';
 import { ANSWER_TOPICS } from '../answerTopics';
 
@@ -40,6 +40,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user }) => {
   const [showRelModal, setShowRelModal] = useState(false);
   const [relForm, setRelForm] = useState({ name: '', email: '', phone: '' });
   const [error, setError] = useState('');
+  const [inviteFor, setInviteFor] = useState<Realtor | null>(null);
+  const [inviteCopied, setInviteCopied] = useState('');
 
   useEffect(() => {
     loadData();
@@ -197,6 +199,21 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user }) => {
     if (res.ok) loadData();
   };
 
+  const phoneDigits = (v: string) => (v || '').replace(/\D/g, '');
+  const loginLink = () => `${window.location.origin}/corretores`;
+  const inviteMessage = (r: Realtor) =>
+    `Olá, ${r.name.split(' ')[0]}! Seu acesso à Central de Materiais do Rafael Tavares está pronto.\n\nLink: ${loginLink()}\nE-mail: ${r.email}\nSenha: ${phoneDigits(r.phone)}`;
+  const copyInvite = (text: string, id: string) => {
+    navigator.clipboard.writeText(text);
+    setInviteCopied(id);
+    setTimeout(() => setInviteCopied(''), 2500);
+  };
+  const whatsappInviteUrl = (r: Realtor) => {
+    const d = phoneDigits(r.phone);
+    const full = d.length <= 11 ? '55' + d : d;
+    return `https://wa.me/${full}?text=${encodeURIComponent(inviteMessage(r))}`;
+  };
+
   const handleInviteRealtor = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -207,7 +224,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user }) => {
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify(relForm)
       });
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || 'Erro ao cadastrar corretor.');
       setShowRelModal(false);
       setRelForm({ name: '', email: '', phone: '' });
@@ -442,10 +459,10 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user }) => {
               <p className="text-xs text-[#77736B]">Gerencie o acesso institucional dos corretores parceiros.</p>
             </div>
             <button
-              onClick={() => setShowRelModal(true)}
+              onClick={() => { setError(''); setShowRelModal(true); }}
               className="flex items-center gap-1.5 px-4 py-2 rounded-md bg-[#CBA747] hover:bg-[#d8b552] text-[#050504] font-bold text-xs shadow-sm transition-all"
             >
-              <Plus className="w-4 h-4" /> Convidar Corretor
+              <Plus className="w-4 h-4" /> Cadastrar Corretor
             </button>
           </div>
 
@@ -475,6 +492,12 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user }) => {
                     </div>
 
                     <div className="flex items-center gap-2 self-end md:self-auto">
+                      <button
+                        onClick={() => setInviteFor(r)}
+                        className="px-3 py-1.5 rounded-md bg-[#CBA747]/10 hover:bg-[#CBA747]/20 text-[#CBA747] font-medium text-xs flex items-center gap-1 border border-[#CBA747]/30"
+                      >
+                        <Send className="w-3.5 h-3.5" /> Enviar convite
+                      </button>
                       <button
                         onClick={() => handleDeleteRealtor(r.id)}
                         className="px-3 py-1.5 rounded-md bg-red-500/10 hover:bg-red-500/20 text-red-400 font-medium text-xs flex items-center gap-1 border border-red-500/20"
@@ -750,12 +773,66 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user }) => {
         </div>
       )}
 
+      {/* Invite (copy link, e-mail and password) */}
+      {inviteFor && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#050504]/90 backdrop-blur-sm p-4">
+          <div className="bg-[#0c0a08] border border-[#26221c] rounded-lg w-full max-w-md p-5 space-y-4 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-[#26221c] pb-3">
+              <h3 className="text-base font-bold text-[#F5F0E6]">Convite para {inviteFor.name.split(' ')[0]}</h3>
+              <button onClick={() => setInviteFor(null)} className="text-[#77736B] hover:text-[#F5F0E6] p-1.5">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="space-y-2">
+              {[
+                { id: 'link', label: 'Link de acesso', value: loginLink() },
+                { id: 'email', label: 'E-mail', value: inviteFor.email },
+                { id: 'senha', label: 'Senha', value: phoneDigits(inviteFor.phone) },
+              ].map(f => (
+                <div key={f.id} className="flex items-center justify-between gap-3 bg-[#050504] border border-[#26221c] rounded-md px-3 py-2">
+                  <div className="min-w-0">
+                    <div className="text-[10px] font-semibold text-[#77736B] uppercase">{f.label}</div>
+                    <div className="text-xs text-[#F5F0E6] break-all">{f.value}</div>
+                  </div>
+                  <button
+                    onClick={() => copyInvite(f.value, f.id)}
+                    className="px-2.5 py-1 rounded-md bg-[#14120f] hover:bg-[#1a1713] text-[#CBA747] text-xs font-semibold flex items-center gap-1 border border-[#CBA747]/30 shrink-0"
+                  >
+                    {inviteCopied === f.id ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                    {inviteCopied === f.id ? 'Copiado!' : 'Copiar'}
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-2.5 pt-3 border-t border-[#26221c]">
+              <button
+                onClick={() => copyInvite(inviteMessage(inviteFor), 'tudo')}
+                className="flex-1 px-4 py-2 rounded-md bg-[#CBA747] text-[#050504] text-xs font-bold hover:bg-[#d8b552] flex items-center justify-center gap-1.5"
+              >
+                {inviteCopied === 'tudo' ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                {inviteCopied === 'tudo' ? 'Mensagem copiada!' : 'Copiar mensagem completa'}
+              </button>
+              <a
+                href={whatsappInviteUrl(inviteFor)}
+                target="_blank"
+                rel="noreferrer"
+                className="flex-1 px-4 py-2 rounded-md bg-[#14120f] text-[#CBA747] text-xs font-bold hover:bg-[#1a1713] border border-[#CBA747]/30 flex items-center justify-center gap-1.5"
+              >
+                <MessageCircle className="w-3.5 h-3.5" /> Abrir no WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Realtor Invite Modal */}
       {showRelModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#050504]/90 backdrop-blur-sm p-4">
           <div className="bg-[#0c0a08] border border-[#26221c] rounded-lg w-full max-w-md p-5 space-y-4 shadow-2xl">
             <div className="flex items-center justify-between border-b border-[#26221c] pb-3">
-              <h3 className="text-base font-bold text-[#F5F0E6]">Convidar Corretor</h3>
+              <h3 className="text-base font-bold text-[#F5F0E6]">Cadastrar Corretor</h3>
               <button onClick={() => setShowRelModal(false)} className="text-[#77736B] hover:text-[#F5F0E6] p-1.5">
                 <X className="w-4 h-4" />
               </button>
@@ -796,12 +873,15 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user }) => {
                 <label className="text-[10px] font-semibold text-[#77736B] uppercase">Telefone / WhatsApp</label>
                 <input
                   type="text"
+                  required
                   value={relForm.phone}
                   onChange={e => setRelForm({...relForm, phone: e.target.value})}
                   placeholder="(93) 99999-9999"
                   className="w-full bg-[#050504] border border-[#26221c] rounded-md px-3 py-2 text-[#F5F0E6] text-xs focus:outline-none focus:border-[#CBA747]"
                 />
               </div>
+
+              <p className="text-[10px] text-[#77736B]">O corretor já fica ativo no sistema. A senha de acesso é o número do telefone (só os números, com DDD).</p>
 
               <div className="flex justify-end gap-2.5 pt-3 border-t border-[#26221c]">
                 <button
@@ -815,7 +895,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user }) => {
                   type="submit"
                   className="px-4 py-2 rounded-md bg-[#CBA747] text-[#050504] text-xs font-bold hover:bg-[#d8b552] flex items-center gap-1.5 shadow-sm"
                 >
-                  Enviar Convite
+                  Cadastrar
                 </button>
               </div>
             </form>
