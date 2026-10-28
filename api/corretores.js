@@ -187,6 +187,44 @@ function readBody(req) {
   return {};
 }
 
+
+// ── Upload de fotos e vídeos (Supabase Storage) ──────────────────────────────
+// O navegador envia o arquivo direto ao Storage por uma URL assinada, assim o
+// vídeo não passa pela função serverless (que limita o tamanho do corpo).
+const MEDIA_BUCKET = 'corretores-media';
+let mediaBucketReady = false;
+
+async function ensureMediaBucket() {
+  if (mediaBucketReady) return;
+  const r = await fetch(`${SB_URL}/storage/v1/bucket`, {
+    method: 'POST',
+    headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id: MEDIA_BUCKET, name: MEDIA_BUCKET, public: true }),
+  });
+  if (!r.ok) {
+    const t = await r.text();
+    if (!/already exists|duplicate/i.test(t)) throw new Error(`Supabase bucket → ${r.status}: ${t}`);
+  }
+  mediaBucketReady = true;
+}
+
+async function signMediaUpload(filename, contentType) {
+  await ensureMediaBucket();
+  const ext = (String(filename).match(/\.([a-zA-Z0-9]{1,5})$/) || [])[1] || (contentType.startsWith('video/') ? 'mp4' : 'jpg');
+  const path = `media/${Date.now()}-${crypto.randomBytes(5).toString('hex')}.${ext.toLowerCase()}`;
+  const r = await fetch(`${SB_URL}/storage/v1/object/upload/sign/${MEDIA_BUCKET}/${path}`, {
+    method: 'POST',
+    headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' },
+    body: '{}',
+  });
+  const text = await r.text();
+  if (!r.ok) throw new Error(`Supabase sign → ${r.status}: ${text}`);
+  const j = JSON.parse(text);
+  const rel = j.url || '';
+  const uploadUrl = /^https?:/.test(rel) ? rel : `${SB_URL}/storage/v1${rel.startsWith('/') ? '' : '/'}${rel}`;
+  return { uploadUrl, publicUrl: `${SB_URL}/storage/v1/object/public/${MEDIA_BUCKET}/${path}` };
+}
+
 // ── Rotas ────────────────────────────────────────────────────────────────────
 async function route(req, res) {
   const method = req.method;
@@ -246,6 +284,14 @@ async function route(req, res) {
 
   if (a === 'auth' && b === 'me' && method === 'GET') {
     return res.status(200).json({ user: await authenticate(req) });
+  }
+
+  // Upload de mídia (somente admin): devolve URL assinada para o navegador enviar o arquivo
+  if (a === 'media' && b === 'sign' && method === 'POST') {
+    await authenticate(req, { admin: true });
+    const contentType = String(body.contentType || '');
+    if (!/^(image|video)\//.test(contentType)) throw new HttpError(400, 'Envie apenas fotos ou vídeos.');
+    return res.status(200).json(await signMediaUpload(String(body.filename || ''), contentType));
   }
 
   // Empreendimentos: corretor vê só os publicados; admin vê todos

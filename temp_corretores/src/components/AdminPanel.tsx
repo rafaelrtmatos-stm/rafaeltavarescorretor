@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Building2, Users, Plus, Edit, Trash2, Shield, Mail, Phone, CheckCircle, Clock, X, AlertTriangle, Save, FolderPlus, MessageSquare, FileText } from 'lucide-react';
-import { Property, Realtor, ResponseSuggestion, DocumentInfoItem, User } from '../types';
+import { Property, Realtor, ResponseSuggestion, DocumentInfoItem, PriceItem, User } from '../types';
 import { ANSWER_TOPICS } from '../answerTopics';
 
 interface AdminPanelProps {
@@ -24,14 +24,10 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user }) => {
     mapLink: '',
     coverImage: '',
     status: 'published' as 'published' | 'draft' | 'archived',
-    pricePlan: 'Lote Padrão',
-    priceEntry: 'R$ 50.000',
-    priceInstallments: '60x de R$ 2.500',
-    priceTotal: 'R$ 200.000',
-    priceNotes: 'Correção IPCA',
+    prices: [{ plan: '', entry: '', installments: '', total: '', notes: '' }] as PriceItem[],
     photosText: '',
     videosText: '',
-    docsText: 'Matrícula Atualizada:Registro no Cartório|true\nMemorial Descritivo:Especificações técnicas|true',
+    docs: [] as { title: string; text: string }[],
     answers: {} as Record<string, string>
   });
 
@@ -68,20 +64,58 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user }) => {
     }
   };
 
+  const [uploading, setUploading] = useState('');
+
+  const addLines = (text: string, urls: string[]) => [text.trim(), ...urls].filter(Boolean).join('\n');
+
+  const handleUploadMedia = async (files: FileList | null) => {
+    if (!files || files.length === 0) return;
+    const token = localStorage.getItem('rt_token');
+    const photos: string[] = [];
+    const videos: string[] = [];
+    const errors: string[] = [];
+    const list = Array.from(files);
+    for (let i = 0; i < list.length; i++) {
+      const f = list[i];
+      setUploading(`Enviando ${i + 1} de ${list.length}: ${f.name}`);
+      try {
+        if (!/^(image|video)\//.test(f.type)) throw new Error('não é foto nem vídeo');
+        if (f.size > 50 * 1024 * 1024) throw new Error('acima de 50 MB');
+        const r = await fetch('/api/media/sign', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ filename: f.name, contentType: f.type })
+        });
+        const j = await r.json().catch(() => ({}));
+        if (!r.ok) throw new Error(j.error || 'falha ao preparar o envio');
+        const up = await fetch(j.uploadUrl, { method: 'PUT', headers: { 'Content-Type': f.type }, body: f });
+        if (!up.ok) throw new Error('falha no envio');
+        (f.type.startsWith('video/') ? videos : photos).push(j.publicUrl);
+      } catch (err: any) {
+        errors.push(`${f.name}: ${err.message || 'erro'}`);
+      }
+    }
+    setPropForm(prev => ({
+      ...prev,
+      photosText: addLines(prev.photosText, photos),
+      videosText: addLines(prev.videosText, videos),
+      coverImage: prev.coverImage || photos[0] || ''
+    }));
+    setUploading('');
+    if (errors.length) alert('Alguns arquivos não foram enviados:\n' + errors.join('\n'));
+  };
+
+  const removeLine = (field: 'photosText' | 'videosText', url: string) => {
+    setPropForm(prev => ({ ...prev, [field]: prev[field].split('\n').filter(l => l.trim() && l.trim() !== url).join('\n') }));
+  };
+
   const handleSaveProperty = async (e: React.FormEvent) => {
     e.preventDefault();
     const token = localStorage.getItem('rt_token');
     
-    const parsedDocs: DocumentInfoItem[] = propForm.docsText.split('\n').filter(Boolean).map((line, idx) => {
-      const [nameDesc, availStr] = line.split('|');
-      const [name, desc] = (nameDesc || '').split(':');
-      return {
-        id: 'doc-' + Date.now() + '-' + idx,
-        name: name ? name.trim() : 'Documento',
-        description: desc ? desc.trim() : 'Documento oficial',
-        available: availStr ? availStr.trim().toLowerCase() === 'true' : true
-      };
-    });
+    const parsedDocs: DocumentInfoItem[] = propForm.docs
+      .filter(d => d.title.trim() || d.text.trim())
+      .map((d, idx) => ({ id: 'doc-' + Date.now() + '-' + idx, name: d.title.trim() || 'Documento', description: d.text, available: true }));
 
     const payload = {
       title: propForm.title,
@@ -90,15 +124,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user }) => {
       mapLink: propForm.mapLink || 'https://maps.google.com',
       coverImage: propForm.coverImage || 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80',
       status: propForm.status,
-      prices: [
-        {
-          plan: propForm.pricePlan,
-          entry: propForm.priceEntry,
-          installments: propForm.priceInstallments,
-          total: propForm.priceTotal,
-          notes: propForm.priceNotes
-        }
-      ],
+      prices: propForm.prices.filter(p => [p.plan, p.entry, p.installments, p.total, p.notes].some(v => (v || '').trim() !== '')),
       photos: propForm.photosText ? propForm.photosText.split('\n').filter(Boolean) : [
         'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80',
         'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80'
@@ -106,9 +132,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user }) => {
       videos: propForm.videosText ? propForm.videosText.split('\n').filter(Boolean) : [
         'https://www.w3schools.com/html/mov_bbb.mp4'
       ],
-      documents: parsedDocs.length > 0 ? parsedDocs : [
-        { id: 'doc-1', name: 'Matrícula do Imóvel', description: 'Cartório de Registro', available: true }
-      ],
+      documents: parsedDocs,
       answers: Object.fromEntries(
         Object.entries(propForm.answers).filter(([, v]) => String(v).trim() !== '')
       )
@@ -205,7 +229,6 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user }) => {
 
   const openEditProperty = (p: Property) => {
     setEditingProp(p);
-    const docsStr = p.documents.map(d => `${d.name}:${d.description}|${d.available}`).join('\n');
     setPropForm({
       title: p.title,
       description: p.description,
@@ -213,14 +236,10 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user }) => {
       mapLink: p.mapLink,
       coverImage: p.coverImage,
       status: p.status,
-      pricePlan: p.prices[0]?.plan || 'Plano',
-      priceEntry: p.prices[0]?.entry || 'R$ 0',
-      priceInstallments: p.prices[0]?.installments || '0x',
-      priceTotal: p.prices[0]?.total || 'R$ 0',
-      priceNotes: p.prices[0]?.notes || '',
+      prices: p.prices && p.prices.length ? p.prices.map(x => ({ ...x })) : [{ plan: '', entry: '', installments: '', total: '', notes: '' }],
       photosText: p.photos.join('\n'),
       videosText: p.videos.join('\n'),
-      docsText: docsStr,
+      docs: (p.documents || []).map(d => ({ title: d.name, text: d.description })),
       answers: p.answers || {}
     });
     setShowPropModal(true);
@@ -284,14 +303,10 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user }) => {
                   mapLink: '',
                   coverImage: '',
                   status: 'published',
-                  pricePlan: 'Lote Padrão',
-                  priceEntry: 'R$ 50.000',
-                  priceInstallments: '60x de R$ 2.500',
-                  priceTotal: 'R$ 200.000',
-                  priceNotes: 'Correção IPCA',
+                  prices: [{ plan: '', entry: '', installments: '', total: '', notes: '' }] as PriceItem[],
                   photosText: '',
                   videosText: '',
-                  docsText: 'Matrícula Atualizada:Registro no Cartório|true\nMemorial Descritivo:Especificações técnicas|true',
+                  docs: [] as { title: string; text: string }[],
                   answers: {}
                 });
                 setShowPropModal(true);
@@ -550,63 +565,81 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user }) => {
               </div>
 
               <div className="border-t border-[#26221c] pt-3.5 space-y-3">
-                <h4 className="text-xs font-bold text-[#CBA747]">Condições de Preço Inicial</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  <input
-                    type="text"
-                    value={propForm.pricePlan}
-                    onChange={e => setPropForm({...propForm, pricePlan: e.target.value})}
-                    placeholder="Nome do Plano"
-                    className="bg-[#050504] border border-[#26221c] rounded-md px-2.5 py-2 text-[#F5F0E6] text-xs"
-                  />
-                  <input
-                    type="text"
-                    value={propForm.priceEntry}
-                    onChange={e => setPropForm({...propForm, priceEntry: e.target.value})}
-                    placeholder="Entrada"
-                    className="bg-[#050504] border border-[#26221c] rounded-md px-2.5 py-2 text-[#F5F0E6] text-xs"
-                  />
-                  <input
-                    type="text"
-                    value={propForm.priceTotal}
-                    onChange={e => setPropForm({...propForm, priceTotal: e.target.value})}
-                    placeholder="Valor Total"
-                    className="bg-[#050504] border border-[#26221c] rounded-md px-2.5 py-2 text-[#F5F0E6] text-xs"
-                  />
+                <div>
+                  <h4 className="text-xs font-bold text-[#CBA747]">Tabela de preços</h4>
+                  <p className="text-[10px] text-[#77736B]">Cada linha é um plano. Escreva do jeito que quiser e adicione quantas linhas precisar.</p>
                 </div>
+                {propForm.prices.map((row, i) => (
+                  <div key={i} className="bg-[#050504] border border-[#26221c] rounded-md p-3 space-y-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      <input type="text" value={row.plan} onChange={e => setPropForm({...propForm, prices: propForm.prices.map((r, j) => j === i ? {...r, plan: e.target.value} : r)})} placeholder="Plano (ex.: Lote até 200 m², 180x)" className="w-full bg-[#050504] border border-[#26221c] rounded-md px-2.5 py-2 text-[#F5F0E6] text-xs focus:outline-none focus:border-[#CBA747]" />
+                      <input type="text" value={row.entry} onChange={e => setPropForm({...propForm, prices: propForm.prices.map((r, j) => j === i ? {...r, entry: e.target.value} : r)})} placeholder="Entrada (ex.: R$ 600,00)" className="w-full bg-[#050504] border border-[#26221c] rounded-md px-2.5 py-2 text-[#F5F0E6] text-xs focus:outline-none focus:border-[#CBA747]" />
+                      <input type="text" value={row.installments} onChange={e => setPropForm({...propForm, prices: propForm.prices.map((r, j) => j === i ? {...r, installments: e.target.value} : r)})} placeholder="Parcelas (ex.: 180x a partir de R$ 255,56)" className="w-full bg-[#050504] border border-[#26221c] rounded-md px-2.5 py-2 text-[#F5F0E6] text-xs focus:outline-none focus:border-[#CBA747]" />
+                      <input type="text" value={row.total} onChange={e => setPropForm({...propForm, prices: propForm.prices.map((r, j) => j === i ? {...r, total: e.target.value} : r)})} placeholder="Valor do lote (ex.: R$ 83.590,00)" className="w-full bg-[#050504] border border-[#26221c] rounded-md px-2.5 py-2 text-[#F5F0E6] text-xs focus:outline-none focus:border-[#CBA747]" />
+                    </div>
+                    <textarea rows={2} value={row.notes} onChange={e => setPropForm({...propForm, prices: propForm.prices.map((r, j) => j === i ? {...r, notes: e.target.value} : r)})} placeholder="Observações escritas (reajuste anual, condições...)" className="w-full bg-[#050504] border border-[#26221c] rounded-md px-2.5 py-2 text-[#F5F0E6] text-xs focus:outline-none focus:border-[#CBA747]"></textarea>
+                    <button type="button" onClick={() => setPropForm({...propForm, prices: propForm.prices.filter((_, j) => j !== i)})} className="text-[10px] font-semibold text-red-400 hover:text-red-300">Remover linha</button>
+                  </div>
+                ))}
+                <button type="button" onClick={() => setPropForm({...propForm, prices: [...propForm.prices, { plan: '', entry: '', installments: '', total: '', notes: '' }]})} className="px-3 py-1.5 rounded-md bg-[#14120f] hover:bg-[#1a1713] text-[#CBA747] text-xs font-semibold border border-[#CBA747]/30">+ Adicionar linha</button>
               </div>
 
               <div className="border-t border-[#26221c] pt-3.5 space-y-3">
-                <h4 className="text-xs font-bold text-[#CBA747]">Fotos (uma URL por linha)</h4>
-                <textarea
-                  rows={2}
-                  value={propForm.photosText}
-                  onChange={e => setPropForm({...propForm, photosText: e.target.value})}
-                  placeholder="https://images.unsplash.com/photo-1..."
-                  className="w-full bg-[#050504] border border-[#26221c] rounded-md p-2.5 text-[#F5F0E6] font-mono text-xs focus:outline-none focus:border-[#CBA747]"
-                ></textarea>
+                <div>
+                  <h4 className="text-xs font-bold text-[#CBA747]">Fotos e vídeos</h4>
+                  <p className="text-[10px] text-[#77736B]">Envie do celular ou do computador (até 50 MB cada). Fotos e vídeos são separados automaticamente.</p>
+                </div>
+                <label className="flex items-center justify-center gap-2 px-3 py-3 rounded-md bg-[#14120f] hover:bg-[#1a1713] text-[#CBA747] text-xs font-semibold border border-dashed border-[#CBA747]/40 cursor-pointer">
+                  {uploading || '+ Subir fotos ou vídeos'}
+                  <input type="file" accept="image/*,video/*" multiple disabled={!!uploading} className="hidden" onChange={e => { handleUploadMedia(e.target.files); e.target.value = ''; }} />
+                </label>
+
+                {propForm.photosText.split('\n').filter(l => l.trim()).length > 0 && (
+                  <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+                    {propForm.photosText.split('\n').filter(l => l.trim()).map(url => (
+                      <div key={url} className="relative aspect-square rounded-md overflow-hidden border border-[#26221c] bg-[#050504]">
+                        <img src={url.trim()} alt="" className="w-full h-full object-cover" />
+                        <button type="button" onClick={() => removeLine('photosText', url.trim())} className="absolute top-1 right-1 w-5 h-5 rounded bg-black/70 text-white text-[10px] font-bold">✕</button>
+                        <button type="button" onClick={() => setPropForm({...propForm, coverImage: url.trim()})} className={`absolute bottom-1 left-1 px-1.5 py-0.5 rounded text-[9px] font-bold ${propForm.coverImage === url.trim() ? 'bg-[#CBA747] text-[#050504]' : 'bg-black/70 text-white'}`}>{propForm.coverImage === url.trim() ? 'Capa' : 'Usar como capa'}</button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {propForm.videosText.split('\n').filter(l => l.trim()).length > 0 && (
+                  <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+                    {propForm.videosText.split('\n').filter(l => l.trim()).map(url => (
+                      <div key={url} className="relative aspect-square rounded-md overflow-hidden border border-[#26221c] bg-[#050504]">
+                        <video src={url.trim()} preload="metadata" muted className="w-full h-full object-cover" />
+                        <span className="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-black/70 text-white text-[9px] font-bold">Vídeo</span>
+                        <button type="button" onClick={() => removeLine('videosText', url.trim())} className="absolute top-1 right-1 w-5 h-5 rounded bg-black/70 text-white text-[10px] font-bold">✕</button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <details className="text-[10px] text-[#77736B]">
+                  <summary className="cursor-pointer">Colar links em vez de enviar arquivos</summary>
+                  <div className="space-y-2 pt-2">
+                    <textarea rows={2} value={propForm.photosText} onChange={e => setPropForm({...propForm, photosText: e.target.value})} placeholder="Fotos: uma URL por linha" className="w-full bg-[#050504] border border-[#26221c] rounded-md p-2.5 text-[#F5F0E6] font-mono text-xs focus:outline-none focus:border-[#CBA747]"></textarea>
+                    <textarea rows={2} value={propForm.videosText} onChange={e => setPropForm({...propForm, videosText: e.target.value})} placeholder="Vídeos: uma URL por linha" className="w-full bg-[#050504] border border-[#26221c] rounded-md p-2.5 text-[#F5F0E6] font-mono text-xs focus:outline-none focus:border-[#CBA747]"></textarea>
+                  </div>
+                </details>
               </div>
 
               <div className="border-t border-[#26221c] pt-3.5 space-y-3">
-                <h4 className="text-xs font-bold text-[#CBA747]">Vídeos (uma URL por linha)</h4>
-                <textarea
-                  rows={2}
-                  value={propForm.videosText}
-                  onChange={e => setPropForm({...propForm, videosText: e.target.value})}
-                  placeholder="https://www.w3schools.com/html/mov_bbb.mp4"
-                  className="w-full bg-[#050504] border border-[#26221c] rounded-md p-2.5 text-[#F5F0E6] font-mono text-xs focus:outline-none focus:border-[#CBA747]"
-                ></textarea>
-              </div>
-
-              <div className="border-t border-[#26221c] pt-3.5 space-y-3">
-                <h4 className="text-xs font-bold text-[#CBA747]">Lista Informativa de Documentos (Nome:Descrição|disponivel)</h4>
-                <textarea
-                  rows={2}
-                  value={propForm.docsText}
-                  onChange={e => setPropForm({...propForm, docsText: e.target.value})}
-                  placeholder="Matrícula do Imóvel:Cartório de Registro|true"
-                  className="w-full bg-[#050504] border border-[#26221c] rounded-md p-2.5 text-[#F5F0E6] font-mono text-xs focus:outline-none focus:border-[#CBA747]"
-                ></textarea>
+                <div>
+                  <h4 className="text-xs font-bold text-[#CBA747]">Documentos (por capítulos)</h4>
+                  <p className="text-[10px] text-[#77736B]">Escreva o que existe de documento, um capítulo por assunto (ex.: Matrícula, Contrato, Escritura). O corretor vê cada capítulo com o botão Copiar.</p>
+                </div>
+                {propForm.docs.map((d, i) => (
+                  <div key={i} className="bg-[#050504] border border-[#26221c] rounded-md p-3 space-y-2">
+                    <input type="text" value={d.title} onChange={e => setPropForm({...propForm, docs: propForm.docs.map((x, j) => j === i ? {...x, title: e.target.value} : x)})} placeholder="Título do capítulo (ex.: Matrícula e registro)" className="w-full bg-[#050504] border border-[#26221c] rounded-md px-2.5 py-2 text-[#F5F0E6] text-xs focus:outline-none focus:border-[#CBA747]" />
+                    <textarea rows={3} value={d.text} onChange={e => setPropForm({...propForm, docs: propForm.docs.map((x, j) => j === i ? {...x, text: e.target.value} : x)})} placeholder="O que o empreendimento tem sobre este assunto..." className="w-full bg-[#050504] border border-[#26221c] rounded-md px-2.5 py-2 text-[#F5F0E6] text-xs focus:outline-none focus:border-[#CBA747]"></textarea>
+                    <button type="button" onClick={() => setPropForm({...propForm, docs: propForm.docs.filter((_, j) => j !== i)})} className="text-[10px] font-semibold text-red-400 hover:text-red-300">Remover capítulo</button>
+                  </div>
+                ))}
+                <button type="button" onClick={() => setPropForm({...propForm, docs: [...propForm.docs, { title: '', text: '' }]})} className="px-3 py-1.5 rounded-md bg-[#14120f] hover:bg-[#1a1713] text-[#CBA747] text-xs font-semibold border border-[#CBA747]/30">+ Adicionar capítulo</button>
               </div>
 
               <div className="border-t border-[#26221c] pt-3.5 space-y-3">

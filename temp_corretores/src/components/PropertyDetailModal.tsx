@@ -243,7 +243,7 @@ export const PropertyDetailModal: React.FC<PropertyDetailModalProps> = ({ proper
             onClick={() => setActiveTab('documents')}
             className={`py-3 px-4 text-xs font-semibold border-b-2 transition-colors whitespace-nowrap ${activeTab === 'documents' ? 'border-[#CBA747] text-[#CBA747]' : 'border-transparent text-[#77736B] hover:text-[#F5F0E6]'}`}
           >
-            Lista de Documentos ({property.documents.length})
+            Documentos ({property.documents.length})
           </button>
           <button
             onClick={() => setActiveTab('suggestions')}
@@ -383,7 +383,7 @@ export const PropertyDetailModal: React.FC<PropertyDetailModalProps> = ({ proper
               ) : (
                 <div className="grid grid-cols-1 gap-3">
                   {property.prices.map((p, idx) => {
-                    const priceText = `Empreendimento: ${property.title}\nPlano: ${p.plan}\nEntrada: ${p.entry}\nParcelamento: ${p.installments}\nValor Total: ${p.total}\nObs: ${p.notes}`;
+                    const priceText = [`Empreendimento: ${property.title}`, p.plan && `Plano: ${p.plan}`, p.entry && `Entrada: ${p.entry}`, p.installments && `Parcelamento: ${p.installments}`, p.total && `Valor Total: ${p.total}`, p.notes && `Obs: ${p.notes}`].filter(Boolean).join('\n');
                     return (
                       <div key={idx} className="bg-[#050504] border border-[#26221c] p-5 rounded-lg space-y-3">
                         <div className="flex items-center justify-between border-b border-[#26221c] pb-2.5">
@@ -392,9 +392,11 @@ export const PropertyDetailModal: React.FC<PropertyDetailModalProps> = ({ proper
                             <h4 className="text-sm font-bold text-[#F5F0E6]">{p.plan}</h4>
                           </div>
                           <div className="flex items-center gap-2.5">
-                            <span className="px-2.5 py-0.5 bg-[#CBA747]/10 text-[#CBA747] rounded-md text-xs font-bold border border-[#CBA747]/30">
-                              Total: {p.total}
-                            </span>
+                            {p.total && (
+                              <span className="px-2.5 py-0.5 bg-[#CBA747]/10 text-[#CBA747] rounded-md text-xs font-bold border border-[#CBA747]/30">
+                                Total: {p.total}
+                              </span>
+                            )}
                             <button
                               onClick={() => copyText(priceText, `price-${idx}`)}
                               className="px-2.5 py-1 rounded-md bg-[#14120f] hover:bg-[#1a1713] text-[#CBA747] text-xs font-semibold flex items-center gap-1 border border-[#CBA747]/30 transition-colors"
@@ -405,18 +407,24 @@ export const PropertyDetailModal: React.FC<PropertyDetailModalProps> = ({ proper
                           </div>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                          {p.entry && (
                           <div className="bg-[#14120f] p-3 rounded-md border border-[#26221c]">
                             <div className="text-[10px] text-[#77736B] uppercase">Sinal / Entrada</div>
                             <div className="text-sm font-bold text-[#F5F0E6] mt-0.5">{p.entry}</div>
                           </div>
+                          )}
+                          {p.installments && (
                           <div className="bg-[#14120f] p-3 rounded-md border border-[#26221c]">
                             <div className="text-[10px] text-[#77736B] uppercase">Parcelamento</div>
                             <div className="text-sm font-bold text-[#F5F0E6] mt-0.5">{p.installments}</div>
                           </div>
+                          )}
+                          {p.notes && (
                           <div className="bg-[#14120f] p-3 rounded-md border border-[#26221c]">
                             <div className="text-[10px] text-[#77736B] uppercase">Condições & Observações</div>
                             <div className="text-xs font-medium text-[#77736B] mt-0.5">{p.notes}</div>
                           </div>
+                          )}
                         </div>
                       </div>
                     );
@@ -450,37 +458,27 @@ export const PropertyDetailModal: React.FC<PropertyDetailModalProps> = ({ proper
           {activeTab === 'documents' && (
             <div className="space-y-4">
               <div>
-                <h3 className="text-base font-bold text-[#F5F0E6]">Lista Informativa de Documentos</h3>
-                <p className="text-xs text-[#77736B]">Relação oficial de certidões, matrículas e documentos cadastrados para este empreendimento.</p>
+                <h3 className="text-base font-bold text-[#F5F0E6]">Documentos</h3>
+                <p className="text-xs text-[#77736B]">O que este empreendimento tem de documentação, por assunto.</p>
               </div>
 
               {property.documents.length === 0 ? (
-                <p className="text-xs text-[#77736B]">Nenhum documento cadastrado na lista.</p>
+                <p className="text-xs text-[#77736B]">Nenhuma informação de documentos cadastrada.</p>
               ) : (
-                <div className="space-y-2.5">
+                <div className="grid grid-cols-1 gap-3">
                   {property.documents.map((doc: DocumentInfoItem) => (
-                    <div key={doc.id} className="bg-[#050504] border border-[#26221c] p-3.5 rounded-lg flex items-center justify-between gap-3">
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-md bg-[#CBA747]/10 text-[#CBA747] flex items-center justify-center border border-[#CBA747]/30 shrink-0">
-                          <FileText className="w-4 h-4" />
-                        </div>
-                        <div>
-                          <div className="text-xs font-bold text-[#F5F0E6]">{doc.name}</div>
-                          <div className="text-[10px] text-[#77736B]">{doc.description}</div>
-                        </div>
+                    <div key={doc.id} className="bg-[#050504] border border-[#26221c] p-4 rounded-lg space-y-2.5">
+                      <div className="flex items-center justify-between gap-2">
+                        <h4 className="text-sm font-bold text-[#F5F0E6]">{doc.name}</h4>
+                        <button
+                          onClick={() => copyText(`${doc.name}\n${doc.description}`, `doc-${doc.id}`)}
+                          className="px-2.5 py-1 rounded-md bg-[#14120f] hover:bg-[#1a1713] text-[#CBA747] text-xs font-semibold flex items-center gap-1 border border-[#CBA747]/30 transition-colors shrink-0"
+                        >
+                          {copiedId === `doc-${doc.id}` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                          {copiedId === `doc-${doc.id}` ? 'Copiado!' : 'Copiar'}
+                        </button>
                       </div>
-
-                      <div className="shrink-0">
-                        {doc.available ? (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-emerald-500/10 text-emerald-400 text-[10px] font-bold border border-emerald-500/30">
-                            <CheckCircle2 className="w-3 h-3" /> Disponível
-                          </span>
-                        ) : (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-red-500/10 text-red-400 text-[10px] font-bold border border-red-500/20">
-                            <XCircle className="w-3 h-3" /> Em Emissão
-                          </span>
-                        )}
-                      </div>
+                      <p className="text-xs text-[#77736B] leading-relaxed whitespace-pre-line">{doc.description}</p>
                     </div>
                   ))}
                 </div>
