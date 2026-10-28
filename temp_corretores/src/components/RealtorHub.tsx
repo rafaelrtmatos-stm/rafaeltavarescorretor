@@ -153,6 +153,7 @@ export const RealtorHub: React.FC<RealtorHubProps> = ({ user }) => {
       {selectedProperty && (
         <PropertyDetailModal
           property={selectedProperty}
+          userName={user.name}
           onClose={() => setSelectedProperty(null)}
         />
       )}

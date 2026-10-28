@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Building2, Users, Plus, Edit, Trash2, Shield, Mail, Phone, CheckCircle, Clock, X, AlertTriangle, Save, FolderPlus, MessageSquare, FileText } from 'lucide-react';
 import { Property, Realtor, ResponseSuggestion, DocumentInfoItem, User } from '../types';
+import { ANSWER_TOPICS } from '../answerTopics';
 
 interface AdminPanelProps {
   user: User;
@@ -30,7 +31,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user }) => {
     priceNotes: 'Correção IPCA',
     photosText: '',
     videosText: '',
-    docsText: 'Matrícula Atualizada:Registro no Cartório|true\nMemorial Descritivo:Especificações técnicas|true'
+    docsText: 'Matrícula Atualizada:Registro no Cartório|true\nMemorial Descritivo:Especificações técnicas|true',
+    answers: {} as Record<string, string>
   });
 
   // Suggestion modal state
@@ -106,7 +108,10 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user }) => {
       ],
       documents: parsedDocs.length > 0 ? parsedDocs : [
         { id: 'doc-1', name: 'Matrícula do Imóvel', description: 'Cartório de Registro', available: true }
-      ]
+      ],
+      answers: Object.fromEntries(
+        Object.entries(propForm.answers).filter(([, v]) => String(v).trim() !== '')
+      )
     };
 
     try {
@@ -215,7 +220,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user }) => {
       priceNotes: p.prices[0]?.notes || '',
       photosText: p.photos.join('\n'),
       videosText: p.videos.join('\n'),
-      docsText: docsStr
+      docsText: docsStr,
+      answers: p.answers || {}
     });
     setShowPropModal(true);
   };
@@ -285,7 +291,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user }) => {
                   priceNotes: 'Correção IPCA',
                   photosText: '',
                   videosText: '',
-                  docsText: 'Matrícula Atualizada:Registro no Cartório|true\nMemorial Descritivo:Especificações técnicas|true'
+                  docsText: 'Matrícula Atualizada:Registro no Cartório|true\nMemorial Descritivo:Especificações técnicas|true',
+                  answers: {}
                 });
                 setShowPropModal(true);
               }}
@@ -600,6 +607,25 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ user }) => {
                   placeholder="Matrícula do Imóvel:Cartório de Registro|true"
                   className="w-full bg-[#050504] border border-[#26221c] rounded-md p-2.5 text-[#F5F0E6] font-mono text-xs focus:outline-none focus:border-[#CBA747]"
                 ></textarea>
+              </div>
+
+              <div className="border-t border-[#26221c] pt-3.5 space-y-3">
+                <div>
+                  <h4 className="text-xs font-bold text-[#CBA747]">Respostas para clientes (texto para copiar)</h4>
+                  <p className="text-[10px] text-[#77736B]">Preencha só o que quiser. O corretor vê cada área com o botão Copiar.</p>
+                </div>
+                {ANSWER_TOPICS.map(t => (
+                  <div key={t.key} className="space-y-1">
+                    <label className="text-[10px] font-semibold text-[#77736B] uppercase">{t.label}</label>
+                    <textarea
+                      rows={3}
+                      value={propForm.answers[t.key] || ''}
+                      onChange={e => setPropForm({...propForm, answers: {...propForm.answers, [t.key]: e.target.value}})}
+                      placeholder={t.hint}
+                      className="w-full bg-[#050504] border border-[#26221c] rounded-md p-2.5 text-[#F5F0E6] text-xs focus:outline-none focus:border-[#CBA747]"
+                    ></textarea>
+                  </div>
+                ))}
               </div>
 
               <div className="flex justify-end gap-2.5 pt-3.5 border-t border-[#26221c]">

@@ -151,7 +151,7 @@ async function authenticate(req, { admin = false } = {}) {
 }
 
 // ── Helpers de dados ─────────────────────────────────────────────────────────
-const PROPERTY_FIELDS = ['title', 'description', 'location', 'mapLink', 'coverImage', 'status', 'prices', 'photos', 'videos', 'documents'];
+const PROPERTY_FIELDS = ['title', 'description', 'location', 'mapLink', 'coverImage', 'status', 'prices', 'photos', 'videos', 'documents', 'answers'];
 const SUGGESTION_FIELDS = ['category', 'title', 'content'];
 
 const pick = (obj, fields) => {

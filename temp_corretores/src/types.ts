@@ -33,6 +33,7 @@ export interface Property {
   photos: string[];
   videos: string[];
   documents: DocumentInfoItem[];
+  answers?: Record<string, string>;
 }
 
 export interface Realtor {

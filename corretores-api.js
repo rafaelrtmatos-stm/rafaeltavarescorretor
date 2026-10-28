@@ -245,7 +245,7 @@ router.post('/api/auth/logout', (req, res) => res.json({ success: true }));
 router.get('/api/auth/me', authenticate, (req, res) => res.json({ user: req.user }));
 
 // Empreendimentos: corretor vê só os publicados; admin vê todos
-const PROPERTY_FIELDS = ['title', 'description', 'location', 'mapLink', 'coverImage', 'status', 'prices', 'photos', 'videos', 'documents'];
+const PROPERTY_FIELDS = ['title', 'description', 'location', 'mapLink', 'coverImage', 'status', 'prices', 'photos', 'videos', 'documents', 'answers'];
 const pick = (obj, fields) => {
   const out = {};
   fields.forEach((f) => {

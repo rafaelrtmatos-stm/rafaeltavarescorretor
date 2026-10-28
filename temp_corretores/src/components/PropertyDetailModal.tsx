@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { X, MapPin, Calendar, FileText, ImageIcon, Video, Download, CheckSquare, Square, ExternalLink, Tag, Copy, Check, CheckCircle2, XCircle, ArrowLeft, MessageSquare, ChevronLeft, ChevronRight, Play, Pause, List, Grid } from 'lucide-react';
 import { Property, DocumentInfoItem, ResponseSuggestion } from '../types';
+import { ANSWER_TOPICS, fillName } from '../answerTopics';
 
 interface PropertyDetailModalProps {
   property: Property | null;
+  userName?: string;
   onClose: () => void;
 }
 
-export const PropertyDetailModal: React.FC<PropertyDetailModalProps> = ({ property, onClose }) => {
+export const PropertyDetailModal: React.FC<PropertyDetailModalProps> = ({ property, userName, onClose }) => {
   const [activeTab, setActiveTab] = useState<'overview' | 'media' | 'prices' | 'location' | 'documents' | 'suggestions'>('overview');
   const [selectedMedia, setSelectedMedia] = useState<string[]>([]);
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -63,6 +65,9 @@ export const PropertyDetailModal: React.FC<PropertyDetailModalProps> = ({ proper
   };
 
   if (!property) return null;
+
+  const filledAnswers = ANSWER_TOPICS.filter(t => (property.answers?.[t.key] || '').trim() !== '');
+  const answersCount = filledAnswers.length + suggestions.length;
 
   const allMedia = [
     ...property.photos.map(url => ({ type: 'photo' as const, url })),
@@ -244,7 +249,7 @@ export const PropertyDetailModal: React.FC<PropertyDetailModalProps> = ({ proper
             onClick={() => setActiveTab('suggestions')}
             className={`py-3 px-4 text-xs font-semibold border-b-2 transition-colors whitespace-nowrap ${activeTab === 'suggestions' ? 'border-[#CBA747] text-[#CBA747]' : 'border-transparent text-[#77736B] hover:text-[#F5F0E6]'}`}
           >
-            Sugestões de Respostas ({suggestions.length})
+            Respostas para Clientes ({answersCount})
           </button>
         </div>
 
@@ -280,7 +285,7 @@ export const PropertyDetailModal: React.FC<PropertyDetailModalProps> = ({ proper
                 </div>
                 <div onClick={() => setActiveTab('suggestions')} className="bg-[#14120f]/40 hover:bg-[#14120f] border border-[#26221c] p-3.5 rounded-lg cursor-pointer text-center">
                   <MessageSquare className="w-4 h-4 text-[#CBA747] mx-auto mb-1.5" />
-                  <div className="text-lg font-bold text-[#F5F0E6]">{suggestions.length}</div>
+                  <div className="text-lg font-bold text-[#F5F0E6]">{answersCount}</div>
                   <div className="text-[10px] text-[#77736B]">Respostas</div>
                 </div>
               </div>
@@ -486,13 +491,40 @@ export const PropertyDetailModal: React.FC<PropertyDetailModalProps> = ({ proper
           {activeTab === 'suggestions' && (
             <div className="space-y-4">
               <div>
-                <h3 className="text-base font-bold text-[#F5F0E6]">Sugestões de Respostas para Clientes</h3>
+                <h3 className="text-base font-bold text-[#F5F0E6]">Respostas para Clientes</h3>
                 <p className="text-xs text-[#77736B]">Copie e adapte as mensagens para o atendimento aos clientes.</p>
               </div>
 
-              {suggestions.length === 0 ? (
-                <p className="text-xs text-[#77736B]">Nenhuma sugestão cadastrada.</p>
-              ) : (
+              {filledAnswers.length > 0 && (
+                <div className="space-y-3">
+                  <h4 className="text-xs font-bold text-[#CBA747]">Respostas deste empreendimento</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {filledAnswers.map(t => (
+                      <div key={t.key} className="bg-[#050504] border border-[#26221c] p-4 rounded-lg space-y-2.5">
+                        <div className="flex items-center justify-between gap-2">
+                          <h4 className="text-sm font-bold text-[#F5F0E6]">{t.label}</h4>
+                          <button
+                            onClick={() => copyText(fillName(property.answers![t.key], userName), `ans-${t.key}`)}
+                            className="px-2.5 py-1 rounded-md bg-[#14120f] hover:bg-[#1a1713] text-[#CBA747] text-xs font-semibold flex items-center gap-1 border border-[#CBA747]/30 transition-colors shrink-0"
+                          >
+                            {copiedId === `ans-${t.key}` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                            {copiedId === `ans-${t.key}` ? 'Copiado!' : 'Copiar'}
+                          </button>
+                        </div>
+                        <p className="text-xs text-[#77736B] leading-relaxed whitespace-pre-line">{fillName(property.answers![t.key], userName)}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {suggestions.length > 0 && filledAnswers.length > 0 && (
+                <h4 className="text-xs font-bold text-[#CBA747] pt-2">Modelos gerais</h4>
+              )}
+
+              {suggestions.length === 0 && filledAnswers.length === 0 ? (
+                <p className="text-xs text-[#77736B]">Nenhuma resposta cadastrada.</p>
+              ) : suggestions.length === 0 ? null : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {suggestions.map(s => (
                     <div key={s.id} className="bg-[#050504] border border-[#26221c] p-4 rounded-lg space-y-2.5 flex flex-col justify-between">
