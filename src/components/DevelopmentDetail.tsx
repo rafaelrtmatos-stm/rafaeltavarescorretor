@@ -165,33 +165,19 @@ export const DevelopmentDetail: React.FC<DevelopmentDetailProps> = ({ developmen
             <div className="text-xs uppercase tracking-[0.3em] text-[#C9A84C] font-bold">Tabela de Preços</div>
             <h2 className="font-serif text-3xl font-bold text-white">Valores & Condições</h2>
 
-            <div className="space-y-4">
-              {development.pricingPlans.map((plan, i) => (
-                <div key={i} className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 space-y-4 shadow-xl">
-                  <div className="font-serif text-xl font-bold text-white">{plan.title}</div>
-                  <div className="grid grid-cols-2 gap-4 py-3 border-y border-zinc-800">
-                    <div>
-                      <div className="text-[10px] uppercase tracking-wider text-zinc-400">Valor Total</div>
-                      <div className="text-lg font-bold text-[#C9A84C]">{plan.total}</div>
-                    </div>
-                    <div>
-                      <div className="text-[10px] uppercase tracking-wider text-zinc-400">Entrada</div>
-                      <div className="text-lg font-bold text-white">{plan.entrance}</div>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-[10px] uppercase tracking-wider text-zinc-400">Parcelamento</div>
-                    <div className="text-sm font-semibold text-zinc-200 mt-0.5">{plan.installment}</div>
-                  </div>
-                  
-                  <button 
-                    onClick={() => onStartReserva(development.slug)}
-                    className="w-full py-3 bg-[#C9A84C] hover:bg-[#E8C96A] text-black rounded-xl font-bold text-xs uppercase tracking-widest transition-all"
-                  >
-                    Garantir Este Lote Agora
-                  </button>
-                </div>
-              ))}
+            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 sm:p-8 space-y-6 shadow-xl">
+              <div className="space-y-4 text-sm text-zinc-300 leading-relaxed font-light whitespace-pre-line">
+                {development.pricingPlans.map(plan => 
+                  `• ${plan.title}: Total ${plan.total} | Entrada ${plan.entrance} | ${plan.installment}${plan.details ? ` (${plan.details})` : ''}`
+                ).join('\n\n')}
+              </div>
+              
+              <button 
+                onClick={() => onStartReserva(development.slug)}
+                className="w-full py-4 bg-gradient-to-r from-[#B8902A] via-[#E8C96A] to-[#B8902A] text-black rounded-xl font-bold text-xs uppercase tracking-widest shadow-lg shadow-[#C9A84C]/20 hover:scale-[1.02] transition-all mt-4"
+              >
+                Garantir Este Lote Agora
+              </button>
             </div>
 
           </div>

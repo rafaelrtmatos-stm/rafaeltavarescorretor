@@ -961,19 +961,19 @@
     var checksSpan = document.createElement('span');
 
     if (animar) {
-      // 1. Enviado: um pauzinho cinza (dura pelo menos 1 segundo)
+      // 1. Enviado: um pauzinho cinza (dura 1 segundo)
       checksSpan.className = 'lead-msg-checks status-enviado';
       checksSpan.title = 'Enviado';
       checksSpan.innerHTML = SVG_TIQUE_1;
 
-      // 2. Recebido: dois pauzinhos cinzas (após 1000ms - pelo menos 1s de intervalo)
+      // 2. Recebido: dois pauzinhos cinzas (após 1000ms - 1s de intervalo)
       agendarTimeout(function () {
         checksSpan.className = 'lead-msg-checks status-recebido';
         checksSpan.title = 'Entregue';
         checksSpan.innerHTML = SVG_TIQUE_2;
       }, 1000);
 
-      // 3. Lido: dois pauzinhos azuis (após 2000ms - pelo menos 1s de intervalo após recebido)
+      // 3. Lido: dois pauzinhos azuis (após 2000ms - 1s de intervalo após recebido)
       agendarTimeout(function () {
         checksSpan.className = 'lead-msg-checks status-lido';
         checksSpan.title = 'Lido';
@@ -996,7 +996,7 @@
   }
 
   // Enviar resposta do cliente: toca som de envio, mostra 1 pauzinho cinza -> 2 pauzinhos cinza -> 2 azuis (1s entre cada),
-  // e em seguida inicia os 3 segundos de digitação com notificação para a próxima mensagem
+  // e em seguida inicia a digitação com notificação para a próxima mensagem após a leitura (mínimo 3.2s para garantir 1s no estágio lido)
   function responderCliente(textoExibicao, proximaEtapa) {
     tocarSomEnviado();
 
@@ -1009,10 +1009,10 @@
       rolarParaFinal();
     }
 
-    // Aguarda a confirmação visual completa da leitura em azul (2000ms + 400ms) antes de iniciar a digitação da próxima etapa
+    // Aguarda a confirmação visual completa da leitura em azul (2000ms + 1200ms no estado lido) antes de iniciar a próxima etapa
     agendarTimeout(function () {
       irParaEtapa(proximaEtapa, false);
-    }, 2400);
+    }, 3200);
   }
 
   // Enviar nome do cliente e, em seguida (só quando o empreendimento não foi identificado pela URL,
@@ -2265,21 +2265,21 @@
       return;
     }
 
-    // ── ETAPA 7: HORÁRIO DA VISITA COM INTERVALOS DE 30 MINUTOS ──
+    // ── ETAPA 7: HORÁRIO DA VISITA COM INTERVALOS DE 30 MINUTOS (08h às 18h) ──
     if (etapa === 7 || idNorm === 'horario') {
       var agora = new Date();
       var horaAtual = agora.getHours();
+      var minutoAtual = agora.getMinutes();
 
       var diaFormatado = (agora.getDate() < 10 ? '0' : '') + agora.getDate();
       var mesFormatado = (agora.getMonth() + 1 < 10 ? '0' : '') + (agora.getMonth() + 1);
       var hojeStr = diaFormatado + '/' + mesFormatado + '/' + agora.getFullYear();
+      
+      var passouDas18 = (horaAtual >= 18 || (horaAtual === 18 && minutoAtual > 0));
       var isHoje = (!leadData.data_visita || leadData.data_visita === hojeStr);
 
-      // Expediente é das 08h às 18h. Se for "hoje" e já passou das 18h, não sobra
-      // nenhum horário válido no dia — empurra automaticamente o agendamento
-      // para amanhã em vez de oferecer horários que já ficaram no passado.
       var empurradoParaAmanha = false;
-      if (isHoje && horaAtual >= 18) {
+      if (passouDas18 && (isHoje || !leadData.data_visita || leadData.data_visita === hojeStr)) {
         var amanha = new Date(agora);
         amanha.setDate(amanha.getDate() + 1);
         var diaAmanha = (amanha.getDate() < 10 ? '0' : '') + amanha.getDate();
@@ -2290,14 +2290,15 @@
         empurradoParaAmanha = true;
       }
 
-      var isNoiteDepoisDas17 = isHoje && (horaAtual >= 17);
+      if (!leadData.data_visita && !passouDas18) {
+        leadData.data_visita = hojeStr;
+        leadData.data_visita_texto = agora.getDate() + ' de ' + meses[agora.getMonth()].toLowerCase() + ' de ' + agora.getFullYear();
+      }
 
-      var perg_e7 = (configChat.etapa7_horario && configChat.etapa7_horario.pergunta) || 'Qual horário fica melhor para o agendamento da sua visita? (Intervalos de 30 minutos)';
+      var perg_e7 = (configChat.etapa7_horario && configChat.etapa7_horario.pergunta) || 'Qual horário fica melhor para o agendamento da sua visita? (Das 08h às 18h)';
 
       if (empurradoParaAmanha) {
         container.appendChild(criarBalaoRafael('Nosso horário de atendimento é das 08h às 18h e já encerrou por hoje. Vamos agendar para amanhã, dia ' + leadData.data_visita + ' — qual horário fica melhor?'));
-      } else if (isNoiteDepoisDas17) {
-        container.appendChild(criarBalaoRafael('Qual horário fica melhor para o agendamento da sua visita? Como já passa das 17h, selecione o melhor horário a partir da tarde:'));
       } else {
         container.appendChild(criarBalaoRafael(perg_e7));
       }
@@ -2315,7 +2316,7 @@
       function criarGrupoHorarios(titulo, icone, listaHoras) {
         var grp = document.createElement('div');
         grp.className = 'lead-time-group';
-        grp.innerHTML = '<div class="lead-time-group-title"><span>' + icone + '</span> ' + titulo + '</div>';
+        grp.innerHTML = '<div class="lead-time-group-title"><span>' + icone + '</span> ' + titulo + ' (08h às 18h)</div>';
         var grid = document.createElement('div');
         grid.className = 'lead-time-grid';
 
@@ -2323,51 +2324,32 @@
           var btn = document.createElement('button');
           btn.type = 'button';
           btn.className = 'lead-time-slot-btn';
+          if (isHoje) {
+            var partesH = hora.split(':');
+            var hSlot = parseInt(partesH[0], 10);
+            var mSlot = parseInt(partesH[1], 10);
+            if (hSlot < horaAtual || (hSlot === horaAtual && mSlot <= minutoAtual)) {
+              btn.classList.add('disabled');
+              btn.disabled = true;
+            }
+          }
           btn.textContent = hora;
-          btn.addEventListener('click', function () {
-            selecionarHorario(hora);
-          });
+          if (!btn.disabled) {
+            btn.addEventListener('click', function () {
+              selecionarHorario(hora);
+            });
+          }
           grid.appendChild(btn);
         });
         grp.appendChild(grid);
         return grp;
       }
 
-      // Se estiver escrevendo à noite, depois das 17h: só aparece o horário a partir da tarde depois das 17h
-      if (isNoiteDepoisDas17) {
-        var horariosDepois17 = ['17:00', '17:30', '18:00'];
-        timeWrap.appendChild(criarGrupoHorarios('Tarde / Início da Noite (a partir das 17h)', '🌆', horariosDepois17));
+      var horariosManha = ['08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00'];
+      var horariosTarde = ['13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00'];
 
-        // Se o agendamento for para outro dia, oferece opção para ver os demais horários caso queira
-        if (!isHoje) {
-          var btnOutros = document.createElement('button');
-          btnOutros.type = 'button';
-          btnOutros.className = 'lead-skip-step-btn';
-          btnOutros.style.marginTop = '4px';
-          btnOutros.textContent = '☀️ Ver horários da manhã e tarde completa para este dia';
-          btnOutros.addEventListener('click', function () {
-            btnOutros.remove();
-            timeWrap.innerHTML = '';
-            var horariosManha = ['08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30'];
-            var horariosTarde = ['14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30'];
-            timeWrap.appendChild(criarGrupoHorarios('Manhã', '🌅', horariosManha));
-            timeWrap.appendChild(criarGrupoHorarios('Tarde', '☀️', horariosTarde));
-          });
-          actionsWrap.appendChild(btnOutros);
-        }
-      } else {
-        // Se for antes das 17h:
-        var horariosManha = ['08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30'];
-        var horariosTarde = ['14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30'];
-
-        // Se for hoje à tarde (entre 12h e 17h), a manhã já passou
-        if (isHoje && horaAtual >= 12) {
-          timeWrap.appendChild(criarGrupoHorarios('Tarde', '☀️', horariosTarde));
-        } else {
-          timeWrap.appendChild(criarGrupoHorarios('Manhã', '🌅', horariosManha));
-          timeWrap.appendChild(criarGrupoHorarios('Tarde', '☀️', horariosTarde));
-        }
-      }
+      timeWrap.appendChild(criarGrupoHorarios('Manhã', '🌅', horariosManha));
+      timeWrap.appendChild(criarGrupoHorarios('Tarde', '☀️', horariosTarde));
 
       actionsWrap.appendChild(timeWrap);
 

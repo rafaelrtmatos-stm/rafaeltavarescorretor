@@ -1,0 +1,23 @@
+[
+  {
+    "id": "usr-admin",
+    "name": "Rafael Tavares (Admin)",
+    "email": "admin@rafaeltavares.com",
+    "role": "admin",
+    "passwordHash": "admin123"
+  },
+  {
+    "id": "usr-rafael",
+    "name": "Rafael Tavares",
+    "email": "contato@rafaeltavarescorretor.com.br",
+    "role": "admin",
+    "passwordHash": "Geper3tp@"
+  },
+  {
+    "id": "usr-rel1",
+    "name": "Carlos Eduardo",
+    "email": "corretor@rafaeltavares.com",
+    "role": "corretor",
+    "passwordHash": "corretor123"
+  }
+]
