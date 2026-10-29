@@ -2297,7 +2297,21 @@
           </div>
         </div>
 
-        <!-- 5. GERENCIADOR DE GALERIA DE FOTOS & VÍDEOS -->
+        <!-- 5. PERMISSÃO DE DOWNLOAD DE ARQUIVOS PARA CORRETORES -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">🛡️ Permissão de Download para Corretores</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+              <input type="checkbox" id="reg-corretores-download-${regId}" ${(SITE_DATA[normKey] && SITE_DATA[normKey].permitirDownloadCorretores !== false) ? 'checked' : ''} onchange="syncLive()" style="width:18px;height:18px;accent-var:var(--gold)">
+              <span>Liberar corretores para baixar arquivos e mídias deste empreendimento</span>
+            </label>
+            <p style="font-size:12px;color:var(--text-dim);margin-top:6px">Se desmarcado, os corretores não poderão baixar os arquivos de divulgação deste loteamento.</p>
+          </div>
+        </div>
+
+        <!-- 6. GERENCIADOR DE GALERIA DE FOTOS & VÍDEOS -->
         <div class="card">
           <div class="card-header">
             <div class="card-title">🎞️ Galeria de Fotos e Vídeos (${galeria.length} itens)</div>

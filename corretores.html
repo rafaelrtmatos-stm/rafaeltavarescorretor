@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Parceria com Corretores — Rafael Tavares | CRECI 13919</title>
-<meta name="description" content="Informações sobre atendimento, parcerias e co-corretagem com o Corretor Rafael Tavares em Santarém, Alenquer e Monte Alegre, Pará.">
+<title>Parceria com Corretores e Co-Corretagem — Rafael Tavares | CRECI 13919</title>
+<meta name="description" content="Central de parcerias imobiliárias, co-corretagem e materiais exclusivos para corretores parceiros com Rafael Tavares em Santarém, Alenquer e Monte Alegre, Pará.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Parceria com Corretores — Rafael Tavares | CRECI 13919">
-<meta property="og:description" content="Informações sobre atendimento, parcerias e co-corretagem com o Corretor Rafael Tavares em Santarém, Alenquer e Monte Alegre, Pará.">
+<meta property="og:title" content="Parceria com Corretores e Co-Corretagem — Rafael Tavares | CRECI 13919">
+<meta property="og:description" content="Central de parcerias imobiliárias, co-corretagem e materiais exclusivos para corretores parceiros com Rafael Tavares em Santarém, Alenquer e Monte Alegre, Pará.">
 <meta property="og:url" content="https://www.rafaeltavarescorretor.com.br/corretores">
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -55,14 +55,14 @@ body{font-family:"Inter",sans-serif;background:var(--bg);color:var(--text);overf
 
 /* HERO */
 .page-hero{
-  padding:80px 20px 60px;
+  padding:80px 24px 60px;
   text-align:center;
-  background:linear-gradient(180deg, rgba(201,168,76,0.05) 0%, transparent 100%);
+  background:linear-gradient(180deg, rgba(201,168,76,0.06) 0%, transparent 100%);
   border-bottom:1px solid var(--border);
 }
 .page-hero h1{
   font-family:"Cormorant Garamond",serif;
-  font-size:clamp(32px, 5vw, 52px);
+  font-size:clamp(32px, 5vw, 54px);
   font-weight:700;
   color:var(--gold);
   margin-bottom:16px;
@@ -71,19 +71,41 @@ body{font-family:"Inter",sans-serif;background:var(--bg);color:var(--text);overf
 .page-hero p{
   font-size:clamp(15px, 2vw, 18px);
   color:var(--text2);
-  max-width:700px;
-  margin:0 auto;
+  max-width:750px;
+  margin:0 auto 30px;
 }
+.hero-badges{
+  display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:20px;
+}
+.badge-item{
+  background:var(--bg2);border:1px solid var(--border);
+  padding:8px 16px;border-radius:8px;font-size:12px;color:var(--text2);
+  display:flex;align-items:center;gap:8px;
+}
+.badge-item i{color:var(--gold)}
 
 /* CONTENT */
 .container{
-  max-width:1000px;
+  max-width:1050px;
   margin:0 auto;
   padding:60px 24px;
 }
+.section-title{
+  font-family:"Cormorant Garamond",serif;
+  font-size:32px;
+  color:var(--gold);
+  text-align:center;
+  margin-bottom:12px;
+}
+.section-subtitle{
+  text-align:center;
+  color:var(--text2);
+  font-size:15px;
+  margin-bottom:45px;
+}
 .card-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
   gap:30px;
   margin-bottom:50px;
 }
@@ -126,7 +148,7 @@ body{font-family:"Inter",sans-serif;background:var(--bg);color:var(--text);overf
 .info-card li{
   font-size:13px;
   color:var(--text2);
-  margin-bottom:10px;
+  margin-bottom:12px;
   display:flex;
   align-items:flex-start;
   gap:10px;
@@ -134,19 +156,20 @@ body{font-family:"Inter",sans-serif;background:var(--bg);color:var(--text);overf
 .info-card li i{
   color:var(--gold);
   margin-top:3px;
+  flex-shrink:0;
 }
 
 .highlight-box{
   background:rgba(201,168,76,0.06);
   border:1px solid var(--border2);
   border-radius:14px;
-  padding:40px;
+  padding:45px 30px;
   text-align:center;
-  margin-top:40px;
+  margin-top:50px;
 }
 .highlight-box h2{
   font-family:"Cormorant Garamond",serif;
-  font-size:28px;
+  font-size:30px;
   color:var(--gold);
   margin-bottom:16px;
 }
@@ -154,7 +177,7 @@ body{font-family:"Inter",sans-serif;background:var(--bg);color:var(--text);overf
   color:var(--text2);
   font-size:15px;
   max-width:700px;
-  margin:0 auto 24px;
+  margin:0 auto 28px;
 }
 .btn-primary{
   display:inline-flex;
@@ -163,7 +186,7 @@ body{font-family:"Inter",sans-serif;background:var(--bg);color:var(--text);overf
   background:var(--gold);
   color:#000;
   font-weight:700;
-  padding:14px 28px;
+  padding:15px 32px;
   border-radius:8px;
   text-decoration:none;
   transition:all .2s;
@@ -203,53 +226,71 @@ footer a{color:var(--gold);text-decoration:none}
   <div class="nav-center">
     <a href="/">Início</a>
     <a href="/#empreendimentos">Empreendimentos</a>
-    <a href="/#contato">Contato</a>
+    <a href="/corretores">Para Corretores</a>
+    <a href="/onde-estamos">Onde Estamos</a>
   </div>
-  <div class="nav-right">
-    <a href="https://wa.me/5593991234567?text=Olá%20Rafael,%20gostaria%20de%20falar%20sobre%20atendimento%20e%20parcerias." target="_blank" class="btn-wpp-nav">
-      <i class="fab fa-whatsapp"></i> WhatsApp
-    </a>
-  </div>
+  <a href="https://wa.me/5593991234567?text=Olá%2C%20sou%20corretor%20e%20gostaria%20de%20falar%20sobre%20parceria" target="_blank" class="btn-wpp-nav">
+    <i class="fab fa-whatsapp"></i> Falar com Rafael
+  </a>
 </nav>
 
 <header class="page-hero">
-  <h1>Atendimento & Parcerias com Corretores</h1>
-  <p>Transparência, ética profissional e suporte especializado em loteamentos e imóveis em Santarém, Alenquer e Monte Alegre.</p>
+  <h1>Parceria Imobiliária & Co-Corretagem</h1>
+  <p>Trabalhe em conjunto com o corretor Rafael Tavares (CRECI 13919). Garantimos segurança jurídica, parcerias transparentes e suporte completo para fechar negócios em Santarém e região.</p>
+  <div class="hero-badges">
+    <div class="badge-item"><i class="fas fa-handshake"></i> Parceria Transparente</div>
+    <div class="badge-item"><i class="fas fa-shield-alt"></i> Segurança Jurídica</div>
+    <div class="badge-item"><i class="fas fa-file-invoice-dollar"></i> Comissões Garantidas</div>
+  </div>
 </header>
 
 <main class="container">
+  <h2 class="section-title">Como Funciona a Parceria</h2>
+  <p class="section-subtitle">Benefícios e regras claras para corretores parceiros e imobiliárias.</p>
+
   <div class="card-grid">
     <div class="info-card">
-      <h3>Para Clientes e Compradores</h3>
-      <p>Já está sendo atendido pelo Corretor Rafael Tavares ou visitando nossos empreendimentos?</p>
+      <h3>Co-Corretagem Ágil</h3>
+      <p>Traga seu cliente para nossos empreendimentos exclusivos em Santarém, Alenquer e Monte Alegre com total respaldo e divisão justa de honorários.</p>
       <ul>
-        <li><i class="fas fa-check-circle"></i> Caso seja abordado no plantão ou empreendimento por outro corretor, informe que você já possui atendimento exclusivo com o <b>Corretor Rafael</b>.</li>
-        <li><i class="fas fa-check-circle"></i> Isso garante a continuidade de todo o seu suporte, negociação facilitada e acompanhamento até a entrega da sua escritura.</li>
+        <li><i class="fas fa-check-circle"></i> Alinhamento prévio de comissão por contrato</li>
+        <li><i class="fas fa-check-circle"></i> Acompanhamento nas visitas e negociações</li>
+        <li><i class="fas fa-check-circle"></i> Suporte técnico e jurídico completo</li>
       </ul>
     </div>
 
     <div class="info-card">
-      <h3>Parcerias & Co-Corretagem</h3>
-      <p>Trabalha no mercado imobiliário e deseja realizar parcerias em loteamentos na região?</p>
+      <h3>Material Exclusivo</h3>
+      <p>Tenha acesso imediato a tabelas de preços atualizadas, materiais de divulgação em alta resolução, vídeos e respostas prontas para WhatsApp.</p>
       <ul>
-        <li><i class="fas fa-check-circle"></i> Parcerias transparentes e éticas para corretores credenciados CRECI.</li>
-        <li><i class="fas fa-check-circle"></i> Condições especiais para fechamento de lotes e repasse de clientes interessados.</li>
-        <li><i class="fas fa-check-circle"></i> Suporte completo com material comercial atualizado e tabelas de vendas.</li>
+        <li><i class="fas fa-check-circle"></i> Fotos e vídeos profissionais dos loteamentos</li>
+        <li><i class="fas fa-check-circle"></i> Tabelas de preços e condições de pagamento</li>
+        <li><i class="fas fa-check-circle"></i> Documentação regularizada dos imóveis</li>
+      </ul>
+    </div>
+
+    <div class="info-card">
+      <h3>Atendimento Dedicado</h3>
+      <p>Canal direto com o corretor Rafael Tavares para tirar dúvidas rápidas de clientes, verificar disponibilidade de lotes e agendar visitas.</p>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Resposta rápida via WhatsApp dedicado</li>
+        <li><i class="fas fa-check-circle"></i> Reserva prévia de lotes garantida</li>
+        <li><i class="fas fa-check-circle"></i> Fechamento seguro em cartório</li>
       </ul>
     </div>
   </div>
 
   <div class="highlight-box">
-     <h2>Fale Diretamente com o Corretor Rafael Tavares</h2>
-     <p>Tire suas dúvidas sobre disponibilidade de lotes, condições de pagamento facilitadas ou parcerias comerciais.</p>
-     <a href="https://wa.me/5593991234567?text=Olá%20Rafael,%20vim%20pela%20página%20de%20corretores%20e%20gostaria%20de%20conversar." target="_blank" class="btn-primary">
-       <i class="fab fa-whatsapp"></i> Chamar no WhatsApp (93) 99123-4567
-     </a>
+    <h2>Pronto para iniciar uma parceria de sucesso?</h2>
+    <p>Entre em contato diretamente pelo WhatsApp para verificar as oportunidades atuais em nossos loteamentos e fechar negócios com segurança.</p>
+    <a href="https://wa.me/5593991234567?text=Olá%2C%20sou%20corretor%20e%20gostaria%20de%20cadastrar%20meus%20dados%20para%20parceria" target="_blank" class="btn-primary">
+      <i class="fab fa-whatsapp"></i> Falar com Rafael Tavares (CRECI 13919)
+    </a>
   </div>
 </main>
 
 <footer>
-  <p>&copy; 2026 Rafael Tavares — Corretor de Imóveis (CRECI 13919). Todos os direitos reservados. | <a href="/">Voltar ao Portal</a></p>
+  <p>&copy; 2026 Rafael Tavares Corretor de Imóveis • CRECI 13919. Todos os direitos reservados.</p>
 </footer>
 
 </body>
