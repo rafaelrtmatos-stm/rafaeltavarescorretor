@@ -230,6 +230,27 @@
   </div>
 </section>
 
+<section id="sec-galeria" style="background:var(--bg);border-bottom:1px solid var(--border);padding:70px 0;">
+  <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:24px;">
+      <div>
+        <div class="section-tag">Conheça o Empreendimento</div>
+        <h2 class="section-title" style="margin-bottom:6px;">Galeria <em>Campo Novo</em></h2>
+        <p class="section-sub" style="margin-bottom:0;">Deslize para ver as fotos e vídeos reais do Campo Novo, em Santarém, PA.</p>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="scrollGaleria(-1)" aria-label="Anterior" style="width:40px;height:40px;border-radius:50%;background:var(--bg2);border:1px solid var(--border2);color:var(--gold);font-size:18px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .2s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border2)'">‹</button>
+        <button onclick="scrollGaleria(1)" aria-label="Próxima" style="width:40px;height:40px;border-radius:50%;background:var(--bg2);border:1px solid var(--border2);color:var(--gold);font-size:18px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .2s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border2)'">›</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Carrossel de Fotos e Videos -->
+  <div id="galeria-grid" class="no-scrollbar" style="display:flex;gap:16px;overflow-x:auto;padding:10px 24px 24px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;">
+    <div style="padding:40px;color:var(--text3);font-size:13px;text-align:center;width:100%;">Carregando fotos e vídeos...</div>
+  </div>
+</section>
+
 <section id="sec-localizacao" style="background:var(--bg);padding:64px 24px;border-top:1px solid var(--border)">
   <div style="max-width:900px;margin:0 auto;text-align:center">
     <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px">Localização</div>
@@ -567,34 +588,22 @@ setInterval(buscarDadosMararuRealtime, 8000);
 window.addEventListener('focus', buscarDadosMararuRealtime);
 window.addEventListener('online', buscarDadosMararuRealtime);
 
-fetch('/site_data.json?_='+Date.now())
-  .then(function(r){return r.json();})
-  .then(function(d){
-    var borrado=!d||!d.lancamento||d.lancamento.marcaDagua!==false;
-    var overlay=document.getElementById('mapa-blur-overlay');
-    var txt=document.getElementById('mapa-blur-txt');
-    if(overlay)overlay.style.display=borrado?'flex':'none';
-    if(txt&&d&&d.lancamento&&d.lancamento.marcaDaguaTxt)txt.textContent=d.lancamento.marcaDaguaTxt;
-
-    var galeria=(d.mararu&&d.mararu.galeria)||[];
-    var grid=document.getElementById('galeria-grid');
-    if(!grid)return;
-
-    if(!galeria.length){
-      grid.innerHTML='<div style="padding:40px;color:var(--text3);font-size:13px;text-align:center;width:100%;">Fotos e vídeos em breve.</div>';
-      return;
+var GALERIA_CAMPO_NOVO=[
+  {url:'/imagens/campo-novo/galeria-2.mp4',poster:'/imagens/campo-novo/galeria-2-poster.jpg'},
+  {url:'/imagens/campo-novo/galeria-1.jpg'}
+];
+(function(){
+  var grid=document.getElementById('galeria-grid');
+  if(!grid)return;
+  window.mararuGaleria=GALERIA_CAMPO_NOVO.map(function(g){return g.url;});
+  var cardStyle='flex:0 0 290px;border-radius:14px;overflow:hidden;border:1px solid rgba(201,168,76,0.2);background:var(--bg3);position:relative;box-shadow:0 6px 24px rgba(0,0,0,0.5);transition:transform .25s;cursor:pointer';
+  grid.innerHTML=GALERIA_CAMPO_NOVO.map(function(g,idx){
+    if(g.url.indexOf('.mp4')>=0){
+      return '<div style="'+cardStyle+'" onclick="abrirGaleriaLightbox('+idx+')"><video src="'+g.url+'" poster="'+(g.poster||'')+'" muted playsinline preload="metadata" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block;pointer-events:none" autoplay loop></video><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none"><div style="width:46px;height:46px;border-radius:50%;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center"><div style="width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-left:13px solid #fff;margin-left:3px"></div></div></div></div>';
     }
-
-    window.mararuGaleria = galeria;
-    var cardStyle='flex:0 0 290px;border-radius:14px;overflow:hidden;border:1px solid rgba(201,168,76,0.2);background:var(--bg3);position:relative;box-shadow:0 6px 24px rgba(0,0,0,0.5);transition:transform .25s;cursor:pointer';
-    grid.innerHTML=galeria.map(function(url,idx){
-      var isVideo=url.indexOf('.mp4')>=0||url.indexOf('.webm')>=0||url.indexOf('.mov')>=0;
-      if(isVideo){
-        return '<div style="'+cardStyle+'" onclick="abrirGaleriaLightbox('+idx+')"><video src="'+url+'" muted playsinline preload="metadata" poster="'+url+'" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block;pointer-events:none" autoplay muted loop></video><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none"><div style="width:46px;height:46px;border-radius:50%;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center"><div style="width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-left:13px solid #fff;margin-left:3px"></div></div></div></div>';
-      }
-      return '<div style="'+cardStyle+';aspect-ratio:16/9" onclick="abrirGaleriaLightbox('+idx+')"><img src="'+url+'" alt="Bairro Mararu" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></div>';
-    }).join('');
-  }).catch(function(){});
+    return '<div style="'+cardStyle+';aspect-ratio:16/9" onclick="abrirGaleriaLightbox('+idx+')"><img src="'+g.url+'" alt="Campo Novo" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center 35%;display:block"></div>';
+  }).join('');
+})();
 
 function scrollGaleria(direcao){
   var g=document.getElementById('galeria-grid');
@@ -657,7 +666,7 @@ function abrirGaleriaLightbox(idx){
     if(glbIsVideo(url)){
       return '<div style="min-width:100%;width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><video src="'+url+'" controls playsinline poster="'+url+'" style="max-width:92vw;max-height:85vh;width:auto;height:auto;border-radius:8px" autoplay muted loop></video></div>';
     }
-    return '<div style="min-width:100%;width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="'+url+'" style="max-width:92vw;max-height:85vh;width:auto;height:auto;object-fit:contain;border-radius:8px;cursor:pointer" onclick="galeriaLightboxNav(1)" alt="Bairro Mararu"></div>';
+    return '<div style="min-width:100%;width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><img src="'+url+'" style="max-width:92vw;max-height:85vh;width:auto;height:auto;object-fit:contain;border-radius:8px;cursor:pointer" onclick="galeriaLightboxNav(1)" alt="Campo Novo"></div>';
   }).join('');
   var lb=document.getElementById('galeria-lightbox');
   if(lb) lb.style.display='flex';
