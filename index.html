@@ -1357,6 +1357,7 @@ var _pinosDefault=[
   {nome:'Espírito Santo',  lat:-2.479222,lng:-54.7545,cor:'#C9A84C',desc:'Em desenvolvimento. Entre em contato.',msg:'Olá Rafael! Tenho interesse em Espírito Santo.'},
   {nome:'Mararu Ville 1ª Etapa', lat:-2.492278,lng:-54.687083,cor:'#f87171',desc:'🔥 Mararu Ville 1ª Etapa — lotes a partir de R$600 entrada.',msg:'Olá Rafael! Tenho interesse no Mararu Ville 1ª Etapa!',link:'/mararu/'},
   {nome:'Mararu Ville 2ª Etapa', lat:-2.492556,lng:-54.685528,cor:'#f87171',desc:'🔥 Mararu Ville 2ª Etapa — entrada de R$600 e parcelas a partir de R$ 255,56.',msg:'Olá Rafael! Tenho interesse no Mararu Ville 2ª Etapa!',link:'/mararu2/'},
+  {nome:'Campo Novo', lat:-2.438489,lng:-54.699611,cor:'#f87171',desc:'Campo Novo — entrada de R$ 1.000 e 100 parcelas a partir de R$ 350.',msg:'Olá Rafael! Tenho interesse no Campo Novo!',link:'/campo-novo/'},
   {nome:'Bela Vista do Mararu', lat:-2.497111,lng:-54.693556,cor:'#f87171',desc:'Novo empreendimento Bela Vista do Mararu.',msg:'Olá Rafael! Tenho interesse no Bela Vista do Mararu!',link:'/bela-vista-mararu/'},
   {nome:'São Braz',       lat:-2.471,lng:-54.821611,cor:'#f87171',desc:'Empreendimento São Braz — diversas opções de tamanho e pagamento.',msg:'Olá Rafael! Tenho interesse no Empreendimento São Braz!',link:'/sao-braz/'},
 ];
@@ -1460,6 +1461,7 @@ var _pinosDefault=[
   {nome:'Cucurunã',        lat:-2.46325,lng:-54.793667,cor:'#f87171',desc:'Empreendimento Vitória Régia em Cucurunã.',msg:'Olá Rafael! Tenho interesse no Empreendimento Vitória Régia em Cucurunã!',link:'/cucuruna/'},
   {nome:'Mararu Ville 1ª Etapa', lat:-2.492278,lng:-54.687083,cor:'#f87171',desc:'🔥 Mararu Ville 1ª Etapa — lotes a partir de R$600 entrada.',msg:'Olá Rafael! Tenho interesse no Mararu Ville 1ª Etapa!',link:'/mararu/'},
   {nome:'Mararu Ville 2ª Etapa', lat:-2.492556,lng:-54.685528,cor:'#f87171',desc:'🔥 Mararu Ville 2ª Etapa — entrada de R$600 e parcelas a partir de R$ 255,56.',msg:'Olá Rafael! Tenho interesse no Mararu Ville 2ª Etapa!',link:'/mararu2/'},
+  {nome:'Campo Novo', lat:-2.438489,lng:-54.699611,cor:'#f87171',desc:'Campo Novo — entrada de R$ 1.000 e 100 parcelas a partir de R$ 350.',msg:'Olá Rafael! Tenho interesse no Campo Novo!',link:'/campo-novo/'},
   {nome:'Bela Vista do Mararu', lat:-2.497111,lng:-54.693556,cor:'#f87171',desc:'Novo empreendimento Bela Vista do Mararu.',msg:'Olá Rafael! Tenho interesse no Bela Vista do Mararu!',link:'/bela-vista-mararu/'},
   {nome:'Espírito Santo',  lat:-2.479222,lng:-54.7545,cor:'#C9A84C',desc:'Nova região em valorização.',msg:'Olá Rafael! Tenho interesse em Espírito Santo.'},
   {nome:'São Braz',       lat:-2.471,lng:-54.821611,cor:'#f87171',desc:'Empreendimento São Braz — diversas opções de tamanho e pagamento.',msg:'Olá Rafael! Tenho interesse no Empreendimento São Braz!',link:'/sao-braz/'},
@@ -2329,6 +2331,7 @@ fetch('/site_data.json').then(function(r){return r.json();}).then(function(d){
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
         <div class="gal-foto-item" onclick="window.location.href='/mararu/'" style="background-image:url('/imagens/mararu-hero-loteamento.jpg')"><span>Mararu Ville 1ª Etapa</span></div>
         <div class="gal-foto-item" onclick="window.location.href='/mararu2/'" style="background-image:url('/imagens/mararu2-hero.jpg')"><span>Mararu Ville 2ª Etapa</span></div>
+        <div class="gal-foto-item" onclick="window.location.href='/campo-novo/'" style="background-image:url('/imagens/campo-novo-hero.jpg')"><span>Campo Novo</span></div>
         <div class="gal-foto-item" onclick="window.location.href='/bela-vista-mararu/'" style="background-image:url('/imagens/bela-vista-mararu-capa.jpg')"><span>Bela Vista do Mararu</span></div>
         <div class="gal-foto-item" onclick="window.location.href='/alenquer/'" style="background-image:url('/imagens/alenquer-obra-7.jpeg')"><span>Alenquer</span></div>
         <div class="gal-foto-item" onclick="window.location.href='/monte-alegre/'" style="background-image:url('/imagens/monte-alegre-hero.jpg')"><span>Monte Alegre</span></div>

@@ -309,6 +309,22 @@
         "Lançamento"
       ],
       "link": "sao-braz/"
+    },
+    {
+      "id": "campo-novo",
+      "nome": "Campo Novo",
+      "regiao": "Campo Novo",
+      "lat": -2.438489,
+      "lng": -54.699611,
+      "cor": "red",
+      "min": "R$ 36.000",
+      "max": "R$ 41.000",
+      "desc": "Campo Novo — entrada de R$ 1.000 e 100 parcelas a partir de R$ 350.",
+      "msg": "Olá Rafael! Tenho interesse no Campo Novo!",
+      "tags": [
+        "Lançamento"
+      ],
+      "link": "campo-novo/"
     }
   ],
   "regioes": [

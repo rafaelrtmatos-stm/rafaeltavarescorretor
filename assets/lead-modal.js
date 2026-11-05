@@ -478,6 +478,9 @@
     if (path.indexOf('santa-maria') !== -1) {
       return { nome: 'Santa Maria', slug: 'santa-maria' };
     }
+    if (path.indexOf('campo-novo') !== -1) {
+      return { nome: 'Campo Novo', slug: 'campo-novo' };
+    }
     if (path.indexOf('cucuruna') !== -1) {
       return { nome: 'Cucurunã', slug: 'cucuruna' };
     }
@@ -1064,6 +1067,7 @@
       { nome: 'Jussaramia', slug: 'monte-alegre' },
       { nome: 'Pajucará', slug: 'pajucara' },
       { nome: 'Santa Maria', slug: 'santa-maria' },
+      { nome: 'Campo Novo', slug: 'campo-novo' },
       { nome: 'Cucurunã', slug: 'cucuruna' },
       { nome: 'Bairro Espírito Santo', slug: 'espirito-santo' }
     ];
