@@ -1245,6 +1245,7 @@ section#hero{z-index:0;overflow:hidden!important}
     <p style="font-size:14px;color:rgba(242,237,228,0.6);max-width:400px;margin:0 auto 20px;line-height:1.7">Clique em um pino para ver o empreendimento.</p>
     <!-- Botões de cidade -->
     <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:8px">
+      <button onclick="trocarCidade('todos',this)" id="btn-cidade-todos" style="padding:8px 18px;border-radius:100px;border:1.5px solid rgba(201,168,76,0.3);background:transparent;color:var(--gold);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:.5px;transition:all .2s">🗺️ Todos</button>
       <button onclick="trocarCidade('santarem',this)" id="btn-cidade-santarem" style="padding:8px 18px;border-radius:100px;border:1.5px solid var(--gold);background:var(--gold);color:#000;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:.5px;transition:all .2s">📍 Santarém</button>
       <button onclick="trocarCidade('alenquer',this)" id="btn-cidade-alenquer" style="padding:8px 18px;border-radius:100px;border:1.5px solid rgba(201,168,76,0.3);background:transparent;color:var(--gold);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:.5px;transition:all .2s">📍 Alenquer <span style="font-size:9px;background:#f87171;color:#000;border-radius:4px;padding:1px 5px;margin-left:4px;font-weight:800">NOVO</span></button>
       <button onclick="trocarCidade('monte-alegre',this)" id="btn-cidade-monte-alegre" style="padding:8px 18px;border-radius:100px;border:1.5px solid rgba(201,168,76,0.3);background:transparent;color:var(--gold);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:.5px;transition:all .2s">📍 Monte Alegre</button>
@@ -1366,6 +1367,7 @@ var _pinScale=1;
 fetch('/site_data.json?_='+Date.now()).then(function(r){return r.json();}).then(function(d){
   if(d&&d.pinSize){_pinScale=d.pinSize/100;}
   if(d&&d.pinos&&d.pinos.length){_pinosDefault=d.pinos.map(function(p){return{nome:p.nome,lat:p.lat,lng:p.lng,cor:p.cor==='red'?'#f87171':'#C9A84C',min:p.min||'—',max:p.max||'—',desc:p.desc||'',msg:p.msg||'Olá Rafael!',link:p.link?('/'+p.link.replace(/^\/+/,'')):undefined};});}
+  if(_mapStarted&&typeof renderPinos==='function')renderPinos();
 }).catch(function(){});
 
 function abrirModal(p){
@@ -1486,16 +1488,49 @@ var _cidadeCentros={
 };
 
 var _cidadeLabels={
+  'todos':'Todos os empreendimentos',
   'santarem':'Santarém · PA',
   'alenquer':'Alenquer · PA',
   'monte-alegre':'Monte Alegre · PA'
 };
 
 var _cidadeTitulos={
+  'todos':'Santarém, Alenquer e Monte Alegre',
   'santarem':'Santarém',
   'alenquer':'Alenquer',
   'monte-alegre':'Monte Alegre'
 };
+
+// Página de cada empreendimento (usada quando o pino não traz link próprio)
+var _linksPorNome={
+  'Pajuçara':'/pajucara/',
+  'Santa Maria':'/santa-maria/',
+  'Cucurunã':'/cucuruna/',
+  'Espírito Santo':'/espirito-santo/',
+  'Mararu Ville 1ª Etapa':'/mararu/',
+  'Mararu Ville 2ª Etapa':'/mararu2/',
+  'Bela Vista do Mararu':'/bela-vista-mararu/',
+  'São Braz':'/sao-braz/',
+  'Campo Novo':'/campo-novo/',
+  'Alenquer':'/alenquer/',
+  'Jussaramia':'/monte-alegre/'
+};
+// Todos os pinos (Santarém + Alenquer + Monte Alegre) no mesmo mapa
+function _todosPinos(){
+  var l=[];
+  Object.keys(_pinosCidades).forEach(function(c){
+    var arr=(c==='santarem')?_pinosDefault:_pinosCidades[c];
+    (arr||[]).forEach(function(p){l.push(p);});
+  });
+  return l;
+}
+function renderPinos(){
+  if(!_mapInstance)return;
+  _mapInstance.eachLayer(function(layer){
+    if(layer instanceof L.Marker)_mapInstance.removeLayer(layer);
+  });
+  _todosPinos().forEach(function(p){adicionarPinoMapa(_mapInstance,p);});
+}
 
 // Adicionar um pino ao mapa (FIX erro 2: IDs SVG únicos por índice)
 var _pinoIdx=0;
@@ -1528,7 +1563,8 @@ function adicionarPinoMapa(map, p){
   var icon=L.divIcon({className:'',html:pinoHtml,iconSize:[sz*3,Math.round(sz*1.8)],iconAnchor:[Math.round(sz*1.5),Math.round(sz*1.4)]});
   var marker=L.marker([p.lat,p.lng],{icon:icon});
   marker.on('click',function(){
-    if(p.link){window.location.href=p.link;}
+    var destino=p.link||_linksPorNome[p.nome];
+    if(destino){window.location.href=destino;}
     else if(typeof irParaCatalogoPino==='function'){irParaCatalogoPino(p);}
   });
   marker.addTo(map);
@@ -1565,10 +1601,8 @@ function startMap(){
 
   // FIX erro 3: startMap usa adicionarPinoMapa (função unificada)
   var bounds=[];
-  _pinosDefault.forEach(function(p){
-    adicionarPinoMapa(map,p);
-    bounds.push([p.lat,p.lng]);
-  });
+  _pinosDefault.forEach(function(p){bounds.push([p.lat,p.lng]);});
+  renderPinos(); // mostra os empreendimentos de todas as cidades
 
   if(bounds.length>0){
     map.fitBounds(bounds,{padding:[60,60],maxZoom:13});
@@ -1594,7 +1628,7 @@ function trocarCidade(cidade,btn){
   _cidadeAtual=cidade;
 
   // Atualizar botões
-  ['santarem','alenquer','monte-alegre'].forEach(function(c){
+  ['todos','santarem','alenquer','monte-alegre'].forEach(function(c){
     var b=document.getElementById('btn-cidade-'+c);
     if(!b)return;
     if(c===cidade){
@@ -1614,17 +1648,15 @@ function trocarCidade(cidade,btn){
   if(!_mapInstance){startMap();return;}
 
   // Voar para a cidade
+  // Os pinos de todas as cidades continuam no mapa; só a câmera se move
+  renderPinos();
+  if(cidade==='todos'){
+    var b=_todosPinos().map(function(p){return [p.lat,p.lng];});
+    if(b.length)_mapInstance.flyToBounds(b,{padding:[60,60],duration:1.2});
+    return;
+  }
   var centro=_cidadeCentros[cidade];
   if(centro)_mapInstance.flyTo([centro.lat,centro.lng],centro.zoom,{duration:1.2});
-
-  // FIX erro 7: remover apenas markers (não tiles)
-  _mapInstance.eachLayer(function(layer){
-    if(layer instanceof L.Marker)_mapInstance.removeLayer(layer);
-  });
-
-  // FIX erro 3: usar adicionarPinoMapa para todos os pinos
-  var pinos=_pinosCidades[cidade]||[];
-  pinos.forEach(function(p){adicionarPinoMapa(_mapInstance,p);});
 }
 
 
