@@ -955,7 +955,7 @@ select.input option{background:#FFFFFF;color:#1A1710}
       <div style="font-size:13px;color:rgba(255,255,255,0.7);margin-top:4px">Escolha como deseja enviar ao corretor Rafael Tavares:</div>
     </div>
 
-    <button class="btn-enviar" onclick="abrirPopupConclusao()" type="button">
+    <button class="btn-enviar" onclick="enviarWhatsappDireto()" type="button">
       <span class="btn-icon-circle">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
       </span>
@@ -3284,6 +3284,11 @@ function abrirPopupConclusao(){
   document.body.style.overflow='hidden';
   setTimeout(dispararConfete,180);
   setTimeout(dispararBaloesPremio,100);
+}
+
+function enviarWhatsappDireto(){
+  if(!validarFormulario())return;
+  popupEnviarWhatsapp();
 }
 
 function fecharPopupConclusao(){
