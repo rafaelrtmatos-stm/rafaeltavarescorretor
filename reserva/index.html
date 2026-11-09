@@ -3183,7 +3183,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 <link rel="stylesheet" href="/assets/lead-modal.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 const PIX_CHAVE_RESERVA = '60659875000121';
 function pixCampo(id, valor){ return id + String(valor.length).padStart(2,'0') + valor; }
@@ -3207,13 +3206,8 @@ function alternarQrPix(){
     botao.textContent = 'Gerar QR Code PIX';
     return;
   }
-  if(typeof QRCode === 'undefined'){
-    alert('Não foi possível carregar o gerador do QR Code. Verifique sua conexão e tente novamente.');
-    return;
-  }
   const destino = document.getElementById('pix-qrcode');
-  destino.innerHTML = '';
-  new QRCode(destino,{text:montarPayloadPixSemValor(),width:200,height:200,colorDark:'#000000',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});
+  destino.innerHTML = '<img src="data:image/png;base64,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" alt="QR Code PIX Imobiliária Geo Florestal" style="display:block;width:100%;max-width:300px;height:auto;image-rendering:pixelated;margin:0 auto">';
   area.style.display = 'block';
   botao.textContent = 'Ocultar QR Code PIX';
 }
