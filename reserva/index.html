@@ -192,8 +192,6 @@ select.input option{background:#FFFFFF;color:#1A1710}
 .vendedor-fixo{background:rgba(169,130,47,0.08);border:1px solid rgba(169,130,47,0.25);border-radius:var(--r);padding:12px 14px;font-size:14px;color:var(--gold);font-weight:600}
 
 .venc-aviso{font-size:11px;color:#c0392f;margin-top:6px;display:none}
-.comprador-extra{background:var(--bg3);border:1px solid rgba(201,168,76,0.2);border-radius:14px;padding:20px;margin-top:16px;position:relative}
-.comprador-extra-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
 .btn-remover-comprador{background:rgba(217,70,63,0.08);border:1px solid rgba(217,70,63,0.3);color:#c0392f;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
 .btn-remover-comprador:hover{background:rgba(217,70,63,0.16)}
 .btn-add-comprador{width:100%;background:rgba(169,130,47,0.06);border:1px dashed rgba(169,130,47,0.35);border-radius:12px;padding:14px;font-size:13px;font-weight:700;color:var(--gold);cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;margin-top:16px;letter-spacing:.3px}
@@ -681,15 +679,6 @@ select.input option{background:#FFFFFF;color:#1A1710}
 
       </div>
 
-      <!-- Compradores extras injetados aqui -->
-      <div id="compradores-extras"></div>
-
-      <div style="margin-top:16px;padding:14px;background:rgba(201,168,76,0.06);border:1px dashed rgba(201,168,76,0.35);border-radius:12px;text-align:center;">
-        <p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;">Mais uma pessoa no contrato? <span style="font-weight:400;color:var(--text2);font-size:12px;">(Ex.: cônjuge, sócio, familiar)</span></p>
-        <button type="button" class="btn-add-comprador" onclick="adicionarComprador()" style="margin-top:0;">
-          + Adicionar mais uma pessoa no contrato
-        </button>
-      </div>
     </div>
 
     <!-- BOTÃO AVANÇAR ETAPA 1 -->
@@ -955,6 +944,28 @@ select.input option{background:#FFFFFF;color:#1A1710}
       <div style="font-size:13px;color:rgba(255,255,255,0.7);margin-top:4px">Escolha como deseja enviar ao corretor Rafael Tavares:</div>
     </div>
 
+    <section class="section-card" id="pix-reserva-card">
+      <div class="section-head">
+        <div class="section-icon"><strong style="color:var(--gold);font-size:15px">PIX</strong></div>
+        <div>
+          <div class="section-title">Pagamento via PIX</div>
+          <div class="section-sub">QR Code sem valor definido. Informe o valor no aplicativo do seu banco.</div>
+        </div>
+      </div>
+      <button class="btn-wizard-next" type="button" style="width:100%" onclick="alternarQrPix()">
+        <span id="pix-btn-label">Gerar QR Code PIX</span>
+      </button>
+      <div id="pix-qr-area" style="display:none;text-align:center;padding:18px 8px 4px">
+        <div id="pix-qrcode" style="display:inline-flex;justify-content:center;background:#fff;padding:12px;border-radius:12px;min-width:224px;min-height:224px"></div>
+        <p style="font-size:12px;color:var(--text2);margin:12px 0 8px">Geoflorestal Imobiliária</p>
+        <p style="font-size:11px;color:var(--text3);margin-bottom:12px">Chave PIX CNPJ: 60.659.875/0001-21</p>
+        <button type="button" class="btn-copiar" onclick="copiarChavePix()" style="justify-content:center">
+          Copiar chave PIX
+        </button>
+        <p id="pix-copy-feedback" style="display:none;font-size:11px;color:var(--green);margin-top:8px">Chave PIX copiada.</p>
+      </div>
+    </section>
+
     <button class="btn-enviar" onclick="enviarWhatsappDireto()" type="button">
       <span class="btn-icon-circle">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
@@ -1131,112 +1142,6 @@ select.input option{background:#FFFFFF;color:#1A1710}
 </div>
 
 <script>
-// ── Múltiplos compradores ─────────────────────────────
-let numCompradores = 1;
-
-function adicionarComprador(){
-  numCompradores++;
-  const n = numCompradores;
-  const wrap = document.getElementById('compradores-extras');
-  const div = document.createElement('div');
-  div.className = 'comprador-extra';
-  div.id = 'comprador-extra-'+n;
-  div.innerHTML = `
-    <div class="comprador-extra-label">
-      <span>${n}ª Pessoa no Contrato (Comprador Adicional)</span>
-      <button type="button" class="btn-remover-comprador" onclick="removerComprador(${n})">Remover</button>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:14px">
-      <div class="field">
-        <label class="label">Nome completo *</label>
-        <input class="input" id="nome-${n}" type="text" placeholder="Nome completo" autocomplete="off" oninput="validarNomeExtra(${n})">
-        <span class="hint" id="h-nome-${n}"></span>
-      </div>
-      <div class="grid-2">
-        <div class="field">
-          <label class="label">RG *</label>
-          <input class="input" id="rg-${n}" type="text" placeholder="0000000" maxlength="12" autocomplete="off" oninput="validarRgExtra(${n})">
-          <span class="hint" id="h-rg-${n}"></span>
-        </div>
-        <div class="field">
-          <label class="label">CPF *</label>
-          <input class="input" id="cpf-${n}" type="text" placeholder="000.000.000-00" maxlength="14" autocomplete="off" oninput="this.value=maskCPF(this.value);validarCpfExtra(${n})">
-          <span class="hint" id="h-cpf-${n}"></span>
-        </div>
-      </div>
-      <div class="grid-3">
-        <div class="field">
-          <label class="label">Data de Nascimento *</label>
-          <input class="input" id="nasc-${n}" type="date" autocomplete="off">
-        </div>
-        <div class="field">
-          <label class="label">Gênero *</label>
-          <select class="input" id="genero-${n}">
-            <option value="">Selecione</option>
-            <option value="M">Masculino</option>
-            <option value="F">Feminino</option>
-          </select>
-        </div>
-        <div class="field">
-          <label class="label">Estado Civil *</label>
-          <select class="input" id="ec-${n}">
-            <option value="">Selecione</option>
-            <option>Solteiro(a)</option>
-            <option>Casado(a)</option>
-            <option>Divorciado(a)</option>
-            <option>Viúvo(a)</option>
-            <option>União Estável</option>
-          </select>
-        </div>
-      </div>
-      <div class="grid-2">
-        <div class="field">
-          <label class="label">Contato / WhatsApp *</label>
-          <input class="input" id="tel1-${n}" type="tel" placeholder="(93) 99999-9999" maxlength="15" autocomplete="off" oninput="this.value=maskTel(this.value)">
-        </div>
-        <div class="field">
-          <label class="label">Contato 2 *</label>
-          <input class="input" id="tel2-${n}" type="tel" placeholder="(93) 99999-9999" maxlength="15" autocomplete="off" oninput="this.value=maskTel(this.value)">
-        </div>
-      </div>
-    </div>`;
-  wrap.appendChild(div);
-}
-
-function removerComprador(n){
-  const el = document.getElementById('comprador-extra-'+n);
-  if(el) el.remove();
-}
-
-function validarNomeExtra(n){
-  const el=document.getElementById('nome-'+n);
-  const h=document.getElementById('h-nome-'+n);
-  const partes=el.value.trim().split(/\s+/).filter(p=>p.length>0);
-  if(!el.value.trim()){el.className='input';h.className='hint';h.textContent='';return;}
-  if(partes.length<2){el.classList.add('erro');el.classList.remove('ok');h.className='hint erro-txt';h.textContent='Informe nome e sobrenome';}
-  else{el.classList.add('ok');el.classList.remove('erro');h.className='hint ok-txt';h.textContent='✓';}
-}
-
-function validarRgExtra(n){
-  const el=document.getElementById('rg-'+n);
-  const h=document.getElementById('h-rg-'+n);
-  el.value=el.value.replace(/[^0-9Xx\-\.]/g,'').toUpperCase();
-  const d=el.value.replace(/[^0-9X]/gi,'');
-  if(!d.length){el.className='input';h.className='hint';h.textContent='';return;}
-  if(d.length<6||d.length>10||/^(\d)+$/.test(d)){el.classList.add('erro');el.classList.remove('ok');h.className='hint erro-txt';h.textContent='RG inválido';}
-  else{el.classList.add('ok');el.classList.remove('erro');h.className='hint ok-txt';h.textContent='✓';}
-}
-
-function validarCpfExtra(n){
-  const el=document.getElementById('cpf-'+n);
-  const h=document.getElementById('h-cpf-'+n);
-  const ok=validarCPF(el.value);
-  if(el.value.replace(/\D/g,'').length===11){
-    el.classList.toggle('ok',ok);el.classList.toggle('erro',!ok);
-    h.className='hint '+(ok?'ok-txt':'erro-txt');h.textContent=ok?'CPF válido':'CPF inválido';
-  }else{el.className='input';h.className='hint';h.textContent='';}
-}
-
 // ── Data de vencimento com aviso 40 dias ───────────────
 // Pré-preencher vencimento com hoje + 30 dias
 (function(){
@@ -2283,9 +2188,7 @@ function temDadosPreenchidos(){
   const uf = document.getElementById('uf')?.value?.trim() || '';
   const cidadeLote = document.getElementById('cidade-lote')?.value?.trim() || '';
   const empLote = document.getElementById('emp-lote')?.value?.trim() || '';
-  const extras = document.querySelectorAll('.comprador-extra').length;
-
-  return !!(nome || rg || cpf || dia || mes || ano || contato1 || contato2 || cep || endereco || numero || bairro || cidade || uf || cidadeLote || empLote || extras > 0);
+  return !!(nome || rg || cpf || dia || mes || ano || contato1 || contato2 || cep || endereco || numero || bairro || cidade || uf || cidadeLote || empLote);
 }
 
 function atualizarVisibilidadeBarraRascunho(){
@@ -2332,22 +2235,6 @@ function salvarRascunhoLocal(){
       lotes: obterLotesDaReserva()
     };
     
-    // Compradores extras
-    const extras = [];
-    document.querySelectorAll('.comprador-extra').forEach(div => {
-      const n = div.id.replace('comprador-extra-', '');
-      extras.push({
-        nome: document.getElementById('nome-' + n)?.value || '',
-        rg: document.getElementById('rg-' + n)?.value || '',
-        cpf: document.getElementById('cpf-' + n)?.value || '',
-        nasc: document.getElementById('nasc-' + n)?.value || '',
-        genero: document.getElementById('genero-' + n)?.value || '',
-        ec: document.getElementById('ec-' + n)?.value || '',
-        tel1: document.getElementById('tel1-' + n)?.value || '',
-        tel2: document.getElementById('tel2-' + n)?.value || ''
-      });
-    });
-    dados.extras = extras;
 
     try{
       if(temDadosPreenchidos()){
@@ -2421,23 +2308,6 @@ function carregarRascunhoLocal(){
       });
     }
 
-    // Restaurar compradores extras
-    if(dados.extras && dados.extras.length > 0){
-      document.getElementById('compradores-extras').innerHTML = '';
-      numCompradores = 1;
-      dados.extras.forEach(ex => {
-        adicionarComprador();
-        const n = numCompradores;
-        if(ex.nome) document.getElementById('nome-' + n).value = ex.nome;
-        if(ex.rg) document.getElementById('rg-' + n).value = ex.rg;
-        if(ex.cpf) document.getElementById('cpf-' + n).value = ex.cpf;
-        if(ex.nasc) document.getElementById('nasc-' + n).value = ex.nasc;
-        if(ex.genero) document.getElementById('genero-' + n).value = ex.genero;
-        if(ex.ec) document.getElementById('ec-' + n).value = ex.ec;
-        if(ex.tel1) document.getElementById('tel1-' + n).value = ex.tel1;
-        if(ex.tel2) document.getElementById('tel2-' + n).value = ex.tel2;
-      });
-    }
 
   }catch(e){
     console.error('Erro ao restaurar rascunho:', e);
@@ -2472,9 +2342,6 @@ function limparFormulario(){
       sel.classList.remove('ok', 'erro');
     });
   }
-
-  document.getElementById('compradores-extras').innerHTML = '';
-  numCompradores = 1;
 
   document.getElementById('lotes-wrap').innerHTML = '';
   numItensLote = 0;
@@ -2927,21 +2794,6 @@ function gerarResumoRevisao(){
   let nascs = [nasc].filter(Boolean);
   let contatos = [document.getElementById('contato1').value.trim()].filter(Boolean);
 
-  document.querySelectorAll('.comprador-extra').forEach(function(div){
-    const n=div.id.replace('comprador-extra-','');
-    const nomeX=document.getElementById('nome-'+n)?.value.trim();
-    if(nomeX){
-      nomes.push(nomeX);
-      const cpfX=document.getElementById('cpf-'+n)?.value.trim();
-      if(cpfX) cpfs.push(cpfX);
-      const rgX=document.getElementById('rg-'+n)?.value.trim();
-      if(rgX) rgs.push(rgX);
-      let nascX=document.getElementById('nasc-'+n)?.value;
-      if(nascX){const[y,m,d]=nascX.split('-');nascX=`${d}/${m}/${y}`; nascs.push(nascX);}
-      const telX=document.getElementById('tel1-'+n)?.value.trim();
-      if(telX) contatos.push(telX);
-    }
-  });
 
   const empSel = document.getElementById('emp-lote');
   const empNome = (empSel && empSel.selectedIndex > 0) ? empSel.options[empSel.selectedIndex]?.text : '';
@@ -3084,26 +2936,6 @@ function montarMensagemCadastro(){
   let c2 = document.getElementById('contato2').value.trim();
   let contatosString = c2 ? `${c1} / ${c2}` : c1;
 
-  // Compradores extras
-  document.querySelectorAll('.comprador-extra').forEach(function(div){
-    const n=div.id.replace('comprador-extra-','');
-    const nomeX=document.getElementById('nome-'+n)?.value.trim();
-    if(nomeX){
-      nomes.push(nomeX);
-      const cpfX=document.getElementById('cpf-'+n)?.value.trim();
-      if(cpfX) cpfs.push(cpfX);
-      const rgX=document.getElementById('rg-'+n)?.value.trim();
-      if(rgX) rgs.push(rgX);
-      let nascX=document.getElementById('nasc-'+n)?.value;
-      if(nascX){const[y,m,d]=nascX.split('-');nascX=`${d}/${m}/${y}`; nascs.push(nascX);}
-      const ecX=document.getElementById('ec-'+n)?.value||'';
-      if(ecX) estadosCivis.push(generizarEstadoCivil(ecX, document.getElementById('genero-'+n)?.value||''));
-      const tel1X=document.getElementById('tel1-'+n)?.value.trim();
-      const tel2X=document.getElementById('tel2-'+n)?.value.trim();
-      if(tel1X) contatosString += ` / ${tel1X}`;
-      if(tel2X) contatosString += ` / ${tel2X}`;
-    }
-  });
 
   const empSel = document.getElementById('emp-lote');
   const empNome = (empSel && empSel.selectedIndex > 0) ? empSel.options[empSel.selectedIndex]?.text : '';
@@ -3349,6 +3181,64 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 <link rel="stylesheet" href="/assets/lead-modal.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+const PIX_CHAVE_RESERVA = '60659875000121';
+function pixCampo(id, valor){ return id + String(valor.length).padStart(2,'0') + valor; }
+function pixCrc16(payload){
+  let crc = 0xFFFF;
+  for(let i=0;i<payload.length;i++){
+    crc ^= payload.charCodeAt(i) << 8;
+    for(let j=0;j<8;j++) crc = (crc & 0x8000) ? ((crc << 1) ^ 0x1021) : (crc << 1);
+  }
+  return (crc & 0xFFFF).toString(16).toUpperCase().padStart(4,'0');
+}
+function montarPayloadPixSemValor(){
+  const conta = pixCampo('00','BR.GOV.BCB.PIX') + pixCampo('01',PIX_CHAVE_RESERVA);
+  const payload =
+    pixCampo('00','01') +
+    pixCampo('26',conta) +
+    pixCampo('52','0000') +
+    pixCampo('53','986') +
+    pixCampo('58','BR') +
+    pixCampo('59','GEOFLORESTAL IMOBILIARIA') +
+    pixCampo('60','SANTAREM') +
+    pixCampo('62',pixCampo('05','***')) +
+    '6304';
+  return payload + pixCrc16(payload);
+}
+function alternarQrPix(){
+  const area = document.getElementById('pix-qr-area');
+  const botao = document.getElementById('pix-btn-label');
+  if(area.style.display !== 'none'){
+    area.style.display = 'none';
+    botao.textContent = 'Gerar QR Code PIX';
+    return;
+  }
+  if(typeof QRCode === 'undefined'){
+    alert('Não foi possível carregar o gerador do QR Code. Verifique sua conexão e tente novamente.');
+    return;
+  }
+  const destino = document.getElementById('pix-qrcode');
+  destino.innerHTML = '';
+  new QRCode(destino,{text:montarPayloadPixSemValor(),width:200,height:200,colorDark:'#000000',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});
+  area.style.display = 'block';
+  botao.textContent = 'Ocultar QR Code PIX';
+}
+function copiarChavePix(){
+  const chave = '60.659.875/0001-21';
+  const feedback = document.getElementById('pix-copy-feedback');
+  const sucesso = () => { feedback.style.display='block'; };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(chave).then(sucesso).catch(()=>alert('Não foi possível copiar a chave PIX.'));
+  } else {
+    const campo=document.createElement('textarea');
+    campo.value=chave;document.body.appendChild(campo);campo.select();
+    try{document.execCommand('copy');sucesso();}catch(e){alert('Não foi possível copiar a chave PIX.');}
+    campo.remove();
+  }
+}
+</script>
 <script src="/assets/lead-modal.js" defer></script>
 </body>
 </html>
