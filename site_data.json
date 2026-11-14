@@ -214,15 +214,15 @@
     },
     {
       "id": "cucuruna",
-      "nome": "Cucurunã",
+      "nome": "Vitória Régia",
       "regiao": "Cucurunã",
       "lat": -2.463222,
       "lng": -54.791694,
       "cor": "gold",
       "min": "R$ 400",
       "max": "R$ 1.200",
-      "desc": "Região em expansão estratégica com alto potencial.",
-      "msg": "Olá Rafael! Tenho interesse em Cucurunã.",
+      "desc": "Empreendimento Vitória Régia · bairro Cucurunã, Ramal dos Coelhos (rua principal).",
+      "msg": "Olá Rafael! Tenho interesse no Empreendimento Vitória Régia, no bairro Cucurunã (Ramal dos Coelhos)!",
       "tags": [
         "Em breve"
       ],
@@ -390,13 +390,13 @@
     },
     {
       "id": "cucuruna",
-      "nome": "Cucurunã",
+      "nome": "Vitória Régia",
       "foto": "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-3-1780365626321.jpeg",
-      "loc": "Ramal dos Coelhos",
+      "loc": "Bairro Cucurunã · Ramal dos Coelhos",
       "desc": "Região em expansão estratégica. Novos loteamentos com alto potencial de valorização.",
       "badge": "Disponível",
       "badgeTipo": "breve",
-      "wpp": "Olá vim pelo site, tenho interesse em Cucurunã!",
+      "wpp": "Olá vim pelo site, tenho interesse no Empreendimento Vitória Régia, no bairro Cucurunã!",
       "lat": -2.463222,
       "lng": -54.791694,
       "diferenciais": [

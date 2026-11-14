@@ -1354,7 +1354,7 @@ var _pinosDefault=[
   {nome:'Ponta de Pedras', lat:-2.465361,lng:-54.909694,cor:'#C9A84C',desc:'Área ribeirinha com vista para o Tapajós.',msg:'Olá Rafael! Tenho interesse em Ponta de Pedras.'},
   {nome:'Pajuçara',        lat:-2.442361,lng:-54.82825,cor:'#C9A84C',desc:'Bairro em expansão com alta valorização.',msg:'Olá Rafael! Tenho interesse em Pajuçara.'},
   {nome:'Santa Maria',     lat:-2.448167,lng:-54.805556,cor:'#C9A84C',desc:'Empreendimento Bom Sossego documentado.',msg:'Olá Rafael! Tenho interesse em Santa Maria.'},
-  {nome:'Cucurunã',        lat:-2.46325,lng:-54.793667,cor:'#f87171',desc:'Empreendimento Vitória Régia em Cucurunã.',msg:'Olá Rafael! Tenho interesse no Empreendimento Vitória Régia em Cucurunã!',link:'/cucuruna/'},
+  {nome:'Vitória Régia',    lat:-2.46325,lng:-54.793667,cor:'#f87171',desc:'Empreendimento Vitória Régia · bairro Cucurunã, Ramal dos Coelhos (rua principal).',msg:'Olá Rafael! Tenho interesse no Empreendimento Vitória Régia, no bairro Cucurunã (Ramal dos Coelhos)!',link:'/vitoriaregia/'},
   {nome:'Espírito Santo',  lat:-2.479222,lng:-54.7545,cor:'#C9A84C',desc:'Em desenvolvimento. Entre em contato.',msg:'Olá Rafael! Tenho interesse em Espírito Santo.'},
   {nome:'Mararu Ville 1ª Etapa', lat:-2.492278,lng:-54.687083,cor:'#f87171',desc:'🔥 Mararu Ville 1ª Etapa — lotes a partir de R$600 entrada.',msg:'Olá Rafael! Tenho interesse no Mararu Ville 1ª Etapa!',link:'/mararu/'},
   {nome:'Mararu Ville 2ª Etapa', lat:-2.492556,lng:-54.685528,cor:'#f87171',desc:'🔥 Mararu Ville 2ª Etapa — entrada de R$600 e parcelas a partir de R$ 255,56.',msg:'Olá Rafael! Tenho interesse no Mararu Ville 2ª Etapa!',link:'/mararu2/'},
@@ -1424,6 +1424,7 @@ var _pinoNomeCatalogo={
   'Pajuçara':'pajucara',
   'Santa Maria':'santa-maria',
   'Cucurunã':'cucuruna',
+  'Vitória Régia':'cucuruna',
   'Mararu':'mararu',
   'Mararu Ville 1ª Etapa':'mararu',
   'Mararu Ville 2ª Etapa':'mararu2'
@@ -1460,7 +1461,7 @@ var _pinosDefault=[
   {nome:'Ponta de Pedras', lat:-2.465361,lng:-54.909694,cor:'#C9A84C',desc:'Área ribeirinha com vista para o Tapajós.',msg:'Olá Rafael! Tenho interesse em Ponta de Pedras.'},
   {nome:'Pajuçara',        lat:-2.442361,lng:-54.82825,cor:'#C9A84C',desc:'Bairro em expansão com fácil acesso.',msg:'Olá Rafael! Tenho interesse em Pajuçara.'},
   {nome:'Santa Maria',     lat:-2.448167,lng:-54.805556,cor:'#C9A84C',desc:'Ambiente tranquilo, documentação completa.',msg:'Olá Rafael! Tenho interesse em Santa Maria.'},
-  {nome:'Cucurunã',        lat:-2.46325,lng:-54.793667,cor:'#f87171',desc:'Empreendimento Vitória Régia em Cucurunã.',msg:'Olá Rafael! Tenho interesse no Empreendimento Vitória Régia em Cucurunã!',link:'/cucuruna/'},
+  {nome:'Vitória Régia',    lat:-2.46325,lng:-54.793667,cor:'#f87171',desc:'Empreendimento Vitória Régia · bairro Cucurunã, Ramal dos Coelhos (rua principal).',msg:'Olá Rafael! Tenho interesse no Empreendimento Vitória Régia, no bairro Cucurunã (Ramal dos Coelhos)!',link:'/vitoriaregia/'},
   {nome:'Mararu Ville 1ª Etapa', lat:-2.492278,lng:-54.687083,cor:'#f87171',desc:'🔥 Mararu Ville 1ª Etapa — lotes a partir de R$600 entrada.',msg:'Olá Rafael! Tenho interesse no Mararu Ville 1ª Etapa!',link:'/mararu/'},
   {nome:'Mararu Ville 2ª Etapa', lat:-2.492556,lng:-54.685528,cor:'#f87171',desc:'🔥 Mararu Ville 2ª Etapa — entrada de R$600 e parcelas a partir de R$ 255,56.',msg:'Olá Rafael! Tenho interesse no Mararu Ville 2ª Etapa!',link:'/mararu2/'},
   {nome:'Campo Novo', lat:-2.482056,lng:-54.796306,cor:'#f87171',desc:'Campo Novo — entrada de R$ 1.000 e 100 parcelas a partir de R$ 350.',msg:'Olá Rafael! Tenho interesse no Campo Novo!',link:'/campo-novo/'},
@@ -1506,6 +1507,7 @@ var _linksPorNome={
   'Pajuçara':'/pajucara/',
   'Santa Maria':'/santa-maria/',
   'Cucurunã':'/vitoriaregia/',
+  'Vitória Régia':'/vitoriaregia/',
   'Espírito Santo':'/espirito-santo/',
   'Mararu Ville 1ª Etapa':'/mararu/',
   'Mararu Ville 2ª Etapa':'/mararu2/',
@@ -1912,7 +1914,7 @@ function trocarCidade(cidade,btn){
 (function(){
   var NAME_MAP={
     'Mararu':'mararu','Pajuçara':'pajucara','Santa Maria':'santa-maria',
-    'Cucurunã':'cucuruna','Ponta de Pedras':'ponta-pedras','Alter do Chão':'alter',
+    'Cucurunã':'cucuruna','Vitória Régia':'cucuruna','Ponta de Pedras':'ponta-pedras','Alter do Chão':'alter',
     'Espírito Santo':'espirito-santo'
   };
   var BADGE_STYLE={
@@ -1926,7 +1928,7 @@ function trocarCidade(cidade,btn){
 (function(){
   var FOTOS_INLINE = {"mararu": "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-0-1780364307268.jpeg", "pajucara": "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-1-1780364341875.jpeg", "santa-maria": "/imagens/bom-sossego.png", "cucuruna": "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-3-1780365626321.jpeg", "ponta-pedras": "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-4-1780364714914.jpeg", "alter": "https://uftxcwcryqpkfdfxzlno.supabase.co/storage/v1/object/public/fotos-site/regioes/regiao-5-1780365599905.png"};
   var cards2=document.querySelectorAll('.rc2-card');
-  var nameMap2={'Mararu':'mararu','Pajuçara':'pajucara','Santa Maria':'santa-maria','Cucurunã':'cucuruna','Ponta de Pedras':'ponta-pedras','Alter do Chão':'alter','Espírito Santo':'espirito-santo'};
+  var nameMap2={'Mararu':'mararu','Pajuçara':'pajucara','Santa Maria':'santa-maria','Cucurunã':'cucuruna','Vitória Régia':'cucuruna','Ponta de Pedras':'ponta-pedras','Alter do Chão':'alter','Espírito Santo':'espirito-santo'};
   cards2.forEach(function(card){
     var nomeEl=card.querySelector('.rc2-nome-over');
     if(!nomeEl)return;
@@ -3210,14 +3212,14 @@ var _catalogos={
     wpp:'Olá Rafael! Vi as fotos de Santa Maria no site e quero mais informações sobre os lotes.'
   },
   'cucuruna':{
-    nome:'Cucurunã',loc:'Santarém, Pará',badge:'Zona Norte',
+    nome:'Vitória Régia',loc:'Bairro Cucurunã · Ramal dos Coelhos, Santarém, PA',badge:'Zona Norte',
     heroBg:'linear-gradient(135deg,#3a2800,#6b4a00,#c9a84c)',
     desc:'Região em expansão estratégica. Novos empreendimentos com alto potencial de valorização.',
     sobre:'Cucurunã está se tornando um dos pontos mais estratégicos para investimento em Santarém. A Zona Norte cresce rapidamente com novos empreendimentos, avenidas em expansão e crescente demanda habitacional — criando uma oportunidade única para quem investe agora.',
     galeria:['linear-gradient(135deg,#3a2800,#6b4800)','linear-gradient(135deg,#4a3400,#8b6600)','linear-gradient(135deg,#2e2000,#5a3e00)','linear-gradient(135deg,#5a4000,#a07800)'],
     diferenciais:['Região estratégica com crescimento acelerado','Novos empreendimentos na Zona Norte','Alto potencial de valorização','Localização com fácil expansão urbana','Oportunidade de compra antes da valorização'],
     mapLink:'https://maps.google.com/?q=-2.46325,-54.793667',
-    wpp:'Olá Rafael! Tenho interesse em lotes na região de Cucurunã.'
+    wpp:'Olá Rafael! Tenho interesse nos lotes do Empreendimento Vitória Régia, no bairro Cucurunã (Ramal dos Coelhos).'
   },
   'ponta-pedras':{
     nome:'Ponta de Pedras',loc:'Santarém, Pará',badge:'Zona Ribeirinha · Tapajós',

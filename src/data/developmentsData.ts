@@ -116,9 +116,9 @@ export const developments: Development[] = [
   {
     id: 'cucuruna',
     slug: 'cucuruna',
-    title: 'Cucurunã',
-    subtitle: 'Empreendimento Vitória Régia · Santarém, PA',
-    location: 'Cucurunã — Ramal dos Coelhos, Santarém - PA',
+    title: 'Vitória Régia',
+    subtitle: 'Bairro Cucurunã · Ramal dos Coelhos (rua principal) · Santarém, PA',
+    location: 'Bairro Cucurunã — Ramal dos Coelhos (rua principal), Santarém - PA',
     city: 'Santarém',
     badge: 'Vitória Régia',
     heroImage: '/imagens/cucuruna-foto4.jpg',
