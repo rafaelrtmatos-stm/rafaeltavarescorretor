@@ -481,8 +481,8 @@
     if (path.indexOf('campo-novo') !== -1) {
       return { nome: 'Campo Novo', slug: 'campo-novo' };
     }
-    if (path.indexOf('cucuruna') !== -1) {
-      return { nome: 'Cucurunã', slug: 'cucuruna' };
+    if (path.indexOf('vitoriaregia') !== -1 || path.indexOf('cucuruna') !== -1) {
+      return { nome: 'Vitória Régia (Cucurunã)', slug: 'cucuruna' };
     }
     if (path.indexOf('espirito-santo') !== -1) {
       return { nome: 'Bairro Espírito Santo', slug: 'espirito-santo' };
@@ -1068,7 +1068,7 @@
       { nome: 'Pajucará', slug: 'pajucara' },
       { nome: 'Santa Maria', slug: 'santa-maria' },
       { nome: 'Campo Novo', slug: 'campo-novo' },
-      { nome: 'Cucurunã', slug: 'cucuruna' },
+      { nome: 'Vitória Régia (Cucurunã)', slug: 'cucuruna' },
       { nome: 'Bairro Espírito Santo', slug: 'espirito-santo' }
     ];
 

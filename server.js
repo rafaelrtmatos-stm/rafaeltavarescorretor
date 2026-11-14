@@ -18,6 +18,10 @@ app.get('/api/health', (req, res) => {
 // Redirects from vercel.json
 app.use((req, res, next) => {
   const url = req.path;
+  if (url === '/cucuruna' || url.startsWith('/cucuruna/')) {
+    const rest = url.replace(/^\/cucuruna\/?/, '');
+    return res.redirect(301, '/vitoriaregia/' + (rest ? rest : ''));
+  }
   if (url === '/pajuca' || url.startsWith('/pajuca/')) {
     const rest = url.replace(/^\/pajuca\/?/, '');
     return res.redirect(301, '/pajucara/' + (rest ? rest : ''));

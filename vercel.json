@@ -6,6 +6,21 @@
   "framework": null,
   "redirects": [
     {
+      "source": "/cucuruna",
+      "destination": "/vitoriaregia/",
+      "permanent": true
+    },
+    {
+      "source": "/cucuruna/",
+      "destination": "/vitoriaregia/",
+      "permanent": true
+    },
+    {
+      "source": "/cucuruna/:path*",
+      "destination": "/vitoriaregia/:path*",
+      "permanent": true
+    },
+    {
       "source": "/pajuca",
       "destination": "/pajucara/",
       "permanent": true
