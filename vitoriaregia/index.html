@@ -561,8 +561,10 @@ function aplicarDadosMapa(data){
     wrap.innerHTML='<div style="padding:40px;color:var(--text3);text-align:center;font-size:13px">Mapa em preparação</div>';
     return;
   }
-  // recorte (frame) salvo no admin, em % da imagem original
-  var c=data.mapaCrop||{x:0,y:0,width:100,height:100};
+  // O programa do mapa já envia a imagem JÁ recortada (mapaImagemUrl) e os pinos
+  // já relativos a ela. O mapaCrop salvo é só o registro do corte feito, então
+  // aplicá-lo de novo corta a imagem duas vezes. Mostrar a imagem inteira.
+  var c={x:0,y:0,width:100,height:100};
   var cx=+c.x||0,cy=+c.y||0,cw=+c.width||100,ch=+c.height||100;
   var img=new Image();
   img.onload=function(){
