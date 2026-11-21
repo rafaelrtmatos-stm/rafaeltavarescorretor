@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { X, MapPin, CheckCircle2, MessageCircle, Ruler, Share2, Check, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, MapPin, CheckCircle2, MessageCircle, Ruler, Share2, Check, ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
 import { Property, GalleryItem, buildLocationWhatsAppUrl } from '../data/properties';
+import { GalleryLightbox } from './GalleryLightbox';
 
 const INSTAGRAM_URL = 'https://www.instagram.com/rafaeltavarescorretorstm/';
 
@@ -13,11 +14,13 @@ interface PropertyModalProps {
 export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose, onWhatsAppInquiry }) => {
   const [copied, setCopied] = useState(false);
   const [mediaIndex, setMediaIndex] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
   const touchStartX = useRef<number | null>(null);
 
   useEffect(() => {
     setCopied(false);
     setMediaIndex(0);
+    setLightboxOpen(false);
     if (!property) return;
 
     const scrollY = window.scrollY;
@@ -122,18 +125,31 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
               key={current.src}
               src={current.src}
               poster={current.poster}
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover cursor-zoom-in"
               autoPlay
               muted
               loop
               playsInline
+              onClick={() => setLightboxOpen(true)}
             />
           ) : (
             <div
-              className="absolute inset-0 bg-cover bg-center"
+              className="absolute inset-0 bg-cover bg-center cursor-zoom-in"
               style={{ backgroundImage: `url('${current.src}')` }}
+              onClick={() => setLightboxOpen(true)}
+              role="button"
+              aria-label="Ver em tela cheia"
             ></div>
           )}
+          <button
+            type="button"
+            onClick={() => setLightboxOpen(true)}
+            className="absolute top-4 right-16 z-10 w-10 h-10 bg-black/70 hover:bg-black text-white rounded-full flex items-center justify-center border border-white/25 transition-all cursor-pointer"
+            aria-label="Ver fotos em tela cheia"
+            title="Tela cheia"
+          >
+            <Maximize2 className="w-5 h-5" />
+          </button>
           <div className="absolute inset-0 bg-gradient-to-t from-[#032215] via-[#032215]/40 to-black/30 pointer-events-none"></div>
 
           {hasMany && (
@@ -281,6 +297,15 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
         </div>
 
       </div>
+
+      {lightboxOpen && (
+        <GalleryLightbox
+          items={media}
+          startIndex={Math.min(mediaIndex, media.length - 1)}
+          title={property.title}
+          onClose={() => setLightboxOpen(false)}
+        />
+      )}
     </div>
   );
 };
