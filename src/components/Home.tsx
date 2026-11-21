@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { developments } from '../data/developmentsData';
-import { Development } from '../types';
-import { ShieldCheck, ArrowRight, MapPin, CheckCircle, Sparkles } from 'lucide-react';
+import { MapPin, ArrowRight, ShieldCheck, CheckCircle2, Phone, TrendingUp, Users, Gem, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface HomeProps {
   onSelectDevelopment: (slug: string) => void;
@@ -9,159 +8,235 @@ interface HomeProps {
 }
 
 export const Home: React.FC<HomeProps> = ({ onSelectDevelopment, onOpenRentals }) => {
-  const [selectedCity, setSelectedCity] = useState<string>('todos');
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
 
-  const filteredDevs = selectedCity === 'todos' 
-    ? developments 
-    : developments.filter(d => d.city.toLowerCase() === selectedCity.toLowerCase());
+  const promoCards = [
+    { title: 'Ponte Alta', price: 'R$ 3.000', image: '/imagens/mararu-hero-loteamento.jpg', badge: 'OFERTA BLACK FRIDAY', slug: 'bela-vista-mararu' },
+    { title: 'São Francisco do Carapanari', price: 'R$ 3.500', image: '/imagens/bela-vista-mararu-hero-v2.jpg', badge: 'DESTAQUE', slug: 'cucuruna' },
+    { title: 'Campo Novo', price: 'R$ 11.000', image: '/imagens/cucuruna-foto4.jpg', badge: '', slug: 'alenquer' },
+    { title: 'Mararu Ville', price: 'R$ 600', image: '/imagens/mararu-hero-rafael.jpg', badge: 'LANÇAMENTO', slug: 'mararu' },
+    { title: 'Bela Vista do Mararu', price: 'R$ 46.600', image: '/imagens/bela-vista-mararu-capa.jpg', badge: '', slug: 'bela-vista-mararu' },
+    { title: 'Jardim Alenquer', price: 'R$ 16.500', image: '/imagens/alenquer-obra-7.jpeg', badge: 'NOVO', slug: 'alenquer' },
+    { title: 'Cucurunã (Vitória Régia)', price: 'R$ 25.500', image: '/imagens/cucuruna-foto2.jpg', badge: '', slug: 'cucuruna' },
+    { title: 'Pajuçara', price: 'R$ 12.000', image: '/imagens/pajuca-foto1.jpeg', badge: '', slug: 'mararu' },
+    { title: 'Santa Maria', price: 'R$ 14.500', image: '/imagens/santa-maria-obra-1.jpeg', badge: '', slug: 'bela-vista-mararu' },
+    { title: 'Espírito Santo', price: 'R$ 18.000', image: '/imagens/espirito-santo-hero.jpg', badge: '', slug: 'cucuruna' },
+    { title: 'Monte Alegre (Jussaramia)', price: 'R$ 15.000', image: '/imagens/monte-alegre-hero.jpg', badge: '', slug: 'alenquer' }
+  ];
+
+  const handlePrev = () => {
+    setCurrentIndex(prev => (prev === 0 ? promoCards.length - 1 : prev - 1));
+  };
+
+  const handleNext = () => {
+    setCurrentIndex(prev => (prev === promoCards.length - 1 ? 0 : prev + 1));
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX === null) return;
+    const diff = e.changedTouches[0].clientX - touchStartX;
+    if (diff > 40) {
+      handlePrev();
+    } else if (diff < -40) {
+      handleNext();
+    }
+    setTouchStartX(null);
+  };
+
+  const leftIndex = (currentIndex - 1 + promoCards.length) % promoCards.length;
+  const centerIndex = currentIndex;
+  const rightIndex = (currentIndex + 1) % promoCards.length;
 
   return (
-    <div className="min-h-screen bg-black text-[#F2EDE4]">
+    <div className="min-h-screen bg-black text-[#F2EDE4] font-sans selection:bg-[#C9A84C] selection:text-black">
       
-      {/* HERO SECTION */}
-      <section className="relative min-h-[85vh] flex flex-col items-center justify-center text-center px-4 py-20 overflow-hidden">
-        {/* Background Map / Image Overlay */}
-        <div className="absolute inset-0 z-0">
+      {/* HERO BANNER SECTION (100% width, flush against header, bottom gradient to #002719) */}
+      <section className="relative w-full bg-[#002719] pt-0 mt-0">
+        <div className="relative w-full overflow-hidden m-0 p-0">
           <img 
-            src="/imagens/mararu-hero-loteamento.jpg" 
-            alt="Rafael Tavares Corretor" 
-            className="w-full h-full object-cover filter brightness-[0.35] scale-105 animate-pulse" 
-            style={{ animationDuration: '10s' }}
+            src="/imagens/black-friday-banner-v2.png?v=2" 
+            alt="Black Friday dos Terrenos 2026 - Rafael Tavares" 
+            className="w-full h-auto object-cover block m-0 p-0"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black"></div>
-        </div>
-
-        {/* Hero Content */}
-        <div className="relative z-10 max-w-4xl mx-auto space-y-6">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#C9A84C]/40 bg-[#C9A84C]/10 text-[#C9A84C] text-xs font-semibold tracking-widest uppercase">
-            <span className="w-2 h-2 rounded-full bg-[#C9A84C] animate-ping"></span>
-            Lançamentos Oficiais · Santarém, Alenquer e Monte Alegre
-          </div>
-
-          <h1 className="font-serif text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight text-white leading-[1.05]">
-            Realize o sonho do <span className="text-[#C9A84C] italic">terreno próprio</span>
-          </h1>
-
-          <p className="text-base sm:text-lg text-zinc-300 max-w-2xl mx-auto font-light leading-relaxed">
-            Lotes selecionados com entrada facilitada e parcelas que cabem no seu bolso. Atendimento direto com <strong>Rafael Tavares · CRECI 13919</strong>.
-          </p>
-
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
-            <a 
-              href="#empreendimentos" 
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-[#B8902A] via-[#E8C96A] to-[#B8902A] text-black px-8 py-4 rounded-full font-bold text-xs uppercase tracking-widest shadow-xl shadow-[#C9A84C]/20 hover:scale-105 transition-all"
-            >
-              Ver Empreendimentos <ArrowRight className="w-4 h-4" />
-            </a>
-            <button 
-              onClick={onOpenRentals}
-              className="inline-flex items-center gap-2 bg-zinc-900/80 hover:bg-zinc-800 border border-[#C9A84C]/40 text-[#C9A84C] px-8 py-4 rounded-full font-bold text-xs uppercase tracking-widest transition-all"
-            >
-              Ver Imóveis para Alugar
-            </button>
+          {/* Degradê inferior de transparente para #002719 */}
+          <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#002719] via-[#002719]/60 to-transparent pointer-events-none"></div>
+          <div className="absolute bottom-3 right-3 bg-black/80 backdrop-blur-md border border-[#C9A84C]/50 px-3 py-1.5 rounded-lg flex items-center gap-1.5 text-[11px] font-bold text-[#C9A84C] z-20">
+            <ShieldCheck className="w-3.5 h-3.5 text-[#C9A84C]" /> CRECI 13919 · Rafael Tavares
           </div>
         </div>
       </section>
 
-      {/* STATS BAND */}
-      <section className="bg-zinc-950 border-y border-[#C9A84C]/20 py-10 px-4">
-        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          <div>
-            <div className="font-serif text-3xl sm:text-4xl font-bold text-[#C9A84C]">R$ 500</div>
-            <div className="text-[10px] uppercase tracking-widest text-zinc-400 mt-1">Entrada a partir de</div>
-          </div>
-          <div>
-            <div className="font-serif text-3xl sm:text-4xl font-bold text-[#C9A84C]">80x a 120x</div>
-            <div className="text-[10px] uppercase tracking-widest text-zinc-400 mt-1">Parcelas Fixas</div>
-          </div>
-          <div>
-            <div className="font-serif text-3xl sm:text-4xl font-bold text-[#C9A84C]">CRECI 13919</div>
-            <div className="text-[10px] uppercase tracking-widest text-zinc-400 mt-1">Registro Profissional</div>
-          </div>
-          <div>
-            <div className="font-serif text-3xl sm:text-4xl font-bold text-[#C9A84C]">100%</div>
-            <div className="text-[10px] uppercase tracking-widest text-zinc-400 mt-1">Segurança Jurídica</div>
-          </div>
-        </div>
-      </section>
-
-      {/* DEVELOPMENTS PORTFOLIO */}
-      <section id="empreendimentos" className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <div className="text-xs uppercase tracking-[0.3em] text-[#C9A84C] font-bold">Portfólio de Oportunidades</div>
-          <h2 className="font-serif text-4xl sm:text-5xl font-bold text-white">
-            Escolha seu <span className="text-[#C9A84C] italic">Loteamento</span>
+      {/* EXPLORE AS OPORTUNIDADES (Carrossel com 3 terrenos visíveis: centro maior, laterais visíveis, 11 terrenos, setas sempre visíveis, touch swipe) */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden">
+        <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
+          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white">
+            Explore as <span className="text-[#C9A84C] italic">Oportunidades</span>
           </h2>
-          <p className="text-sm text-zinc-400">
-            Filtre por cidade e encontre o lote ideal para construir ou investir com total segurança.
+          <p className="text-xs sm:text-sm text-zinc-400">
+            Arraste para o lado ou use as setas para ver todos os {promoCards.length} terrenos em promoção!
           </p>
-
-          {/* City Filter Pills */}
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
-            {['todos', 'Santarém', 'Alenquer', 'Monte Alegre'].map((city) => (
-              <button
-                key={city}
-                onClick={() => setSelectedCity(city)}
-                className={`px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all ${
-                  selectedCity === city 
-                    ? 'bg-[#C9A84C] text-black shadow-lg shadow-[#C9A84C]/20' 
-                    : 'bg-zinc-900 border border-zinc-800 text-zinc-300 hover:border-[#C9A84C]/50'
-                }`}
-              >
-                {city === 'todos' ? 'Todas as Cidades' : city}
-              </button>
-            ))}
-          </div>
         </div>
 
-        {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredDevs.map((dev) => (
+        {/* 3-Card Carousel Container with Touch & Always Visible Arrows */}
+        <div 
+          className="relative flex items-center justify-center gap-3 sm:gap-6 py-6"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          
+          {/* Navigation Arrows - Always Visible */}
+          <button 
+            onClick={handlePrev}
+            className="absolute left-1 sm:left-2 z-50 w-12 h-12 rounded-full bg-zinc-900 border-2 border-[#C9A84C] text-[#C9A84C] flex items-center justify-center hover:bg-[#C9A84C] hover:text-black transition-all shadow-2xl cursor-pointer"
+            aria-label="Anterior"
+          >
+            <ChevronLeft className="w-7 h-7" />
+          </button>
+
+          <button 
+            onClick={handleNext}
+            className="absolute right-1 sm:right-2 z-50 w-12 h-12 rounded-full bg-zinc-900 border-2 border-[#C9A84C] text-[#C9A84C] flex items-center justify-center hover:bg-[#C9A84C] hover:text-black transition-all shadow-2xl cursor-pointer"
+            aria-label="Próximo"
+          >
+            <ChevronRight className="w-7 h-7" />
+          </button>
+
+          {/* Left Neighbor Card (Smaller, partially visible) */}
+          <div 
+            onClick={handlePrev}
+            className="flex flex-col w-[140px] sm:w-[220px] md:w-[260px] bg-zinc-950/80 rounded-2xl overflow-hidden border border-zinc-800/80 shadow-lg opacity-60 scale-90 cursor-pointer hover:opacity-85 transition-all duration-300 shrink-0"
+          >
+            <div className="relative h-28 sm:h-36 w-full bg-zinc-900 overflow-hidden">
+              <img src={promoCards[leftIndex].image} alt={promoCards[leftIndex].title} className="w-full h-full object-cover" />
+            </div>
+            <div className="p-3 sm:p-4 space-y-1 sm:space-y-2">
+              <div className="text-[10px] sm:text-[11px] text-[#C9A84C] font-semibold flex items-center gap-1 truncate">
+                <MapPin className="w-3 h-3 shrink-0" /> {promoCards[leftIndex].title}
+              </div>
+              <div className="font-serif text-sm sm:text-lg font-bold text-zinc-300">
+                {promoCards[leftIndex].price}
+              </div>
+            </div>
+          </div>
+
+          {/* Center Active Card (Larger, prominent with gold border & badge) */}
+          <div className="relative flex flex-col w-[260px] sm:w-[380px] bg-zinc-950 rounded-2xl overflow-hidden border-2 border-[#C9A84C] shadow-[0_20px_50px_rgba(201,168,76,0.25)] z-30 scale-100 transition-all duration-300 shrink-0">
+            {promoCards[centerIndex].badge && (
+              <div className="absolute -top-1 left-4 z-40 bg-red-600 text-white text-[10px] sm:text-[11px] font-black uppercase px-3 sm:px-4 py-1.5 tracking-wider rotate-[-2deg] shadow-lg rounded-b-md">
+                {promoCards[centerIndex].badge}
+              </div>
+            )}
+
+            <div className="relative h-44 sm:h-56 w-full bg-zinc-900 overflow-hidden">
+              <img src={promoCards[centerIndex].image} alt={promoCards[centerIndex].title} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+            </div>
+
+            <div className="p-4 sm:p-5 space-y-3 sm:space-y-4">
+              <div className="flex items-center gap-1.5 text-xs text-[#C9A84C] font-bold uppercase tracking-wider">
+                <MapPin className="w-4 h-4" /> {promoCards[centerIndex].title}
+              </div>
+
+              <div className="flex items-baseline justify-between pt-1">
+                <div>
+                  <div className="text-[10px] text-zinc-400 uppercase tracking-widest">A partir de</div>
+                  <div className="font-serif text-2xl sm:text-3xl font-bold text-[#C9A84C]">{promoCards[centerIndex].price}</div>
+                </div>
+                <button 
+                  onClick={() => onSelectDevelopment(promoCards[centerIndex].slug)}
+                  className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 bg-gradient-to-r from-[#C9A84C] to-[#E8C96A] hover:opacity-90 text-black text-[11px] sm:text-xs font-bold rounded-xl transition-all shadow-lg"
+                >
+                  Ver detalhes <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Neighbor Card (Smaller, partially visible) */}
+          <div 
+            onClick={handleNext}
+            className="flex flex-col w-[140px] sm:w-[220px] md:w-[260px] bg-zinc-950/80 rounded-2xl overflow-hidden border border-zinc-800/80 shadow-lg opacity-60 scale-90 cursor-pointer hover:opacity-85 transition-all duration-300 shrink-0"
+          >
+            <div className="relative h-28 sm:h-36 w-full bg-zinc-900 overflow-hidden">
+              <img src={promoCards[rightIndex].image} alt={promoCards[rightIndex].title} className="w-full h-full object-cover" />
+            </div>
+            <div className="p-3 sm:p-4 space-y-1 sm:space-y-2">
+              <div className="text-[10px] sm:text-[11px] text-[#C9A84C] font-semibold flex items-center gap-1 truncate">
+                <MapPin className="w-3 h-3 shrink-0" /> {promoCards[rightIndex].title}
+              </div>
+              <div className="font-serif text-sm sm:text-lg font-bold text-zinc-300">
+                {promoCards[rightIndex].price}
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Dots Indicator */}
+        <div className="flex justify-center items-center gap-1.5 sm:gap-2 mt-8 flex-wrap max-w-xl mx-auto">
+          {promoCards.map((_, idx) => (
+            <button 
+              key={idx}
+              onClick={() => setCurrentIndex(idx)}
+              className={`h-2 rounded-full transition-all ${idx === currentIndex ? 'w-6 sm:w-8 bg-[#C9A84C]' : 'w-2 bg-zinc-800 hover:bg-zinc-700'}`}
+              aria-label={`Ir para terreno ${idx + 1}`}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* PORTFOLIO DE LOTEAMENTOS COMPLETOS */}
+      <section id="empreendimentos" className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-zinc-900">
+        <div className="text-center max-w-3xl mx-auto mb-12 space-y-3">
+          <div className="text-xs uppercase tracking-[0.3em] text-[#C9A84C] font-bold">Portfólio Completo</div>
+          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white">
+            Nossos <span className="text-[#C9A84C] italic">Loteamentos</span>
+          </h2>
+          <p className="text-xs text-zinc-400">
+            Clique em qualquer empreendimento abaixo para acessar plantas, vídeos e tabelas.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {developments.map((dev) => (
             <div 
               key={dev.id}
               onClick={() => onSelectDevelopment(dev.slug)}
-              className="group bg-zinc-950 border border-zinc-800 hover:border-[#C9A84C]/60 rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-1.5 shadow-2xl flex flex-col"
+              className="bg-zinc-950 border border-zinc-800 hover:border-[#C9A84C] rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 shadow-xl flex flex-col group"
             >
-              <div className="relative h-60 overflow-hidden bg-zinc-900">
-                <img 
-                  src={dev.heroImage} 
-                  alt={dev.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent"></div>
-                <span className="absolute top-4 left-4 bg-black/80 backdrop-blur-md border border-[#C9A84C]/40 text-[#C9A84C] text-[10px] uppercase font-bold tracking-wider px-3 py-1.5 rounded-lg">
+              <div className="relative h-48 overflow-hidden bg-zinc-900">
+                <img src={dev.heroImage} alt={dev.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                <span className="absolute top-3 left-3 bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-md text-[10px] font-bold text-[#C9A84C] border border-[#C9A84C]/30">
                   {dev.badge}
                 </span>
               </div>
 
-              <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+              <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
                 <div>
-                  <div className="text-[11px] text-[#C9A84C] tracking-widest uppercase font-semibold flex items-center gap-1 mb-1">
-                    <MapPin className="w-3.5 h-3.5" /> {dev.city} · Pará
-                  </div>
-                  <h3 className="font-serif text-2xl font-bold text-white group-hover:text-[#C9A84C] transition-colors">
-                    {dev.title}
-                  </h3>
-                  <p className="text-xs text-zinc-400 mt-2 line-clamp-2 leading-relaxed">
-                    {dev.description}
-                  </p>
+                  <div className="text-[10px] text-[#C9A84C] uppercase tracking-wider mb-1">{dev.city} · Pará</div>
+                  <h3 className="font-serif text-xl font-bold text-white group-hover:text-[#C9A84C] transition-colors">{dev.title}</h3>
+                  <p className="text-xs text-zinc-400 line-clamp-2 mt-1">{dev.description}</p>
                 </div>
 
-                <div className="pt-4 border-t border-zinc-900 flex items-center justify-between">
+                <div className="pt-3 border-t border-zinc-900 flex items-center justify-between">
                   <div>
-                    <div className="text-[10px] text-zinc-400 uppercase tracking-wider">Entrada a partir de</div>
-                    <div className="font-serif text-xl font-bold text-[#C9A84C]">{dev.entrancePrice}</div>
+                    <div className="text-[9px] text-zinc-400 uppercase">Entrada</div>
+                    <div className="font-serif text-lg font-bold text-[#C9A84C]">{dev.entrancePrice}</div>
                   </div>
                   <div className="text-right">
-                    <div className="text-[10px] text-zinc-400 uppercase tracking-wider">Parcelas</div>
-                    <div className="font-semibold text-sm text-white">{dev.installmentPrice}</div>
+                    <div className="text-[9px] text-zinc-400 uppercase">Parcela</div>
+                    <div className="font-bold text-xs text-white">{dev.installmentPrice}</div>
                   </div>
                 </div>
 
-                <button 
-                  className="w-full mt-2 py-3 bg-[#C9A84C]/10 hover:bg-[#C9A84C] text-[#C9A84C] hover:text-black rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2"
-                >
-                  Ver Tabela e Mapa <ArrowRight className="w-4 h-4" />
+                <button className="w-full py-2 bg-[#C9A84C]/10 hover:bg-[#C9A84C] text-[#C9A84C] hover:text-black rounded-lg font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5">
+                  Ver Detalhes e Mapa <ArrowRight className="w-3 h-3" />
                 </button>
               </div>
             </div>
@@ -169,43 +244,54 @@ export const Home: React.FC<HomeProps> = ({ onSelectDevelopment, onOpenRentals }
         </div>
       </section>
 
-      {/* WHY CHOOSE RAFAEL TAVARES */}
-      <section className="bg-zinc-950 py-24 border-t border-[#C9A84C]/20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      {/* MAIS DO QUE UM TERRENO, É O INÍCIO DO SEU PATRIMÔNIO */}
+      <section className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden bg-zinc-950 border-t border-[#C9A84C]/20">
+        <div className="max-w-6xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
-            <div className="text-xs uppercase tracking-[0.3em] text-[#C9A84C] font-bold">Referência no Pará</div>
-            <h2 className="font-serif text-4xl font-bold text-white leading-tight">
-              Segurança, Transparência e <span className="text-[#C9A84C] italic">Experiência</span>
+            <h2 className="font-serif text-4xl sm:text-5xl font-bold text-white leading-tight">
+              Mais do que um terreno, é o início do <span className="text-[#C9A84C] italic">seu patrimônio.</span>
             </h2>
-            <p className="text-sm text-zinc-400 leading-relaxed">
-              O corretor <strong>Rafael Tavares (CRECI 13919)</strong> atua com excelência no mercado imobiliário de Santarém e região, oferecendo suporte completo desde a escolha do melhor lote até a assinatura do contrato e entrega.
+            <p className="text-sm text-zinc-300 leading-relaxed">
+              Um espaço para construir sua casa, criar sua família e realizar grandes sonhos com segurança e valorização garantida.
             </p>
-            <ul className="space-y-3 text-sm text-zinc-300">
-              <li className="flex items-center gap-3">
-                <CheckCircle className="w-5 h-5 text-[#C9A84C] shrink-0" /> Loteamentos com documentação regularizada
-              </li>
-              <li className="flex items-center gap-3">
-                <CheckCircle className="w-5 h-5 text-[#C9A84C] shrink-0" /> Parcelamentos flexíveis direto com a imobiliária
-              </li>
-              <li className="flex items-center gap-3">
-                <CheckCircle className="w-5 h-5 text-[#C9A84C] shrink-0" /> Atendimento ágil e personalizado via WhatsApp
-              </li>
-            </ul>
+
+            <div className="grid grid-cols-2 gap-4 pt-2">
+              <div className="bg-zinc-900/80 border border-[#C9A84C]/30 p-4 rounded-xl flex items-center gap-3">
+                <CheckCircle2 className="w-5 h-5 text-[#C9A84C] shrink-0" />
+                <span className="text-xs font-bold text-white">Qualidade de vida</span>
+              </div>
+              <div className="bg-zinc-900/80 border border-[#C9A84C]/30 p-4 rounded-xl flex items-center gap-3">
+                <TrendingUp className="w-5 h-5 text-[#C9A84C] shrink-0" />
+                <span className="text-xs font-bold text-white">Potencial de valorização</span>
+              </div>
+              <div className="bg-zinc-900/80 border border-[#C9A84C]/30 p-4 rounded-xl flex items-center gap-3">
+                <Users className="w-5 h-5 text-[#C9A84C] shrink-0" />
+                <span className="text-xs font-bold text-white">Segurança para sua família</span>
+              </div>
+              <div className="bg-zinc-900/80 border border-[#C9A84C]/30 p-4 rounded-xl flex items-center gap-3">
+                <Gem className="w-5 h-5 text-[#C9A84C] shrink-0" />
+                <span className="text-xs font-bold text-white">Investimento inteligente</span>
+              </div>
+            </div>
           </div>
 
-          <div className="relative bg-zinc-900 border border-[#C9A84C]/30 rounded-3xl p-8 shadow-2xl overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-[#C9A84C]/10 rounded-full blur-3xl pointer-events-none"></div>
-            <div className="font-serif text-2xl font-bold text-[#C9A84C] mb-2">Atendimento Direto</div>
-            <p className="text-sm text-zinc-400 mb-6">
-              Fale agora mesmo com o corretor responsável e tire suas dúvidas sobre qualquer empreendimento.
-            </p>
+          <div className="bg-gradient-to-br from-[#121c0e] to-zinc-950 border border-[#C9A84C]/50 rounded-3xl p-8 shadow-2xl text-center space-y-6">
+            <div className="w-16 h-16 bg-[#C9A84C]/10 border border-[#C9A84C]/40 rounded-full flex items-center justify-center mx-auto text-[#C9A84C]">
+              <Phone className="w-8 h-8" />
+            </div>
+            <div className="space-y-2">
+              <h3 className="font-serif text-2xl font-bold text-white">Atendimento Imediato</h3>
+              <p className="text-xs text-zinc-300">
+                Fale diretamente com Rafael Tavares e garanta as melhores condições de Black Friday.
+              </p>
+            </div>
             <a 
-              href="https://wa.me/5593991234567?text=Olá%20Rafael,%20gostaria%20de%20conversar%20sobre%20lotes%20em%20Santarém." 
-              target="_blank" 
+              href="https://wa.me/5593992332012?text=Olá%20Rafael,%20quero%20escolher%20meu%20terreno%20com%20as%20condições%20de%20Black%20Friday!"
+              target="_blank"
               rel="noopener noreferrer"
-              className="block w-full py-4 text-center bg-[#25d366] hover:bg-[#20b858] text-black font-bold text-xs uppercase tracking-widest rounded-xl shadow-lg transition-all"
+              className="inline-flex items-center justify-center gap-3 w-full py-3.5 bg-gradient-to-r from-[#25d366] to-[#20b858] hover:from-[#20b858] hover:to-[#199947] text-black font-extrabold text-xs uppercase tracking-wider rounded-xl shadow-xl transition-all"
             >
-              Chamar no WhatsApp (93) 99123-4567
+              <Phone className="w-5 h-5" /> QUERO ESCOLHER MEU TERRENO <ArrowRight className="w-4 h-4" />
             </a>
           </div>
         </div>
