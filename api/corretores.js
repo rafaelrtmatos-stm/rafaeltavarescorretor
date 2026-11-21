@@ -15,7 +15,7 @@
 const crypto = require('crypto');
 
 const SB_URL = (process.env.SUPABASE_URL || 'https://uftxcwcryqpkfdfxzlno.supabase.co').replace(/\/$/, '');
-const SB_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
+const SB_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_KEY || '';
 const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || 'admin@rafaeltavarescorretor.com.br').trim().toLowerCase();
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '';
 const SESSION_SECRET = process.env.SESSION_SECRET || '';
