@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { X, MapPin, CheckCircle2, MessageCircle, Ruler, Link2, Check } from 'lucide-react';
+import { X, MapPin, CheckCircle2, MessageCircle, Ruler, Share2, Check } from 'lucide-react';
 import { Property, buildLocationWhatsAppUrl } from '../data/properties';
+
+const INSTAGRAM_URL = 'https://www.instagram.com/rafaeltavarescorretorstm/';
 
 interface PropertyModalProps {
   property: Property | null;
@@ -57,12 +59,22 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
 
   const fullUrl = `${window.location.origin}${property.catalogUrl}`;
 
-  const handleCopyLink = () => {
+  const copyLink = () => {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(fullUrl).then(() => {
         setCopied(true);
         window.setTimeout(() => setCopied(false), 2000);
       }).catch(() => {});
+    }
+  };
+
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator
+        .share({ title: `${property.title} | Black Friday Rafael Tavares`, text: property.title, url: fullUrl })
+        .catch(() => {});
+    } else {
+      copyLink();
     }
   };
 
@@ -108,19 +120,30 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
             <h2 id="property-modal-title" className="text-2xl sm:text-3xl font-black text-white tracking-tight">
               {property.title}
             </h2>
-            <div className="flex flex-wrap items-center justify-between gap-2 mt-1">
-              <div className="text-[11px] text-slate-300 font-mono">
-                Coordenadas: {property.coordinates}
-              </div>
+            <div className="flex items-center justify-end gap-2 mt-2">
               <button
                 type="button"
-                onClick={handleCopyLink}
-                className="inline-flex items-center gap-1 text-[11px] text-[#facc15] hover:text-white bg-black/50 hover:bg-black/70 border border-[#d4af37]/40 px-2.5 py-1 rounded-lg transition-colors cursor-pointer"
-                title={fullUrl}
+                onClick={handleShare}
+                className="w-9 h-9 inline-flex items-center justify-center text-[#facc15] hover:text-white bg-black/50 hover:bg-black/70 border border-[#d4af37]/40 rounded-full transition-colors cursor-pointer"
+                aria-label={copied ? 'Link copiado' : 'Compartilhar'}
+                title={copied ? 'Link copiado' : 'Compartilhar'}
               >
-                {copied ? <Check className="w-3.5 h-3.5 text-[#10b981]" /> : <Link2 className="w-3.5 h-3.5" />}
-                <span>{copied ? 'Link copiado' : property.catalogUrl}</span>
+                {copied ? <Check className="w-4 h-4 text-[#10b981]" /> : <Share2 className="w-4 h-4" />}
               </button>
+              <a
+                href={INSTAGRAM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 inline-flex items-center justify-center text-[#facc15] hover:text-white bg-black/50 hover:bg-black/70 border border-[#d4af37]/40 rounded-full transition-colors cursor-pointer"
+                aria-label="Instagram de Rafael Tavares"
+                title="Instagram"
+              >
+                <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <rect x="3" y="3" width="18" height="18" rx="5" />
+                  <circle cx="12" cy="12" r="4" />
+                  <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" />
+                </svg>
+              </a>
             </div>
           </div>
         </div>
