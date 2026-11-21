@@ -1,3 +1,9 @@
+export interface GalleryItem {
+  type: 'image' | 'video';
+  src: string;
+  poster?: string;
+}
+
 export interface Property {
   id: string;
   slug: string;
@@ -10,6 +16,7 @@ export interface Property {
   originalPrice?: string;
   badge?: string;
   image: string;
+  gallery?: GalleryItem[];
   size: string;
   description: string;
   features: string[];
@@ -60,6 +67,12 @@ export const PROPERTIES: Property[] = [
     originalPrice: 'R$ 8.500,00',
     badge: 'OFERTA BLACK FRIDAY',
     image: '/imagens/pajuca-foto1.jpeg',
+    gallery: [
+      { type: 'image', src: '/imagens/pajuca-foto1.jpeg' },
+      { type: 'image', src: '/imagens/pajuca-foto4.jpeg' },
+      { type: 'image', src: '/imagens/pajuca-foto5.jpeg' },
+      { type: 'video', src: '/imagens/pajuca-video1.mp4', poster: '/imagens/pajuca-video1-poster.jpg' }
+    ],
     size: '300m² (10x30)',
     description: 'Terreno em Pajuçara com ótimo acesso, próximo à natureza e em região de crescimento contínuo.',
     features: ['Fácil acesso', 'Área tranquila', 'Documentação regularizada', 'Ótimo custo-benefício']
@@ -171,7 +184,12 @@ export const PROPERTIES: Property[] = [
     price: 'R$ 8.000,00',
     originalPrice: 'R$ 14.500,00',
     badge: 'OFERTA BLACK FRIDAY',
-    image: '/imagens/mararu-hero-loteamento.jpg',
+    image: '/imagens/mararu-black-1.jpeg',
+    gallery: [
+      { type: 'image', src: '/imagens/mararu-black-1.jpeg' },
+      { type: 'image', src: '/imagens/mararu-black-2.jpeg' },
+      { type: 'image', src: '/imagens/mararu-black-3.jpeg' }
+    ],
     size: '300m² (10x30)',
     description: 'Terreno no Mararu, um dos vetores de maior crescimento de Santarém, com acesso rápido à Rodovia Fernando Guilhon.',
     features: ['Alta valorização', 'Acesso pavimentado próximo', 'Infraestrutura completa', 'Documentação ok']

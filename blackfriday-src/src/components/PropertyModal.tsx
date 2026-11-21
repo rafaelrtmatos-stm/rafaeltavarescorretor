@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { X, MapPin, CheckCircle2, MessageCircle, Ruler, Share2, Check } from 'lucide-react';
-import { Property, buildLocationWhatsAppUrl } from '../data/properties';
+import React, { useEffect, useRef, useState } from 'react';
+import { X, MapPin, CheckCircle2, MessageCircle, Ruler, Share2, Check, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Property, GalleryItem, buildLocationWhatsAppUrl } from '../data/properties';
 
 const INSTAGRAM_URL = 'https://www.instagram.com/rafaeltavarescorretorstm/';
 
@@ -12,9 +12,12 @@ interface PropertyModalProps {
 
 export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose, onWhatsAppInquiry }) => {
   const [copied, setCopied] = useState(false);
+  const [mediaIndex, setMediaIndex] = useState(0);
+  const touchStartX = useRef<number | null>(null);
 
   useEffect(() => {
     setCopied(false);
+    setMediaIndex(0);
     if (!property) return;
 
     const scrollY = window.scrollY;
@@ -59,6 +62,24 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
 
   const fullUrl = `${window.location.origin}${property.catalogUrl}`;
 
+  const media: GalleryItem[] =
+    property.gallery && property.gallery.length > 0
+      ? property.gallery
+      : [{ type: 'image', src: property.image }];
+  const current = media[Math.min(mediaIndex, media.length - 1)];
+  const hasMany = media.length > 1;
+
+  const goTo = (next: number) => setMediaIndex((next + media.length) % media.length);
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null || !hasMany) return;
+    const delta = e.changedTouches[0].clientX - touchStartX.current;
+    touchStartX.current = null;
+    if (Math.abs(delta) > 40) goTo(mediaIndex + (delta < 0 ? 1 : -1));
+  };
+
   const copyLink = () => {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(fullUrl).then(() => {
@@ -91,12 +112,61 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header / Image area */}
-        <div className="relative h-64 sm:h-72 bg-slate-900 overflow-hidden flex-shrink-0">
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url('${property.image}')` }}
-          ></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-[#032215] via-[#032215]/40 to-black/30"></div>
+        <div
+          className="relative h-64 sm:h-72 bg-slate-900 overflow-hidden flex-shrink-0"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          {current.type === 'video' ? (
+            <video
+              key={current.src}
+              src={current.src}
+              poster={current.poster}
+              className="absolute inset-0 w-full h-full object-cover"
+              autoPlay
+              muted
+              loop
+              playsInline
+            />
+          ) : (
+            <div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{ backgroundImage: `url('${current.src}')` }}
+            ></div>
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#032215] via-[#032215]/40 to-black/30 pointer-events-none"></div>
+
+          {hasMany && (
+            <>
+              <button
+                type="button"
+                onClick={() => goTo(mediaIndex - 1)}
+                className="absolute left-3 top-1/3 z-10 w-9 h-9 bg-black/60 hover:bg-black/80 text-white rounded-full flex items-center justify-center border border-white/25 transition-colors cursor-pointer"
+                aria-label="Foto anterior"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button
+                type="button"
+                onClick={() => goTo(mediaIndex + 1)}
+                className="absolute right-3 top-1/3 z-10 w-9 h-9 bg-black/60 hover:bg-black/80 text-white rounded-full flex items-center justify-center border border-white/25 transition-colors cursor-pointer"
+                aria-label="Próxima foto"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+              <div className="absolute top-[3.75rem] left-1/2 -translate-x-1/2 z-10 flex items-center gap-1.5">
+                {media.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setMediaIndex(i)}
+                    className={`h-2 rounded-full transition-all cursor-pointer ${i === mediaIndex ? 'w-5 bg-[#facc15]' : 'w-2 bg-white/60'}`}
+                    aria-label={`Ver ${i + 1} de ${media.length}`}
+                  />
+                ))}
+              </div>
+            </>
+          )}
 
           {/* Close button */}
           <button
