@@ -7,7 +7,7 @@ interface MainCtaButtonProps {
 
 export const MainCtaButton: React.FC<MainCtaButtonProps> = ({ onClick }) => {
   return (
-    <section className="bg-gradient-to-b from-[#031c11] to-[#02150d] py-10 px-4 text-center">
+    <section className="bg-gradient-to-b from-[#031c11] to-[#02150d] pt-0 pb-[50px] px-4 text-center">
       <div className="max-w-3xl mx-auto">
         <button
           onClick={onClick}

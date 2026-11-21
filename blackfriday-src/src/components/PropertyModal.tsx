@@ -1,6 +1,6 @@
-import React from 'react';
-import { X, MapPin, CheckCircle2, MessageCircle, Ruler, Tag } from 'lucide-react';
-import { Property } from '../data/properties';
+import React, { useEffect, useState } from 'react';
+import { X, MapPin, CheckCircle2, MessageCircle, Ruler, Link2, Check } from 'lucide-react';
+import { Property, buildLocationWhatsAppUrl } from '../data/properties';
 
 interface PropertyModalProps {
   property: Property | null;
@@ -9,12 +9,73 @@ interface PropertyModalProps {
 }
 
 export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose, onWhatsAppInquiry }) => {
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    setCopied(false);
+    if (!property) return;
+
+    const scrollY = window.scrollY;
+    const htmlEl = document.documentElement;
+    const bodyEl = document.body;
+
+    const prevHtmlOverflow = htmlEl.style.overflow;
+    const prevBodyOverflow = bodyEl.style.overflow;
+    const prevBodyPosition = bodyEl.style.position;
+    const prevBodyTop = bodyEl.style.top;
+    const prevBodyLeft = bodyEl.style.left;
+    const prevBodyRight = bodyEl.style.right;
+    const prevBodyWidth = bodyEl.style.width;
+
+    htmlEl.style.overflow = 'hidden';
+    bodyEl.style.overflow = 'hidden';
+    bodyEl.style.position = 'fixed';
+    bodyEl.style.top = `-${scrollY}px`;
+    bodyEl.style.left = '0';
+    bodyEl.style.right = '0';
+    bodyEl.style.width = '100%';
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      htmlEl.style.overflow = prevHtmlOverflow;
+      bodyEl.style.overflow = prevBodyOverflow;
+      bodyEl.style.position = prevBodyPosition;
+      bodyEl.style.top = prevBodyTop;
+      bodyEl.style.left = prevBodyLeft;
+      bodyEl.style.right = prevBodyRight;
+      bodyEl.style.width = prevBodyWidth;
+      window.scrollTo(0, scrollY);
+    };
+  }, [property, onClose]);
+
   if (!property) return null;
 
+  const fullUrl = `${window.location.origin}${property.catalogUrl}`;
+
+  const handleCopyLink = () => {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(fullUrl).then(() => {
+        setCopied(true);
+        window.setTimeout(() => setCopied(false), 2000);
+      }).catch(() => {});
+    }
+  };
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
-      <div 
-        className="relative w-full max-w-xl bg-[#032215] border-2 border-[#d4af37] rounded-3xl overflow-hidden shadow-2xl text-white max-h-[90vh] flex flex-col"
+    <div
+      className="fixed inset-0 z-[999] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fadeIn overscroll-contain touch-none"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="property-modal-title"
+      onClick={onClose}
+    >
+      <div
+        className="relative w-full max-w-xl bg-[#032215] border-2 border-[#d4af37] rounded-3xl overflow-hidden shadow-2xl text-white max-h-[90vh] flex flex-col touch-auto overscroll-contain"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header / Image area */}
@@ -28,7 +89,7 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
           {/* Close button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 z-10 w-10 h-10 bg-black/60 hover:bg-black text-white rounded-full flex items-center justify-center border border-white/20 transition-all"
+            className="absolute top-4 right-4 z-10 w-10 h-10 bg-black/70 hover:bg-black text-white rounded-full flex items-center justify-center border border-white/25 transition-all cursor-pointer"
             aria-label="Fechar"
           >
             <X className="w-6 h-6" />
@@ -44,15 +105,29 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
             <div className="flex items-center gap-1.5 text-[#d4af37] text-sm font-semibold mb-1">
               <MapPin className="w-4 h-4" /> {property.location}
             </div>
-            <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+            <h2 id="property-modal-title" className="text-2xl sm:text-3xl font-black text-white tracking-tight">
               {property.title}
             </h2>
+            <div className="flex flex-wrap items-center justify-between gap-2 mt-1">
+              <div className="text-[11px] text-slate-300 font-mono">
+                Coordenadas: {property.coordinates}
+              </div>
+              <button
+                type="button"
+                onClick={handleCopyLink}
+                className="inline-flex items-center gap-1 text-[11px] text-[#facc15] hover:text-white bg-black/50 hover:bg-black/70 border border-[#d4af37]/40 px-2.5 py-1 rounded-lg transition-colors cursor-pointer"
+                title={fullUrl}
+              >
+                {copied ? <Check className="w-3.5 h-3.5 text-[#10b981]" /> : <Link2 className="w-3.5 h-3.5" />}
+                <span>{copied ? 'Link copiado' : property.catalogUrl}</span>
+              </button>
+            </div>
           </div>
         </div>
 
         {/* Content Area */}
-        <div className="p-6 space-y-6 overflow-y-auto">
-          
+        <div className="p-6 space-y-6 overflow-y-auto overscroll-contain">
+
           {/* Price & Size */}
           <div className="flex items-center justify-between bg-[#07331f] border border-[#d4af37]/30 p-4 rounded-2xl">
             <div>
@@ -92,12 +167,22 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
         </div>
 
         {/* Footer CTA */}
-        <div className="p-4 bg-[#02140c] border-t border-[#12412b] flex-shrink-0">
+        <div className="p-4 bg-[#02140c] border-t border-[#12412b] flex-shrink-0 flex flex-col sm:flex-row gap-2.5">
+          <a
+            href={buildLocationWhatsAppUrl(property)}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-direct-wpp="true"
+            className="sm:w-auto py-3.5 px-5 bg-[#053d24] hover:bg-[#074e2e] border border-[#d4af37]/60 text-[#facc15] font-bold text-sm rounded-2xl shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer whitespace-nowrap"
+          >
+            <MapPin className="w-5 h-5" />
+            <span>SOLICITAR LOCALIZAÇÃO</span>
+          </a>
           <button
             onClick={() => onWhatsAppInquiry(property.title)}
-            className="w-full py-4 bg-gradient-to-r from-[#25d366] to-[#20ba59] hover:from-[#20ba59] hover:to-[#1a9c4b] text-white font-black text-base rounded-2xl shadow-[0_0_20px_rgba(37,211,102,0.4)] flex items-center justify-center gap-2 transition-all transform hover:scale-[1.02]"
+            className="flex-1 py-3.5 px-5 bg-gradient-to-r from-[#25d366] to-[#20ba59] hover:from-[#20ba59] hover:to-[#1a9c4b] text-white font-black text-sm sm:text-base rounded-2xl shadow-[0_0_20px_rgba(37,211,102,0.4)] flex items-center justify-center gap-2 transition-all transform hover:scale-[1.02] cursor-pointer"
           >
-            <MessageCircle className="w-6 h-6 fill-current" />
+            <MessageCircle className="w-5 h-5 fill-current flex-shrink-0" />
             <span>QUERO ESTE TERRENO NO WHATSAPP</span>
           </button>
         </div>

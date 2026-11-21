@@ -1,20 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Header } from './components/Header';
 import { HeroSection } from './components/HeroSection';
-import { BenefitsBar } from './components/BenefitsBar';
 import { ExploreOpportunities } from './components/ExploreOpportunities';
 import { PropertyCarousel } from './components/PropertyCarousel';
 import { FamilyBanner } from './components/FamilyBanner';
 import { BenefitsCards } from './components/BenefitsCards';
-import { MainCtaButton } from './components/MainCtaButton';
 import { Footer } from './components/Footer';
 import { PropertyModal } from './components/PropertyModal';
 import { MobileMenu } from './components/MobileMenu';
-import { PROPERTIES, Property } from './data/properties';
+import { PROPERTIES, Property, findPropertyByPath } from './data/properties';
 
 export default function App() {
-  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
+  const [selectedProperty, setSelectedProperty] = useState<Property | null>(() => {
+    return findPropertyByPath(window.location.pathname);
+  });
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+
+  const initialIdx = selectedProperty
+    ? Math.max(0, PROPERTIES.findIndex((p) => p.id === selectedProperty.id))
+    : 1;
+
+  const openProperty = useCallback((prop: Property) => {
+    setSelectedProperty(prop);
+    if (window.location.pathname !== prop.catalogUrl) {
+      window.history.pushState({ propertySlug: prop.slug }, '', prop.catalogUrl);
+    }
+  }, []);
+
+  const closeProperty = useCallback(() => {
+    setSelectedProperty(null);
+    if (window.location.pathname !== '/blackfriday/') {
+      window.history.pushState({}, '', '/blackfriday/');
+    }
+  }, []);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      setSelectedProperty(findPropertyByPath(window.location.pathname));
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   const handleWhatsAppClick = (customText?: string) => {
     const text = customText 
@@ -25,7 +51,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#032215] text-white flex flex-col w-full overflow-x-hidden selection:bg-[#d4af37] selection:text-[#032215]">
+    <div className="min-h-screen bg-white text-white flex flex-col w-full overflow-x-hidden selection:bg-[#d4af37] selection:text-[#032215]">
       
       {/* 1. Cabeçalho verde-escuro */}
       <Header 
@@ -33,7 +59,7 @@ export default function App() {
         onWhatsAppClick={() => handleWhatsAppClick()}
       />
 
-      <main className="flex-grow w-full">
+      <main className="flex-grow w-full bg-white">
         {/* 2. Hero Black Friday with user-supplied banner */}
         <HeroSection 
           onCtaClick={() => {
@@ -44,17 +70,15 @@ export default function App() {
           }}
         />
 
-        {/* 3. Faixa horizontal com quatro benefícios */}
-        <BenefitsBar />
-
         <div id="explore" className="w-full">
-          {/* 4. Seção branca Explore as Oportunidades */}
+          {/* 3. Seção branca Explore as Oportunidades */}
           <ExploreOpportunities />
 
           {/* 5. Carrossel horizontal com terrenos */}
           <PropertyCarousel 
             properties={PROPERTIES}
-            onSelectProperty={(prop) => setSelectedProperty(prop)}
+            initialIndex={initialIdx}
+            onSelectProperty={openProperty}
           />
         </div>
 
@@ -65,11 +89,6 @@ export default function App() {
 
         {/* 7. Quatro cards de benefícios */}
         <BenefitsCards />
-
-        {/* 8. Botão Quero Escolher Meu Terreno */}
-        <MainCtaButton 
-          onClick={() => handleWhatsAppClick()}
-        />
       </main>
 
       {/* 9. Rodapé verde-escuro */}
@@ -80,9 +99,9 @@ export default function App() {
       {/* Property Details Modal */}
       <PropertyModal 
         property={selectedProperty}
-        onClose={() => setSelectedProperty(null)}
+        onClose={closeProperty}
         onWhatsAppInquiry={(title) => {
-          setSelectedProperty(null);
+          closeProperty();
           handleWhatsAppClick(title);
         }}
       />

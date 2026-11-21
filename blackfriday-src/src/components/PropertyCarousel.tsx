@@ -1,36 +1,59 @@
-import React, { useState, useRef } from 'react';
-import { ChevronLeft, ChevronRight, MapPin, Tag } from 'lucide-react';
-import { Property } from '../data/properties';
+import React, { useState, useRef, useEffect } from 'react';
+import { ChevronLeft, ChevronRight, MapPin } from 'lucide-react';
+import { Property, buildLocationWhatsAppUrl } from '../data/properties';
 
 interface PropertyCarouselProps {
   properties: Property[];
+  initialIndex?: number;
   onSelectProperty: (property: Property) => void;
 }
 
-export const PropertyCarousel: React.FC<PropertyCarouselProps> = ({ properties, onSelectProperty }) => {
-  const [activeIndex, setActiveIndex] = useState<number>(1); // Default center on index 1 (Ponte Alta)
+export const PropertyCarousel: React.FC<PropertyCarouselProps> = ({ properties, initialIndex = 1, onSelectProperty }) => {
+  const safeInitial = initialIndex >= 0 && initialIndex < properties.length ? initialIndex : 0;
+  const [activeIndex, setActiveIndex] = useState<number>(safeInitial);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const isProgrammaticScroll = useRef<boolean>(false);
+  const scrollTimeoutRef = useRef<number | null>(null);
 
-  const scrollToIndex = (index: number) => {
-    if (index < 0 || index >= properties.length) return;
-    setActiveIndex(index);
+  const scrollToIndex = (index: number, behavior: ScrollBehavior = 'smooth') => {
+    const targetIndex = (index + properties.length) % properties.length;
+    setActiveIndex(targetIndex);
     if (scrollRef.current) {
       const container = scrollRef.current;
-      const card = container.children[index] as HTMLElement;
+      const card = container.children[targetIndex] as HTMLElement;
       if (card) {
+        isProgrammaticScroll.current = true;
+        if (scrollTimeoutRef.current) {
+          window.clearTimeout(scrollTimeoutRef.current);
+        }
         container.scrollTo({
           left: card.offsetLeft - container.clientWidth / 2 + card.clientWidth / 2,
-          behavior: 'smooth'
+          behavior,
         });
+        scrollTimeoutRef.current = window.setTimeout(() => {
+          isProgrammaticScroll.current = false;
+        }, behavior === 'auto' ? 50 : 450);
       }
     }
   };
 
+  useEffect(() => {
+    const raf = window.requestAnimationFrame(() => {
+      scrollToIndex(safeInitial, 'auto');
+    });
+    return () => {
+      window.cancelAnimationFrame(raf);
+      if (scrollTimeoutRef.current) {
+        window.clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+  }, [safeInitial]);
+
   const handleScroll = () => {
-    if (!scrollRef.current) return;
+    if (!scrollRef.current || isProgrammaticScroll.current) return;
     const container = scrollRef.current;
     const scrollCenter = container.scrollLeft + container.clientWidth / 2;
-    
+
     let closestIndex = 0;
     let minDistance = Infinity;
 
@@ -50,33 +73,31 @@ export const PropertyCarousel: React.FC<PropertyCarouselProps> = ({ properties, 
   };
 
   return (
-    <section className="bg-white py-8 px-4 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto relative">
-        
-        {/* Navigation Arrows */}
+    <section className="bg-white pt-[18px] pb-[50px] px-0 relative overflow-hidden">
+      <div className="max-w-6xl mx-auto relative">
+
+        {/* Navigation Arrows - Always Visible */}
         <button
           onClick={() => scrollToIndex(activeIndex - 1)}
-          disabled={activeIndex === 0}
-          className="absolute left-2 top-1/2 -translate-y-1/2 z-20 w-11 h-11 bg-[#032215]/90 hover:bg-[#032215] text-[#d4af37] rounded-full flex items-center justify-center shadow-lg backdrop-blur-md disabled:opacity-30 disabled:cursor-not-allowed transition-all border border-[#d4af37]/50"
+          className="absolute left-1.5 sm:left-4 top-[44%] -translate-y-1/2 z-30 w-9 h-9 sm:w-11 sm:h-11 bg-[#032215]/90 hover:bg-[#032215] text-[#d4af37] rounded-full flex items-center justify-center shadow-lg backdrop-blur-md transition-all border border-[#d4af37]/60 cursor-pointer"
           aria-label="Anterior"
         >
-          <ChevronLeft className="w-6 h-6" />
+          <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
 
         <button
           onClick={() => scrollToIndex(activeIndex + 1)}
-          disabled={activeIndex === properties.length - 1}
-          className="absolute right-2 top-1/2 -translate-y-1/2 z-20 w-11 h-11 bg-[#032215]/90 hover:bg-[#032215] text-[#d4af37] rounded-full flex items-center justify-center shadow-lg backdrop-blur-md disabled:opacity-30 disabled:cursor-not-allowed transition-all border border-[#d4af37]/50"
+          className="absolute right-1.5 sm:right-4 top-[44%] -translate-y-1/2 z-30 w-9 h-9 sm:w-11 sm:h-11 bg-[#032215]/90 hover:bg-[#032215] text-[#d4af37] rounded-full flex items-center justify-center shadow-lg backdrop-blur-md transition-all border border-[#d4af37]/60 cursor-pointer"
           aria-label="Próximo"
         >
-          <ChevronRight className="w-6 h-6" />
+          <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
 
         {/* Carousel Scroll Container */}
         <div
           ref={scrollRef}
           onScroll={handleScroll}
-          className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none py-8 px-6 sm:px-16 items-center justify-start md:justify-center"
+          className="flex gap-0 overflow-x-auto snap-x snap-mandatory scrollbar-none py-5 px-[calc(50%-112px)] sm:px-[calc(50%-140px)] md:px-[calc(50%-170px)] items-center justify-start touch-pan-x"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {properties.map((prop, idx) => {
@@ -85,61 +106,89 @@ export const PropertyCarousel: React.FC<PropertyCarouselProps> = ({ properties, 
               <div
                 key={prop.id}
                 onClick={() => {
-                  scrollToIndex(idx);
-                  onSelectProperty(prop);
+                  if (isActive) {
+                    onSelectProperty(prop);
+                  } else {
+                    scrollToIndex(idx);
+                  }
                 }}
-                className={`flex-shrink-0 snap-center transition-all duration-500 cursor-pointer rounded-3xl overflow-hidden shadow-2xl bg-[#032215] border-2 transform ${
+                className={`flex-shrink-0 w-[224px] sm:w-[280px] md:w-[340px] snap-center transition-all duration-300 cursor-pointer rounded-2xl overflow-hidden bg-[#032215] border-2 transform ${
                   isActive
-                    ? 'w-[300px] sm:w-[360px] md:w-[400px] border-[#d4af37] scale-105 shadow-[0_20px_50px_rgba(212,175,55,0.4)] z-20 opacity-100'
-                    : 'w-[240px] sm:w-[280px] md:w-[310px] border-[#1b583c]/60 scale-90 opacity-70 hover:opacity-90 z-10'
+                    ? 'border-[#d4af37] scale-105 shadow-[0_14px_34px_rgba(0,0,0,0.35)] z-20 opacity-100 mx-1 sm:mx-2'
+                    : 'border-[#1b583c]/70 scale-[0.82] opacity-95 hover:opacity-100 z-10 -mx-3 sm:-mx-4 shadow-lg'
                 }`}
               >
                 {/* Card Top Image */}
-                <div className={`relative overflow-hidden bg-slate-900 transition-all duration-500 ${isActive ? 'h-56 sm:h-64 md:h-72' : 'h-44 sm:h-50 md:h-56'}`}>
+                <div className="relative h-[108px] sm:h-[138px] md:h-[168px] overflow-hidden bg-slate-900">
                   <div
                     className="absolute inset-0 bg-cover bg-center transform hover:scale-105 transition-transform duration-500"
                     style={{
                       backgroundImage: `url('${prop.image}')`,
                     }}
                   ></div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#032215] via-transparent to-black/20"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#032215] via-[#032215]/25 to-black/15"></div>
 
-                  {/* Black Friday Ribbon Banner on Active Card */}
+                  {/* Black Friday Red Diagonal Ribbon */}
                   {prop.badge && (
-                    <div className="absolute top-4 -left-12 bg-red-600 text-white font-black text-[11px] tracking-wider uppercase py-1.5 px-14 transform -rotate-45 shadow-2xl border border-red-400">
-                      {prop.badge}
+                    <div className="absolute top-[11px] -left-[36px] sm:top-[14px] sm:-left-[40px] w-[132px] sm:w-[156px] bg-gradient-to-r from-red-700 via-red-600 to-red-700 text-white font-black uppercase py-1 transform -rotate-45 shadow-lg border-y border-red-400/70 text-center leading-none">
+                      <span className="block text-[9px] sm:text-[11px] tracking-wider">OFERTA</span>
+                      <span className="block text-[6.5px] sm:text-[8px] text-[#fef08a] tracking-wide mt-[1px]">BLACK FRIDAY</span>
                     </div>
                   )}
 
-                  {/* Location badge on image */}
-                  <div className="absolute bottom-3 left-3 flex items-center gap-1.5 bg-[#032215]/90 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-[#d4af37]/60 shadow-md">
-                    <MapPin className="w-4 h-4 text-[#d4af37]" />
-                    <span className="text-white text-xs sm:text-sm font-semibold">{prop.title}</span>
+                  {/* Centered Location & Title over bottom gradient */}
+                  <div className="absolute bottom-1.5 inset-x-2 flex items-center justify-center gap-1">
+                    <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#facc15] flex-shrink-0" />
+                    <span className="text-white text-[12px] sm:text-[15px] md:text-[17px] font-bold leading-tight drop-shadow text-center line-clamp-2">
+                      {prop.title}
+                    </span>
                   </div>
                 </div>
 
-                {/* Card Bottom Price & Action Area matching exact reference */}
-                <div className="p-4 sm:p-5 bg-gradient-to-b from-[#032215] to-[#01140b] flex flex-col gap-3">
-                  <div className="flex items-center justify-between gap-3">
+                {/* Card Bottom Price & Action Area */}
+                <div className="px-2.5 pb-2.5 pt-1 sm:px-3.5 sm:pb-3.5 bg-gradient-to-b from-[#032215] to-[#01140b]">
+                  <div className="flex items-center justify-center gap-1.5 sm:gap-2">
                     {/* Golden Price Pill Box */}
-                    <div className="bg-gradient-to-r from-[#fef08a] via-[#facc15] to-[#ca8a04] px-4 py-2 rounded-2xl shadow-lg border border-white/25 flex-grow text-center">
-                      <span className="text-lg sm:text-2xl font-black text-[#032215] tracking-tight block">
+                    <div
+                      className={`bg-gradient-to-b from-[#fef08a] via-[#facc15] to-[#ca8a04] px-2 py-1 sm:px-3 sm:py-1.5 rounded-xl shadow-md border border-white/30 text-center ${
+                        isActive ? 'flex-1' : 'w-full'
+                      }`}
+                    >
+                      <span className="text-[12px] sm:text-[16px] md:text-[18px] font-black text-[#032215] tracking-tight block leading-none whitespace-nowrap">
                         {prop.price}
                       </span>
                     </div>
 
-                    {/* Ver Detalhes Button */}
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onSelectProperty(prop);
-                      }}
-                      className="px-4 py-3 bg-[#053d24] hover:bg-[#074e2e] border border-[#10b981]/50 text-white font-bold text-xs sm:text-sm rounded-2xl shadow-md flex items-center gap-1 transition-all flex-shrink-0"
-                    >
-                      <span>Ver detalhes</span>
-                      <ChevronRight className="w-4 h-4 text-[#facc15]" />
-                    </button>
+                    {/* Ver Detalhes Subfolder Link on Active Center Card */}
+                    {isActive && (
+                      <a
+                        href={prop.catalogUrl}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          onSelectProperty(prop);
+                        }}
+                        className="px-2 py-1.5 sm:px-3 sm:py-2 bg-[#053d24] hover:bg-[#074e2e] border border-[#10b981]/60 text-white font-bold text-[9.5px] sm:text-xs rounded-full shadow-md flex items-center gap-0.5 transition-all flex-shrink-0 cursor-pointer whitespace-nowrap"
+                      >
+                        <span>Ver detalhes</span>
+                        <ChevronRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#facc15]" />
+                      </a>
+                    )}
                   </div>
+
+                  {isActive && (
+                    <a
+                      href={buildLocationWhatsAppUrl(prop)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-direct-wpp="true"
+                      onClick={(e) => e.stopPropagation()}
+                      className="mt-1.5 w-full py-1 px-2 rounded-lg bg-[#053d24]/80 hover:bg-[#074e2e] border border-[#d4af37]/40 text-[#facc15] font-bold text-[9.5px] sm:text-[11px] flex items-center justify-center gap-1 transition-colors"
+                    >
+                      <MapPin className="w-3 h-3 flex-shrink-0" />
+                      <span>SOLICITAR LOCALIZAÇÃO</span>
+                    </a>
+                  )}
                 </div>
               </div>
             );
@@ -147,15 +196,15 @@ export const PropertyCarousel: React.FC<PropertyCarouselProps> = ({ properties, 
         </div>
 
         {/* Pagination Dots */}
-        <div className="flex justify-center items-center gap-2 mt-4">
+        <div className="flex justify-center items-center gap-2 mt-3">
           {properties.map((_, idx) => (
             <button
               key={idx}
               onClick={() => scrollToIndex(idx)}
-              className={`transition-all duration-300 rounded-full ${
+              className={`transition-all duration-300 rounded-full cursor-pointer ${
                 idx === activeIndex
-                  ? 'w-7 h-3 bg-[#d4af37]'
-                  : 'w-3 h-3 bg-slate-300 hover:bg-slate-400'
+                  ? 'w-3 h-3 bg-[#d4af37] scale-110'
+                  : 'w-2.5 h-2.5 bg-slate-300 hover:bg-slate-400'
               }`}
               aria-label={`Ir para terreno ${idx + 1}`}
             />

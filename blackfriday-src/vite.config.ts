@@ -26,6 +26,28 @@ export default defineConfig(() => {
           if (fs.existsSync(distDir) && fs.existsSync(srcAssets)) {
             fs.cpSync(srcAssets, distAssets, {recursive: true, force: true});
           }
+
+          const indexHtmlPath = path.resolve(distDir, 'index.html');
+          const propsPath = path.resolve(__dirname, 'src/data/properties.ts');
+          if (fs.existsSync(indexHtmlPath) && fs.existsSync(propsPath)) {
+            const baseHtml = fs.readFileSync(indexHtmlPath, 'utf-8');
+            const propsSource = fs.readFileSync(propsPath, 'utf-8');
+            const itemRegex = /\{\s*id:\s*'([^']+)'[\s\S]*?slug:\s*'([^']+)'[\s\S]*?title:\s*'([^']+)'[\s\S]*?location:\s*'([^']+)'[\s\S]*?price:\s*'([^']+)'[\s\S]*?description:\s*'([^']+)'/g;
+            let match: RegExpExecArray | null;
+            while ((match = itemRegex.exec(propsSource)) !== null) {
+              const [, , slug, title, location, price, description] = match;
+              const pageTitle = `${title} — ${price} | Black Friday Rafael Tavares`;
+              const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+              const subHtml = baseHtml
+                .replace(/<title>[\s\S]*?<\/title>/, `<title>${esc(pageTitle)}</title>`)
+                .replace(/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="${esc(location + ' — ' + description)}" />`)
+                .replace(/<meta property="og:title" content="[^"]*" \/>/, `<meta property="og:title" content="${esc(pageTitle)}" />`)
+                .replace(/<meta property="og:description" content="[^"]*" \/>/, `<meta property="og:description" content="${esc(location + ' — ' + description)}" />`);
+              const subDir = path.resolve(distDir, slug);
+              fs.mkdirSync(subDir, {recursive: true});
+              fs.writeFileSync(path.resolve(subDir, 'index.html'), subHtml, 'utf-8');
+            }
+          }
         },
       },
     ],

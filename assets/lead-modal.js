@@ -2688,8 +2688,9 @@
     var href = (el.getAttribute('href') || '').toLowerCase();
     if (href.indexOf('chat.whatsapp.com') !== -1) return false;
 
-    // Botões que já levam uma mensagem pronta (comprovante de reserva / card de região): seguem direto para o WhatsApp
+    // Botões que já levam uma mensagem pronta (comprovante de reserva / card de região / solicitar localização): seguem direto para o WhatsApp
     if (el.id === 'btn-wpp-comp' || el.id === 'modal-wpp') return false;
+    if (el.hasAttribute('data-direct-wpp') || el.classList.contains('btn-direct-wpp')) return false;
 
     if (el.classList.contains('nav-falar-txt') ||
         el.classList.contains('nav-wpp') ||

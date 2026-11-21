@@ -624,6 +624,13 @@ app.get('*', (req, res, next) => {
     return next();
   }
 
+  if (req.path === '/blackfriday' || req.path.startsWith('/blackfriday/')) {
+    const bfIndex = path.join(ROOT, 'blackfriday', 'index.html');
+    if (fs.existsSync(bfIndex)) {
+      return sendHtmlWithLeadModal(bfIndex, res);
+    }
+  }
+
   const rootIndex = path.join(ROOT, 'index.html');
   if (fs.existsSync(rootIndex)) {
     return sendHtmlWithLeadModal(rootIndex, res);
@@ -637,6 +644,7 @@ app.use(express.static(ROOT, {
   extensions: ['html', 'htm'],
   index: 'index.html',
 }));
+app.use(express.static(path.join(ROOT, 'public')));
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Servidor rodando em http://0.0.0.0:${PORT}`);
