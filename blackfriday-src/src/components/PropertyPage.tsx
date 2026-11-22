@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowLeft, MapPin, CheckCircle2, MessageCircle, Ruler, Share2, Check, Play, Maximize2, Flame } from 'lucide-react';
+import { CreditCard, ArrowLeft, MapPin, CheckCircle2, MessageCircle, Ruler, Share2, Check, Play, Maximize2, Flame } from 'lucide-react';
 import { Property, GalleryItem, buildLocationWhatsAppUrl, buildVariantLocationWhatsAppUrl } from '../data/properties';
 import { GalleryLightbox } from './GalleryLightbox';
+import { CardSimulator } from './CardSimulator';
+import { parsePrice, brl } from '../data/cardRates';
 
 const INSTAGRAM_URL = 'https://www.instagram.com/rafaeltavarescorretorstm/';
 
@@ -12,7 +14,10 @@ function triplePrice(price: string): string {
   return (n * 3).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace(/ /g, ' ');
 }
 
-const PriceTag: React.FC<{ price: string; label?: string; big?: boolean }> = ({ price, label, big }) => (
+const PriceTag: React.FC<{ price: string; label?: string; big?: boolean; onSimulate: () => void }> = ({ price, label, big, onSimulate }) => {
+  const v = parsePrice(price);
+  const pctOff = ((1 - 1 / 3) * 100).toFixed(1).replace('.', ',');
+  return (
   <div className="relative bg-gradient-to-br from-[#0a4a2b] to-[#032215] border-2 border-[#d4af37] rounded-3xl p-5 text-center shadow-[0_0_30px_rgba(212,175,55,0.25)]">
     {label && <div className="text-xs font-bold text-[#d4af37] uppercase tracking-wider mb-1">{label}</div>}
     <div className="text-xs text-slate-300 uppercase tracking-wide">De</div>
@@ -27,16 +32,33 @@ const PriceTag: React.FC<{ price: string; label?: string; big?: boolean }> = ({ 
     <div className="inline-flex items-center gap-1 mt-3 bg-red-600 text-white text-[11px] font-black uppercase px-3 py-1 rounded-full">
       <Flame className="w-3.5 h-3.5" /> Preço Black Friday
     </div>
+    <div className="mt-3 text-sm font-black text-white">
+      {pctOff}% de desconto · <span className="text-[#facc15]">Você economiza {brl(v * 2)}</span>
+    </div>
+    <button
+      type="button"
+      onClick={onSimulate}
+      className="mt-3 w-full inline-flex items-center justify-center gap-2 bg-black/40 hover:bg-black/60 border border-[#d4af37]/60 text-[#facc15] font-bold text-sm py-2.5 rounded-2xl cursor-pointer"
+    >
+      <CreditCard className="w-4 h-4" /> Parcelar no cartão de crédito
+    </button>
   </div>
-);
+  );
+};
 
 interface PropertyPageProps {
   property: Property;
   onBack: () => void;
   onWhatsAppInquiry: (title: string) => void;
+  onSimulatorChange?: (open: boolean) => void;
 }
 
-export const PropertyPage: React.FC<PropertyPageProps> = ({ property, onBack, onWhatsAppInquiry }) => {
+export const PropertyPage: React.FC<PropertyPageProps> = ({ property, onBack, onWhatsAppInquiry, onSimulatorChange }) => {
+  const [sim, setSim] = useState<{ price: string } | null>(null);
+  useEffect(() => {
+    onSimulatorChange?.(!!sim);
+    return () => onSimulatorChange?.(false);
+  }, [sim]);
   const [copied, setCopied] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
@@ -112,7 +134,7 @@ export const PropertyPage: React.FC<PropertyPageProps> = ({ property, onBack, on
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {property.variants!.map((v) => (
                 <div key={v.label}>
-                  <PriceTag price={v.price} label={v.label} />
+                  <PriceTag price={v.price} label={v.label} onSimulate={() => setSim({ price: v.price })} />
                   <div className="flex items-center justify-center gap-1 text-xs text-slate-300 mt-2">
                     <MapPin className="w-3 h-3 text-[#d4af37]" /> {v.location}
                   </div>
@@ -121,7 +143,7 @@ export const PropertyPage: React.FC<PropertyPageProps> = ({ property, onBack, on
             </div>
           ) : (
             <div className="max-w-md mx-auto">
-              <PriceTag price={property.price} big />
+              <PriceTag price={property.price} big onSimulate={() => setSim({ price: property.price })} />
             </div>
           )}
           <div className="flex items-center justify-center gap-2 mt-4 text-sm font-bold">
@@ -218,6 +240,8 @@ export const PropertyPage: React.FC<PropertyPageProps> = ({ property, onBack, on
           </div>
         </section>
       </div>
+
+      {sim && <CardSimulator title={property.title} price={sim.price} onClose={() => setSim(null)} />}
 
       {lightboxIndex !== null && (
         <GalleryLightbox items={media} startIndex={lightboxIndex} title={property.title} onClose={() => setLightboxIndex(null)} />

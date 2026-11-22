@@ -23,6 +23,7 @@ export default function App() {
     : 1;
 
   const savedScroll = useRef(0);
+  const [simOpen, setSimOpen] = useState(false);
 
   const openProperty = useCallback((prop: Property) => {
     savedScroll.current = window.scrollY;
@@ -64,7 +65,7 @@ export default function App() {
       
       {/* 1. Cabeçalho verde-escuro */}
       <div className="sticky top-0 z-50">
-        <Countdown />
+        {!simOpen && <Countdown />}
         <Header 
           onOpenMobileMenu={() => setIsMobileMenuOpen(true)}
           onWhatsAppClick={() => handleWhatsAppClick()}
@@ -75,6 +76,7 @@ export default function App() {
         <PropertyPage
           property={selectedProperty}
           onBack={closeProperty}
+          onSimulatorChange={setSimOpen}
           onWhatsAppInquiry={(title) => handleWhatsAppClick(title)}
         />
       )}

@@ -4,79 +4,139 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Calculadora de taxa do cartão</title>
+<title>Calculadora da Maquininha</title>
 <link rel="icon" href="/logo-rt.png">
 <style>
-:root{--g9:#032215;--g8:#053d24;--gold:#d4af37;--gold-l:#facc15;--ink:#10231a;--mute:#5d6f66;--line:#dce5df;--bg:#f2f5f3;--card:#fff;--hi:#fff6d6}
+:root{--g9:#032215;--g8:#053d24;--g7:#0a4a2b;--gold:#d4af37;--gold-l:#facc15;--ink:#10231a;--mute:#5d6f66;--line:#dce5df;--bg:#f6f8f7;--card:#fff;--hi:#fff1b8}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-variant-numeric:tabular-nums}
-header{background:var(--g9);color:#fff;padding:14px 16px;border-bottom:3px solid var(--gold)}
-.hd{max-width:640px;margin:auto;display:flex;align-items:center;gap:12px}
-.hd img{width:44px;height:44px;border-radius:8px}
-.hd h1{font-size:1.15rem;margin:0;line-height:1.2}
-.hd p{margin:2px 0 0;font-size:.8rem;color:#cfe0d6}
-main{max-width:640px;margin:auto;padding:16px 16px 48px}
-.seg{display:grid;grid-template-columns:1fr 1fr;background:#e3eae6;border-radius:12px;padding:4px;gap:4px}
-.seg button{border:0;background:none;padding:11px 8px;border-radius:9px;font:inherit;font-weight:700;color:var(--mute);cursor:pointer}
+.wrap{max-width:520px;margin:auto;min-height:100vh;background:#fff;box-shadow:0 0 40px rgba(0,0,0,.08)}
+header{position:relative;background:linear-gradient(160deg,#032215 0%,#053d24 100%);color:#fff;padding:22px 18px 38px;overflow:hidden;border-bottom:5px solid var(--gold);border-radius:0 0 50% 50%/0 0 26px 26px}
+header h1{margin:0;font-size:1.7rem;line-height:1.08;font-weight:800;max-width:62%}
+header p{margin:8px 0 0;color:#e6efe9;max-width:62%;font-size:.95rem}
+.logo{display:flex;align-items:center;gap:8px;margin-bottom:12px;font-size:.7rem;letter-spacing:2px;color:var(--gold);font-weight:700}
+.logo img{width:34px;height:34px;border-radius:8px}
+.pos{position:absolute;right:-6px;top:14px;width:36%;max-width:170px;transform:rotate(10deg)}
+main{padding:18px 18px 34px}
+.seg{display:grid;grid-template-columns:1fr 1fr;background:#e3eae6;border-radius:12px;padding:4px;gap:4px;margin-bottom:6px}
+.seg button{border:0;background:none;padding:10px 6px;border-radius:9px;font:inherit;font-size:.85rem;font-weight:700;color:var(--mute);cursor:pointer}
 .seg button[aria-pressed=true]{background:var(--g8);color:#fff}
-label.big{display:block;margin:18px 0 6px;font-weight:700}
-#valor{width:100%;font:800 2rem/1.2 inherit;font-family:inherit;padding:12px 14px;border:2px solid var(--line);border-radius:12px;background:var(--card);color:var(--g9)}
-#valor:focus{outline:3px solid var(--gold);border-color:var(--gold)}
-.hint{color:var(--mute);font-size:.85rem;margin:8px 2px}
-.list{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-top:14px;overflow:hidden}
-.head,.row{display:grid;grid-template-columns:52px 1fr 112px;gap:8px;align-items:center;padding:10px 14px}
-.head{font-size:.78rem;color:var(--mute);font-weight:700;background:#f7faf8;border-bottom:1px solid var(--line)}
-.row{width:100%;border:0;border-bottom:1px solid var(--line);background:var(--card);font:inherit;text-align:left;cursor:pointer;color:inherit}
-.row:last-child{border-bottom:0}
-.row[aria-pressed=true]{background:var(--hi);box-shadow:inset 4px 0 0 var(--gold)}
-.row:focus-visible{outline:3px solid var(--gold);outline-offset:-3px}
-.n{font-weight:800;color:var(--g8)}
-.m b{display:block;font-size:1.12rem;color:var(--g9)}
-.m small,.p{color:var(--mute);font-size:.8rem}
-.p{text-align:right}
-.empty{padding:26px 16px;text-align:center;color:var(--mute)}
-.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:16px}
-.panel h2{font-size:1rem;margin:0 0 10px}
-select{font:inherit;padding:9px;border:2px solid var(--line);border-radius:10px;width:100%;background:#fff}
-.btns{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
-.btn{flex:1;min-width:150px;border:0;border-radius:12px;padding:13px 16px;font:inherit;font-weight:800;cursor:pointer;background:var(--gold);color:var(--g9)}
-.btn.alt{background:var(--g8);color:#fff}
+.f{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:end;margin-top:14px}
+.ic{width:42px;height:42px;display:flex;align-items:center;justify-content:center;color:var(--g8)}
+.f label{display:block;font-weight:800;margin-bottom:4px}
+input,select,.lock{width:100%;font:inherit;font-weight:800;font-size:1.35rem;padding:10px 14px;border:2px solid #cfd8d3;border-radius:14px;background:#fff;color:var(--g9)}
+select{font-size:1.25rem;appearance:none;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23032215' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center}
+input:focus,select:focus{outline:3px solid var(--gold);border-color:var(--gold)}
+.lock{display:flex;justify-content:space-between;align-items:center;background:#e9ecea;color:#222}
+.res{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));background:linear-gradient(160deg,#032215,#053d24);color:#fff;border-radius:22px;margin-top:22px;padding:16px 4px;box-shadow:0 6px 18px rgba(3,34,21,.35)}
+.res div{text-align:center;padding:0 4px;min-width:0;border-left:1px solid rgba(255,255,255,.2)}
+.res div:first-child{border-left:0}
+.res small{display:block;font-weight:700;font-size:.7rem}
+.res b{display:block;color:var(--gold-l);font-size:.95rem;white-space:nowrap;margin-top:6px;line-height:1.15}
+.res .pill{background:linear-gradient(#fde047,#eab308);color:var(--g9);border-radius:999px;padding:5px 6px;margin-top:4px}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border:0;border-radius:999px;padding:15px 18px;font:inherit;font-weight:800;font-size:1.15rem;cursor:pointer;margin-top:18px;background:linear-gradient(#fde047,#eab308);color:var(--g9);box-shadow:0 4px 0 #a16207}
+.btn.dark{background:var(--g8);color:#fff;box-shadow:0 4px 0 #021a10}
 .btn:disabled{opacity:.45;cursor:not-allowed}
-.btn:focus-visible,.seg button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
-.note{font-size:.78rem;color:var(--mute);margin-top:18px}
+.btn svg{transition:transform .2s}.btn[aria-expanded=true] .chev{transform:rotate(180deg)}
+.tbl{margin-top:16px;border-radius:18px;overflow:hidden;border:1px solid var(--line);box-shadow:0 4px 14px rgba(0,0,0,.08)}
+.tbl h2{margin:0;background:var(--g9);color:#fff;font-size:1.05rem;padding:12px 14px;display:flex;align-items:center;gap:8px}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.76rem}
+th{background:#dff0e3;font-size:.64rem;padding:8px 3px;text-align:right;color:var(--g9)}
+td{padding:8px 3px;text-align:right;border-bottom:1px solid #eef1ef}
+th:first-child,td:first-child{text-align:center;font-weight:800;width:38px}
+td:last-child,th:last-child{padding-right:8px}
+tr:nth-child(even) td{background:#f4f7f5}
+tr.cur td{background:var(--hi);font-weight:800}
+tr.cur td:nth-child(2){color:#15803d}
+tbody tr{cursor:pointer}
+.note{font-size:.76rem;color:var(--mute);margin-top:20px;text-align:center}
+.mp{position:fixed;right:8px;bottom:6px;font-size:9px;color:#8a978f;display:flex;align-items:center;gap:3px;pointer-events:none}
+.sheet{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:flex-end;justify-content:center;z-index:50}
+.sheet.on{display:flex}
+.sh{background:#fff;width:100%;max-width:520px;border-radius:26px 26px 0 0;padding:18px 18px 24px;border-top:4px solid var(--gold)}
+.sh h3{margin:0 0 4px;font-size:1.25rem;color:var(--g9)}
+.opt{display:flex;align-items:center;gap:12px;border:2px solid var(--line);border-radius:16px;padding:12px 14px;margin-top:10px;cursor:pointer;background:#f7faf8;width:100%;text-align:left;font:inherit}
+.opt b{display:block;color:var(--g9)}.opt span{font-size:.85rem;color:var(--mute)}
+.opt[aria-pressed=true]{background:var(--hi);border-color:var(--gold)}
+.dot{margin-left:auto;width:26px;height:26px;border-radius:50%;border:2px solid #aab5ae;flex:none;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900}
+.opt[aria-pressed=true] .dot{background:var(--g9);border-color:var(--g9)}
+.row2{display:grid;grid-template-columns:1fr 1.3fr;gap:10px;margin-top:16px}
+.row2 .btn{margin:0;font-size:1rem;padding:13px}
+.btn.ghost{background:#fff;color:var(--g8);border:2px solid var(--g8);box-shadow:none}
+.lim{margin-top:12px;font-size:.85rem;color:var(--mute);display:flex;align-items:center;gap:8px}
+.lim select{width:auto;font-size:.95rem;padding:6px 30px 6px 10px;border-radius:10px}
 </style>
 </head>
 <body>
-<header><div class="hd"><img src="/logo-rt.png" alt=""><div><h1>Calculadora de taxa do cartão</h1><p>Mercado Pago Point · crédito · tabela de 19/11/2026</p></div></div></header>
+<div class="wrap">
+<header>
+  <div class="logo"><img src="/logo-rt.png" alt="">RAFAEL TAVARES</div>
+  <h1>Calculadora da Maquininha</h1>
+  <p>Simule o valor com a taxa do cartão de crédito.</p>
+  <svg class="pos" viewBox="0 0 120 180" aria-hidden="true">
+    <rect x="18" y="4" width="86" height="168" rx="14" fill="#111"/>
+    <rect x="28" y="16" width="66" height="60" rx="8" fill="#f5f7f6"/>
+    <circle cx="61" cy="52" r="14" fill="#16a34a"/><path d="m54 52 5 6 10-12" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <g fill="#3a3a3a"><rect x="28" y="88" width="18" height="12" rx="3"/><rect x="52" y="88" width="18" height="12" rx="3"/><rect x="76" y="88" width="18" height="12" rx="3"/><rect x="28" y="106" width="18" height="12" rx="3"/><rect x="52" y="106" width="18" height="12" rx="3"/><rect x="76" y="106" width="18" height="12" rx="3"/></g>
+    <rect x="28" y="130" width="18" height="12" rx="3" fill="#ef4444"/><rect x="52" y="130" width="18" height="12" rx="3" fill="#facc15"/><rect x="76" y="130" width="18" height="12" rx="3" fill="#22c55e"/>
+  </svg>
+</header>
 <main>
-  <div class="seg" role="group" aria-label="O que você quer calcular">
-    <button type="button" id="mA" aria-pressed="true">Quanto quero receber</button>
-    <button type="button" id="mB" aria-pressed="false">Valor da venda</button>
+  <div class="seg" role="group" aria-label="Como calcular">
+    <button type="button" id="mA" aria-pressed="true">Cliente paga a taxa</button>
+    <button type="button" id="mB" aria-pressed="false">Taxa sai de mim</button>
   </div>
 
-  <label class="big" for="valor" id="lbl">Quanto quero receber</label>
-  <input id="valor" inputmode="numeric" autocomplete="off" placeholder="R$ 0,00">
-  <p class="hint" id="dica">Mostra quanto passar na máquina em cada parcelamento.</p>
+  <div class="f">
+    <div class="ic"><svg width="38" height="38" viewBox="0 0 24 24" fill="currentColor"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 9c0 1.7 3.6 3 8 3s8-1.3 8-3v3c0 1.7-3.6 3-8 3s-8-1.3-8-3zm0 6c0 1.7 3.6 3 8 3s8-1.3 8-3v3c0 1.7-3.6 3-8 3s-8-1.3-8-3z"/></svg></div>
+    <div><label for="valor">Valor da venda (R$)</label><input id="valor" inputmode="numeric" autocomplete="off" placeholder="R$ 0,00"></div>
+  </div>
+  <div class="f">
+    <div class="ic"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20"/><path d="M6 15h3" stroke-linecap="round"/></svg></div>
+    <div><label for="parc">Quantidade de parcelas</label><select id="parc"></select></div>
+  </div>
+  <div class="f">
+    <div class="ic"><svg width="40" height="40" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#053d24"/><text x="12" y="17" text-anchor="middle" font-size="15" font-weight="800" fill="#fff">%</text></svg></div>
+    <div><label>Taxa da maquininha</label><div class="lock"><span id="taxa">—</span><svg width="22" height="22" viewBox="0 0 24 24" fill="#333"><path d="M6 10V8a6 6 0 1 1 12 0v2h1a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1zm2 0h8V8a4 4 0 1 0-8 0z"/></svg></div></div>
+  </div>
 
-  <div class="list" id="list" aria-live="polite"></div>
-  <p class="hint" id="sel">Toque nas parcelas para escolher quais vão na imagem. Sem escolha, vão todas.</p>
+  <div class="res" aria-live="polite">
+    <div><small>Valor da taxa</small><b id="rFee">—</b></div>
+    <div><small>Total a pagar</small><b id="rTot">—</b></div>
+    <div><small>Valor da parcela</small><b class="pill" id="rPar">—</b></div>
+  </div>
 
-  <section class="panel">
-    <h2>Baixar simulação em imagem</h2>
-    <label for="kind" class="hint" style="display:block;margin:0 0 6px">Tipo de imagem</label>
-    <select id="kind">
-      <option value="cliente">Para o cliente (parcelas e valores, sem taxa)</option>
-      <option value="completa">Completa (com valor recebido e taxa)</option>
-    </select>
-    <div class="btns">
-      <button class="btn" id="baixar" type="button" disabled>Baixar imagem</button>
-      <button class="btn alt" id="compartilhar" type="button" hidden disabled>Compartilhar</button>
-    </div>
-  </section>
+  <button class="btn" id="verTodas" type="button" aria-expanded="false" aria-controls="tbl">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M9 6h12M9 12h12M9 18h12"/><circle cx="4" cy="6" r="1.2" fill="currentColor"/><circle cx="4" cy="12" r="1.2" fill="currentColor"/><circle cx="4" cy="18" r="1.2" fill="currentColor"/></svg>
+    Ver todas as parcelas
+    <svg class="chev" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg>
+  </button>
 
+  <div class="tbl" id="tbl" hidden>
+    <h2>📅 Simulação de todas as parcelas</h2>
+    <div class="tw"><table><thead><tr><th>Parc.</th><th>Taxa</th><th>Taxa (R$)</th><th>Total (R$)</th><th>Parcela (R$)</th></tr></thead><tbody id="tb"></tbody></table></div>
+  </div>
 
-  <p class="note">Taxas registradas no simulador da conta em 19/11/2026 (repasse pago pelo cliente, recebimento na hora). Podem variar com a conta e as regras do Mercado Pago. Confira o valor no aplicativo antes de cada venda.</p>
+  <button class="btn dark" id="compartilhar" type="button" disabled>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg>
+    Compartilhar com o cliente
+  </button>
+
+  <p class="note">Taxas do Mercado Pago Point (crédito, recebimento na hora), tabela de 19/11/2026. Podem variar com a conta; confira no aplicativo antes de cada venda.</p>
 </main>
+</div>
+<div class="mp">Mercado Pago</div>
+
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Tipo de imagem para compartilhar">
+  <div class="sh">
+    <h3>Tipo de imagem para compartilhar</h3>
+    <button type="button" class="opt" id="oC" aria-pressed="true"><span style="font-size:1.6rem">👥</span><div><b>Para o cliente</b><span>Parcelas e valores, sem mostrar a taxa</span></div><i class="dot">✓</i></button>
+    <button type="button" class="opt" id="oF" aria-pressed="false"><span style="font-size:1.6rem">📋</span><div><b>Completa</b><span>Com taxa, valor a receber e demais detalhes</span></div><i class="dot">✓</i></button>
+    <div class="lim">Mostrar até <select id="ate"></select> parcelas</div>
+    <div class="row2"><button class="btn ghost" id="cancel" type="button">Cancelar</button><button class="btn dark" id="go" type="button">Compartilhar</button></div>
+  </div>
+</div>
 
 <script>
 (function(){
@@ -84,102 +144,112 @@ select{font:inherit;padding:9px;border:2px solid var(--line);border-radius:10px;
   var BASE=10000;
   var brl=new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'});
   var fmt=function(n){return brl.format(n)};
+  var num=function(n){return n.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})};
+  var pct=function(n){return n.toFixed(2).replace('.',',')+'%'};
   var r2=function(n){return Math.round((n+Number.EPSILON)*100)/100};
   var $=function(id){return document.getElementById(id)};
-  var mode='A', value=0, sel=new Set(), totals=T0;
+  var mode='A',value=0,cur=12,kind='cliente';
 
-  function money(el,onValue){
-    el.addEventListener('input',function(){
-      var d=el.value.replace(/\D/g,'').slice(0,11), c=parseInt(d||'0',10);
-      el.value=c?fmt(c/100):''; onValue(c/100);
-    });
-  }
+  var sel=$('parc'),ate=$('ate');
+  T0.forEach(function(_,i){
+    sel.add(new Option((i+1)+'x',i+1));
+    ate.add(new Option((i+1)+'x',i+1));
+  });
+  sel.value=12;ate.value=12;
 
+  $('valor').addEventListener('input',function(){
+    var d=this.value.replace(/\D/g,'').slice(0,11),c=parseInt(d||'0',10);
+    this.value=c?fmt(c/100):'';value=c/100;render();
+  });
+
+  // Modo A: o valor é o que quero receber; cliente paga a taxa por cima.
+  // Modo B: o valor é o que passa na máquina; a taxa sai de mim.
   function calc(){
-    return totals.map(function(t,i){
+    return T0.map(function(t,i){
       var n=i+1,f=t/BASE;
-      if(mode==='A'){var p=r2(value*f);return{n:n,main:p,pass:p,rec:value,fee:r2(p-value),parc:r2(p/n)}}
-      var r=r2(value/f);return{n:n,main:r,pass:value,rec:r,fee:r2(value-r),parc:r2(value/n)};
+      if(mode==='A'){var p=r2(value*f);return{n:n,pass:p,rec:value,fee:r2(p-value),rate:(f-1)*100,parc:r2(p/n)}}
+      var r=r2(value/f);return{n:n,pass:value,rec:r,fee:r2(value-r),rate:(1-1/f)*100,parc:r2(value/n)};
     });
   }
 
   function render(){
-    var box=$('list');
-    var ok=value>0;
-    $('baixar').disabled=!ok; $('compartilhar').disabled=!ok;
-    if(!ok){box.innerHTML='<div class="empty">Digite um valor para ver as parcelas.</div>';return}
-    var h='<div class="head"><span>Parcelas</span><span>'+(mode==='A'?'Passar na máquina':'Vou receber')+'</span><span style="text-align:right">Parcela</span></div>';
-    calc().forEach(function(r,i){
-      h+='<button type="button" class="row" data-i="'+i+'" aria-pressed="'+sel.has(i)+'"><span class="n">'+r.n+'x</span><span class="m"><b>'+fmt(r.main)+'</b><small>taxa '+fmt(r.fee)+'</small></span><span class="p">'+r.n+'x de<br>'+fmt(r.parc)+'</span></button>';
-    });
-    box.innerHTML=h;
-    $('sel').textContent=sel.size?('Na imagem: '+sel.size+(sel.size===1?' parcela escolhida.':' parcelas escolhidas.')):'Toque nas parcelas para escolher quais vão na imagem. Sem escolha, vão todas.';
+    var ok=value>0,rows=ok?calc():[];
+    $('compartilhar').disabled=!ok;
+    var c=rows[cur-1];
+    $('taxa').textContent=ok?pct(c.rate):pct((mode==='A'?(T0[cur-1]/BASE-1):(1-BASE/T0[cur-1]))*100);
+    $('rFee').textContent=ok?fmt(c.fee):'—';
+    $('rTot').textContent=ok?fmt(c.pass):'—';
+    $('rPar').textContent=ok?fmt(c.parc):'—';
+    $('tb').innerHTML=rows.map(function(r){
+      return '<tr data-n="'+r.n+'"'+(r.n===cur?' class="cur"':'')+'><td>'+r.n+'x</td><td>'+pct(r.rate)+'</td><td>'+fmt(r.fee)+'</td><td>'+fmt(r.pass)+'</td><td>'+fmt(r.parc)+'</td></tr>';
+    }).join('');
   }
+  sel.onchange=function(){cur=+sel.value;render()};
+  $('tb').addEventListener('click',function(e){var t=e.target.closest('tr');if(!t)return;cur=+t.dataset.n;sel.value=cur;render()});
+  $('verTodas').onclick=function(){
+    var open=$('tbl').hidden;$('tbl').hidden=!open;this.setAttribute('aria-expanded',open);
+    if(open)setTimeout(function(){$('tbl').scrollIntoView({behavior:'smooth',block:'start'})},50);
+  };
+  function setMode(m){mode=m;$('mA').setAttribute('aria-pressed',m==='A');$('mB').setAttribute('aria-pressed',m==='B');render()}
+  $('mA').onclick=function(){setMode('A')};$('mB').onclick=function(){setMode('B')};
 
-  $('list').addEventListener('click',function(e){
-    var b=e.target.closest('.row'); if(!b)return;
-    var i=+b.dataset.i; sel.has(i)?sel.delete(i):sel.add(i); render();
-  });
+  // ---- compartilhar ----
+  function setKind(k){kind=k;$('oC').setAttribute('aria-pressed',k==='cliente');$('oF').setAttribute('aria-pressed',k==='completa')}
+  $('oC').onclick=function(){setKind('cliente')};$('oF').onclick=function(){setKind('completa')};
+  $('compartilhar').onclick=function(){$('sheet').classList.add('on')};
+  $('cancel').onclick=function(){$('sheet').classList.remove('on')};
+  $('sheet').addEventListener('click',function(e){if(e.target===this)this.classList.remove('on')});
 
-  function setMode(m){
-    mode=m; $('mA').setAttribute('aria-pressed',m==='A'); $('mB').setAttribute('aria-pressed',m==='B');
-    $('lbl').textContent=m==='A'?'Quanto quero receber':'Valor da venda (passado na máquina)';
-    $('dica').textContent=m==='A'?'Mostra quanto passar na máquina em cada parcelamento.':'Mostra quanto você recebe em cada parcelamento.';
-    render();
-  }
-  $('mA').onclick=function(){setMode('A')}; $('mB').onclick=function(){setMode('B')};
-  money($('valor'),function(v){value=v;render()});
-
-  // ----- imagem -----
-  var logo=new Image(); logo.src='/logo-rt.png';
+  var logo=new Image();logo.src='/logo-rt.png';
+  function rr(x,a,b,w,h,r){x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath()}
   function makeCanvas(){
-    var kind=$('kind').value, rows=calc(), idx=sel.size?Array.from(sel).sort(function(a,b){return a-b}):rows.map(function(_,i){return i});
-    var W=1080,P=56,headH=250,colH=60,rowH=70,footH=130,H=headH+colH+idx.length*rowH+footH;
-    var c=document.createElement('canvas'); c.width=W; c.height=H; var x=c.getContext('2d');
+    var rows=calc().slice(0,+ate.value),full=kind==='completa';
+    var W=1080,P=48,headH=250,pillH=170,colH=64,rowH=full?64:70,footH=120;
+    var H=headH+pillH+colH+rows.length*rowH+footH;
+    var c=document.createElement('canvas');c.width=W;c.height=H;var x=c.getContext('2d');
     var F=function(w,s){x.font=w+' '+s+'px system-ui,-apple-system,"Segoe UI",Arial,sans-serif'};
-    x.fillStyle='#fff'; x.fillRect(0,0,W,H);
-    x.fillStyle='#032215'; x.fillRect(0,0,W,headH); x.fillStyle='#d4af37'; x.fillRect(0,headH,W,8);
-    if(logo.complete&&logo.naturalWidth){try{x.drawImage(logo,P,40,84,84)}catch(e){}}
-    x.textAlign='left'; x.fillStyle='#fff'; F('800',40); x.fillText('Simulação de pagamento no cartão',P+104,84);
-    x.fillStyle='#d4af37'; F('600',26); x.fillText('Crédito · Rafael Tavares, corretor de imóveis',P+104,122);
-    var head=(kind==='completa')?((mode==='A'?'Quero receber ':'Valor da venda ')+fmt(value)):(mode==='B'?('Valor da venda '+fmt(value)):'Escolha como parcelar');
-    x.fillStyle='#fff'; F('800',54); x.fillText(head,P,206);
-    var cols=(kind==='completa')
-      ?[['Parcela',360],['Passar',590],['Receber',820],['Taxa',W-P]]
-      :[['Parcela',620],['Total',W-P]];
-    var y=headH+8;
-    x.fillStyle='#5d6f66'; F('700',22); x.textAlign='left'; x.fillText('Parcelas',P,y+40);
-    x.textAlign='right'; cols.forEach(function(cl){x.fillText(cl[0],cl[1],y+40)});
-    y+=colH-8;
-    idx.forEach(function(i,k){
-      var r=rows[i];
-      if(k%2===0){x.fillStyle='#f3f6f4'; x.fillRect(0,y,W,rowH)}
-      var by=y+46;
-      x.fillStyle='#053d24'; F('800',30); x.textAlign='left'; x.fillText(r.n+'x',P,by);
-      F('700',28); x.textAlign='right';
-      var vals=(kind==='completa')?[r.parc,r.pass,r.rec,r.fee]:[r.parc,r.pass];
-      vals.forEach(function(v,j){x.fillStyle=(kind==='completa'&&j===3)?'#8a4b00':'#10231a'; x.fillText(fmt(v),cols[j][1],by)});
+    var g=x.createLinearGradient(0,0,W,H);g.addColorStop(0,'#032215');g.addColorStop(1,'#053d24');
+    x.fillStyle=g;x.fillRect(0,0,W,H);
+    x.fillStyle='#d4af37';x.fillRect(0,headH-6,W,6);
+    if(logo.complete&&logo.naturalWidth){try{x.drawImage(logo,P,44,96,96)}catch(e){}}
+    x.textAlign='left';x.fillStyle='#fff';F('800',50);x.fillText('Simulação de',P+120,92);x.fillText('Pagamento no Cartão',P+120,150);
+    x.fillStyle='#d4af37';F('600',28);x.fillText('Rafael Tavares, corretor de imóveis',P+120,196);
+    // pílula do valor
+    var A=full?(mode==='A'?'Quero receber':'Valor da venda'):(mode==='B'?'Valor da venda':'Escolha como parcelar');
+    var big=full||mode==='B'?fmt(value):'';
+    var pg=x.createLinearGradient(0,headH+20,0,headH+150);pg.addColorStop(0,'#fde68a');pg.addColorStop(1,'#eab308');
+    x.fillStyle=pg;rr(x,W/2-300,headH+26,600,120,36);x.fill();
+    x.textAlign='center';x.fillStyle='#032215';
+    if(big){F('700',32);x.fillText(A,W/2,headH+68);F('800',60);x.fillText(big,W/2,headH+128)}else{F('800',44);x.fillText(A,W/2,headH+100)}
+    // tabela
+    var ty=headH+pillH,tw=W-2*P;
+    x.fillStyle='#fff';rr(x,P,ty,tw,colH+rows.length*rowH+10,22);x.fill();
+    var cols=full?[['Parcelas',P+80],['Parcela',P+300],['Total a pagar',P+560],['Receber',P+790],['Taxa',W-P-20]]:[['Parcelas',P+170],['Valor da parcela',W-P-60]];
+    x.fillStyle='#e3f1e7';x.fillRect(P,ty,tw,colH);
+    x.fillStyle='#032215';F('800',24);cols.forEach(function(cl,j){x.textAlign=(j===0)?'center':'right';x.fillText(cl[0],cl[1],ty+40)});
+    var y=ty+colH;
+    rows.forEach(function(r,k){
+      if(k%2===1){x.fillStyle='#f1f5f2';x.fillRect(P,y,tw,rowH)}
+      var by=y+rowH/2+11;
+      x.fillStyle='#053d24';F('800',31);x.textAlign='center';x.fillText(r.n+'x',cols[0][1],by);
+      x.textAlign='right';F('700',full?25:32);
+      var vals=full?[r.parc,r.pass,r.rec,r.fee]:[r.parc];
+      vals.forEach(function(v,j){x.fillStyle=(full&&j===3)?'#b45309':'#10231a';x.fillText(fmt(v),cols[j+1][1],by)});
       y+=rowH;
     });
-    x.fillStyle='#5d6f66'; F('500',22); x.textAlign='left';
-    var d=new Date(), ds=d.toLocaleDateString('pt-BR');
-    x.fillText('Simulação de '+ds+'. Valores sujeitos a confirmação na máquina.',P,H-62);
+    x.textAlign='left';x.fillStyle='#d4af37';F('500',22);
+    x.fillText('Simulação de '+new Date().toLocaleDateString('pt-BR')+'. Valores sujeitos a confirmação na maquininha.',P,H-56);
     return c;
   }
-  function toBlob(cb){makeCanvas().toBlob(cb,'image/png')}
   function fname(){return 'simulacao-cartao-'+new Date().toISOString().slice(0,10)+'.png'}
-  $('baixar').onclick=function(){
-    toBlob(function(b){var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=fname();document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},4000)});
+  $('go').onclick=function(){
+    $('sheet').classList.remove('on');
+    makeCanvas().toBlob(function(b){
+      var f=new File([b],fname(),{type:'image/png'});
+      if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f]}).catch(function(){})}
+      else{var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=fname();document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},4000)}
+    },'image/png');
   };
-  try{
-    var probe=new File([''],'a.png',{type:'image/png'});
-    if(navigator.canShare&&navigator.canShare({files:[probe]})){
-      $('compartilhar').hidden=false;
-      $('compartilhar').onclick=function(){
-        toBlob(function(b){navigator.share({files:[new File([b],fname(),{type:'image/png'})]}).catch(function(){})});
-      };
-    }
-  }catch(e){}
 
   render();
 })();
