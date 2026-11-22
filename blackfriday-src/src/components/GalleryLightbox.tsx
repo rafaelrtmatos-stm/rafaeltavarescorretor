@@ -17,7 +17,25 @@ export const GalleryLightbox: React.FC<GalleryLightboxProps> = ({ items, startIn
   const many = items.length > 1;
   const current = items[index];
 
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
   const goTo = (next: number) => setIndex((next + items.length) % items.length);
+
+  // Vídeo na tela cheia toca COM som (a pessoa acabou de tocar para abrir).
+  // Se o navegador bloquear, cai para mudo e os controles deixam ativar o som.
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v || current.type !== 'video') return;
+    v.muted = false;
+    v.volume = 1;
+    const playing = v.play();
+    if (playing) {
+      playing.catch(() => {
+        v.muted = true;
+        v.play().catch(() => {});
+      });
+    }
+  }, [current.src, current.type]);
 
   useEffect(() => {
     // Captura antes do modal do terreno: Esc fecha só a galeria.
@@ -89,13 +107,11 @@ export const GalleryLightbox: React.FC<GalleryLightboxProps> = ({ items, startIn
         {current.type === 'video' ? (
           <video
             key={current.src}
+            ref={videoRef}
             src={current.src}
             poster={current.poster}
             className="max-w-full max-h-full w-auto h-auto"
             controls
-            autoPlay
-            muted
-            loop
             playsInline
           />
         ) : (

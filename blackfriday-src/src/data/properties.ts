@@ -224,6 +224,12 @@ export const PROPERTIES: Property[] = [
     originalPrice: 'R$ 18.000,00',
     badge: 'OFERTA BLACK FRIDAY',
     image: '/blackfriday/src/assets/images/property_campo_novo_1795281215921.jpg',
+    gallery: [
+      { type: 'image', src: '/blackfriday/src/assets/images/property_campo_novo_1795281215921.jpg' },
+      { type: 'image', src: '/imagens/campo-novo-foto1.jpeg' },
+      { type: 'image', src: '/imagens/campo-novo-foto2.jpeg' },
+      { type: 'video', src: '/imagens/campo-novo-video1.mp4', poster: '/imagens/campo-novo-video1-poster.jpg' }
+    ],
     size: '300m² (10x30)',
     description: 'Terreno plano em Campo Novo, excelente localização com acesso facilitado e infraestrutura em desenvolvimento.',
     features: ['Escritura pública', 'Próximo à rodovia', 'Energia elétrica', 'Água encanada']
