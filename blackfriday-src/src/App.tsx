@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Header } from './components/Header';
 import { HeroSection } from './components/HeroSection';
 import { ExploreOpportunities } from './components/ExploreOpportunities';
@@ -6,7 +6,7 @@ import { PropertyCarousel } from './components/PropertyCarousel';
 import { FamilyBanner } from './components/FamilyBanner';
 import { BenefitsCards } from './components/BenefitsCards';
 import { Footer } from './components/Footer';
-import { PropertyModal } from './components/PropertyModal';
+import { PropertyPage } from './components/PropertyPage';
 import { MobileMenu } from './components/MobileMenu';
 import { PROPERTIES, Property, findPropertyByPath } from './data/properties';
 
@@ -20,7 +20,10 @@ export default function App() {
     ? Math.max(0, PROPERTIES.findIndex((p) => p.id === selectedProperty.id))
     : 1;
 
+  const savedScroll = useRef(0);
+
   const openProperty = useCallback((prop: Property) => {
+    savedScroll.current = window.scrollY;
     setSelectedProperty(prop);
     if (window.location.pathname !== prop.catalogUrl) {
       window.history.pushState({ propertySlug: prop.slug }, '', prop.catalogUrl);
@@ -32,6 +35,10 @@ export default function App() {
     if (window.location.pathname !== '/blackfriday/') {
       window.history.pushState({}, '', '/blackfriday/');
     }
+    window.setTimeout(() => {
+      const el = document.getElementById('explore');
+      window.scrollTo(0, savedScroll.current || (el ? el.offsetTop : 0));
+    }, 0);
   }, []);
 
   useEffect(() => {
@@ -59,7 +66,15 @@ export default function App() {
         onWhatsAppClick={() => handleWhatsAppClick()}
       />
 
-      <main className="flex-grow w-full bg-white">
+      {selectedProperty && (
+        <PropertyPage
+          property={selectedProperty}
+          onBack={closeProperty}
+          onWhatsAppInquiry={(title) => handleWhatsAppClick(title)}
+        />
+      )}
+
+      <main className={`flex-grow w-full bg-white ${selectedProperty ? 'hidden' : ''}`}>
         {/* 2. Hero Black Friday with user-supplied banner */}
         <HeroSection 
           onCtaClick={() => {
@@ -94,16 +109,6 @@ export default function App() {
       {/* 9. Rodapé verde-escuro */}
       <Footer 
         onWhatsAppClick={() => handleWhatsAppClick()}
-      />
-
-      {/* Property Details Modal */}
-      <PropertyModal 
-        property={selectedProperty}
-        onClose={closeProperty}
-        onWhatsAppInquiry={(title) => {
-          closeProperty();
-          handleWhatsAppClick(title);
-        }}
       />
 
       {/* Mobile Navigation Drawer */}
