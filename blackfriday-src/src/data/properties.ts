@@ -4,6 +4,15 @@ export interface GalleryItem {
   poster?: string;
 }
 
+export interface PropertyVariant {
+  label: string;
+  location: string;
+  coordinates: string;
+  mapUrl: string;
+  price: string;
+  originalPrice?: string;
+}
+
 export interface Property {
   id: string;
   slug: string;
@@ -20,6 +29,7 @@ export interface Property {
   size: string;
   description: string;
   features: string[];
+  variants?: PropertyVariant[];
 }
 
 export const PROPERTIES: Property[] = [
@@ -104,26 +114,45 @@ export const PROPERTIES: Property[] = [
     features: ['Expansão urbana', 'Ruas abertas', 'Alto potencial de valorização', 'Parcelamento facilitado']
   },
   {
-    id: 'santa-maria-1',
-    slug: 'santa-maria-1',
-    catalogUrl: '/blackfriday/santa-maria-1/',
+    id: 'santa-maria',
+    slug: 'santa-maria',
+    catalogUrl: '/blackfriday/santa-maria/',
     title: 'Santa Maria',
     location: 'Santarém - PA',
     coordinates: '2°27\'17.0"S 54°49\'40.8"W',
     mapUrl: 'https://www.google.com/maps?q=-2.454722,-54.828000',
-    price: 'R$ 5.000,00',
-    originalPrice: 'R$ 10.000,00',
+    price: 'R$ 5.000,00 e R$ 6.000,00',
+    originalPrice: 'R$ 10.000,00 e R$ 12.000,00',
     badge: 'OFERTA BLACK FRIDAY',
     image: '/imagens/santa-maria-obra-1.jpeg',
     gallery: [
       { type: 'image', src: '/imagens/santa-maria-obra-1.jpeg' },
+      { type: 'image', src: '/imagens/santa-maria-obra-2.jpeg' },
       { type: 'image', src: '/imagens/santa-maria-obra-4.jpeg' },
       { type: 'image', src: '/imagens/santa-maria-obra-5.jpeg' },
       { type: 'video', src: '/imagens/santa-maria-video1.mp4', poster: '/imagens/santa-maria-video1-poster.jpg' }
     ],
     size: '300m² (10x30)',
-    description: 'Terreno na região de Santa Maria com localização estratégica, ideal para moradia ou investimento.',
-    features: ['Região consolidada', 'Boa vizinhança', 'Acesso rápido', 'Documentação em ordem']
+    description: 'Dois terrenos na região de Santa Maria, cada um com sua localização e seu valor de Black Friday. Escolha o seu, ideal para moradia ou investimento.',
+    features: ['Região consolidada', 'Boa vizinhança', 'Acesso rápido', 'Documentação em ordem', 'Pronto para construir', 'Condição Black Friday'],
+    variants: [
+      {
+        label: 'Terreno 1',
+        location: 'Santarém - PA',
+        coordinates: '2°27\'17.0"S 54°49\'40.8"W',
+        mapUrl: 'https://www.google.com/maps?q=-2.454722,-54.828000',
+        price: 'R$ 5.000,00',
+        originalPrice: 'R$ 10.000,00'
+      },
+      {
+        label: 'Terreno 2',
+        location: 'Santarém - PA',
+        coordinates: '2°27\'17.5"S 54°48\'38.6"W',
+        mapUrl: 'https://www.google.com/maps?q=-2.454861,-54.810722',
+        price: 'R$ 6.000,00',
+        originalPrice: 'R$ 12.000,00'
+      }
+    ]
   },
   {
     id: 'alter-do-chao',
@@ -161,28 +190,6 @@ export const PROPERTIES: Property[] = [
     size: '300m² (10x30)',
     description: 'Terreno localizado na Rocinha, área tranquila e bem posicionada com condições especiais de lançamento.',
     features: ['Terreno plano', 'Região valorizada', 'Fácil acesso', 'Negociação direta']
-  },
-  {
-    id: 'santa-maria-2',
-    slug: 'santa-maria-2',
-    catalogUrl: '/blackfriday/santa-maria-2/',
-    title: 'Santa Maria',
-    location: 'Santarém - PA',
-    coordinates: '2°27\'17.5"S 54°48\'38.6"W',
-    mapUrl: 'https://www.google.com/maps?q=-2.454861,-54.810722',
-    price: 'R$ 6.000,00',
-    originalPrice: 'R$ 12.000,00',
-    badge: 'OFERTA BLACK FRIDAY',
-    image: '/imagens/santa-maria-obra-2.jpeg',
-    gallery: [
-      { type: 'image', src: '/imagens/santa-maria-obra-2.jpeg' },
-      { type: 'image', src: '/imagens/santa-maria-obra-4.jpeg' },
-      { type: 'image', src: '/imagens/santa-maria-obra-5.jpeg' },
-      { type: 'video', src: '/imagens/santa-maria-video1.mp4', poster: '/imagens/santa-maria-video1-poster.jpg' }
-    ],
-    size: '300m² (10x30)',
-    description: 'Segunda opção exclusiva em Santa Maria, próximo às vias principais e com infraestrutura avançada.',
-    features: ['Ótima localização', 'Pronto para construir', 'Energia próxima', 'Condição Black Friday']
   },
   {
     id: 'tipizal',
@@ -250,13 +257,17 @@ export function buildLocationWhatsAppUrl(property: Pick<Property, 'title' | 'pri
   return `https://wa.me/5593992332012?text=${encodeURIComponent(message)}`;
 }
 
+export function buildVariantLocationWhatsAppUrl(property: Pick<Property, 'title'>, variant: PropertyVariant): string {
+  return buildLocationWhatsAppUrl({ title: `${property.title} (${variant.label})`, price: variant.price });
+}
+
 export function findPropertyByPath(pathname: string): Property | null {
   const cleaned = pathname.replace(/^\/+|\/+$/g, '').toLowerCase();
   if (!cleaned.startsWith('blackfriday/')) return null;
   const sub = cleaned.slice('blackfriday/'.length).split('/')[0];
   if (!sub) return null;
-  if (sub === 'santa-maria') {
-    return PROPERTIES.find((p) => p.slug === 'santa-maria-1') || null;
+  if (sub === 'santa-maria-1' || sub === 'santa-maria-2') {
+    return PROPERTIES.find((p) => p.slug === 'santa-maria') || null;
   }
   return PROPERTIES.find((p) => p.slug === sub || p.id === sub) || null;
 }

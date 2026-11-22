@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { X, MapPin, CheckCircle2, MessageCircle, Ruler, Share2, Check, ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
-import { Property, GalleryItem, buildLocationWhatsAppUrl } from '../data/properties';
+import { Property, GalleryItem, buildLocationWhatsAppUrl, buildVariantLocationWhatsAppUrl } from '../data/properties';
 import { GalleryLightbox } from './GalleryLightbox';
 
 const INSTAGRAM_URL = 'https://www.instagram.com/rafaeltavarescorretorstm/';
@@ -64,6 +64,7 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
   if (!property) return null;
 
   const fullUrl = `${window.location.origin}${property.catalogUrl}`;
+  const hasVariants = !!property.variants && property.variants.length > 1;
 
   const media: GalleryItem[] =
     property.gallery && property.gallery.length > 0
@@ -201,7 +202,7 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
 
           <div className="absolute bottom-4 left-4 right-4">
             <div className="flex items-center gap-1.5 text-[#d4af37] text-sm font-semibold mb-1">
-              <MapPin className="w-4 h-4" /> {property.location}
+              <MapPin className="w-4 h-4" /> {property.location}{hasVariants ? ' · 2 localizações' : ''}
             </div>
             <h2 id="property-modal-title" className="text-2xl sm:text-3xl font-black text-white tracking-tight">
               {property.title}
@@ -238,6 +239,28 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
         <div className="p-6 space-y-6 overflow-y-auto overscroll-contain">
 
           {/* Price & Size */}
+          {hasVariants ? (
+            <div className="space-y-3">
+              <div className="grid grid-cols-2 gap-3">
+                {property.variants!.map((variant) => (
+                  <div key={variant.label} className="bg-[#07331f] border border-[#d4af37]/30 p-3.5 rounded-2xl">
+                    <span className="text-xs text-slate-300 uppercase tracking-wide block">{variant.label}</span>
+                    <span className="text-2xl sm:text-3xl font-black text-[#facc15] block leading-tight">{variant.price}</span>
+                    {variant.originalPrice && (
+                      <span className="text-xs text-slate-400 line-through">{variant.originalPrice}</span>
+                    )}
+                    <span className="flex items-center gap-1 text-[11px] text-slate-300 mt-1.5">
+                      <MapPin className="w-3 h-3 text-[#d4af37] flex-shrink-0" /> {variant.location}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <div className="flex items-center justify-center gap-2 bg-[#032215] px-3.5 py-2 rounded-xl border border-[#d4af37]/40">
+                <Ruler className="w-5 h-5 text-[#d4af37]" />
+                <span className="text-sm font-bold text-white">{property.size} cada</span>
+              </div>
+            </div>
+          ) : (
           <div className="flex items-center justify-between bg-[#07331f] border border-[#d4af37]/30 p-4 rounded-2xl">
             <div>
               <span className="text-xs text-slate-300 uppercase tracking-wide block">Valor Black Friday</span>
@@ -251,6 +274,7 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
               <span className="text-sm font-bold text-white">{property.size}</span>
             </div>
           </div>
+          )}
 
           {/* Description */}
           <div>
@@ -277,16 +301,34 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
 
         {/* Footer CTA */}
         <div className="p-4 bg-[#02140c] border-t border-[#12412b] flex-shrink-0 flex flex-col sm:flex-row gap-2.5">
-          <a
-            href={buildLocationWhatsAppUrl(property)}
-            target="_blank"
-            rel="noopener noreferrer"
-            data-direct-wpp="true"
-            className="sm:w-auto py-3.5 px-5 bg-[#053d24] hover:bg-[#074e2e] border border-[#d4af37]/60 text-[#facc15] font-bold text-sm rounded-2xl shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer whitespace-nowrap"
-          >
-            <MapPin className="w-5 h-5" />
-            <span>SOLICITAR LOCALIZAÇÃO</span>
-          </a>
+          {hasVariants ? (
+            <div className="grid grid-cols-2 gap-2.5 sm:w-auto">
+              {property.variants!.map((variant, vIdx) => (
+                <a
+                  key={variant.label}
+                  href={buildVariantLocationWhatsAppUrl(property, variant)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-direct-wpp="true"
+                  className="py-3 px-3 bg-[#053d24] hover:bg-[#074e2e] border border-[#d4af37]/60 text-[#facc15] font-bold text-xs rounded-2xl shadow-md flex items-center justify-center gap-1.5 transition-all cursor-pointer text-center leading-tight"
+                >
+                  <MapPin className="w-4 h-4 flex-shrink-0" />
+                  <span>LOCALIZAÇÃO {vIdx + 1}</span>
+                </a>
+              ))}
+            </div>
+          ) : (
+            <a
+              href={buildLocationWhatsAppUrl(property)}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-direct-wpp="true"
+              className="sm:w-auto py-3.5 px-5 bg-[#053d24] hover:bg-[#074e2e] border border-[#d4af37]/60 text-[#facc15] font-bold text-sm rounded-2xl shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer whitespace-nowrap"
+            >
+              <MapPin className="w-5 h-5" />
+              <span>SOLICITAR LOCALIZAÇÃO</span>
+            </a>
+          )}
           <button
             onClick={() => onWhatsAppInquiry(property.title)}
             className="flex-1 py-3.5 px-5 bg-gradient-to-r from-[#25d366] to-[#20ba59] hover:from-[#20ba59] hover:to-[#1a9c4b] text-white font-black text-sm sm:text-base rounded-2xl shadow-[0_0_20px_rgba(37,211,102,0.4)] flex items-center justify-center gap-2 transition-all transform hover:scale-[1.02] cursor-pointer"

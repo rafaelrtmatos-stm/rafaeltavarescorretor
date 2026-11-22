@@ -46,6 +46,13 @@ export default defineConfig(() => {
               const subDir = path.resolve(distDir, slug);
               fs.mkdirSync(subDir, {recursive: true});
               fs.writeFileSync(path.resolve(subDir, 'index.html'), subHtml, 'utf-8');
+              // Old shared links keep working (Santa Maria 1 and 2 are now one card).
+              const legacyAliases: Record<string, string[]> = { 'santa-maria': ['santa-maria-1', 'santa-maria-2'] };
+              for (const alias of legacyAliases[slug] || []) {
+                const aliasDir = path.resolve(distDir, alias);
+                fs.mkdirSync(aliasDir, {recursive: true});
+                fs.writeFileSync(path.resolve(aliasDir, 'index.html'), subHtml, 'utf-8');
+              }
             }
           }
         },
