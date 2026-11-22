@@ -89,6 +89,12 @@ export const PROPERTIES: Property[] = [
     originalPrice: 'R$ 10.000,00',
     badge: 'OFERTA BLACK FRIDAY',
     image: '/imagens/cucuruna-foto4.jpg',
+    gallery: [
+      { type: 'image', src: '/imagens/cucuruna-foto4.jpg' },
+      { type: 'image', src: '/imagens/cucuruna-foto5.jpeg' },
+      { type: 'video', src: '/imagens/cucuruna-video1.mp4', poster: '/imagens/cucuruna-video1-poster.jpg' },
+      { type: 'video', src: '/imagens/cucuruna-video2.mp4', poster: '/imagens/cucuruna-video2-poster.jpg' }
+    ],
     size: '300m² (10x30)',
     description: 'Terreno localizado no Cucurunã, setor em franca expansão urbana com excelente potencial de valorização.',
     features: ['Expansão urbana', 'Ruas abertas', 'Alto potencial de valorização', 'Parcelamento facilitado']
