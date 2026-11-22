@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Calculadora de taxa do cartão</title>
+<link rel="icon" href="/logo-rt.png">
+<style>
+:root{--g9:#032215;--g8:#053d24;--gold:#d4af37;--gold-l:#facc15;--ink:#10231a;--mute:#5d6f66;--line:#dce5df;--bg:#f2f5f3;--card:#fff;--hi:#fff6d6}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-variant-numeric:tabular-nums}
+header{background:var(--g9);color:#fff;padding:14px 16px;border-bottom:3px solid var(--gold)}
+.hd{max-width:640px;margin:auto;display:flex;align-items:center;gap:12px}
+.hd img{width:44px;height:44px;border-radius:8px}
+.hd h1{font-size:1.15rem;margin:0;line-height:1.2}
+.hd p{margin:2px 0 0;font-size:.8rem;color:#cfe0d6}
+main{max-width:640px;margin:auto;padding:16px 16px 48px}
+.seg{display:grid;grid-template-columns:1fr 1fr;background:#e3eae6;border-radius:12px;padding:4px;gap:4px}
+.seg button{border:0;background:none;padding:11px 8px;border-radius:9px;font:inherit;font-weight:700;color:var(--mute);cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--g8);color:#fff}
+label.big{display:block;margin:18px 0 6px;font-weight:700}
+#valor{width:100%;font:800 2rem/1.2 inherit;font-family:inherit;padding:12px 14px;border:2px solid var(--line);border-radius:12px;background:var(--card);color:var(--g9)}
+#valor:focus{outline:3px solid var(--gold);border-color:var(--gold)}
+.hint{color:var(--mute);font-size:.85rem;margin:8px 2px}
+.list{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-top:14px;overflow:hidden}
+.head,.row{display:grid;grid-template-columns:52px 1fr 112px;gap:8px;align-items:center;padding:10px 14px}
+.head{font-size:.78rem;color:var(--mute);font-weight:700;background:#f7faf8;border-bottom:1px solid var(--line)}
+.row{width:100%;border:0;border-bottom:1px solid var(--line);background:var(--card);font:inherit;text-align:left;cursor:pointer;color:inherit}
+.row:last-child{border-bottom:0}
+.row[aria-pressed=true]{background:var(--hi);box-shadow:inset 4px 0 0 var(--gold)}
+.row:focus-visible{outline:3px solid var(--gold);outline-offset:-3px}
+.n{font-weight:800;color:var(--g8)}
+.m b{display:block;font-size:1.12rem;color:var(--g9)}
+.m small,.p{color:var(--mute);font-size:.8rem}
+.p{text-align:right}
+.empty{padding:26px 16px;text-align:center;color:var(--mute)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:16px}
+.panel h2{font-size:1rem;margin:0 0 10px}
+select{font:inherit;padding:9px;border:2px solid var(--line);border-radius:10px;width:100%;background:#fff}
+.btns{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.btn{flex:1;min-width:150px;border:0;border-radius:12px;padding:13px 16px;font:inherit;font-weight:800;cursor:pointer;background:var(--gold);color:var(--g9)}
+.btn.alt{background:var(--g8);color:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn:focus-visible,.seg button:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+details{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+summary{font-weight:700;cursor:pointer}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.grid label{font-size:.8rem;color:var(--mute);font-weight:700}
+.grid input{width:100%;font:inherit;padding:8px;border:2px solid var(--line);border-radius:8px;margin-top:2px}
+.link{background:none;border:0;color:var(--g8);font:inherit;font-weight:700;text-decoration:underline;cursor:pointer;padding:10px 0 0}
+.note{font-size:.78rem;color:var(--mute);margin-top:18px}
+</style>
+</head>
+<body>
+<header><div class="hd"><img src="/logo-rt.png" alt=""><div><h1>Calculadora de taxa do cartão</h1><p>Mercado Pago Point · crédito · tabela de 19/11/2026</p></div></div></header>
+<main>
+  <div class="seg" role="group" aria-label="O que você quer calcular">
+    <button type="button" id="mA" aria-pressed="true">Quanto quero receber</button>
+    <button type="button" id="mB" aria-pressed="false">Valor da venda</button>
+  </div>
+
+  <label class="big" for="valor" id="lbl">Quanto quero receber</label>
+  <input id="valor" inputmode="numeric" autocomplete="off" placeholder="R$ 0,00">
+  <p class="hint" id="dica">Mostra quanto passar na máquina em cada parcelamento.</p>
+
+  <div class="list" id="list" aria-live="polite"></div>
+  <p class="hint" id="sel">Toque nas parcelas para escolher quais vão na imagem. Sem escolha, vão todas.</p>
+
+  <section class="panel">
+    <h2>Baixar simulação em imagem</h2>
+    <label for="kind" class="hint" style="display:block;margin:0 0 6px">Tipo de imagem</label>
+    <select id="kind">
+      <option value="cliente">Para o cliente (parcelas e valores, sem taxa)</option>
+      <option value="completa">Completa (com valor recebido e taxa)</option>
+    </select>
+    <div class="btns">
+      <button class="btn" id="baixar" type="button" disabled>Baixar imagem</button>
+      <button class="btn alt" id="compartilhar" type="button" hidden disabled>Compartilhar</button>
+    </div>
+  </section>
+
+  <details id="ajuste">
+    <summary>Ajustar taxas</summary>
+    <p class="hint">Em cada parcelamento, digite o total que o cliente paga para você receber R$ 10.000,00 líquidos, como mostra o simulador do aplicativo.</p>
+    <div class="grid" id="grid"></div>
+    <button class="link" id="reset" type="button">Restaurar tabela de 19/11/2026</button>
+  </details>
+
+  <p class="note">Taxas registradas no simulador da conta em 19/11/2026 (repasse pago pelo cliente, recebimento na hora). Podem variar com a conta e as regras do Mercado Pago. Confira o valor no aplicativo antes de cada venda.</p>
+</main>
+
+<script>
+(function(){
+  var T0=[10524.10,11578.84,11746.75,11760.48,12072.02,12073.08,12326.54,12327.60,12640.19,12741.58,12742.63,12895.77,12993.98,13142.89,13288.63,13433.31,13579.05,13727.95];
+  var KEY='calc_totais_v1', BASE=10000;
+  var brl=new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'});
+  var fmt=function(n){return brl.format(n)};
+  var r2=function(n){return Math.round((n+Number.EPSILON)*100)/100};
+  var $=function(id){return document.getElementById(id)};
+  var mode='A', value=0, sel=new Set(), totals=load();
+
+  function load(){
+    try{var s=JSON.parse(localStorage.getItem(KEY));
+      if(Array.isArray(s)&&s.length===18&&s.every(function(x){return x>BASE&&x<100000}))return s;}catch(e){}
+    return T0.slice();
+  }
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(totals))}catch(e){}}
+
+  function money(el,onValue){
+    el.addEventListener('input',function(){
+      var d=el.value.replace(/\D/g,'').slice(0,11), c=parseInt(d||'0',10);
+      el.value=c?fmt(c/100):''; onValue(c/100);
+    });
+  }
+
+  function calc(){
+    return totals.map(function(t,i){
+      var n=i+1,f=t/BASE;
+      if(mode==='A'){var p=r2(value*f);return{n:n,main:p,pass:p,rec:value,fee:r2(p-value),parc:r2(p/n)}}
+      var r=r2(value/f);return{n:n,main:r,pass:value,rec:r,fee:r2(value-r),parc:r2(value/n)};
+    });
+  }
+
+  function render(){
+    var box=$('list');
+    var ok=value>0;
+    $('baixar').disabled=!ok; $('compartilhar').disabled=!ok;
+    if(!ok){box.innerHTML='<div class="empty">Digite um valor para ver as parcelas.</div>';return}
+    var h='<div class="head"><span>Parcelas</span><span>'+(mode==='A'?'Passar na máquina':'Vou receber')+'</span><span style="text-align:right">Parcela</span></div>';
+    calc().forEach(function(r,i){
+      h+='<button type="button" class="row" data-i="'+i+'" aria-pressed="'+sel.has(i)+'"><span class="n">'+r.n+'x</span><span class="m"><b>'+fmt(r.main)+'</b><small>taxa '+fmt(r.fee)+'</small></span><span class="p">'+r.n+'x de<br>'+fmt(r.parc)+'</span></button>';
+    });
+    box.innerHTML=h;
+    $('sel').textContent=sel.size?('Na imagem: '+sel.size+(sel.size===1?' parcela escolhida.':' parcelas escolhidas.')):'Toque nas parcelas para escolher quais vão na imagem. Sem escolha, vão todas.';
+  }
+
+  $('list').addEventListener('click',function(e){
+    var b=e.target.closest('.row'); if(!b)return;
+    var i=+b.dataset.i; sel.has(i)?sel.delete(i):sel.add(i); render();
+  });
+
+  function setMode(m){
+    mode=m; $('mA').setAttribute('aria-pressed',m==='A'); $('mB').setAttribute('aria-pressed',m==='B');
+    $('lbl').textContent=m==='A'?'Quanto quero receber':'Valor da venda (passado na máquina)';
+    $('dica').textContent=m==='A'?'Mostra quanto passar na máquina em cada parcelamento.':'Mostra quanto você recebe em cada parcelamento.';
+    render();
+  }
+  $('mA').onclick=function(){setMode('A')}; $('mB').onclick=function(){setMode('B')};
+  money($('valor'),function(v){value=v;render()});
+
+  // ----- ajuste de taxas -----
+  function buildGrid(){
+    var g=$('grid'); g.innerHTML='';
+    totals.forEach(function(t,i){
+      var w=document.createElement('label'); w.textContent=(i+1)+'x';
+      var inp=document.createElement('input'); inp.inputMode='numeric'; inp.value=fmt(t);
+      money(inp,function(v){if(v>BASE){totals[i]=v;save();render()}});
+      inp.addEventListener('blur',function(){inp.value=fmt(totals[i])});
+      w.appendChild(inp); g.appendChild(w);
+    });
+  }
+  $('reset').onclick=function(){totals=T0.slice();save();buildGrid();render()};
+  buildGrid();
+
+  // ----- imagem -----
+  var logo=new Image(); logo.src='/logo-rt.png';
+  function makeCanvas(){
+    var kind=$('kind').value, rows=calc(), idx=sel.size?Array.from(sel).sort(function(a,b){return a-b}):rows.map(function(_,i){return i});
+    var W=1080,P=56,headH=250,colH=60,rowH=70,footH=130,H=headH+colH+idx.length*rowH+footH;
+    var c=document.createElement('canvas'); c.width=W; c.height=H; var x=c.getContext('2d');
+    var F=function(w,s){x.font=w+' '+s+'px system-ui,-apple-system,"Segoe UI",Arial,sans-serif'};
+    x.fillStyle='#fff'; x.fillRect(0,0,W,H);
+    x.fillStyle='#032215'; x.fillRect(0,0,W,headH); x.fillStyle='#d4af37'; x.fillRect(0,headH,W,8);
+    if(logo.complete&&logo.naturalWidth){try{x.drawImage(logo,P,40,84,84)}catch(e){}}
+    x.textAlign='left'; x.fillStyle='#fff'; F('800',40); x.fillText('Simulação de pagamento no cartão',P+104,84);
+    x.fillStyle='#d4af37'; F('600',26); x.fillText('Crédito · Rafael Tavares, corretor de imóveis',P+104,122);
+    var head=(kind==='completa')?((mode==='A'?'Quero receber ':'Valor da venda ')+fmt(value)):(mode==='B'?('Valor da venda '+fmt(value)):'Escolha como parcelar');
+    x.fillStyle='#fff'; F('800',54); x.fillText(head,P,206);
+    var cols=(kind==='completa')
+      ?[['Parcela',360],['Passar',590],['Receber',820],['Taxa',W-P]]
+      :[['Parcela',620],['Total',W-P]];
+    var y=headH+8;
+    x.fillStyle='#5d6f66'; F('700',22); x.textAlign='left'; x.fillText('Parcelas',P,y+40);
+    x.textAlign='right'; cols.forEach(function(cl){x.fillText(cl[0],cl[1],y+40)});
+    y+=colH-8;
+    idx.forEach(function(i,k){
+      var r=rows[i];
+      if(k%2===0){x.fillStyle='#f3f6f4'; x.fillRect(0,y,W,rowH)}
+      var by=y+46;
+      x.fillStyle='#053d24'; F('800',30); x.textAlign='left'; x.fillText(r.n+'x',P,by);
+      F('700',28); x.textAlign='right';
+      var vals=(kind==='completa')?[r.parc,r.pass,r.rec,r.fee]:[r.parc,r.pass];
+      vals.forEach(function(v,j){x.fillStyle=(kind==='completa'&&j===3)?'#8a4b00':'#10231a'; x.fillText(fmt(v),cols[j][1],by)});
+      y+=rowH;
+    });
+    x.fillStyle='#5d6f66'; F('500',22); x.textAlign='left';
+    var d=new Date(), ds=d.toLocaleDateString('pt-BR');
+    x.fillText('Simulação de '+ds+'. Valores sujeitos a confirmação na máquina.',P,H-62);
+    return c;
+  }
+  function toBlob(cb){makeCanvas().toBlob(cb,'image/png')}
+  function fname(){return 'simulacao-cartao-'+new Date().toISOString().slice(0,10)+'.png'}
+  $('baixar').onclick=function(){
+    toBlob(function(b){var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=fname();document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},4000)});
+  };
+  try{
+    var probe=new File([''],'a.png',{type:'image/png'});
+    if(navigator.canShare&&navigator.canShare({files:[probe]})){
+      $('compartilhar').hidden=false;
+      $('compartilhar').onclick=function(){
+        toBlob(function(b){navigator.share({files:[new File([b],fname(),{type:'image/png'})]}).catch(function(){})});
+      };
+    }
+  }catch(e){}
+
+  render();
+})();
+</script>
+</body>
+</html>

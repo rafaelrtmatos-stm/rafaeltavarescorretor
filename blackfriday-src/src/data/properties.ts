@@ -202,7 +202,11 @@ export const PROPERTIES: Property[] = [
     price: 'R$ 6.000,00',
     originalPrice: 'R$ 11.000,00',
     badge: 'OFERTA BLACK FRIDAY',
-    image: '/imagens/espirito-santo-foto2.jpg',
+    image: '/imagens/tipizal-1.jpeg',
+    gallery: [
+      { type: 'image', src: '/imagens/tipizal-1.jpeg' },
+      { type: 'image', src: '/imagens/tipizal-2.jpeg' }
+    ],
     size: '300m² (10x30)',
     description: 'Excelente área no Tipizal cercada pela natureza, ideal para chácara, lazer ou investimento de longo prazo.',
     features: ['Contato com a natureza', 'Amplo espaço', 'Tranquilidade total', 'Condições especiais']
