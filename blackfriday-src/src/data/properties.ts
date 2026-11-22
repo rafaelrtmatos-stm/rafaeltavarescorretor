@@ -51,6 +51,11 @@ export const PROPERTIES: Property[] = [
     originalPrice: 'R$ 8.000,00',
     badge: 'OFERTA BLACK FRIDAY',
     image: '/blackfriday/src/assets/images/property_sao_francisco_1795281226262.jpg',
+    gallery: [
+      { type: 'image', src: '/blackfriday/src/assets/images/property_sao_francisco_1795281226262.jpg' },
+      { type: 'image', src: '/imagens/sao-francisco-foto1.jpeg' },
+      { type: 'video', src: '/imagens/sao-francisco-video1.mp4', poster: '/imagens/sao-francisco-video1-poster.jpg' }
+    ],
     size: '300m² (10x30)',
     description: 'Área verde exuberante com vista privilegiada e tranquilidade garantida para sua família no Carapanari.',
     features: ['Natureza preservada', 'Ar puro', 'Fácil acesso', 'Excelente investimento']
