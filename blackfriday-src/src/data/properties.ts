@@ -111,6 +111,12 @@ export const PROPERTIES: Property[] = [
     originalPrice: 'R$ 10.000,00',
     badge: 'OFERTA BLACK FRIDAY',
     image: '/imagens/santa-maria-obra-1.jpeg',
+    gallery: [
+      { type: 'image', src: '/imagens/santa-maria-obra-1.jpeg' },
+      { type: 'image', src: '/imagens/santa-maria-obra-4.jpeg' },
+      { type: 'image', src: '/imagens/santa-maria-obra-5.jpeg' },
+      { type: 'video', src: '/imagens/santa-maria-video1.mp4', poster: '/imagens/santa-maria-video1-poster.jpg' }
+    ],
     size: '300m² (10x30)',
     description: 'Terreno na região de Santa Maria com localização estratégica, ideal para moradia ou investimento.',
     features: ['Região consolidada', 'Boa vizinhança', 'Acesso rápido', 'Documentação em ordem']
@@ -159,6 +165,12 @@ export const PROPERTIES: Property[] = [
     originalPrice: 'R$ 12.000,00',
     badge: 'OFERTA BLACK FRIDAY',
     image: '/imagens/santa-maria-obra-2.jpeg',
+    gallery: [
+      { type: 'image', src: '/imagens/santa-maria-obra-2.jpeg' },
+      { type: 'image', src: '/imagens/santa-maria-obra-4.jpeg' },
+      { type: 'image', src: '/imagens/santa-maria-obra-5.jpeg' },
+      { type: 'video', src: '/imagens/santa-maria-video1.mp4', poster: '/imagens/santa-maria-video1-poster.jpg' }
+    ],
     size: '300m² (10x30)',
     description: 'Segunda opção exclusiva em Santa Maria, próximo às vias principais e com infraestrutura avançada.',
     features: ['Ótima localização', 'Pronto para construir', 'Energia próxima', 'Condição Black Friday']
