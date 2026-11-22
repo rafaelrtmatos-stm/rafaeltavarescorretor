@@ -3434,6 +3434,45 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')fecharRegiao
 }
 </style>
 
+<style>
+.bf-boom{position:fixed;z-index:99999;pointer-events:none;border-radius:50%}
+.bf-flash{position:fixed;inset:0;z-index:99998;background:radial-gradient(circle at var(--bx) var(--by),#fff 0%,#facc15 25%,rgba(239,68,68,.85) 55%,rgba(0,0,0,.95) 100%);opacity:0;pointer-events:none;animation:bfFlash .75s ease-out forwards}
+@keyframes bfFlash{0%{opacity:0}35%{opacity:1}100%{opacity:1}}
+@keyframes bfRing{0%{transform:translate(-50%,-50%) scale(.2);opacity:1}100%{transform:translate(-50%,-50%) scale(14);opacity:0}}
+@keyframes bfShake{0%,100%{transform:translate(0,0)}20%{transform:translate(-6px,4px)}40%{transform:translate(6px,-4px)}60%{transform:translate(-4px,-3px)}80%{transform:translate(4px,3px)}}
+@keyframes bfSpark{to{transform:translate(var(--dx),var(--dy)) scale(.2);opacity:0}}
+body.bf-shake{animation:bfShake .35s linear 2}
+</style>
+<script>
+(function(){
+  var fab=document.getElementById('fab-blackfriday');
+  if(!fab)return;
+  fab.addEventListener('click',function(e){
+    if(e.metaKey||e.ctrlKey||e.shiftKey||e.button===1)return;
+    e.preventDefault();
+    if(fab.dataset.boom)return;fab.dataset.boom='1';
+    var r=fab.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
+    var url=fab.getAttribute('href');
+    fab.style.visibility='hidden';
+    document.body.classList.add('bf-shake');
+    var ring=document.createElement('div');ring.className='bf-boom';
+    ring.style.cssText+='left:'+cx+'px;top:'+cy+'px;width:80px;height:80px;background:radial-gradient(circle,#fff,#facc15 40%,#ef4444 70%,transparent 72%);animation:bfRing .7s ease-out forwards';
+    document.body.appendChild(ring);
+    var cols=['#facc15','#ef4444','#fff','#f97316'];
+    for(var i=0;i<28;i++){
+      var a=Math.random()*Math.PI*2,d=80+Math.random()*180,p=document.createElement('div');
+      p.className='bf-boom';
+      p.style.cssText+='left:'+cx+'px;top:'+cy+'px;width:10px;height:10px;background:'+cols[i%4]+';--dx:'+Math.cos(a)*d+'px;--dy:'+Math.sin(a)*d+'px;animation:bfSpark .7s ease-out forwards';
+      document.body.appendChild(p);
+    }
+    var f=document.createElement('div');f.className='bf-flash';
+    f.style.setProperty('--bx',cx+'px');f.style.setProperty('--by',cy+'px');
+    document.body.appendChild(f);
+    setTimeout(function(){window.location.href=url},650);
+  });
+})();
+</script>
+
 <!-- ════════════════════════════════════════
      MENU INFERIOR FIXO — apenas mobile
 ════════════════════════════════════════ -->

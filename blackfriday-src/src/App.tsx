@@ -7,7 +7,9 @@ import { FamilyBanner } from './components/FamilyBanner';
 import { BenefitsCards } from './components/BenefitsCards';
 import { Footer } from './components/Footer';
 import { PropertyPage } from './components/PropertyPage';
+import { Countdown } from './components/Countdown';
 import { MobileMenu } from './components/MobileMenu';
+import { MessageCircle } from 'lucide-react';
 import { PROPERTIES, Property, findPropertyByPath } from './data/properties';
 
 export default function App() {
@@ -61,10 +63,13 @@ export default function App() {
     <div className="min-h-screen bg-white text-white flex flex-col w-full overflow-x-hidden selection:bg-[#d4af37] selection:text-[#032215]">
       
       {/* 1. Cabeçalho verde-escuro */}
-      <Header 
-        onOpenMobileMenu={() => setIsMobileMenuOpen(true)}
-        onWhatsAppClick={() => handleWhatsAppClick()}
-      />
+      <div className="sticky top-0 z-50">
+        <Countdown />
+        <Header 
+          onOpenMobileMenu={() => setIsMobileMenuOpen(true)}
+          onWhatsAppClick={() => handleWhatsAppClick()}
+        />
+      </div>
 
       {selectedProperty && (
         <PropertyPage
@@ -110,6 +115,17 @@ export default function App() {
       <Footer 
         onWhatsAppClick={() => handleWhatsAppClick()}
       />
+
+      {/* Botão fixo de WhatsApp */}
+      <button
+        type="button"
+        onClick={() => handleWhatsAppClick(selectedProperty?.title)}
+        className="fixed bottom-4 right-4 z-40 flex items-center gap-2 bg-gradient-to-r from-[#25d366] to-[#20ba59] text-white font-black text-sm pl-4 pr-5 py-3 rounded-full shadow-[0_6px_24px_rgba(37,211,102,0.55)] cursor-pointer"
+        aria-label="Falar no WhatsApp"
+      >
+        <MessageCircle className="w-6 h-6 fill-current" />
+        <span>WhatsApp</span>
+      </button>
 
       {/* Mobile Navigation Drawer */}
       <MobileMenu 

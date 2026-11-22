@@ -8,7 +8,7 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu, onWhatsAppClick }) => {
   return (
-    <header className="w-full bg-gradient-to-b from-black/95 via-[#02180e]/95 to-[#02180e] border-b border-[#C9A84C]/20 py-3.5 px-4 sm:px-7 sticky top-0 z-50 shadow-lg">
+    <header className="w-full bg-gradient-to-b from-black/95 via-[#02180e]/95 to-[#02180e] border-b border-[#C9A84C]/20 py-3.5 px-4 sm:px-7 relative shadow-lg">
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
         
         {/* Logo & Branding matching main site nav */}
