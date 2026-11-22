@@ -50,9 +50,8 @@ export const PROPERTIES: Property[] = [
     price: 'R$ 3.500,00',
     originalPrice: 'R$ 8.000,00',
     badge: 'OFERTA BLACK FRIDAY',
-    image: '/blackfriday/src/assets/images/property_sao_francisco_1795281226262.jpg',
+    image: '/imagens/sao-francisco-foto1.jpeg',
     gallery: [
-      { type: 'image', src: '/blackfriday/src/assets/images/property_sao_francisco_1795281226262.jpg' },
       { type: 'image', src: '/imagens/sao-francisco-foto1.jpeg' },
       { type: 'video', src: '/imagens/sao-francisco-video1.mp4', poster: '/imagens/sao-francisco-video1-poster.jpg' }
     ],
@@ -137,7 +136,12 @@ export const PROPERTIES: Property[] = [
     price: 'R$ 6.000,00',
     originalPrice: 'R$ 12.000,00',
     badge: 'OFERTA BLACK FRIDAY',
-    image: '/blackfriday/src/assets/images/property_alter_1795281226569.jpg',
+    image: '/imagens/alter-do-chao-1.jpeg',
+    gallery: [
+      { type: 'image', src: '/imagens/alter-do-chao-1.jpeg' },
+      { type: 'image', src: '/imagens/alter-do-chao-2.jpeg' },
+      { type: 'image', src: '/imagens/alter-do-chao-3.jpeg' }
+    ],
     size: '300m² (10x30)',
     description: 'Próximo à vila balneária mais famosa do Pará. Garanta seu espaço no Caribe brasileiro com condição de Black Friday.',
     features: ['Perto das praias', 'Turismo em alta', 'Potencial comercial', 'Documentação ok']
@@ -228,9 +232,8 @@ export const PROPERTIES: Property[] = [
     price: 'R$ 11.000,00',
     originalPrice: 'R$ 18.000,00',
     badge: 'OFERTA BLACK FRIDAY',
-    image: '/blackfriday/src/assets/images/property_campo_novo_1795281215921.jpg',
+    image: '/imagens/campo-novo-foto1.jpeg',
     gallery: [
-      { type: 'image', src: '/blackfriday/src/assets/images/property_campo_novo_1795281215921.jpg' },
       { type: 'image', src: '/imagens/campo-novo-foto1.jpeg' },
       { type: 'image', src: '/imagens/campo-novo-foto2.jpeg' },
       { type: 'video', src: '/imagens/campo-novo-video1.mp4', poster: '/imagens/campo-novo-video1-poster.jpg' }
