@@ -21,13 +21,26 @@ export const GalleryLightbox: React.FC<GalleryLightboxProps> = ({ items, startIn
 
   const goTo = (next: number) => setIndex((next + items.length) % items.length);
 
-  // Todos os vídeos das galerias tocam sempre MUDOS.
+  // Vídeos tocam MUDOS, exceto os marcados com audio: true (só o da Rocinha).
+  // Se o navegador bloquear o som, cai para mudo e os controles deixam ativar.
   useEffect(() => {
     const v = videoRef.current;
     if (!v || current.type !== 'video') return;
-    v.muted = true;
-    v.play().catch(() => {});
-  }, [current.src, current.type]);
+    if (current.audio) {
+      v.muted = false;
+      v.volume = 1;
+      const playing = v.play();
+      if (playing) {
+        playing.catch(() => {
+          v.muted = true;
+          v.play().catch(() => {});
+        });
+      }
+    } else {
+      v.muted = true;
+      v.play().catch(() => {});
+    }
+  }, [current.src, current.type, current.audio]);
 
   useEffect(() => {
     // Captura antes do modal do terreno: Esc fecha só a galeria.
@@ -104,12 +117,12 @@ export const GalleryLightbox: React.FC<GalleryLightboxProps> = ({ items, startIn
             poster={current.poster}
             className="max-w-full max-h-full w-auto h-auto"
             controls
-            muted
+            muted={!current.audio}
             autoPlay
             playsInline
             onVolumeChange={(e) => {
               // Garante que continue mudo mesmo se o controle do navegador for tocado.
-              if (!e.currentTarget.muted) e.currentTarget.muted = true;
+              if (!current.audio && !e.currentTarget.muted) e.currentTarget.muted = true;
             }}
           />
         ) : (

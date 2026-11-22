@@ -42,13 +42,7 @@ select{font:inherit;padding:9px;border:2px solid var(--line);border-radius:10px;
 .btn{flex:1;min-width:150px;border:0;border-radius:12px;padding:13px 16px;font:inherit;font-weight:800;cursor:pointer;background:var(--gold);color:var(--g9)}
 .btn.alt{background:var(--g8);color:#fff}
 .btn:disabled{opacity:.45;cursor:not-allowed}
-.btn:focus-visible,.seg button:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
-details{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
-summary{font-weight:700;cursor:pointer}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-.grid label{font-size:.8rem;color:var(--mute);font-weight:700}
-.grid input{width:100%;font:inherit;padding:8px;border:2px solid var(--line);border-radius:8px;margin-top:2px}
-.link{background:none;border:0;color:var(--g8);font:inherit;font-weight:700;text-decoration:underline;cursor:pointer;padding:10px 0 0}
+.btn:focus-visible,.seg button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .note{font-size:.78rem;color:var(--mute);margin-top:18px}
 </style>
 </head>
@@ -80,12 +74,6 @@ summary{font-weight:700;cursor:pointer}
     </div>
   </section>
 
-  <details id="ajuste">
-    <summary>Ajustar taxas</summary>
-    <p class="hint">Em cada parcelamento, digite o total que o cliente paga para você receber R$ 10.000,00 líquidos, como mostra o simulador do aplicativo.</p>
-    <div class="grid" id="grid"></div>
-    <button class="link" id="reset" type="button">Restaurar tabela de 19/11/2026</button>
-  </details>
 
   <p class="note">Taxas registradas no simulador da conta em 19/11/2026 (repasse pago pelo cliente, recebimento na hora). Podem variar com a conta e as regras do Mercado Pago. Confira o valor no aplicativo antes de cada venda.</p>
 </main>
@@ -93,19 +81,12 @@ summary{font-weight:700;cursor:pointer}
 <script>
 (function(){
   var T0=[10524.10,11578.84,11746.75,11760.48,12072.02,12073.08,12326.54,12327.60,12640.19,12741.58,12742.63,12895.77,12993.98,13142.89,13288.63,13433.31,13579.05,13727.95];
-  var KEY='calc_totais_v1', BASE=10000;
+  var BASE=10000;
   var brl=new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'});
   var fmt=function(n){return brl.format(n)};
   var r2=function(n){return Math.round((n+Number.EPSILON)*100)/100};
   var $=function(id){return document.getElementById(id)};
-  var mode='A', value=0, sel=new Set(), totals=load();
-
-  function load(){
-    try{var s=JSON.parse(localStorage.getItem(KEY));
-      if(Array.isArray(s)&&s.length===18&&s.every(function(x){return x>BASE&&x<100000}))return s;}catch(e){}
-    return T0.slice();
-  }
-  function save(){try{localStorage.setItem(KEY,JSON.stringify(totals))}catch(e){}}
+  var mode='A', value=0, sel=new Set(), totals=T0;
 
   function money(el,onValue){
     el.addEventListener('input',function(){
@@ -148,20 +129,6 @@ summary{font-weight:700;cursor:pointer}
   }
   $('mA').onclick=function(){setMode('A')}; $('mB').onclick=function(){setMode('B')};
   money($('valor'),function(v){value=v;render()});
-
-  // ----- ajuste de taxas -----
-  function buildGrid(){
-    var g=$('grid'); g.innerHTML='';
-    totals.forEach(function(t,i){
-      var w=document.createElement('label'); w.textContent=(i+1)+'x';
-      var inp=document.createElement('input'); inp.inputMode='numeric'; inp.value=fmt(t);
-      money(inp,function(v){if(v>BASE){totals[i]=v;save();render()}});
-      inp.addEventListener('blur',function(){inp.value=fmt(totals[i])});
-      w.appendChild(inp); g.appendChild(w);
-    });
-  }
-  $('reset').onclick=function(){totals=T0.slice();save();buildGrid();render()};
-  buildGrid();
 
   // ----- imagem -----
   var logo=new Image(); logo.src='/logo-rt.png';

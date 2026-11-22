@@ -2,6 +2,7 @@ export interface GalleryItem {
   type: 'image' | 'video';
   src: string;
   poster?: string;
+  audio?: boolean;
 }
 
 export interface PropertyVariant {
@@ -186,7 +187,13 @@ export const PROPERTIES: Property[] = [
     price: 'R$ 6.000,00',
     originalPrice: 'R$ 11.500,00',
     badge: 'OFERTA BLACK FRIDAY',
-    image: '/blackfriday/src/assets/images/property_tapajos_1795281226658.jpg',
+    image: '/imagens/rocinha-1.jpeg',
+    gallery: [
+      { type: 'image', src: '/imagens/rocinha-1.jpeg' },
+      { type: 'image', src: '/imagens/rocinha-2.jpeg' },
+      { type: 'image', src: '/imagens/rocinha-3.jpeg' },
+      { type: 'video', src: '/imagens/rocinha-video1.mp4', poster: '/imagens/rocinha-video1-poster.jpg', audio: true }
+    ],
     size: '300m² (10x30)',
     description: 'Terreno localizado na Rocinha, área tranquila e bem posicionada com condições especiais de lançamento.',
     features: ['Terreno plano', 'Região valorizada', 'Fácil acesso', 'Negociação direta']
