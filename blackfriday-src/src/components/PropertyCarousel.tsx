@@ -119,14 +119,18 @@ export const PropertyCarousel: React.FC<PropertyCarouselProps> = ({ properties, 
                 }`}
               >
                 {/* Card Top Image */}
-                <div className="cristal-foto relative h-[180px] sm:h-[196px] md:h-[220px] overflow-hidden bg-slate-900">
+                <div className="cristal-foto relative h-[210px] sm:h-[225px] md:h-[250px] overflow-hidden bg-slate-900">
                   <div
                     className="absolute inset-0 bg-cover bg-center transform hover:scale-105 transition-transform duration-500"
                     style={{
                       backgroundImage: `url('${prop.image}')`,
+                      filter: 'brightness(1.25) saturate(1.45) contrast(1.08)',
                     }}
                   ></div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#032215] via-[#032215]/5 to-black/5"></div>
+                  <div
+                    className="absolute inset-0"
+                    style={{ background: 'linear-gradient(to top, #032215 0%, rgba(3,34,21,0.55) 16%, rgba(3,34,21,0) 40%)' }}
+                  ></div>
 
                   {/* Black Friday Red Diagonal Ribbon */}
                   {prop.badge && (
