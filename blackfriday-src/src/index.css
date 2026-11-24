@@ -140,6 +140,39 @@
     inset 0 -4px 8px rgba(0,0,0,0.5);
 }
 
+/* Versões para fundos escuros (card de preço, linhas de diferenciais) */
+.cristal-escuro::before {
+  background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 65%, rgba(255,255,255,0) 100%);
+}
+.cristal-escuro::after {
+  background: linear-gradient(100deg, rgba(255,255,255,0) 0%, rgba(255,248,196,0.32) 50%, rgba(255,255,255,0) 100%);
+}
+.cristal-preco {
+  background: linear-gradient(160deg, #0f6b40 0%, #063a21 45%, #021a0e 100%);
+  border: 2px solid #f6dd7a;
+  box-shadow:
+    0 0 34px rgba(250,204,21,0.45),
+    0 14px 30px rgba(0,0,0,0.5),
+    inset 0 0 0 1px rgba(255,248,196,0.4),
+    inset 0 3px 4px rgba(255,255,255,0.35),
+    inset 0 -8px 18px rgba(0,0,0,0.45);
+}
+.cristal-linha {
+  background: linear-gradient(180deg, #0b5a34 0%, #064027 55%, #032616 100%);
+  border: 1px solid rgba(212,175,55,0.55);
+  box-shadow:
+    0 4px 10px rgba(0,0,0,0.4),
+    0 0 10px rgba(212,175,55,0.18),
+    inset 0 1.5px 1px rgba(254,240,138,0.45),
+    inset 0 -3px 6px rgba(0,0,0,0.4);
+}
+.cristal-galeria {
+  box-shadow:
+    0 8px 18px rgba(0,0,0,0.5),
+    0 0 14px rgba(212,175,55,0.35),
+    inset 0 0 0 1px rgba(255,255,255,0.25);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .cristal::after { animation: none; opacity: 0; }
   .pulsar { animation: none; }

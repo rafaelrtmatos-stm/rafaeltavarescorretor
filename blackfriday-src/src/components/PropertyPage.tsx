@@ -18,7 +18,7 @@ const PriceTag: React.FC<{ price: string; label?: string; big?: boolean; onSimul
   const v = parsePrice(price);
   const pctOff = ((1 - 1 / 3) * 100).toFixed(1).replace('.', ',');
   return (
-  <div className="relative bg-gradient-to-br from-[#0a4a2b] to-[#032215] border-2 border-[#d4af37] rounded-3xl p-5 text-center shadow-[0_0_30px_rgba(212,175,55,0.25)]">
+  <div className="cristal cristal-escuro cristal-preco relative rounded-3xl p-5 text-center">
     {label && <div className="text-xs font-bold text-[#d4af37] uppercase tracking-wider mb-1">{label}</div>}
     <div className="text-xs text-slate-300 uppercase tracking-wide">De</div>
     <div className="relative inline-block">
@@ -41,7 +41,7 @@ const PriceTag: React.FC<{ price: string; label?: string; big?: boolean; onSimul
       <button
         type="button"
         onClick={onSimulate}
-        className="relative w-full inline-flex items-center justify-center gap-2 bg-[#facc15] hover:bg-[#fde047] text-[#032215] font-black text-sm py-3 rounded-2xl cursor-pointer shadow-[0_0_18px_rgba(250,204,21,0.6)] pulsar"
+        className="cristal cristal-ouro relative w-full inline-flex items-center justify-center gap-2 text-[#032215] font-black text-sm py-3 rounded-2xl cursor-pointer pulsar"
       >
         <CreditCard className="w-4 h-4" /> Parcelar no cartão de crédito
       </button>
@@ -89,7 +89,7 @@ export const PropertyPage: React.FC<PropertyPageProps> = ({ property, onBack, on
   };
 
   const iconBtn =
-    'w-10 h-10 inline-flex items-center justify-center text-[#facc15] hover:text-white bg-black/50 hover:bg-black/70 border border-[#d4af37]/50 rounded-full transition-colors cursor-pointer';
+    'cristal cristal-verde w-10 h-10 inline-flex items-center justify-center text-[#facc15] hover:text-white rounded-full transition-colors cursor-pointer';
 
   return (
     <div className="w-full bg-[#02140c] text-white">
@@ -102,7 +102,7 @@ export const PropertyPage: React.FC<PropertyPageProps> = ({ property, onBack, on
             <button
               type="button"
               onClick={onBack}
-              className="inline-flex items-center gap-2 bg-black/60 hover:bg-black/80 border border-white/25 text-white text-sm font-bold px-4 py-2 rounded-full cursor-pointer"
+              className="cristal cristal-verde inline-flex items-center gap-2 text-white text-sm font-bold px-4 py-2 rounded-full cursor-pointer"
             >
               <ArrowLeft className="w-4 h-4" /> Voltar ao catálogo
             </button>
@@ -150,7 +150,7 @@ export const PropertyPage: React.FC<PropertyPageProps> = ({ property, onBack, on
               <PriceTag price={property.price} big onSimulate={() => setSim({ price: property.price })} />
             </div>
           )}
-          <div className="flex items-center justify-center gap-2 mt-4 text-sm font-bold">
+          <div className="cristal cristal-verde mx-auto w-fit flex items-center justify-center gap-2 mt-4 text-sm font-bold px-5 py-2 rounded-full">
             <Ruler className="w-5 h-5 text-[#d4af37]" /> {property.size}{hasVariants ? ' cada' : ''}
           </div>
         </section>
@@ -166,7 +166,7 @@ export const PropertyPage: React.FC<PropertyPageProps> = ({ property, onBack, on
           <h2 className="text-sm font-bold text-[#d4af37] uppercase tracking-wider mb-3">Diferenciais e Vantagens</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             {property.features.map((f, i) => (
-              <div key={i} className="flex items-center gap-2.5 bg-[#052b1b] px-3 py-3 rounded-xl border border-[#12412b]">
+              <div key={i} className="cristal cristal-escuro cristal-linha flex items-center gap-2.5 px-3 py-3 rounded-xl">
                 <CheckCircle2 className="w-4 h-4 text-[#10b981] flex-shrink-0" />
                 <span className="text-sm text-slate-200 font-medium">{f}</span>
               </div>
@@ -184,7 +184,7 @@ export const PropertyPage: React.FC<PropertyPageProps> = ({ property, onBack, on
                 target="_blank"
                 rel="noopener noreferrer"
                 data-direct-wpp="true"
-                className="py-3.5 px-5 bg-[#053d24] hover:bg-[#074e2e] border border-[#d4af37]/60 text-[#facc15] font-bold text-sm rounded-2xl flex items-center justify-center gap-2 cursor-pointer"
+                className="cristal cristal-verde py-3.5 px-5 text-[#fde047] font-bold text-sm rounded-2xl flex items-center justify-center gap-2 cursor-pointer"
               >
                 <MapPin className="w-5 h-5" /> LOCALIZAÇÃO {i + 1}
               </a>
@@ -195,7 +195,7 @@ export const PropertyPage: React.FC<PropertyPageProps> = ({ property, onBack, on
               target="_blank"
               rel="noopener noreferrer"
               data-direct-wpp="true"
-              className="py-3.5 px-5 bg-[#053d24] hover:bg-[#074e2e] border border-[#d4af37]/60 text-[#facc15] font-bold text-sm rounded-2xl flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap"
+              className="cristal cristal-verde py-3.5 px-5 text-[#fde047] font-bold text-sm rounded-2xl flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap"
             >
               <MapPin className="w-5 h-5" /> SOLICITAR LOCALIZAÇÃO
             </a>
@@ -203,7 +203,7 @@ export const PropertyPage: React.FC<PropertyPageProps> = ({ property, onBack, on
           <button
             type="button"
             onClick={() => onWhatsAppInquiry(property.title)}
-            className="flex-1 py-3.5 px-5 bg-gradient-to-r from-[#25d366] to-[#20ba59] text-white font-black text-sm sm:text-base rounded-2xl shadow-[0_0_20px_rgba(37,211,102,0.4)] flex items-center justify-center gap-2 cursor-pointer"
+            className="cristal cristal-wpp flex-1 py-3.5 px-5 text-white font-black text-sm sm:text-base rounded-2xl flex items-center justify-center gap-2 cursor-pointer"
           >
             <MessageCircle className="w-5 h-5 fill-current" /> QUERO ESTE TERRENO NO WHATSAPP
           </button>
@@ -219,7 +219,7 @@ export const PropertyPage: React.FC<PropertyPageProps> = ({ property, onBack, on
                 key={item.src}
                 type="button"
                 onClick={() => setLightboxIndex(i)}
-                className={`relative aspect-square overflow-hidden rounded-2xl border border-[#d4af37]/30 bg-slate-900 cursor-pointer group ${
+                className={`relative aspect-square overflow-hidden rounded-2xl border border-[#f6dd7a]/80 cristal-galeria bg-slate-900 cursor-pointer group ${
                   media.length % 2 === 1 && i === 0 ? 'col-span-2 sm:col-span-1' : ''
                 }`}
                 aria-label={`Abrir ${item.type === 'video' ? 'vídeo' : 'foto'} ${i + 1}`}
