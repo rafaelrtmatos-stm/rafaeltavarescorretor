@@ -35,9 +35,9 @@ const PriceTag: React.FC<{ price: string; label?: string; big?: boolean; onSimul
     <div className="mt-3 text-sm font-black text-white">
       {pctOff}% de desconto · <span className="text-[#facc15]">Você economiza {brl(v * 2)}</span>
     </div>
-    <ArrowDown className="w-7 h-7 mx-auto mt-2 text-[#facc15] animate-bounce motion-reduce:animate-none" aria-hidden="true" />
+    <ArrowDown className="w-7 h-7 mx-auto mt-2 text-[#facc15] animate-bounce" aria-hidden="true" />
     <div className="relative">
-      <span className="absolute inset-0 rounded-2xl border-2 border-[#facc15] animate-ping opacity-70 pointer-events-none motion-reduce:hidden" aria-hidden="true"></span>
+      <span className="absolute inset-0 rounded-2xl border-2 border-[#facc15] animate-ping opacity-70 pointer-events-none" aria-hidden="true"></span>
       <button
         type="button"
         onClick={onSimulate}

@@ -2,4 +2,3 @@
 
 @keyframes pulsar { 0%,100% { transform: scale(1); } 50% { transform: scale(1.04); } }
 .pulsar { animation: pulsar 1.3s ease-in-out infinite; }
-@media (prefers-reduced-motion: reduce) { .pulsar { animation: none; } }
