@@ -45,7 +45,10 @@ export const PROPERTIES: Property[] = [
     price: 'R$ 3.000,00',
     originalPrice: 'R$ 7.500,00',
     badge: 'OFERTA BLACK FRIDAY',
-    image: '/blackfriday/src/assets/images/property_ponte_alta_1795281215876.jpg',
+    image: '/imagens/ponte-alta-1.jpeg',
+    gallery: [
+      { type: 'image', src: '/imagens/ponte-alta-1.jpeg' }
+    ],
     size: '300m² (10x30)',
     description: 'Oportunidade imperdível da Black Friday! Terreno pronto para construir em área de grande valorização em Ponte Alta.',
     features: ['Documentação 100%', 'Entrada facilitada', 'Parcelamento próprio', 'Topografia plana']
@@ -212,7 +215,9 @@ export const PROPERTIES: Property[] = [
     image: '/imagens/tipizal-1.jpeg',
     gallery: [
       { type: 'image', src: '/imagens/tipizal-1.jpeg' },
-      { type: 'image', src: '/imagens/tipizal-2.jpeg' }
+      { type: 'image', src: '/imagens/tipizal-2.jpeg' },
+      { type: 'video', src: '/imagens/tipizal-video2.mp4', poster: '/imagens/tipizal-1.jpeg' },
+      { type: 'video', src: '/imagens/tipizal-video1.mp4', poster: '/imagens/tipizal-2.jpeg' }
     ],
     size: '300m² (10x30)',
     description: 'Excelente área no Tipizal cercada pela natureza, ideal para chácara, lazer ou investimento de longo prazo.',
