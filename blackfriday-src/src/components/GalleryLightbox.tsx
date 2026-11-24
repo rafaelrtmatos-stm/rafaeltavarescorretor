@@ -115,7 +115,7 @@ export const GalleryLightbox: React.FC<GalleryLightboxProps> = ({ items, startIn
             ref={videoRef}
             src={current.src}
             poster={current.poster}
-            className="max-w-full max-h-full w-auto h-auto"
+            className="midia-bonita max-w-full max-h-full w-auto h-auto"
             controls
             muted={!current.audio}
             autoPlay
@@ -130,7 +130,7 @@ export const GalleryLightbox: React.FC<GalleryLightboxProps> = ({ items, startIn
             key={current.src}
             src={current.src}
             alt={`${title} - foto ${index + 1}`}
-            className="max-w-full max-h-full w-auto h-auto object-contain"
+            className="midia-bonita max-w-full max-h-full w-auto h-auto object-contain"
             draggable={false}
           />
         )}
@@ -174,7 +174,7 @@ export const GalleryLightbox: React.FC<GalleryLightboxProps> = ({ items, startIn
               aria-label={`Ver ${item.type === 'video' ? 'vídeo' : 'foto'} ${i + 1}`}
             >
               <div
-                className="absolute inset-0 bg-cover bg-center bg-slate-800"
+                className="midia-bonita absolute inset-0 bg-cover bg-center bg-slate-800"
                 style={{ backgroundImage: `url('${item.type === 'video' ? item.poster ?? '' : item.src}')` }}
               ></div>
               {item.type === 'video' && (

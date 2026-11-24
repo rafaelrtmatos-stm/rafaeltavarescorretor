@@ -225,24 +225,28 @@ export const PropertyPage: React.FC<PropertyPageProps> = ({ property, onBack, on
                 key={item.src}
                 type="button"
                 onClick={() => setLightboxIndex(i)}
-                className={`relative aspect-square overflow-hidden rounded-2xl border border-[#f6dd7a]/80 cristal-galeria bg-slate-900 cursor-pointer group ${
+                className={`relative aspect-square overflow-hidden rounded-2xl border-2 border-[#f6dd7a] cristal-galeria bg-slate-900 cursor-pointer group ${
                   media.length % 2 === 1 && i === 0 ? 'col-span-2 sm:col-span-1' : ''
                 }`}
                 aria-label={`Abrir ${item.type === 'video' ? 'vídeo' : 'foto'} ${i + 1}`}
               >
                 <div
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
+                  className="midia-bonita absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
                   style={{ backgroundImage: `url('${item.type === 'video' ? item.poster ?? '' : item.src}')` }}
                 ></div>
+                <span
+                  className="absolute inset-0 pointer-events-none"
+                  style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 35%, rgba(2,20,12,0) 70%, rgba(2,20,12,0.45) 100%)' }}
+                ></span>
                 {item.type === 'video' ? (
-                  <span className="absolute inset-0 flex items-center justify-center bg-black/30">
-                    <span className="w-14 h-14 rounded-full bg-black/60 border border-white/40 flex items-center justify-center">
-                      <Play className="w-7 h-7 text-white fill-current" />
+                  <span className="absolute inset-0 flex items-center justify-center">
+                    <span className="cristal cristal-ouro w-14 h-14 rounded-full flex items-center justify-center">
+                      <Play className="w-7 h-7 text-[#032215] fill-current ml-0.5" />
                     </span>
                   </span>
                 ) : (
-                  <span className="absolute bottom-2 right-2 w-8 h-8 rounded-full bg-black/60 flex items-center justify-center opacity-90">
-                    <Maximize2 className="w-4 h-4 text-white" />
+                  <span className="cristal cristal-verde absolute bottom-2 right-2 w-8 h-8 rounded-full flex items-center justify-center">
+                    <Maximize2 className="w-4 h-4 text-[#fde047]" />
                   </span>
                 )}
               </button>

@@ -176,6 +176,11 @@
     inset 0 0 0 1px rgba(255,255,255,0.25);
 }
 
+/* Realce de fotos e vídeos: mais luz, cor e contraste (acabamento profissional) */
+.midia-bonita {
+  filter: brightness(1.18) saturate(1.4) contrast(1.07);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .cristal::after { animation: none; opacity: 0; }
   .pulsar { animation: none; }
