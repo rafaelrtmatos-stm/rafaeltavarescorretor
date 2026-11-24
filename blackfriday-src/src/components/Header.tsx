@@ -37,7 +37,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu, onWhatsAppClic
         <div className="flex items-center gap-2.5 sm:gap-3">
           <button
             onClick={onWhatsAppClick}
-            className="inline-flex items-center gap-[7px] bg-[#C9A84C] hover:bg-[#E8C96A] text-black text-[10px] font-extrabold tracking-[0.4px] whitespace-nowrap p-2.5 sm:px-4 sm:py-2.5 rounded-full transition-colors cursor-pointer shadow-md"
+            className="cristal cristal-ouro inline-flex items-center gap-[7px] text-black text-[10px] font-extrabold tracking-[0.4px] whitespace-nowrap p-2.5 sm:px-4 sm:py-2.5 rounded-full cursor-pointer"
             aria-label="Falar com Rafael"
           >
             <svg width="13" height="13" viewBox="0 0 24 24" fill="#000" className="flex-shrink-0">

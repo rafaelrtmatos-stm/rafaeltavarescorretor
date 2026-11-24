@@ -124,7 +124,7 @@ export default function App() {
       <button
         type="button"
         onClick={() => handleWhatsAppClick(selectedProperty?.title)}
-        className="fixed bottom-4 right-4 z-40 flex items-center gap-2 bg-gradient-to-r from-[#25d366] to-[#20ba59] text-white font-black text-sm pl-4 pr-5 py-3 rounded-full shadow-[0_6px_24px_rgba(37,211,102,0.55)] cursor-pointer"
+        className="cristal cristal-wpp fixed bottom-4 right-4 z-40 flex items-center gap-2 text-white font-black text-sm pl-4 pr-5 py-3 rounded-full cursor-pointer"
         aria-label="Falar no WhatsApp"
       >
         <MessageCircle className="w-6 h-6 fill-current" />

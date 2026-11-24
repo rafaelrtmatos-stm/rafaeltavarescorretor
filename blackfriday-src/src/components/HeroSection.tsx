@@ -20,7 +20,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onCtaClick }) => {
       <div className="w-full flex items-center justify-center bg-white mt-[30px] md:mt-0 px-4">
         <button
           onClick={onCtaClick}
-          className="w-[300px] h-[45px] bg-gradient-to-r from-[#fef08a] via-[#facc15] to-[#ca8a04] hover:from-[#fff] hover:to-[#facc15] text-[#032215] font-black text-[21px] leading-[16px] tracking-widest uppercase rounded-full shadow-[0_0_25px_rgba(250,204,21,0.8)] border border-white transition-all transform hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center"
+          className="cristal cristal-ouro w-[300px] h-[52px] text-[#032215] font-black text-[21px] leading-[16px] tracking-widest uppercase rounded-full transition-transform cursor-pointer flex items-center justify-center"
           aria-label="Explorar Ofertas"
         >
           EXPLORAR OFERTAS

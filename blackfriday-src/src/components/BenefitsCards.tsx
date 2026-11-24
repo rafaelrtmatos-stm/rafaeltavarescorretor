@@ -102,7 +102,7 @@ export const BenefitsCards: React.FC = () => {
           {cards.map((card, idx) => (
             <React.Fragment key={idx}>
               <div
-                className="flex-1 min-w-0 bg-gradient-to-b from-[#063a21] via-[#042b18] to-[#021c0f] border border-[#d4af37]/55 rounded-xl sm:rounded-2xl px-1 py-2.5 sm:px-3 sm:py-4 md:px-4 md:py-5 text-center flex flex-col items-center justify-center gap-1.5 sm:gap-2.5 shadow-[0_6px_18px_rgba(0,0,0,0.45),0_0_14px_rgba(212,175,55,0.16),inset_0_1px_0_rgba(254,240,138,0.35)] hover:border-[#facc15] hover:shadow-[0_8px_22px_rgba(0,0,0,0.5),0_0_18px_rgba(250,204,21,0.3)] transition-all"
+                className="flex-1 min-w-0 cristal cristal-selo border border-[#d4af37]/70 rounded-xl sm:rounded-2xl px-1 py-2.5 sm:px-3 sm:py-4 md:px-4 md:py-5 text-center flex flex-col items-center justify-center gap-1.5 sm:gap-2.5 shadow-[0_6px_18px_rgba(0,0,0,0.45),0_0_14px_rgba(212,175,55,0.16),inset_0_1px_0_rgba(254,240,138,0.35)] hover:border-[#facc15] hover:shadow-[0_8px_22px_rgba(0,0,0,0.5),0_0_18px_rgba(250,204,21,0.3)] transition-all"
               >
                 <div className="flex items-center justify-center flex-shrink-0">
                   {card.icon}
