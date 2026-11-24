@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { CreditCard, ArrowLeft, MapPin, CheckCircle2, MessageCircle, Ruler, Share2, Check, Play, Maximize2, Flame } from 'lucide-react';
+import { CreditCard, ArrowDown, ArrowLeft, MapPin, CheckCircle2, MessageCircle, Ruler, Share2, Check, Play, Maximize2, Flame } from 'lucide-react';
 import { Property, GalleryItem, buildLocationWhatsAppUrl, buildVariantLocationWhatsAppUrl } from '../data/properties';
 import { GalleryLightbox } from './GalleryLightbox';
 import { CardSimulator } from './CardSimulator';
@@ -35,13 +35,17 @@ const PriceTag: React.FC<{ price: string; label?: string; big?: boolean; onSimul
     <div className="mt-3 text-sm font-black text-white">
       {pctOff}% de desconto · <span className="text-[#facc15]">Você economiza {brl(v * 2)}</span>
     </div>
-    <button
-      type="button"
-      onClick={onSimulate}
-      className="mt-3 w-full inline-flex items-center justify-center gap-2 bg-black/40 hover:bg-black/60 border border-[#d4af37]/60 text-[#facc15] font-bold text-sm py-2.5 rounded-2xl cursor-pointer"
-    >
-      <CreditCard className="w-4 h-4" /> Parcelar no cartão de crédito
-    </button>
+    <ArrowDown className="w-7 h-7 mx-auto mt-2 text-[#facc15] animate-bounce motion-reduce:animate-none" aria-hidden="true" />
+    <div className="relative">
+      <span className="absolute inset-0 rounded-2xl border-2 border-[#facc15] animate-ping opacity-70 pointer-events-none motion-reduce:hidden" aria-hidden="true"></span>
+      <button
+        type="button"
+        onClick={onSimulate}
+        className="relative w-full inline-flex items-center justify-center gap-2 bg-[#facc15] hover:bg-[#fde047] text-[#032215] font-black text-sm py-3 rounded-2xl cursor-pointer shadow-[0_0_18px_rgba(250,204,21,0.6)] pulsar"
+      >
+        <CreditCard className="w-4 h-4" /> Parcelar no cartão de crédito
+      </button>
+    </div>
   </div>
   );
 };
