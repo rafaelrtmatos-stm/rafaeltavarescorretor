@@ -17,9 +17,12 @@
 
 /* Base: reflexo de vidro na metade de cima + faixa de luz que passa */
 .cristal {
-  position: relative;
   overflow: hidden;
   isolation: isolate;
+}
+/* não mexer na posição de botões flutuantes (fixed) nem absolutos */
+.cristal:not(.fixed):not(.absolute):not(.sticky) {
+  position: relative;
 }
 .cristal::before {
   content: '';

@@ -95,8 +95,14 @@ export const PropertyPage: React.FC<PropertyPageProps> = ({ property, onBack, on
     <div className="w-full bg-[#02140c] text-white">
       {/* Capa */}
       <section className="relative h-[46vh] min-h-[280px] max-h-[520px] overflow-hidden">
-        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${property.image}')` }}></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-[#02140c] via-[#02140c]/50 to-black/40"></div>
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url('${property.image}')`, filter: 'brightness(1.35) saturate(1.55) contrast(1.1)' }}
+        ></div>
+        <div
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(to top, #02140c 0%, rgba(2,20,12,0.5) 16%, rgba(2,20,12,0) 46%), linear-gradient(to bottom, rgba(0,0,0,0.28) 0%, rgba(0,0,0,0) 20%)' }}
+        ></div>
         <div className="relative max-w-4xl mx-auto h-full px-4 flex flex-col justify-between py-5">
           <div className="flex items-center justify-between">
             <button
@@ -126,7 +132,7 @@ export const PropertyPage: React.FC<PropertyPageProps> = ({ property, onBack, on
             <div className="flex items-center gap-1.5 text-[#d4af37] text-sm font-semibold mb-1">
               <MapPin className="w-4 h-4" /> {property.location}{hasVariants ? ' · 2 localizações' : ''}
             </div>
-            <h1 className="text-3xl sm:text-5xl font-black tracking-tight">{property.title}</h1>
+            <h1 className="text-3xl sm:text-5xl font-black tracking-tight drop-shadow-[0_3px_8px_rgba(0,0,0,0.85)]">{property.title}</h1>
           </div>
         </div>
       </section>
