@@ -43,13 +43,23 @@ export const PropertyCarousel: React.FC<PropertyCarouselProps> = ({ properties, 
     });
     return () => {
       window.cancelAnimationFrame(raf);
+      if (rafScroll.current !== null) window.cancelAnimationFrame(rafScroll.current);
       if (scrollTimeoutRef.current) {
         window.clearTimeout(scrollTimeoutRef.current);
       }
     };
   }, [safeInitial]);
 
+  const rafScroll = useRef<number | null>(null);
   const handleScroll = () => {
+    if (rafScroll.current !== null) return;
+    rafScroll.current = window.requestAnimationFrame(() => {
+      rafScroll.current = null;
+      updateActiveFromScroll();
+    });
+  };
+
+  const updateActiveFromScroll = () => {
     if (!scrollRef.current || isProgrammaticScroll.current) return;
     const container = scrollRef.current;
     const scrollCenter = container.scrollLeft + container.clientWidth / 2;
@@ -79,7 +89,7 @@ export const PropertyCarousel: React.FC<PropertyCarouselProps> = ({ properties, 
         {/* Navigation Arrows - Always Visible */}
         <button
           onClick={() => scrollToIndex(activeIndex - 1)}
-          className="absolute left-1.5 sm:left-4 top-[44%] -translate-y-1/2 z-30 w-9 h-9 sm:w-11 sm:h-11 bg-[#032215]/90 hover:bg-[#032215] text-[#d4af37] rounded-full flex items-center justify-center shadow-lg backdrop-blur-md transition-all border border-[#d4af37]/60 cursor-pointer"
+          className="absolute left-1.5 sm:left-4 top-[44%] -translate-y-1/2 z-30 w-9 h-9 sm:w-11 sm:h-11 bg-[#032215]/90 hover:bg-[#032215] text-[#d4af37] rounded-full flex items-center justify-center shadow-lg transition-all border border-[#d4af37]/60 cursor-pointer"
           aria-label="Anterior"
         >
           <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -87,7 +97,7 @@ export const PropertyCarousel: React.FC<PropertyCarouselProps> = ({ properties, 
 
         <button
           onClick={() => scrollToIndex(activeIndex + 1)}
-          className="absolute right-1.5 sm:right-4 top-[44%] -translate-y-1/2 z-30 w-9 h-9 sm:w-11 sm:h-11 bg-[#032215]/90 hover:bg-[#032215] text-[#d4af37] rounded-full flex items-center justify-center shadow-lg backdrop-blur-md transition-all border border-[#d4af37]/60 cursor-pointer"
+          className="absolute right-1.5 sm:right-4 top-[44%] -translate-y-1/2 z-30 w-9 h-9 sm:w-11 sm:h-11 bg-[#032215]/90 hover:bg-[#032215] text-[#d4af37] rounded-full flex items-center justify-center shadow-lg transition-all border border-[#d4af37]/60 cursor-pointer"
           aria-label="Próximo"
         >
           <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -112,7 +122,7 @@ export const PropertyCarousel: React.FC<PropertyCarouselProps> = ({ properties, 
                     scrollToIndex(idx);
                   }
                 }}
-                className={`flex-shrink-0 w-[300px] sm:w-[320px] md:w-[360px] snap-center transition-all duration-300 cursor-pointer rounded-2xl overflow-hidden bg-[#032215] border-2 transform ${
+                className={`flex-shrink-0 w-[300px] sm:w-[320px] md:w-[360px] snap-center transition-[transform,opacity,margin] duration-300 will-change-transform cursor-pointer rounded-2xl overflow-hidden bg-[#032215] border-2 transform ${
                   isActive
                     ? 'cristal-card border-[#f6dd7a] scale-105 z-20 opacity-100 mx-1 sm:mx-2'
                     : 'cristal-card-lado border-[#1b583c]/70 scale-[0.8] opacity-95 hover:opacity-100 z-10 -mx-6 sm:-mx-7'
@@ -123,7 +133,7 @@ export const PropertyCarousel: React.FC<PropertyCarouselProps> = ({ properties, 
                   <div
                     className="absolute inset-0 bg-cover bg-center transform hover:scale-105 transition-transform duration-500"
                     style={{
-                      backgroundImage: `url('${prop.image}')`,
+                      backgroundImage: `url('${prop.thumb || prop.image}')`,
                       filter: 'brightness(1.25) saturate(1.45) contrast(1.08)',
                     }}
                   ></div>

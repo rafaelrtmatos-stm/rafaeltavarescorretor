@@ -133,6 +133,10 @@
   pointer-events: none;
 }
 
+/* Desempenho: o brilho animado fica só no card ativo do carrossel.
+   Nos cards laterais (e fora da tela) ele não roda, o que alivia celulares simples. */
+.cristal-card-lado .cristal::after { animation: none; opacity: 0; }
+
 /* Selos de benefícios: vidro verde com luz no topo */
 .cristal-selo {
   background: linear-gradient(180deg, rgba(14,110,66,0.95) 0%, #053520 55%, #021a0e 100%);

@@ -26,6 +26,7 @@ export interface Property {
   originalPrice?: string;
   badge?: string;
   image: string;
+  thumb?: string;
   gallery?: GalleryItem[];
   size: string;
   description: string;
@@ -46,6 +47,7 @@ export const PROPERTIES: Property[] = [
     originalPrice: 'R$ 7.500,00',
     badge: 'OFERTA BLACK FRIDAY',
     image: '/imagens/ponte-alta-1.jpeg',
+    thumb: '/imagens/thumbs/ponte-alta-1.jpg',
     gallery: [
       { type: 'image', src: '/imagens/ponte-alta-1.jpeg' }
     ],
@@ -65,6 +67,7 @@ export const PROPERTIES: Property[] = [
     originalPrice: 'R$ 8.000,00',
     badge: 'OFERTA BLACK FRIDAY',
     image: '/imagens/sao-francisco-foto1.jpeg',
+    thumb: '/imagens/thumbs/sao-francisco-foto1.jpg',
     gallery: [
       { type: 'image', src: '/imagens/sao-francisco-foto1.jpeg' },
       { type: 'video', src: '/imagens/sao-francisco-video1.mp4', poster: '/imagens/sao-francisco-video1-poster.jpg' }
@@ -85,6 +88,7 @@ export const PROPERTIES: Property[] = [
     originalPrice: 'R$ 8.500,00',
     badge: 'OFERTA BLACK FRIDAY',
     image: '/imagens/pajuca-foto1.jpeg',
+    thumb: '/imagens/thumbs/pajuca-foto1.jpg',
     gallery: [
       { type: 'image', src: '/imagens/pajuca-foto1.jpeg' },
       { type: 'image', src: '/imagens/pajuca-foto4.jpeg' },
@@ -107,6 +111,7 @@ export const PROPERTIES: Property[] = [
     originalPrice: 'R$ 10.000,00',
     badge: 'OFERTA BLACK FRIDAY',
     image: '/imagens/cucuruna-foto4.jpg',
+    thumb: '/imagens/thumbs/cucuruna-foto4.jpg',
     gallery: [
       { type: 'image', src: '/imagens/cucuruna-foto4.jpg' },
       { type: 'image', src: '/imagens/cucuruna-foto5.jpeg' },
@@ -129,6 +134,7 @@ export const PROPERTIES: Property[] = [
     originalPrice: 'R$ 10.000,00 e R$ 12.000,00',
     badge: 'OFERTA BLACK FRIDAY',
     image: '/imagens/santa-maria-obra-1.jpeg',
+    thumb: '/imagens/thumbs/santa-maria-obra-1.jpg',
     gallery: [
       { type: 'image', src: '/imagens/santa-maria-obra-1.jpeg' },
       { type: 'image', src: '/imagens/santa-maria-obra-2.jpeg' },
@@ -170,6 +176,7 @@ export const PROPERTIES: Property[] = [
     originalPrice: 'R$ 12.000,00',
     badge: 'OFERTA BLACK FRIDAY',
     image: '/imagens/alter-do-chao-1.jpeg',
+    thumb: '/imagens/thumbs/alter-do-chao-1.jpg',
     gallery: [
       { type: 'image', src: '/imagens/alter-do-chao-1.jpeg' },
       { type: 'image', src: '/imagens/alter-do-chao-2.jpeg' },
@@ -191,6 +198,7 @@ export const PROPERTIES: Property[] = [
     originalPrice: 'R$ 11.500,00',
     badge: 'OFERTA BLACK FRIDAY',
     image: '/imagens/rocinha-1.jpeg',
+    thumb: '/imagens/thumbs/rocinha-1.jpg',
     gallery: [
       { type: 'image', src: '/imagens/rocinha-1.jpeg' },
       { type: 'image', src: '/imagens/rocinha-2.jpeg' },
@@ -213,6 +221,7 @@ export const PROPERTIES: Property[] = [
     originalPrice: 'R$ 11.000,00',
     badge: 'OFERTA BLACK FRIDAY',
     image: '/imagens/tipizal-1.jpeg',
+    thumb: '/imagens/thumbs/tipizal-1.jpg',
     gallery: [
       { type: 'image', src: '/imagens/tipizal-1.jpeg' },
       { type: 'image', src: '/imagens/tipizal-2.jpeg' },
@@ -235,6 +244,7 @@ export const PROPERTIES: Property[] = [
     originalPrice: 'R$ 14.500,00',
     badge: 'OFERTA BLACK FRIDAY',
     image: '/imagens/mararu-black-1.jpeg',
+    thumb: '/imagens/thumbs/mararu-black-1.jpg',
     gallery: [
       { type: 'image', src: '/imagens/mararu-black-1.jpeg' },
       { type: 'image', src: '/imagens/mararu-black-2.jpeg' },
@@ -256,6 +266,7 @@ export const PROPERTIES: Property[] = [
     originalPrice: 'R$ 18.000,00',
     badge: 'OFERTA BLACK FRIDAY',
     image: '/imagens/campo-novo-foto1.jpeg',
+    thumb: '/imagens/thumbs/campo-novo-foto1.jpg',
     gallery: [
       { type: 'image', src: '/imagens/campo-novo-foto1.jpeg' },
       { type: 'image', src: '/imagens/campo-novo-foto2.jpeg' },
