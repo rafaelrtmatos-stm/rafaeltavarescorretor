@@ -97,7 +97,7 @@ export const PropertyPage: React.FC<PropertyPageProps> = ({ property, onBack, on
       <section className="relative h-[46vh] min-h-[280px] max-h-[520px] overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url('${property.image}')`, filter: 'brightness(1.35) saturate(1.55) contrast(1.1)' }}
+          style={{ backgroundImage: `url('/blackfriday/assets/capas/${property.slug}.jpg'), url('${property.image}')` }}
         ></div>
         <div
           className="absolute inset-0"
