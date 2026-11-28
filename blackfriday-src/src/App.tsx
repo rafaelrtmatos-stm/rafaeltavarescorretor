@@ -56,7 +56,7 @@ export default function App() {
     // Com um empreendimento aberto, todo botão de WhatsApp já informa qual é.
     const nome = customText ?? selectedProperty?.title;
     const text = nome 
-      ? `Olá Rafael, tenho interesse no terreno *${nome}* da Black Friday dos Terrenos 2026!`
+      ? `Olá! Posso ter mais informações sobre ${nome} Black friday?`
       : `Olá Rafael, quero escolher meu terreno na Black Friday dos Terrenos 2026!`;
     const url = `https://wa.me/5593992332012?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank');
